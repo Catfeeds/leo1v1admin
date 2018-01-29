@@ -562,7 +562,7 @@ $(function(){
                 get_sub_grade_tag(subject,grade,bookid,resource,season_id,obj);
 
             })
-        },false,700);
+        },false,800);
     };
 
     var change_tag = function(val){
@@ -785,6 +785,7 @@ $(function(){
 
         multi_upload_file_new(flag, is_multi, is_auto_upload, btn_id, 0,
                               function(files){
+                                  console.log(files);
                                   var name_str = '';
                                   if (!is_multi){
                                       //单文件上传
@@ -799,8 +800,8 @@ $(function(){
                                       //多文件上传
                                       multi_files_id = new Array;
                                       var multi_upload = new Array;
-                                      var up_file = "<button class='up_file btn' onclick='up_move($(this))'>上移</button>";                                   
-                                      var down_file = "<button class='down_file btn' onclick='down_move($(this))'>下移</button>";
+                                      var up_file = "<button class='up_file btn btn-info' onclick='up_move($(this))'>上移</button>";                                   
+                                      var down_file = "<button class='down_file btn btn-primary' onclick='down_move($(this))'>下移</button>";
                                       $(files).each(function(i){
                                           name_str = name_str+'<div><span data-id='+files[i].id+' data-index='+i+' class='
                                               +add_class+' >'+files[i].name+'</span>' + up_file + down_file + '</div>';
@@ -1221,6 +1222,7 @@ function multi_upload_file_new(new_flag,is_multi,is_auto_start,btn_id, is_public
         // is_public: is_public_bucket ? 1:0
     },function(ret){
         var domain_name=ret.domain;
+        console.log(domain_name);
         var token=ret.token;
         //保证每次new不同的对象
         var qi_niu = ['Qiniu_'+new_flag];
@@ -1364,7 +1366,9 @@ function up_move(obj){
 function down_move(obj){
     var transfer;
     var curr_obj = obj.parent();
-    if( curr_obj.index() == $(this).parent().parent().length ){
+    var last = parseInt(curr_obj.parent().children().length) - 2;
+
+    if( curr_obj.index() == last ){
         return false;
     }
     var next_obj = obj.parent().next();

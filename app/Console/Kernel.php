@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         Commands\update_teacher_approve_to_data::class,
         Commands\update_bole_reward::class,
         Commands\add_teacher_warn::class,
+        Commands\seller_student_reset_call_info::class,
         Commands\get_data::class,
         Commands\seller_student_system_assign::class,
         Commands\seller_student_system_free::class,

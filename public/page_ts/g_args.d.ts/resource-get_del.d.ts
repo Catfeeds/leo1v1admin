@@ -9,6 +9,8 @@ interface GargsStatic {
 	tag_four:	number;
 	tag_five:	number;
 	file_title:	string;
+	is_del:	number;
+	status:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -52,9 +54,8 @@ interface RowData {
 	grade_str	:any;
 	resource_type_str	:any;
 	use_type_str	:any;
-	tag_two_str	:any;
-	tag_three_str	:any;
 	tag_one_str	:any;
+	tag_two_str	:any;
 	tag_five_str	:any;
 }
 
@@ -79,7 +80,9 @@ function load_data(){
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
 		tag_five:	$('#id_tag_five').val(),
-		file_title:	$('#id_file_title').val()
+		file_title:	$('#id_file_title').val(),
+		is_del:	$('#id_is_del').val(),
+		status:	$('#id_status').val()
 		});
 }
 $(function(){
@@ -95,6 +98,8 @@ $(function(){
 	$('#id_tag_four').val(g_args.tag_four);
 	$('#id_tag_five').val(g_args.tag_five);
 	$('#id_file_title').val(g_args.file_title);
+	$('#id_is_del').val(g_args.is_del);
+	$('#id_status').val(g_args.status);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -184,6 +189,22 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["file_title title", "file_title", "th_file_title" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_del</span>
+                <input class="opt-change form-control" id="id_is_del" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["is_del title", "is_del", "th_is_del" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">status</span>
+                <input class="opt-change form-control" id="id_status" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["status title", "status", "th_status" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

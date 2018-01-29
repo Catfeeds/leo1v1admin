@@ -37,7 +37,6 @@ class seller_student_system_free extends cmd_base
         if ($now>=$check_time ) {
             $check_free_list= $this->task->t_seller_student_new_b2->get_need_check_free_list();
             foreach( $check_free_list as $item ) {
-                $check_hold_flag = true;
                 $admin_revisiterid = $item["admin_revisiterid"];
                 $userid = $item["userid"];
                 $print_arr =[
@@ -47,7 +46,6 @@ class seller_student_system_free extends cmd_base
                 $admin_assign_time= $item["admin_assign_time"];
                 $free_flag=!isset($work_start_time_map[$admin_revisiterid] ); //没有登录
                 if (!$free_flag) {
-                    $check_hold_flag = false;
                     if ($admin_assign_time < $today_start_time ) { //今天之前的例子都free
                         $free_flag=true;
                     }
@@ -62,6 +60,7 @@ class seller_student_system_free extends cmd_base
                 }
 
                 if ($free_flag) {
+                    \App\Helper\Utils::logger("例子释放分析-1userid:$userid adminid:$admin_revisiterid");
                     //清空
                     $userid_list=[$userid];
                     $opt_type ="" ;
@@ -69,9 +68,9 @@ class seller_student_system_free extends cmd_base
                     $opt_type=0;
                     $account="系统分配-回收例子";
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
-                    // print_r($print_arr);
-                    if($check_hold_flag)
-                        $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid,$check_hold_flag);
+                    $check_hold_flag = true;
+                    print_r($print_arr);
+                    $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid);
                 }
             }
         }else { //  free -1 day
@@ -89,6 +88,9 @@ class seller_student_system_free extends cmd_base
                     $free_flag=true;
                 }
                 if ($free_flag) {
+                    $today_start_time_str = date('Y-m-d H:i:s',$today_start_time);
+                    $admin_assign_time_str = date('Y-m-d H:i:s',$admin_assign_time);
+                    \App\Helper\Utils::logger("例子释放分析-2userid:$userid adminid:$admin_revisiterid today_start_time_str:$today_start_time_str admin_assign_time_str:$admin_assign_time_str");
                     //清空
                     $userid_list=[$userid];
                     $opt_type ="" ;
@@ -97,9 +99,8 @@ class seller_student_system_free extends cmd_base
                     $account="系统分配-回收例子";
                     //echo "free $userid\n";
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
-                    // print_r($print_arr);
-                    // $check_hold_flag = true;
-                    // $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid);
+                    $check_hold_flag = true;
+                    $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid);
                 }
             }
         }

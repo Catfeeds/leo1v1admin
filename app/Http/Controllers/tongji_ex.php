@@ -495,28 +495,102 @@ class tongji_ex extends Controller
                 $threshold_min = $item['new'];
             }
         }
-        foreach($ret as &$item){
-            $item['threshold_min'] = $threshold_min;
-            $item['threshold_max'] = $threshold_max;
+        foreach($ret as $key=>$item){
+            $ret[$key]['threshold_min'] = $threshold_min;
+            $ret[$key]['threshold_max'] = $threshold_max;
         }
 
         $list_info = [];
-        $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time);
+        $adminid = $this->get_in_int_val('adminid',-1);
+        $called_flag = $this->get_in_int_val('called_flag',-1);
+        $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time,$adminid,$called_flag);
         foreach($list as $item){
             $list_info[$item['userid']]['userid'] = isset($list_info[$item['userid']]['userid'])?$list_info[$item['userid']]['userid']:$item['userid'];
+            $list_info[$item['userid']]['phone'] = isset($list_info[$item['userid']]['phone'])?$list_info[$item['userid']]['phone']:$item['phone'];
             $list_info[$item['userid']]['list'][$item['adminid']] = isset($list_info[$item['userid']]['list'][$item['adminid']])?$list_info[$item['userid']]['list'][$item['adminid']]:$item;
             $list_info[$item['userid']]['add_time'] = isset($list_info[$item['userid']]['add_time'])?$list_info[$item['userid']]['add_time']:date('Y-m-d H:i:s',$item['add_time']);
         }
         $num = 0;
+        $list = [];
         foreach($list_info as $userid=>$item){
             $num++;
-            $list_info[$userid]['num'] = $num;
+            $list[$userid]['num'] = $num;
+            $list[$userid]['userid'] = $userid;
+            $list[$userid]['phone'] = $item['phone'];
+            $desc = '';
             foreach($item['list'] as $adminid=>$info){
-                $list_info[$userid]['list'][$adminid]['account'] = $this->cache_get_account_nick($adminid);
-                $list_info[$userid]['list'][$adminid]['create_time'] = date('Y-m-d H:i:s',$info['create_time']);
-                $list_info[$userid]['list'][$adminid]['cc_end'] = $info['cc_end']==1?'客户':'销售';
+                $account = $this->cache_get_account_nick($adminid);
+                $create_time = date('Y-m-d H:i:s',$info['create_time']);
+                $end = $info['cc_end']==1?'客户':'销售';
+                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',挂机人:'.$end.',抢单时间:'.$create_time."];";
+            }
+            $list[$userid]['desc'] = $desc;
+            $list[$userid]['add_time'] = $item['add_time'];
+        }
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list),['data_ex_list'=>$ret]);
+    }
+
+    public function threshold_detail(){
+        list($start_time,$end_time,$ret_report,$ret_rate,$ret_origin,$ret_origin_info,$rate_arr,$rate_min,$rate_max) = [$this->get_in_int_val('start_time',strtotime(date('Y-m-d',time()))),$this->get_in_int_val('end_time',strtotime(date('Y-m-d',time()))+3600*24),[],[],[],[],[],0,0];
+        $ret = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
+        $rate_arr = array_unique(array_column($ret, 'new'));
+        if(count($rate_arr)>1){
+            $rate_min = min($rate_arr);
+            $rate_max = max($rate_arr);
+        }
+        $num = 0;
+        foreach($ret as $key=>$item){
+            if($item['old'] == 1){
+                $num++;
+                $ret_report[$key]['num']=$num;
+                $ret_report[$key]['type']='黄色';
+                $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
+            }elseif($item['old'] == 2){
+                $num++;
+                $ret_report[$key]['num']=$num;
+                $ret_report[$key]['type']='红色';
+                $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
+            }
+            if($item['new']==$rate_min){
+                $ret_rate[$rate_min]['type'] = '今最低';
+                $ret_rate[$rate_min]['rate'] = $item['new'].'%';
+                $ret_rate[$rate_min]['time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }elseif($item['new']==$rate_max){
+                $ret_rate[$rate_min]['type'] = '今最高';
+                $ret_rate[$rate_max]['rate'] = $item['new'].'%';
+                $ret_rate[$rate_max]['time'] = date('Y-m-d H:i:s',$item['create_time']);
             }
         }
-        return $this->pageView(__METHOD__,$list_info,['data_ex_list'=>$ret]);
+
+        $ret = $this->t_seller_get_new_log->get_call_list($start_time,$end_time);
+        $origin_arr = array_unique(array_column($ret, 'origin_level'));
+        foreach($origin_arr as $origin_level){
+            foreach($ret as $item){
+                if($item['origin_level'] == $origin_level){
+                    $ret_origin[$origin_level][$item['userid']]['userid'] = isset($ret_origin[$origin_level][$item['userid']]['userid'])?$ret_origin[$origin_level][$item['userid']]['userid']:$item['userid'];
+                    $ret_origin[$origin_level][$item['userid']]['called_count'] = isset($ret_origin[$origin_level][$item['userid']]['called_count'])?($ret_origin[$origin_level][$item['userid']]['called_count']+$item['called_count']):$item['called_count'];
+                    $ret_origin[$origin_level][$item['userid']]['no_called_count'] = isset($ret_origin[$origin_level][$item['userid']]['no_called_count'])?($ret_origin[$origin_level][$item['userid']]['no_called_count']+$item['no_called_count']):$item['no_called_count'];
+                }
+            }
+        }
+        foreach($ret_origin as $origin_level=>$item){
+            $ret_origin_info[$origin_level]['origin_level'] = E\Eorigin_level::get_desc($origin_level);
+            $ret_origin_info[$origin_level]['count'] = count($item);
+            $call_count = 0;
+            $called_count = 0;
+            foreach($item as $info){
+                if($info['called_count']+$info['no_called_count']>0){
+                    $call_count++;
+                }
+                if($info['called_count']>0){
+                    $called_count++;
+                }
+            }
+            $ret_origin_info[$origin_level]['call_count'] = $call_count;
+            $ret_origin_info[$origin_level]['called_count'] = $called_count;
+            $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
+        }
+        $ret_info = [];
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['ret_report'=>$ret_report,'ret_rate'=>$ret_rate,'ret_origin_info'=>$ret_origin_info]);
     }
 }

@@ -147,13 +147,13 @@ class update_company_wx_data extends Command
                     if ($val["title"] == "数据字段") $data_column = $val["value"];
                     if ($val["title"] == "需求原因") $require_reason = $val["value"];
                     if ($val['title'] == '需要时间') $require_time = ($val['value'] / 1000);
-                    $common['type'] = E\Eapproval_type::V_4;
+                    $common['type'] = E\Eapproval_type::V_11;
                 }
                 if ($item['spname'] == '费用申请') {
                     if ($val['title'] == '费用类型') $common['reason'] = $val['value'];
                     if ($val['title'] == '费用金额') $common['sums'] = $val['value'];
                     //if (isset($item['value'])) $items[$val['title']] = $val['value'];
-                    $common['type'] = E\Eapproval_type::V_3;
+                    $common['type'] = E\Eapproval_type::V_2;
                 }
                 if ($item['spname'] == '学生年级修改') {
                     if ($val["title"] == "备注") $common['reason'] = $val['value'];
@@ -164,7 +164,7 @@ class update_company_wx_data extends Command
 
             // 3. 将数据添加到数据库中
             if ($item["spname"] == "拉取数据审批") {
-                $info = $this->t_company_wx_approval_data->get_list_for_user_time($common["apply_user_id"], $common["apply_time"]);
+                $info = $task->t_company_wx_approval_data->get_list_for_user_time($common["apply_user_id"], $common["apply_time"]);
 
                 if (!$info) {
                     $data = [
@@ -176,9 +176,8 @@ class update_company_wx_data extends Command
                         "require_reason" => $require_reason,
                         "require_time" => $require_time
                     ];
-                    $this->t_company_wx_approval_data->row_insert($data);
+                    $task->t_company_wx_approval_data->row_insert($data);
                     echo "加载拉取数据审批成功";
-
                 }
 
             }

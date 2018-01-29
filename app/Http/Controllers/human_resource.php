@@ -4204,6 +4204,13 @@ class human_resource extends Controller
         return $day_num;
     }
 
+
+    //精品老师页面
+    public function get_elite_teacher_list(){
+        $this->set_in_value("elite_flag",1);
+        return $this->teacher_info_new();
+    }
+
     public function teacher_info_new(){
         $this->switch_tongji_database();
         list($through_start,$through_end) = $this->get_in_date_range(0,0,0,null,3);
@@ -4222,6 +4229,7 @@ class human_resource extends Controller
         $train_through_new      = $this->get_in_int_val("train_through_new",-1);
         $seller_flag            = $this->get_in_int_val("seller_flag",0);
         $sleep_teacher_flag     = $this->get_in_int_val("sleep_teacher_flag",-1);
+        $elite_flag             = $this->get_in_int_val("elite_flag",-1);
         $adminid                = $this->get_account_id();
 
         $right_list  = $this->get_tea_subject_and_right_by_adminid($adminid);
@@ -4272,7 +4280,7 @@ class human_resource extends Controller
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
             $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag,
-            $advance_list, $per_subject
+            $advance_list, $per_subject,$elite_flag
         );
 
         foreach($ret_info['list'] as  &$item){
@@ -4353,7 +4361,8 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"          => $acc,
             "account_role" => $this->get_account_role(),
-            "is_master_flag_jw" =>$is_master_flag_jw 
+            "is_master_flag_jw" =>$is_master_flag_jw,
+            "elite_flag"     =>$elite_flag
         ]);
     }
 
@@ -5007,6 +5016,7 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__, $ret_info);
     }
 
+   
 
 
 }

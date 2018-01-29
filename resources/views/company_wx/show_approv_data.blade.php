@@ -16,12 +16,14 @@
                 <div id='id_date_range' >
                 </div>
             </div>
-            
+
+            @if ($flag)
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <bttton id="id_add" class="btn btn-primary">拉取数据</button>
             </div>
         </div>
+        @endif
         </div>
     </div>
     <hr/>
@@ -54,13 +56,15 @@
                     <td>{{$item['require_time']}}</td>
                     <td>{{$item['acc']}}</td>
                     @if ($item['data_url'])
-                        <td><a target="_blank" href={{$item['data_url']}}>数据下载<a></td>
+                        <td><a target="_blank" href={{$item['data_url']}} class="download">数据下载<a></td>
                     @else
                         <td></td>
                     @endif
                     <td data_id="{{$item['id']}}">
                         <a class="btn  fa fa-cog td-info" title="竖向显示"></a>
-                        <a class="btn fa fa-edit opt-edit" title="添加数据下载地址"></a>
+                        @if($flag)
+                            <a class="btn fa fa-edit opt-edit" title="添加数据下载地址"></a>
+                        @endif
                     </td>
                 </tr>
             @endforeach
@@ -78,7 +82,7 @@
                     <input id="id_upload_add" value="上传下载文件" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>
                 </div>
                 <div class="add_header_img"></div>
-                <div class="pic_url"></div>
+                <div class="data_url"></div>
             </td>
 		        </tr>
 

@@ -12,11 +12,17 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                    <div class="input-group ">
+                        <span class="input-group-addon">销售</span>
+                        <input class="opt-change form-control" id="id_admin_revisiterid" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否拨通</span>
+                        <select class="opt-change form-control" id="id_called_flag" >
+                        </select>
                     </div>
                 </div>
             </div>
@@ -28,6 +34,7 @@
         <table class="common-table"> 
             <thead>
                 <tr>
+                    <td>编号 </td>
                     <td>例子 </td>
                     <td>抢单详情 </td>
                     <td>例子进入时间 </td>
@@ -37,12 +44,9 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["num"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <td>
-                            @foreach ( $var['list'] as $v )
-                                抢单人:{{$v['account']}},拨通次数{{$v['called_count']}},未拨通次数{{$v['no_called_count']}},挂机人{{$v['cc_end']}},抢单时间:{{$v['create_time']}}<br/>
-                            @endforeach
-                        </td>
+                        <td>{{@$var["desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>
                             <div
@@ -59,5 +63,4 @@
         </table>
         @include("layouts.page")
     </section>
-
 @endsection

@@ -1820,7 +1820,7 @@ class user_manage_new extends Controller
             }
         }
 
-        $default_groupid = $group_common[0]['groupid'];
+        $default_groupid = @$group_common[0]['groupid'];
         if($group_all && array_key_exists($role_groupid, $group_all)){
             $default_groupid = $group_all[$role_groupid][0]['groupid'];
         }
@@ -5196,5 +5196,45 @@ class user_manage_new extends Controller
         return $this->Pageview(__METHOD__,$ret_list,[]);
     }
 
+    public function flush_power() {
+        $url = \App\Helper\Config::get_url_power_map();
+        $filter = ["/user_manage_new/power_group_edit", "/user_manage_new/power_group_edit_new"];
+        if(\App\Helper\Utils::check_env_is_local()){
+            $groupid = 29; // 非金钱管理账户 $groupid = 29; // 非金钱管理账户
+        }else{
+            $groupid = 52; // 非金钱管理账户
+        }
+        
+        $permission = $this->t_authority_group->get_group_authority($groupid);
+        $old = $permission;
+
+        foreach($url as $key => $item) {
+            if (!in_array($key, $filter)) {
+                $permission .= ",".$item;
+            }
+        }
+
+        $auth = explode(",", $permission);
+        $auth = array_unique($auth);
+        $auth = implode(",", $auth);
+
+        // 将页面权限分配给非金钱管理账户 group_authority 
+        $this->t_authority_group->field_update_list($groupid, [
+            "group_authority" => $auth
+        ]);
+
+        $adminid = $this->get_account_id();
+        $type = 1;
+        $new = $auth;
+        $this->t_seller_edit_log->row_insert([
+            "adminid"     => $adminid,
+            "type"        => $type,
+            "old"         => $old,
+            "new"         => $new,
+            "create_time" => time(NULL),
+        ],false,false,true );
+
+        return $this->output_succ();
+    }
 
 }

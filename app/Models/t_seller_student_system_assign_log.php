@@ -7,6 +7,22 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
     {
         parent::__construct();
     }
+    public function get_check_call_info_list ($start_time, $end_time){
+        $where_arr=[];
+        $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
+
+        $sql=$this->gen_sql_new(
+            "select g.id, n.userid,n.phone, g.adminid "
+            . " from %s g "
+            ." join %s n on g.userid = n.userid"
+            . " where %s  ",
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function check_userid_adminid_existed( $userid, $adminid) {
         $sql=$this->gen_sql_new(
             "select count(*) from %s"
@@ -68,5 +84,29 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
                      $where);
         return $this->main_update($sql);
     }
+
+    public function  get_list($page_info, $order_by_str,  $start_time, $end_time, $adminid,$userid, $called_flag ,$seller_student_assign_from_type )
+    {
+        $where_arr=[
+            ["g.userid=%d", $userid, -1 ],
+            ["g.adminid=%d", $adminid, -1 ],
+            ["g.called_flag=%d", $called_flag, -1 ],
+            ["g.seller_student_assign_from_type=%d",$seller_student_assign_from_type,-1],
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            "select g.*, n.phone  "
+            ." from  %s g "
+            ." join  %s n on n.userid=g.userid "
+            ." where  %s "
+            . " $order_by_str ",
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr);
+
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
 
 }

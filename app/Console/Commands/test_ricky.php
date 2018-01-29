@@ -51,20 +51,20 @@ class test_ricky extends Command
             $userid = $item["userid"];
             $start_time = explode("-", $item["start_time"]);
             $date = $start_time[0];
-            $time = $start_time[1];
-            $time = explode(":", $time);
-            $stime = intval($time[0].$time[1]);
-            $end_time = explode(":", $item["end_time"]);
-            $end_time = intval($end_time[0].$end_time[1]);
-            //$count = (($item["end_time"] * 100) - ($time * 100)) * 60 / 100;
-            $count = ($end_time - $stime) * 60 / 100;
+            if ($date <= 3) {
+                $stime = strtotime("2018-1-".(28 + $date)." ".$start_time[1]);
+                $etime = strtotime("2018-1-".(28 + $date)." ".$item["end_time"]);
+            } else {
+                $stime = strtotime("2018-2-".($date - 3)." ".$start_time[1]);
+                $etime = strtotime("2018-2-".($date - 3)." ".$item["end_time"]);
+            }
 
-            //echo " --- ".$item["end_time"]." --- ".$start_time[1]." ==== $count ==== ";
+            $count = floor(($etime-$stime)%86400/60);//($end_time - $stime) * 60 / 100ear
 
             if ($count >= 80 && $count <= 100) {
-                if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$start_time[1]);
-                else $start_time = strtotime("2018-2-".($date - 3)." ".$start_time[1]);
-                $lesson = $task->t_week_regular_course->get_info_for_start_time($teacherid, $userid, $start_time);
+                // if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$start_time[1]);
+                // else $start_time = strtotime("2018-2-".($date - 3)." ".$start_time[1]);
+                $lesson = $task->t_week_regular_course->get_info_for_start_time($teacherid, $userid, $stime);
                 if ($lesson) {
                     echo $item["end_time"]." ".$start_time[1]." $count".",";
                     echo date("Y-m-d H:i:s", $lesson["operate_time"]).",";

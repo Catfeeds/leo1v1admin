@@ -27,7 +27,6 @@ $(function(){
         }
     });
 
-
     Enum_map.append_option_list( "boolean", $("#id_deal_flag"));
     Enum_map.append_option_list( "lesson_problem", $("#id_lesson_problem"));
 
@@ -159,7 +158,6 @@ $(function(){
             $deal_flag.css('width','40%');
             $lesson_problem.css('width','40%');
             $feedback_id.css('width','40%');
-
 
             $.custom_upload_file('id_upload_lesson_img',true,function (up, info, file) {
                 var res = $.parseJSON(info);
@@ -377,6 +375,93 @@ $(function(){
         });
     });
 
+    $('#id_show').on("click",function(){
+        $.do_ajax("/ajax_deal/getStatisticalChat",{
+            "startTime": g_args.start_time ,
+            "endTime"  : g_args.end_time,
+        },function(result){
+            $('.table-responsive').fadeToggle("slow");
+            $('#container').fadeToggle("slow");
+            $('#pie_container').fadeToggle("slow");
+
+            var data_obj = result.data['column'];
+            var data_pie = result.data['pie'];
+            console.log(data_pie);
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: g_args.start_time+' ~ '+g_args.end_time+' 产品问题反馈记录'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '问题数量'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:.1f}'
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span >{point.name}</span>: <b>{point.y:.2f}</b><br/>'
+                },
+                series: [{
+                    name: '问题类型',
+                    colorByPoint: true,
+                    data:data_obj
+                }]
+            });
+
+
+            $('#pie_container').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: g_args.start_time+' ~ '+g_args.end_time+' 产品问题反馈记录'
+                },
+                tooltip: {
+                    headerFormat: '{series.name}<br>',
+                    pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: '问题反馈数量',
+                    data: data_pie
+                }]
+            });
+
+        });
+
+    });
 
 
     $('.opt-change').set_input_change_event(load_data);

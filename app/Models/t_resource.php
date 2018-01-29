@@ -9,7 +9,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
     }
 
     public function get_all(
-        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $file_title, $page_info, $is_del = 0
+        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $file_title, $page_info, $is_del = 0,$status = 0
     ){
         $where_arr = [
             ['r.use_type=%u', $use_type, -1],
@@ -22,7 +22,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.tag_four=%u', $tag_four, -1],
             ['r.tag_five=%u', $tag_five, -1],
             ['is_del=%u', $is_del, -1],
-            ['status=%u', $is_del, -1],
+            ['status=%u', $status, -1],
         ];
         if( in_array($resource_type, [1,2,3,4,5,9]) ){
             //添加通用版50000
@@ -47,7 +47,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ." left join %s t on t.id=r.tag_four"
             ." where %s"
             ." and not exists ( select 1 from %s where file_id=v.file_id and v.create_time<create_time and visitor_type=0) "
-            ." order by r.resource_id desc,f.file_use_type"
+            //." order by r.resource_id desc,f.file_use_type"
+            ." order by r.resource_id desc,v.file_id desc"
             ,self::DB_TABLE_NAME
             ,t_resource_file::DB_TABLE_NAME
             ,t_resource_file_visit_info::DB_TABLE_NAME
@@ -260,6 +261,45 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_resource_file_visit_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
+    }
+
+    //被彻底删除的文件
+    public function get_total_del(
+        $use_type, $resource_type, $subject, $grade,$file_title, $page_info, $is_del = -1,$status = 1
+    ){
+        $where_arr = [
+            ['r.use_type=%u', $use_type, -1],
+            ['r.resource_type=%u', $resource_type, -1],
+            ['r.subject=%u', $subject, -1],
+            ['r.grade=%u', $grade, -1],
+            ['r.is_del=%u', $is_del, -1],
+            ['f.status=%u', $status, -1],
+        ];
+
+        if($file_title != ''){
+            $where_arr[] = ["f.file_title like '%%%s%%'", $this->ensql( $file_title), ""];
+        }
+
+        $sql = $this->gen_sql_new(
+            "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
+            ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
+            ." t.tag as tag_four_str,v.create_time,v.visitor_id"
+            ." from %s f"
+            ." left join %s r on f.resource_id=r.resource_id"
+            ." left join %s v on v.file_id=f.file_id "
+            ." left join %s t on t.id=r.tag_four"
+            ." where %s"
+            //." and not exists ( select 1 from %s where file_id=v.file_id and v.create_time<create_time and visitor_type=0) "
+            ." order by r.resource_id desc,v.file_id desc"
+            ,t_resource_file::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,t_resource_file_visit_info::DB_TABLE_NAME
+            ,t_sub_grade_book_tag::DB_TABLE_NAME
+            ,$where_arr
+            ,t_resource_file_visit_info::DB_TABLE_NAME
+        );
+        //dd($sql);
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
 }
