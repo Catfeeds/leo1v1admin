@@ -136,13 +136,16 @@ class update_actual_threshold extends Command
         $account_arr = ['tom','应怡莉'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
-                $account,$template_id,[
+                $account,
+                $template_id,
+                [
                     "first"    => "",
                     "keyword1" => $theme,
                     "keyword2" => "",
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
-                ]);
+                ],
+                $url='http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
         }
     }
 
@@ -151,14 +154,7 @@ class update_actual_threshold extends Command
         $threshold_max = $threshold[0]['new'];
         $threshold_min = $threshold[1]['new'];
         $threshold_count = $this->task->t_seller_edit_log->get_threshold_count($start_time,$end_time);
-        list($count_y,$count_r) = [0,0];
-        foreach($threshold_count as $old){
-            if($old == 1){
-                $count_y++;
-            }else{
-                $count_r++;
-            }
-        }
+        list($count_y,$count_r) = isset($threshold_count[0]['count_y'])?[$threshold_count[0]['count_y'],$threshold_count[0]['count_r']]:[0,0];
 
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
         $theme = "新例子电话接通率报告";
@@ -172,13 +168,16 @@ class update_actual_threshold extends Command
         $account_arr = ['tom','应怡莉'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
-                $account,$template_id,[
+                $account,
+                $template_id,
+                [
                     "first"    => "",
                     "keyword1" => $theme,
                     "keyword2" => "",
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
-                ]);
+                ],
+                $url='http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
         }
     }
 }

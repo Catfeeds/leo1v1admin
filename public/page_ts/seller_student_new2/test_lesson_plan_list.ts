@@ -1619,80 +1619,80 @@ $(function(){
     $(".opt-match-teacher").on("click",function(){
         alert("暂停使用,请用其他方式查找老师,谢谢!");
         return;
-        var opt_data = $(this).get_opt_data();
-        var $teacherid    = $("<input/>") ;
-        var $lesson_start = $("<input/>") ;
-        // alert(opt_data.require_id);
-        // alert(opt_data.except_lesson_time );
+        // var opt_data = $(this).get_opt_data();
+        // var $teacherid    = $("<input/>") ;
+        // var $lesson_start = $("<input/>") ;
+        // // alert(opt_data.require_id);
+        // // alert(opt_data.except_lesson_time );
 
-        $("<div></div>").admin_select_dlg_ajax({
-            "width"    : 1200,
-            "opt_type" : "list", // or "list"
-            "url"      : "/ss_deal/get_teacher_list",
-            //其他参数
-            "args_ex" : {
-                "lesson_time" : opt_data.except_lesson_time,
-                "subject"     : opt_data.subject,
-                "grade"       : opt_data.grade
-            },
+        // $("<div></div>").admin_select_dlg_ajax({
+        //     "width"    : 1200,
+        //     "opt_type" : "list", // or "list"
+        //     "url"      : "/ss_deal/get_teacher_list",
+        //     //其他参数
+        //     "args_ex" : {
+        //         "lesson_time" : opt_data.except_lesson_time,
+        //         "subject"     : opt_data.subject,
+        //         "grade"       : opt_data.grade
+        //     },
 
-            select_primary_field   : "teacherid",
-            select_display         : "package_name",
-            select_no_select_value : 0,
-            select_no_select_title : "[未设置]",
+        //     select_primary_field   : "teacherid",
+        //     select_display         : "package_name",
+        //     select_no_select_value : 0,
+        //     select_no_select_title : "[未设置]",
 
-            //字段列表
-            'field_list' : [
-                {
-                    title      : "teacherid",
-                    width      : 50,
-                    field_name : "teacherid"
-                },{
-                    title      : "姓名",
-                    width      : 50,
-                    field_name : "realname"
-                },{
-                    title      : "电话",
-                    width      : 50,
-                    field_name : "phone"
-                },{
-                    title      : "邮箱",
-                    width      : 50,
-                    field_name : "email"
-                },{
-                    title:"科目",
-                    width      : 50,
-                    field_name : "subject"
-                },{
-                    title      : "年级",
-                    width      : 50,
-                    field_name : "grade"
-                },{
-                    title      : "剩余试听课数",
-                    width      : 50,
-                    field_name : "week_left_num"
-                },{
-                    title      : "教材",
-                    width      : 200,
-                    field_name : "textbook"
-                },{
-                    title      : "精选维度",
-                    width      : 50,
-                    field_name : "fine_dimension"
-                },{
-                    title      : "地区",
-                    width      : 50,
-                    field_name : "address"
-                }
+        //     //字段列表
+        //     'field_list' : [
+        //         {
+        //             title      : "teacherid",
+        //             width      : 50,
+        //             field_name : "teacherid"
+        //         },{
+        //             title      : "姓名",
+        //             width      : 50,
+        //             field_name : "realname"
+        //         },{
+        //             title      : "电话",
+        //             width      : 50,
+        //             field_name : "phone"
+        //         },{
+        //             title      : "邮箱",
+        //             width      : 50,
+        //             field_name : "email"
+        //         },{
+        //             title:"科目",
+        //             width      : 50,
+        //             field_name : "subject"
+        //         },{
+        //             title      : "年级",
+        //             width      : 50,
+        //             field_name : "grade"
+        //         },{
+        //             title      : "剩余试听课数",
+        //             width      : 50,
+        //             field_name : "week_left_num"
+        //         },{
+        //             title      : "教材",
+        //             width      : 200,
+        //             field_name : "textbook"
+        //         },{
+        //             title      : "精选维度",
+        //             width      : 50,
+        //             field_name : "fine_dimension"
+        //         },{
+        //             title      : "地区",
+        //             width      : 50,
+        //             field_name : "address"
+        //         }
 
-            ] ,
-            //查询列表
-            filter_list : [
-            ],
-            "auto_close" : true,
-            "onChange"   : false,
-            "onLoadData" : null
-        });
+        //     ] ,
+        //     //查询列表
+        //     filter_list : [
+        //     ],
+        //     "auto_close" : true,
+        //     "onChange"   : false,
+        //     "onLoadData" : null
+        // });
     });
 
 

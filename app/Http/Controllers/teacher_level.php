@@ -1736,7 +1736,8 @@ class teacher_level extends Controller
                 $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
 
                 //已排課程工資等級更改
-                $level_start = strtotime(date("Y-m-01",time()));
+                // $level_start = strtotime(date("Y-m-01",time()));
+                $level_start = strtotime("+3 months",$start_time);
                 $teacher_money_type = $info["teacher_money_type"];
                 $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
 
@@ -1752,30 +1753,27 @@ class teacher_level extends Controller
                  */
                 $wx_openid = $info["wx_openid"];
                 $realname = $info["realname"];
-                // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+                $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
                 if($wx_openid){
                     $data=[];
                     $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
                     $data['first']    = "恭喜".$realname."老师,您已经成功晋级到了".$level_degree;
                     $data['keyword1'] = $realname;
                     $data['keyword2'] = $level_degree;
-                    $data['keyword3'] = date("Y-m-01 00:00",time());
+                    $data['keyword3'] = date("Y-m-01 00:00",$level_start);
                     /* $data['remark']   = "晋升分数:".$score
                        ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
                     $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
 
                     $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
-                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-                    if($teacherid==240314){
-                        \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxGZQHlRENGlUeA7Tn1nSeII",$template_id,$data,$url);                   
-                    }
+                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);                   
                 
                 }
 
                 // 邮件推送
                 $html  = $this->teacher_level_up_html($info);
                 $email = $this->t_teacher_info->get_email($teacherid);
-                // $email = "jack@leoedu.com";
+                $email = "jack@leoedu.com";
                 if($email){
                     dispatch( new \App\Jobs\SendEmailNew(
                         $email,"【理优1对1】老师晋升通知",$html
@@ -1822,6 +1820,64 @@ class teacher_level extends Controller
         
         return $this->output_succ();
     }
+
+    //一键晋升审批
+    public function set_teacher_advance_require_all_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $agree_flag   = $this->get_in_int_val("agree_flag");
+        $acc          = $this->get_account();
+        $jim_flag = $this->get_in_int_val("jim_flag",2);       
+        $teacher_money_type=6;
+        if($agree_flag==1){
+            if($acc=="江敏" || $jim_flag==1){
+                //更新所有未处理的申请
+                $this->t_teacher_advance_list->update_first_advance_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+                
+            }elseif($acc=="ted" || $jim_flag==2){
+                $this->t_teacher_advance_list->update_second_advance_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+                //发送微信/邮件推送
+                $job = new \App\Jobs\SendAdvanceTeacherWxEmail($start_time,$teacher_money_type);
+                dispatch($job);
+            }
+        }elseif($agree_flag==2){
+            if($acc=="江敏" || $jim_flag==1){
+                $this->t_teacher_advance_list->update_first_advance_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type); 
+            }elseif($acc=="ted" || $jim_flag==2){
+                $this->t_teacher_advance_list->update_second_advance_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+            }
+
+        }
+        return $this->output_succ();
+
+    }
+
+    //一键扣款审批
+    public function set_teacher_withhold_require_all_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $agree_flag   = $this->get_in_int_val("agree_flag");
+        $acc          = $this->get_account();
+        $jim_flag = $this->get_in_int_val("jim_flag",2);
+        $teacher_money_type=6;
+        if($agree_flag==1){
+            if($acc=="江敏" || $jim_flag==1){
+                //更新所有未处理的申请
+                $this->t_teacher_advance_list->update_first_withhold_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+                
+            }elseif($acc=="ted" || $jim_flag==2){
+                $this->t_teacher_advance_list->update_second_withhold_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type); 
+            }
+        }elseif($agree_flag==2){
+            if($acc=="江敏" || $jim_flag==1){
+                $this->t_teacher_advance_list->update_first_withhold_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type); 
+            }elseif($acc=="ted" || $jim_flag==2){
+                $this->t_teacher_advance_list->update_second_withhold_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+            }
+
+        }
+        return $this->output_succ();
+
+    }
+
 
 
     //新版刷新数据

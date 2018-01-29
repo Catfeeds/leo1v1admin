@@ -290,6 +290,7 @@
                                 <a  id="id_set_level_b">设置可抢</a>
                                 <a id="id_set_history_to_new">公海->新</a>
                                 <a id="id_set_select_set_free">批量回流公海</a>
+                                <a id="id_set_sys_invaild_flag">sys invaild flag</a>
                                 <a id="id_set_select_to_admin_list">分配给组员</a>
                             </li>
                         </ul>

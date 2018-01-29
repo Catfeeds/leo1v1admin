@@ -22,15 +22,6 @@ $(function(){
         $(".opt-select-item").iCheck("check");
     });
 
-    $("#id_withhold_agree").on("click",function(){
-        BootstrapDialog.alert("开发中!!!");
-        return;
-        if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
-            BootstrapDialog.alert("没有权限!!!");
-        }
-
-        alert(111); 
-    });
     $("#id_advance_agree").on("click",function(){
         // BootstrapDialog.alert("开发中!!!");
         // return;
@@ -40,11 +31,313 @@ $(function(){
         $.do_ajax( '/ajax_deal3/get_teacher_advance_require_detail_info', {
             'start_time' :g_args.start_time,
         },function(resp){
-            console.log(resp.data);
+            console.log(111); 
+           
+            var list = resp.data;
+            var title = "一键同意晋升";
+            var html_node= $("<div class=\"row\" >"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">教研总监审批</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"全部申请数</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.advance_require_num+"项"
+                             +"</div>"
+                             +"</div>"                           
+                             +"</div>"                           
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"待审批</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.first_advance_no_deal_num+"项"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"                           
+
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"已同意</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.first_advance_agree_num+"项"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"                           
+
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"已拒绝</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.first_advance_refund_num+"项"
+                             +"</div>"
+                             +"</div>"                           
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" style='margin-top:10px'>"
+                             +"<span><font size=\"3\" color=\"black\">教学事业部总经理审批</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"全部申请数</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.advance_require_num+"项"
+                             +"</div>"
+                             +"</div>"                           
+                             +"</div>"                           
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"待审批</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.second_advance_no_deal_num+"项"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"                           
+
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"已同意</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.second_advance_agree_num+"项"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"                           
+
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"已拒绝</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.second_advance_refund_num+"项"
+                             +"</div>"
+                             +"</div>"                           
+                             +"</div>"
+                             +"</div>");
+           
+
+            var dlg=BootstrapDialog.show({
+                title:title,
+                message :  html_node   ,
+                closable: true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                },{
+                    label: '全部拒绝',
+                    cssClass: 'btn btn-danger',
+                    action: function(dialog) {
+                        
+                        $.do_ajax( '/teacher_level/set_teacher_advance_require_all_2018', {
+                            'start_time' :g_args.start_time,
+                            "agree_flag" :2,
+                        });
+
+                      //  dialog.close();
+
+                    }
+                },{
+                    label: '全部同意',
+                    cssClass: 'btn btn-primary',
+                    action: function(dialog) {
+                        $.do_ajax( '/teacher_level/set_teacher_advance_require_all_2018', {
+                            'start_time' :g_args.start_time,
+                            "agree_flag" :1,
+                        });
+
+                       // dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","600px");
+
+
         });
 
 
     });
+
+    $("#id_withhold_agree").on("click",function(){
+        // BootstrapDialog.alert("开发中!!!");
+        // return;
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
+            BootstrapDialog.alert("没有权限!!!");
+        }
+        $.do_ajax( '/ajax_deal3/get_teacher_advance_require_detail_info', {
+            'start_time' :g_args.start_time,
+        },function(resp){
+            console.log(111); 
+            
+            var list = resp.data;
+            var title = "一键同意扣款";
+            var html_node= $("<div class=\"row\" >"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">教研总监审批</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"全部申请数</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.withhold_require_num+"项"
+                             +"</div>"
+                             +"</div>"                           
+                             +"</div>"                           
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"待审批</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.first_withhold_no_deal_num+"项"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"                           
+
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"已同意</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.first_withhold_agree_num+"项"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"                           
+
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"已拒绝</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.first_withhold_refund_num+"项"
+                             +"</div>"
+                             +"</div>"                           
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" style='margin-top:10px'>"
+                             +"<span><font size=\"3\" color=\"black\">教学事业部总经理审批</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"全部申请数</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.withhold_require_num+"项"
+                             +"</div>"
+                             +"</div>"                           
+                             +"</div>"                           
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"待审批</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.second_withhold_no_deal_num+"项"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"                           
+
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"已同意</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.second_withhold_agree_num+"项"
+                             +"</div>"
+                             +"</div>"
+                             +"</div>"                           
+
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div style='margin-left:20px'>"
+
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"已拒绝</div>"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +list.second_withhold_refund_num+"项"
+                             +"</div>"
+                             +"</div>"                           
+                             +"</div>"
+                             +"</div>");
+            
+
+            var dlg=BootstrapDialog.show({
+                title:title,
+                message :  html_node   ,
+                closable: true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                },{
+                    label: '全部拒绝',
+                    cssClass: 'btn btn-danger',
+                    action: function(dialog) {
+                        $.do_ajax( '/teacher_level/set_teacher_withhold_require_all_2018', {
+                            'start_time' :g_args.start_time,
+                            "agree_flag" :2,
+                        });
+
+
+                     //   dialog.close();
+
+                    }
+                },{
+                    label: '全部同意',
+                    cssClass: 'btn btn-primary',
+                    action: function(dialog) {
+                        $.do_ajax( '/teacher_level/set_teacher_withhold_require_all_2018', {
+                            'start_time' :g_args.start_time,
+                            "agree_flag" :1,
+                        });
+
+                       // dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","600px");
+
+
+        });
+
+
+    });
+
+    $("#id_edit_rule").on("click",function(){
+        BootstrapDialog.alert("暂无数据!"); 
+    });
+
 
 
     $("#id_select_other").on("click", function() {
@@ -94,7 +387,7 @@ $(function(){
         var teacherid = opt_data.teacherid;
         var teacher_money_type = opt_data.teacher_money_type;
         var str = "确认";
-        if(g_account=="ted" || g_account=="jimy"){
+        if(g_account=="ted" || g_account=="jimy" || g_account=="jack"){
             if(opt_data.accept_flag>0){
                 var id_accept_flag = $("<div>"+opt_data.accept_flag_str+"</div>");
             }else{
@@ -102,7 +395,7 @@ $(function(){
             }
             var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
 
-        }else if(g_account=="江敏" || g_account=="jim"){
+        }else if(g_account=="江敏" || g_account=="jim" || g_account=="jack"){
             var id_accept_flag = $("<div>"+opt_data.accept_flag_str+"</div>");
             if(opt_data.accept_flag>0){
                 var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
@@ -179,7 +472,7 @@ $(function(){
           var teacherid = opt_data.teacherid;
           var teacher_money_type = opt_data.teacher_money_type;
           var str = "确认";
-          if(g_account=="ted" || g_account=="jim"){
+          if(g_account=="ted" || g_account=="jim" || g_account=="jack"){
               if(opt_data.withhold_final_trial_flag>0){
                   var id_withhold_final_trial_flag = $("<div>"+opt_data.withhold_final_trial_flag_str+"</div>");
               }else{
@@ -187,7 +480,7 @@ $(function(){
               }
               var id_withhold_first_trial_flag= $("<div>"+opt_data.withhold_first_trial_flag_str+"</div>") ;
 
-          }else if(g_account=="江敏" || g_account=="jim"){
+          }else if(g_account=="江敏" || g_account=="jim" || g_account=="jack"){
               var id_withhold_final_trial_flag = $("<div>"+opt_data.withhold_final_trial_flag_str+"</div>");
               if(opt_data.withhold_final_trial_flag>0){
                   var id_withhold_first_trial_flag= $("<div>"+opt_data.withhold_first_trial_flag_str+"</div>") ;
@@ -386,6 +679,7 @@ $(function(){
                 $.do_ajax('/teacher_level/add_teacher_advance_info',{
                     "teacherid"              : id_teacherid.val(),
                     "total_score"                : id_score.val(),
+                    "teacher_money_type"   :6
                 });
             }
         },function(){
