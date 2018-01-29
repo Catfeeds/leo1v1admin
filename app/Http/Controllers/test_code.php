@@ -434,6 +434,7 @@ class test_code extends Controller
                                             ."|".$money_total[1]['teacher_trial_money']."|".$money_total[1]['teacher_lesson_count_money']
                                             ."|".$full_reward;
         echo "<br>";
+        return $this->output_succ();
     }
 
 

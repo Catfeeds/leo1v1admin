@@ -3281,7 +3281,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-
     public function get_lesson_info_teacher_check_total($start_time,$end_time){
         $where_arr=[
             "lesson_type in (0,1,2,3)",
@@ -3291,8 +3290,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
-
-        $sql=$this->gen_sql_new("select  count(*) all_num,sum(if(l.lesson_type in (0,1,3),1,0)) normal_num, sum(if(deduct_come_late=1,1,0)) teacher_come_late_count, sum(if(lesson_cancel_reason_type=2,1,0)) teacher_change_lesson, sum(if(lesson_cancel_reason_type=12,1,0)) teacher_leave_lesson, sum(if(lesson_cancel_reason_type=21,1,0)) teacher_no_attend_lesson "
+        $sql = $this->gen_sql_new("select count(*) all_num,sum(if(l.lesson_type in (0,1,3),1,0)) normal_num, sum(if(deduct_come_late=1,1,0)) teacher_come_late_count, sum(if(lesson_cancel_reason_type=2,1,0)) teacher_change_lesson, sum(if(lesson_cancel_reason_type=12,1,0)) teacher_leave_lesson, sum(if(lesson_cancel_reason_type=21,1,0)) teacher_no_attend_lesson "
                                 ." from %s l "
                                 ." left join %s s on l.userid=s.userid "
                                 ." where  %s"
@@ -3302,11 +3300,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
 
         return $this->main_get_row($sql);
-        // return $this->main_get_list_by_page($sql,$page_num,300,true);
-
-
     }
-
 
     public function get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time=-1,$teacher_money_type,$show_all_flag=1){
         $where_arr=[

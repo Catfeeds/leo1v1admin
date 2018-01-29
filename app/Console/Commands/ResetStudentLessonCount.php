@@ -72,11 +72,20 @@ class ResetStudentLessonCount extends cmd_base
                 }
 
                 if(!empty($update_arr)){
+                    $old_lesson_info = [
+                        "lesson_count" => $l_val['lesson_count'],
+                        "teacher_type" => $l_val['teacher_type'],
+                    ];
                     $this->task->t_lesson_info->field_update_list($l_val['lessonid'],$update_arr);
+                    $this->task->t_lesson_info_operate_log->add_lesson_operate_info(
+                        $l_val['lessonid'],"lesson_count,teacher_type",$old_lesson_info,$update_arr,"Command","ResetStudentLessonCount"
+                    );
                 }
             }
         }
     }
+
+
 
 
 }
