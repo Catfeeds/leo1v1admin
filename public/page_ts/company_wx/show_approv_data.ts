@@ -73,4 +73,8 @@ $(function(){
 
     });
 
+    $('#id_add').on('click', function() {
+        $.do_ajax("/company_wx/pull_approve_data", {});
+    });
+
 });
