@@ -63,6 +63,7 @@ class resource extends Controller
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
             $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             // dd($item);
+            $item['file_size_str'] = $item['file_size'] > 1024 ? sprintf('%.2f',$item['file_size']/1024)."M" : $item['file_size']."kb";
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",

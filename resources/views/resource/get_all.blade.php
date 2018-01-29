@@ -180,7 +180,7 @@
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
-                        <td>{{@$var["file_size"]}}M </td>
+                        <td>{{@$var["file_size_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         @if( $resource_type <= 6)
