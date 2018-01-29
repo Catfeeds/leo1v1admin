@@ -507,7 +507,7 @@ class tongji_ex extends Controller
             $list_info[$item['userid']]['list'][$item['adminid']] = isset($list_info[$item['userid']]['list'][$item['adminid']])?$list_info[$item['userid']]['list'][$item['adminid']]:$item;
             $list_info[$item['userid']]['add_time'] = isset($list_info[$item['userid']]['add_time'])?$list_info[$item['userid']]['add_time']:date('Y-m-d H:i:s',$item['add_time']);
         }
-        dd($list);
+        dd($list_info);
         return $this->pageView(__METHOD__, null,['data_ex_list'=>$ret]);
     }
 }
