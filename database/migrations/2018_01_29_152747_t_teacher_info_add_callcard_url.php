@@ -13,7 +13,7 @@ class TTeacherInfoAddCallcardUrl extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi_admin.t_teacher_info', function( Blueprint $table)
+        Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
         {
             t_field($table->string("callcard_url",128),"老师名片上传地址");
         });
