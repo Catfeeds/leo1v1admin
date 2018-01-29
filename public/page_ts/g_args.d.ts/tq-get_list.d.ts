@@ -1,10 +1,10 @@
 interface GargsStatic {
-	phone:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	phone:	string;
 	is_called_phone:	number;//枚举: App\Enums\Eboolean
 	uid:	number;
 	user_info:	string;
@@ -52,12 +52,12 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
-		phone:	$('#id_phone').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
+		phone:	$('#id_phone').val(),
 		is_called_phone:	$('#id_is_called_phone').val(),
 		uid:	$('#id_uid').val(),
 		user_info:	$('#id_user_info').val(),
@@ -117,6 +117,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -125,11 +130,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["phone title", "phone", "th_phone" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

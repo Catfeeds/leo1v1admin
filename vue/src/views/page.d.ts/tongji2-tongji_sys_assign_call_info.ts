@@ -10,6 +10,7 @@ interface self_Args {
 	adminid:	number;
 	userid:	number;
 	called_flag:	string;//枚举列表: \App\Enums\Eboolean
+ 	seller_student_assign_from_type:	string;//枚举列表: \App\Enums\Eseller_student_assign_from_type
  
 }
 interface self_RowData {
@@ -122,6 +123,16 @@ export default class extends vtable {
 "field_name" : "called_flag",
 "title" : "called_flag",
 "select_value" : this.get_args().called_flag,
+		"multi_select_flag"     : true,
+		"btn_id_config"     : {},
+	});
+
+	$.admin_enum_select({
+		'join_header'  : $header_query_info,
+"enum_type"    : "seller_student_assign_from_type",
+"field_name" : "seller_student_assign_from_type",
+"title" : "seller_student_assign_from_type",
+"select_value" : this.get_args().seller_student_assign_from_type,
 		"multi_select_flag"     : true,
 		"btn_id_config"     : {},
 	});

@@ -574,7 +574,7 @@ class tongji2 extends Controller
         ];
 
         $order_field_arr =  array_merge(["account" ] ,$sum_field_list );
-        
+
         $group_adminid   = $this->get_in_int_val("group_adminid",-1);
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
@@ -1104,7 +1104,7 @@ class tongji2 extends Controller
             }
             $tt["lesson_do_per"] = !empty( $tt["student_online"])?round($tt["lesson_total"]/$tt["student_online"]/$lesson_target*100,2):0;
             if($start_time>=strtotime("2018-01-01")){
-                $tt["renw_target"] = @$target_info["group_renew_target"]/100; 
+                $tt["renw_target"] = @$target_info["group_renew_target"]/100;
             }
             $tt["renw_per"] = !empty( $tt["renw_target"])?round($tt["renw_price"]/$tt["renw_target"]*100,2):0;
             if($tt["student_online"]){
@@ -2012,7 +2012,9 @@ class tongji2 extends Controller
         $adminid=$this->get_in_adminid(-1);
         $userid=$this->get_in_userid(-1);
         $called_flag= $this->get_in_el_boolean(-1, "called_flag");
-        $ret_info=$this->t_seller_student_system_assign_log->get_list($page_info, $order_by_str ,$start_time, $end_time, $adminid,$userid, $called_flag );
+        $seller_student_assign_from_type=$this->get_in_el_seller_student_assign_from_type();
+        $ret_info=$this->t_seller_student_system_assign_log->get_list($page_info, $order_by_str ,$start_time, $end_time, $adminid,$userid, $called_flag ,$seller_student_assign_from_type );
+
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "logtime");
             $this->cache_set_item_account_nick($item);
