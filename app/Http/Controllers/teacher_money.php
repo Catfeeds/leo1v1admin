@@ -457,7 +457,7 @@ class teacher_money extends Controller
 
     /**
      * 添加老师额外奖金
-     * @param type 1 荣誉榜奖金 2 试听课奖金 3 90分钟课程补偿 4 工资补偿
+     * @param type 额外奖金类型 枚举类 reward_type
      * @param teacherid 老师id
      * @param money_info 获奖信息 1 为课时数 2,3均为lessonid信息 4 为补偿原因
      * @param money 奖金金额
@@ -481,6 +481,12 @@ class teacher_money extends Controller
         $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
         if(!$check_flag){
             return $this->output_err("无法添加奖金到<font color='red'>已经结算工资</font>的月份!");
+        }
+
+        if($type<100 && $money<0){
+            return $this->output_err("该类型金额不能为负数！");
+        }elseif($type>100 && $money>0){
+            return $this->output_err("该类型金额不能为正数！");
         }
 
         $update_arr = [
