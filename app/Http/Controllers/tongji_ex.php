@@ -502,7 +502,8 @@ class tongji_ex extends Controller
 
         $list_info = [];
         $adminid = $this->get_in_int_val('adminid',-1);
-        $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time,$adminid);
+        $called_flag = $this->get_in_int_val('called_flag',-1);
+        $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time,$adminid,$called_flag);
         foreach($list as $item){
             $list_info[$item['userid']]['userid'] = isset($list_info[$item['userid']]['userid'])?$list_info[$item['userid']]['userid']:$item['userid'];
             $list_info[$item['userid']]['phone'] = isset($list_info[$item['userid']]['phone'])?$list_info[$item['userid']]['phone']:$item['phone'];

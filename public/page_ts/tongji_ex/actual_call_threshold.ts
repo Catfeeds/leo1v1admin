@@ -10,6 +10,7 @@ function load_data(){
         start_time       : $('#id_start_time').val(),
         end_time         : $('#id_end_time').val(),
         adminid          : $('#id_admin_revisiterid').val(),
+        called_flag      : $('#id_called_flag').val(),
     });
 }
 $(function(){
@@ -23,6 +24,8 @@ $(function(){
             load_data();
         }
     });
+    Enum_map.append_option_list("boolean",$("#id_called_flag"));
+    $('#id_called_flag').val(g_args.called_flag);
     $('#id_admin_revisiterid').val(g_args.adminid);
     $.admin_select_user(
         $('#id_admin_revisiterid'),

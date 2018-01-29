@@ -1,11 +1,13 @@
 interface GargsStatic {
+	page_num:	number;
+	page_count:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
 	adminid:	number;
-	called_flag:	number;
+	userid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -15,15 +17,27 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	logtime	:any;
+	userid	:any;
+	seller_student_assign_from_type	:any;
+	adminid	:any;
+	call_count	:any;
+	called_flag	:any;
+	call_time	:any;
+	admin_nick	:any;
+	student_nick	:any;
+	called_flag_str	:any;
+	seller_student_assign_from_type_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ex; vi  ../tongji_ex/actual_call_threshold.ts
+	 mkdir -p ../tongji2; vi  ../tongji2/tongji_sys_assign_call_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ex-actual_call_threshold.d.ts" />
+/// <reference path="../g_args.d.ts/tongji2-tongji_sys_assign_call_info.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
@@ -35,7 +49,7 @@ function load_data(){
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		adminid:	$('#id_adminid').val(),
-		called_flag:	$('#id_called_flag').val()
+		userid:	$('#id_userid').val()
 		});
 }
 $(function(){
@@ -58,7 +72,14 @@ $(function(){
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
 	});
-	$('#id_called_flag').val(g_args.called_flag);
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -68,6 +89,8 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
@@ -84,9 +107,9 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">called_flag</span>
-                <input class="opt-change form-control" id="id_called_flag" />
+                <span class="input-group-addon">userid</span>
+                <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["called_flag title", "called_flag", "th_called_flag" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 */
