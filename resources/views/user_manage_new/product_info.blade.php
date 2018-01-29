@@ -46,6 +46,12 @@
                     <button type="button" class="btn btn-warning" id="id_submit">添加</button>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-3">
+                <div class="input-group ">
+                    <button type="button" class="btn btn-warning" id="id_show">统计</button>
+                </div>
+            </div>
+
         </div>
         <hr/>
         <table   class="common-table"   >

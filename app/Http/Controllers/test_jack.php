@@ -14,6 +14,13 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $job = new \App\Jobs\SendAdvanceTeacherWxEmail(1506787200,6);
+        dispatch($job);
+        dd(111);
+
+        $list = $this->t_teacher_advance_list->get_all_accept_no_send_list(1506787200,6);
+        dd($list);
+
         // $time = time();
         // $h = date("H");
 

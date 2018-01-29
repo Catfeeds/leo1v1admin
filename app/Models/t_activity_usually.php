@@ -45,7 +45,7 @@ class t_activity_usually extends \App\Models\Zgen\z_t_activity_usually
     }
 
     public function getImgUrlInfo($id){
-        $sql = $this->gen_sql_new("  select  title, url, act_descr, shareImgUrl, coverImgUrl, activityImgUrl, followImgUrl from %s au"
+        $sql = $this->gen_sql_new("  select  add_num, title, url, act_descr, shareImgUrl, coverImgUrl, activityImgUrl, followImgUrl from %s au"
                                   ." where id=$id"
                                   ,self::DB_TABLE_NAME
         );

@@ -147,9 +147,10 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_need_set_lesson_end_list(  ){
+    public function get_need_set_lesson_end_list(){
         $end_time    = time(NULL)-5*60;
         $start_time  = $end_time-86400;
+
 
         $sql = $this->gen_sql("select lessonid,l.userid,l.teacherid,c.courseid,"
                               . " lesson_type,lesson_num,lesson_end, xmpp_server_name, current_server " .

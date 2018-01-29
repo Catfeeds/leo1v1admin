@@ -8,9 +8,15 @@ class t_company_wx_approval_data extends \App\Models\Zgen\z_t_company_wx_approva
 		parent::__construct();
 	}
 
-    public function get_all_list() {
-        $sql = $this->gen_sql_new("select id,apply_name,apply_user_id,apply_time,data_desc,data_column,require_reason,require_time,acc,data_url from %s",
-                                      self::DB_TABLE_NAME
+    public function get_all_list($userid) {
+        $where_arr = [
+            ["apply_user_id=%u",$userid,-1]
+        ];
+
+        $sql = $this->gen_sql_new("select id,apply_name,apply_user_id,apply_time,data_desc,data_column,require_reason,require_time,acc,data_url "
+                                  ."from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }

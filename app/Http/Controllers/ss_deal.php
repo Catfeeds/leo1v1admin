@@ -1768,10 +1768,10 @@ class ss_deal extends Controller
 
 
         $account_role = $this->get_account_role();
-        $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($teacherid);
+        // $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($teacherid);
 
         # 目前只有全职老师可以使用
-        if($checkIsFullTime == 1){ // 文彬测试
+        // if($checkIsFullTime == 1){ // 文彬测试
 
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
@@ -1806,7 +1806,7 @@ class ss_deal extends Controller
 
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
 
-        }
+        // }
 
 
 
@@ -1922,6 +1922,8 @@ class ss_deal extends Controller
         $db_lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
         $account_role = $this->get_account_role();
         if ($db_lessonid && $account_role != 12){
+            if(!\App\Helper\Utils::check_env_is_release()){
+            }
             return $this->output_err("已经排课过了!,可以换老师&时间");
         }
         if ($teacherid<=0 || $lesson_end<=0 || $lesson_start<=0 ) {
@@ -1960,9 +1962,11 @@ class ss_deal extends Controller
             );
         }
 
-        $courseid = $this->t_course_order->add_course_info_new($orderid,$userid,$grade,$subject,100,2,0,1,1,0,$teacherid);
+        $courseid = $this->t_course_order->add_course_info_new(
+            $orderid,$userid,$grade,$subject,100,E\Econtract_type::V_2,E\Ecourse_status::V_0,1,1,0,$teacherid
+        );
         $lessonid = $this->t_lesson_info->add_lesson(
-            $courseid,0,$userid,0,2,
+            $courseid,0,$userid,E\Efrom_type::V_0,E\Econtract_type::V_2,
             $teacherid,0,$lesson_start,$lesson_end,$grade,
             $subject,100,$teacher_info["teacher_money_type"],$teacher_info["level"]
         );
@@ -2005,7 +2009,7 @@ class ss_deal extends Controller
             'accept_flag'           => E\Eset_boolean::V_1 ,
             'accept_time'           => time(NULL),
             'jw_test_lesson_status' => 1,
-            'grab_status'           => 2,
+            'grab_status'           => E\Egrab_status::V_2,
         ]);
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id,E\Eseller_student_status::V_210,$this->get_account());
@@ -2234,10 +2238,10 @@ class ss_deal extends Controller
 
             $do_adminid = $this->get_account_id();
             $account_role = $this->get_account_role();
-            $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($teacherid);
+            // $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($teacherid);
 
             # 目前只有全职老师可以使用
-            if($checkIsFullTime == 1){ // 文彬测试
+            // if($checkIsFullTime == 1){ // 文彬测试
                 /**
                  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
                  * 标题课程 : 待办事项提醒
@@ -2261,43 +2265,43 @@ class ss_deal extends Controller
                 $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-            }else{
-                $this->t_manager_info->send_wx_todo_msg(
-                    $require_admin_nick,"来自:".$this->get_account()
-                    ,"排课[$phone][$nick] 老师[$teacher_nick] 上课时间[$lesson_time_str]","","");
+            // }else{
+            //     $this->t_manager_info->send_wx_todo_msg(
+            //         $require_admin_nick,"来自:".$this->get_account()
+            //         ,"排课[$phone][$nick] 老师[$teacher_nick] 上课时间[$lesson_time_str]","","");
 
-                $parentid = $this->t_student_info->get_parentid($userid);
+            //     $parentid = $this->t_student_info->get_parentid($userid);
 
-                if($parentid>0){
-                    $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
-                }
+            //     if($parentid>0){
+            //         $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+            //     }
 
-                /**
-                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-                 * 标题课程 : 待办事项提醒
-                 * {{first.DATA}}
-                 * 待办主题：{{keyword1.DATA}}
-                 * 待办内容：{{keyword2.DATA}}
-                 * 日期：{{keyword3.DATA}}
-                 * {{remark.DATA}}
-                 */
-                $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
-                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-                $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
-                $data['keyword1'] = "备课通知";
-                $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                                  ."\n教务电话：$require_phone"
-                                  ."\n试听需求：$demand"
-                                  ."\n1、请及时确认试听需求并备课"
-                                  ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
-                                  ."\n3、老师可提前15分钟进入课堂进行上课准备";
-                $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "";
-                $url = "http://www.leo1v1.com/login/teacher";
+            //     /**
+            //      * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+            //      * 标题课程 : 待办事项提醒
+            //      * {{first.DATA}}
+            //      * 待办主题：{{keyword1.DATA}}
+            //      * 待办内容：{{keyword2.DATA}}
+            //      * 日期：{{keyword3.DATA}}
+            //      * {{remark.DATA}}
+            //      */
+            //     $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
+            //     $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            //     $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+            //     $data['keyword1'] = "备课通知";
+            //     $data['keyword2'] = "\n上课时间：$lesson_time_str "
+            //                       ."\n教务电话：$require_phone"
+            //                       ."\n试听需求：$demand"
+            //                       ."\n1、请及时确认试听需求并备课"
+            //                       ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
+            //                       ."\n3、老师可提前15分钟进入课堂进行上课准备";
+            //     $data['keyword3'] = date("Y-m-d H:i",time());
+            //     $data['remark']   = "";
+            //     $url = "http://www.leo1v1.com/login/teacher";
 
-                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            //     \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
 
-            }
+            // }
         }
 
         //优学优享
