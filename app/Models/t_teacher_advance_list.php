@@ -162,14 +162,14 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
                                   ." sum(if(require_time>0 and advance_first_trial_flag=0,1,0)) first_advance_no_deal_num,"
                                   ." sum(if(require_time>0 and advance_first_trial_flag=1,1,0)) first_advance_agree_num,"
                                   ." sum(if(require_time>0 and advance_first_trial_flag=2,1,0)) first_advance_refund_num,"
-                                  ." sum(if(require_time>0 and accept_flag=0,1,0)) second_advance_no_deal_num,"
+                                  ." sum(if(require_time>0 and accept_flag=0 and advance_first_trial_flag=1,1,0)) second_advance_no_deal_num,"
                                   ." sum(if(require_time>0 and accept_flag=1,1,0)) second_advance_agree_num,"
                                   ." sum(if(require_time>0 and accept_flag=2,1,0)) second_advance_refund_num,"
                                   ." sum(if(withhold_require_time,1,0)) withhold_require_num,"
                                   ." sum(if(withhold_require_time>0 and withhold_first_trial_flag=0,1,0)) first_withhold_no_deal_num,"
                                   ." sum(if(withhold_require_time>0 and withhold_first_trial_flag=1,1,0)) first_withhold_agree_num,"
                                   ." sum(if(withhold_require_time>0 and withhold_first_trial_flag=2,1,0)) first_withhold_refund_num,"
-                                  ." sum(if(withhold_require_time>0 and withhold_final_trial_flag=0,1,0))  second_withhold_no_deal_num,"
+                                  ." sum(if(withhold_require_time>0 and withhold_final_trial_flag=0 and withhold_first_trial_flag=1,1,0))  second_withhold_no_deal_num,"
                                   ." sum(if(withhold_require_time>0 and withhold_final_trial_flag=1,1,0))  second_withhold_agree_num,"
                                   ." sum(if(withhold_require_time>0 and withhold_final_trial_flag=2,1,0))  second_withhold_refund_num"
                                   ." from %s"
@@ -181,12 +181,18 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
     }
 
     public function update_first_advance_deal_info_all($advance_first_trial_flag,$advance_first_trial_adminid,$advance_first_trial_time,$start_time,$teacher_money_type){
+        if($advance_first_trial_flag==2){
+            $str = " ,accept_flag=2,accept_time=".time();
+        }else{
+            $str="";
+        }
 
-        $sql = $this->gen_sql_new("update %s set advance_first_trial_flag=%u,advance_first_trial_adminid=%u,advance_first_trial_time=%u where require_time>0 and advance_first_trial_flag=0 and start_time=%u and teacher_money_type=%u",
+        $sql = $this->gen_sql_new("update %s set advance_first_trial_flag=%u,advance_first_trial_adminid=%u,advance_first_trial_time=%u %s where require_time>0 and advance_first_trial_flag=0 and start_time=%u and teacher_money_type=%u",
                                   self::DB_TABLE_NAME,
                                   $advance_first_trial_flag,
                                   $advance_first_trial_adminid,
                                   $advance_first_trial_time,
+                                  $str,
                                   $start_time,
                                   $teacher_money_type
         );
@@ -194,7 +200,7 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
     }
     public function update_second_advance_deal_info_all($accept_flag,$accept_adminid,$accept_time,$start_time,$teacher_money_type){
 
-        $sql = $this->gen_sql_new("update %s set accept_flag=%u,accept_adminid=%u,accept_time=%u where require_time>0 and accept_flag=0 and start_time=%u and teacher_money_type=%u",
+        $sql = $this->gen_sql_new("update %s set accept_flag=%u,accept_adminid=%u,accept_time=%u where require_time>0 and accept_flag=0 and start_time=%u and teacher_money_type=%u and advance_first_trial_flag=1",
                                   self::DB_TABLE_NAME,
                                   $accept_flag,
                                   $accept_adminid,
@@ -205,12 +211,19 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         return $this->main_update($sql);
     }
     public function update_first_withhold_deal_info_all($withhold_first_trial_flag,$withhold_first_trial_adminid,$withhold_first_trial_time,$start_time,$teacher_money_type){
+        if($withhold_first_trial_flag==2){
+            $str = " ,withhold_final_trial_flag=2,withhold_final_trial_time=".time();
+        }else{
+            $str="";
+        }
 
-        $sql = $this->gen_sql_new("update %s set withhold_first_trial_flag=%u,withhold_first_trial_adminid=%u,withhold_first_trial_time=%u where withhold_require_time>0 and withhold_first_trial_flag=0 and start_time=%u and teacher_money_type=%u",
+
+        $sql = $this->gen_sql_new("update %s set withhold_first_trial_flag=%u,withhold_first_trial_adminid=%u,withhold_first_trial_time=%u %s where withhold_require_time>0 and withhold_first_trial_flag=0 and start_time=%u and teacher_money_type=%u",
                                   self::DB_TABLE_NAME,
                                   $withhold_first_trial_flag,
                                   $withhold_first_trial_adminid,
                                   $withhold_first_trial_time,
+                                  $str,
                                   $start_time,
                                   $teacher_money_type
         );
@@ -218,7 +231,7 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
     }
     public function update_second_withhold_deal_info_all($withhold_final_trial_flag,$withhold_final_trial_adminid,$withhold_final_trial_time,$start_time,$teacher_money_type){
 
-        $sql = $this->gen_sql_new("update %s set withhold_final_trial_flag=%u,withhold_final_trial_adminid=%u,withhold_final_trial_time=%u where withhold_require_time>0 and withhold_final_trial_flag=0 and start_time=%u and teacher_money_type=%u",
+        $sql = $this->gen_sql_new("update %s set withhold_final_trial_flag=%u,withhold_final_trial_adminid=%u,withhold_final_trial_time=%u where withhold_require_time>0 and withhold_final_trial_flag=0 and start_time=%u and teacher_money_type=%u and withhold_first_trial_flag=1",
                                   self::DB_TABLE_NAME,
                                   $withhold_final_trial_flag,
                                   $withhold_final_trial_adminid,
