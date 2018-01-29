@@ -27,7 +27,6 @@ $(function(){
         }
     });
 
-
     Enum_map.append_option_list( "boolean", $("#id_deal_flag"));
     Enum_map.append_option_list( "lesson_problem", $("#id_lesson_problem"));
 
@@ -377,6 +376,17 @@ $(function(){
         });
     });
 
+    $('#id_show').on("click",function(){
+        $.do_ajax("/ajax_deal/getStatisticalChat",{
+            "startTime": g_args.start_time ,
+            "endTime"  : g_args.end_time,
+        },function(result){
+            console.log(result.data);
+            BootstrapDialog.alert(result.info);
+            load_data();
+        });
+ 
+    });
 
 
     $('.opt-change').set_input_change_event(load_data);
