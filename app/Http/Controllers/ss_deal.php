@@ -2039,7 +2039,7 @@ class ss_deal extends Controller
 
             $do_adminid = $this->get_account_id();
             $account_role = $this->get_account_role();
-            $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($teacherid);
+            // $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($teacherid);
 
             # 目前只有全职老师可以使用
             // if($checkIsFullTime == 1){ // 文彬测试
