@@ -380,7 +380,7 @@ $(function(){
 
     });
 
-     if (window.location.pathname=="/human_resource/index_seller" || window.location.pathname=="/human_resource/index_seller/") {
+     if (window.location.pathname=="/human_resource/index_seller" || window.location.pathname=="/human_resource/index_seller/" || window.location.pathname=="/human_resource/get_elite_teacher_list" || window.location.pathname=="/human_resource/get_elite_teacher_list/") {
         $("#id_test_transfor_per").parent().parent().hide();
         $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
