@@ -164,6 +164,13 @@
 	teaching_achievement	:any;
 	parent_student_evaluate	:any;
 	qq_info	:any;
+	wx_name	:any;
+	is_prove	:any;
+	phone_province	:any;
+	phone_city	:any;
+	week_limit_time_info	:any;
+	limit_seller_require_flag	:any;
+	callcard_url	:any;
 	label_id	:any;
 	tag_info	:any;
 	teacher_type_str	:any;
