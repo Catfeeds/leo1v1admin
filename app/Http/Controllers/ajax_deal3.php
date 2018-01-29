@@ -919,6 +919,7 @@ class ajax_deal3 extends Controller
             return $this->output_succ();
             
         }
+        return $this->output_succ();
 
         
 
