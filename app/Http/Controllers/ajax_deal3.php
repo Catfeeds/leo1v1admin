@@ -857,6 +857,10 @@ class ajax_deal3 extends Controller
             return $this->output_err("请上传文件");
         }
         $url =  $domain."/".$callcard_url;
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "callcard_url"=>$url 
+        ]);
+        return $this->output_succ();
 
  
     }

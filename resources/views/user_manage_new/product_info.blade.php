@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax_test.js"></script>
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
 
     <section class="content">
         <div class="row  row-query-list" >
@@ -109,12 +110,12 @@
                                 <a class="fa-pencil-square-o opt-edit " title="编辑" ></a>
                             </div>
                         </td>
-            </tr>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
-
-
+        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <div id="pie_container" style="min-width:400px;height:400px"></div>
         @include("layouts.page")
     </section>
 

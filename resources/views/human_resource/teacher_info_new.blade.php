@@ -232,12 +232,13 @@
                                     <a class="opt-old ">旧版</a>
                                 @endif
                                 @if($var["label_id"]==0)
-                                    <a class="opt-set-teacher-label" title="设置标签<">设置标签</a>
+                                    <a class="opt-set-teacher-label div_show" title="设置标签<">设置标签</a>
                                 @elseif($var["label_id"]>0)
-                                    <a class="opt-set-teacher-label" title="修改标签<">修改标签</a>
+                                    <a class="opt-set-teacher-label div_show" title="修改标签<">修改标签</a>
                                 @endif
                                 @if(in_array($acc,["jack","jim"]))
                                     <a class="opt-upload-teacher-call-crad" title="上传名片">上传名片</a>
+                                    <a class="opt-show-teacher-call-crad" title="老师名片">老师名片</a>
                                 @endif
 
                             </div>

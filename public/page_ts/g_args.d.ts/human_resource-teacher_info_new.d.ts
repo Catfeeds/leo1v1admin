@@ -202,6 +202,7 @@ interface RowData {
 	phone_city	:any;
 	week_limit_time_info	:any;
 	limit_seller_require_flag	:any;
+	callcard_url	:any;
 	label_id	:any;
 	tag_info	:any;
 	teacher_type_str	:any;
