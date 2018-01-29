@@ -28,8 +28,16 @@ class seller_student_reset_call_info extends cmd_base
      */
     public function do_handle()
     {
-        $start_time= strtotime (date("Y-m-d"));
-        $end_time=  $start_time +86400;
+
+        $day=$this->get_arg_day();
+        if ($day==0) {
+            $start_time=time()-900;
+            $end_time=time();
+        }else{
+            $start_time=$day;
+            $end_time=$start_time+86400;
+
+        }
 
         $user_list=$this->task->t_seller_student_system_assign_log->get_check_call_info_list($start_time, $end_time);
         foreach ($user_list as $item )  {
