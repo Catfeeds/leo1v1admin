@@ -57,7 +57,15 @@ class test_ricky extends Command
             $end_time = explode(":", $item["end_time"]);
             $end_time = intval($end_time[0].$end_time[1]);
             //$count = (($item["end_time"] * 100) - ($time * 100)) * 60 / 100;
-            $count = ($end_time - $stime) * 60 / 100;
+            if ($date <= 3) {
+                $start_time = strtotime("2018-1-".(28 + $date)." ".$start_time[1]);
+                $end_time = strtotime("2018-1-".(28 + $date)." ".$item["end_time"]);
+            } else {
+                $start_time = strtotime("2018-2-".($date - 3)." ".$start_time[1]);
+                $end_time = strtotime("2018-2-".($date - 3)." ".$item["end_time"]);
+            }
+
+            $count = floor((strtotime($end_time)-strtotime($start_time))%86400/60);//($end_time - $stime) * 60 / 100;
 
             echo $end_time." --- ".$item["end_time"]." --- ".$stime." --- ".$start_time[1]." ==== $count ==== ".PHP_EOL;
 
