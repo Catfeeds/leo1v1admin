@@ -85,4 +85,23 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
         return $this->main_update($sql);
     }
 
+    public function  get_list($page_info, $start_time, $end_time, $adminid,$userid )
+    {
+        $where_arr=[
+            ["userid=%u", $userid, -1 ],
+            ["adminid=%u", $adminid, -1 ],
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            "select *  "
+            ." from  %s "
+            ." where  %s ",
+            self::DB_TABLE_NAME,
+            $where_arr);
+
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+
 }

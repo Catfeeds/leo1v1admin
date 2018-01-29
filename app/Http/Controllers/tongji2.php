@@ -1998,4 +1998,21 @@ class tongji2 extends Controller
         $ret_info = $this->t_personality_poster->getData($page_num,$uid);
         return $this->pageView(__METHOD__,$ret_info);
     }
+    public function tongji_sys_assign_call_info() {
+        $page_info= $this->get_in_page_info();
+        list($start_time, $end_time ) = $this->get_in_date_range_day(0);
+        $adminid=$this->get_in_adminid(-1);
+        $userid=$this->get_in_userid(-1);
+        $ret_info=$this->t_seller_student_system_assign_log->get_list($page_info, $start_time, $end_time, $adminid,$userid );
+        foreach ($ret_info["list"] as &$item) {
+            $this->cache_set_item_account_nick($item);
+            $this->cache_set_item_student_nick($item);
+            $item["call_time"]= \App\Helper\Common::get_time_format( $item["call_time"] );
+            E\Eboolean::set_item_value_color_str($item, "called_flag");
+        }
+
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
+
 }
