@@ -396,7 +396,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $this->where_arr_add_int_field($where_arr, 'type', E\Eseller_edit_log_type::V_6);
         $this->where_arr_add_time_range($where_arr, 'create_time', $start_time, $end_time);
         $sql = $this->gen_sql_new (
-            " select if(old=1,1,0) count_y,if(old=2,1,0) count_y "
+            " select sum(if(old=1,1,0)) count_y,sum(if(old=2,1,0)) count_r "
             ." from %s "
             ." where %s order by create_time "
             ,self::DB_TABLE_NAME
