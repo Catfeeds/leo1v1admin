@@ -913,7 +913,7 @@ class ajax_deal3 extends Controller
             if(!$db_groupid){            
                 $this->t_admin_group_user->row_insert([
                     "groupid"   => 38,
-                    "adminid"   => $adminid,
+                    "adminid"   => $uid,
                 ]);
             }
             return $this->output_succ();
