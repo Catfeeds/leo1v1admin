@@ -52,7 +52,15 @@ class test_ricky extends Command
             $start_time = explode("-", $item["start_time"]);
             $date = $start_time[0];
             $time = $start_time[1];
-            $count = ($item["end_time"] * 100) - ($time * 100);
+            $time = explode(":", $time);
+            $stime = intval($time[0].$time[1]);
+            $end_time = explode(":", $item["end_time"]);
+            $end_time = intval($end_time[0].$end_time[1]);
+            //$count = (($item["end_time"] * 100) - ($time * 100)) * 60 / 100;
+            $count = ($end_time - $stime) * 60 / 100;
+
+            //echo " --- ".$item["end_time"]." --- ".$start_time[1]." ==== $count ==== ";
+
             if ($count >= 80 && $count <= 100) {
                 if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$time);
                 else $start_time = strtotime("2018-2-".($date - 3)." ".$time);
@@ -64,7 +72,7 @@ class test_ricky extends Command
                     echo $task->cache_get_student_nick($userid).",";
                     echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
                     echo ($lesson["lesson_count"] / 100)."课时".",";
-                    echo ($item["end_time"] * 100)." ".($time * 100)." ".$count.",";
+                    echo $item["end_time"]." ".$start_time[1]." ".$count.",";
                     echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
                     $order = $task->t_teacher_feedback_list->get_order_list($userid);
                     echo date("Y-m-d H:i:s", $order).PHP_EOL;
