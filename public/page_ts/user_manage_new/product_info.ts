@@ -159,7 +159,6 @@ $(function(){
             $lesson_problem.css('width','40%');
             $feedback_id.css('width','40%');
 
-
             $.custom_upload_file('id_upload_lesson_img',true,function (up, info, file) {
                 var res = $.parseJSON(info);
                 $("#id_img_url").val(res.key);
@@ -381,6 +380,10 @@ $(function(){
             "startTime": g_args.start_time ,
             "endTime"  : g_args.end_time,
         },function(result){
+            $('.table-responsive').fadeToggle("slow");
+            $('#container').fadeToggle("slow");
+            $('#pie_container').fadeToggle("slow");
+
             var data_obj = result.data['column'];
             var data_pie = result.data['pie'];
             console.log(data_pie);

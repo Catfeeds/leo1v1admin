@@ -311,6 +311,21 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     }
 
 
+    public function get_list_by_phone_adminid ($phone , $adminid) {
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, "adminid" ,$adminid);
+        $this->where_arr_add_str_field($where_arr, "phone" ,$phone);
+        $sql = $this->gen_sql_new("select sum(duration) call_time, count(*) call_count, sum(is_called_phone) called_flag ".
+                                  "from %s ".
+                                  "where %s   "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
+
     public function get_list_by_phone_uid($uid,$phone) {
         $where_arr = [];
         $this->where_arr_add_int_field($where_arr, "uid" ,$uid);
