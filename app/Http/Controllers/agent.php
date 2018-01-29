@@ -442,7 +442,7 @@ class agent extends Controller
 
     public function test_new(){
         list($start_time,$end_time) = [1517068800,1517153400];
-        $ret_call = $this->task->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
+        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
         $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
         $count_call = count(array_unique(array_column($ret_call, 'userid')));
         $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time=1517068800,$end_time=1517153400,$call_flag=2);
