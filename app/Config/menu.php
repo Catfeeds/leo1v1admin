@@ -477,6 +477,9 @@ class menu{
                 ["power_id"=>10, "name"=>"排行榜数据",   "url"=>"/tongji_ex/top_list"],
                 ["power_id"=>13, "name"=>"学生成绩录入记录",   "url"=>"/human_resource/get_input_score_list"],
                 ["power_id"=>14, "name"=>"家长申请调时间记录",   "url"=>"/human_resource/get_lesson_modify_list"],
+                ["power_id"=>83, "name"=>"销售2", "list"=>[
+                    ["power_id"=>1, "name"=>"系统分配例子信息",   "url"=>"/tongji2/tongji_sys_assign_call_info", "domain_type" =>100],
+                ]],
                 ["power_id"=>1, "name"=>"销售", "list"=>[
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],

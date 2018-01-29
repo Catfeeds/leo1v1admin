@@ -1998,12 +1998,21 @@ class tongji2 extends Controller
         $ret_info = $this->t_personality_poster->getData($page_num,$uid);
         return $this->pageView(__METHOD__,$ret_info);
     }
+
     public function tongji_sys_assign_call_info() {
         $page_info= $this->get_in_page_info();
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            = $this->get_in_order_by_str([],"logtime asc",[
+                //"grade" => "s.grade",
+            ]);
+
         list($start_time, $end_time ) = $this->get_in_date_range_day(0);
+
+
         $adminid=$this->get_in_adminid(-1);
         $userid=$this->get_in_userid(-1);
-        $ret_info=$this->t_seller_student_system_assign_log->get_list($page_info, $start_time, $end_time, $adminid,$userid );
+        $called_flag= $this->get_in_el_boolean(-1, "called_flag");
+        $ret_info=$this->t_seller_student_system_assign_log->get_list($page_info, $order_by_str ,$start_time, $end_time, $adminid,$userid, $called_flag );
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "logtime");
             $this->cache_set_item_account_nick($item);
