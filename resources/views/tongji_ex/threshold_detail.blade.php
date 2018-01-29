@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $ret_rate as $var )
+                @foreach ( $ret_report as $var )
                     <tr>
                         <td>{{@$var["num"]}} </td>
                         <td>{{@$var["type"]}} </td>
@@ -58,7 +58,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $table_data_list as $var )
+                @foreach ( $ret_rate as $var )
                     <tr>
                         <td>{{@$var["type"]}} </td>
                         <td>{{@$var["rate"]}} </td>
@@ -89,7 +89,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $ret_report as $var )
+                @foreach ( $ret_origin_info as $var )
                     <tr>
                         <td>{{@$var["origin_level"]}} </td>
                         <td>{{@$var["call_count"]}} </td>
