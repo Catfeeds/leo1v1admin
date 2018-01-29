@@ -49,8 +49,8 @@ class fulltime_teacher_kaoqin extends Command
             $date_list_old=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
             $date_arr=[];
             foreach($date_list_old as $k=>$val){
-                $time = strtotime($k);
-                $date_arr[$time]["date"]=$time;
+                $time1 = strtotime($k);
+                $date_arr[$time1]["date"]=$time1;
             }
             $adminid_list = $task->t_manager_info->get_adminid_list_by_account_role(5);
             $ret_info=$task->t_admin_card_log->get_list( 1, $start_time,$end_time,-1,100000,5 );

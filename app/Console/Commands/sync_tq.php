@@ -108,6 +108,7 @@ class sync_tq extends cmd_base
                     $phone=$item["Caller_id"];
                     $call_time =  $item["Start_time"];
                     $tq_called_flag=1;
+                    $is_called_phone= $item["Is_called_phone"]?1:0;
                     if ($duration >60 && $item["Is_called_phone"] ) {
                         $tq_called_flag=2;
                     }
@@ -119,7 +120,7 @@ class sync_tq extends cmd_base
                         $admin_role = $admin_info ["account_role"];
                     }
 
-                    $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin);
+                    $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin,$is_called_phone);
                 }
             }
         }

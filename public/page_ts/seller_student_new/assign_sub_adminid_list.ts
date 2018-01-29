@@ -383,6 +383,9 @@ $(function(){
             },true   );
     });
 
+    $("#id_master_set_select_to_cc_list").on("click",function(){
+        $("#id_set_select_to_admin_list").click();
+    });
 
     $("#id_tmk_set_select_to_cc_list").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -493,6 +496,29 @@ $(function(){
         });
     });
 
+    $("#id_set_sys_invaild_flag").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        do_select_userid_list( function(select_userid_list ){
+            var $value= $("<select></selelct>");
+            Enum_map.append_option_list("boolean",$value,true);
+            var arr=[
+                ["sys invaild_flag",   $value ],
+            ];
+
+            $.show_key_value_table ("批量设置分配方式", arr , {
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.do_ajax('/ss_deal2/set_sys_invaild_flag_list', {
+                        'userid_list' : select_userid_list.join(",") ,
+                        "seller_student_assign_type": $value.val()
+                    });
+                }
+            });
+        });
+    });
+
+//
     $("#id_set_assign_type").on("click",function(){
         var opt_data=$(this).get_opt_data();
         do_select_userid_list( function(select_userid_list ){

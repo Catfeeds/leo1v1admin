@@ -101,6 +101,7 @@
                         <td >应退课时</td>
                         <td style="display:none;">合同原价</td>
                         <td style="display:none;">合同实付</td>
+                        <td >应退金额</td>
                         <td >实退金额</td>
                         <td >是否开有发票</td>
                         <td >发票</td>
@@ -212,6 +213,7 @@
                             <td >{{$var["should_refund"]}}</td>
                             <td >{{$var["discount_price"]}}</td>
                             <td >{{$var["price"]}}</td>
+                            <td >{{$var["should_refund_money"]}}</td>
                             <td >{{$var["real_refund"]}}</td>
                             <td >{{$var["need_receipt_str"]}}</td>
                             <td >{{$var["invoice"]}}</td>

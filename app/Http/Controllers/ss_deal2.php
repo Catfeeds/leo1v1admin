@@ -189,7 +189,7 @@ class ss_deal2 extends Controller
 
         if ( $item["seller_student_assign_type"]==E\Eseller_student_assign_type::V_1 //系统分配
              && $item["seller_resource_type"] == E\Eseller_resource_type::V_0 ) { //新例子
-            if ($item["tq_called_flag" != 2] ) {
+            if ($item["tq_called_flag" ] != 2 ) {
                 return $this->output_err("新例子,未拨通不能 回流公海 ");
             }
         }
@@ -1476,5 +1476,16 @@ class ss_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+    public function set_sys_invaild_flag_list() {
+        $userid_list=$this->get_in_int_list("userid_list");
+        $sys_invaild_flag= $this->get_in_int_val("sys_invaild_flag");
+        foreach ( $userid_list as $userid) {
+            $this->t_seller_student_new->field_update_list($userid, [
+                "sys_invaild_flag" =>$sys_invaild_flag,
+            ]);
+        }
+        return $this->output_succ();
+    }
 
 }

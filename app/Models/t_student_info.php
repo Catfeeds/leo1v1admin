@@ -3382,4 +3382,20 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         where is_test_user = 0 and create_time > $start_time and create_time < $end_time order by teacherid asc";
         return $this->main_get_list($sql);
     }
+
+    public function get_list_count_left() {
+        //select userid,nick,lesson_count_left,type from t_student_info where lesson_count_left  > 0 and is_test_user=0
+        $sql = "select assistantid,userid,nick,lesson_count_left,type from t_student_info where is_test_user=0";
+        return $this->main_get_list($sql);
+    }
+
+    public function get_list_subject($userid) {
+        $sql = "select distinct subject from t_lesson_info where userid=$userid and lesson_type in (0,1,3)";
+        return $this->main_get_list($sql);
+    }
+
+    public function get_teacher_count($userid, $subject) {
+        $sql = "select count(distinct teacherid) count from t_lesson_info where userid=$userid and subject = $subject and lesson_type in (0,1,3)";
+        return $this->main_get_value($sql);
+    }
 }

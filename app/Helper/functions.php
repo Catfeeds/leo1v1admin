@@ -45,7 +45,7 @@ function outputJson($array){
 
     if( isset ($_GET['callback']) ) {
         $content  = htmlspecialchars($_GET['callback']) . '(' . $json_data . ')';
-        $response = \Illuminate\Support\Facades\Response::make ($content, 200 );
+        $response = \Illuminate\Support\Facades\Response::make($content, 200 );
         $response->header('Content-Type', "text/javascript");
         return $response;
     }else{

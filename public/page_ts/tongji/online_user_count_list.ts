@@ -28,7 +28,6 @@ $(function(){
   $('#id_week_flag').val(g_args.week_flag);
 
   $('.opt-change').set_input_change_event(load_data);
-
     var online_count_list=[];
     $.each( g_data_ex_list.time_list,function(j,item_list){
         //(i*300)*1000+86400-3600*8
@@ -54,7 +53,6 @@ $(function(){
         var id_name="id_pic_user_count";
         var plot_data_list=[];
         var start_time=$.strtotime( g_args.start_time);
-
         $.each( online_count_list , function(i,item_list)   {
 
             //var date=$.DateFormat( start_time-i*86400, "MM-dd" );

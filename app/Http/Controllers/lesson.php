@@ -508,8 +508,7 @@ class lesson extends TeaWxController
     }
 
     public function update_comment_common_new() { // 协议编号 3001
-
-        $teacherid          = $this->get_teacherid();
+        $teacherid          = $this->get_in_int_val('teacherid');
         $lessonid           = $this->get_in_int_val('lessonid',-1);
         $now                = time(NULL);
         $total_judgement    = $this->get_in_int_val("total_judgement",-1);
@@ -517,6 +516,7 @@ class lesson extends TeaWxController
         $content_grasp      = $this->get_in_str_val("content_grasp",'');
         $lesson_interact    = $this->get_in_str_val("lesson_interact",'');
         $stu_comment_str    = $this->get_in_str_val("stu_comment");
+        $teacher_message_str = $this->get_in_str_val("teacher_message",'');
 
         $stu_common_info_arr = [];
         if(is_array($stu_comment_str)){
@@ -527,15 +527,12 @@ class lesson extends TeaWxController
 
         foreach($stu_comment_arr as $index=> $item){
             $stu_common_info_arr[] = [
-                'stu_tip'     => $index,
-                'stu_info'    => $item,
+                'stu_tip'  => $index,
+                'stu_info' => $item,
             ];
         }
 
-        $teacher_message_str = $this->get_in_str_val("teacher_message",'');
         $point_note_list_arr = [];
-
-
         if(is_array($teacher_message_str)){
             $teacher_message_arr = $teacher_message_str;
         }else{
@@ -566,26 +563,22 @@ class lesson extends TeaWxController
                 "lesson_interact"  => $lesson_interact,
                 "point_note_list"  => $point_note_list_arr
             ];
-        }else {
+        }else{
             $stu_performance = [
-                "total_judgement"   => $total_judgement,
-                "homework_situation"=> $homework_situation,
-                "content_grasp"   => $content_grasp,
-                "lesson_interact" => $lesson_interact,
-                "stu_comment"     => $stu_common_info_arr
+                "total_judgement"    => $total_judgement,
+                "homework_situation" => $homework_situation,
+                "content_grasp"      => $content_grasp,
+                "lesson_interact"    => $lesson_interact,
+                "stu_comment"        => $stu_common_info_arr
             ];
         }
 
         if(!empty($stu_performance)) {
             $stu_performance_str = json_encode($stu_performance);
-
-            $ret = $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
-
+            # $ret = $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
+            $ret = $this->t_lesson_info_b2->set_stu_performance_tmp($lessonid, $teacherid, $stu_performance_str,3);
             $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$now);
-
-            if($com_state && $ret){
-                return $this->output_succ(['time'=>$com_state]);
-            }
+            return $this->output_succ(['time'=>$com_state]);
         }
     }
 

@@ -82,6 +82,12 @@ class update_actual_threshold extends Command
                     ]);
                     $this->send_wx_threshold($rate,$time,$start_time,$end_time,$count_call,$count_call-$count_called);
                 }
+                if(time()>strtotime(date('Y-m-d 23:25:00')) && time()<strtotime(date('Y-m-d 23:35:00'))){
+                    $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                    $count_called = count(array_unique(array_column($ret_called, 'userid')));
+                    $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+                    $this->send_wx_daily($rate,$time,$start_time,$end_time,$count_call,$count_call-$count_called);
+                }
             }
         }
     }
@@ -122,22 +128,56 @@ class update_actual_threshold extends Command
         $color = $flag==1?'黄色':'红色';
         $threshold_desc = $flag==1?"今预警线：":"今警戒线：";
         $threshold = $flag==1?$threshold_max:$threshold_min;
-        $desc = "警报时间：".date("Y-m-d H:i:s")
-              ."警报级别：".$color
-              .$threshold_desc.$threshold."%"
-              ."拨打量：".$count_call
+        $desc = "警报时间：".date("Y-m-d H:i:s")."\n"
+              ."警报级别：".$color."\n"
+              .$threshold_desc.$threshold."%"."\n"
+              ."拨打量：".$count_call."\n"
               ."拨不通：".$count_no_called;
-        $account_arr = ['tom'];
+        $account_arr = ['tom','应怡莉'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
-                $account,$template_id,[
+                $account,
+                $template_id,
+                [
                     "first"    => "",
                     "keyword1" => $theme,
                     "keyword2" => "",
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
-                ]);
+                ],
+                $url='http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
         }
     }
 
+    public function send_wx_daily($rate,$time,$start_time,$end_time,$count_call,$count_no_called){
+        $threshold = $this->task->t_seller_edit_log->get_threshold($time);
+        $threshold_max = $threshold[0]['new'];
+        $threshold_min = $threshold[1]['new'];
+        $threshold_count = $this->task->t_seller_edit_log->get_threshold_count($start_time,$end_time);
+        list($count_y,$count_r) = isset($threshold_count[0]['count_y'])?[$threshold_count[0]['count_y'],$threshold_count[0]['count_r']]:[0,0];
+
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+        $theme = "新例子电话接通率报告";
+        $desc = "今预警线：".$threshold_max."%"."\n"
+              ."今警戒线：".$threshold_min."%"."\n"
+              ."黄色警报：".$count_y."\n"
+              ."红色警报：".$count_r."\n"
+              ."总拨通率：".$rate."%"."\n"
+              ."总拨打量：".$count_call."\n"
+              ."总拨不通：".$count_no_called;
+        $account_arr = ['tom','应怡莉'];
+        foreach($account_arr as $account){
+            $this->task->t_manager_info->send_template_msg(
+                $account,
+                $template_id,
+                [
+                    "first"    => "",
+                    "keyword1" => $theme,
+                    "keyword2" => "",
+                    "keyword3" => date("Y-m-d H:i:s"),
+                    "remark"   => $desc,
+                ],
+                $url='http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
+        }
+    }
 }

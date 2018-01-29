@@ -204,7 +204,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "m.account_role in(4,9)",
             "m.del_flag=0"
         );
-        $where_arr = $this->teacher_search_info_sql($nick_phone, '', $where_arr);
+        $where_arr = $this->teacher_search_info_sql($nick_phone, 't', $where_arr);
 
         $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
                                   ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".
@@ -4922,8 +4922,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      */
     public function get_total_for_teacherid($start_time, $end_time, $phone, $reference_type) {
         $where_arr = [
-            ['t.train_through_new_time>=%u', $start_time, 0],
-            ['t.train_through_new_time<%u', $end_time, 0],
+            ["t.train_through_new_time>=%u", $start_time, 0],
+            ["t.train_through_new_time<%u", $end_time, 0],
             ["ta.reference='%s'",$phone,'']
         ];
 
@@ -4932,7 +4932,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }else{
             array_push($where_arr, 't.identity in (0,7,8)');
         }
-
         $sql = $this->gen_sql_new("select count(1) "
                                   ." from %s t "
                                   ." left join %s ta on t.phone=ta.phone "

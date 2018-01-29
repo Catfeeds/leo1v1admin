@@ -10,6 +10,7 @@ message in  {
 }
 
 message out {
-  	string  data = 1;
+  common.stu_study_progress data=1;
+
 }
 

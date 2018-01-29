@@ -58,6 +58,7 @@ interface RowData {
 	file_url	:any;
 	grade	:any;
 	need_receipt	:any;
+	should_refund_money	:any;
 	is_staged_flag	:any;
 	deal_nick	:any;
 	ass_nick	:any;

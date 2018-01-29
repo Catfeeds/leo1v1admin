@@ -14,6 +14,125 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        // $time = time();
+        // $h = date("H");
+
+     
+        //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        // $end_time = strtotime(date("Y-m-d",$time));
+        // $start_time = $end_time-86400;
+        // $date_list_old=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        // $date_arr=[];
+        // foreach($date_list_old as $k=>$val){
+        //     $time = strtotime($k);
+        //     $date_arr[$time]["date"]=$time;
+        // }
+        // dd($time);
+
+        // //全职老师上班打卡延后时间
+        // $begin_time = $day_time+9.5*3600;
+        // $lesson_start = strtotime(date("Y-m-d",$time)." 09:00:00");
+        // $list = $task->t_lesson_info_b2->get_delay_work_time_lesson_info($day_time,$lesson_start);
+        // foreach($list as $item){
+        //     $teacherid = $item["teacherid"];
+        //     if($item["lesson_type"]==2){
+        //         $lesson_end = $item["lesson_end"]+1200;
+        //     }else{
+        //         $lesson_end = $item["lesson_end"];
+        //     }
+        //     $id = $task->t_fulltime_teacher_attendance_list->check_is_exist(-1,$day_time,-1,$item["uid"]);
+        //     $attendance_type = $task->t_fulltime_teacher_attendance_list->get_attendance_type($id);
+        //     if($id>0 && in_array($attendance_type,[0,2])){
+        //         $end = $task->get_last_lesson_end($teacherid,$lesson_end);
+        //         $delay_time = $end+5400;
+        //         if($delay_time>$begin_time){
+        //             $task->t_fulltime_teacher_attendance_list->field_update_list($id,[
+        //                 "delay_work_time" =>$delay_time,
+        //                 "attendance_type" =>2,
+        //             ]);
+        //         }
+
+        //     }elseif(empty($id)){
+        //         $end = $task->get_last_lesson_end($teacherid,$lesson_end);
+        //         $delay_time = $end+5400;
+        //         if($delay_time>$begin_time){
+        //             $task->t_fulltime_teacher_attendance_list->row_insert([
+        //                 "teacherid"  =>$teacherid,
+        //                 "add_time"   =>time(),
+        //                 "attendance_type" =>2,
+        //                 "attendance_time"  =>$day_time,
+        //                 "delay_work_time"  =>$delay_time,
+        //                 "adminid"          =>$item["uid"]
+        //             ]);
+
+        //         }
+        //     }
+ 
+                 
+        // }
+
+
+
+        //全职老师提前下班
+        $time = strtotime("2018-01-26 11:00:00");
+        $day_time = strtotime(date("Y-m-d",$time));
+        $lesson_end = strtotime(date("Y-m-d",$time)." 19:30:00");
+        $lesson_start = $lesson_end+1800;
+        $lesson_list = $this->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
+        foreach($lesson_list as $item){
+            $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($item["uid"]);
+            $teacherid = $teacher_info["teacherid"];
+            $id = $this->t_fulltime_teacher_attendance_list->check_is_exist(-1,$day_time,-1,$item["uid"]);
+           
+            $attendance_type = $this->t_fulltime_teacher_attendance_list->get_attendance_type($id);
+            if($id>0 && in_array($attendance_type,[0,2])){
+                $start = $this->get_first_lesson_start($teacherid,$item["lesson_start"]);
+                //$lesson_end = $item["lesson_start"]-5400;
+                // $start = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
+                $off_time = $start-5400;
+                if($teacherid==99504){
+                    $this->t_fulltime_teacher_attendance_list->field_update_list($id,[
+                        "off_time"         =>$off_time,
+                        "attendance_type" =>2,
+                    ]);
+
+                }
+                // $this->t_fulltime_teacher_attendance_list->field_update_list($id,[
+                //     "off_time"         =>$off_time,
+                //     "attendance_type" =>2,
+                // ]);
+            }elseif(empty($id)){
+                $start = $this->get_first_lesson_start($teacherid,$item["lesson_start"]);
+                $off_time = $start-5400;
+                if($teacherid==99504){
+                    dd($off_time);
+                }
+                // $this->t_fulltime_teacher_attendance_list->row_insert([
+                //     "teacherid"  =>$teacherid,
+                //     "add_time"   =>$time,
+                //     "attendance_type" =>2,
+                //     "attendance_time"  =>$day_time,
+                //     "off_time"         =>$off_time,
+                //     "adminid"          =>$item["uid"]
+                // ]);
+
+            }
+ 
+        }
+        dd(111);
+
+
+        $week_limit_time_info = $this->t_teacher_info->get_week_limit_time_info(62735);
+        $lesson_start = strtotime("2018-01-27 14:00");
+        $lesson_end = strtotime("2018-01-27 16:00");
+        $date_week    = \App\Helper\Utils::get_week_range($lesson_start,1);
+
+        $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$date_week);
+        if($res){
+            return $res;
+        }
+        dd(111);
+
         $admin_info   = $this->t_manager_info->get_research_teacher_list_new(4);
         $tt=[
             ["week_num"=>2,"week_name"=>"周二","start"=>"09:00","end"=>"18:00"],
