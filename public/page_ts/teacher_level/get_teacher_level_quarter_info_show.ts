@@ -124,6 +124,10 @@ $(function(){
                              +"</div>"
                              +"</div>"                           
                              +"</div>"
+                             +"<div  class=\"col-xs-12 col-md-12  \" style='margin-left:32px;margin-top:30px'>"
+                             +"请问是否同意所有晋升申请?"
+                             +"</div>"                           
+
                              +"</div>");
            
 
@@ -280,6 +284,10 @@ $(function(){
                              +"</div>"
                              +"</div>"                           
                              +"</div>"
+                             +"<div  class=\"col-xs-12 col-md-12  \" style='margin-left:32px;margin-top:30px'>"
+                             +"请问是否同意所有扣款申请?"
+                             +"</div>"                           
+
                              +"</div>");
             
 
