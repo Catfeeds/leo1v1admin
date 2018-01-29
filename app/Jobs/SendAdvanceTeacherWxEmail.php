@@ -32,10 +32,12 @@ class SendAdvanceTeacherWxEmail extends Job implements ShouldQueue
     public function handle()
     {
         $tea_info                      = $this->tea_info;
-        $start_time                = $info['start_time'];
-        $teacher_money_type        = $info['teacher_money_type'];
+        $start_time                = $tea_infoinfo['start_time'];
+        $teacher_money_type        = $tea_info['teacher_money_type'];
         $task=new \App\Console\Tasks\TaskController();
         $list = $task->t_teacher_advance_list->get_all_accept_no_send_list($start_time,$teacher_money_type);
+        \App\Helper\Utils::logger("11111");
+
         foreach($list as $val){
             $level_after = $val["level_after"];
             $old_level = $val["level_before"];
