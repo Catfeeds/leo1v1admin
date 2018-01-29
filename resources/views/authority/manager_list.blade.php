@@ -109,6 +109,9 @@
             <div class="col-md-2 col-xs-6">
                 <button class="btn btn-warning  add_player " >添加</button>
                 <button id="id_email_list" class="btn btn-primary " >邮箱</button>
+                @if($flag)
+                    <button id="id_flush_power" class="btn btn-warning">加载权限</button>
+                    @endif
             </div>
             @if(in_array($account,["jim","jack","孙瞿"]))
                 <div class="col-md-1 remove-for-xs col-xs-6 "  >
