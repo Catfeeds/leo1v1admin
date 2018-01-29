@@ -17,6 +17,7 @@ message in  {
   int32 addr_code =9;//地址码(针对学生)
   int32 	editionid =10;//editionid教材版本(针对学生)
   string guest_code =11;//邀请码(针对学生)
+  string wx_openid =12;//用户wx_openid
  
 
 }

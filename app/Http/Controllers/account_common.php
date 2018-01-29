@@ -206,13 +206,15 @@ class account_common extends Controller
             $editionid = $this->get_in_int_val("editionid");
             $guest_code = $this->get_in_str_val("guest_code");
             $textbook = $this->get_in_str_val("textbook");
+            $wx_openid = $this->get_in_str_val("wx_openid");
             $ret = $this->t_student_info->add_student($userid,$grade,$phone,"",$region);
             if($ret){
                 $this->t_student_info->field_update_list($userid,[
                     "addr_code" =>$addr_code, 
                     "editionid" =>$editionid, 
                     "guest_code" =>$guest_code, 
-                    "textbook" =>$textbook, 
+                    "textbook" =>$textbook,
+                    "wx_openid"=>$wx_openid
                 ]);
             }
             
