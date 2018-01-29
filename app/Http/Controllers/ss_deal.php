@@ -1922,6 +1922,8 @@ class ss_deal extends Controller
         $db_lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
         $account_role = $this->get_account_role();
         if ($db_lessonid && $account_role != 12){
+            if(!\App\Helper\Utils::check_env_is_release()){
+            }
             return $this->output_err("已经排课过了!,可以换老师&时间");
         }
         if ($teacherid<=0 || $lesson_end<=0 || $lesson_start<=0 ) {
@@ -1960,9 +1962,11 @@ class ss_deal extends Controller
             );
         }
 
-        $courseid = $this->t_course_order->add_course_info_new($orderid,$userid,$grade,$subject,100,2,0,1,1,0,$teacherid);
+        $courseid = $this->t_course_order->add_course_info_new(
+            $orderid,$userid,$grade,$subject,100,E\Econtract_type::V_2,E\Ecourse_status::V_0,1,1,0,$teacherid
+        );
         $lessonid = $this->t_lesson_info->add_lesson(
-            $courseid,0,$userid,0,2,
+            $courseid,0,$userid,E\Efrom_type::V_0,E\Econtract_type::V_2,
             $teacherid,0,$lesson_start,$lesson_end,$grade,
             $subject,100,$teacher_info["teacher_money_type"],$teacher_info["level"]
         );
@@ -2005,7 +2009,7 @@ class ss_deal extends Controller
             'accept_flag'           => E\Eset_boolean::V_1 ,
             'accept_time'           => time(NULL),
             'jw_test_lesson_status' => 1,
-            'grab_status'           => 2,
+            'grab_status'           => E\Egrab_status::V_2,
         ]);
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id,E\Eseller_student_status::V_210,$this->get_account());

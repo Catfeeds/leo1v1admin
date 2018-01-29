@@ -145,7 +145,7 @@ class update_actual_threshold extends Command
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
                 ],
-                $url='http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
+                $url='http://admin.leo1v1.com/tongji_ex/actual_call_threshold');
         }
     }
 
@@ -177,7 +177,7 @@ class update_actual_threshold extends Command
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
                 ],
-                $url='http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
+                $url='http://admin.leo1v1.com/tongji_ex/actual_call_threshold');
         }
     }
 }

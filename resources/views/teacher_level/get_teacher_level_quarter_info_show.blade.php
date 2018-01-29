@@ -117,8 +117,10 @@
                                 -{{ @$var["withhold_money"] }}元/月<br><br>
                                 @if(empty($var["withhold_require_time"]))
                                     未申请
-                                @elseif(empty($var["withhold_final_trial_flag"]))
+                                @elseif(empty($var["withhold_first_trial_flag"]))
                                     待审批
+                                @elseif(empty($var["withhold_final_trial_flag"]))
+                                    审批中
                                 @else
                                     已审批({{ $var["withhold_final_trial_flag_str"] }})
                                 @endif

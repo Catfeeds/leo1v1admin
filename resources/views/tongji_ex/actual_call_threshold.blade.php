@@ -12,13 +12,6 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
-                    </div>
-                </div>
             </div>
         </div>
         <hr/>
@@ -28,6 +21,7 @@
         <table class="common-table"> 
             <thead>
                 <tr>
+                    <td>编号 </td>
                     <td>例子 </td>
                     <td>抢单详情 </td>
                     <td>例子进入时间 </td>
@@ -37,9 +31,10 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["num"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["desc"]}} </td>
+                        <td>{{@$var["add_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -55,5 +50,4 @@
         </table>
         @include("layouts.page")
     </section>
-
 @endsection

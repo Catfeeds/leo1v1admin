@@ -1717,8 +1717,19 @@ class teacher_level extends Controller
                 "advance_first_trial_time"    => time(),
                 "advance_first_trial_adminid" => $this->get_account_id()
             ]);
+            if($advance_first_trial_flag==2){
+                $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                    "accept_flag"     => 2,
+                    "accept_time"    => time(),
+                    // "accept_adminid" => $this->get_account_id()
+                ]);
+            }
 
         }elseif( $accept_flag>0){
+            $check_accept_flag = $this->t_teacher_advance_list->get_advance_first_trial_flag($start_time,$teacherid);
+            if($check_accept_flag != 1){
+                return $this->output_err("教研总监还未审批!");
+            }
             $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
                 "accept_flag"     => $accept_flag,
                 "accept_time"    => time(),
@@ -1804,8 +1815,21 @@ class teacher_level extends Controller
                 "withhold_first_trial_time"    => time(),
                 "withhold_first_trial_adminid" => $this->get_account_id()
             ]);
+            if($withhold_first_trial_flag==2){
+                $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                    "withhold_final_trial_flag"     => 2,
+                    "withhold_final_trial_time"    => time(),
+                    // "withhold_final_trial_adminid" => $this->get_account_id()
+                ]);
+
+            }
 
         }elseif($withhold_final_trial_flag>0){
+            $check_accept_flag = $this->t_teacher_advance_list->get_withhold_first_trial_flag($start_time,$teacherid);
+            if($check_accept_flag != 1){
+                return $this->output_err("教研总监还未审批!");
+            }
+
             $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
                 "withhold_final_trial_flag"     => $withhold_final_trial_flag,
                 "withhold_final_trial_time"    => time(),
@@ -1842,6 +1866,7 @@ class teacher_level extends Controller
         }elseif($agree_flag==2){
             if($acc=="江敏" || $jim_flag==1){
                 $this->t_teacher_advance_list->update_first_advance_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type); 
+
             }elseif($acc=="ted" || $jim_flag==2){
                 $this->t_teacher_advance_list->update_second_advance_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type);
             }
