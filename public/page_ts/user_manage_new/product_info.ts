@@ -381,11 +381,83 @@ $(function(){
             "startTime": g_args.start_time ,
             "endTime"  : g_args.end_time,
         },function(result){
-            console.log(result.data);
-            BootstrapDialog.alert(result.info);
-            load_data();
+            var data_obj = result.data['column'];
+            var data_pie = result.data['pie'];
+            console.log(data_pie);
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: g_args.start_time+' ~ '+g_args.end_time+' 产品问题反馈记录'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '问题数量'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:.1f}'
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span >{point.name}</span>: <b>{point.y:.2f}</b><br/>'
+                },
+                series: [{
+                    name: '问题类型',
+                    colorByPoint: true,
+                    data:data_obj
+                }]
+            });
+
+
+            $('#pie_container').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: g_args.start_time+' ~ '+g_args.end_time+' 产品问题反馈记录'
+                },
+                tooltip: {
+                    headerFormat: '{series.name}<br>',
+                    pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: '问题反馈数量',
+                    data: data_pie
+                }]
+            });
+
         });
- 
+
     });
 
 
