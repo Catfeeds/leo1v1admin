@@ -1367,6 +1367,82 @@ class resource extends Controller
         return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
     }
 
+    public function batch_del_resource(){
+        $res_id_str  = $this->get_in_str_val('res_id_str','');
+        $file_id_str = $this->get_in_str_val('file_id_str','');
+        $file_link_str = $this->get_in_str_val('file_link_str','');
+        $type   = $this->get_in_str_val('type','');
+
+        $adminid = $this->get_account_id();
+        $time    = time();
+        if($res_id_str != '') {
+            $res_id_arr  = $this->str_to_arr($res_id_str);
+            $file_id_arr = $this->str_to_arr($file_id_str);
+            $file_link_arr = $this->str_to_arr($file_link_str);
+
+            foreach($res_id_arr as $id){
+                $id_str = "";
+                if( $id != ''){
+                    $id_str .= $id.',';
+                }
+            }
+
+            //删除文件
+            foreach( $file_link_arr as $file){
+                $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file);
+                if($file && $exits){
+                    $return = \App\Helper\Utils::qiniu_teacher_file_del($file);
+                }
+            }
+
+            if(!$id_str){
+                $id_str = "(".substr($id_str, -1).")";
+                $this->t_resource->batch_del($idstr);
+                $this->t_resource->batch_del($idstr);
+            }
+            foreach($file_id_arr as $file_id){
+                $this->t_resource_file_visit_info->row_insert([
+                    'file_id'     => $file_id,
+                    'visit_type'  => $type,
+                    'create_time' => $time,
+                    'visitor_id'  => $adminid,
+                    'ip'          => $_SERVER["REMOTE_ADDR"],
+                ]);
+            }
+            return $this->output_succ();
+        }
+
+    }
+
+    public function batch_del_file(){
+        $file_link_str = $this->get_in_str_val('file_link_str','');
+        if($file_link_str){
+            //删除文件
+            $file_link_arr = $this->str_to_arr($file_link_str);
+            foreach( $file_link_arr as $file){
+                $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file);
+                print_r($exits);
+                if($file && $exits){
+                    $return = \App\Helper\Utils::qiniu_teacher_file_del($file);
+                }
+            }
+        }
+        //print_r($file_link_str);
+        return $this->output_succ();
+    }
+
+    public function total_del_file(){
+        $file_name      = $this->get_in_str_val('file_name');
+        $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file_name);
+
+        if($file_name && $exits){
+            $result = ['status' => 200 ];
+        }else{
+            $result = ['status' => 500 ];
+        }
+        return $this->output_succ($result);
+ 
+    }
     //预览
     public function tea_look_resource() {
         $tea_res_id = $this->get_in_int_val("tea_res_id");

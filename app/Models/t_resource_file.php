@@ -263,4 +263,9 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
+    public function batch_del($idstr){
+        $sql = $this->gen_sql_new("delete from %s where resource_id in %s",self::DB_TABLE_NAME,$idstr);
+        return $this->main_update($sql);
+    }
+
 }

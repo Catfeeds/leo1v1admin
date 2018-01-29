@@ -102,11 +102,12 @@ $(function(){
 
     var do_restore_or_del = function(obj,opt_type){
 
-        var res_id_list = [],file_id_list = [];
+        var res_id_list = [],file_id_list = [],file_link_list = [];
         $('.opt-select-item').each(function(){
             if( $(this).iCheckValue()){
                 res_id_list.push( $(this).data('id') );
                 file_id_list.push( $(this).data('file_id') );
+                file_link_list.push($(this).data('file_link') );
             }
         });
 
@@ -115,7 +116,7 @@ $(function(){
         } else {
             var res_id_info  = JSON.stringify(res_id_list);
             var file_id_info = JSON.stringify(file_id_list);
-
+            var file_link_info = JSON.stringify(file_link_list);
             if(opt_type == 4){
                 var tip = '确定要还原吗？';
             } else {
@@ -124,12 +125,13 @@ $(function(){
             if( confirm(tip) ){
                 $.ajax({
                     type    : "post",
-                    url     : "/resource/del_or_restore_resource",
+                    url     : "/resource/batch_del_resource",
                     dataType: "json",
                     data    : {
                         "type"        : opt_type,
                         "res_id_str"  : res_id_info,
                         "file_id_str" : file_id_info,
+                        "file_link_str"   : file_link_list,
                     },
                     success : function(result){
                         if(result.ret == 0){
@@ -146,28 +148,76 @@ $(function(){
         do_restore_or_del($(this),6);
     });
 
+    $('.opt-forever-del-file').on('click', function(){
+        var res_id_list = [],file_id_list = [],file_link_list = [];
+        $('.opt-select-item').each(function(){
+            if( $(this).iCheckValue()){
+                res_id_list.push( $(this).data('id') );
+                file_id_list.push( $(this).data('file_id') );
+                file_link_list.push($(this).data('file_link') );
+            }
+        });
+
+        if(res_id_list.length == 0) {
+            BootstrapDialog.alert('请先选择文件！');
+        } else {
+            var res_id_info  = JSON.stringify(res_id_list);
+            var file_id_info = JSON.stringify(file_id_list);
+            var file_link_info = JSON.stringify(file_link_list);
+            var tip = '永久删除后将不可恢复！确定要永久删除吗？';
+            
+            if( confirm(tip) ){
+                $.ajax({
+                    type    : "post",
+                    url     : "/resource/batch_del_file",
+                    dataType: "json",
+                    data    : {
+                        "res_id_str"  : res_id_info,
+                        "file_id_str" : file_id_info,
+                        "file_link_str"   : file_link_info,
+                    },
+                    success : function(result){
+                        if(result.ret == 0){
+                            //window.location.reload();
+                        }
+                    }
+                });
+            }
+        }
+
+    });
+
     $('.opt-change').set_input_change_event(load_data);
 
      //预览讲义
     $('.opt-look').click(function(){
         var id = $(this).data('file_id');
-        console.log(id);
-        var newTab=window.open('about:blank');
-        do_ajax('/resource/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
+        var file_link = $(this).data('file_link');
+        
+        do_ajax('/resource/total_del_file',{'file_name':file_link},function(ret){
             console.log(ret);
-            if(ret.ret == 0){
-                $('.look-pdf').show();
-                $('.look-pdf-son').mousedown(function(e){
-                    if(e.which == 3){
-                        return false;
-                    }
-                });
-                console.log(ret.url);
-                newTab.location.href = ret.url;
-            } else {
-                BootstrapDialog.alert(ret.info);
-            }
+            if(ret.ret == 0 && ret.status == 500){
+                BootstrapDialog.alert('在cdn已经删除该文件');
+            } 
         });
+
+        console.log(id);
+        // var newTab=window.open('about:blank');
+        // do_ajax('/resource/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
+        //     console.log(ret);
+        //     if(ret.ret == 0){
+        //         $('.look-pdf').show();
+        //         $('.look-pdf-son').mousedown(function(e){
+        //             if(e.which == 3){
+        //                 return false;
+        //             }
+        //         });
+        //         console.log(ret.url);
+        //         newTab.location.href = ret.url;
+        //     } else {
+        //         BootstrapDialog.alert(ret.info);
+        //     }
+        // });
     })
 
 });
