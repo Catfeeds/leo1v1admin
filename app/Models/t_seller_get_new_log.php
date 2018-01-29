@@ -109,4 +109,21 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_call_list($start_time,$end_time){
+        $where_arr = [
+            'called_count+no_called_count>0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'l.create_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select l.*,s.origin_level ".
+            " from %s l ".
+            " left join %s s on s.userid=l.userid ".
+            " where %s "
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

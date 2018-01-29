@@ -345,7 +345,10 @@ class company_wx extends Controller
     }
 
     public function handle_aprove_type($item, $leave, $approv_type, $common) {
-        $items = '';
+        $items = "";
+        //初始化
+        $data_desc = $data_column = $require_reason = $require_time = "";
+
         foreach ($leave as $val) {
             if ($item['spname'] == "武汉请假流") {
                 if ($val['title'] == '请假类型') {
@@ -370,8 +373,10 @@ class company_wx extends Controller
             }
 
             if ($item['spname'] == '拉取数据审批') {
-                if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
-                if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                if ($val['title'] == '数据描述') $data_desc = $val['value'];
+                if ($val["title"] == "数据字段") $data_column = $val["value"];
+                if ($val["title"] == "需求原因") $require_reason = $val["value"];
+                if ($val['title'] == '需要时间') $require_time = ($val['value'] / 1000);
                 $common['type'] = E\Eapproval_type::V_11;
             }
 
@@ -380,6 +385,26 @@ class company_wx extends Controller
                 $common['type'] = E\Eapproval_type::V_13;
             }
             if (isset($val['value'])) $items[$val['title']] = $val['value'];
+        }
+
+        if ($item["spname"] == "拉取数据审批") {
+            $info = $this->t_company_wx_approval_data->get_list_for_user_time($common["apply_user_id"], $common["apply_time"]);
+
+            if (!$info) {
+                $data = [
+                    "apply_name" => $common["apply_name"],
+                    "apply_user_id" => $common["apply_user_id"],
+                    "apply_time" => $common["apply_time"],
+                    "data_desc" => $data_desc,
+                    "data_column" => $data_column,
+                    "require_reason" => $require_reason,
+                    "require_time" => $require_time
+                ];
+                $this->t_company_wx_approval_data->row_insert($data);
+                echo "加载拉取数据审批成功";
+
+            }
+
         }
 
         if ($items) $common['item'] = json_encode($item);
@@ -827,5 +852,12 @@ class company_wx extends Controller
             return $this->output_succ();
         }
         return $this->output_err('管理后台无此账号');
+    }
+
+    // 下载日志
+    public function download_log() {
+        $account = $this->get_account();
+        $this->t_user_log->add_data($account.":拉取数据审批页下载数据");
+        return $this->output_succ();
     }
 }

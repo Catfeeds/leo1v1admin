@@ -529,4 +529,62 @@ class tongji_ex extends Controller
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list),['data_ex_list'=>$ret]);
     }
+
+    public function threshold_detail(){
+        list($start_time,$end_time,$ret_report,$ret_rate,$ret_origin,$ret_origin_info,$rate_arr,$rate_min,$rate_max) = [$this->get_in_int_val('start_time',strtotime(date('Y-m-d',time()))),$this->get_in_int_val('end_time',strtotime(date('Y-m-d',time()))+3600*24),[],[],[],[],[],0,0];
+        $ret = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
+        $rate_arr = array_unique(array_column($ret, 'new'));
+        if(count($rate_arr)>1){
+            $rate_min = min($rate_arr);
+            $rate_max = max($rate_arr);
+        }
+        $num = 0;
+        foreach($ret as $key=>$item){
+            if($item['old'] == 1){
+                $num++;
+                $ret_report[$key]['num']=$num;
+                $ret_report[$key]['type']='黄色';
+                $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
+            }elseif($item['type'] == 2){
+                $num++;
+                $ret_report[$key]['num']=$num;
+                $ret_report[$key]['time']='红色';
+                $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
+            }
+            if($item['new']==$rate_min){
+                $ret_rate[$rate_min]['rate'] = $item['new'].'%';
+                $ret_rate[$rate_min]['time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }elseif($item['new']==$rate_max){
+                $ret_rate[$rate_max]['rate'] = $item['new'].'%';
+                $ret_rate[$rate_max]['time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }
+        }
+
+        $ret = $this->t_seller_get_new_log->get_call_list($start_time,$end_time);
+        $origin_arr = array_unique(array_column($ret, 'origin_level'));
+        foreach($origin_arr as $origin_level){
+            foreach($ret as $item){
+                if($item['origin_level'] == $origin_level){
+                    $ret_origin[$origin_level][] = $item;
+                }
+            }
+        }
+        foreach($ret_origin as $origin_level=>$item){
+            $ret_origin_info[$origin_level]['origin_level'] = E\Eorigin_level::get_desc($origin_level);
+            $ret_origin_info[$origin_level]['count'] = count($item);
+            $call_count = 0;
+            $called_count = 0;
+            foreach($item as $info){
+                if($info['called_count']+$info['no_called_count']>0){
+                    $call_count++;
+                }elseif($info['called_count']>0){
+                    $called_count++;
+                }
+            }
+            $ret_origin_info[$origin_level]['call_count'] = $call_count;
+            $ret_origin_info[$origin_level]['called_count'] = $called_count;
+            $ret_origin_info[$origin_level]['rate'] = $call_count>0?(round($called_count/$call_count, 4)*100).'%':0;
+        }
+        dd($ret_report,$ret_ratret_ratee,$ret_origin_info);
+    }
 }
