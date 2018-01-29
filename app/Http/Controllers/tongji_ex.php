@@ -499,6 +499,7 @@ class tongji_ex extends Controller
             $item['threshold_min'] = $threshold_min;
             $item['threshold_max'] = $threshold_max;
         }
+        dd($ret);
 
         $list_info = [];
         $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time);

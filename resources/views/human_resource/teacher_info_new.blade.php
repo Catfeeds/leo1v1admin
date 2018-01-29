@@ -236,6 +236,9 @@
                                 @elseif($var["label_id"]>0)
                                     <a class="opt-set-teacher-label" title="修改标签<">修改标签</a>
                                 @endif
+                                @if(in_array($acc,["jack","jim"]))
+                                    <a class="opt-upload-teacher-call-crad" title="上传名片">上传名片</a>
+                                @endif
 
                             </div>
                         </td>

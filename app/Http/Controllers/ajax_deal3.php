@@ -848,4 +848,17 @@ class ajax_deal3 extends Controller
 
     }
 
+    //上传老师名片
+    public function upload_teacher_callcard_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $callcard_url = $this->get_in_str_val("callcard_url");
+        $domain = config('admin')['qiniu']['public']['url'];
+        if(!$callcard_url){
+            return $this->output_err("请上传文件");
+        }
+        $url =  $domain."/".$callcard_url;
+
+ 
+    }
+
 }
