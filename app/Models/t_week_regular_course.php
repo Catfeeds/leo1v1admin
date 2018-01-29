@@ -450,4 +450,17 @@ class t_week_regular_course extends \App\Models\Zgen\z_t_week_regular_course
         return $this->main_get_value($sql);
     }
 
+    public function get_all_info() {
+        $sql = $this->gen_sql_new("select teacherid,userid,start_time,end_time from %s",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_info_for_start_time($teacherid, $userid, $start_time) { // 用于拉取数据
+        //select operate_time,lessonid,assistantid,lesson_start  from t_lesson_info
+        $sql = $this->gen_sql_new("select operate_time,lessonid,assistantid,lesson_count,lesson_start from %s where teacherid=$teacherid and userid=$userid and lesson_start=$start_time", t_lesson_info::DB_TABLE_NAME);
+        return $this->main_get_row($sql);
+    }
+
 }

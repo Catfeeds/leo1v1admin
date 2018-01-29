@@ -35,7 +35,7 @@
                 <div class="col-xs-6 col-md-6">
                     <button class="btn btn-primary" id="id_withhold_agree" style="float:right" > 一键同意扣款 </button>
                     <button class="btn btn-primary" id="id_advance_agree" style="float:right;margin-right:15px">一键同意晋升 </button>
-                    <button class="btn btn-primary" id="id_edit-rule" style="float:right;margin-right:15px"> 修改晋升规则</button>
+                    <button class="btn btn-primary" id="id_edit_rule" style="float:right;margin-right:15px"> 修改晋升规则</button>
                 </div>
 
                
@@ -61,10 +61,6 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td style="width:10px">
-                        <a href="javascript:;" id="id_select_all" title="全选">全</a>
-                        <a href="javascript:;" id="id_select_other" title="反选">反</a>
-                    </td>
                     <td>id</td>
                     <td>老师</td>
                     <td>等级</td>
@@ -94,9 +90,6 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>
-                            <input type="checkbox" class="opt-select-item " />
-                        </td>
                         <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
@@ -165,7 +158,7 @@
                                     @endif
 
                                 @endif
-                                @if($account=="jack")
+                                @if($account=="jack" || $account=="jim")
                                     @if($var["hand_flag"]==1)
                                         <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
                                     @endif

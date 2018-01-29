@@ -1472,6 +1472,15 @@ class stu_manage extends Controller
         $domain = config('admin')['qiniu']['public']['url'];
         //获取该学生所有的课(未删除)
         $all_lesson_list = $this->t_lesson_info_b3->get_student_all_lesson_info($userid,0,0);
+        foreach($all_lesson_list as $val){
+            if(!isset($subject_arr[$val["subject"]])){
+                $subject_arr[$val["subject"]]=$val["subject"];
+            }
+            if(!isset($grade_arr[$val["grade"]])){
+                $grade_arr[$val["grade"]]=$val["grade"];
+            }
+ 
+        }
         $all_lesson=[];
         foreach($all_lesson_list as $k=>$val){
             $all_lesson[$val["lessonid"]] = $k+1;
@@ -1498,12 +1507,12 @@ class stu_manage extends Controller
             }
             $cw_num=$pre_num=0;
             foreach($list as $val){
-                if(!isset($subject_arr[$val["subject"]])){
-                    $subject_arr[$val["subject"]]=$val["subject"];
-                }
-                if(!isset($grade_arr[$val["grade"]])){
-                    $grade_arr[$val["grade"]]=$val["grade"];
-                }
+                // if(!isset($subject_arr[$val["subject"]])){
+                //     $subject_arr[$val["subject"]]=$val["subject"];
+                // }
+                // if(!isset($grade_arr[$val["grade"]])){
+                //     $grade_arr[$val["grade"]]=$val["grade"];
+                // }
                 if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
                 }else{
                     $cw_num++;
@@ -1588,12 +1597,12 @@ class stu_manage extends Controller
 
             $normal_num=$normal_all=0;
             foreach($list as $val){
-                if(!isset( $subject_arr[$val["subject"]])){
-                    $subject_arr[$val["subject"]]=$val["subject"];
-                }
-                if(!isset($grade_arr[$val["grade"]])){
-                    $grade_arr[$val["grade"]]=$val["grade"];
-                }
+                // if(!isset( $subject_arr[$val["subject"]])){
+                //     $subject_arr[$val["subject"]]=$val["subject"];
+                // }
+                // if(!isset($grade_arr[$val["grade"]])){
+                //     $grade_arr[$val["grade"]]=$val["grade"];
+                // }
                 if($val["lesson_status"]>=2){
                     if(!($val["confirm_flag"]>=2 && in_array($val["lesson_cancel_reason_type"],[2,12,21]))){
                         $stu_login_time = @$list[$val["lessonid"]]["stu_login_time"]; 
@@ -1666,12 +1675,12 @@ class stu_manage extends Controller
             }
             $tea_comment=$all_num=0;
             foreach($list as $val){
-                if(!isset($subject_arr[$val["subject"]])){
-                    $subject_arr[$val["subject"]]=$val["subject"];
-                }
-                if(!isset($grade_arr[$val["grade"]])){
-                    $grade_arr[$val["grade"]]=$val["grade"];
-                }               
+                // if(!isset($subject_arr[$val["subject"]])){
+                //     $subject_arr[$val["subject"]]=$val["subject"];
+                // }
+                // if(!isset($grade_arr[$val["grade"]])){
+                //     $grade_arr[$val["grade"]]=$val["grade"];
+                // }               
                 if($val["confirm_flag"]<2){
                     $all_num++;
                     $stu_intro   = json_decode($val['stu_performance'],true);
@@ -1721,17 +1730,16 @@ class stu_manage extends Controller
                 $item["issue_url_str"] = \App\Helper\Utils::gen_download_url($item["issue_url"]);
                 $item["finish_url_str"] = \App\Helper\Utils::gen_download_url($item["finish_url"]);
                 $item["check_url_str"] = \App\Helper\Utils::gen_download_url($item["check_url"]);
-                $item["stu_check_flag"]="—";
                 if(empty($item["issue_url"])){
                     $item["issue_url_str"]="";
                     $item["finish_url_str"]="";
                     $item["check_url_str"]="";
                     $item["issue_flag"]="未上传";
                     $item["download_flag"]= $item["commit_flag"]= $item["check_flag"]="—";
-                   
+                    $item["stu_check_flag"]="—";
                 }else{
                     $item["issue_flag"]="已上传";
-                    $item["download_flag"]="—";                   
+                    // $item["download_flag"]="—";                   
                     if($item["work_status"]>=2){
                         $item["commit_flag"]="已提交";
                     }else{
@@ -1742,20 +1750,36 @@ class stu_manage extends Controller
                     }else{
                         $item["check_flag"]="否";
                     }
+                    if($item["stu_check_time"]>0){
+                        $item["stu_check_flag"]="已查看"; 
+                    }else{
+                        $item["stu_check_flag"]="未查看"; 
+                    }
+                    if($item["download_time"]>0){
+                        $item["download_flag"]="已下载"; 
+                    }else{
+                        $item["download_flag"]="未下载"; 
+                    }
+
+
 
 
                 }
                 $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
+                if($item["lesson_start"]<strtotime("2018-01-26")){
+                    $item["stu_check_flag"]=$item["download_flag"]="—";
+                }
+
 
             }
             $commit_num=$upload_num=$check_num=$score_total=0;
             foreach($list as $val){
-                if(!isset($subject_arr[$val["subject"]])){
-                    $subject_arr[$val["subject"]]=$val["subject"];
-                }
-                if(!isset($grade_arr[$val["grade"]])){
-                    $grade_arr[$val["grade"]]=$val["grade"];
-                }
+                // if(!isset($subject_arr[$val["subject"]])){
+                //     $subject_arr[$val["subject"]]=$val["subject"];
+                // }
+                // if(!isset($grade_arr[$val["grade"]])){
+                //     $grade_arr[$val["grade"]]=$val["grade"];
+                // }
                 if(!empty($val["issue_url"])){
                     $upload_num++;
                     if($val["work_status"]>=2){
@@ -1800,8 +1824,10 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==5){
-            $ret_info=$this->t_student_score_info->get_all_list($page_info,"",-1,$grade,$semester,$stu_score_type,$userid,$subject);
-            $list = $this->t_student_score_info->get_all_list_no_page("",-1,$grade,$semester,$stu_score_type,$userid,$subject);
+            $subject_arr=[];
+            $grade_arr=[];
+            $ret_info=$this->t_student_score_info->get_all_list($page_info,"",$grade,$semester,$stu_score_type,-1,$userid,$subject);
+            $list = $this->t_student_score_info->get_all_list_no_page("",$grade,$semester,$stu_score_type,-1,$userid,$subject);
             foreach( $ret_info["list"] as $key => &$item ) {
 
                 if(empty($item["paper_upload_time"])){
@@ -1861,10 +1887,21 @@ class stu_manage extends Controller
             $subject_10 = [];
             $date_list = [];
             
+            $min_month =100000000000;
+            $max_month = 0;
             foreach ($list as $key => $value) {
+                if($min_month>$value["create_time"]){                  
+                    $min_month = $value["create_time"];
+                }
+                if($max_month<$value["create_time"]){                  
+                    $max_month = $value["create_time"];
+                }
+
+
                 $subject = $value["subject"];
-                $score = $value["score"]/10;              
-                $month = date("Y-m-d H:i",$value["create_time"]);
+                $score = round(10*$value['score']/$value['total_score']);
+                //  $month = date("Y-m-d H:i",$value["create_time"]);
+                $month = $value["create_time"];
                 $arr=[
                     "month"=>$month,
                     "count"=>$score
@@ -1903,12 +1940,12 @@ class stu_manage extends Controller
 
 
 
-                if(!isset($subject_arr[$value["subject"]])){
-                    $subject_arr[$value["subject"]]=$value["subject"];
-                }
-                if(!isset($grade_arr[$value["grade"]])){
-                    $grade_arr[$value["grade"]]=$value["grade"];
-                }               
+                // if(!isset($subject_arr[$value["subject"]])){
+                //     $subject_arr[$value["subject"]]=$value["subject"];
+                // }
+                // if(!isset($grade_arr[$value["grade"]])){
+                //     $grade_arr[$value["grade"]]=$value["grade"];
+                // }               
 
 
 
@@ -1918,6 +1955,20 @@ class stu_manage extends Controller
                 $date_list[$month]['title'] = $month;
 
             }
+
+            $all = $this->t_student_score_info->get_all_list_no_page("",-1,-1,-1,-1,$userid,-1);
+            foreach($all as $value){
+                if(!isset($subject_arr[$value["subject"]])){
+                    $subject_arr[$value["subject"]]=$value["subject"];
+                }
+                if(!isset($grade_arr[$value["grade"]])){
+                    $grade_arr[$value["grade"]]=$value["grade"];
+                }               
+
+            }
+
+            $n = round(($max_month-$month)/86400/2);
+            $middle_month = intval($min_month+$n*86400);
             
             \App\Helper\Utils::date_list_set_value($date_list,$subject_1,"month","subject_1","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_2,"month","subject_2","count");
@@ -1929,6 +1980,15 @@ class stu_manage extends Controller
             \App\Helper\Utils::date_list_set_value($date_list,$subject_8,"month","subject_8","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_9,"month","subject_9","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_10,"month","subject_10","count");
+            //dd($date_list);
+            $this->set_filed_for_js("max_month",$max_month);
+            $this->set_filed_for_js("max_month_date",date("Y-m-d H:i",$max_month));
+            $this->set_filed_for_js("min_month",$min_month);
+            $this->set_filed_for_js("min_month_date",date("Y-m-d H:i",$min_month));
+            $this->set_filed_for_js("middle_month_date",date("Y-m-d H:i",$middle_month));
+            $this->set_filed_for_js("middle_month",$middle_month);
+           
+
            
 
             return $this->pageView(__METHOD__,$ret_info,[

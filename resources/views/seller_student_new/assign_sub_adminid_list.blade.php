@@ -290,16 +290,16 @@
                                 <a  id="id_set_level_b">设置可抢</a>
                                 <a id="id_set_history_to_new">公海->新</a>
                                 <a id="id_set_select_set_free">批量回流公海</a>
+                                <a id="id_set_sys_invaild_flag">sys invaild flag</a>
                                 <a id="id_set_select_to_admin_list">分配给组员</a>
-                                <a id="id_tmk_set_select_to_cc_list">TMK分配给CC</a>
-                                <a id="id_set_select_to_tmk_list">分配给TMK</a>
                             </li>
                         </ul>
                     </div>
 
                     <button class="btn btn-primary" id="id_upload_xls" > 上传xls </button>
                     <button  class="btn btn-info" id="id_add">新增例子</button>
-                    -----
+                    <button  class="btn btn-warning" id="id_set_select_to_tmk_list">分配给TMK</button>
+                    <button  class="btn btn-warning" id="id_tmk_set_select_to_cc_list">TMK分配给CC</button>
                     <button class="btn btn-primary" id="id_tq_no_call_btn">TQ未回访</button>
 
                     <button class="btn" id="id_unallot" data-value="{{$unallot_info["zjs_unallot_count"]*1}}" > </button>
@@ -310,6 +310,9 @@
                     <button class="btn" id="id_all_uncall_count" data-value="{{@$unallot_info["all_uncall_count"]*1}}" > </button>
                     <button class="btn" id="id_by_hand_all_uncall_count" data-value="{{@$unallot_info["by_hand_all_uncall_count"]*1}}" > </button>
                 </div>
+                @if($button_show_flag==0)
+                    <button  class="btn btn-primary" id="id_master_set_select_to_cc_list">主管分配给组员</button>
+                @endif
             </div>
 
 

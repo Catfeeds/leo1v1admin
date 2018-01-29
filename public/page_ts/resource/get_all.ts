@@ -329,7 +329,7 @@ $(function(){
         var id_tag_four_search = $("<button class=\"btn btn-primary\" id=\"id_search_tag\" style=\"margin-left:10px\">搜索</button>");
 
         var arr= [
-            ["角色", id_use_type],
+            ["分类", id_use_type],
             ["资源类型", id_resource_type],
             ["科目", id_subject],
             ["年级", id_grade],
@@ -676,12 +676,12 @@ $(function(){
 
         } else if (val == 9){
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
-            Enum_map.append_option_list("resource_train",$('.tag_two'),true);
+            Enum_map.append_option_list("resource_season",$('.tag_two'),true);
+            Enum_map.append_option_list("resource_train",$('.tag_three'),true);
 
-            $('.tag_one').parent().prev().text('教材版本');
-            $('.tag_two').parent().prev().text('培训资料');
-            $('.tag_three,.tag_four').parent().parent().hide();
-            $('.tag_five').parent().parent().hide();
+            $('.tag_two').parent().prev().text('春暑秋寒');
+            $('.tag_three').parent().prev().text('培训资料');
+            $('.tag_one,.tag_four,.tag_five').parent().parent().hide();
 
             $('#id_video_file').parent().parent().show();
             $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file,#id_other_file').parent().parent().hide();
@@ -779,48 +779,49 @@ $(function(){
     var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class,allow_str,max_size){
 
         multi_upload_file_new(flag, is_multi, is_auto_upload, btn_id, 0,
-                          function(files){
-                              var name_str = '';
-                              if (!is_multi){
-                                  remove_id.push($('.'+add_class).data('id'));
-                                  $('.'+add_class).prev().remove();
-                                  $('.'+add_class).remove();
-                              }
-                              $(files).each(function(i){
-                                  name_str = name_str+'<br/><span data-id='+files[i].id+' class='
-                                      +add_class+' >'+files[i].name+'</span>';
-                              });
-                              $('#'+btn_id).after(name_str);
-                              return test_func();
-
-                          },
-                          function(up,file) {
-                              $('.close').click();
-                              $('.opt_process').show();
-
-                              window.onbeforeunload = function (event) {
-                                  var c = event || window.event;
-                                  if (/webkit/.test(navigator.userAgent.toLowerCase())) {
-                                      return "刷新页面将导致正在上传的上传数据丢失！";
-                                  } else {
-                                      c.returnValue = "刷新页面将导致正在上传的上传数据丢失！";
+                              function(files){
+                                  var name_str = '';
+                                  if (!is_multi){
+                                      remove_id.push($('.'+add_class).data('id'));
+                                      $('.'+add_class).prev().remove();
+                                      $('.'+add_class).remove();
                                   }
-                              }
+                                  $(files).each(function(i){
+                                      name_str = name_str+'<br/><span data-id='+files[i].id+' class='
+                                          +add_class+' >'+files[i].name+'</span>';
+                                  });
+                                  $('#'+btn_id).after(name_str);
+                                  return test_func();
 
-                              //判断不上传的文件
-                              return $.inArray(file.id, test_func());
-                          },
-                          function(up, file, info) {
-                              var res = $.parseJSON(info.response);
-                              if( info.status == 200 && last_id >0 ){
-                                  add_file(last_id, file, res, use_type);
-                                  if( btn_id == 'id_other_file'){
-                                      last_id = last_id -1;
+                              },
+                              function(up,file) {
+                                  $('.close').click();
+                                  $('.opt_process').show();
+
+                                  window.onbeforeunload = function (event) {
+                                      var c = event || window.event;
+                                      if (/webkit/.test(navigator.userAgent.toLowerCase())) {
+                                          return "刷新页面将导致正在上传的上传数据丢失！";
+                                      } else {
+                                          c.returnValue = "刷新页面将导致正在上传的上传数据丢失！";
+                                      }
                                   }
-                              }
-                          },
+
+                                  //判断不上传的文件
+                                  return $.inArray(file.id, test_func());
+                              },
+                              function(up, file, info) {
+                                  var res = $.parseJSON(info.response);
+                                  console.log(last_id);
+                                  if( info.status == 200 && last_id >0 ){
+                                      add_file(last_id, file, res, use_type);
+                                      if( btn_id == 'id_other_file'){
+                                          last_id = last_id -1;
+                                      }
+                                  }
+                              },
                               allow_str,max_size,'fsUploadProgress'
-                         );
+                             );
 
     };
 

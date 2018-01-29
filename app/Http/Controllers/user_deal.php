@@ -662,7 +662,7 @@ class user_deal extends Controller
         $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
         $lesson_type = $lesson_info['lesson_type'];
 
-        $check = $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,$lesson_type);
+        $check = $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,$lesson_type,$lesson_end);
         if($check){
             return $check;
         }
@@ -2793,7 +2793,7 @@ class user_deal extends Controller
                             $lesson_start = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$start);
                             $lesson_end   = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
                             $check        = $this->research_fulltime_teacher_lesson_plan_limit(
-                                $teacherid,$userid,$lesson_count/100,$lesson_start,0
+                                $teacherid,$userid,$lesson_count/100,$lesson_start,0,$lesson_end
                             );
                             if($check){
                                 return $check;
@@ -3019,7 +3019,7 @@ class user_deal extends Controller
 
                                 //$lesson_start = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$start);
                                 //$lesson_end = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
-                                $check =  $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,0);
+                                $check =  $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,0,$lesson_end);
                                 $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
                                 if($ret_row1) {
                                     $error_lessonid=$ret_row1["lessonid"];
@@ -3195,7 +3195,7 @@ class user_deal extends Controller
 
                                 //$lesson_start = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$start);
                                 // $lesson_end = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
-                                $check =  $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,0);
+                                $check =  $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,0,$lesson_end);
                                 $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
                                 if($ret_row1) {
                                     $error_lessonid=$ret_row1["lessonid"];
@@ -3371,7 +3371,7 @@ class user_deal extends Controller
 
                                 //$lesson_start = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$start);
                                 // $lesson_end = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
-                                $check =  $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,0);
+                                $check =  $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,0,$lesson_end);
                                 $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
                                 if($ret_row1) {
                                     $error_lessonid=$ret_row1["lessonid"];

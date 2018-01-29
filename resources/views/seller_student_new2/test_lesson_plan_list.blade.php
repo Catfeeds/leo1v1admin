@@ -438,26 +438,18 @@
                                     状态: {{$var["seller_require_change_flag_str"]}} <br/>
                                     目标上课时间:{{@$var["require_change_lesson_time_str"]}} <br/>
                                 @endif
-
                                 @if ($var["assigned_lesson_count"])
-                                    <font color="green"> 正式课 </font>: {{$var["assigned_lesson_count"]/100}} 节
+                                    <font color="green">正式课</font>: {{$var["assigned_lesson_count"]/100}} 节
                                 @endif
-
                                 @if ($var["test_lesson_order_fail_flag"])
                                     <font color="red">未扩课原因:</font> {{$var["test_lesson_order_fail_flag_str"] }}
                                 @endif
                                 <br>
-
                                 @if ($var["limit_require_flag"]==1)
                                     <font color="blue">已做限课特殊申请:</font>
                                     状态:{{$var["limit_accept_flag_str"]}}
                                 @endif
-
                                 <br>{!!  $var["rebut_info"]!!}<br/>
-
-
-
-
                             </td>
                             <td >{{$var["teacher_nick"]}}</td>
                             <td >{{$var["lesson_start"]}}</td>
@@ -511,7 +503,7 @@
                                         <a title="同意申请" class=" opt-set-limit-require-agree show_seller" >同意 </a>
                                         <a title="驳回申请" class=" opt-set-limit-require-refuce show_seller" >驳回 </a>
                                     @endif
-                                    <a title="匹配老师" class="opt-match-teacher show_flag">匹配老师</a>
+                                    <!-- <a title="匹配老师" class="opt-match-teacher show_flag">匹配老师</a> -->
                                     <a title="新版排课" class="select-teacher-for-test-lesson">新版排课</a>
                                 </div>
                             </td>

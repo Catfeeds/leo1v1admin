@@ -178,6 +178,9 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
                 $content = "http://wx-parent.leo1v1.com?uid=$RoleId"; // 待定
                 # 记录输入转发次数
             }
+        }elseif($request['content'] == 'BBC'){
+            $content = "家长，您好！点击下方链接，输入密码，即可领取《英国BBC最强纪录片全10部》哦！
+链接：https://pan.baidu.com/s/1sm1x2Mh 密码：e4jg";
         }
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);

@@ -105,7 +105,6 @@ class update_cc_no_called_count extends Command
                 'new'=>$threshold_min,
                 'create_time'=>$time,
             ]);
-            // echo date('Y-m-d',$time).'=>'.$threshold_min.'~'.$threshold_max;
         }
     }
 

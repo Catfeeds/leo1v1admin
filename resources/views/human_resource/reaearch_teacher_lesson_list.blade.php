@@ -45,6 +45,7 @@
                     <td>第二科目</td>                  
                     <td>第二科目年级段</td>
                     <td>课表信息</td>
+                    <td>排课限制</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -58,11 +59,28 @@
                         <td>{{$var["second_subject_str"]}} </td>
                         <td>{{$var["second_grade_start_str"]}}至{{$var["second_grade_end_str"]}} </td>
                         <td><a href="javascript:;" class="show_lesson_info" data-teacherid="{{$var["teacherid"]}}">查看课表</a></td>
+                        <td>
+                            
 
+                            每日最大排课数:{{$var["limit_day_lesson_num"]}}<br>
+                            每周最大排课数:{{$var["limit_week_lesson_num"]}}<br>
+                            每月最大排课数:{{$var["limit_month_lesson_num"]}}<br>
+                            周六可排课时:{{$var["saturday_lesson_num"]}}<br>
+                            周课时上限:{{$var["week_lesson_count"]}}<br>
+                            是否CC要求:{{@$var["limit_seller_require_flag_str"]}}<br>
+                            排课限制时间:<br>{!!  $var["week_limit_time_info_str"]!!}<br>
+                        </td>
                      
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
-                                <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>                               
+                                @if($research_flag==1)
+                                    <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>                               
+                                    <a class=" opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息">老师档案 </a><br>
+                                    <a class=" opt-set-grade-range div_show">年级科目修改</a><br>
+                                    <a class="opt-change-lesson-num">修改排课数/时间</a>
+                                @endif
+
+
                             </div>
                         </td>
                     </tr>

@@ -227,33 +227,8 @@ class common_ex extends Controller
         # 获取分享链接打开次数 [市场部活动-分享个性海报]
         $uid = $this->get_in_int_val('uid');
         $posterTag = $this->get_in_int_val('posterTag');
-        $checkHas = $this->t_personality_poster->checkHas($uid);
-        $hasAdminRevisiterid = $this->t_seller_student_new->hasAdminRevisiterid($userid);
-        if($checkHas>0){
-            $this->t_personality_poster->updateStuNumNum($uid);
-        }else{
-            $this->t_personality_poster->row_insert([
-                "uid" => $uid,
-                "stuNum" => 1
-            ]);
-        }
-        $this->t_poster_share_log->row_insert([
-            "uid" => $uid,
-            "phone" => $phone,
-            "studentid" => $userid,
-            "add_time"  => time()
-        ]);
 
-        # 将市场海报分享进来的学生 放入到对应的CC\CR的私库中
-        if($posterTag && !$hasAdminRevisiterid){
-            $opt_adminid  = $uid;
-            $opt_account  = $this->t_manager_info->get_account($opt_adminid);
-            $self_adminid = 684;
-            $account = '系统-市场个性海报转发';
-            $this->t_seller_student_new->allotStuToDepot($opt_adminid, $opt_account, $userid, $self_adminid,$account);
-        }
-
-        dispatch(new \App\Jobs\new_seller_student($userid));
+        dispatch(new \App\Jobs\new_seller_student($userid,$uid,$posterTag,$phone));
 
         return $this->output_succ(["userid"=> $userid,"name"=>$name]);
     }

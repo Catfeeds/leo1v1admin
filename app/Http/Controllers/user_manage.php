@@ -1360,6 +1360,11 @@ class user_manage extends Controller
             $item['lesson_total']      = $item['lesson_total']/100;
             $item['should_refund']     = $item['should_refund']/100;
             $item['price']             = $item['price']/100;
+            if(!$item["should_refund_money"]){
+                $item["should_refund_money"]=$item['real_refund']/100;
+            }else{
+                $item["should_refund_money"] =  $item["should_refund_money"]/100;
+            }
             $item['real_refund']       = $item['real_refund']/100;
             $item['discount_price']    = $item['discount_price']/100;
             $item['apply_time_str']    = date("Y-m-d H:i",$item['apply_time']);
@@ -1561,6 +1566,7 @@ class user_manage extends Controller
             "should_refund" => $should_refund*100,
             "price"         => $price*100,
             "real_refund"   => $real_refund*100,
+            "should_refund_money"   => $real_refund*100,
             "apply_time"    => $apply_time,
             "refund_userid" => $adminid,
             "refund_info"   => $refund_info,

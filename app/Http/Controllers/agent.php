@@ -441,6 +441,33 @@ class agent extends Controller
     }
 
     public function test_new(){
+        list($start_time,$end_time) = [1517137200,1517137860];
+        $cmd= new \App\Console\Commands\sync_tianrun();
+        $count=$cmd->load_data($start_time,$end_time);
+        dd($count);
+        $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid=743);
+        if(time()-$last_get_time<660){
+            list($start_time,$end_time) = [$last_get_time,time()];
+            $cmd= new \App\Console\Commands\sync_tianrun();
+            $count=$cmd->load_data($start_time,$end_time);
+        }
+        dd($last_get_time);
+        list($start_time,$end_time)=$this->get_in_date_range_day(-1);
+        $ret = $this->t_tq_call_info->get_cc_end_list($adminid=743,$start_time, $end_time);
+        dd($ret);
+        dd('http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
+        $time = strtotime(date('Y-m-d'));
+        list($start_time,$end_time) = [$time,$time+3600*24];
+        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
+        dd($ret_call);
+        $time = time();
+        $start_time = strtotime(date('Y-m-d 08:00:00'));
+        $end_time = strtotime(date('Y-m-d'))+3600*24;
+        if($time>$start_time && $time<$end_time){
+            dd($start_time,$end_time);
+            $this->update_actual_threshold();
+        }
+        dd('b');
         $time = strtotime(date('Y-m-d'));
         list($start_time,$end_time) = [$time,$time+3600*24];
         dd($start_time,$end_time);

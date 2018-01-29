@@ -1845,7 +1845,7 @@ class user_manage_new extends Controller
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801119150,
+            "_publish_version" => 201801127150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
@@ -1901,7 +1901,8 @@ class user_manage_new extends Controller
         //     "js_values_str" => "",
         //     'err_mg' => $err_mg
         // ] );
-                
+        return $this->error_view(["close"  ]);
+
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
@@ -2698,29 +2699,6 @@ class user_manage_new extends Controller
         $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $groupid_str );
         $list         = $this->t_authority_group->get_all_list();
 
-        // foreach ($list as &$item) {
-        //     $p_list       = preg_split("/,/", $item["group_authority"] );
-        //     $find_indx = array_search($powerid,$p_list);
-        //     $old_has_flag=true;
-        //     if ($find_indx===false){
-        //         $old_has_flag=false;
-        //     }
-        //     $groupid      = $item["groupid"];
-        //     ;
-        //     $new_has_flag = power_group_editin_array($groupid,$groupid_list );
-        //     if ($old_has_flag !=$new_has_flag) {
-        //         if ($new_has_flag ) {
-        //             $p_list[]=$powerid ;
-        //         }else{
-        //             unset($p_list[$find_indx]);
-        //         }
-        //         $group_authority=join(",",$p_list);
-        //         $this->t_authority_group->field_update_list($groupid,[
-        //             "group_authority" => $group_authority
-        //         ]);
-        //     }
-
-        // }
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
@@ -2730,6 +2708,46 @@ class user_manage_new extends Controller
 
         return $this->output_succ();
     }
+
+    public function set_power_with_groupid_list_new() {
+        $powerid      = $this->get_in_int_val("powerid");      //权限号
+        $groupid_str  = $this->get_in_str_val("groupid_list"); //角色列表
+        $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $groupid_str );
+        $list         = $this->t_authority_group->get_all_list();
+
+        foreach ($list as &$item) {
+            $p_list       = explode(",", $item["group_authority"] );   //权限号列表
+            $find_indx = array_search($powerid,$p_list);
+            $old_has_flag=true;
+            if ($find_indx===false){
+                $old_has_flag=false;
+            }
+            $groupid      = $item["groupid"];
+            $new_has_flag = in_array($groupid,$groupid_list );
+            if ($old_has_flag !=$new_has_flag) {
+                if ($new_has_flag ) {
+                    $p_list[]=$powerid ;
+                }else{
+                    unset($p_list[$find_indx]);
+                }
+                $group_authority=join(",",$p_list);
+                $this->t_authority_group->field_update_list($groupid,[
+                    "group_authority" => $group_authority
+                ]);
+            }
+
+        }
+
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "新的页面权限管理配置: [权限id:$powerid,权限列表:$groupid_str]",
+            "user_log_type" => E\Euser_log_type::V_2, //权限页面添加用户记录
+        ]);
+
+        return $this->output_succ();
+    }
+
 
     public function tea_lesson_count_total_list_tea() {
         $this->set_in_value("check_adminid", $this->get_account_id() );
@@ -3527,7 +3545,7 @@ class user_manage_new extends Controller
             "lesson_left"     => $order_info['lesson_left'],
             "contract_status" => 1,
         ]);
-        
+
         if($ret>0){
             $ret = $this->t_order_refund->row_delete_2($orderid,$apply_time);
             if($ret>0){
@@ -3682,53 +3700,8 @@ class user_manage_new extends Controller
         }
 
         $list = \App\Helper\Utils::list_to_page_info($list);
-        $info = [];
-        if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
-            //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
-            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type,teacher_ref_type");
-            if (in_array($teacher['teacher_type'], [21,22]) && in_array($teacher['teacher_ref_type'], [1,2])) {
-                $info['msg'] = '特殊渠道-工作室';
-            }
 
-            if ($teacherid == 420745 || $teacherid == 437138) {
-                $info['msg'] = '15333268257 和  李桂荣两位老师12月后的伯乐奖关掉';
-            } elseif ($teacherid == 274115) {
-                $info['msg'] = 'join中国的伯乐奖都是60元/个';
-            } elseif ($teacherid == 149697) {
-                $info['msg'] = '明日之星的伯乐奖都是50元/个';
-            } elseif ($teacherid == 176348) {
-                $info['msg'] = '特殊渠道-田克平';
-            }
-            $start_time = strtotime('2015-1-1');
-            $end_time = time();
-            $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher['phone'], 0);
-
-            if ($teacherid == 269222) { // 处理赵志园二个账号
-                $num = $this->t_teacher_money_list->get_total_for_teacherid(403459, 0);
-                $info['stu_sum'] += $num;
-            }
-            $info['stu_reward'] = 20;
-            if ($info['stu_sum'] > 10) $info['stu_reward'] = 30;
-            if ($info['stu_sum'] > 20) $info['stu_reward'] = 50;
-            if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
-            // 机构老师总数
-            //$info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
-            $info['tea_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher['phone'], 1);
-            if ($teacherid == 269222) { // 处理赵志园二个账号
-                $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
-                $info['tea_sum'] += $num;
-            }
-            // if ($teacherid == 226810) { //处理赵海岗
-            //     $info['tea_sum'] += 1;
-            // }
-            $info['tea_reward'] = 40;
-            if ($info['tea_sum'] > 10) $info['tea_reward'] = 50;
-            if ($info['tea_sum'] > 20) $info['tea_reward'] = 70;
-            if ($info['tea_sum'] > 30) $info['tea_reward'] = 80;
-            $info['total'] = $info['stu_sum'] + $info['tea_sum'];
-        }
         return $this->Pageview(__METHOD__,$list, [
-            'info'      => $info,
             'teacherid' => $teacherid
         ]);
     }
@@ -5192,57 +5165,6 @@ class user_manage_new extends Controller
         $agent_teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
         $tea_list = $this->t_teacher_lecture_appointment_info->get_tea_list_by_reference($agent_teacher_info['phone']);
 
-    }
-
-    // 手动刷新当前月的伯乐奖金
-    public function flush_teacher_money() {
-        $teacherid = $this->get_in_int_val("teacherid");
-        $acc = $this->get_account();
-        // 暂定修改最近一月的数据 如修改以前数据则传递页面的开始时间与结果时间
-        $start_time = strtotime(date('Y-m-01', time()));
-        $re_teacherid = $this->t_teacher_money_list->get_recommended_for_teacherid($start_time,$teacherid);
-        foreach($re_teacherid as $item) {
-            // if ($teacherid == 274115 && $item['money'] != 60) { // 处理join中国
-            //     $this->t_teacher_money_list->field_update_list($item['id'], [
-            //         'money' => $reward,
-            //         'acc' => $acc
-            //     ]);
-            //     continue;
-            // }
-            $type = 0;
-            if ($item['identity'] == 5 || $item['identity'] == 6) {
-                $type = 1;
-            }
-            $start_time = strtotime("2015-1-1");
-            $end_time = time();
-            $phone = $this->t_teacher_info->field_get_list($teacherid, "phone");
-            $num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, $type);
-
-            //$num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type, $item['add_time']);
-            $reward = $this->ret_reward($num, $type);
-            if ($reward != $item['money']) {
-                $this->t_teacher_money_list->field_update_list($item['id'],[
-                    'money' => $reward,
-                    'acc' => $acc
-                ]);
-            }
-        }
-        return $this->output_succ();
-    }
-
-    public function ret_reward($num, $type) {
-        if ($type == 1) { // 机构老师
-            $reward = 40;
-            if ($num > 10) $reward = 50;
-            if ($num > 20) $reward = 70;
-            if ($num > 30) $reward = 80;
-        } else { // 在校学生
-            $reward = 20;
-            if ($num > 10) $reward = 30;
-            if ($num > 20) $reward = 50;
-            if ($num > 30) $reward = 60;
-        }
-        return $reward * 100;
     }
 
     public function product_info(){

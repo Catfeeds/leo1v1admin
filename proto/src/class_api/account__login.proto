@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1000
-//__DESC: http://dev.api.class.leo1v1.com/account/login 用户登录 
+//__DESC: /account/login 用户登录 
 //__TAGS: for_app
 
 
@@ -13,6 +13,6 @@ message in  {
 }
 
 message out {
-  int32  id = 1 ;
+  int32  id = 1 ;//学生id
 }
 
