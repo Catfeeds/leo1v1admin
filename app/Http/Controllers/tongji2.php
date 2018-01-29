@@ -1969,34 +1969,54 @@ class tongji2 extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function teaChriDate(){
-        $phone = $this->get_in_int_val('phone');
-        $openid = $this->t_teacher_info->get_wx_openid_by_phone($phone);
-        $page_num  = $this->get_in_page_num();
-
-        $ret_info = [];
-        $ret_info = $this->t_teacher_christmas->getChriDatePage($openid,$page_num);
-        // $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList($isLimit=1);
-        // $ret_info['end_time'] = strtotime('2017-1-2');
-        // foreach($ret_info['totalList'] as $i => &$item){
-        //     if($item['teacherid'] == $teacherid){
-        //         $ret_info['ranking'] = $i;
-        //     }
-        //     $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
-        // }
-
-        // dd($ret_info);
-
-        return $this->pageView(__METHOD__,$ret_info);
-
-    }
-
     # 市场部个性海报转发
     public function marketposterdata(){
         $page_num  = $this->get_in_page_num();
         $uid = $this->get_in_int_val("adminid",-1);
         $ret_info = $this->t_personality_poster->getData($page_num,$uid);
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    # 课次取消-技术支持
+    public function lessoncancelrate(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3 );
+        $dayNum = ($end_time-$start_time)/86400;
+
+        $ret_info = [];
+        $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
+        $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
+        $dateArr = [];
+        $rateArr = [];
+        $tmp = [];
+        for($i=0; $i<$dayNum; $i++){
+            $timeStart = $start_time+$i*86400;
+            $timeEnd   = $timeStart+86400;
+            $dateArr[] = date('Y-m-d',$timeStart);
+            $cancel_num = 0;
+            $actual_num = 0;
+
+            foreach($lessonCancelNum as $item_cancel){
+                if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
+                    $cancel_num+=1;
+                }
+            }
+
+            foreach($actualLessonNum as $item_actual){
+                if($item_actual['lesson_start']>=$timeStart && $item_actual['lesson_start']<=$timeEnd){
+                    $actual_num+=1;
+                }
+            }
+            if(($actual_num+$cancel_num)>0){
+                $rateArr[] = (int)($cancel_num/($actual_num+$cancel_num));
+            }else{
+                $rateArr[] = 0;
+            }
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "dateArr" => $dateArr,
+            "rateArr" => $rateArr
+        ]);
     }
 
     public function tongji_sys_assign_call_info() {

@@ -579,7 +579,8 @@ class tongji_ex extends Controller
             foreach($item as $info){
                 if($info['called_count']+$info['no_called_count']>0){
                     $call_count++;
-                }elseif($info['called_count']>0){
+                }
+                if($info['called_count']>0){
                     $called_count++;
                 }
             }
