@@ -37,9 +37,13 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["phone"]}} </td>
+                        <td>
+                            @foreach ( $var['list'] as $v )
+                                抢单人:{{$v['account']}},拨通次数{{$v['called_count']}},未拨通次数{{$v['no_called_count']}},挂机人{{$v['cc_end']}},抢单时间:{{$v['create_time']}}<br/>
+                            @endforeach
+                        </td>
+                        <td>{{@$var["add_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
