@@ -78,6 +78,9 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                             $arr_log['no_called_count'] = $ret_log['no_called_count']+1;
                         }elseif($is_called_phone==1){
                             $arr_log['called_count'] = $ret_log['called_count']+1;
+                            if($duration<60){
+                                $arr_log['cc_end'] = $endReason;
+                            }
                         }
                         if(count($arr_log)>0){
                             $this->task->t_seller_get_new_log->field_update_list($ret_log['id'], $arr_log);
@@ -1008,21 +1011,5 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         return $this->main_get_value($sql);
     }
 
-    public function get_cc_end_list($adminid,$start_time, $end_time){
-        $where_arr = [
-            'duration<60',
-        ];
-        $this->where_arr_add_int_field($where_arr, 'end_reason', 0);
-        $this->where_arr_add_int_field($where_arr, 'is_called_phone', 1);
-        $this->where_arr_add_int_field($where_arr, "adminid" ,$adminid);
-        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
-        $sql = $this->gen_sql_new(
-            " select * ".
-            " from %s ".
-            " where %s order by start_time asc "
-            ,self::DB_TABLE_NAME
-            ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
+    
 }

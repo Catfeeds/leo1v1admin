@@ -499,6 +499,24 @@ class tongji_ex extends Controller
             $item['threshold_min'] = $threshold_min;
             $item['threshold_max'] = $threshold_max;
         }
-        return $this->pageView(__METHOD__, null,['data_ex_list'=>$ret]);
+
+        $list_info = [];
+        $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time);
+        foreach($list as $item){
+            $list_info[$item['userid']]['userid'] = isset($list_info[$item['userid']]['userid'])?$list_info[$item['userid']]['userid']:$item['userid'];
+            $list_info[$item['userid']]['list'][$item['adminid']] = isset($list_info[$item['userid']]['list'][$item['adminid']])?$list_info[$item['userid']]['list'][$item['adminid']]:$item;
+            $list_info[$item['userid']]['add_time'] = isset($list_info[$item['userid']]['add_time'])?$list_info[$item['userid']]['add_time']:date('Y-m-d H:i:s',$item['add_time']);
+        }
+        $num = 0;
+        foreach($list_info as $userid=>$item){
+            $num++;
+            $list_info[$userid]['num'] = $num;
+            foreach($item['list'] as $adminid=>$info){
+                $list_info[$userid]['list'][$adminid]['account'] = $this->cache_get_account_nick($adminid);
+                $list_info[$userid]['list'][$adminid]['create_time'] = date('Y-m-d H:i:s',$info['create_time']);
+                $list_info[$userid]['list'][$adminid]['cc_end'] = $info['cc_end']==1?'客户':'销售';
+            }
+        }
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list_info),['data_ex_list'=>$ret]);
     }
 }

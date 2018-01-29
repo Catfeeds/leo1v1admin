@@ -29,6 +29,9 @@
      var book = {{@$book}};
      var is_teacher = {{@$is_teacher}};
     </script>
+    <style>
+     .up_file,.down_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
+    </style>
     <section class="content">
 
         <div>

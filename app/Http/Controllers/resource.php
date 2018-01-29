@@ -145,7 +145,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180128241439,
+            '_publish_version'    => 20180129131439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -1064,6 +1064,59 @@ class resource extends Controller
         } else {
             return $file_id;
         }
+    }
+
+    public function add_multi_file() {
+        $multi_data = $this->get_in_str_val('multi_data');
+        if( $multi_data && is_array($multi_data)){
+            foreach( $multi_data as $data){
+                $ex_num        = 0;
+                //处理文件名
+                $file_title = $data['file_title'];
+                $dot_pos = strrpos($file_title,'.');
+                $file_title = substr($file_title,0,$dot_pos);
+                //处理文件类型
+                $file_type = trim( strrchr($data['file_type'], '/'), '/' );
+                $resource_id = $data['resource_id'];
+                $file_use_type = $data['file_use_type'];
+                if ($file_use_type == 3){
+                    if($is_reupload == 0){
+                        $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
+                        $ex_num     = @$ex_num_max+1;
+                    } else {
+                        if($ex_num == 0) {
+                            //上传额外文件区间，不属于重新上传
+                            $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
+                            $ex_num     = @$ex_num_max+1;
+                        }
+                    }
+                }
+                $insert_data = [
+                    'resource_id'   => $resource_id,
+                    'file_title'    => $file_title,
+                    'file_type'     => $file_type,
+                    'file_size'     => $data['file_size'],
+                    'file_hash'     => $data['file_hash'],
+                    'file_link'     => $data['file_link'],
+                    'file_use_type' => $file_use_type,
+                    'ex_num'        => $ex_num,
+
+                ];
+                $this->t_resource_file->row_insert($insert_data);
+                $file_id = $this->t_resource_file->get_last_insertid();
+                $adminid = $this->get_account_id();
+                $this->t_resource_file_visit_info->row_insert([
+                    'file_id'     => $file_id,
+                    'visit_type'  => 9,
+                    'create_time' => time(),
+                    'visitor_id'  => $adminid,
+                    'ip'          => $_SERVER["REMOTE_ADDR"],
+                ]);                
+
+            }
+        }
+        return $this->output_succ();
+        \App\Helper\Utils::logger("多文件: ".json_encode($multi_data));
     }
 
     public function rename_resource() {

@@ -100,7 +100,8 @@ $(function(){
     var check_require_status = function(){
         //test_lesson_student_status 是 枚举类 seller_student_status:120 有效-课程取消 ;200 预约-未排课;
         //枚举类 accept_status 老师是否接受此课程  0 未接受 1 已接受 2 已拒绝
-        if(require_info.test_lesson_student_status!=200 && require_info.test_lesson_student_status!=120 && require_info.accept_status==1){
+        //&& require_info.accept_status==1
+        if(require_info.test_lesson_student_status!=200 && require_info.test_lesson_student_status!=120 ){
             get_alert_info();
             return true;
         }
