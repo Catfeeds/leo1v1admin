@@ -529,4 +529,10 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    public function getStatisticalChat(){
+        $startTime = $this->get_in_int_val('startTime');
+        $endTime   = $this->get_in_int_val('endTime');
+        $ret_info = $this->t_product_feedback_list->getDataForChat($startTime,$endTime);
+
+    }
 }

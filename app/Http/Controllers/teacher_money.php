@@ -510,11 +510,16 @@ class teacher_money extends Controller
                 $update_arr['lessonid'] = $money_info;
             }elseif($type==E\Ereward_type::V_3){
                 $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
-                $add_time    = $lesson_money_info['lesson_start'];
-                $diff_time   = $lesson_money_info['lesson_end']-$add_time;
-                $check_time  = 90*60;
+                $lesson_start_time = $lesson_money_info['lesson_start'];
+                $lesson_end_time   = $lesson_money_info['lesson_end'];
+                $diff_time         = $lesson_end_time-$lesson_start_time;
+                $check_time        = 90*60;
                 if($diff_time != $check_time){
                     return $this->output_err("本节课不是90分钟，无法添加90分钟的课程补偿。");
+                }
+                $check_lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start_time, $lesson_end_time);
+                if($lesson_money_info['lesson_count']==$check_lesson_count){
+                    return $this->output_err("课程课时正确，不用补偿!");
                 }
 
                 $base_money = $lesson_money_info['money'];

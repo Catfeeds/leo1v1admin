@@ -40,4 +40,49 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
         return $this->main_get_list($sql);
     }
 
+    public function get_last_get_time($adminid){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'adminid', $adminid);
+        $sql = $this->gen_sql_new(
+            "select create_time "
+            ."from %s "
+            ."where %s order by create_time desc limit 1"
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_cc_end_list($adminid,$start_time, $end_time){
+        $where_arr = [
+            'called_count+no_called_count>0',
+        ];
+        $this->where_arr_add_int_field($where_arr, 'called_count', 0);
+        $this->where_arr_add_int_field($where_arr, 'cc_end', 0);
+        $this->where_arr_add_int_field($where_arr, "adminid" ,$adminid);
+        $this->where_arr_add_time_range($where_arr, 'create_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select * ".
+            " from %s ".
+            " where %s order by create_time asc "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_list($start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'l.create_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select l.*,n.add_time ".
+            " from %s l ".
+            " left join %s n on n.userid=l.userid ".
+            " where %s order by l.create_time asc "
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

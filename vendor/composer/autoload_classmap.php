@@ -753,6 +753,7 @@ return array(
     'TSellerEditLogAddFirstRevisitTime' => $baseDir . '/database/migrations/2018_01_19_165523_t_seller_edit_log_add_first_revisit_time.php',
     'TSellerEditLogAddNewCreateTimeIndex' => $baseDir . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
     'TSellerGetNewLog' => $baseDir . '/database/migrations/2018_01_18_110632_t_seller_get_new_log.php',
+    'TSellerGetNewLogAddCcEndNew' => $baseDir . '/database/migrations/2018_01_29_114822_t_seller_get_new_log_add_cc_end_new.php',
     'TSellerGetNewLogAddIndex' => $baseDir . '/database/migrations/2018_01_26_135352_t_seller_get_new_log_add_index.php',
     'TSellerGetNewLogAddIndexNew' => $baseDir . '/database/migrations/2018_01_18_114632_t_seller_get_new_log_add_index_new.php',
     'TSellerLevelGoal' => $baseDir . '/database/migrations/2017_10_09_163301_t_seller_level_goal.php',
