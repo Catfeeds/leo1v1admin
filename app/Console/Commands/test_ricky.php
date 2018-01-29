@@ -43,7 +43,9 @@ class test_ricky extends Command
 
         //90分钟 --- 排课时间、课程ID、老师姓名、学生姓名、上课时间、助教姓名、学生合同创建时间（第一份合同）
         // 常规课表
-        $info = $task->t_week_regular_course->get_all_info();
+        //$info = $task->t_week_regular_course->get_all_info();
+        // 寒假课表
+        $info = $task->t_winter_week_regular_course->get_all_info();
         foreach($info as $item) {
             $teacherid = $item["teacherid"];
             $userid = $item["userid"];
