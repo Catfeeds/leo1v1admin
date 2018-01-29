@@ -40,11 +40,13 @@ class seller_student_system_free extends cmd_base
             //3天内分配未拨通的量
             $check_free_list= $this->task->t_seller_student_new_b2->get_need_check_free_list();
             foreach( $check_free_list as $item ) {
+                $check_hold_flag=true;
                 $admin_revisiterid = $item["admin_revisiterid"];
                 $userid = $item["userid"];
                 $admin_assign_time= $item["admin_assign_time"];
                 $free_flag=!isset($work_start_time_map[$admin_revisiterid] ); //没有登录
                 if (!$free_flag) {
+                    $check_hold_flag = false;
                     if ($admin_assign_time < $today_start_time ) { //今天之前的例子都free
                         $free_flag=true;
                     }
@@ -67,6 +69,7 @@ class seller_student_system_free extends cmd_base
                     $opt_type=0;
                     $account="系统分配-回收例子";
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
+                    $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid);
                 }
             }
         }else { //  free -1 day
