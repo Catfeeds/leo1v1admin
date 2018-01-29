@@ -88,7 +88,22 @@ $(function(){
     no_select_teacher();
     select_teacher();
 
-    if(require_info.test_lesson_student_status != 200 && require_info.test_lesson_student_status != 120 ){
+    var get_alert_info = function(){
+        var show_title = "非待排课状态，若更换试听课，请取消课程，重新排课!";
+        if(require_info.accept_status==1){
+            show_title = "老师已经确认该课程，若更换试听课，请取消课程，重新排课!";
+        }
+        BootstrapDialog.alert(show_title);
+    }
+
+    var check_require_status = function(){
+        if(require_info.test_lesson_student_status!=200 && require_info.test_lesson_student_status!=120 && require_info.accept_status==1){
+            return true;
+        }
+        return false;
+    }
+
+    if(check_require_status()){
         $(".require_status").hide();
         $("#id_teacher_info").attr("readOnly","true");
         $("#id_lesson_time").attr("readOnly","true");
@@ -109,16 +124,9 @@ $(function(){
         });
     }
 
-    var check_require_status = function(){
-        if(require_info.test_lesson_student_status != 200 && require_info.test_lesson_student_status != 120 ){
-            BootstrapDialog.alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
-            return false;
-        }
-        return true;
-    }
 
     $(".opt-set-teacher").on("click",function(){
-        if(check_require_status()){
+        if(!check_require_status()){
             var data = $(this).get_opt_data();
             no_select_teacher();
             var teacher_info = data.realname+"/"+data.phone;
@@ -126,6 +134,8 @@ $(function(){
             $("#id_teacherid").val(data.teacherid);
             $("#id_teacher_info").val(teacher_info);
             select_teacher();
+        }else{
+            get_alert_info();
         }
     });
 
@@ -158,7 +168,7 @@ $(function(){
                             var do_post = function(){
                                 $.do_ajax("/ss_deal/course_set_new",{
                                     'require_id'      : g_args.require_id,
-                                    "grade"           : require_info.grade,
+                                    'grade'           : require_info.grade,
                                     'teacherid'       : teacherid,
                                     'lesson_start'    : lesson_time,
                                     'top_seller_flag' : require_info.seller_top_flag
