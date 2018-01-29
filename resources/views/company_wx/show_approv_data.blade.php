@@ -56,13 +56,15 @@
                     <td>{{$item['require_time']}}</td>
                     <td>{{$item['acc']}}</td>
                     @if ($item['data_url'])
-                        <td><a target="_blank" href={{$item['data_url']}}>数据下载<a></td>
+                        <td><a target="_blank" href={{$item['data_url']}} class="download">数据下载<a></td>
                     @else
                         <td></td>
                     @endif
                     <td data_id="{{$item['id']}}">
                         <a class="btn  fa fa-cog td-info" title="竖向显示"></a>
-                        <a class="btn fa fa-edit opt-edit" title="添加数据下载地址"></a>
+                        @if($flag)
+                            <a class="btn fa fa-edit opt-edit" title="添加数据下载地址"></a>
+                        @endif
                     </td>
                 </tr>
             @endforeach

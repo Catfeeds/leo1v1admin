@@ -12,7 +12,7 @@ class seller_student_reset_call_info extends cmd_base
      *
      * @var string
      */
-    protected $signature = "command:seller_student_reset_call_info";
+    protected $signature = "command:seller_student_reset_call_info {--day=}";
 
     /**
      * The console command description.
