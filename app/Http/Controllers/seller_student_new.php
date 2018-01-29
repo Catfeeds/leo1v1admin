@@ -772,6 +772,10 @@ class seller_student_new extends Controller
                 $cmd= new \App\Console\Commands\sync_tianrun();
                 $count=$cmd->load_data($last_get_time,time());
             }
+            $count = $this->t_seller_get_new_log->get_cc_end_count($adminid,strtotime(date('Y-m-d 00:00:00',time())),time());
+            if($count>=6){
+                // return $this->output_err("当日满6次主动挂断电话，禁止继续抢新");
+            }
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone");
             $competition_call_time = $row_data["competition_call_time"];
