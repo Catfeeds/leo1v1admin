@@ -342,7 +342,7 @@ $(function(){
             cssClass : 'btn-danger',
             action   : function(dialog) {
                 $.do_ajax("/ss_deal/confirm_test_lesson", {
-                    "require_id"             : opt_data.require_id ,
+                    "require_id"               : opt_data.require_id ,
                     "success_flag"             : $success_flag.val(),
                     "fail_reason"              : $fail_reason.val(),
                     "test_lesson_fail_flag"    : $test_lesson_fail_flag.val(),
