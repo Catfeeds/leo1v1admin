@@ -53,6 +53,11 @@
                 <div class="col-xs-2 col-md-1 ">
                     <button class="btn btn-danger opt-forever-del">永久删除</button>
                 </div>
+
+                <div class="col-xs-2 col-md-1 ">
+                    <button class="btn btn-danger opt-forever-del-file">永久删除文件</button>
+                </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <input class="opt-change form-control" id="id_file_title" placeholder="输入文件名称搜索" />
@@ -86,7 +91,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
                         <td>
-                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
+                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}" data-file_link="{{$var['file_link']}}" />
                         </td>
                         <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
@@ -99,7 +104,7 @@
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>
-                            <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
+                            <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}" data-file_link="{{$var['file_link']}}"  title="预览">预览</a>
                         </td>
 
                     </tr>

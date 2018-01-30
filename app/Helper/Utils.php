@@ -886,6 +886,54 @@ class Utils  {
         return $err;
     }
 
+    /**
+     * 删除七牛文件
+     * @param file    需要删除的文件名
+     * @return boolean
+     */
+    static public function qiniu_teacher_file_del($file,$bucket = null){
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+        $bucket    = empty($bucket) ? "teacher-doc" : $bucket;
+        $accessKey = $qiniu['access_key'];
+        $secretKey = $qiniu['secret_key'];
+        $qiniu["private_url"] ["url"] = "http://teacher-doc.qiniudn.com";
+        $qiniu["private_url"] ["bucket"] = $bucket;
+
+        $auth      = new \Qiniu\Auth ($accessKey, $secretKey);
+        $bucketMgr = new \Qiniu\Storage\BucketManager($auth);
+        //dd($qiniu);
+        $err = $bucketMgr->delete($bucket, $file);
+
+        return $err;
+    }
+
+    /**
+     * 获取七牛文件状态
+     * @param bucket 需要测试的七牛空间
+     * @param key    需要测试的文件名
+     * @return boolean
+     */
+    static public function qiniu_teacher_file_stat($key,$bucket = null){
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+        $bucket    = empty($bucket) ? "teacher-doc" : $bucket;
+        $accessKey = $qiniu['access_key'];
+        $secretKey = $qiniu['secret_key'];
+        $qiniu["private_url"] ["url"] = "http://teacher-doc.qiniudn.com";
+        $qiniu["private_url"] ["bucket"] = $bucket;
+
+        $auth      = new \Qiniu\Auth ($accessKey, $secretKey);
+        $bucketMgr = new \Qiniu\Storage\BucketManager($auth);
+
+        list($ret, $err) = $bucketMgr->stat($bucket, $key);
+
+        if($err != null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
 
     /**
      * 获取七牛文件状态

@@ -302,4 +302,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
+    public function batch_del($idstr){
+        $sql = $this->gen_sql_new("delete from %s where resource_id in %s",self::DB_TABLE_NAME,$idstr);
+        return $this->main_update($sql);
+    }
 }
