@@ -629,7 +629,7 @@ class tongji_ex extends Controller
             echo '</table>';
         }elseif($type == 2){
             echo '<h3 align="center">新例子电话接通率报告</h3>';
-            echo '<table border="1" width="600" align="center">';
+            echo '<table border="1" width="600" align="center" frame=void rules=none>';
             echo "<h4 align='center'>".date('Y-m-d',$end_time)."</h4>";
             echo '<tr>';
             echo "<td>今预警线:</td>";
@@ -641,8 +641,7 @@ class tongji_ex extends Controller
             echo '</tr>';
             echo '<tr>';
             echo "<td>黄色警报:</td>";
-            dd($count_y);
-            echo "<td><font color='#FF8C00'".$count_y."</font></td>";
+            echo "<td><font color='#FF8C00'>".$count_y."</font></td>";
             echo '</tr>';
             echo '<tr>';
             echo "<td>红色警报:</td>";
