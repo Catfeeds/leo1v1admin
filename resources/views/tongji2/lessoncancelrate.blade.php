@@ -1,11 +1,16 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
-      <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-      <script type="text/javascript" src="/js/qiniu/ui.js"></script>
-      <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
-      <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
-      <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" >
+     var dateArr= <?php  echo json_encode($dateArr); ?> ;
+     var rateArr= <?php  echo json_encode($rateArr); ?> ;
+    </script>
+
     <section class="content ">
 
         <div>
@@ -53,6 +58,8 @@
                 </table>
             </div>
         </div>
+
+        <div id="container" style="min-width:400px;height:400px"></div>
     </section>
 
 @endsection
