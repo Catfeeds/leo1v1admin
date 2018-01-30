@@ -1043,7 +1043,7 @@ class wx_parent_gift extends Controller
 
     # 记录添加人的数量
     public function recordAddNum(){
-        $id = $this->get_in_int_val('id');
+        $id = $this->get_in_int_val('type');
         $id = $id-100;
         $this->t_activity_usually->updateAddNum($id);
         return $this->output_succ();
