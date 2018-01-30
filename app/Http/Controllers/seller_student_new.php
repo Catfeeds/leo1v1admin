@@ -766,16 +766,7 @@ class seller_student_new extends Controller
             if($userid_new){
                 return $this->output_err("有试听课成功未回访",["userid" =>$userid_new,'adminid'=>$adminid]);
             }
-            //拨通未满60s
-            $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid);
-            if(time()-$last_get_time<660){
-                $cmd= new \App\Console\Commands\sync_tianrun();
-                $count=$cmd->load_data($last_get_time,time());
-            }
-            $count = $this->t_seller_get_new_log->get_cc_end_count($adminid,strtotime(date('Y-m-d 00:00:00',time())),time());
-            if($count>=6){
-                // return $this->output_err("当日满6次主动挂断电话，禁止继续抢新");
-            }
+            
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone");
             $competition_call_time = $row_data["competition_call_time"];
@@ -1510,8 +1501,20 @@ class seller_student_new extends Controller
                 "你的例子分配规则,被设置为:系统分配,可以在 <所有用户> 中看到推送给你的例子",
                 "抢单不可用",
             ]);
-
         }
+        //拨通未满60s
+        $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid);
+        if(time()-$last_get_time<660){
+            $cmd= new \App\Console\Commands\sync_tianrun();
+            $count=$cmd->load_data($last_get_time,time());
+        }
+        $count = $this->t_seller_get_new_log->get_cc_end_count($adminid,strtotime(date('Y-m-d',time())),time());
+        if($count>=6 && in_array($this->get_account(), ['陈同','徐磊','田鹏程'])){
+            return  $this->error_view([
+                "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
+            ]);
+        }
+
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
         $this->set_filed_for_js("open_flag",0);
