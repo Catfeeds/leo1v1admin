@@ -104,7 +104,7 @@
                             <td >{{isset($var["already_lesson_count"])?@$var["already_lesson_count"]/100:""}}</td>
                             <td>
                                 <div class="opt-div"
-                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                     {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}
                                 >
                                     <a class="opt-goto-lesson">课程</a>
                                     <a class="fa-video-camera opt-play" title="回放"></a>

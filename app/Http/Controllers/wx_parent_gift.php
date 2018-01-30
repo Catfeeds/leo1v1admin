@@ -6,6 +6,11 @@ use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
 use Illuminate\Support\Facades\Input;
+use App\Helper\Utils;
+use Illuminate\Support\Facades\Cookie ;
+use Illuminate\Support\Facades\Redis ;
+use Illuminate\Support\Facades\Session ;
+
 
 
 class wx_parent_gift extends Controller
@@ -994,17 +999,17 @@ class wx_parent_gift extends Controller
             $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //活动页面
         }
 
-        if(time()<strtotime('2018-1-30')){
+        if(time()<strtotime('2018-1-31')){
             # 原有内容
             if($imgUrlInfo['followImgUrl']){
                 $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
             }
         }else{
             # 未上线,待测试
-            # 为了分散每个微信群的压力,满98人时切换另一个微信群
+            # 为了分散每个微信群的压力,满97人时切换另一个微信群
             if($imgUrlInfo['followImgUrl']){
-                $img_arr = implode($imgUrlInfo['followImgUrl'], ',');
-                $index = floor($imgUrlInfo['add_num']/98);
+                $img_arr = explode(',',$imgUrlInfo['followImgUrl']);
+                $index = floor($imgUrlInfo['add_num']/97);
                 $follow_str = $img_arr[$index];
                 $imgNum = count($img_arr);
                 $AdminOpenid = 'orwGAs9rPeoW665kCsrQD_rswjv4';//[罗艳]
@@ -1023,9 +1028,9 @@ class wx_parent_gift extends Controller
                     $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面
                 }
 
-                # 检查人数 当人数超过 98 时 通知管理员活动页已切换 [罗艳] orwGAs9rPeoW665kCsrQD_rswjv4
+                # 检查人数 当人数超过 97 时 通知管理员活动页已切换 [罗艳] orwGAs9rPeoW665kCsrQD_rswjv4
                 $add_time = $imgUrlInfo['add_time'];
-                $noticeIndex = $add_time%98;
+                $noticeIndex = $add_time%97;
                 if($noticeIndex == 0){
                     $data= [
                         "first"     => "市场推广活动 关注页切换通知 活动ID:".$id,
@@ -1043,8 +1048,19 @@ class wx_parent_gift extends Controller
 
     # 记录添加人的数量
     public function recordAddNum(){
-        $id = $this->get_in_int_val('id');
-        $this->t_activity_usually->updateAddNum($id);
+        $id = $this->get_in_int_val('type');
+        $id = $id-100;
+        $openid = $this->get_in_str_val('openid');
+        $key = $id.'_'.$openid.'_market';
+        $checkData = \App\Helper\Common::redis_get($key);
+        \App\Helper\Common::redis_expire($key,86400);
+        \App\Helper\Utils::logger("james_redis: $checkData ;key:$key");
+
+        if($checkData != 1){
+            \App\Helper\Common::redis_set($key,1);
+            $this->t_activity_usually->updateAddNum($id);
+        }
+
         return $this->output_succ();
     }
 

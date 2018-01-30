@@ -1775,6 +1775,10 @@ class test_james extends Controller
     }
 
     public function getTea(){
+        $followImgUrl = '0fb15c77258a991b0028080a64fb42d1517192851140.png';
+        $img_arr = explode(',',$followImgUrl);
+
+        dd($img_arr);
         $a = floor(0.2);
         dd($a);
         $a = 10%10;
