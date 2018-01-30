@@ -126,7 +126,7 @@ $(function(){
                     // $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
                     $follow_list.parent().parent().css('display','table-row');
 
-                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img style="width: 54px; height: 48px; position: relative; z-index: 1;" img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -302,7 +302,7 @@ $(function(){
                 if(res.key){
                     $('.del_follow').css('display','block');
                     $follow_list.parent().parent().css('display','table-row');
-                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img style="width: 54px; height: 48px; position: relative; z-index: 1;" img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
 
                 }
 
@@ -361,10 +361,9 @@ $(function(){
                     load_data();
                 }
             },function(){
-                // console.log(imglist);
                 var $imgArr = imglist['followImgUrl'].split(',');
                 $.each($imgArr,function(i,item){
-                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+item+'" src="https://ybprodpub.leo1v1.com/'+item+'"></div>');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+item+'" src="'+item+'"></div>');
                 });
 
             });
