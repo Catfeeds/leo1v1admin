@@ -711,7 +711,34 @@ class tongji_ex extends Controller
     }
 
     public function tmk_set_list(){
+        $ret_info = [];
         $ret = $this->t_seller_student_new->get_item_tmk_list();
-        dd($ret);
+        foreach($ret as $item){
+            $ret_info[$item['userid']]['userid'] = isset($ret_info[$item['userid']]['userid'])?$ret_info[$item['userid']]['userid']:$item['userid'];
+            $ret_info[$item['userid']]['list'][$item['userid']] = isset($ret_info[$item['userid']]['list'][$item['userid']])?$ret_info[$item['userid']]['list'][$item['userid']]:$item;
+            $ret_info[$item['userid']]['is_exist_count'] = isset($ret_info[$item['userid']]['is_exist_count'])?($ret_info[$item['userid']]['is_exist_count']>$item['is_exist_count']?$ret_info[$item['userid']]['is_exist_count']:$item['is_exist_count']):$item['is_exist_count'];
+            $ret_info[$item['userid']]['add_time_old'] = isset($ret_info[$item['userid']]['add_time_old'])?$ret_info[$item['userid']]['add_time_old']:$item['add_time_old'];
+        }
+
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h4>TMK标记无效重复进入例子</h4></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>userid</th><th>渠道详情</th><th>例子进入时间</th><th>重复进入次数</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            echo '<tr>';
+            echo '<td>'.$item['userid'].'</td>';
+            echo '<td>';
+            foreach($item['list'] as $info){
+                echo '渠道:'.$info['origin'].'<br/>';
+                echo '科目:'.$info['subject'].'<br/>';
+                echo '进入日期:'.date('Y-m-d H:i:s',$info['add_time']).'<br/>';
+            }
+            echo '</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['add_time_old']).'</td>';
+            echo '<td>'.$item['is_exist_count'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
     }
 }
