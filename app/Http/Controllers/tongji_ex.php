@@ -603,6 +603,8 @@ class tongji_ex extends Controller
             $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
         }
         if($type == 1){
+            echo '<table border="1" width="600" align="center">';
+            echo '<caption>';
             echo '新例子电话接通率警报详情'."\n";
             echo "<br/>";
             echo "警报时间:<font color='#FF8C00'>".date("Y-m-d H:i:s",$end_time)."</font>\n";
@@ -611,8 +613,11 @@ class tongji_ex extends Controller
             echo "今预警线:<font color='#FF8C00'>".$threshold."%"."</font>\n";
             echo "拨打量:<font color='#FF8C00'>".$count_call."</font>\n";
             echo "拨不通:<font color='#FF8C00'>".$count_no_called."</font>";
-            echo "<br/>";
+            echo '</caption>';
+            echo '</table>';
         }elseif($type == 2){
+            echo '<table border="1" width="600" align="center">';
+            echo '<caption>';
             echo '新例子电话接通率报告'."\n";
             echo date('Y-m-d',$end_time)."\n";
             echo "<br/>";
@@ -624,7 +629,8 @@ class tongji_ex extends Controller
             echo "总拨通率:".$rate."%"."\n";
             echo "总拨打量:".$count_call."\n";
             echo "总拨不通:".$count_no_called;
-            echo "<br/>";
+            echo '</caption>';
+            echo '</table>';
         }
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h4>警报统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
