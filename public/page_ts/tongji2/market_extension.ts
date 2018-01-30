@@ -264,7 +264,7 @@ $(function(){
                 $follow_list.parent().parent().css('display','table-row');
                 var list_arr = opt_data.followimgurl.split(',');
                 $.each(list_arr,function(i,item){
-                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+item+'" src="https://ybprodpub.leo1v1.com/'+item+'"></div>');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img style="width: 54px; height: 48px; position: relative; z-index: 1;" img_key="'+item+'" src="https://ybprodpub.leo1v1.com/'+item+'"></div>');
                 });
             }
 
