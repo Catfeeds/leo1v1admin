@@ -25,18 +25,20 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
 
     //添加活动
-    $('#tag_add').on('click',function(){
+    $('#tag_add').on('click',function(e){
 
         var arr =  get_public_arr();
-        var id_tag = $('<input style="width:80%" />');
+        var id_tag = $('<input style="width:80%" onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);"  />');
 
         arr.push(["学科化标签",id_tag]);
 
-        $.show_key_value_table("添加活动", arr ,{
+        $.show_key_value_table("添加学科化标签", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-                //checkPut.apply(this,arguments);
+               
+                if(!checkPut()) return;
+
                 var tag = id_tag.val();
                 if(!tag){
                     BootstrapDialog.alert("学科化标签必填");
@@ -76,16 +78,16 @@ $(function(){
     //批量添加
     $('#batach_add').on('click',function(){
         var arr =  get_public_arr();
-        var id_tag_1 = $('<input id="tag_1" style="width:80%" />');
-        var id_tag_2 = $('<input id="tag_2" style="width:80%" />');
-        var id_tag_3 = $('<input id="tag_3" style="width:80%" />');
-        var id_tag_4 = $('<input id="tag_4" style="width:80%" />');
-        var id_tag_5 = $('<input id="tag_5" style="width:80%" />');
-        var id_tag_6 = $('<input id="tag_6" style="width:80%" />');
-        var id_tag_7 = $('<input id="tag_7" style="width:80%" />');
-        var id_tag_8 = $('<input id="tag_8" style="width:80%" />');
-        var id_tag_9 = $('<input id="tag_9" style="width:80%" />');
-        var id_tag_10 = $('<input id="tag_10" style="width:80%" />');
+        var id_tag_1 = $('<input id="tag_1" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);"  />');
+        var id_tag_2 = $('<input id="tag_2" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
+        var id_tag_3 = $('<input id="tag_3" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
+        var id_tag_4 = $('<input id="tag_4" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);"  />');
+        var id_tag_5 = $('<input id="tag_5" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
+        var id_tag_6 = $('<input id="tag_6" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
+        var id_tag_7 = $('<input id="tag_7" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
+        var id_tag_8 = $('<input id="tag_8" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
+        var id_tag_9 = $('<input id="tag_9" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
+        var id_tag_10 = $('<input id="tag_10" style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
 
         arr.push(["学科化标签1",id_tag_1]);
         arr.push(["学科化标签2",id_tag_2]);
@@ -104,6 +106,8 @@ $(function(){
             cssClass: 'btn-warning',
             action : function(dialog) {
                 //checkPut();
+                if(!checkPut()) return;
+
                 var tag_arr = [
                     id_tag_1.val(),id_tag_2.val(),id_tag_3.val(),id_tag_4.val(),id_tag_5.val(),
                     id_tag_6.val(),id_tag_7.val(),id_tag_8.val(),id_tag_9.val(),id_tag_10.val(),
@@ -190,7 +194,7 @@ $(function(){
         Enum_map.append_option_list("resource_season",id_season,true);
         id_season.val(opt_data.season_id);
 
-        var id_tag = $('<input style="width:80%" />');
+        var id_tag = $('<input style="width:80%"  onkeydown="return banInputSapce(event);" onKeyup="return inputSapceTrim(event,this);" />');
         id_tag.val(opt_data.tag);
 
         var arr =  [
@@ -206,7 +210,9 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-                //checkPut();
+               
+                if(!checkPut()) return;
+
                 var tag = id_tag.val();
                 if(!tag){
                     BootstrapDialog.alert("学科化标签必填");
@@ -456,7 +462,8 @@ function is_show_season(val){
 }
 
 //检查必填
-function checkPut(){
+var checkPut = function(){
+
     var subject = $("#check_subject").val();
     var grade = $("#check_grade").val();
     var book = $("#check_book").val();
@@ -487,5 +494,57 @@ function checkPut(){
         BootstrapDialog.alert("春暑秋寒必选");
         return false;
     }
-
+    return true;
 }
+
+/** 
+ * 空格输入去除 
+ * @param e 
+ * @returns {Boolean} 
+ */ 
+function inputSapceTrim(e,this_temp){ 
+    this_temp.value = Trim(this_temp.value,"g"); 
+    var keynum; 
+    if(window.event){ 
+        keynum = e.keyCode 
+    }else if(e.which){ 
+        keynum = e.which 
+    } 
+    if(keynum == 32){ 
+        return false; 
+    } 
+    return true; 
+}
+
+/** 
+ * 是否去除所有空格 
+ * @param str 
+ * @param is_global 如果为g或者G去除所有的 
+ * @returns 
+ */ 
+function Trim(str,is_global){ 
+    var result; 
+    result = str.replace(/(^\s+)|(\s+$)/g,""); 
+    if(is_global.toLowerCase()=="g"){ 
+        result = result.replace(/\s/g,""); 
+    } 
+    return result; 
+} 
+
+/** 
+ * 禁止空格输入 
+ * @param e 
+ * @returns {Boolean} 
+ */ 
+function banInputSapce(e) { 
+    var keynum; 
+    if(window.event){ 
+        keynum = e.keyCode 
+    }else if(e.which){ 
+        keynum = e.which 
+    } 
+    if(keynum == 32){ 
+        return false; 
+    } 
+    return true; 
+} 

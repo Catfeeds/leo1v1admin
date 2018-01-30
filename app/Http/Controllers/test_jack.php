@@ -14,6 +14,13 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-02-01");
+        $adminid = 1416;
+        $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
+        dd($kk_suc);
+
+
         $job = new \App\Jobs\SendAdvanceTeacherWxEmail(1506787200,6);
         dispatch($job);
         dd(111);
@@ -270,8 +277,8 @@ class test_jack  extends Controller
         // dd(json_decode($tt,true));
         $ret_info = $this->t_teacher_lecture_appointment_info->get_tongji_data($start_time,$end_time);
         dd($ret_info);
-        // $json_data=file_get_contents( "http://10.31.92.162/account/add_small_class_order_info"  );
-        // dd($json_data);
+        $json_data=file_get_contents( "http://10.31.92.162/account/login/phone=13817759346&role=1&passwd=befe7ecb6a1aab4ad80332b34ef782d8"  );
+        dd($json_data);
 
         // $registered_student_arr=[1,2,3,4];
         // $read_student_arr =[2,3];
@@ -1944,6 +1951,39 @@ class test_jack  extends Controller
     }
 
     public function get_reference_teacher_money_info(){
+        //拉数据
+
+        $this->check_and_switch_tongji_domain();
+        $list = $this->t_lesson_info_b3->get_same_stu_grade_subject_num_list();
+        // $data = json_encode($list);
+        // $this->t_teacher_info->field_update_list(240314,[
+        //     "prize"  => $data
+        // ]);
+        // dd($list);
+
+        // $list = $this->t_teacher_info->get_prize(240314);
+        // $list = json_decode($list,true);
+        $data = [];
+        foreach($list as $val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            @$data[$str]++;
+        }
+        foreach($list as $k=>&$val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            if(@$data[$str]>1){
+                $val["change_num"]= @$data[$str]-1;
+            }else{
+                unset($list[$k]);
+            }
+           E\Esubject::set_item_value_str($val);
+           E\Egrade::set_item_value_str($val);
+
+        }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list
+        ]);
+
+        dd($list);
        
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2018-01-01");

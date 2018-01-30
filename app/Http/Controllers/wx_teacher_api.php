@@ -266,7 +266,7 @@ class wx_teacher_api extends Controller
         if(!empty($last_info_arr)){
             $last_info = $last_info_arr[0];
             if($last_info['complaint_info'] == $complaint_info && ($last_info['add_time']+120) > $now){
-                return $this->output_err();
+                return $this->output_err('');
             }
         }
 

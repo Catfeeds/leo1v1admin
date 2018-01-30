@@ -427,7 +427,7 @@ class user_manage_new extends Controller
             }
 
             $item['lesson_full_reward'] = \App\Helper\Utils::get_lesson_full_reward($item['lesson_full_num']);
-            $this->get_lesson_cost_info($item,$check_num);
+            $this->get_lesson_cost_info($item,$check_num,"admin");
 
             if($item['confirm_flag']==2){
                 $item['lesson_price'] = 0;

@@ -532,6 +532,17 @@ class tongji_ex extends Controller
 
     public function threshold_detail(){
         list($start_time,$end_time,$ret_report,$ret_rate,$ret_origin,$ret_origin_info,$rate_arr,$rate_min,$rate_max) = [$this->get_in_int_val('start_time',strtotime(date('Y-m-d',time()))),$this->get_in_int_val('end_time',strtotime(date('Y-m-d',time()))+3600*24),[],[],[],[],[],0,0];
+        $type = $this->get_in_int_val('type');
+        $color = $this->get_in_str_val('color');
+        $threshold = $this->get_in_int_val('threshold_line');
+        $count_call = $this->get_in_int_val('count_call');
+        $count_no_called = $this->get_in_int_val('count_no_called');
+        $threshold_max = $this->get_in_int_val('threshold_max');
+        $threshold_min = $this->get_in_int_val('threshold_min');
+        $count_y = $this->get_in_int_val('count_y');
+        $count_r = $this->get_in_int_val('count_r');
+        $rate = $this->get_in_int_val('rate');
+
         $ret = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
         $rate_arr = array_unique(array_column($ret, 'new'));
         if(count($rate_arr)>1){
@@ -556,7 +567,7 @@ class tongji_ex extends Controller
                 $ret_rate[$rate_min]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_min]['time'] = date('Y-m-d H:i:s',$item['create_time']);
             }elseif($item['new']==$rate_max){
-                $ret_rate[$rate_min]['type'] = '今最高';
+                $ret_rate[$rate_max]['type'] = '今最高';
                 $ret_rate[$rate_max]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_max]['time'] = date('Y-m-d H:i:s',$item['create_time']);
             }
@@ -590,7 +601,112 @@ class tongji_ex extends Controller
             $ret_origin_info[$origin_level]['called_count'] = $called_count;
             $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
         }
-        $ret_info = [];
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['ret_report'=>$ret_report,'ret_rate'=>$ret_rate,'ret_origin_info'=>$ret_origin_info]);
+        if($type == 1){
+            $color_font = $color=='黄色'?'#FF8C00':'#FF3030';
+            echo '<h3 align="center">新例子电话接通率警报详情</h3>';
+            echo '<table border="1" width="600" align="center" frame=void rules=none>';
+            echo '<tr>';
+            echo "<td>警报时间:</td>";
+            echo "<td><font color='".$color_font."'>".date("Y-m-d H:i:s",$end_time)."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>警报级别:</td>";
+            echo "<td><font color='".$color_font."'>".$color."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>今预警线:</td>";
+            echo "<td><font color='".$color_font."'>".$threshold."%"."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>拨打量:</td>";
+            echo "<td><font color='".$color_font."'>".$count_call."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>拨不通:</td>";
+            echo "<td><font color='".$color_font."'>".$count_no_called."</font></td>";
+            echo '</tr>';
+            echo '</table>';
+        }elseif($type == 2){
+            echo '<h3 align="center">新例子电话接通率报告</h3>';
+            echo '<table border="1" width="600" align="center" frame=void rules=none>';
+            echo "<h4 align='center'>".date('Y-m-d',$end_time)."</h4>";
+            echo '<tr>';
+            echo "<td>今预警线:</td>";
+            echo "<td><font color='#FF8C00'>".$threshold_max."%</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>今警戒线:</td>";
+            echo "<td><font color='#FF3030'>".$threshold_min.'%'."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>黄色警报:</td>";
+            echo "<td><font color='#FF8C00'>".$count_y."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>红色警报:</td>";
+            echo "<td><font color='#FF3030'>".$count_r."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>总拨通率:</td>";
+            echo "<td>".$rate."%</td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>总拨打量:</td>";
+            echo "<td>".$count_call."</td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>总拨不通:</td>";
+            echo "<td>".$count_no_called."</td>";
+            echo '</tr>';
+            echo '</table>';
+        }
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h4>警报统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>警报序号</th><th>警报类型</th><th>警报时间</th>';
+        echo '</tr>';
+        foreach($ret_report as $item){
+            echo '<tr>';
+            if($item['type']=='黄色'){
+                echo "<td><font color='#FF8C00'>".$item['num']."</font></td>";
+                echo "<td><font color='#FF8C00'>".$item['type']."</font></td>";
+                echo "<td><font color='#FF8C00'>".$item['time']."</font></td>";
+            }elseif($item['type']=='红色'){
+                echo "<td><font color='#FF3030'>".$item['num']."</font></td>";
+                echo "<td><font color='#FF3030'>".$item['type']."</font></td>";
+                echo "<td><font color='#FF3030'>".$item['time']."</font></td>";
+            }
+            echo '</tr>';
+        }
+        echo '</table>';
+        echo '<br/>';
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h4>拨通率统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>峰值类型</th><th>拨通率</th><th>时间</th>';
+        echo '</tr>';
+        foreach($ret_rate as $item){
+            echo '<tr>';
+            echo '<td>'.$item['type'].'</td>';
+            echo '<td>'.$item['rate'].'</td>';
+            echo '<td>'.$item['time'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+        echo '<br/>';
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h4>渠道统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>渠道等级</th><th>拨打量</th><th>拨通量</th><th>拨通率</th>';
+        echo '</tr>';
+        foreach($ret_origin_info as $item){
+            echo '<tr>';
+            echo '<td>'.$item['origin_level'].'</td>';
+            echo '<td>'.$item['call_count'].'</td>';
+            echo '<td>'.$item['called_count'].'</td>';
+            echo '<td>'.$item['rate'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
     }
 }

@@ -149,6 +149,7 @@ class seller_student_system_assign extends cmd_base
 
 
     public function   assign_no_connected ( $left_no_connected_count_all, $admin_list  ) {
+        //30天内未拨通电话
         $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
             E\Etq_called_flag::V_1
         );
@@ -159,8 +160,8 @@ class seller_student_system_assign extends cmd_base
             shuffle ($need_deal_list);
             $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
             foreach( $admin_list as &$item ) {
-                $assigned_no_connected_count=$item["assigned_no_connected_count"];
-                $def_no_connected_count=$item["def_no_connected_count"];
+                $assigned_no_connected_count=$item["assigned_no_connected_count"];//已获取奖励数量
+                $def_no_connected_count=$item["def_no_connected_count"];//分配奖励数量
                 $opt_adminid= $item["uid"];
                 for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
                     for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
@@ -173,8 +174,9 @@ class seller_student_system_assign extends cmd_base
                             $opt_type=0;
                             $account="系统分配-未拨通例子";
                             $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                            $check_hold_flag = false;
                             $this->task->t_seller_student_system_assign_log->add(
-                                E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid
+                                E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
                             );
                             unset($need_deal_list[$j]);
                             $start_deal_index=$j+1;
@@ -236,6 +238,7 @@ class seller_student_system_assign extends cmd_base
                     ){
                         $round_seller_level_map[$seller_level_flag][$adminid]=0;
                         /*
+                        //按分配算法查找用户
                         $find_userid=$this->get_assign_userid( $level_map ,$seller_level );
                         if($find_userid) {
                             $assigned_count++;
@@ -371,13 +374,13 @@ class seller_student_system_assign extends cmd_base
         //E\Eorigin_level
 
         switch ( $seller_level_flag ) {
-        case 1 :  //S级:所有
+        case 1 :  //S级:所有 S A B C
             $origin_level_list=[1, 2, 3, 4] ; break;
-        case 2 :  //A级
+        case 2 :  //A级:A S B C
             $origin_level_list=[2,1,3,4 ]; break;
-        case 3 : //B级:B,
+        case 3 : //B级:B A C S
             $origin_level_list=[3,2,4,1 ]; break;
-        default: //其它:c
+        default: //其它:C B A S
             $origin_level_list=[4,3,2,1 ]; break;
         }
 
