@@ -529,4 +529,180 @@ class tongji_ex extends Controller
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list),['data_ex_list'=>$ret]);
     }
+
+    public function threshold_detail(){
+        list($start_time,$end_time,$ret_report,$ret_rate,$ret_origin,$ret_origin_info,$rate_arr,$rate_min,$rate_max) = [$this->get_in_int_val('start_time',strtotime(date('Y-m-d',time()))),$this->get_in_int_val('end_time',strtotime(date('Y-m-d',time()))+3600*24),[],[],[],[],[],0,0];
+        list($start_time,$end_time)=[1517155200,1517241600];
+        /*
+          $url='http://p.admin.leo1v1.com/tongji_ex/threshold_detail?color='.$color.'&threshold_line='.$threshold.'&count_call='.$count_call.'&count_no_called='.$count_no_called.'&type=1');
+          $desc = "警报时间：".date("Y-m-d H:i:s")."\n"
+          ."警报级别：".$color."\n"
+          .$threshold_desc.$threshold."%"."\n"
+          ."拨打量：".$count_call."\n"
+          ."拨不通：".$count_no_called;
+
+          $url='http://p.admin.leo1v1.com/tongji_ex/threshold_detail?threshold_max='.$threshold_max.'&threshold_min='.$threshold_min.'&count_y='.$count_y.'&count_r='.$count_r.'&rate='.$rate.'&count_call='.$count_call.'&count_no_called='.$r_count_no_called.'&type=2');
+          $theme = "新例子电话接通率报告";
+          $desc = "今预警线：".$threshold_max."%"."\n"
+          ."今警戒线：".$threshold_min."%"."\n"
+          ."黄色警报：".$count_y."\n"
+          ."红色警报：".$count_r."\n"
+          ."总拨通率：".$rate."%"."\n"
+          ."总拨打量：".$count_call."\n"
+          ."总拨不通：".$count_no_called;
+         */
+        $color = $this->get_in_str_val('color');
+        $threshold_line = $this->get_in_int_val('threshold_line');
+        $count_call = $this->get_in_int_val('count_call');
+        $count_no_called = $this->get_in_int_val('count_no_called');
+        $type = $this->get_in_int_val('type');
+
+        $threshold_max = $this->get_in_int_val('threshold_max');
+        $threshold_min = $this->get_in_int_val('threshold_min');
+        $count_y = $this->get_in_int_val('count_y');
+        $count_r = $this->get_in_int_val('count_r');
+        $rate = $this->get_in_int_val('rate');
+
+
+        $ret = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
+        $rate_arr = array_unique(array_column($ret, 'new'));
+        if(count($rate_arr)>1){
+            $rate_min = min($rate_arr);
+            $rate_max = max($rate_arr);
+        }
+        $num = 0;
+        foreach($ret as $key=>$item){
+            if($item['old'] == 1){
+                $num++;
+                $ret_report[$key]['num']=$num;
+                $ret_report[$key]['type']='黄色';
+                $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
+            }elseif($item['old'] == 2){
+                $num++;
+                $ret_report[$key]['num']=$num;
+                $ret_report[$key]['type']='红色';
+                $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
+            }
+            if($item['new']==$rate_min){
+                $ret_rate[$rate_min]['type'] = '今最低';
+                $ret_rate[$rate_min]['rate'] = $item['new'].'%';
+                $ret_rate[$rate_min]['time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }elseif($item['new']==$rate_max){
+                $ret_rate[$rate_max]['type'] = '今最高';
+                $ret_rate[$rate_max]['rate'] = $item['new'].'%';
+                $ret_rate[$rate_max]['time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }
+        }
+
+        $ret = $this->t_seller_get_new_log->get_call_list($start_time,$end_time);
+        $origin_arr = array_unique(array_column($ret, 'origin_level'));
+        foreach($origin_arr as $origin_level){
+            foreach($ret as $item){
+                if($item['origin_level'] == $origin_level){
+                    $ret_origin[$origin_level][$item['userid']]['userid'] = isset($ret_origin[$origin_level][$item['userid']]['userid'])?$ret_origin[$origin_level][$item['userid']]['userid']:$item['userid'];
+                    $ret_origin[$origin_level][$item['userid']]['called_count'] = isset($ret_origin[$origin_level][$item['userid']]['called_count'])?($ret_origin[$origin_level][$item['userid']]['called_count']+$item['called_count']):$item['called_count'];
+                    $ret_origin[$origin_level][$item['userid']]['no_called_count'] = isset($ret_origin[$origin_level][$item['userid']]['no_called_count'])?($ret_origin[$origin_level][$item['userid']]['no_called_count']+$item['no_called_count']):$item['no_called_count'];
+                }
+            }
+        }
+        foreach($ret_origin as $origin_level=>$item){
+            $ret_origin_info[$origin_level]['origin_level'] = E\Eorigin_level::get_desc($origin_level);
+            $ret_origin_info[$origin_level]['count'] = count($item);
+            $call_count = 0;
+            $called_count = 0;
+            foreach($item as $info){
+                if($info['called_count']+$info['no_called_count']>0){
+                    $call_count++;
+                }
+                if($info['called_count']>0){
+                    $called_count++;
+                }
+            }
+            $ret_origin_info[$origin_level]['call_count'] = $call_count;
+            $ret_origin_info[$origin_level]['called_count'] = $called_count;
+            $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
+        }
+        if($type == 1){
+            echo '新例子电话接通率警报详情'."\n";
+            echo "<br/>";
+            echo "警报时间:<font color='yellow'>".date("Y-m-d H:i:s",$end_time)."</font>\n";
+            echo "警报级别:<font color='yellow'>".$color."</font>\n";
+            echo "<br/>";
+            echo "今预警线:<font color='yellow'>".$threshold."%"."</font>\n";
+            echo "拨打量:<font color='yellow'>".$count_call."</font>\n";
+            echo "拨不通:<font color='yellow'>".$count_no_called."</font>";
+            echo "<br/>";
+        }elseif($type == 2){
+            echo '新例子电话接通率报告'."\n";
+            echo date('Y-m-d',$end_time)."\n";
+            echo "<br/>";
+            echo "今预警线:<font color='yellow'>".$threshold_max.'%'."</font>\n";
+            echo "今警戒线:<font color='red'>".$threshold_min.'%'."</font>\n";
+            echo "黄色警报:".$count_y."\n";
+            echo "红色警报:".$count_r."\n";
+            echo "<br/>";
+            echo "总拨通率:".$rate."%"."\n";
+            echo "总拨打量:".$count_call."\n";
+            echo "总拨不通:".$count_no_called;
+            echo "<br/>";
+        }
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>警报统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>警报序号</th><th>警报类型</th><th>警报时间</th>';
+        echo '</tr>';
+        foreach($ret_report as $item){
+            echo '<tr>';
+            echo '<td>'.$item['num'].'</td>';
+            echo '<td>'.$item['type'].'</td>';
+            echo '<td>'.$item['time'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+        echo '<br/>';
+        echo '<br/>';
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>拨通率统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>峰值类型</th><th>拨通率</th><th>时间</th>';
+        echo '</tr>';
+        foreach($ret_rate as $item){
+            echo '<tr>';
+            echo '<td>'.$item['type'].'</td>';
+            echo '<td>'.$item['rate'].'</td>';
+            echo '<td>'.$item['time'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+        echo '<br/>';
+        echo '<br/>';
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>渠道统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>渠道等级</th><th>拨打量</th><th>拨通量</th><th>拨通率</th>';
+        echo '</tr>';
+        foreach($ret_origin_info as $item){
+            echo '<tr>';
+            echo '<td>'.$item['origin_level'].'</td>';
+            echo '<td>'.$item['call_count'].'</td>';
+            echo '<td>'.$item['called_count'].'</td>';
+            echo '<td>'.$item['rate'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+
+
+        // $ret_info = [];
+        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
+        //     'ret_report'=>$ret_report,
+        //     'ret_rate'=>$ret_rate,
+        //     'ret_origin_info'=>$ret_origin_info,
+        //     'end_time'=>date('Y-m-d H:i:s',$end_time),
+        //     'report_time'=>$report_time,
+        //     'color'=>$color,
+        //     'threshold_line'=>$threshold_line,
+        //     'count_call'=>$count_call,
+        //     'count_no_called'=>$count_no_called,
+        // ]);
+    }
 }

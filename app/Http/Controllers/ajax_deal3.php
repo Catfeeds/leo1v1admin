@@ -344,6 +344,36 @@ class ajax_deal3 extends Controller
                 "first_lesson_stu_list" =>$first_subject_list,
             ];
 
+            $list  = $this->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time,-1,$assistantid);
+            $i=0;
+            foreach($list as $val){
+                $id = $val["id"];
+                if($id>0){
+                    $info =$this->t_teacher_record_list->get_record_info($id);
+                    $lessonid =$this->t_teacher_record_list->get_train_lessonid($id);
+                    $info .= "lessonid".$lessonid." change to".$val["lessonid"].",时间:".time().";";
+                    $this->t_teacher_record_list->field_update_list($id,[
+                        "lesson_time" => $val["lesson_start"],
+                        "record_info" => $info,
+                        "train_lessonid"=>$val["lessonid"]
+                    ]);
+
+                }else{
+                    $add_time = time()+$i;
+                    $this->t_teacher_record_list->row_insert([
+                        "teacherid"      => $val["teacherid"],
+                        "userid"         => $val["userid"],
+                        "lesson_subject" => $val["subject"],
+                        "lesson_time"    => $val["lesson_start"],
+                        "train_lessonid" => $val["lessonid"],
+                        "add_time"       => $add_time,
+                        "type"           => 18
+                    ]);
+                    $i++;
+                }
+            }
+
+
         }
 
 
@@ -863,6 +893,36 @@ class ajax_deal3 extends Controller
         return $this->output_succ();
 
  
+    }
+
+    //新增测试助教(薪资)
+    public function add_ass_performance(){
+        $assistantid    = $this->get_in_int_val("assistantid");
+        $start_time    = strtotime($this->get_in_str_val("start_time"));
+        $uid = $this->t_manager_info->get_ass_adminid($assistantid);
+        $adminid_exist = $this->t_month_ass_student_info->get_ass_month_info($start_time,$uid,1);
+        $update_arr=[];
+        if($adminid_exist){
+        }else{
+            $update_arr["adminid"] =$uid;
+            $update_arr["month"]   =$start_time;
+            $update_arr["kpi_type"]   =1;
+            $this->t_month_ass_student_info->row_insert($update_arr);
+            $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid(-1,$uid);
+           
+            if(!$db_groupid){            
+                $this->t_admin_group_user->row_insert([
+                    "groupid"   => 38,
+                    "adminid"   => $uid,
+                ]);
+            }
+            return $this->output_succ();
+            
+        }
+        return $this->output_succ();
+
+        
+
     }
 
 }

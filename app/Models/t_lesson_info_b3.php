@@ -2749,7 +2749,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_student_first_subject_info($start_time,$end_time,$teacherid=-1){
+    public function get_teacher_student_first_subject_info($start_time,$end_time,$teacherid=-1,$assistantid=-1){
         $where_arr=[
             "s.is_test_user=0",
             "t.is_test_user=0",
@@ -2758,7 +2758,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0",
             "l.lesson_start>0",
              "l.lesson_status>1",
-            ["l.teacherid=%u",$teacherid,-1]
+            ["l.teacherid=%u",$teacherid,-1],
+            ["s.assistantid=%u",$assistantid,-1],
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.userid,l.lesson_start,tr.id,l.lessonid "
@@ -3549,5 +3550,34 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+    public function getLessonCancelRate($start_time,$end_time){
+        $where_arr = [
+            "l.lesson_cancel_reason_type in (13,14)"
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select lesson_start, l.lessonid from %s l"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function getTotalNum($start_time, $end_time){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "(lesson_user_online_status in (0,1) or  f.flow_status = 2) ",
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select l.lesson_start from %s l"
+                                  ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_flow::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }

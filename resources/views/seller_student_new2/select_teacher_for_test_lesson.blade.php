@@ -48,8 +48,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">
+                    <td colspan="2">
                         排课状态:<span class='font_color'>{{$require_info['test_lesson_student_status_str']}}</span>
+                    </td>
+                    <td colspan="2">
+                        老师确认状态:<span class='font_color'>{{$require_info['accept_status_str']}}</span>
                     </td>
                 </tr>
             </table>
@@ -71,17 +74,22 @@
                            autocomplete="off" placeholder="输入老师姓名/手机回车搜索" />
                 </div>
             </div>
-            <div class="col-md-1 col-xs-3 require_status">
+            <div class="col-md-1 col-xs-3 require_status_first">
                 <div>
                     <button class="btn btn-primary" id="id_set_lesson_time">排课</button>
                 </div>
             </div>
-            <div class="col-md-1 col-xs-3 require_status">
+            <div class="col-md-1 col-xs-3 require_status_first">
                 <div>
                     <button class="btn btn-danger" id="id_refund_lesson">驳回</button>
                 </div>
             </div>
-            <div class="col-md-1 col-xs-3 require_status">
+            <div class="col-md-2 col-xs-3 require_status_second">
+                <div>
+                    <button class="btn btn-warning" id="id_change_lesson_time">更换老师/时间</button>
+                </div>
+            </div>
+            <div class="col-md-1 col-xs-3 require_status_second">
                 <div>
                     <button class="btn btn-success" id="id_refresh_flag" data-refresh_flag=0>刷新列表</button>
                 </div>

@@ -1,6 +1,7 @@
 interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
+	order_by_str:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -8,7 +9,8 @@ interface GargsStatic {
 	end_time:	string;
 	adminid:	number;
 	userid:	number;
-}
+	called_flag:	string;//枚举列表: \App\Enums\Eboolean
+ }
 declare module "g_args" {
     export = g_args;
 }
@@ -43,13 +45,15 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		order_by_str:	$('#id_order_by_str').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		adminid:	$('#id_adminid').val(),
-		userid:	$('#id_userid').val()
+		userid:	$('#id_userid').val(),
+		called_flag:	$('#id_called_flag').val()
 		});
 }
 $(function(){
@@ -64,6 +68,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_adminid').admin_select_user_new({
 		"user_type"    : "account",
 		"select_value" : g_args.adminid,
@@ -80,6 +85,16 @@ $(function(){
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
 	});
+	$('#id_called_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "called_flag",
+		"select_value" : g_args.called_flag,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_called_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -91,6 +106,14 @@ $(function(){
 /* HTML ...
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
@@ -112,4 +135,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">called_flag</span>
+                <input class="opt-change form-control" id="id_called_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["called_flag title", "called_flag", "th_called_flag" ]])!!}
 */
