@@ -2006,7 +2006,7 @@ class tongji2 extends Controller
                 }
             }
             if(($actual_num+$cancel_num)>0){
-                $rateArr[] = (int)($cancel_num/($actual_num+$cancel_num));
+                $rateArr[] = $cancel_num/($actual_num+$cancel_num);
             }else{
                 $rateArr[] = 0;
             }

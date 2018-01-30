@@ -27,6 +27,7 @@ $(function(){
     $(window).on("load",function(){
 
         console.log(dateArr);
+        console.log(rateArr);
         var chart = Highcharts.chart('container', {
             chart: {
                 type: 'line'
@@ -47,7 +48,7 @@ $(function(){
                 line: {
                     dataLabels: {
                         enabled: true,// 开启数据标签
-                        format : '{y}%'
+                        format : '{y:.2f}%'
                     },
                     enableMouseTracking: true // 关闭鼠标跟踪，对应的提示框、点击事件会失效
                 }
