@@ -363,7 +363,7 @@ $(function(){
             },function(){
                 var $imgArr = imglist['followImgUrl'].split(',');
                 $.each($imgArr,function(i,item){
-                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+item+'" src="'+item+'"></div>');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img style="width: 54px; height: 48px; position: relative; z-index: 1;" img_key="'+item+'" src="'+item+'"></div>');
                 });
 
             });
