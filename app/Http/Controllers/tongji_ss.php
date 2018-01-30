@@ -7796,7 +7796,7 @@ class tongji_ss extends Controller
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $account_id = $this->get_account_id();
 
-        $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944'];
+        $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944','1040'];
         $master_flag = 0;
         if(in_array($account_id,$root_adminid_arr)){
             $master_flag = 1;
