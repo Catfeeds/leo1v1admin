@@ -999,7 +999,7 @@ class wx_parent_gift extends Controller
             $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //活动页面
         }
 
-        if(time()<strtotime('2018-1-31')){
+        if(time()<strtotime('2018-1-30') && $id != 38){
             # 原有内容
             if($imgUrlInfo['followImgUrl']){
                 $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
@@ -1029,8 +1029,8 @@ class wx_parent_gift extends Controller
                 }
 
                 # 检查人数 当人数超过 97 时 通知管理员活动页已切换 [罗艳] orwGAs9rPeoW665kCsrQD_rswjv4
-                $add_time = $imgUrlInfo['add_time'];
-                $noticeIndex = $add_time%97;
+                $add_num = $imgUrlInfo['add_num'];
+                $noticeIndex = $add_num%97;
                 if($noticeIndex == 0){
                     $data= [
                         "first"     => "市场推广活动 关注页切换通知 活动ID:".$id,
