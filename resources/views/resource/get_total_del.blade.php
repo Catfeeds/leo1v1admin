@@ -2,12 +2,8 @@
 @section('content')
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
 	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
-    <script>
-     var tag_one = '{{$tag_info['tag_one']['menu']}}';
-     var tag_two = '{{$tag_info['tag_two']['menu']}}';
-     var tag_three = '{{$tag_info['tag_three']['menu']}}';
-     var tag_four = '{{$tag_info['tag_four']['menu']}}';
-    </script>
+    <script type="text/javascript" src="/js/pdfobject.js"></script>
+
     <section class="content">
         <div>
             <!-- <div class="row  row-query-list" >
@@ -46,7 +42,7 @@
                     </div>
                 </div>
 
-             
+                
             </div>
             <div class="row">
                 
@@ -114,3 +110,7 @@
         @include("layouts.page")
     </section>
 @endsection
+<div class="col-md-12 look-pdf"   style="width:80%;height:95%;position:fixed;right:10%;top:2.5%;border-radius:5px;background:#eee;display:none;z-index:8888;overflow:hidden;">
+    <div class="look-pdf-son">
+    </div>
+</div>

@@ -239,8 +239,10 @@
                                 @elseif($var["label_id"]>0)
                                     <a class="opt-set-teacher-label div_show" title="修改标签<">修改标签</a>
                                 @endif
-                                @if(in_array($acc,["jack","jim","江敏","ted"]) && $elite_flag==1)
-                                    <a class="opt-upload-teacher-call-crad" title="上传名片">上传名片</a>
+                                @if($elite_flag==1)
+                                    @if(in_array($acc,["jack","jim","江敏","ted"]))
+                                        <a class="opt-upload-teacher-call-crad" title="上传名片">上传名片</a>
+                                    @endif
                                     <a class="opt-show-teacher-call-crad" title="老师名片">老师名片</a>
                                 @endif
 

@@ -2659,6 +2659,16 @@ class user_manage extends Controller
         if(!in_array($acc,["echo","jim","zero"])){
             return $this->output_err("你没有修改退费金额的权限!");
         }
+        $old_money = $this->t_order_refund->get_real_refund($orderid,$apply_time);
+        $should_refund_money = $this->t_order_refund->get_should_refund_money($orderid,$apply_time);
+        if(empty($should_refund_money)){
+            $this->t_order_refund->field_update_list_2($orderid,$apply_time,[
+                "should_refund_money" => $old_money
+            ]);
+        }
+
+
+        
 
         $ret = $this->t_order_refund->field_update_list_2($orderid,$apply_time,[
             "real_refund" => ($real_refund*100)

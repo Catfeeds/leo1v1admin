@@ -773,6 +773,9 @@ trait TeaPower {
             }
             $qz_flag     = 0;
             $tea_subject = "";
+            if($adminid==1444){
+                $tea_subject ="(7,8,9,10)";
+            }
         }
 
         $acc = $this->t_manager_info->get_account($adminid);
@@ -3025,8 +3028,11 @@ trait TeaPower {
                 $subject=-1;
             }elseif(in_array($adminid,[895])){
                 $subject=13;
-            }elseif(in_array($adminid,[790])){
+            }
+            elseif(in_array($adminid,[790])){
                 $subject=14;
+            }elseif(in_array($adminid,[1444])){
+                $subject=15;
             }else{
                 $subject=-1;
             }

@@ -109,7 +109,7 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             "select  n.userid, s.origin_level "
             . " from %s n"
             . " join %s s on n.userid=s.userid "
-            . "  where  %s limit $limit_count ",
+            . "  where  %s order by origin_level asc limit $limit_count ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             $where_arr

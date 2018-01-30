@@ -21,12 +21,12 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>id</td>
-                    <td>名字</td>
-                    <td>续费人数</td>
-                    <td>结课人数</td>
-                    <td>总人数</td>
-                    <td>续费率</td>
+                    <td>学生姓名</td>
+                    <td>学生id</td>
+                    <td>近4周课数</td>
+                    <td>近2周课数</td>
+                    <td>近30天课数</td>
+                  
                                                                      
 
                     <td> 操作</td>
@@ -36,12 +36,12 @@
                 @foreach ( $list as $k=>$var )
                     <tr>
                         
-                        <td>{{ @$var["id"] }}</td>
-                        <td>{{ @$var["name"] }}</td>
-                        <td>{{ @$var["renew_num"] }}</td>
-                        <td>{{ @$var["end_num"] }}</td>
-                        <td>{{ @$var["all"] }}</td>
-                        <td>{{ @$var["per"] }}%</td>
+                        <td>{{ @$var["nick"] }}</td>
+                        <td>{{ @$var["userid"] }}</td>
+                        <td>{{ @$var["four_week"] }}</td>
+                        <td>{{ @$var["two_week"] }}</td>
+                        
+                        <td>{{ @$var["num"] }}</td>
                        
 
                         <td>

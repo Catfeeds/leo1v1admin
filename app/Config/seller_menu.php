@@ -32,6 +32,8 @@ class seller_menu{
                     ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],
                     ["power_id"=>1, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list_seller"],
                     ["power_id"=>2, "name"=>"老师推荐",   "url"=>"/human_resource/index_seller"],
+                    [ "power_id"=>69, "name"=>"精品老师",   "url"=>"/human_resource/get_elite_teacher_list" ],
+
                     ["power_id"=>3, "name"=>"暂停试听课老师",   "url"=>"/human_resource/index_new_seller_hold"],
                     ["power_id"=>4, "name"=>"申请推荐试听老师推荐",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_seller"],
                     ["power_id"=>5, "name"=>"课程状态-销售",   "url"=>"/supervisor/monitor_seller"],

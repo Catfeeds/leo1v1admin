@@ -925,11 +925,10 @@ class Utils  {
         $bucketMgr = new \Qiniu\Storage\BucketManager($auth);
 
         list($ret, $err) = $bucketMgr->stat($bucket, $key);
-
-        if($err != null) {
+        if($err) {
             return false;
         } else {
-            return true;
+            return 1;
         }
     }
 
