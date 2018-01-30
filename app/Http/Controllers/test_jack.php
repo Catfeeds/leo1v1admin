@@ -1975,7 +1975,14 @@ class test_jack  extends Controller
             }else{
                 unset($list[$k]);
             }
+           E\Esubject::set_item_value_str($val);
+           E\Egrade::set_item_value_str($val);
+
         }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list
+        ]);
+
         dd($list);
        
         $start_time = strtotime("2017-01-01");
