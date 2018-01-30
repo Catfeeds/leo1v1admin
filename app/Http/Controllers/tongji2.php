@@ -1982,7 +1982,6 @@ class tongji2 extends Controller
         list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3 );
         $dayNum = ($end_time-$start_time)/86400;
 
-        $ret_info = [];
         $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
         $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
         $dateArr = [];
@@ -2012,6 +2011,7 @@ class tongji2 extends Controller
                 $rateArr[] = 0;
             }
         }
+        $ret_info = [];
 
         return $this->pageView(__METHOD__,$ret_info,[
             "dateArr" => $dateArr,
