@@ -1695,9 +1695,11 @@ class teacher_level extends Controller
     public function set_teacher_advance_withhold_require_2018(){
         $start_time   = $this->get_in_int_val("start_time");
         $teacherid    = $this->get_in_int_val("teacherid");
+        $withhold_money    = $this->get_in_str_val("withhold_money");
         $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
             "withhold_require_time"    => time(),
-            "withhold_require_adminid" => $this->get_account_id()
+            "withhold_require_adminid" => $this->get_account_id(),
+            "withhold_money"           => $withhold_money
         ]);
         return $this->output_succ();
 
@@ -1836,9 +1838,21 @@ class teacher_level extends Controller
                 "withhold_final_trial_adminid" => $this->get_account_id()
             ]);
 
-            if($withhold_final_trial_flag==1){          
+            if($withhold_final_trial_flag==1){
+                $withhold_money = $this->t_teacher_advance_list->get_withhold_money($start_time,$teacherid);
                 if ( \App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test() ){
-                    $first_month = strtotime("+2 months",$start_time)-86400;
+                    $i=2;
+                    for($i=2;$i++;$i<5){
+                        $month = strtotime("+$i months",$start_time)-86400;
+                        $this->t_teacher_money_list->row_insert([
+                            "teacherid" =>$teacherid,
+                            "type"      =>101,
+                            "add_time"  =>$month,
+                            "money"     => "-$withhold_money",
+                            "money_info"=> date("Y-m-d",$month)." 晋升等级不达标扣款"
+                        ]);
+                    }
+                   
                 }
 
             }

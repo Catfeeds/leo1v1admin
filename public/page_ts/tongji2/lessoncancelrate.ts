@@ -55,7 +55,7 @@ $(function(){
             },
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{point.key}</span><br>',
-                pointFormat: '<span >取消率</span>: <b>{point.y:.2f}%</b><br/>'
+                pointFormat: '<span >取消率</span>: <b>{point.y:.4f}%</b><br/>'
             },
 
             series: [{
