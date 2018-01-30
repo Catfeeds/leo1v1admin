@@ -529,8 +529,13 @@ class tongji_ex extends Controller
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list),['data_ex_list'=>$ret]);
     }
-
     public function threshold_detail(){
+        $report_time = date('Y-m-d H:i:s',$this->get_in_int_val('report_time'));
+        $color = $this->get_in_str_val('color');
+        $threshold_line = $this->get_in_int_val('threshold_line').'%';
+        $count_call = $this->get_in_int_val('count_call');
+        $count_no_called = $this->get_in_int_val('count_no_called');
+
         list($start_time,$end_time,$ret_report,$ret_rate,$ret_origin,$ret_origin_info,$rate_arr,$rate_min,$rate_max) = [$this->get_in_int_val('start_time',strtotime(date('Y-m-d',time()))),$this->get_in_int_val('end_time',strtotime(date('Y-m-d',time()))+3600*24),[],[],[],[],[],0,0];
         $ret = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
         $rate_arr = array_unique(array_column($ret, 'new'));
@@ -556,7 +561,7 @@ class tongji_ex extends Controller
                 $ret_rate[$rate_min]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_min]['time'] = date('Y-m-d H:i:s',$item['create_time']);
             }elseif($item['new']==$rate_max){
-                $ret_rate[$rate_min]['type'] = '今最高';
+                $ret_rate[$rate_max]['type'] = '今最高';
                 $ret_rate[$rate_max]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_max]['time'] = date('Y-m-d H:i:s',$item['create_time']);
             }
@@ -591,6 +596,17 @@ class tongji_ex extends Controller
             $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
         }
         $ret_info = [];
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['ret_rate'=>$ret_rate,'ret_origin_info'=>$ret_origin_info,'ret_report'=>$ret_report]);
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
+            'ret_report'=>$ret_report,
+            'ret_rate'=>$ret_rate,
+            'ret_origin_info'=>$ret_origin_info,
+            'end_time'=>date('Y-m-d H:i:s',$end_time),
+            'report_time'=>$report_time,
+            'color'=>$color,
+            'threshold_line'=>$threshold_line,
+            'count_call'=>$count_call,
+            'count_no_called'=>$count_no_called,
+        ]);
     }
 }

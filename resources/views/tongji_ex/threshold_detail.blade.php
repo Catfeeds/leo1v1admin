@@ -2,7 +2,7 @@
 @section('content')
 
     <section class="content ">
-        
+
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -19,7 +19,9 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+
+        <table     class="common-table"  >
+            警报统计 &nbsp&nbsp&nbsp&nbsp 截止{{@$end_time}}
             <thead>
                 <tr>
                     <td>警报序号 </td>
@@ -29,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $ret_rate as $var )
+                @foreach ( $ret_report as $var )
                     <tr>
                         <td>{{@$var["num"]}} </td>
                         <td>{{@$var["type"]}} </td>
@@ -48,8 +50,9 @@
             </tbody>
         </table>
 
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
+            拨通率统计 &nbsp&nbsp&nbsp&nbsp 截止{{@$end_time}}
                 <tr>
                     <td>峰值类型 </td>
                     <td>拨通率 </td>
@@ -58,7 +61,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $table_data_list as $var )
+                @foreach ( $ret_rate as $var )
                     <tr>
                         <td>{{@$var["type"]}} </td>
                         <td>{{@$var["rate"]}} </td>
@@ -78,8 +81,9 @@
         </table>
 
 
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
+                渠道统计 &nbsp&nbsp&nbsp&nbsp 截止{{@$end_time}}
                 <tr>
                     <td>渠道等级 </td>
                     <td>拨打量 </td>
@@ -89,7 +93,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $ret_report as $var )
+                @foreach ( $ret_origin_info as $var )
                     <tr>
                         <td>{{@$var["origin_level"]}} </td>
                         <td>{{@$var["call_count"]}} </td>
@@ -111,6 +115,5 @@
 
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection
