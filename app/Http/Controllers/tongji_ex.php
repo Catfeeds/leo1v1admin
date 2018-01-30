@@ -605,7 +605,7 @@ class tongji_ex extends Controller
         if($type == 1){
             $color_font = $color=='黄色'?'#FF8C00':'#FF3030';
             echo '<h3 align="center">新例子电话接通率警报详情</h3>';
-            echo '<table border="1" width="600" align="center">';
+            echo '<table border="1" width="600" align="center" frame=void>';
             echo '<tr>';
             echo "<td>警报时间:</td>";
             echo "<td><font color='".$color_font."'>".date("Y-m-d H:i:s",$end_time)."</font></td>";
