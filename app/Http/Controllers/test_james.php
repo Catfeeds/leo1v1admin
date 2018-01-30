@@ -1775,6 +1775,9 @@ class test_james extends Controller
     }
 
     public function getTea(){
+
+        $a = 0.3;
+        dd($a);
         $start_time = strtotime($this->get_in_str_val("s"));
         $end_time = strtotime($this->get_in_str_val("e"));
         $dayNum = ($end_time-$start_time)/86400;
