@@ -1054,7 +1054,6 @@ class wx_parent_gift extends Controller
         $key = $id.'_'.$openid.'_market';
         $checkData = \App\Helper\Common::redis_get($key);
         \App\Helper\Common::redis_expire($key,86400);
-        \App\Helper\Utils::logger("james_redis: $checkData ;key:$key");
 
         if($checkData != 1){
             \App\Helper\Common::redis_set($key,1);
