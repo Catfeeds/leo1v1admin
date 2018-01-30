@@ -1467,7 +1467,11 @@ class seller_student_new2 extends Controller
                 $tea_phone = $tea_info['phone'];
                 $require_info['teacher_info'] = $tea_nick."/".$tea_phone;
                 $require_info['lesson_time']  = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
-                $require_info['accept_status_str'] = E\Eaccept_status::get_desc($lesson_info['accept_status']);
+                if($lesson_info['accept_status']==0){
+                    $require_info['accept_status_str'] = "未接受";
+                }else{
+                    $require_info['accept_status_str'] = E\Eaccept_status::get_desc($lesson_info['accept_status']);
+                }
             }else{
                 $require_info['teacherid']    = "";
                 $require_info['teacher_info'] = "";

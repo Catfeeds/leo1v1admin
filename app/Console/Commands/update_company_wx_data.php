@@ -97,6 +97,7 @@ class update_company_wx_data extends Command
             }
             $approval_name = implode(',', $item['approval_name']);
             $notify_name = implode(',', $item['notify_name']);
+            $names = array_merge($item["approval_name"], $item["notify_name"]);
             $common = [
                 'spname' => $item['spname'],
                 'apply_name' => $item['apply_name'],
@@ -177,6 +178,15 @@ class update_company_wx_data extends Command
                         "require_time" => $require_time
                     ];
                     $task->t_company_wx_approval_data->row_insert($data);
+                    $id = $task->t_company_wx_approval_data->get_last_insertid();
+                    foreach($names as $name) {
+                        $userid = $task->t_company_wx_users->get_userid_for_name($name);
+                        $task->t_company_wx_approval_notify->rou_insert([
+                            "d_id" => $id,
+                            "user_id" => $userid
+                        ]);
+                    }
+
                     echo "加载拉取数据审批成功";
                 }
 
