@@ -718,7 +718,7 @@ class tongji_ex extends Controller
         foreach($ret as $item){
             if(in_array($item['userid'],$userid_arr)){
                 $ret_info[$item['userid']]['userid'] = isset($ret_info[$item['userid']]['userid'])?$ret_info[$item['userid']]['userid']:$item['userid'];
-                $ret_info[$item['userid']]['phone'] = isset($ret_info[$item['userid']]['phone'])?$ret_info[$item['userid']]['userid']:$item['phone'];
+                $ret_info[$item['userid']]['phone'] = isset($ret_info[$item['userid']]['phone'])?$ret_info[$item['userid']]['phone']:$item['phone'];
                 $ret_info[$item['userid']]['list'][] = $item;
                 $ret_info[$item['userid']]['is_exist_count'] = isset($ret_info[$item['userid']]['is_exist_count'])?($ret_info[$item['userid']]['is_exist_count']>$item['is_exist_count']?$ret_info[$item['userid']]['is_exist_count']:$item['is_exist_count']):$item['is_exist_count'];
                 $ret_info[$item['userid']]['add_time_old'] = isset($ret_info[$item['userid']]['add_time_old'])?$ret_info[$item['userid']]['add_time_old']:$item['add_time_old'];
