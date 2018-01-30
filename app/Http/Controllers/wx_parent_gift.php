@@ -1003,7 +1003,7 @@ class wx_parent_gift extends Controller
             # 未上线,待测试
             # 为了分散每个微信群的压力,满98人时切换另一个微信群
             if($imgUrlInfo['followImgUrl']){
-                $img_arr = implode($imgUrlInfo['followImgUrl'], ',');
+                $img_arr = implode(',',$imgUrlInfo['followImgUrl']);
                 $index = floor($imgUrlInfo['add_num']/98);
                 $follow_str = $img_arr[$index];
                 $imgNum = count($img_arr);
