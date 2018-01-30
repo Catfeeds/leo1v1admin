@@ -6,6 +6,11 @@ use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
 use Illuminate\Support\Facades\Input;
+use App\Helper\Utils;
+use Illuminate\Support\Facades\Cookie ;
+use Illuminate\Support\Facades\Redis ;
+use Illuminate\Support\Facades\Session ;
+
 
 
 class wx_parent_gift extends Controller
@@ -1045,7 +1050,15 @@ class wx_parent_gift extends Controller
     public function recordAddNum(){
         $id = $this->get_in_int_val('type');
         $id = $id-100;
-        $this->t_activity_usually->updateAddNum($id);
+        $openid = $this->get_in_str_val('openid');
+        $key = $id.'_'.$openid.'_market';
+        $checkData = \App\Helper\Common::redis_get($key);
+        \App\Helper\Common::redis_expire($key,86400);
+        if($checkData != 1){
+            \App\Helper\Common::redis_set($key,1);
+            $this->t_activity_usually->updateAddNum($id);
+        }
+
         return $this->output_succ();
     }
 
