@@ -418,7 +418,7 @@ class account_common extends Controller
         }
         $price = $this->t_order_info->get_price($orderid);
         $pay_time = time();
-        $sign = md5( md5( $orderid.$price.$pay_time)."leoclass");
+        $sign = md5( md5( $contractid.$price.$pay_time)."leoclass");
         if($ret){
             $url="";
             if ( \App\Helper\Utils::check_env_is_local() ){
@@ -426,7 +426,7 @@ class account_common extends Controller
             }elseif(\App\Helper\Utils::check_env_is_test()){
                 $url ="http://test.api.class.leo1v1.com/"; 
             }
-            $url .= "/order/call_back?contractid=".$orderid."&price=".$price."&pay_time=".$pay_time."&sign=".$sign;
+            $url .= "/order/call_back?contractid=".$contractid."&price=".$price."&pay_time=".$pay_time."&sign=".$sign;
 
             $data=file_get_contents($url);                                                                                                                      
             $list = json_decode($data,true);
