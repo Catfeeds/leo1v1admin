@@ -3642,10 +3642,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_tmk_list(){
-        $where_arr = [
-            'o.is_exist_count>0',
-        ];
+    public function get_item_tmk_list($count_flag=-1){
+        $where_arr = [];
+        if($count_flag==1){
+            $where_arr[] = 'o.is_exist_count>0';
+        }
         $this->where_arr_add_int_field($where_arr, 'n.tmk_student_status', E\Etmk_student_status::V_2);
         $sql = $this->gen_sql_new(
             " select n.add_time add_time_old,o.* "
