@@ -999,7 +999,7 @@ class wx_parent_gift extends Controller
             $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //活动页面
         }
 
-        if(time()<strtotime('2018-1-31')){
+        if(time()<strtotime('2018-1-30')){
             # 原有内容
             if($imgUrlInfo['followImgUrl']){
                 $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面

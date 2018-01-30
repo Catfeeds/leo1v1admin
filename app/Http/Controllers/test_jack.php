@@ -14,6 +14,13 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-02-01");
+        $adminid = 1416;
+        $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
+        dd($kk_suc);
+
+
         $job = new \App\Jobs\SendAdvanceTeacherWxEmail(1506787200,6);
         dispatch($job);
         dd(111);
