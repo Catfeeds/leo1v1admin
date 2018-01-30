@@ -890,7 +890,8 @@ $(function(){
 
             success   : function(result){
                 if(result.ret == 0){
-                    // window.location.reload();
+                    window.onbeforeunload=function(){};
+                    window.location.reload();
                 } else {
                     alert(result.info);
                 }
@@ -906,7 +907,8 @@ $(function(){
             data : data,
             success   : function(result){
                 if(result.ret == 0){
-                    // window.location.reload();
+                    window.onbeforeunload=function(){};
+                    window.location.reload();
                 } else {
                     alert(result.info);
                 }
