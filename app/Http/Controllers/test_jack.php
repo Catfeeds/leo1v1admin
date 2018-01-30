@@ -1953,7 +1953,21 @@ class test_jack  extends Controller
     public function get_reference_teacher_money_info(){
         //拉数据
 
-        $list = $this->t_lesson_info_b3->get_same_stu_grade_subject_num_list();
+        $list = $this->t_teacher_info->get_prize(240314);
+        $list = json_decode($list,true);
+        $data = [];
+        foreach($list as $val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            @$data[$str]++;
+        }
+        foreach($list as $k=>&$val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            if(@$data[$str]>1){
+                $val["change_num"]= @$data[$str]-1;
+            }else{
+                unset($list[$k]);
+            }
+        }
         dd($list);
        
         $start_time = strtotime("2017-01-01");

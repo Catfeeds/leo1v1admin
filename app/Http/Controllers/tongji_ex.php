@@ -602,7 +602,6 @@ class tongji_ex extends Controller
             $ret_origin_info[$origin_level]['called_count'] = $called_count;
             $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
         }
-        dd($count_y);
         if($type == 1){
             $color_font = $color=='黄色'?'#FF8C00':'#FF3030';
             echo '<h3 align="center">新例子电话接通率警报详情</h3>';
@@ -642,7 +641,7 @@ class tongji_ex extends Controller
             echo '</tr>';
             echo '<tr>';
             echo "<td>黄色警报:</td>";
-            echo "<td><font color='#FF8C00'".$count_y."</font></td>";
+            echo "<td><font color='#FF8C00'>".$count_y."</font></td>";
             echo '</tr>';
             echo '<tr>';
             echo "<td>红色警报:</td>";
