@@ -40,6 +40,13 @@ class no_auto_student_change_type extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
+
+        $list = $task->t_lesson_info_b3->get_same_stu_grade_subject_num_list();
+        $data = json_encode($list);
+        $task->t_teacher_info->field_update_list(240314,[
+            "prize"  => $data
+        ]);
+        dd($list);
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2018-01-01");
         $order_num = $task->t_order_info->get_all_renew_stu_list_by_order($start_time,$end_time);

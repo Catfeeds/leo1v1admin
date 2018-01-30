@@ -3583,15 +3583,25 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     //拉取同一学生年级科目上课老师数量大于1的信息
     public function get_same_stu_grade_subject_num_list(){
+        $time = strtotime("2018-01-30");
         $where_arr= [
-            "lesson_del_flag=0",
-            "lesson_type in (0,1,3)",
-            "confirm_flag<2"
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2",
+            "l.lesson_start<$time",
+            "l.lesson_start>0",
+            "s.is_test_user=0",
+            "t.is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select subject,grade,userid,count(distinct teacherid) num "
-                                 ." from %s where %s group by userid,grade,subject having(num>1)",
-                                 self::DB_TABLE_NAME,
-                                 $where_arr
+        $sql = $this->gen_sql_new("select l.subject,l.grade,l.userid,l.teacherid,count(distinct l.lessonid) num, "
+                                  ." s.realname nick,t.realname "
+                                 ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." where %s group by l.userid,l.grade,l.subject,l.teacherid ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
