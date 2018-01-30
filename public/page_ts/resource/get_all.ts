@@ -891,7 +891,7 @@ $(function(){
             success   : function(result){
                 if(result.ret == 0){
                     window.onbeforeunload=function(){};
-                    window.location.reload();
+                    //window.location.reload();
                 } else {
                     alert(result.info);
                 }
@@ -908,7 +908,7 @@ $(function(){
             success   : function(result){
                 if(result.ret == 0){
                     window.onbeforeunload=function(){};
-                    window.location.reload();
+                    //window.location.reload();
                 } else {
                     alert(result.info);
                 }
