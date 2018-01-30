@@ -3571,7 +3571,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "(lesson_user_online_status in (0,1) or  f.flow_status = 2) ",
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
-        $sql = $this->gen_sql_new("  select l.lesson_start from %s l"
+        $sql = $this->gen_sql_new("  select l.lesson_start, l.lessonid from %s l"
                                   ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME

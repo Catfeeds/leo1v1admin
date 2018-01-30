@@ -85,19 +85,38 @@
         <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
-                    <td style="width:35%">文件名</td>
-                    <td style="width:15%">修改日期</td>
-                    <td style="width:8%">文件格式</td>
-                    <td style="width:8%">文件信息</td>
-                    <td style="width:8%">文件大小</td>
-                    <td style="width:8%">使用次数</td>
-                    <td style="width:8%">收藏状态</td>
-                    <td style="width:8%"> 操作 </td>
+                    <td>文件名</td>
+                    <td>科目</td>
+                    <td>年级</td>
+                    @if(in_array($resource_type,[1,3,5,6]))
+                        <td>教材</td>
+                    @endif
+                    @if(in_array($resource_type,[1,2]))
+                        <td>春暑秋寒</td>
+                    @endif
+                    <td>文件标题</td>
+                    <td>修改日期</td>
+                    <td>文件格式</td>
+                    <td>文件信息</td>
+                    <td>文件大小</td>
+                    <td>使用次数</td>
+                    <td>收藏状态</td>
+                    <td> 操作 </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr data-resource_id="{{@$var['resource_id']}}">
+                        <td>{{@$var["file_title"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+                        @if(in_array($resource_type,[1,3,5,6]))
+                            <td>{{@$var["tag_one_str"]}}</td>
+                        @endif
+                        @if(in_array($resource_type,[1,2]))
+                            <td>{{@$var["tag_two_str"]}}</td>
+                        @endif
+
                         <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
@@ -112,7 +131,11 @@
                             @endif
                         </td>
                         <td>
-                            <a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}">预览</a>
+                            <a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览</a>
+
+                            <a class="opt-error btn color-blue"  title="评价" data-file_id="{{@$var['file_id']}}">报错</a>
+
+                            <a class="opt-comment btn color-blue"  title="评价" data-file_id="{{@$var['file_id']}}">评价</a>
                         </td>
                     </tr>
                 @endforeach

@@ -4694,7 +4694,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         if(!$check_is_exists && $check_time_flag){
             //普通渠道
             if($reference_price==0){
-                $reference_num = $this->t_teacher_info->get_total_for_teacherid(
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid_2018_1_30(
                     $start_time,time(),$teacher_info['phone'],$reference_type
                 );
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);

@@ -46,7 +46,8 @@
         <table class="common-table"> 
             <thead>
                 <tr>
-                    <td style="display:none">id</td>
+                    <td >ID</td>
+                    <td style="display:none">老师id</td>
                     <td>姓名</td>
                     <td style="display:none">银行卡</td>
                     <td style="display:none">开户行</td>
@@ -62,8 +63,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $table_data_list as $var )
+                @foreach ( $table_data_list as $key => $var )
                     <tr>
+                        <td>{{@$key+1}}</td>
                         <td>{{@$var["teacherid"]}}</td>
                         <td>{{@$var["tea_nick"]}}</td>
                         <td>银行卡:{{@$var["bankcard"]}}</td>
