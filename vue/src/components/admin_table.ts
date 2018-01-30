@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { timingSafeEqual } from 'crypto';
+import { Stream } from 'stream';
 
 // @Component 修饰符注明了此类为一个 Vue 组件
 @Component({
@@ -23,7 +24,13 @@ import { timingSafeEqual } from 'crypto';
         return [];
       },
     },
-
+    multi_select:  {
+      type     :  [Boolean ],
+      required : false,
+      "default" :  function(){
+        return false;
+      },
+    },
 
     table_config : {//表配置
       type     : Object,
@@ -31,7 +38,7 @@ import { timingSafeEqual } from 'crypto';
       "default" :  function(){
         return {} ;
 
-      } ,
+      },
     },
 
   },
@@ -364,6 +371,40 @@ export default class admin_table extends Vue {
     }
 
     this.$parent["reload_page_by_page_info"](null, null, order_by_str );
+  }
+
+  opt_multi_select_all( e : MouseEvent  ) {
+    $(e.currentTarget ).closest("table").find (".multi-select-item").iCheck("check");
+  }
+  opt_multi_select_other(e:MouseEvent ) {
+    var opt_list=$(e.currentTarget ).closest("table").find (".multi-select-item");
+    $.each( opt_list ,function (i, item){
+      var $item= $(item);
+      if ($item.iCheckValue()) {
+        $item.iCheck("uncheck");
+      } else {
+        $item.iCheck("check");
+      }
+    });
+  }
+  do_select_list( field_name:string ,call_func ) {
+
+    var select_list:Array<any>=[];
+    var opt_list= $(this.$el).find (".multi-select-item");
+    var me =this;
+    $.each( opt_list ,function (i, item){
+      var $item= $(item);
+      if ( $item.iCheckValue()) {
+        var index= $item.data('index');
+        select_list.push(me.$props.table_data[index][field_name]  );
+      }
+    });
+    if (select_list.length ) {
+      call_func(select_list);
+    }else{
+      BootstrapDialog.alert("请选择要操作的数据");
+    }
+
   }
 
 }

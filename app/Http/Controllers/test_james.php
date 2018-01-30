@@ -1775,6 +1775,9 @@ class test_james extends Controller
     }
 
     public function getTea(){
+
+        $a = 0.3;
+        dd($a);
         $start_time = strtotime($this->get_in_str_val("s"));
         $end_time = strtotime($this->get_in_str_val("e"));
         $dayNum = ($end_time-$start_time)/86400;
@@ -1785,6 +1788,8 @@ class test_james extends Controller
         $dateArr = [];
         $rateArr = [];
         $tmp = [];
+
+        $a = 0;
         for($i=0; $i<$dayNum; $i++){
             $timeStart = $start_time+$i*86400;
             $timeEnd   = $timeStart+86400;
@@ -1795,23 +1800,28 @@ class test_james extends Controller
             foreach($lessonCancelNum as $item_cancel){
                 if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
                     $cancel_num+=1;
-                    echo $cancel_num;
+                    // echo $cancel_num." lessonId:".$item_cancel['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd <br/>";
                 }
             }
 
             foreach($actualLessonNum as $item_actual){
                 if($item_actual['lesson_start']>=$timeStart && $item_actual['lesson_start']<=$timeEnd){
                     $actual_num+=1;
+                    // echo $actual_num." lessonId:".$item_actual['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd <br/>";
+
                 }
             }
+            // echo $actual_num+$cancel_num."<br>";
             if(($actual_num+$cancel_num)>0){
-                $rateArr[] = (int)($cancel_num/($actual_num+$cancel_num));
+                $rateArr[] = $cancel_num/($actual_num+$cancel_num);
+                echo "a1<br>";
             }else{
                 $rateArr[] = 0;
             }
         }
         $ret_info = [];
 
+        dd($rateArr);
         if($type==1){
             dd($lessonCancelNum);
         }else{

@@ -39,6 +39,9 @@ class Controller extends ControllerEx
     }
 
     public function check_approval_require() {
+        if (!isset($_SERVER["REQUEST_URI"])) { // 处理执行 migrate 报错
+            return null;
+        }
         $burl = $_SERVER["REQUEST_URI"];
         $pattern = '/require[0-9]*/';
         preg_match($pattern, $burl, $matches);

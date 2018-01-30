@@ -27,6 +27,7 @@ $(function(){
     $(window).on("load",function(){
 
         console.log(dateArr);
+        console.log(rateArr);
         var chart = Highcharts.chart('container', {
             chart: {
                 type: 'line'
@@ -35,7 +36,6 @@ $(function(){
                 text: '课次取消率'
             },
             xAxis: {
-                // categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
                 categories: dateArr
             },
             yAxis: {
@@ -47,7 +47,7 @@ $(function(){
                 line: {
                     dataLabels: {
                         enabled: true,// 开启数据标签
-                        format : '{y}%'
+                        format : '{y:.2f}%'
                     },
                     enableMouseTracking: true // 关闭鼠标跟踪，对应的提示框、点击事件会失效
                 }

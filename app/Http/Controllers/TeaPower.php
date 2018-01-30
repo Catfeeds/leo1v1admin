@@ -773,9 +773,9 @@ trait TeaPower {
             }
             $qz_flag     = 0;
             $tea_subject = "";
-            if($adminid==1444){
-                $tea_subject ="(7,8,9,10)";
-            }
+            // if($adminid==1444){
+            //     $tea_subject ="(7,8,9,10)";
+            // }
         }
 
         $acc = $this->t_manager_info->get_account($adminid);
@@ -3028,11 +3028,8 @@ trait TeaPower {
                 $subject=-1;
             }elseif(in_array($adminid,[895])){
                 $subject=13;
-            }
-            elseif(in_array($adminid,[790])){
+            }elseif(in_array($adminid,[790])){
                 $subject=14;
-            }elseif(in_array($adminid,[1444])){
-                $subject=15;
             }else{
                 $subject=-1;
             }
@@ -4694,7 +4691,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         if(!$check_is_exists && $check_time_flag){
             //普通渠道
             if($reference_price==0){
-                $reference_num = $this->t_teacher_info->get_total_for_teacherid(
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid_2018_1_30(
                     $start_time,time(),$teacher_info['phone'],$reference_type
                 );
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);

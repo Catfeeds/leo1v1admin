@@ -2006,11 +2006,12 @@ class tongji2 extends Controller
                 }
             }
             if(($actual_num+$cancel_num)>0){
-                $rateArr[] = (int)($cancel_num/($actual_num+$cancel_num));
+                $rateArr[] = ($cancel_num/($actual_num+$cancel_num))*100;
             }else{
                 $rateArr[] = 0;
             }
         }
+
         $ret_info = [];
 
         return $this->pageView(__METHOD__,$ret_info,[
@@ -2042,6 +2043,7 @@ class tongji2 extends Controller
             $item["call_time"]= \App\Helper\Common::get_time_format( $item["call_time"] );
             E\Eboolean::set_item_value_color_str($item, "called_flag");
             E\Eseller_student_assign_from_type::set_item_value_str($item);
+            E\Eboolean::set_item_value_color_str($item, "check_hold_flag");
         }
 
         return $this->pageView(__METHOD__, $ret_info);
