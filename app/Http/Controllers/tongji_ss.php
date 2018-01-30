@@ -7799,8 +7799,8 @@ class tongji_ss extends Controller
         // $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944','1040'];
         $account_role = $this->get_account_role();
         $master_flag = 0;
-        $role_arr = ['12','22'];
-        if(in_array($account_role,$role_arr)){
+        $role_arr = ['12','22']; // 研发|师资
+        if(in_array($account_role,$role_arr) || in_array($account_id,[889])){
             $master_flag = 1;
         }
 

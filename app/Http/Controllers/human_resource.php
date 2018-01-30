@@ -4208,6 +4208,7 @@ class human_resource extends Controller
     //精品老师页面
     public function get_elite_teacher_list(){
         $this->set_in_value("elite_flag",1);
+        $this->set_in_value("is_test_user",0);
         return $this->teacher_info_new();
     }
 

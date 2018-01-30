@@ -521,8 +521,8 @@ class tongji_ex extends Controller
             foreach($item['list'] as $adminid=>$info){
                 $account = $this->cache_get_account_nick($adminid);
                 $create_time = date('Y-m-d H:i:s',$info['create_time']);
-                $end = $info['cc_end']==1?'客户':'销售';
-                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',挂机人:'.$end.',抢单时间:'.$create_time."];";
+                $end = $info['cc_end']>0?($info['cc_end']==1?'销售':'客户'):'';
+                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',拨通未满60s挂机人:'.$end.',抢单时间:'.$create_time."];";
             }
             $list[$userid]['desc'] = $desc;
             $list[$userid]['add_time'] = $item['add_time'];
@@ -705,6 +705,46 @@ class tongji_ex extends Controller
             echo '<td>'.$item['call_count'].'</td>';
             echo '<td>'.$item['called_count'].'</td>';
             echo '<td>'.$item['rate'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
+
+    public function tmk_set_list(){
+        $ret_info = [];
+        $ret        = $this->t_seller_student_new->get_item_tmk_list($count_flag=-1);
+        $ret_new    = $this->t_seller_student_new->get_item_tmk_list($count_flag=1);
+        $userid_arr = array_unique(array_column($ret_new, 'userid'));
+        foreach($ret as $item){
+            if(in_array($item['userid'],$userid_arr)){
+                $ret_info[$item['userid']]['userid'] = isset($ret_info[$item['userid']]['userid'])?$ret_info[$item['userid']]['userid']:$item['userid'];
+                $ret_info[$item['userid']]['phone'] = isset($ret_info[$item['userid']]['phone'])?$ret_info[$item['userid']]['phone']:$item['phone'];
+                $ret_info[$item['userid']]['list'][] = $item;
+                $ret_info[$item['userid']]['is_exist_count'] = isset($ret_info[$item['userid']]['is_exist_count'])?($ret_info[$item['userid']]['is_exist_count']>$item['is_exist_count']?$ret_info[$item['userid']]['is_exist_count']:$item['is_exist_count']):$item['is_exist_count'];
+                $ret_info[$item['userid']]['add_time_old'] = isset($ret_info[$item['userid']]['add_time_old'])?$ret_info[$item['userid']]['add_time_old']:$item['add_time_old'];
+            }
+        }
+        $num = 0;
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h4>TMK标记无效重复进入例子</h4></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>序号</th><th>userid</th><th>电话</th><th>渠道详情</th><th>例子进入时间</th><th>重复进入次数</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            $num++;
+            echo '<tr>';
+            echo '<td>'.$num.'</td>';
+            echo '<td>'.$item['userid'].'</td>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>';
+            foreach($item['list'] as $info){
+                echo '渠道:'.$info['origin'].'<br/>';
+                echo '科目:'.$info['subject'].'<br/>';
+                echo '进入日期:'.date('Y-m-d H:i:s',$info['add_time']).'<br/>';
+            }
+            echo '</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['add_time_old']).'</td>';
+            echo '<td>'.$item['is_exist_count'].'</td>';
             echo '</tr>';
         }
         echo '</table>';

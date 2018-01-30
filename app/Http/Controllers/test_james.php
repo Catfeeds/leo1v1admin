@@ -1775,15 +1775,51 @@ class test_james extends Controller
     }
 
     public function getTea(){
-        $followImgUrl = '0fb15c77258a991b0028080a64fb42d1517192851140.png';
-        $img_arr = explode(',',$followImgUrl);
+        $start_time = strtotime($this->get_in_str_val("s"));
+        $end_time = strtotime($this->get_in_str_val("e"));
+        $dayNum = ($end_time-$start_time)/86400;
+        $type = $this->get_in_int_val('t');
 
-        dd($img_arr);
-        $a = floor(0.2);
-        dd($a);
-        $a = 10%10;
-        // $b = "ceshi: ".($a+1);
-        dd($a);
+        $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
+        $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
+        $dateArr = [];
+        $rateArr = [];
+        $tmp = [];
+        for($i=0; $i<$dayNum; $i++){
+            $timeStart = $start_time+$i*86400;
+            $timeEnd   = $timeStart+86400;
+            $dateArr[] = date('Y-m-d',$timeStart);
+            $cancel_num = 0;
+            $actual_num = 0;
+
+            foreach($lessonCancelNum as $item_cancel){
+                if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
+                    $cancel_num+=1;
+                    echo $cancel_num." lessonId:".$item_cancel['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd";
+                }
+            }
+
+            foreach($actualLessonNum as $item_actual){
+                if($item_actual['lesson_start']>=$timeStart && $item_actual['lesson_start']<=$timeEnd){
+                    $actual_num+=1;
+                }
+            }
+            if(($actual_num+$cancel_num)>0){
+                $rateArr[] = (int)($cancel_num/($actual_num+$cancel_num));
+            }else{
+                $rateArr[] = 0;
+            }
+        }
+        $ret_info = [];
+
+        if($type==1){
+            dd($lessonCancelNum);
+        }else{
+            dd($actualLessonNum);
+        }
+
+
+
     }
 
 }

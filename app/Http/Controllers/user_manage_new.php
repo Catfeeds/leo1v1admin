@@ -5197,8 +5197,20 @@ class user_manage_new extends Controller
     }
 
     public function flush_power() {
-        $url = \App\Helper\Config::get_url_power_map();
+        $tea = \App\Helper\Config::get_menu();
         $filter = ["/user_manage_new/power_group_edit", "/user_manage_new/power_group_edit_new"];
+
+        foreach($tea as $item) { // 过滤核心数据
+            if ($item["name"] == "核心数据") {
+                if (!isset($item["list"])) continue;
+                foreach($item["list"] as $val) {
+                    array_push($filter, $val["url"]);
+                }
+            }
+            break;
+        }
+
+        $url = \App\Helper\Config::get_url_power_map();
         if(\App\Helper\Utils::check_env_is_local()){
             $groupid = 29; // 非金钱管理账户 $groupid = 29; // 非金钱管理账户
         }else{

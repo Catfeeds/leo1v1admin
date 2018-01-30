@@ -1954,29 +1954,29 @@ class test_jack  extends Controller
         //拉数据
         $this->check_and_switch_tongji_domain();
         //学员停课预警
-        $list = $this->t_lesson_info_b3->get_stop_stu_lesson_info();
-        $data=[];
-        foreach($list as $val){
-            $userid = $val["userid"];
-            $subject = $val["subject"];
-            $grade = $val["grade"];
-            $data[$userid]["nick"] = $val["nick"]; 
-            $data[$userid]["userid"] = $val["userid"];
-            $data[$userid]["type"] =  E\Estudent_type::get_desc($val["type"]);
-            if(!isset($data[$userid]["subject"][$subject])){
-                $data[$userid]["subject"][$subject]=$subject;
-                @$data[$userid]["subject_str"] .=E\Esubject::get_desc($subject).",";
-            }
-            if(!isset($data[$userid]["grade"][$grade])){
-                $data[$userid]["grade"][$grade]=$grade;
-                @$data[$userid]["grade_str"] .=E\Egrade::get_desc($grade).",";
-            }
+        // $list = $this->t_lesson_info_b3->get_stop_stu_lesson_info();
+        // $data=[];
+        // foreach($list as $val){
+        //     $userid = $val["userid"];
+        //     $subject = $val["subject"];
+        //     $grade = $val["grade"];
+        //     $data[$userid]["nick"] = $val["nick"]; 
+        //     $data[$userid]["userid"] = $val["userid"];
+        //     $data[$userid]["type"] =  E\Estudent_type::get_desc($val["type"]);
+        //     if(!isset($data[$userid]["subject"][$subject])){
+        //         $data[$userid]["subject"][$subject]=$subject;
+        //         @$data[$userid]["subject_str"] .=E\Esubject::get_desc($subject).",";
+        //     }
+        //     if(!isset($data[$userid]["grade"][$grade])){
+        //         $data[$userid]["grade"][$grade]=$grade;
+        //         @$data[$userid]["grade_str"] .=E\Egrade::get_desc($grade).",";
+        //     }
 
-        }
-        return $this->pageView(__METHOD__,null,[
-            "list"  =>$data
-        ]);
-        dd($data);
+        // }
+        // return $this->pageView(__METHOD__,null,[
+        //     "list"  =>$data
+        // ]);
+        // dd($data);
 
         //课耗预警
         $start_time = strtotime("2018-01-01");
@@ -2003,8 +2003,18 @@ class test_jack  extends Controller
             E\Esubject::set_item_value_str($val);
             E\Egrade::set_item_value_str($val);
         }
+        $ret=[];
+        foreach($data as $item){
+            $userid = $item["userid"];
+            $ret[$userid]["userid"]=$userid;
+            $ret[$userid]["nick"]=$item["nick"];
+            @$ret[$userid]["num"] +=$item["num"];
+            @$ret[$userid]["four_week"] +=$item["four_week"];
+            @$ret[$userid]["two_week"] +=$item["two_week"];
+        }
+        // dd($ret);
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$data
+            "list"  =>$ret
         ]);
 
 
