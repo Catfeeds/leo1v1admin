@@ -3591,7 +3591,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_start<$time",
             "l.lesson_start>0",
             "s.is_test_user=0",
-            "t.is_test_user=0"
+            "t.is_test_user=0",
+            "s.type <>1"
         ];
         $sql = $this->gen_sql_new("select l.subject,l.grade,l.userid,l.teacherid,count(distinct l.lessonid) num, "
                                   ." s.realname nick,t.realname "

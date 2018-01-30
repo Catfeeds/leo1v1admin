@@ -1953,8 +1953,16 @@ class test_jack  extends Controller
     public function get_reference_teacher_money_info(){
         //拉数据
 
-        $list = $this->t_teacher_info->get_prize(240314);
-        $list = json_decode($list,true);
+        $this->check_and_switch_tongji_domain();
+        $list = $this->t_lesson_info_b3->get_same_stu_grade_subject_num_list();
+        // $data = json_encode($list);
+        // $this->t_teacher_info->field_update_list(240314,[
+        //     "prize"  => $data
+        // ]);
+        // dd($list);
+
+        // $list = $this->t_teacher_info->get_prize(240314);
+        // $list = json_decode($list,true);
         $data = [];
         foreach($list as $val){
             $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
@@ -1967,7 +1975,14 @@ class test_jack  extends Controller
             }else{
                 unset($list[$k]);
             }
+           E\Esubject::set_item_value_str($val);
+           E\Egrade::set_item_value_str($val);
+
         }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list
+        ]);
+
         dd($list);
        
         $start_time = strtotime("2017-01-01");
