@@ -999,7 +999,7 @@ class wx_parent_gift extends Controller
             $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //活动页面
         }
 
-        if(time()<strtotime('2018-1-30')){
+        if(time()<strtotime('2018-1-31')){
             # 原有内容
             if($imgUrlInfo['followImgUrl']){
                 $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
@@ -1008,7 +1008,7 @@ class wx_parent_gift extends Controller
             # 未上线,待测试
             # 为了分散每个微信群的压力,满97人时切换另一个微信群
             if($imgUrlInfo['followImgUrl']){
-                $img_arr = implode(',',$imgUrlInfo['followImgUrl']);
+                $img_arr = explode(',',$imgUrlInfo['followImgUrl']);
                 $index = floor($imgUrlInfo['add_num']/97);
                 $follow_str = $img_arr[$index];
                 $imgNum = count($img_arr);
@@ -1054,6 +1054,8 @@ class wx_parent_gift extends Controller
         $key = $id.'_'.$openid.'_market';
         $checkData = \App\Helper\Common::redis_get($key);
         \App\Helper\Common::redis_expire($key,86400);
+        \App\Helper\Utils::logger("james_redis: $checkData ;key:$key");
+
         if($checkData != 1){
             \App\Helper\Common::redis_set($key,1);
             $this->t_activity_usually->updateAddNum($id);
