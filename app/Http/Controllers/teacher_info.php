@@ -2701,7 +2701,8 @@ class teacher_info extends Controller
                 'tea_sub'   => join( $tea_sub, ','),
                 'tea_gra'   => join($tea_gra, ','),
                 'book'      => join($book_arr, ','),
-                'type_list' => join($type_list, ',')
+                'type_list' => join($type_list, ','),
+                'resource_type'  => $resource_type
             ]);
 
         }
@@ -2715,7 +2716,8 @@ class teacher_info extends Controller
             'tea_sub'   => json_encode( $tea_sub),
             'tea_gra'   => json_encode($tea_gra),
             'book'      => json_encode($book_arr),
-            'type_list' => json_encode($type_list)
+            'type_list' => json_encode($type_list),
+            'resource_type'  => $resource_type
         ]);
     }
 

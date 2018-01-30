@@ -338,13 +338,13 @@ $(function(){
             [tag_three_name, id_tag_three],
             [tag_four_name, [ id_tag_four,id_tag_four_search]],
             [tag_five_name, id_tag_five],
-            ["上传文件(pdf,最大15M,必传)", id_other_file],
-            ["上传文件(pdf,最大15M,必传)", id_ff_file],
-            ["课件版(pdf,最大15M,必传)", id_les_file],
-            ["老师版(pdf,最大15M,必传)", id_tea_file],
-            ["学生版(pdf,最大15M,必传)", id_stu_file],
-            ["额外的讲义(pdf,mp3,mp4,最大15M)", id_ex_file],
-            ["培训讲义或视频(pdf,mp3,mp4,最大100M,必传)", id_video_file],
+            [$("<span>上传文件(pdf,最大15M)</span><span style='color:red'> 必传*</span>"), id_other_file],
+            [$("<span>上传文件(pdf,最大15M)</span><span style='color:red'> 必传*</span>"), id_ff_file],
+            [$("<span>课件版(pdf,最大15M)</span><span style='color:red'> 必传*</span>"), id_les_file],
+            [$("<span>老师版(pdf,最大15M)</span><span style='color:red'> 必传*</span>"), id_tea_file],
+            [$("<span>学生版(pdf,最大15M)</span><span style='color:red'> 必传*</span>"), id_stu_file],
+            ["额外的讲义(pdf,mp3,mp4,最大15M,可选)", id_ex_file],
+            [$("<span>培训讲义或视频(pdf,mp3,mp4,最大100M,必传)</span><span style='color:red'> 必传*</span>"), id_video_file],
         ];
 
         $.show_key_value_table('新建', arr,{
@@ -890,7 +890,8 @@ $(function(){
 
             success   : function(result){
                 if(result.ret == 0){
-                    // window.location.reload();
+                    window.onbeforeunload=function(){};
+                    //window.location.reload();
                 } else {
                     alert(result.info);
                 }
@@ -906,13 +907,36 @@ $(function(){
             data : data,
             success   : function(result){
                 if(result.ret == 0){
-                    // window.location.reload();
+                    window.onbeforeunload=function(){};
+                    //window.location.reload();
                 } else {
                     alert(result.info);
                 }
             }
         });
     };
+
+    $('.opt-select-item').on('click',function(){
+        if( $(this).iCheckValue()){
+            var resource_id = $(this).data('id');
+            $('.common-table tbody tr').each(function(){
+                var other_id = $(this).find('.opt-select-item').data('id');
+                if( other_id == resource_id ){
+                    //console.log(other_id);
+                    $(this).find('.opt-select-item').iCheck("check");
+                }
+            });
+        }else{
+            var resource_id = $(this).data('id');
+            $('.common-table tbody tr').each(function(){
+                var other_id = $(this).find('.opt-select-item').data('id');
+                if( other_id == resource_id ){
+                    //console.log(other_id);
+                    $(this).find('.opt-select-item').iCheck("uncheck");
+                }
+            }); 
+        }
+    });
 
     var do_del = function(){
         var res_id_list = [],file_id_list = [];

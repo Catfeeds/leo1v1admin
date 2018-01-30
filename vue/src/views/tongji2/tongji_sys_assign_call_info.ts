@@ -46,6 +46,10 @@ export default class extends vtable {
       field_name: "call_time",
       "title": "拨打时长",
       "order_field_name": "call_time",
+    },{
+      field_name: "check_hold_flag_str",
+      "title": "是否不占名额",
+      "order_field_name": "check_hold_flag",
     }];
     var  row_opt_list =[{
       face_icon: "fa-list",
@@ -81,15 +85,15 @@ export default class extends vtable {
     });
 
 
-	  $.admin_enum_select({
-		  'join_header'  : $header_query_info,
+    $.admin_enum_select({
+      'join_header'  : $header_query_info,
       "enum_type"    : "seller_student_assign_from_type",
       "field_name" : "seller_student_assign_from_type",
       "title" : "来源",
       "select_value" : this.get_args().seller_student_assign_from_type,
-		  "multi_select_flag"     : true,
-		  "btn_id_config"     : {},
-	  });
+      "multi_select_flag"     : true,
+      "btn_id_config"     : {},
+    });
 
 
     $.admin_ajax_select_user({
@@ -116,5 +120,28 @@ export default class extends vtable {
       "btn_id_config"     : {},
     });
 
+  }
+  opt_multi_set_check_hold_flag () {
+    this.do_select_list("id",function(select_list){
+
+      var $check_hold_flag=$("<select/>");
+      Enum_map.append_option_list( "boolean",$check_hold_flag,true  );
+      var arr =[
+        ["是否不占名额", $check_hold_flag ],
+      ];
+
+        $.show_key_value_table("批量设置:(" + select_list.length + ")个" , arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+
+              $.do_ajax("/ss_deal2/multi_set_assign_check_hold_flag",{
+                "id_list" :  select_list.join(","),
+                "check_hold_flag" :  $check_hold_flag.val()
+              });
+            }
+        });
+
+    });
   }
 }

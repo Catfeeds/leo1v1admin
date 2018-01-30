@@ -42,7 +42,7 @@ class update_bole_reward extends Command
         //$start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
         //$end_time = strtotime(date('Y-m-1', time()));
         $start_time = strtotime(date('Y-m-1', time()));
-        $end_time = time();
+        $end_time   = time();
 
         $references = $task->t_teacher_lecture_appointment_info->get_references(); // 获取所有推荐人
         $teacherids = $task->t_teacher_info->get_teacherids(); // 获取所有老师

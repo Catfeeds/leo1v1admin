@@ -1982,7 +1982,6 @@ class tongji2 extends Controller
         list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3 );
         $dayNum = ($end_time-$start_time)/86400;
 
-        $ret_info = [];
         $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
         $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
         $dateArr = [];
@@ -2007,11 +2006,12 @@ class tongji2 extends Controller
                 }
             }
             if(($actual_num+$cancel_num)>0){
-                $rateArr[] = (int)($cancel_num/($actual_num+$cancel_num));
+                $rateArr[] = $cancel_num/($actual_num+$cancel_num);
             }else{
                 $rateArr[] = 0;
             }
         }
+        $ret_info = [];
 
         return $this->pageView(__METHOD__,$ret_info,[
             "dateArr" => $dateArr,
@@ -2042,6 +2042,7 @@ class tongji2 extends Controller
             $item["call_time"]= \App\Helper\Common::get_time_format( $item["call_time"] );
             E\Eboolean::set_item_value_color_str($item, "called_flag");
             E\Eseller_student_assign_from_type::set_item_value_str($item);
+            E\Eboolean::set_item_value_color_str($item, "check_hold_flag");
         }
 
         return $this->pageView(__METHOD__, $ret_info);

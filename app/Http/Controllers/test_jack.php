@@ -14,6 +14,13 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-02-01");
+        $adminid = 1416;
+        $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
+        dd($kk_suc);
+
+
         $job = new \App\Jobs\SendAdvanceTeacherWxEmail(1506787200,6);
         dispatch($job);
         dd(111);
@@ -1944,6 +1951,107 @@ class test_jack  extends Controller
     }
 
     public function get_reference_teacher_money_info(){
+        //拉数据
+        $this->check_and_switch_tongji_domain();
+        //学员停课预警
+        // $list = $this->t_lesson_info_b3->get_stop_stu_lesson_info();
+        // $data=[];
+        // foreach($list as $val){
+        //     $userid = $val["userid"];
+        //     $subject = $val["subject"];
+        //     $grade = $val["grade"];
+        //     $data[$userid]["nick"] = $val["nick"]; 
+        //     $data[$userid]["userid"] = $val["userid"];
+        //     $data[$userid]["type"] =  E\Estudent_type::get_desc($val["type"]);
+        //     if(!isset($data[$userid]["subject"][$subject])){
+        //         $data[$userid]["subject"][$subject]=$subject;
+        //         @$data[$userid]["subject_str"] .=E\Esubject::get_desc($subject).",";
+        //     }
+        //     if(!isset($data[$userid]["grade"][$grade])){
+        //         $data[$userid]["grade"][$grade]=$grade;
+        //         @$data[$userid]["grade_str"] .=E\Egrade::get_desc($grade).",";
+        //     }
+
+        // }
+        // return $this->pageView(__METHOD__,null,[
+        //     "list"  =>$data
+        // ]);
+        // dd($data);
+
+        //课耗预警
+        $start_time = strtotime("2018-01-01");
+        $end_time = strtotime("2018-01-29");
+        $list =$this->t_lesson_info_b3->get_same_stu_grade_subject_lesson_num_list($start_time,$end_time);
+        $start = strtotime("2017-12-30");
+        $data =$this->t_lesson_info_b3->get_same_stu_grade_subject_lesson_num_list($start,$end_time);
+        $start_week = strtotime("2018-01-15");
+
+        $week = $this->t_lesson_info_b3->get_same_stu_grade_subject_lesson_num_list( $start_week,$end_time);
+        $arr1=$arr2=[];
+        foreach($list as $val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            $arr1[$str] = $val["num"];
+        }
+        foreach($week as $val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            $arr2[$str] = $val["num"];
+        }
+        foreach($data as &$val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            $val["four_week"] = @$arr1[$str];
+            $val["two_week"] = @$arr2[$str];
+            E\Esubject::set_item_value_str($val);
+            E\Egrade::set_item_value_str($val);
+        }
+        $ret=[];
+        foreach($data as $item){
+            $userid = $item["userid"];
+            $ret[$userid]["userid"]=$userid;
+            $ret[$userid]["nick"]=$item["nick"];
+            @$ret[$userid]["num"] +=$item["num"];
+            @$ret[$userid]["four_week"] +=$item["four_week"];
+            @$ret[$userid]["two_week"] +=$item["two_week"];
+        }
+        // dd($ret);
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$ret
+        ]);
+
+
+
+
+
+        //换老师
+        $list = $this->t_lesson_info_b3->get_same_stu_grade_subject_num_list();
+        // $data = json_encode($list);
+        // $this->t_teacher_info->field_update_list(240314,[
+        //     "prize"  => $data
+        // ]);
+        // dd($list);
+
+        // $list = $this->t_teacher_info->get_prize(240314);
+        // $list = json_decode($list,true);
+        $data = [];
+        foreach($list as $val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            @$data[$str]++;
+        }
+        foreach($list as $k=>&$val){
+            $str = $val["subject"]."-".$val["grade"]."-".$val["userid"];
+            if(@$data[$str]>1){
+                $val["change_num"]= @$data[$str]-1;
+            }else{
+                unset($list[$k]);
+            }
+           E\Esubject::set_item_value_str($val);
+           E\Egrade::set_item_value_str($val);
+
+        }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list
+        ]);
+
+        dd($list);
        
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2018-01-01");

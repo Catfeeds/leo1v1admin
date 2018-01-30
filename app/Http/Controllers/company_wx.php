@@ -282,7 +282,7 @@ class company_wx extends Controller
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
-        $start_time = strtotime("-1day");
+        $start_time = strtotime("-2day");
         $end_time = time();
 
         $approv = $this->t_company_wx_approval->get_all_info($start_time, $end_time);
@@ -313,6 +313,7 @@ class company_wx extends Controller
 
             $approval_name = implode(',', $item['approval_name']);
             $notify_name = implode(',', $item['notify_name']);
+            $names = array_merge($item["approval_name"], $item["notify_name"]);
             $common = [
                 'spname' => $item['spname'],
                 'apply_name' => $item['apply_name'],
@@ -339,12 +340,13 @@ class company_wx extends Controller
                 $common['type'] = E\Eapproval_type::V_1;
             }
             $leave = json_decode($item['comm']['apply_data'], true);
-            $this->handle_aprove_type($item, $leave, $approv_type, $common);
+            $this->handle_aprove_type($item, $leave, $approv_type, $common, $names);
         }
+       
         return $this->output_succ();
     }
 
-    public function handle_aprove_type($item, $leave, $approv_type, $common) {
+    public function handle_aprove_type($item, $leave, $approv_type, $common, $names) {
         $items = "";
         //初始化
         $data_desc = $data_column = $require_reason = $require_time = "";
@@ -401,6 +403,16 @@ class company_wx extends Controller
                     "require_time" => $require_time
                 ];
                 $this->t_company_wx_approval_data->row_insert($data);
+
+                $id = $this->t_company_wx_approval_data->get_last_insertid();
+                foreach($names as $name) {
+                    $userid = $this->t_company_wx_users->get_userid_for_name($name);
+                    $this->t_company_wx_approval_notify->row_insert([
+                        "d_id" => $id,
+                        "user_id" => $userid
+                    ]);
+                }
+
                 echo "加载拉取数据审批成功";
 
             }
@@ -462,6 +474,21 @@ class company_wx extends Controller
         ]);
         return $this->output_succ();
     }
+
+    public function update_approval_page_url() {
+        $id = $this->get_in_int_val("id");
+        $page_url = $this->get_in_str_val("page_url");
+        if (!$page_url) {
+            return $this->output_err("数据页面地址不能为空");
+        }
+        $acc = $this->get_account();
+        $this->t_company_wx_approval_data->field_update_list($id, [
+            "acc" => $acc,
+            "page_url" => $page_url
+        ]);
+        return $this->output_succ();
+    }
+
 
     public function show_approv() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);

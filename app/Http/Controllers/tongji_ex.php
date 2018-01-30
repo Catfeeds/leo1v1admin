@@ -521,8 +521,8 @@ class tongji_ex extends Controller
             foreach($item['list'] as $adminid=>$info){
                 $account = $this->cache_get_account_nick($adminid);
                 $create_time = date('Y-m-d H:i:s',$info['create_time']);
-                $end = $info['cc_end']==1?'客户':'销售';
-                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',挂机人:'.$end.',抢单时间:'.$create_time."];";
+                $end = $info['cc_end']>0?($info['cc_end']==1?'销售':'客户'):'';
+                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',拨通未满60s挂机人:'.$end.',抢单时间:'.$create_time."];";
             }
             $list[$userid]['desc'] = $desc;
             $list[$userid]['add_time'] = $item['add_time'];
@@ -532,37 +532,16 @@ class tongji_ex extends Controller
 
     public function threshold_detail(){
         list($start_time,$end_time,$ret_report,$ret_rate,$ret_origin,$ret_origin_info,$rate_arr,$rate_min,$rate_max) = [$this->get_in_int_val('start_time',strtotime(date('Y-m-d',time()))),$this->get_in_int_val('end_time',strtotime(date('Y-m-d',time()))+3600*24),[],[],[],[],[],0,0];
-        list($start_time,$end_time)=[1517155200,1517241600];
-        /*
-          $url='http://p.admin.leo1v1.com/tongji_ex/threshold_detail?color='.$color.'&threshold_line='.$threshold.'&count_call='.$count_call.'&count_no_called='.$count_no_called.'&type=1');
-          $desc = "警报时间：".date("Y-m-d H:i:s")."\n"
-          ."警报级别：".$color."\n"
-          .$threshold_desc.$threshold."%"."\n"
-          ."拨打量：".$count_call."\n"
-          ."拨不通：".$count_no_called;
-
-          $url='http://p.admin.leo1v1.com/tongji_ex/threshold_detail?threshold_max='.$threshold_max.'&threshold_min='.$threshold_min.'&count_y='.$count_y.'&count_r='.$count_r.'&rate='.$rate.'&count_call='.$count_call.'&count_no_called='.$r_count_no_called.'&type=2');
-          $theme = "新例子电话接通率报告";
-          $desc = "今预警线：".$threshold_max."%"."\n"
-          ."今警戒线：".$threshold_min."%"."\n"
-          ."黄色警报：".$count_y."\n"
-          ."红色警报：".$count_r."\n"
-          ."总拨通率：".$rate."%"."\n"
-          ."总拨打量：".$count_call."\n"
-          ."总拨不通：".$count_no_called;
-         */
+        $type = $this->get_in_int_val('type');
         $color = $this->get_in_str_val('color');
-        $threshold_line = $this->get_in_int_val('threshold_line');
+        $threshold = $this->get_in_int_val('threshold_line');
         $count_call = $this->get_in_int_val('count_call');
         $count_no_called = $this->get_in_int_val('count_no_called');
-        $type = $this->get_in_int_val('type');
-
         $threshold_max = $this->get_in_int_val('threshold_max');
         $threshold_min = $this->get_in_int_val('threshold_min');
         $count_y = $this->get_in_int_val('count_y');
         $count_r = $this->get_in_int_val('count_r');
         $rate = $this->get_in_int_val('rate');
-
 
         $ret = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
         $rate_arr = array_unique(array_column($ret, 'new'));
@@ -623,46 +602,86 @@ class tongji_ex extends Controller
             $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
         }
         if($type == 1){
-            echo '新例子电话接通率警报详情'."\n";
-            echo "<br/>";
-            echo "警报时间:<font color='yellow'>".date("Y-m-d H:i:s",$end_time)."</font>\n";
-            echo "警报级别:<font color='yellow'>".$color."</font>\n";
-            echo "<br/>";
-            echo "今预警线:<font color='yellow'>".$threshold."%"."</font>\n";
-            echo "拨打量:<font color='yellow'>".$count_call."</font>\n";
-            echo "拨不通:<font color='yellow'>".$count_no_called."</font>";
-            echo "<br/>";
+            $color_font = $color=='黄色'?'#FF8C00':'#FF3030';
+            echo '<h3 align="center">新例子电话接通率警报详情</h3>';
+            echo '<table border="1" width="600" align="center" frame=void rules=none>';
+            echo '<tr>';
+            echo "<td>警报时间:</td>";
+            echo "<td><font color='".$color_font."'>".date("Y-m-d H:i:s",$end_time)."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>警报级别:</td>";
+            echo "<td><font color='".$color_font."'>".$color."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>今预警线:</td>";
+            echo "<td><font color='".$color_font."'>".$threshold."%"."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>拨打量:</td>";
+            echo "<td><font color='".$color_font."'>".$count_call."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>拨不通:</td>";
+            echo "<td><font color='".$color_font."'>".$count_no_called."</font></td>";
+            echo '</tr>';
+            echo '</table>';
         }elseif($type == 2){
-            echo '新例子电话接通率报告'."\n";
-            echo date('Y-m-d',$end_time)."\n";
-            echo "<br/>";
-            echo "今预警线:<font color='yellow'>".$threshold_max.'%'."</font>\n";
-            echo "今警戒线:<font color='red'>".$threshold_min.'%'."</font>\n";
-            echo "黄色警报:".$count_y."\n";
-            echo "红色警报:".$count_r."\n";
-            echo "<br/>";
-            echo "总拨通率:".$rate."%"."\n";
-            echo "总拨打量:".$count_call."\n";
-            echo "总拨不通:".$count_no_called;
-            echo "<br/>";
+            echo '<h3 align="center">新例子电话接通率报告</h3>';
+            echo '<table border="1" width="600" align="center" frame=void rules=none>';
+            echo "<h4 align='center'>".date('Y-m-d',$end_time)."</h4>";
+            echo '<tr>';
+            echo "<td>今预警线:</td>";
+            echo "<td><font color='#FF8C00'>".$threshold_max."%</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>今警戒线:</td>";
+            echo "<td><font color='#FF3030'>".$threshold_min.'%'."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>黄色警报:</td>";
+            echo "<td><font color='#FF8C00'>".$count_y."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>红色警报:</td>";
+            echo "<td><font color='#FF3030'>".$count_r."</font></td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>总拨通率:</td>";
+            echo "<td>".$rate."%</td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>总拨打量:</td>";
+            echo "<td>".$count_call."</td>";
+            echo '</tr>';
+            echo '<tr>';
+            echo "<td>总拨不通:</td>";
+            echo "<td>".$count_no_called."</td>";
+            echo '</tr>';
+            echo '</table>';
         }
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>警报统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<caption><h4>警报统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>警报序号</th><th>警报类型</th><th>警报时间</th>';
         echo '</tr>';
         foreach($ret_report as $item){
             echo '<tr>';
-            echo '<td>'.$item['num'].'</td>';
-            echo '<td>'.$item['type'].'</td>';
-            echo '<td>'.$item['time'].'</td>';
+            if($item['type']=='黄色'){
+                echo "<td><font color='#FF8C00'>".$item['num']."</font></td>";
+                echo "<td><font color='#FF8C00'>".$item['type']."</font></td>";
+                echo "<td><font color='#FF8C00'>".$item['time']."</font></td>";
+            }elseif($item['type']=='红色'){
+                echo "<td><font color='#FF3030'>".$item['num']."</font></td>";
+                echo "<td><font color='#FF3030'>".$item['type']."</font></td>";
+                echo "<td><font color='#FF3030'>".$item['time']."</font></td>";
+            }
             echo '</tr>';
         }
         echo '</table>';
         echo '<br/>';
-        echo '<br/>';
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>拨通率统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<caption><h4>拨通率统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>峰值类型</th><th>拨通率</th><th>时间</th>';
         echo '</tr>';
@@ -675,9 +694,8 @@ class tongji_ex extends Controller
         }
         echo '</table>';
         echo '<br/>';
-        echo '<br/>';
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>渠道统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<caption><h4>渠道统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>渠道等级</th><th>拨打量</th><th>拨通量</th><th>拨通率</th>';
         echo '</tr>';
@@ -690,19 +708,45 @@ class tongji_ex extends Controller
             echo '</tr>';
         }
         echo '</table>';
+    }
 
-
-        // $ret_info = [];
-        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
-        //     'ret_report'=>$ret_report,
-        //     'ret_rate'=>$ret_rate,
-        //     'ret_origin_info'=>$ret_origin_info,
-        //     'end_time'=>date('Y-m-d H:i:s',$end_time),
-        //     'report_time'=>$report_time,
-        //     'color'=>$color,
-        //     'threshold_line'=>$threshold_line,
-        //     'count_call'=>$count_call,
-        //     'count_no_called'=>$count_no_called,
-        // ]);
+    public function tmk_set_list(){
+        $ret_info = [];
+        $ret        = $this->t_seller_student_new->get_item_tmk_list($count_flag=-1);
+        $ret_new    = $this->t_seller_student_new->get_item_tmk_list($count_flag=1);
+        $userid_arr = array_unique(array_column($ret_new, 'userid'));
+        foreach($ret as $item){
+            if(in_array($item['userid'],$userid_arr)){
+                $ret_info[$item['userid']]['userid'] = isset($ret_info[$item['userid']]['userid'])?$ret_info[$item['userid']]['userid']:$item['userid'];
+                $ret_info[$item['userid']]['phone'] = isset($ret_info[$item['userid']]['phone'])?$ret_info[$item['userid']]['phone']:$item['phone'];
+                $ret_info[$item['userid']]['list'][] = $item;
+                $ret_info[$item['userid']]['is_exist_count'] = isset($ret_info[$item['userid']]['is_exist_count'])?($ret_info[$item['userid']]['is_exist_count']>$item['is_exist_count']?$ret_info[$item['userid']]['is_exist_count']:$item['is_exist_count']):$item['is_exist_count'];
+                $ret_info[$item['userid']]['add_time_old'] = isset($ret_info[$item['userid']]['add_time_old'])?$ret_info[$item['userid']]['add_time_old']:$item['add_time_old'];
+            }
+        }
+        $num = 0;
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h4>TMK标记无效重复进入例子</h4></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>序号</th><th>userid</th><th>电话</th><th>渠道详情</th><th>例子进入时间</th><th>重复进入次数</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            $num++;
+            echo '<tr>';
+            echo '<td>'.$num.'</td>';
+            echo '<td>'.$item['userid'].'</td>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>';
+            foreach($item['list'] as $info){
+                echo '渠道:'.$info['origin'].'<br/>';
+                echo '科目:'.$info['subject'].'<br/>';
+                echo '进入日期:'.date('Y-m-d H:i:s',$info['add_time']).'<br/>';
+            }
+            echo '</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['add_time_old']).'</td>';
+            echo '<td>'.$item['is_exist_count'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
     }
 }

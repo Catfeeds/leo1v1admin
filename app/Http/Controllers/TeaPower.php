@@ -773,6 +773,9 @@ trait TeaPower {
             }
             $qz_flag     = 0;
             $tea_subject = "";
+            if($adminid==1444){
+                $tea_subject ="(7,8,9,10)";
+            }
         }
 
         $acc = $this->t_manager_info->get_account($adminid);
@@ -3025,8 +3028,11 @@ trait TeaPower {
                 $subject=-1;
             }elseif(in_array($adminid,[895])){
                 $subject=13;
-            }elseif(in_array($adminid,[790])){
+            }
+            elseif(in_array($adminid,[790])){
                 $subject=14;
+            }elseif(in_array($adminid,[1444])){
+                $subject=15;
             }else{
                 $subject=-1;
             }
@@ -4395,6 +4401,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $list[$i]['lesson_reward_small_class'] = $reward_list[E\Ereward_type::V_9]['money'];
             //公开课工资
             $list[$i]['lesson_reward_open_class'] = $reward_list[E\Ereward_type::V_10]['money'];
+            // //晋升扣款
+            // $list[$i]['level_up_fail'] = $reward_list[E\Ereward_type::V_101]['money'];
 
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
@@ -4446,6 +4454,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 +$item['lesson_reward_reference']
                 +$item['lesson_reward_train']
                 +$item['lesson_reward_chunhui']
+                // +$item['level_up_fail']
             );
             $item['lesson_normal']       = strval($item['lesson_normal']);
             $item['lesson_trial']        = strval($item['lesson_trial']);
@@ -4489,7 +4498,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $item['list'] = [
                     ['name'=>'小班课工资','value'=> $item['lesson_reward_small_class'].''],
                     ['name'=>'微课工资','value'=> $item['lesson_reward_weike'].''],
-                    ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].'']
+                    ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].''],
+                    // ['name'=>'晋升未达标','value'=> $item['level_up_fail'].'']
                 ];
             }
             $item['lesson_reward_chunhui'] = $item['lesson_reward_chunhui'].'';
@@ -4637,8 +4647,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacher_type     = $teacher_info['teacher_type'];
         $teacher_ref_type = $teacher_info['teacher_ref_type'];
         //各类渠道不发伯乐奖,
-        //15333268257 和  李桂荣两位老师11月后不发伯乐奖
-        if(in_array($teacher_type,[E\Eteacher_type::V_31]) || in_array($teacherid,[420745,437138])){
+        //15333268257,420745;李桂荣 437138;青团社 320557;不发伯乐奖
+        if(in_array($teacher_type,[E\Eteacher_type::V_31]) || in_array($teacherid,[420745,437138,320557])){
             return false;
         }elseif(in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22])){
             $notice_flag = false;
@@ -4684,7 +4694,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         if(!$check_is_exists && $check_time_flag){
             //普通渠道
             if($reference_price==0){
-                $reference_num = $this->t_teacher_info->get_total_for_teacherid(
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid_2018_1_30(
                     $start_time,time(),$teacher_info['phone'],$reference_type
                 );
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
@@ -5001,7 +5011,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param array val 课程信息
      * @param array check_num 换课和迟到的统计次数
      */
-    private function get_lesson_cost_info(&$val,&$check_num){
+    private function get_lesson_cost_info(&$val,&$check_num,$from_type="wx"){
         $lesson_all_cost = 0;
         $lesson_cost     = 0;
         $lesson_all_info = "";
@@ -5032,7 +5042,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             $lesson_all_cost = $lesson_cost;
             $lesson_all_info = $lesson_info;
-            if($lesson_cost>0){
+            if($lesson_cost>0 && $from_type=="wx"){
                 $val['list'][] = [
                     "type"  => 3,
                     "info"  => $lesson_info,
@@ -5052,12 +5062,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                             $lesson_all_cost += $lesson_cost;
                             $lesson_info      = $deduct_info[$item];
                         }
-
-                        $val['list'][] = [
-                            "type"  => 3,
-                            "info"  => $lesson_info,
-                            "money" => $lesson_cost,
-                        ];
+                        if($from_type=="wx"){
+                            $val['list'][] = [
+                                "type"  => 3,
+                                "info"  => $lesson_info,
+                                "money" => $lesson_cost,
+                            ];
+                        }
 
                         $lesson_all_info .= $lesson_info."/";
                     }

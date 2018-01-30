@@ -138,6 +138,7 @@
 
             </tbody>
         </table>
+        <!-- <font size="3" color="#FF3030">拨通未满60S主动挂断电话:{{$count_new}}次,剩余:{{$left_count_new}}次</font> -->
         @elseif( is_array( @$errors) )
         <div class="alert alert-danger" style="margin:20px;">
             <strong>未开放</strong>
@@ -648,7 +649,6 @@
                     </div>
 
 
-                    
                     <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
                             <span class="input-group-addon">上传试卷：</span>
@@ -659,7 +659,6 @@
                                 </button>
                             </div>
 
-                            
                         </div>
                     </div>
 
@@ -668,7 +667,6 @@
 
         </div>
 
-        
         <div class="row" id="id_revisit_info_new">
             <div class="col-xs-12 col-md-12  ">
                 <span>回访信息</span>
@@ -716,7 +714,6 @@
 
                     </div>
 
-                    
 
                 </div>
             </div>
@@ -757,12 +754,6 @@
 
                     </div>
 
-                    
-
-
-                    
-                    
-
                 </div>
             </div>
 
@@ -775,7 +766,6 @@
 
     </div>
 
-  
 
 
 

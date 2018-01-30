@@ -599,7 +599,8 @@ $(function(){
             action   : function(dialog) {
                 $.do_ajax( '/teacher_level/set_teacher_advance_withhold_require_2018', {
                     'teacherid' : teacherid,
-                    'start_time' :g_args.start_time
+                    'start_time' :g_args.start_time,
+                    'withhold_money':opt_data.withhold_money
                 });
             }
         });

@@ -3571,7 +3571,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "(lesson_user_online_status in (0,1) or  f.flow_status = 2) ",
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
-        $sql = $this->gen_sql_new("  select l.lesson_start from %s l"
+        $sql = $this->gen_sql_new("  select l.lesson_start, l.lessonid from %s l"
                                   ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
@@ -3580,4 +3580,83 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+
+    //拉取同一学生年级科目上课老师数量大于1的信息
+    public function get_same_stu_grade_subject_num_list(){
+        $time = strtotime("2018-01-30");
+        $where_arr= [
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2",
+            "l.lesson_start<$time",
+            "l.lesson_start>0",
+            "s.is_test_user=0",
+            "t.is_test_user=0",
+            "s.type <>1"
+        ];
+        $sql = $this->gen_sql_new("select l.subject,l.grade,l.userid,l.teacherid,count(distinct l.lessonid) num, "
+                                  ." if(s.realname <> '',s.realname,s.nick) nick,t.realname "
+                                 ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." where %s group by l.userid,l.grade,l.subject,l.teacherid ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    //拉取同一学生年级科目课耗信息
+    public function get_same_stu_grade_subject_lesson_num_list($start_time,$end_time){
+        $where_arr= [
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2",
+            ["l.lesson_start<=%u",$end_time,0],
+            ["l.lesson_start>=%u",$start_time,0],
+            "s.is_test_user=0",
+            "t.is_test_user=0",
+            "s.type <>1"
+        ];
+        $sql = $this->gen_sql_new("select l.subject,l.grade,l.userid,count(distinct l.lessonid) num, "
+                                  ." if(s.realname <> '',s.realname,s.nick) nick "
+                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." where %s group by l.userid,l.grade,l.subject ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    //拉取学员状态为“寒暑假停课”、“停课”、“休学”的信息
+    public function get_stop_stu_lesson_info(){
+        $time = strtotime("2018-01-30");
+        $where_arr= [
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2",
+            "l.lesson_start<$time",
+            "l.lesson_start>0",
+            "s.is_test_user=0",
+            "t.is_test_user=0",
+            "s.type in (2,3,4)"
+        ];
+        $sql = $this->gen_sql_new("select distinct l.subject,l.grade,l.userid,s.type,"
+                                  ."if(s.realname <> '',s.realname,s.nick) nick"
+                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

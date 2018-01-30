@@ -42,6 +42,8 @@ class add_new_tea_entry extends Command
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
 
+        echo "测试是否成功";
+        exit;
         $task->t_teacher_info->field_update_list(469110, [
             'bank_type' => '中国工商银行'
         ]);

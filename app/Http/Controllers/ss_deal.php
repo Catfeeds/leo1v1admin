@@ -3004,52 +3004,53 @@ class ss_deal extends Controller
 
     /**
      * 试听排课处的确认课时
+     * 路径：/seller_student_new2/test_lesson_plan_list
      */
-    public function confirm_test_lesson() {
+    public function confirm_test_lesson(){
         $require_id   = $this->get_in_require_id();
         $success_flag = $this->get_in_str_val("success_flag");
         $fail_reason  = $this->get_in_str_val("fail_reason");
         $test_lesson_fail_flag    = $this->get_in_str_val("test_lesson_fail_flag");
         $fail_greater_4_hour_flag = $this->get_in_str_val("fail_greater_4_hour_flag");
         if ($success_flag==1 || $success_flag==0 ) {
-            $fail_reason="";
-            $test_lesson_fail_flag=0;
-            $fail_greater_4_hour_flag=0;
+            $fail_reason              = "";
+            $test_lesson_fail_flag    = 0;
+            $fail_greater_4_hour_flag = 0;
         }
         $lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
 
         $this->t_test_lesson_subject_sub_list->field_update_list($lessonid,[
-            "confirm_adminid"  =>  $this->get_account_id(),
-            "confirm_time"  =>  time(NULL),
+            "confirm_adminid"          => $this->get_account_id(),
+            "confirm_time"             => time(NULL),
             "success_flag"             => $success_flag,
             "fail_reason"              => $fail_reason,
             "test_lesson_fail_flag"    => $test_lesson_fail_flag,
             "fail_greater_4_hour_flag" => $fail_greater_4_hour_flag,
         ]);
 
-        if ($fail_greater_4_hour_flag ==1 ) {
+        if ($fail_greater_4_hour_flag==1) {
             $lesson_del_flag=1;
         }else{
             $lesson_del_flag=0;
         }
 
-        $this->t_lesson_info->field_update_list($lessonid,[
-            "lesson_del_flag" => $lesson_del_flag,
-        ]);
-
-        $lesson_info      = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid,lesson_start,lesson_end");
+        $lesson_info      = $this->t_lesson_info->get_lesson_info($lessonid);
         $phone            = $this->t_seller_student_new->get_phone($lesson_info["userid"]);
         $nick             = $this->cache_get_student_nick($lesson_info["userid"]);
         $lesson_start_str = \App\Helper\Utils::unixtime2date($lesson_info["lesson_start"],'m-d H:i');
+
+        if($lesson_info['lesson_del_flag']!=$lesson_del_flag){
+            $this->t_lesson_info->field_update_list($lessonid,[
+                "lesson_del_flag" => $lesson_del_flag,
+            ]);
+            $this->add_cancel_lesson_operate_info($lessonid,$lesson_info['lesson_del_flag'],$lesson_del_flag);
+        }
 
         $lesson_time  = \App\Helper\Utils::fmt_lesson_time($lesson_info["lesson_start"],$lesson_info["lesson_end"]);
         $teacherid    = $lesson_info["teacherid"] ;
         $teacher_nick = $this->cache_get_teacher_nick($teacherid);
 
-
-
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1  ){
-
             $this->t_test_lesson_subject_require->set_test_lesson_status(
                 $require_id,
                 E\Eseller_student_status::V_120 , $this->get_account()
@@ -3220,6 +3221,7 @@ class ss_deal extends Controller
 
     /**
      * 试听课课时确认
+     * 路径：/tea_manage/lesson_list
      */
     public function confirm_test_lesson_ass() {
         $lessonid                 = $this->get_in_lessonid();
@@ -3350,7 +3352,6 @@ class ss_deal extends Controller
 
         return $this->output_succ();
     }
-
 
     public function get_lesson_list_by_require_id_js() {
         $page_num=$this->get_in_page_num();
@@ -7826,7 +7827,19 @@ class ss_deal extends Controller
         if($shareImgUrl){ $shareImgUrlOnline = $domain."/".$shareImgUrl; }
         if($coverImgUrl){ $coverImgUrlOnline = $domain."/".$coverImgUrl; }
         if($activityImgUrl){ $activityImgUrlOnline = $domain."/".$activityImgUrl; }
-        if($followImgUrl){ $followImgUrlOnline = $domain."/".$followImgUrl; }
+        // if($followImgUrl){ $followImgUrlOnline = $domain."/".$followImgUrl; }
+
+
+        if($followImgUrl){
+            $followImgUrl_arr = explode(',',$followImgUrl);
+            foreach($followImgUrl_arr as $item){
+                $followImgUrlOnline = $domain."/".$item;
+                list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
+                if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
+                if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
+            }
+        }
+
 
         if($shareImgUrlOnline){
             list($shareWidth,$shareHeight,$shareType,$shareAttr)=getimagesize($shareImgUrlOnline);
@@ -7840,9 +7853,9 @@ class ss_deal extends Controller
             list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrlOnline);
         }
 
-        if($followImgUrlOnline){
-            list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
-        }
+        // if($followImgUrlOnline){
+        //     list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
+        // }
 
 
 
@@ -7854,7 +7867,7 @@ class ss_deal extends Controller
         if(($shareWidth!=750 || $shareHeight<1200 || $shareHeight>1340 )&&$shareType!=0){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
         if(($coverWidth!=300 || $coverHeight!=300)&&$coverType!=0){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
         if(($activityWidth!=750 || $activityHeight>1340 || $activityHeight<1200 )&&$activityType!=0){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
-        if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
+        // if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
 
 
 
@@ -7928,7 +7941,15 @@ class ss_deal extends Controller
         if($shareImgUrl){ $shareImgUrlOnline = $domain."/".$shareImgUrl; }
         if($coverImgUrl){ $coverImgUrlOnline = $domain."/".$coverImgUrl; }
         if($activityImgUrl){ $activityImgUrlOnline = $domain."/".$activityImgUrl; }
-        if($followImgUrl){ $followImgUrlOnline = $domain."/".$followImgUrl; }
+        if($followImgUrl){
+            $followImgUrl_arr = explode(',',$followImgUrl);
+            foreach($followImgUrl_arr as $item){
+                $followImgUrlOnline = $domain."/".$item;
+                list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
+                if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
+                if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
+            }
+        }
 
         if($shareImgUrlOnline){
             list($shareWidth,$shareHeight,$shareType,$shareAttr)=getimagesize($shareImgUrlOnline);
@@ -7942,19 +7963,19 @@ class ss_deal extends Controller
             list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrlOnline);
         }
 
-        if($followImgUrlOnline){
-            list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
-        }
+        // if($followImgUrlOnline){
+        //     list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
+        // }
 
         if($shareType != 3 && $shareType !=0){return $this->output_err('分享页图片格式不符合,请重新上传!');}
         if($coverType != 3 && $coverType !=0){return $this->output_err('封面图片格式不符合,请重新上传!');}
         if($activityType != 3 && $activityType !=0){return $this->output_err('活动页图片格式不符合,请重新上传!');}
-        if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
+        // if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
 
         if(($shareWidth!=750 || $shareHeight<1200 || $shareHeight>1340 )&&$shareType!=0){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
         if(($coverWidth!=300 || $coverHeight!=300)&&$coverType!=0){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
         if(($activityWidth!=750 || $activityHeight>1340 || $activityHeight<1200 )&&$activityType!=0){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
-        if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
+        // if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
 
 
         $this->t_activity_usually->field_update_list($id,[

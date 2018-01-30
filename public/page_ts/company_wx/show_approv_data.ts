@@ -73,6 +73,34 @@ $(function(){
 
     });
 
+    $(".opt-add-page").on("click", function() {
+        var id = $(this).parent().attr('data_id');
+        var url = $(this).parent().parent().find(".page_url").attr("href");
+        if (url == undefined) url = '';
+        var page_url = $('<input name=page_url value="' + url + '">');
+        var arr = [
+            ['-',"数据地址-控制器应该以require加数字命名"],
+            ['添加数据下载地址', page_url]
+        ];
+
+        $.show_key_value_table("更新修改", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                var page_url = $("input[name='page_url']").val();
+                if (!(page_url.indexOf("require") > -1)) {
+                    alert("数据地址-控制器应该以require加数字命名");
+                    return false;
+                }
+                $.do_ajax("/company_wx/update_approval_page_url",{
+                    "id"       : id,
+                    "page_url" : page_url
+                });
+            }
+        });
+
+    });
+
     $('#id_add').on('click', function() {
         $.do_ajax("/company_wx/pull_approve_data", {});
     });
