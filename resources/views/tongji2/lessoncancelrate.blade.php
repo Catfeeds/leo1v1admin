@@ -58,6 +58,8 @@
                 </table>
             </div>
         </div>
+
+        <div id="container" style="min-width:400px;height:400px"></div>
     </section>
 
 @endsection
