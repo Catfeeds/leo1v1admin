@@ -1837,7 +1837,10 @@ class teacher_level extends Controller
             ]);
 
             if($withhold_final_trial_flag==1){          
- 
+                if ( \App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test() ){
+                    $first_month = strtotime("+2 months",$start_time)-86400;
+                }
+
             }
  
         }

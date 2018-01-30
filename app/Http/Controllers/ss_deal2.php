@@ -1488,4 +1488,20 @@ class ss_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function multi_set_assign_check_hold_flag() {
+        $id_list=$this->get_in_int_list("id_list");
+        $check_hold_flag= $this->get_in_int_val("check_hold_flag");
+        if (!$this->check_account_in_arr(["jim"]) ) {
+            return $this->output_err("没有权限");
+        }
+
+        foreach ( $id_list as $id) {
+            $this->t_seller_student_system_assign_log->field_update_list($id, [
+                "check_hold_flag" =>$check_hold_flag,
+            ]);
+        }
+        return $this->output_succ();
+    }
+
+
 }

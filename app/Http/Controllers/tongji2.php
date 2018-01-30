@@ -2042,6 +2042,7 @@ class tongji2 extends Controller
             $item["call_time"]= \App\Helper\Common::get_time_format( $item["call_time"] );
             E\Eboolean::set_item_value_color_str($item, "called_flag");
             E\Eseller_student_assign_from_type::set_item_value_str($item);
+            E\Eboolean::set_item_value_color_str($item, "check_hold_flag");
         }
 
         return $this->pageView(__METHOD__, $ret_info);
