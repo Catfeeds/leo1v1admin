@@ -87,9 +87,10 @@ $(function(){
 
 		html_node.fullCalendar('removeEvents');//日历数据清空
         if (check_month()) {
-		    schedule_time -= 86400*30;
+		    //schedule_time -= 86400*30;
+            schedule_time = getPreMonth(schedule_time*1000);
         }else{
-		    schedule_time -= 604800;
+		        schedule_time -= 604800;
         }
 
 		schedule_event(schedule_time);//日历数据加载
@@ -99,9 +100,10 @@ $(function(){
     html_node.find(" .fc-next-button").on("click",function(){
 		html_node.fullCalendar('removeEvents');//日历数据清空
         if (check_month()) {
-		    schedule_time += 86400*30;
+		    //schedule_time += 86400*30;
+            schedule_time = getNextMonth(schedule_time*1000);
         }else{
-		    schedule_time += 604800;
+		        schedule_time += 604800;
         }
 
 		schedule_event(schedule_time);//日历数据加载
@@ -125,6 +127,86 @@ $(function(){
     });
 
 	schedule_event(schedule_time);//日历数据加载
+
+    Date.prototype.format = function(fmt) { 
+        var o = { 
+            "M+" : this.getMonth()+1,                 //月份 
+            "d+" : this.getDate(),                    //日 
+            "h+" : this.getHours(),                   //小时 
+            "m+" : this.getMinutes(),                 //分 
+            "s+" : this.getSeconds(),                 //秒 
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+            "S"  : this.getMilliseconds()             //毫秒 
+        }; 
+        if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+        }
+        for(var k in o) {
+            if(new RegExp("("+ k +")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+            }
+        }
+        return fmt; 
+    }        
+
+    //获取上个月时间
+    function getPreMonth(date) {  
+        var date = new Date(date).format("yyyy-MM-dd");
+        var arr = date.split('-');  
+        var year = arr[0]; //获取当前日期的年份  
+        var month = arr[1]; //获取当前日期的月份  
+        var day = arr[2]; //获取当前日期的日  
+        var days = new Date(year, month, 0);  
+        days = days.getDate(); //获取当前日期中月的天数  
+        var year2 = year;  
+        var month2 = parseInt(month) - 1;  
+        if (month2 == 0) {  
+            year2 = parseInt(year2) - 1;  
+            month2 = 12;  
+        }  
+        var day2 = day;  
+        var days2 = new Date(year2, month2, 0);  
+        days2 = days2.getDate();  
+        if (day2 > days2) {  
+            day2 = days2;  
+        }  
+        if (month2 < 10) {  
+            month2 = '0' + month2;  
+        }  
+        var t2 = year2 + '-' + month2 + '-' + day2;  
+        var t3 = (new Date(t2)).getTime()/1000;
+        return t3;  
+    }  
+
+    //获取下个月时间
+    function getNextMonth(date) {
+        var date = new Date(date).format("yyyy-MM-dd");
+        var arr = date.split('-');
+        var year = arr[0]; //获取当前日期的年份
+        var month = arr[1]; //获取当前日期的月份
+        var day = arr[2]; //获取当前日期的日
+        var days = new Date(year, month, 0);
+        days = days.getDate(); //获取当前日期中的月的天数
+        var year2 = year;
+        var month2 = parseInt(month) + 1;
+        if (month2 == 13) {
+            year2 = parseInt(year2) + 1;
+            month2 = 1;
+        }
+        var day2 = day;
+        var days2 = new Date(year2, month2, 0);
+        days2 = days2.getDate();
+        if (day2 > days2) {
+            day2 = days2;
+        }
+        if (month2 < 10) {
+            month2 = '0' + month2;
+        }
+        
+        var t2 = year2 + '-' + month2 + '-' + day2;
+        var t3 = (new Date(t2)).getTime()/1000;
+        return t3;
+    }
 
 
 
