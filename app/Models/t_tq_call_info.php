@@ -78,8 +78,10 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                             $arr_log['no_called_count'] = $ret_log['no_called_count']+1;
                         }elseif($is_called_phone==1){
                             $arr_log['called_count'] = $ret_log['called_count']+1;
-                            if($duration<60){
-                                $arr_log['cc_end'] = $endReason;
+                            if($duration<60 && $endReason==0){
+                                $arr_log['cc_end'] = 1;
+                            }elseif($duration<60 && $endReason==1){
+                                $arr_log['cc_end'] = 2;
                             }
                         }
                         if(count($arr_log)>0){

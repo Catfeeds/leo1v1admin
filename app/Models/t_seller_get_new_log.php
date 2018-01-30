@@ -98,7 +98,7 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
             'called_count>0',
         ];
         $this->where_arr_add_int_field($where_arr, 'adminid', $adminid);
-        $this->where_arr_add_int_field($where_arr, 'cc_end', 0);
+        $this->where_arr_add_int_field($where_arr, 'cc_end', 1);
         $this->where_arr_add_time_range($where_arr, 'create_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             " select count(userid) ".
