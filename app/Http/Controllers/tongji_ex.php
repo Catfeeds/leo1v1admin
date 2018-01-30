@@ -647,7 +647,7 @@ class tongji_ex extends Controller
             echo "<br/>";
         }
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>警报统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<caption><h4>警报统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>警报序号</th><th>警报类型</th><th>警报时间</th>';
         echo '</tr>';
@@ -660,9 +660,8 @@ class tongji_ex extends Controller
         }
         echo '</table>';
         echo '<br/>';
-        echo '<br/>';
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>拨通率统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<caption><h4>拨通率统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>峰值类型</th><th>拨通率</th><th>时间</th>';
         echo '</tr>';
@@ -675,9 +674,8 @@ class tongji_ex extends Controller
         }
         echo '</table>';
         echo '<br/>';
-        echo '<br/>';
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>渠道统计&nbsp&nbsp&nbsp&nbsp截止'.date('Y-m-d H:i:s',$end_time).'</h1></caption>';
+        echo '<caption><h4>渠道统计&nbsp&nbsp&nbsp&nbsp截止'.date('H:i:s',$end_time).'</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>渠道等级</th><th>拨打量</th><th>拨通量</th><th>拨通率</th>';
         echo '</tr>';
