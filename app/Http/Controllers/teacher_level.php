@@ -1699,7 +1699,7 @@ class teacher_level extends Controller
         $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
             "withhold_require_time"    => time(),
             "withhold_require_adminid" => $this->get_account_id(),
-            "withhold_money"           => $withhold_money
+            "withhold_money"           => $withhold_money*100
         ]);
         return $this->output_succ();
 
@@ -1841,8 +1841,7 @@ class teacher_level extends Controller
             if($withhold_final_trial_flag==1){
                 $withhold_money = $this->t_teacher_advance_list->get_withhold_money($start_time,$teacherid);
                 if ( \App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test() ){
-                    $i=2;
-                    for($i=2;$i++;$i<5){
+                    for($i=4;$i<7;$i++){
                         $month = strtotime("+$i months",$start_time)-86400;
                         $this->t_teacher_money_list->row_insert([
                             "teacherid" =>$teacherid,

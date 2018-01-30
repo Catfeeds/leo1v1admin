@@ -361,6 +361,50 @@ $(function(){
         });
     });
 
+    $("#id_all_through").on("click",function(){
+        var select_id_list = [];
+
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            if($item.iCheckValue()) {
+                select_id_list.push( $item.data("id") ) ;
+            }
+        });
+
+        var id_time=$("<input/>");
+
+        id_time.datetimepicker( {
+            lang             : 'ch',
+            timepicker       : true,
+            format           : "Y-m-d H:i",
+            onChangeDateTime : function(){
+            }
+        });
+        var arr=[
+            ["通过时间",id_time]
+        ];
+
+        $.show_key_value_table("设置通过时间",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+	              $.do_ajax("/teacher_test_class/set_teacher_through",{
+                    "id_list"                : JSON.stringify(select_id_list ),
+                    "train_through_new_time" : id_time.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                });
+
+            }
+        });
+    });
+
+
+
     $("#id_select_all").on("click",function(){
         $(".opt-select-item").iCheck("check");
     });
@@ -1121,12 +1165,15 @@ $(function(){
     });
 
     $("#id_add_teacher_lecture_appointment_for_test").on("click",function(){
-        var id_teacher_type                 = $("<select />");
-        var id_reference                    = $("<input />");
+        var id_teacher_type = $("<select />");
+        var id_reference    = $("<input />");
+        var id_num          = $("<input />");
 
         var arr = [
             ["老师身份",id_teacher_type],
             ["推荐人",id_reference],
+            ["测试服务器性能问题","请添加20以下的数字"],
+            ["添加个数",id_num],
         ];
         Enum_map.append_option_list_by_not_id("identity",id_teacher_type,true,[0]);
         $.show_key_value_table("添加测试报名数据",arr,{
@@ -1136,6 +1183,7 @@ $(function(){
                 $.do_ajax("/teacher_test_class/add_teacher_lecture_appointment_for_test",{
                     "teacher_type" : id_teacher_type.val(),
                     "reference"    : id_reference.val(),
+                    "num"          : id_num.val(),
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();

@@ -193,6 +193,11 @@
                             <button class="btn btn-danger" id="id_add_teacher_lecture_appointment_for_test">快速添加测试老师</button>
                         </div>
                     </div>
+                    <div class="col-md-2 col-xs-6">
+                        <div>
+                            <button class="btn btn-danger" id="id_all_through">批量通过</button>
+                        </div>
+                    </div>
                 @endif
 
             </div>

@@ -296,7 +296,7 @@ class seller_student_system_assign extends cmd_base
         }
     }
     public  function assign_adminid( $userid, $check_seller_level_list , &$round_seller_level_map ) {
-        $find_adminid=0;
+
         $account="系统分配-新例子-每轮二次 按例子等级分";
 
         foreach( $check_seller_level_list as  $check_seller_level ) {
@@ -306,7 +306,7 @@ class seller_student_system_assign extends cmd_base
                 return $find_adminid;
             }
         }
-        return $find_adminid;
+        return 0;
     }
 
     //每一轮分配例子
