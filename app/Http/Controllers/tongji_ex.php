@@ -715,7 +715,7 @@ class tongji_ex extends Controller
         $ret = $this->t_seller_student_new->get_item_tmk_list();
         foreach($ret as $item){
             $ret_info[$item['userid']]['userid'] = isset($ret_info[$item['userid']]['userid'])?$ret_info[$item['userid']]['userid']:$item['userid'];
-            $ret_info[$item['userid']]['list'][$item['userid']] = isset($ret_info[$item['userid']]['list'][$item['userid']])?$ret_info[$item['userid']]['list'][$item['userid']]:$item;
+            $ret_info[$item['userid']]['list'][] = $item;
             $ret_info[$item['userid']]['is_exist_count'] = isset($ret_info[$item['userid']]['is_exist_count'])?($ret_info[$item['userid']]['is_exist_count']>$item['is_exist_count']?$ret_info[$item['userid']]['is_exist_count']:$item['is_exist_count']):$item['is_exist_count'];
             $ret_info[$item['userid']]['add_time_old'] = isset($ret_info[$item['userid']]['add_time_old'])?$ret_info[$item['userid']]['add_time_old']:$item['add_time_old'];
         }
