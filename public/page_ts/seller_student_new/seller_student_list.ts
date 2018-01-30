@@ -12,7 +12,7 @@ function init_today_new()  {
         var user_admin_assign_time_map={};
         var opt_data_map={};
         if(g_args.env_is_test==1)
-            var call_button ='<button class=" call-opt-call-fail btn btn-warning  fa fa-phone fa-2x "  style="width:30%" > 未拨通</button>'+'<button class=" call-opt-call-fail btn btn-warning  fa fa-phone fa-2x "  style="width:30%" > 拨通</button>';
+            var call_button =' <button class=" call-opt-call-fail btn btn-warning  fa fa-phone fa-1x "  style="width:30%" > 未拨通</button>'+' <button class=" call-opt-call-succ btn btn-warning  fa fa-phone fa-1x "  style="width:30%" > 拨通</button>';
         else
             var call_button ='<button class=" call-opt-call-phone btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>';
 
@@ -118,8 +118,9 @@ function init_today_new()  {
                         "call_flag" : 1, //模拟拨打失败
                         "phone" : opt_data.phone
                     },function(resp){
-                        if (resp.succ_flag == 1) {
+                        if (resp.result) {
                             alert('模拟拨打失败信息添加成功!');
+                            $.reload();
                         }else{
                             alert('模拟拨打失败信息添加失败!');
                         }
@@ -132,8 +133,9 @@ function init_today_new()  {
                         "call_flag" : 2, //模拟拨打成功
                         "phone" : opt_data.phone
                     },function(resp){
-                        if (resp.succ_flag == 1) {
+                        if (resp.result) {
                             alert('模拟拨打成功信息添加成功!');
+                            $.reload();
                         }else{
                             alert('模拟拨打成功信息添加失败!');
                         }

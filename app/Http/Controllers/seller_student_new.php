@@ -619,7 +619,7 @@ class seller_student_new extends Controller
         $seller_master_list[] = "448";
         $is_seller_master= 1;
         //添加测试标识[前端用]
-        if(\App\Helper\Utils::check_env_is_test())
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
             $this->set_filed_for_js("env_is_test",1);
         else
             $this->set_filed_for_js("env_is_test",0);

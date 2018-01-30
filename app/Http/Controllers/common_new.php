@@ -665,6 +665,12 @@ class common_new extends Controller
                 $cdr_status = 28;
             }
 
+            $recid= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+            $duration=0;
+            if ($obj_start_time) {
+                $duration= $cdr_end_time-$obj_start_time;
+            }
+
         }else{
 
             //$cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");

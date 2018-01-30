@@ -6513,7 +6513,7 @@ class ss_deal extends Controller
             return $this->output_err("当前用户不存在");
         }
 
-        if(\App\Helper\Utils::check_env_is_test()){
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
             //判断该例子是否还是当前cc的[已自动释放]
             $current_adminid = $this->t_seller_student_new->field_get_value($userid, 'admin_revisiterid');
             if($current_adminid != $adminid)

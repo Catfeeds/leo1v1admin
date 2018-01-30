@@ -131,7 +131,7 @@ class seller_student_system_assign extends cmd_base
         $left_no_connected_count_all=$ret_info["left_no_connected_count_all"];//剩余未拨通数量之和
         echo "剩余未拨通量之和:$left_no_connected_count_all\n";
         $left_new_count_all=$ret_info["left_new_count_all"];//还需总配额
-        echo "还需总配额:$left_new_count_all\n";
+        echo "还需总配额left_new_count_all:$left_new_count_all\n";
         $admin_list=$ret_info["admin_list"];//销售信息
         print_r($admin_list);
 
@@ -214,6 +214,8 @@ class seller_student_system_assign extends cmd_base
         $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
             E\Etq_called_flag::V_0
         );
+        echo "待分配系统分配例子\n";
+        print_r($need_deal_list);
         $seller_student_level_map=[];
         $need_deal_count=count($need_deal_list);
         $assigned_count=0;
