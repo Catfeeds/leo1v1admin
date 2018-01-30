@@ -723,7 +723,6 @@ class tongji_ex extends Controller
                 $ret_info[$item['userid']]['add_time_old'] = isset($ret_info[$item['userid']]['add_time_old'])?$ret_info[$item['userid']]['add_time_old']:$item['add_time_old'];
             }
         }
-        dd($ret_info);
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h4>TMK标记无效重复进入例子</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
