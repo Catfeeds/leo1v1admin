@@ -35,7 +35,7 @@ class Controller extends ControllerEx
             $this->set_call_ctl_init();
         }
         $this->setUpTraits();
-        $this->check_approval_require(); // 检测数据页面权限 (仅申请人与研发部可见)
+        //$this->check_approval_require(); // 检测数据页面权限 (仅申请人与研发部可见)
     }
 
     public function check_approval_require() {
