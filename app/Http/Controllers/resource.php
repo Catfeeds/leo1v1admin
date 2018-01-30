@@ -1310,7 +1310,7 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade', -1);
         $file_title    = $this->get_in_str_val('file_title', '');
         $is_del        = $this->get_in_int_val('is_del', -1);
-        $status        = $this->get_in_int_val('status', 1);
+        $status        = $this->get_in_int_val('status', 2);
         $page_info     = $this->get_in_page_info();
 
         $ret_info = $this->t_resource->get_total_del(
@@ -1376,12 +1376,18 @@ class resource extends Controller
         $adminid = $this->get_account_id();
         $time    = time();
         if($res_id_str != '') {
-            $res_id_arr  = $this->str_to_arr($res_id_str);
-            $file_id_arr = $this->str_to_arr($file_id_str);
-            $file_link_arr = $this->str_to_arr($file_link_str);
+            $res_id_arr  = !is_array($res_id_str) ? $this->str_to_arr($res_id_str) : $res_id_str;
+            $file_id_arr = !is_array($file_id_str) ? $this->str_to_arr($file_id_str) : $file_id_str;
+            
 
+            if(!is_array($file_link_str)){
+                $file_link_arr = $this->str_to_arr($file_link_str);
+            }else{
+                $file_link_arr = $file_link_str;
+            }
+
+            $id_str = "";
             foreach($res_id_arr as $id){
-                $id_str = "";
                 if( $id != ''){
                     $id_str .= $id.',';
                 }
@@ -1389,26 +1395,30 @@ class resource extends Controller
 
             //删除文件
             foreach( $file_link_arr as $file){
-                $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file);
-                if($file && $exits){
-                    $return = \App\Helper\Utils::qiniu_teacher_file_del($file);
+                $file_name = trim($file);
+                $file_name = ltrim($file_name,'"');
+                $file_name = rtrim($file_name,'"');
+
+                $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file_name);
+                if($file_name && $exits){
+                    $return = \App\Helper\Utils::qiniu_teacher_file_del($file_name);
                 }
             }
-
-            if(!$id_str){
-                $id_str = "(".substr($id_str, -1).")";
-                $this->t_resource->batch_del($idstr);
-                $this->t_resource->batch_del($idstr);
+            if($id_str){
+                $id_str = "(".substr($id_str,0,-1).")";
+                //echo $id_str;
+                $this->t_resource->batch_del($id_str);
+                $this->t_resource_file->batch_del($id_str);
             }
-            foreach($file_id_arr as $file_id){
-                $this->t_resource_file_visit_info->row_insert([
-                    'file_id'     => $file_id,
-                    'visit_type'  => $type,
-                    'create_time' => $time,
-                    'visitor_id'  => $adminid,
-                    'ip'          => $_SERVER["REMOTE_ADDR"],
-                ]);
-            }
+            // foreach($file_id_arr as $file_id){
+            //     $this->t_resource_file_visit_info->row_insert([
+            //         'file_id'     => $file_id,
+            //         'visit_type'  => $type,
+            //         'create_time' => $time,
+            //         'visitor_id'  => $adminid,
+            //         'ip'          => $_SERVER["REMOTE_ADDR"],
+            //     ]);
+            // }
             return $this->output_succ();
         }
 
@@ -1418,26 +1428,45 @@ class resource extends Controller
         $file_link_str = $this->get_in_str_val('file_link_str','');
         if($file_link_str){
             //删除文件
-            $file_link_arr = $this->str_to_arr($file_link_str);
+            if(!is_array($file_link_str)){
+                $file_link_arr = $this->str_to_arr($file_link_str);
+            }else{
+                $file_link_arr = $file_link_str;
+            }
             foreach( $file_link_arr as $file){
-                $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file);
-                if($file && $exits){
-                    \App\Helper\Utils::qiniu_teacher_file_del($file);
+                $file_name = trim($file);
+                $file_name = ltrim($file_name,'"');
+                $file_name = rtrim($file_name,'"');
+                //echo $file_name;
+                $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file_name);
+                if( $file_name && $exits){
+                    $result = \App\Helper\Utils::qiniu_teacher_file_del($file_name);
                 }
             }
-        }
-        //print_r($file_link_str);
+        }     
         return $this->output_succ();
     }
 
     public function total_del_file(){
-        $file_name      = $this->get_in_str_val('file_name');
+        $file_name      = trim($this->get_in_str_val('file_name'));
+        $tea_res_id = $this->get_in_int_val("tea_res_id");
+
+        //预览理优资料
+        $file_link = $this->t_resource_file->get_file_link($tea_res_id);
+        if(!$file_link){
+            return $this->output_err('信息有误，预览失败！');
+        }
+
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+
         $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file_name);
 
         if($file_name && $exits){
-            $result = ['status' => 200 ];
+            $result = ['status' => 200,'url' => $authUrl ];
         }else{
-            $result = ['status' => 500 ];
+            $result = ['status' => 500,'url' => $authUrl ];
         }
         return $this->output_succ($result);
  
