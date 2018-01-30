@@ -57,9 +57,13 @@ class seller_student_system_free extends cmd_base
                     //分配并上班6个小时 free
                     if ($now-$user_check_time>6*3600 ) {
                         //TODO
-                        //$free_flag=true;
+                        $free_flag=true;
                     }
                 }
+                //再次检测该用户是否已拨通
+                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$adminid,$is_called_phone=true);
+                if($is_through)
+                    $free_flag=false;
 
                 if ($free_flag) {
                     \App\Helper\Utils::logger("例子释放分析-1userid:$userid adminid:$admin_revisiterid");
