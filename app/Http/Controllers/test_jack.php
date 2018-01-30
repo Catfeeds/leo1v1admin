@@ -1951,6 +1951,10 @@ class test_jack  extends Controller
     }
 
     public function get_reference_teacher_money_info(){
+        //拉数据
+
+        $list = $this->t_lesson_info_b3->get_same_stu_grade_subject_num_list();
+        dd($list);
        
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2018-01-01");
