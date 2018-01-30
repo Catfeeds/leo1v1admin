@@ -521,8 +521,8 @@ class tongji_ex extends Controller
             foreach($item['list'] as $adminid=>$info){
                 $account = $this->cache_get_account_nick($adminid);
                 $create_time = date('Y-m-d H:i:s',$info['create_time']);
-                $end = $info['cc_end']==1?'客户':'销售';
-                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',挂机人:'.$end.',抢单时间:'.$create_time."];";
+                $end = $info['cc_end']>0?($info['cc_end']==1?'销售':'客户'):'';
+                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',拨通未满60s挂机人:'.$end.',抢单时间:'.$create_time."];";
             }
             $list[$userid]['desc'] = $desc;
             $list[$userid]['add_time'] = $item['add_time'];
