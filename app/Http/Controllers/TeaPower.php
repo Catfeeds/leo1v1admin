@@ -5005,7 +5005,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param array val 课程信息
      * @param array check_num 换课和迟到的统计次数
      */
-    private function get_lesson_cost_info(&$val,&$check_num){
+    private function get_lesson_cost_info(&$val,&$check_num,$from_type="wx"){
         $lesson_all_cost = 0;
         $lesson_cost     = 0;
         $lesson_all_info = "";
@@ -5036,7 +5036,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             $lesson_all_cost = $lesson_cost;
             $lesson_all_info = $lesson_info;
-            if($lesson_cost>0){
+            if($lesson_cost>0 && $from_type=="wx"){
                 $val['list'][] = [
                     "type"  => 3,
                     "info"  => $lesson_info,
@@ -5056,12 +5056,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                             $lesson_all_cost += $lesson_cost;
                             $lesson_info      = $deduct_info[$item];
                         }
-
-                        $val['list'][] = [
-                            "type"  => 3,
-                            "info"  => $lesson_info,
-                            "money" => $lesson_cost,
-                        ];
+                        if($from_type=="wx"){
+                            $val['list'][] = [
+                                "type"  => 3,
+                                "info"  => $lesson_info,
+                                "money" => $lesson_cost,
+                            ];
+                        }
 
                         $lesson_all_info .= $lesson_info."/";
                     }
