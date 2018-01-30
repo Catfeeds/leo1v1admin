@@ -270,8 +270,8 @@ class test_jack  extends Controller
         // dd(json_decode($tt,true));
         $ret_info = $this->t_teacher_lecture_appointment_info->get_tongji_data($start_time,$end_time);
         dd($ret_info);
-        // $json_data=file_get_contents( "http://10.31.92.162/account/add_small_class_order_info"  );
-        // dd($json_data);
+        $json_data=file_get_contents( "http://10.31.92.162/account/login/phone=13817759346&role=1&passwd=befe7ecb6a1aab4ad80332b34ef782d8"  );
+        dd($json_data);
 
         // $registered_student_arr=[1,2,3,4];
         // $read_student_arr =[2,3];
