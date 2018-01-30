@@ -36,7 +36,6 @@ $(function(){
                 text: '课次取消率'
             },
             xAxis: {
-                // categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
                 categories: dateArr
             },
             yAxis: {
@@ -55,7 +54,7 @@ $(function(){
             },
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{point.key}</span><br>',
-                pointFormat: '<span >取消率</span>: <b>{point.y:.4f}%</b><br/>'
+                pointFormat: '<span >取消率</span>: <b>{point.y:.2f}%</b><br/>'
             },
 
             series: [{

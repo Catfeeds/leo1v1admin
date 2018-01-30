@@ -446,6 +446,11 @@ class account_common extends Controller
             return $this->output_err("系统错误");
         }
     }
+
+    //图片验证码
+    public function get_pic_verify_code_info(){
+        
+    }
    
    
 
