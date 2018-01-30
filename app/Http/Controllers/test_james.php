@@ -1778,6 +1778,7 @@ class test_james extends Controller
         $start_time = strtotime($this->get_in_str_val("s"));
         $end_time = strtotime($this->get_in_str_val("e"));
         $dayNum = ($end_time-$start_time)/86400;
+        $type = $this->get_in_int_val('t');
 
         $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
         $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
@@ -1810,7 +1811,11 @@ class test_james extends Controller
         }
         $ret_info = [];
 
-        dd($rateArr);
+        if($type==1){
+            dd($rateArr);
+        }else{
+            dd($dateArr);
+        }
 
 
 
