@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $min   = $this->t_seller_student_origin->get_min_add_time($start_time=1512057600,$end_time=1514736000,$desc='asc');
+        dd($min);
         $count = $this->t_seller_get_new_log->get_cc_end_count($adminid=1101,strtotime(date('Y-m-d 00:00:00',time())),time());
         dd($count);
         $count = $this->t_seller_get_new_log->get_cc_end_count($adminid=457,strtotime(date('Y-m-d 00:00:00',time())),time());
