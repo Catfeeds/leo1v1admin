@@ -39,6 +39,18 @@ export default class vtable extends Vue {
     call_func();
   }
 
+  do_select_list( field_name:string ,call_func ) {
+
+    var me=this;
+
+    var admin_table :any = undefined;
+    $.each(me.$children, function( i ,value ){
+      if (value.$options["_componentTag"]=="admin-table")  {
+        admin_table= value;
+        admin_table.do_select_list( field_name, call_func  );
+      }
+    });
+  }
 
   do_created( ) {
     var me=this;
