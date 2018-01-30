@@ -3595,7 +3595,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "s.type <>1"
         ];
         $sql = $this->gen_sql_new("select l.subject,l.grade,l.userid,l.teacherid,count(distinct l.lessonid) num, "
-                                  ." s.realname nick,t.realname "
+                                  ." if(s.realname <> '',s.realname,s.nick) nick,t.realname "
                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
                                   ." left join %s s on l.userid = s.userid"
                                   ." where %s group by l.userid,l.grade,l.subject,l.teacherid ",
