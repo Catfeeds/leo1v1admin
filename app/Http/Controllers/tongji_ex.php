@@ -532,7 +532,6 @@ class tongji_ex extends Controller
 
     public function threshold_detail(){
         list($start_time,$end_time,$ret_report,$ret_rate,$ret_origin,$ret_origin_info,$rate_arr,$rate_min,$rate_max) = [$this->get_in_int_val('start_time',strtotime(date('Y-m-d',time()))),$this->get_in_int_val('end_time',strtotime(date('Y-m-d',time()))+3600*24),[],[],[],[],[],0,0];
-        list($start_time,$end_time)=[1517155200,1517241600];
         $type = $this->get_in_int_val('type');
         $color = $this->get_in_str_val('color');
         $threshold = $this->get_in_int_val('threshold_line');
@@ -709,19 +708,5 @@ class tongji_ex extends Controller
             echo '</tr>';
         }
         echo '</table>';
-
-
-        // $ret_info = [];
-        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
-        //     'ret_report'=>$ret_report,
-        //     'ret_rate'=>$ret_rate,
-        //     'ret_origin_info'=>$ret_origin_info,
-        //     'end_time'=>date('Y-m-d H:i:s',$end_time),
-        //     'report_time'=>$report_time,
-        //     'color'=>$color,
-        //     'threshold_line'=>$threshold_line,
-        //     'count_call'=>$count_call,
-        //     'count_no_called'=>$count_no_called,
-        // ]);
     }
 }
