@@ -39,6 +39,7 @@
                 <td>申请原因</td>
                 <td>需要时间</td>
                 <td>负责人</td>
+                <td>数据页面地址</td>
                 <td>数据下载地址</td>
                 <td>操作  </td>
             </tr>
@@ -55,6 +56,11 @@
                     <td>{{$item['require_reason']}}</td>
                     <td>{{$item['require_time']}}</td>
                     <td>{{$item['acc']}}</td>
+                    @if ($item['page_url'])
+                        <td><a class="page_url" target="_blank" href="{{$item['page_url']}}">数据页面</a></td>
+                    @else
+                        <td><a class="page_url"></a> </td>
+                    @endif
                     @if ($item['data_url'])
                         <td><a target="_blank" href={{$item['data_url']}} class="download">数据下载<a></td>
                     @else
@@ -63,6 +69,7 @@
                     <td data_id="{{$item['id']}}">
                         <a class="btn  fa fa-cog td-info" title="竖向显示"></a>
                         @if($flag)
+                            <a class="btn opt-add-page" title="添加页面地址">添加页面</a>
                             <a class="btn fa fa-edit opt-edit" title="添加数据下载地址"></a>
                         @endif
                     </td>
