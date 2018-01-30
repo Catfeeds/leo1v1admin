@@ -60,7 +60,7 @@ class new_seller_student extends Job implements ShouldQueue
         $origin_level = $t_origin_key->field_get_value($this->origin, 'origin_level');
         if(!in_array($this->origin, $special_origin) && !in_array($origin_level, $special_origin_level)){
             $is_public = 0;//该用户从未注册
-            //判断该用户是否重复且在公海中
+            /*//判断该用户是否重复且在公海中
             $data_item = $t_seller_student_new->field_get_list($this->userid,"admin_revisiterid,seller_resource_type" );
             if ($data_item) {
                 $admin_revisiterid    = $data_item["admin_revisiterid"];
@@ -72,14 +72,14 @@ class new_seller_student extends Job implements ShouldQueue
                     $is_public = 1;//用户注册过但是在公海里
                 else
                     $is_public = 2;//用户注册过但是不在公海里
-            }
-            //判断学员是否在读
+            }*/ //判断学员是否在读
             $is_reading = $t_student_info->field_get_value($this->userid, 'type');
             if($is_reading == 1)
                 $is_public = 3;//用户是在读学员
 
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --end--
 
+            \App\Helper\Utils::logger("添加到自动抢单测试need_count:$need_count is_public:$is_public");
             if( $n->get_today_can_system_assign_count() < $need_count && in_array($is_public, [0,1])) {
                 //分配模式 调整
                 $n->field_update_list( $this->userid, [

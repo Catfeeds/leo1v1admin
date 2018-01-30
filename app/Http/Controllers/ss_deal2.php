@@ -1488,4 +1488,13 @@ class ss_deal2 extends Controller
         return $this->output_succ();
     }
 
+    //@desn:测试环境模拟拨打
+    //@param:call_flag 拨打标识 1 模拟失败 2 模拟成功
+    public function test_simulation_call(){
+        $call_flag = $this->get_in_int_val('call_flag',0);
+        $this->set_in_value('call_flag', $call_flag);
+        $common_new = new App\Http\Controllers\common_ex;
+        return $common_new->tianrun_notify_call_end();
+    }
+
 }

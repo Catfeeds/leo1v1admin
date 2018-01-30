@@ -618,6 +618,12 @@ class seller_student_new extends Controller
         $seller_master_list[] = "349";
         $seller_master_list[] = "448";
         $is_seller_master= 1;
+        //添加测试标识[前端用]
+        if(\App\Helper\Utils::check_env_is_test())
+            $this->set_filed_for_js("env_is_test",1);
+        else
+            $this->set_filed_for_js("env_is_test",0);
+
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("account_role",$account_role);
         $this->set_filed_for_js("account",$account);
