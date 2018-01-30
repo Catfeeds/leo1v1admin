@@ -1019,7 +1019,7 @@ class wx_parent_gift extends Controller
                     $data= [
                         "first"     => "市场推广活动 关注页页面缺失通知 活动ID:".$id,
                         "keyword1"  => "活动标题:".$imgUrlInfo['title'],
-                        "keyword2"  => '当前活动参与人数:'.$imgUrlInfo['add_time'].'关注页图片数量'.$imgNum.',关注页图片请及时上传!',
+                        "keyword2"  => '当前活动参与人数:'.$imgUrlInfo['add_num'].'关注页图片数量'.$imgNum.',关注页图片请及时上传!',
                         "keyword3"  => date("Y-m-d"),
                     ];
                     \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
