@@ -641,6 +641,7 @@ class tongji_ex extends Controller
             echo '</tr>';
             echo '<tr>';
             echo "<td>黄色警报:</td>";
+            dd($count_y);
             echo "<td><font color='#FF8C00'".$count_y."</font></td>";
             echo '</tr>';
             echo '<tr>';
