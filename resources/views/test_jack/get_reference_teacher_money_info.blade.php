@@ -23,9 +23,9 @@
                 <tr>
                     <td>学生姓名</td>
                     <td>学生id</td>
-                    <td>常规课科目</td>
-                    <td>常规课年级</td>
-                    <td>类型</td>
+                    <td>近4周课数</td>
+                    <td>近2周课数</td>
+                    <td>近30天课数</td>
                   
                                                                      
 
@@ -38,10 +38,10 @@
                         
                         <td>{{ @$var["nick"] }}</td>
                         <td>{{ @$var["userid"] }}</td>
-                        <td>{{ @$var["subject_str"] }}</td>
-                        <td>{{ @$var["grade_str"] }}</td>
+                        <td>{{ @$var["four_week"] }}</td>
+                        <td>{{ @$var["two_week"] }}</td>
                         
-                        <td>{{ @$var["type"] }}</td>
+                        <td>{{ @$var["num"] }}</td>
                        
 
                         <td>

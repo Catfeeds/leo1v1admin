@@ -985,19 +985,8 @@ class teacher_money extends Controller
     }
 
     /**
-     * 添加测试伯乐奖
+     * command:update_bole_reward  每天晚上23:59 更新伯乐奖
      */
-    public function add_test_reference_reward(){
-        if(\App\Helper\Utils::check_env_is_release()){
-            return $this->output_err("只能在非正式环境使用！");
-        }
-        $teacherid        = $this->get_in_int_val("teacherid");
-        $recomm_teacherid = $this->get_in_int_val("recomm_teacherid");
-        $this->add_reference_price($teacherid, $recomm_teacherid, false);
-
-        return $this->output_succ();
-    }
-
     public function update_bole_reward($teacherid, $re_teacherid) {
         $this->add_reference_price($teacherid, $re_teacherid, false);
     }
