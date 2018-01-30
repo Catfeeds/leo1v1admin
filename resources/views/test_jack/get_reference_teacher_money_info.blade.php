@@ -25,10 +25,8 @@
                     <td>学生id</td>
                     <td>常规课科目</td>
                     <td>常规课年级</td>
-                    <td>换老师次数</td>
-                    <td>常规课老师姓名</td>
-                    <td>常规课老师id</td>
-                    <td>老师上课次数</td>
+                    <td>类型</td>
+                  
                                                                      
 
                     <td> 操作</td>
@@ -42,10 +40,8 @@
                         <td>{{ @$var["userid"] }}</td>
                         <td>{{ @$var["subject_str"] }}</td>
                         <td>{{ @$var["grade_str"] }}</td>
-                        <td>{{ @$var["change_num"] }}</td>
-                        <td>{{ @$var["realname"] }}</td>
-                        <td>{{ @$var["teacherid"] }}</td>
-                        <td>{{ @$var["num"] }}</td>
+                        
+                        <td>{{ @$var["type"] }}</td>
                        
 
                         <td>
