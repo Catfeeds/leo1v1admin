@@ -14,6 +14,16 @@
      var type_list = {!! @$type_list !!};
      var book = {{@$book}};
     </script>
+    <style>
+     .fl{ float:left }
+     .fr{ float:right }
+     .clall{ clear:both}
+     .comment{ width:800px}
+     .comment .comment_title{ width:100px;font-size:14px;font-weight:bold}
+     .comment .comment_star{ width:160px}
+     .comment .comment_info{ width:380px;font-size:13px;color:#948f8f;padding-top: 3px;}
+     
+    </style>
     <section class="content li-section">
         <div>
             <!-- <div class="row  row-query-list" >
@@ -133,7 +143,7 @@
                         <td>
                             <a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览</a>
 
-                            <a class="opt-error btn color-blue"  title="评价" data-file_id="{{@$var['file_id']}}">报错</a>
+                            <a class="opt-error btn color-blue"  title="报错" data-file_id="{{@$var['file_id']}}">报错</a>
 
                             <a class="opt-comment btn color-blue"  title="评价" data-file_id="{{@$var['file_id']}}">评价</a>
                         </td>
@@ -148,5 +158,63 @@
         </div>
     </div>
 
+    
+    <div class="comment">
+        <div class="comment_item">
+            <span class="comment_title fl">质量总评：</span>
+            <div class="comment_star comment_quality fl" onmouseover="rate(this,event)">
+                <img src="/img/x1.png" title="1分" />
+                <img src="/img/x1.png" title="2分" />
+                <img src="/img/x1.png" title="3分" />
+                <img src="/img/x1.png" title="4分" />
+                <img src="/img/x1.png" title="5分" />
+            </div>
+            <div class="comment_info fl">
+                <span>质量很差/</span>
+                <span>质量较差/</span>
+                <span>质量一般/</span>
+                <span>质量较高/</span>
+                <span>质量很高</span>
+            </div>
+            <div class="clall"></div>
+        </div>
+        <div class="comment_item">
+            <span class="comment_title fl">帮助指数：</span>
+            <div class="comment_star comment_help fl"></div>
+            <div class="comment_info fl">
+                <span>毫无帮助/</span>
+                <span>帮助较小/</span>
+                <span>帮助一般/</span>
+                <span>帮助较高/</span>
+                <span>帮助极大</span>
+            </div>
+            <div class="clall"></div>
+        </div>
+        <div class="comment_item">
+            <span class="comment_title fl">全面指数：</span>
+            <div class="comment_star comment_whole fl"></div>
+            <div class="comment_info fl">
+                <span>很不全面/</span>
+                <span>不够全面/</span>
+                <span>一般全面/</span>
+                <span>内容较全/</span>
+                <span>内容很全</span>
+            </div>
+            <div class="clall"></div>
+        </div>
+        <div class="comment_item">
+            <span class="comment_title fl">详细指数：</span>
+            <div class="comment_star comment_detail fl"></div>
+            <div class="comment_info fl">
+                <span>很不详细/</span>
+                <span>不够详细/</span>
+                <span>一般详细/</span>
+                <span>比较详细/</span>
+                <span>非常详细</span>
+            </div>
+            <div class="clall"></div>
+        </div>
+
+    </div>
 
 @endsection

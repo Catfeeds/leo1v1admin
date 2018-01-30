@@ -293,4 +293,56 @@ $(function(){
     });
 
     $('.opt-change').set_input_change_event(load_data);
+
+    //评价
+    $('.opt-comment').on('click',function(){
+        var arr = [
+              ["merge","评价"],
+        ];
+        $.tea_show_key_value_table("", arr,{
+            label    : '确认',
+            cssClass : 'btn-info col-xs-2 margin-lr-20',
+            action   : function() {
+                
+            }
+        },'',false,900,'padding-right:60px;');
+
+                                   
+     })
 });
+
+function rate(obj,oEvent){
+    // 图片地址设置
+    var imgSrc = '/img/x1.png'; //没有填色的星星
+    var imgSrc_2 = '/img/x2.png'; //打分后有颜色的星星
+    if(obj.rateFlag) return;
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+    var imgArray = obj.getElementsByTagName("img");
+    var nextObj = obj.nextElementSibling;
+    //console.log(nextObj);
+    var commentArray = nextObj.getElementsByTagName("span");
+    for(var i=0;i<imgArray.length;i++){
+        imgArray[i]._num = i;
+        imgArray[i].onclick=function(){
+            if(obj.rateFlag) return;
+            obj.rateFlag=true;
+            alert(this._num+1); //this._num+1这个数字写入到数据库中,作为评分的依据
+        };
+    }
+    if(target.tagName=="IMG"){
+        for(var j=0;j<imgArray.length;j++){
+            if(j<=target._num){
+                imgArray[j].src=imgSrc_2;
+                commentArray[j].style.color="black";
+            } else {
+                imgArray[j].src=imgSrc;
+                commentArray[j].style.color="#948f8f";
+            }
+        }
+    } else {
+        for(var k=0;k<imgArray.length;k++){
+            imgArray[k].src=imgSrc;
+        }
+    }
+}
