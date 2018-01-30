@@ -1012,7 +1012,8 @@ class wx_parent_gift extends Controller
                 $index = floor($imgUrlInfo['add_num']/97);
                 $follow_str = $img_arr[$index];
                 $imgNum = count($img_arr);
-                $AdminOpenid = 'orwGAs9rPeoW665kCsrQD_rswjv4';//[罗艳]
+                $AdminOpenid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek';//[james]
+                // $AdminOpenid = 'orwGAs9rPeoW665kCsrQD_rswjv4';//[罗艳]
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU"; //[待办事项]
 
                 if($imgNum<$index+1){
