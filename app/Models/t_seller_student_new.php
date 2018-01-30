@@ -3649,7 +3649,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
         $this->where_arr_add_int_field($where_arr, 'n.tmk_student_status', E\Etmk_student_status::V_2);
         $sql = $this->gen_sql_new(
-            " select n.add_time add_time_old,o.* "
+            " select n.add_time add_time_old,n.phone,o.* "
             ." from %s n "
             ." left join %s o on o.userid=n.userid "
             ." where %s"

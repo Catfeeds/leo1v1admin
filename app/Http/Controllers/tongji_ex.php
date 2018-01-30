@@ -718,19 +718,24 @@ class tongji_ex extends Controller
         foreach($ret as $item){
             if(in_array($item['userid'],$userid_arr)){
                 $ret_info[$item['userid']]['userid'] = isset($ret_info[$item['userid']]['userid'])?$ret_info[$item['userid']]['userid']:$item['userid'];
+                $ret_info[$item['userid']]['phone'] = isset($ret_info[$item['userid']]['phone'])?$ret_info[$item['userid']]['userid']:$item['phone'];
                 $ret_info[$item['userid']]['list'][] = $item;
                 $ret_info[$item['userid']]['is_exist_count'] = isset($ret_info[$item['userid']]['is_exist_count'])?($ret_info[$item['userid']]['is_exist_count']>$item['is_exist_count']?$ret_info[$item['userid']]['is_exist_count']:$item['is_exist_count']):$item['is_exist_count'];
                 $ret_info[$item['userid']]['add_time_old'] = isset($ret_info[$item['userid']]['add_time_old'])?$ret_info[$item['userid']]['add_time_old']:$item['add_time_old'];
             }
         }
+        $num = 0;
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h4>TMK标记无效重复进入例子</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>userid</th><th>渠道详情</th><th>例子进入时间</th><th>重复进入次数</th>';
+        echo '<th>序号</th><th>userid</th><th>电话</th><th>渠道详情</th><th>例子进入时间</th><th>重复进入次数</th>';
         echo '</tr>';
         foreach($ret_info as $item){
+            $num++;
             echo '<tr>';
+            echo '<td>'.$num.'</td>';
             echo '<td>'.$item['userid'].'</td>';
+            echo '<td>'.$item['phone'].'</td>';
             echo '<td>';
             foreach($item['list'] as $info){
                 echo '渠道:'.$info['origin'].'<br/>';
