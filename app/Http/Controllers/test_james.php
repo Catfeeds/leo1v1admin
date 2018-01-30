@@ -1812,9 +1812,9 @@ class test_james extends Controller
         $ret_info = [];
 
         if($type==1){
-            dd($rateArr);
+            dd($lessonCancelNum);
         }else{
-            dd($dateArr);
+            dd($actualLessonNum);
         }
 
 
