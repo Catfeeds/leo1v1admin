@@ -1421,9 +1421,8 @@ class resource extends Controller
             $file_link_arr = $this->str_to_arr($file_link_str);
             foreach( $file_link_arr as $file){
                 $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file);
-                print_r($exits);
                 if($file && $exits){
-                    $return = \App\Helper\Utils::qiniu_teacher_file_del($file);
+                    \App\Helper\Utils::qiniu_teacher_file_del($file);
                 }
             }
         }

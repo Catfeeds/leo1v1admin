@@ -198,26 +198,26 @@ $(function(){
             console.log(ret);
             if(ret.ret == 0 && ret.status == 500){
                 BootstrapDialog.alert('在cdn已经删除该文件');
-            } 
+            }  
         });
 
         console.log(id);
-        // var newTab=window.open('about:blank');
-        // do_ajax('/resource/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
-        //     console.log(ret);
-        //     if(ret.ret == 0){
-        //         $('.look-pdf').show();
-        //         $('.look-pdf-son').mousedown(function(e){
-        //             if(e.which == 3){
-        //                 return false;
-        //             }
-        //         });
-        //         console.log(ret.url);
-        //         newTab.location.href = ret.url;
-        //     } else {
-        //         BootstrapDialog.alert(ret.info);
-        //     }
-        // });
+        var newTab=window.open('about:blank');
+        do_ajax('/resource/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
+            console.log(ret);
+            if(ret.ret == 0){
+                $('.look-pdf').show();
+                $('.look-pdf-son').mousedown(function(e){
+                    if(e.which == 3){
+                        return false;
+                    }
+                });
+                console.log(ret.url);
+                newTab.location.href = ret.url;
+            } else {
+                BootstrapDialog.alert(ret.info);
+            }
+        });
     })
 
 });
