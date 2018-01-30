@@ -533,36 +533,16 @@ class tongji_ex extends Controller
     public function threshold_detail(){
         list($start_time,$end_time,$ret_report,$ret_rate,$ret_origin,$ret_origin_info,$rate_arr,$rate_min,$rate_max) = [$this->get_in_int_val('start_time',strtotime(date('Y-m-d',time()))),$this->get_in_int_val('end_time',strtotime(date('Y-m-d',time()))+3600*24),[],[],[],[],[],0,0];
         list($start_time,$end_time)=[1517155200,1517241600];
-        /*
-          $url='http://p.admin.leo1v1.com/tongji_ex/threshold_detail?color='.$color.'&threshold_line='.$threshold.'&count_call='.$count_call.'&count_no_called='.$count_no_called.'&type=1');
-          $desc = "警报时间：".date("Y-m-d H:i:s")."\n"
-          ."警报级别：".$color."\n"
-          .$threshold_desc.$threshold."%"."\n"
-          ."拨打量：".$count_call."\n"
-          ."拨不通：".$count_no_called;
-
-          $url='http://p.admin.leo1v1.com/tongji_ex/threshold_detail?threshold_max='.$threshold_max.'&threshold_min='.$threshold_min.'&count_y='.$count_y.'&count_r='.$count_r.'&rate='.$rate.'&count_call='.$count_call.'&count_no_called='.$r_count_no_called.'&type=2');
-          $theme = "新例子电话接通率报告";
-          $desc = "今预警线：".$threshold_max."%"."\n"
-          ."今警戒线：".$threshold_min."%"."\n"
-          ."黄色警报：".$count_y."\n"
-          ."红色警报：".$count_r."\n"
-          ."总拨通率：".$rate."%"."\n"
-          ."总拨打量：".$count_call."\n"
-          ."总拨不通：".$count_no_called;
-         */
+        $type = $this->get_in_int_val('type');
         $color = $this->get_in_str_val('color');
-        $threshold_line = $this->get_in_int_val('threshold_line');
+        $threshold = $this->get_in_int_val('threshold_line');
         $count_call = $this->get_in_int_val('count_call');
         $count_no_called = $this->get_in_int_val('count_no_called');
-        $type = $this->get_in_int_val('type');
-
         $threshold_max = $this->get_in_int_val('threshold_max');
         $threshold_min = $this->get_in_int_val('threshold_min');
         $count_y = $this->get_in_int_val('count_y');
         $count_r = $this->get_in_int_val('count_r');
         $rate = $this->get_in_int_val('rate');
-
 
         $ret = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
         $rate_arr = array_unique(array_column($ret, 'new'));
@@ -625,19 +605,19 @@ class tongji_ex extends Controller
         if($type == 1){
             echo '新例子电话接通率警报详情'."\n";
             echo "<br/>";
-            echo "警报时间:<font color='yellow'>".date("Y-m-d H:i:s",$end_time)."</font>\n";
-            echo "警报级别:<font color='yellow'>".$color."</font>\n";
+            echo "警报时间:<font color='#FF8C00'>".date("Y-m-d H:i:s",$end_time)."</font>\n";
+            echo "警报级别:<font color='#FF8C00'>".$color."</font>\n";
             echo "<br/>";
-            echo "今预警线:<font color='yellow'>".$threshold."%"."</font>\n";
-            echo "拨打量:<font color='yellow'>".$count_call."</font>\n";
-            echo "拨不通:<font color='yellow'>".$count_no_called."</font>";
+            echo "今预警线:<font color='#FF8C00'>".$threshold."%"."</font>\n";
+            echo "拨打量:<font color='#FF8C00'>".$count_call."</font>\n";
+            echo "拨不通:<font color='#FF8C00'>".$count_no_called."</font>";
             echo "<br/>";
         }elseif($type == 2){
             echo '新例子电话接通率报告'."\n";
             echo date('Y-m-d',$end_time)."\n";
             echo "<br/>";
-            echo "今预警线:<font color='yellow'>".$threshold_max.'%'."</font>\n";
-            echo "今警戒线:<font color='red'>".$threshold_min.'%'."</font>\n";
+            echo "今预警线:<font color='#FF8C00'>".$threshold_max.'%'."</font>\n";
+            echo "今警戒线:<font color='#FF3030'>".$threshold_min.'%'."</font>\n";
             echo "黄色警报:".$count_y."\n";
             echo "红色警报:".$count_r."\n";
             echo "<br/>";
@@ -653,9 +633,15 @@ class tongji_ex extends Controller
         echo '</tr>';
         foreach($ret_report as $item){
             echo '<tr>';
-            echo '<td>'.$item['num'].'</td>';
-            echo '<td>'.$item['type'].'</td>';
-            echo '<td>'.$item['time'].'</td>';
+            if($item['type']=='黄色'){
+                echo "<td><font color='#FF8C00'>".$item['num']."</font></td>";
+                echo "<td><font color='#FF8C00'>".$item['type']."</font></td>";
+                echo "<td><font color='#FF8C00'>".$item['time']."</font></td>";
+            }elseif($item['type']=='红色'){
+                echo "<td><font color='#FF3030'>".$item['num']."</font></td>";
+                echo "<td><font color='#FF3030'>".$item['type']."</font></td>";
+                echo "<td><font color='#FF3030'>".$item['time']."</font></td>";
+            }
             echo '</tr>';
         }
         echo '</table>';
