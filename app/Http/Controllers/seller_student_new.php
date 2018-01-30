@@ -1572,7 +1572,7 @@ class seller_student_new extends Controller
 
                 return $this->pageView(
                     __METHOD__ , null,
-                    ["user_info"=>null , "count_info"=>$count_info, "errors" => $errors ]
+                    ["user_info"=>null , "count_info"=>$count_info, "errors" => $errors,'count_new'=>$count,'left_count_new'=>6-$count]
                 );
 
             }else{
@@ -1588,7 +1588,7 @@ class seller_student_new extends Controller
         if ($userid==0) {
             return $this->pageView(
                 __METHOD__ , null,
-                ["user_info"=>null, "count_info"=>$count_info ]
+                ["user_info"=>null, "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count ]
             );
         }
 
@@ -1605,7 +1605,7 @@ class seller_student_new extends Controller
 
             return $this->pageView(
                 __METHOD__ , null,
-                ["user_info"=>null , "count_info"=>$count_info]
+                ["user_info"=>null , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
             );
 
 
@@ -1621,7 +1621,7 @@ class seller_student_new extends Controller
 
             return $this->pageView(
                 __METHOD__ , null,
-                ["user_info"=>null , "count_info"=>$count_info]
+                ["user_info"=>null , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
             );
 
 
@@ -1635,7 +1635,7 @@ class seller_student_new extends Controller
         $this->cache_set_item_account_nick($user_info, "admin_revisiterid", "admin_revisiter_nick" );
         return $this->pageView(
             __METHOD__ , null,
-            ["user_info"=>$user_info , "count_info"=>$count_info]
+            ["user_info"=>$user_info , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
         );
 
     }

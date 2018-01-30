@@ -1778,6 +1778,7 @@ class test_james extends Controller
         $start_time = strtotime($this->get_in_str_val("s"));
         $end_time = strtotime($this->get_in_str_val("e"));
         $dayNum = ($end_time-$start_time)/86400;
+        $type = $this->get_in_int_val('t');
 
         $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
         $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
@@ -1794,6 +1795,7 @@ class test_james extends Controller
             foreach($lessonCancelNum as $item_cancel){
                 if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
                     $cancel_num+=1;
+                    echo $cancel_num." lessonId:".$item_cancel['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd";
                 }
             }
 
@@ -1810,7 +1812,11 @@ class test_james extends Controller
         }
         $ret_info = [];
 
-        dd($rateArr);
+        if($type==1){
+            dd($lessonCancelNum);
+        }else{
+            dd($actualLessonNum);
+        }
 
 
 
