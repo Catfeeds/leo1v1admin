@@ -3632,5 +3632,31 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    //拉取学员状态为“寒暑假停课”、“停课”、“休学”的信息
+    public function get_stop_stu_lesson_info(){
+        $time = strtotime("2018-01-30");
+        $where_arr= [
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2",
+            "l.lesson_start<$time",
+            "l.lesson_start>0",
+            "s.is_test_user=0",
+            "t.is_test_user=0",
+            "s.type in (2,3,4)"
+        ];
+        $sql = $this->gen_sql_new("select distinct l.subject,l.grade,l.userid,s.type,"
+                                  ."if(s.realname <> '',s.realname,s.nick) nick"
+                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }
