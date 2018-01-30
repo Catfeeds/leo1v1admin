@@ -709,4 +709,9 @@ class tongji_ex extends Controller
         }
         echo '</table>';
     }
+
+    public function tmk_set_list(){
+        $ret = $this->t_seller_student_new->get_item_tmk_list();
+        dd($ret);
+    }
 }
