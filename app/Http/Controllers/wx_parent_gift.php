@@ -1005,13 +1005,11 @@ class wx_parent_gift extends Controller
                 $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
             }
         }else{
-            # 未上线,待测试
             # 为了分散每个微信群的压力,满97人时切换另一个微信群
             if($imgUrlInfo['followImgUrl']){
                 $img_arr = explode(',',$imgUrlInfo['followImgUrl']);
-                $index = floor($imgUrlInfo['add_num']/97);
-                $follow_str = $img_arr[$index];
-                $imgNum = count($img_arr);
+                $index   = floor($imgUrlInfo['add_num']/97);
+                $imgNum  = count($img_arr);
                 $AdminOpenid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek';//[james]
                 // $AdminOpenid = 'orwGAs9rPeoW665kCsrQD_rswjv4';//[罗艳]
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU"; //[待办事项]
@@ -1025,7 +1023,9 @@ class wx_parent_gift extends Controller
                         "keyword3"  => date("Y-m-d"),
                     ];
                     \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                    $imgUrlInfo['followImgUrl'] = '';
                 }else{
+                    $follow_str = $img_arr[$index];
                     $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面
                 }
 
@@ -1036,7 +1036,7 @@ class wx_parent_gift extends Controller
                     $data= [
                         "first"     => "市场推广活动 关注页切换通知 活动ID:".$id,
                         "keyword1"  => "活动标题:".$imgUrlInfo['title'],
-                        "keyword2"  => "当前关注页编号:".($index+1),'即将切换至下一页',
+                        "keyword2"  => "当前关注页编号:".($index+1).'即将切换至下一页',
                         "keyword3"  => date("Y-m-d"),
                     ];
                     \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
