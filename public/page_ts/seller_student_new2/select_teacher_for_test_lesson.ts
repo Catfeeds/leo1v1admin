@@ -109,6 +109,23 @@ $(function(){
         return false;
     }
 
+    if(!check_require_status()){
+        $("#id_teacher_info").keydown(function(event){
+            var val = $(this).val();
+            var select_flag = $(this).data("select_flag");
+            //判断退格键是全部清空还是正常退格 0 正常退格 1 全部清空
+	          if(event.keyCode==8 && select_flag==1){
+                no_select_teacher();
+                $("#id_teacher_info").val('');
+                $("#id_teacherid").val(0);
+                $(this).data("select_flag",0);
+            }
+            if(event.keyCode==13){
+                load_data();
+            }
+        });
+    }
+
     //判断状态,设置排课功能按钮的显示
     if(require_info.test_lesson_student_status!=200 && require_info.test_lesson_student_status!=120 ){
         $(".require_status_first").hide();
@@ -116,21 +133,6 @@ $(function(){
             $(".require_status_second").hide();
             $("#id_teacher_info").attr("readOnly","true");
             $("#id_lesson_time").attr("readOnly","true");
-        }else{
-            $("#id_teacher_info").keydown(function(event){
-                var val = $(this).val();
-                var select_flag = $(this).data("select_flag");
-                //判断退格键是全部清空还是正常退格 0 正常退格 1 全部清空
-	              if(event.keyCode==8 && select_flag==1){
-                    no_select_teacher();
-                    $("#id_teacher_info").val('');
-                    $("#id_teacherid").val(0);
-                    $(this).data("select_flag",0);
-                }
-                if(event.keyCode==13){
-                    load_data();
-                }
-            });
         }
     }
 

@@ -282,7 +282,7 @@ class company_wx extends Controller
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
-        $start_time = strtotime("-1day");
+        $start_time = strtotime("-2day");
         $end_time = time();
 
         $approv = $this->t_company_wx_approval->get_all_info($start_time, $end_time);
@@ -462,6 +462,21 @@ class company_wx extends Controller
         ]);
         return $this->output_succ();
     }
+
+    public function update_approval_page_url() {
+        $id = $this->get_in_int_val("id");
+        $page_url = $this->get_in_str_val("page_url");
+        if (!$page_url) {
+            return $this->output_err("数据页面地址不能为空");
+        }
+        $acc = $this->get_account();
+        $this->t_company_wx_approval_data->field_update_list($id, [
+            "acc" => $acc,
+            "page_url" => $page_url
+        ]);
+        return $this->output_succ();
+    }
+
 
     public function show_approv() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
