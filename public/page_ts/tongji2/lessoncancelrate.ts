@@ -27,6 +27,7 @@ $(function(){
     $(window).on("load",function(){
 
         console.log(dateArr);
+        console.log(rateArr);
         var chart = Highcharts.chart('container', {
             chart: {
                 type: 'line'
