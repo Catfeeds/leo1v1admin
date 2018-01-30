@@ -3580,4 +3580,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+
+    //拉取同一学生年级科目上课老师数量大于1的信息
+    public function get_same_stu_grade_subject_num_list(){
+        $where_arr= [
+            "lesson_del_flag=0",
+            "lesson_type in (0,1,3)",
+            "confirm_flag<2"
+        ];
+        $sql = $this->gen_sql_new("select subject,grade,userid,count(distinct teacherid) num "
+                                 ." from %s where %s group by userid,grade,subject having(num>1)",
+                                 self::DB_TABLE_NAME,
+                                 $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
