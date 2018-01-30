@@ -2006,11 +2006,12 @@ class tongji2 extends Controller
                 }
             }
             if(($actual_num+$cancel_num)>0){
-                $rateArr[] = $cancel_num/($actual_num+$cancel_num);
+                $rateArr[] = ($cancel_num/($actual_num+$cancel_num))*100;
             }else{
                 $rateArr[] = 0;
             }
         }
+
         $ret_info = [];
 
         return $this->pageView(__METHOD__,$ret_info,[
