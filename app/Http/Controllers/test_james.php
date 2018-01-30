@@ -1795,6 +1795,7 @@ class test_james extends Controller
             foreach($lessonCancelNum as $item_cancel){
                 if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
                     $cancel_num+=1;
+                    echo $cancel_num;
                 }
             }
 
