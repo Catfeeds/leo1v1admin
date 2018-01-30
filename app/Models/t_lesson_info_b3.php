@@ -3606,4 +3606,31 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+
+    //拉取同一学生年级科目课耗信息
+    public function get_same_stu_grade_subject_lesson_num_list($start_time,$end_time){
+        $where_arr= [
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2",
+            ["l.lesson_start<=%u",$end_time,0],
+            ["l.lesson_start>=%u",$start_time,0],
+            "s.is_test_user=0",
+            "t.is_test_user=0",
+            "s.type <>1"
+        ];
+        $sql = $this->gen_sql_new("select l.subject,l.grade,l.userid,count(distinct l.lessonid) num, "
+                                  ." if(s.realname <> '',s.realname,s.nick) nick "
+                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." where %s group by l.userid,l.grade,l.subject ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }
