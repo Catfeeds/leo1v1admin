@@ -137,7 +137,7 @@ class activity_config_new extends  activity_new_base {
 
         \App\Helper\Utils::logger("查看当前adminid: ".session("acc"));
 
-        if ( in_array( session("acc"), ["jim", "boby","顾培根","林文彬"]) ) {
+        if ( in_array( session("acc"), ["jim","吴昊",  "boby","顾培根","林文彬"]) ) {
             if ( $this->open_flag ==0 ) { // 1,2
                 return false;
             }
