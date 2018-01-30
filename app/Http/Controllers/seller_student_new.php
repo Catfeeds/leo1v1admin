@@ -1509,7 +1509,7 @@ class seller_student_new extends Controller
             $count=$cmd->load_data($last_get_time,time());
         }
         $count = $this->t_seller_get_new_log->get_cc_end_count($adminid,strtotime(date('Y-m-d',time())),time());
-        if($count>=6 && in_array($this->get_account(), ['陈同','徐磊','田鹏程'])){
+        if($count>=6 && in_array($this->get_account(), ['陈同','徐磊','田鹏程']) && ($this->t_manager_info->field_get_value($adminid, 'get_new_flag') == 0)){
             return  $this->error_view([
                 "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
             ]);
