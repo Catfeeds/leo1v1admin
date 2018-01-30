@@ -22,11 +22,13 @@ interface self_RowData {
 	call_count	:any;
 	called_flag	:any;
 	call_time	:any;
+	check_hold_flag	:any;
 	phone	:any;
 	admin_nick	:any;
 	student_nick	:any;
 	called_flag_str	:any;
 	seller_student_assign_from_type_str	:any;
+	check_hold_flag_str	:any;
 
 }
 export  {self_RowData , self_Args  }
