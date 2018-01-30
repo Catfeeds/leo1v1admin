@@ -8,9 +8,6 @@ function load_data(){
         resource_type:	$('#id_resource_type').val(),
         subject:	$('#id_subject').val(),
         grade:	$('#id_grade').val(),
-        tag_one:	$('#id_tag_one').val(),
-        tag_two:	$('#id_tag_two').val(),
-        tag_three:	$('#id_tag_three').val(),
         file_title:	$('#id_file_title').val()
     });
 }
@@ -178,7 +175,7 @@ $(function(){
                     },
                     success : function(result){
                         if(result.ret == 0){
-                            //window.location.reload();
+                            window.location.reload();
                         }
                     }
                 });
@@ -189,35 +186,48 @@ $(function(){
 
     $('.opt-change').set_input_change_event(load_data);
 
-     //预览讲义
+    //预览讲义
     $('.opt-look').click(function(){
         var id = $(this).data('file_id');
         var file_link = $(this).data('file_link');
-        
-        do_ajax('/resource/total_del_file',{'file_name':file_link},function(ret){
-            console.log(ret);
-            if(ret.ret == 0 && ret.status == 500){
-                BootstrapDialog.alert('在cdn已经删除该文件');
-            }  
-        });
+        var have_del = 0;
+        var pdf_url = "";
 
-        console.log(id);
-        var newTab=window.open('about:blank');
-        do_ajax('/resource/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
-            console.log(ret);
-            if(ret.ret == 0){
-                $('.look-pdf').show();
-                $('.look-pdf-son').mousedown(function(e){
-                    if(e.which == 3){
-                        return false;
-                    }
-                });
-                console.log(ret.url);
-                newTab.location.href = ret.url;
-            } else {
-                BootstrapDialog.alert(ret.info);
+        do_ajax('/resource/total_del_file',{'file_name':file_link,'tea_res_id':id},function(ret){
+            //console.log(ret);
+            if(ret.ret == 0 ){
+                pdf_url = ret.url;
+                if( ret.status == 500 ){
+                    have_del = 1;
+                }
+            }
+
+            if(pdf_url == ''){
+                BootstrapDialog.alert('已经删除该文件,无法访问！');
+                return false;
+            }
+            if( have_del == 1 ){
+                //console.log(1111);
+                BootstrapDialog.alert('在cdn已经删除该文件,由于缓存问题还存在，你确定查看！');
+                //window.open(pdf_url);
+                console.log(pdf_url);
+                //lookPdf(pdf_url);
+
+            }else{
+                lookPdf(pdf_url);
+                console.log(pdf_url);                
             }
         });
     })
 
+    $('body').on('click', function(){
+        $('.look-pdf').hide().children().children().empty();
+    });
+
 });
+
+function lookPdf(pdf_url){
+    $('.look-pdf').show();
+    PDFObject.embed(pdf_url, ".look-pdf-son");
+    $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
+}
