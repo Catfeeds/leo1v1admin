@@ -6357,7 +6357,14 @@ class user_deal extends Controller
         if($imgList['shareImgUrl']){ $imgList['shareImgUrl'] = $domain."/".$imgList['shareImgUrl'];}
         if($imgList['coverImgUrl']){ $imgList['coverImgUrl'] = $domain."/".$imgList['coverImgUrl'];}
         if($imgList['activityImgUrl']){ $imgList['activityImgUrl'] = $domain."/".$imgList['activityImgUrl'];}
-        if($imgList['followImgUrl']){ $imgList['followImgUrl'] = $domain."/".$imgList['followImgUrl'];}
+        if($imgList['followImgUrl']){
+            $follow_arr = explode(',',$imgList['followImgUrl']);
+            $imgList['followImgUrl'] = '';
+            foreach($follow_arr as $item){
+                $imgList['followImgUrl'] .= $domain."/".$item.',';
+            }
+            $imgList['followImgUrl'] = trim($imgList['followImgUrl'],',');
+        }
         return $this->output_succ(['data'=>$imgList]);
     }
 

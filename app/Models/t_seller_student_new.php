@@ -3641,4 +3641,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         return $this->main_get_value($sql);
     }
+
+    public function get_item_tmk_list(){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'tmk_student_status', E\Etmk_student_status::V_2);
+        $sql = $this->gen_sql_new(
+            " select userid "
+            ." from %s "
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

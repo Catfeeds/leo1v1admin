@@ -237,36 +237,11 @@ class seller_student_system_assign extends cmd_base
                         && $assigned_new_count <=$i //这一轮可以分配
                     ){
                         $round_seller_level_map[$seller_level_flag][$adminid]=0;
-                        /*
-                        //按分配算法查找用户
-                        $find_userid=$this->get_assign_userid( $level_map ,$seller_level );
-                        if($find_userid) {
-                            $assigned_count++;
-                            $userid_list=[$find_userid];
-                            $opt_type ="" ;
-                            $opt_type=0;
-                            $account="系统分配-新例子";
-                            $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
-                            $check_hold_flag = false;
-                            $this->task->t_seller_student_system_assign_log->add(
-                                E\Eseller_student_assign_from_type::V_0, $find_userid, $opt_adminid,$check_hold_flag
-                            );
-                        }else{ //没有可分配的
-                            \App\Helper\Utils::logger( " set check_end_flag  true");
-                            $check_end_flag=true;
-                            break;
-                        }
-                        */
                     }
                 }
 
-                /*
-                if( $check_end_flag   )  {
-                    break;
-                }
-                */
                 if (count($round_seller_level_map) >0 ) {
-
+                    $this->round_set_adminid( $round_seller_level_map, $seller_student_level_map);
                 }
             }
         }
@@ -275,6 +250,18 @@ class seller_student_system_assign extends cmd_base
             "need_deal_count" =>$need_deal_count,
             "assigned_count" =>$assigned_count,
         ];
+
+    }
+    public function do_assign($account ,$userid, $adminid ) {
+        $userid_list=[$userid];
+        $opt_type ="" ;
+        $opt_type=0;
+        $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $adminid, $opt_type,$account);
+        $check_hold_flag = false;
+        $this->task->t_seller_student_system_assign_log->add(
+            E\Eseller_student_assign_from_type::V_0, $find_userid, $adminid,$check_hold_flag
+        );
+
 
     }
 
@@ -296,40 +283,37 @@ class seller_student_system_assign extends cmd_base
             if (!$find_origin_level) {
                 $find_origin_level =  E\Eorigin_level::V_4;
             }
+
+            $account="系统分配-新例子-每轮首次按用户等级分 ";
             foreach( $seller_level_admin_map as $adminid=>$v ) {
                  $find_userid= @array_shift(@$seller_student_level_map[ $find_origin_level] );
                 if ($find_userid) {
-                    $userid_list=[$find_userid];
-                    $opt_type ="" ;
-                    $opt_type=0;
-                    $account="系统分配-新例子-每轮首次";
-                    $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
-                    $check_hold_flag = false;
-                    $this->task->t_seller_student_system_assign_log->add(
-                        E\Eseller_student_assign_from_type::V_0, $find_userid, $opt_adminid,$check_hold_flag
-                    );
+                    $this->do_assign($account, $find_userid, $adminid);
                     unset ( $seller_level_admin_map[$adminid]  );
                 }
             }
         }
     }
+    public  function assign_adminid( $userid, $check_seller_level_list , &$round_seller_level_map ) {
+        $find_adminid=0;
+        $account="系统分配-新例子-每轮二次 按例子等级分";
+        foreach( $tmp_list as  $check_seller_level ) {
+            $find_adminid= @array_shift( $round_seller_level_map[ $check_seller_level] );
+            if ($find_adminid) {
+                $this->do_assign($account, $userid, $find_adminid);
+                return $find_adminid;
+            }
+        }
+        return $find_adminid;
+    }
+
     //每一轮分配例子
     public function  round_set_adminid(  $round_seller_level_map, &$seller_student_level_map) {
         //每轮 第一次  通过cc 等级 找对应 例子
         $this->round_one_student_to_admin($round_seller_level_map, $seller_student_level_map);
 
 
-        $get_adminid= function  (  $check_seller_level_list , &$round_seller_level_map ) {
-            $find_adminid=0;
-            //防止有其它等级的用户,没有处理, 把所有的等级
-            $tmp_list= array_merge( $check_seller_level_list, array_keys($round_seller_level_map ));
-
-            foreach( $tmp_list as  $check_seller_level ) {
-
-            }
-
-        };
-
+        // 剩下的 例子 等级 找cc
         //E\Eorigin_level::V_1
         $origin_level_to_seller_level_flag_map=[
             1 => [ 2, 3,  4, 5 ,6,7 ] , // S =>   A B C D E F
@@ -337,15 +321,24 @@ class seller_student_system_assign extends cmd_base
             3 => [2 , 1, 4, 5, 6, 7 ] , // B =>   A S C D E F
             4 => [5, 6, 7, 3,2, 1 ] ,   // C =>   D E F B A S
         ];
-        // 剩下的 例子找cc
-        foreach ( $seller_student_level_map as  $origin_level => $userid_list ) {
+        $find_end_flag=false;
+        foreach ( $seller_student_level_map as  $origin_level => &$userid_list ) {
             $check_origin_level= $origin_level;
             if (!in_array( $check_origin_level, [1,2,3,4]) ) {
                 $check_origin_level= 4;
             }
             $check_seller_level_list= $origin_level_to_seller_level_flag_map[ $check_origin_level ];
+            //防止有其它等级的用户,没有处理, 把所有的等级加入检查列表
+            $check_seller_level_list = array_merge( $check_seller_level_list, array_keys($round_seller_level_map ));
             foreach ( $userid_list as $userid ) {
-
+                $find_adminid=$this->assign_adminid($userid, $check_seller_level_list, $round_seller_level_map);
+                if (!$find_adminid ) {
+                    $find_end_flag=true;
+                    break;
+                }
+            }
+            if  (!$find_end_flag ) {
+                break;
             }
         }
 
