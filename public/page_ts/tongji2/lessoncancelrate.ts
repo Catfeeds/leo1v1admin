@@ -25,6 +25,8 @@ $(function(){
         }
     });
 
+    console.log(dateArr);
+    console.log(rateArr);
 
 	$('.opt-change').set_input_change_event(load_data);
 });
