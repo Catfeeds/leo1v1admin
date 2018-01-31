@@ -63,6 +63,7 @@
                 <tr>
                     <td>id</td>
                     <td>老师</td>
+                    <td style="display:none">晋升前等级</td>
                     <td>等级</td>
                     <td>课耗平均</td>
                     <td>课耗得分</td>
@@ -92,6 +93,7 @@
                     <tr>
                         <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
+                        <td >{{@$var["level_before_str"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["lesson_count"]}} </td>
                         <td>{{@$var["lesson_count_score"]}} </td>
