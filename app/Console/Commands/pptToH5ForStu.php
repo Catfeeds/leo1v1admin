@@ -3,16 +3,15 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use OSS\OssClient;
 
-class pdfConversionH5 extends Command
+class pptToH5ForStu extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:pdfConversionH5';
+    protected $signature = 'command:pptToH5ForStu';
 
     /**
      * The console command description.
@@ -36,7 +35,9 @@ class pdfConversionH5 extends Command
      *
      * @return mixed
      */
-    public function handle()
+
+
+        public function handle()
     {
         /**
          * @ 从七牛下载->上传未达->从未达下载->上传到七牛
@@ -48,19 +49,7 @@ class pdfConversionH5 extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-        $handoutArray = $this->getNeedTranLessonUid();
-
-        // 小班课测试PPT 1bef90ebf32aa93ba0c43433eefb9848  470981
-        // $handoutArray = [
-        //     [
-        //         // "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
-        //         // "uuid"     => 'd4b206b3716cb449c073e7f8430e9128',
-        //         "uuid"     => 'd4f5cfee85e361446695be3202ceff65', //demo
-        //         // "uuid"     => '45e5c6e1981f5f9b76e0835a1a551140',
-        //         "lessonid" => 470981
-        //         //"lessonid" => 470981
-        //     ]
-        // ];
+        $handoutArray = $this->getNeedTranLessonUidForStu();
 
         foreach($handoutArray as $item){
             $uuid = $item['uuid'];
@@ -135,11 +124,6 @@ class pdfConversionH5 extends Command
                 $rmResourceCmd = "rm $zip_new_resource";
                 shell_exec($rmZipCmd);
                 shell_exec($rmResourceCmd);
-
-                # 在161服务器端执行此段程序
-                // $task->t_lesson_info_b3->field_update_list($item['lessonid'],[
-                //     "zip_url" => $saveH5Upload
-                // ]);
 
                 # 在42服务器端执行此段程序
                 $this->updateTranResult($item['lessonid'],$saveH5Upload);
@@ -374,3 +358,4 @@ class pdfConversionH5 extends Command
 
 
 }
+
