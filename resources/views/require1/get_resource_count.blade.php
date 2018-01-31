@@ -1,8 +1,14 @@
 
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript">
+     var g_data = <?php echo json_encode(['info' => $info ]);?>;
+    </script>
 <section class='content'>
     <div> <!-- search ... -->
+            <div class="col-xs-6 col-md-2">
+                <div><a href="javascript:;" id="download_data" class="fa fa-download">下载</a></div>
+            </div>
     </div>
     <hr/>
     <table class="common-table">
