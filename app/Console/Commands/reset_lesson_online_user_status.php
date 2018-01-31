@@ -109,7 +109,7 @@ class reset_lesson_online_user_status extends Command
                 if($lesson_online_user_status == 1){
                     $origin = $this->$task->t_seller_student_origin->get_last_origin($item["userid"],$item["lesson_start"]);
                     if($origin != ''){
-                        $this->t_seller_student_origin->field_update_list_2($item["userid"], $origin, ['last_suc_lessonid'=>$lessonid]);
+                        $this->$task->t_seller_student_origin->field_update_list_2($item["userid"], $origin, ['last_suc_lessonid'=>$lessonid]);
                     }
                 }
             }
