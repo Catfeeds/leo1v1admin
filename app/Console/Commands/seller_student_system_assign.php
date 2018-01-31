@@ -127,6 +127,7 @@ class seller_student_system_assign extends cmd_base
         $left_no_connected_count_all=$ret_info["left_no_connected_count_all"];//剩余未拨通数量之和
         $left_new_count_all=$ret_info["left_new_count_all"];//还需总配额
         $admin_list=$ret_info["admin_list"];//销售信息
+
         $seller_max_new_count = $ret_info["seller_max_new_count"];//最大新例子配额
         $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
         $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
@@ -143,7 +144,6 @@ class seller_student_system_assign extends cmd_base
             "no_connected_count_assigned" => $ret_info["assigned_no_connected_count_all"] + $no_connnected_ret_info["assigned_count"],
 
         ]);
-        echo "ok!\n";
 
     }
 

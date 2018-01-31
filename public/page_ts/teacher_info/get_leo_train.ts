@@ -5,6 +5,8 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 	if( $('#id_resource_type').val() == 6 && book != []) {
         //$('#id_tag_one').val(-1);
+    }else{
+    	//$('#id_tag_one').val(-1);
     }
 
     if(global_mark==0){
@@ -121,6 +123,12 @@ $(function(){
     // Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6]);
     Enum_map.append_option_list("subject", $("#id_subject"),true, tea_sub);
     Enum_map.append_option_list("grade", $("#id_grade"),true, tea_gra);
+
+    if(tag_one != ''){
+        Enum_map.append_option_list(tag_one, $("#id_tag_one"));
+    } else {
+        $("#id_tag_one").append('<option value="-1">全部</option>');
+    }
 
     if(tag_two != ''){
         Enum_map.append_option_list(tag_two, $("#id_tag_two"));

@@ -21,6 +21,7 @@ export default class extends vtable {
 
     },{
       field_name: "seller_student_assign_from_type_str",
+      "order_field_name": "seller_student_assign_from_type",
       "title": "来源",
     },{
       field_name: "student_nick",
@@ -45,8 +46,10 @@ export default class extends vtable {
       field_name: "phone",
     },{
       field_name: "admin_nick",
-      "title": "cc",
-
+      "title": "分配给cc",
+    },{
+      field_name: "admin_revisiter_nick",
+      "title": "当前cc",
     },{
       field_name: "call_count",
       "order_field_name": "call_count",
@@ -69,6 +72,10 @@ export default class extends vtable {
       face_icon: "fa-list",
       on_click: me.opt_list,
       "title": "拨打记录",
+    },{
+      face_icon: "fa-comments",
+      on_click: me.opt_user_return_back_list,
+      "title": "拨打记录",
     }];
 
     return {
@@ -77,6 +84,9 @@ export default class extends vtable {
         "row_opt_list": row_opt_list,
       }
     }
+  }
+  opt_user_return_back_list (  e:MouseEvent, opt_data: self_RowData){
+    $.show_user_return_back_list( opt_data.userid, opt_data.phone);
   }
 
   opt_list( e:MouseEvent, opt_data: self_RowData ){

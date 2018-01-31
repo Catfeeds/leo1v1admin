@@ -293,4 +293,164 @@ $(function(){
     });
 
     $('.opt-change').set_input_change_event(load_data);
+
+    //评价
+    $('.opt-comment').on('click',function(){
+        var comment = $('.comment').clone();
+        comment.removeClass('hide');
+        if( resource_type == 3 ){
+            comment.find('.comment_other_listen').remove();
+        }else{
+            comment.find('.comment_test_listen').remove();
+        }
+        var arr = [
+            ["merge","评价"],
+            ["merge",comment],
+        ];
+        $.tea_show_key_value_table("讲义评价", arr,{
+            label    : '确认',
+            cssClass : 'btn-info col-xs-2 margin-lr-20',
+            action   : function() {
+                
+            }
+        },'',false,800,'padding-right:60px;');
+
+                                   
+    })
+
+    //报错
+    $('.opt-error').on('click',function(){
+        var error = $('.error').clone();
+        error.removeClass('hide');
+    
+        var arr = [
+            ["merge","报错"],
+            ["merge",error],
+        ];
+        $.tea_show_key_value_table("讲义报错", arr,{
+            label    : '确认',
+            cssClass : 'btn-info col-xs-2 margin-lr-20',
+            action   : function() {
+                
+            }
+        },'',false,700,'padding-right:60px;');
+
+                                   
+    })
+
+
 });
+
+function rate(obj,oEvent){
+    // 图片地址设置
+    var imgSrc = '/img/x1.png'; //没有填色的星星
+    var imgSrc_2 = '/img/x2.png'; //打分后有颜色的星星
+    if(obj.rateFlag) return;
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+    var imgArray = obj.getElementsByTagName("img");
+    var nextObj = obj.nextElementSibling;
+    //console.log(nextObj);
+    var commentArray = nextObj.getElementsByTagName("span");
+    for(var i=0;i<imgArray.length;i++){
+        imgArray[i]._num = i;
+        imgArray[i].onclick=function(){
+            obj.rateFlag=true;
+            var cur_num = this._num;
+            for(var j=0;j<imgArray.length;j++){
+                if(j<=cur_num && imgArray[j].src != imgSrc_2 ){
+                    imgArray[j].src= imgSrc_2 ;
+                    
+                }
+                if(j>cur_num && imgArray[j].src != imgSrc ){
+                    imgArray[j].src= imgSrc ;
+                    
+                }
+                if( j == cur_num ){
+                    commentArray[j].style.color="black";
+                }else{
+                    commentArray[j].style.color="#948f8f";
+                }
+            }
+            $(this).parent().attr({'score':cur_num + 1});
+            //alert(this._num+1); //this._num+1这个数字写入到数据库中,作为评分的依据
+        };
+    }
+
+    if(target.tagName=="IMG"){
+        for(var j=0;j<imgArray.length;j++){
+            if(j<=target._num && imgArray[j].src != imgSrc_2 ){
+                imgArray[j].src= imgSrc_2 ;
+                
+            }
+            if(j>target._num && imgArray[j].src != imgSrc ){
+                imgArray[j].src= imgSrc ;
+                
+            }
+
+            if( j == target._num ){
+                commentArray[j].style.color="black";
+            }else{
+                commentArray[j].style.color="#948f8f";
+            }
+        }
+
+    }
+
+    var is_in_area = 0;
+    if( $(target).attr('class') != undefined ){
+        is_in_area =  $(target).attr('class').indexOf('comment_star') < 0 ? 0 : 1;
+    };
+    // console.log(is_in_area);
+    // console.log(target.tagName);
+
+}
+
+function cancel(obj,oEvent){
+    // 图片地址设置
+    var imgSrc = '/img/x1.png'; //没有填色的星星
+    var imgSrc_2 = '/img/x2.png'; //打分后有颜色的星星
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+    var imgArray = $(target).find('.comment_star').children();
+    var commentArray = $(target).find('.comment_info').children();
+    if($(target).find('.comment_star').attr('score') == 0){
+        for(var k=0;k<imgArray.length;k++){
+            imgArray[k].src=imgSrc;
+            //console.log(k);
+            commentArray[k].style.color="#948f8f";
+        }
+    }    
+}
+
+function get_err_sec(val){
+    var $options;
+    var num = parseInt(val);
+    switch(num)
+    {
+    case 0:
+        $options  = $.trim($(".err_knowledge").clone().html());
+        break;
+    case 1:
+        $options  = $.trim($(".err_question_answer").clone().html());
+        break;
+    case 2:
+        $options  = $.trim($(".err_code").clone().html());
+        break;
+    case 3:
+        $options  = $.trim($(".err_content").clone().html());
+        break;
+    case 4:
+        $options  = $.trim($(".err_whole").clone().html());
+        break;
+    case 5:
+        $options  = $.trim($(".err_pic").clone().html());
+        break;
+
+    default:
+        $options  = $.trim($(".err_knowledge").clone().html());
+    }
+    //console.log($options);
+    $(".error_type_02").html($options);
+
+}

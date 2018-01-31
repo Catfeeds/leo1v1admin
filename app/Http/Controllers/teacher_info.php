@@ -2693,6 +2693,13 @@ class teacher_info extends Controller
         }
 
         // dd($tea_info);
+        $err_type = E\Eresource_error::$desc_map;
+        $err_code = E\Eresource_code_error::$desc_map;
+        $err_knowledge = E\Eresource_knowledge::$desc_map;
+        $err_pic = E\Eresource_picture::$desc_map;
+        $err_question_answer = E\Eresource_question_answer::$desc_map;
+        $err_whole = E\Eresource_whole::$desc_map;
+        $err_content = E\Eresource_content::$desc_map;
 
         if($is_js != 0){
             // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
@@ -2702,7 +2709,15 @@ class teacher_info extends Controller
                 'tea_gra'   => join($tea_gra, ','),
                 'book'      => join($book_arr, ','),
                 'type_list' => join($type_list, ','),
-                'resource_type'  => $resource_type
+                'resource_type'  => $resource_type,
+                'err_type'  => $err_type,
+                'err_knowledge'  => $err_knowledge,
+                'err_question_answer'  => $err_question_answer,
+                'err_code'  => $err_code,
+                'err_content'  => $err_content,
+                'err_whole'  => $err_whole,
+                'err_pic'  => $err_pic,
+
             ]);
 
         }
@@ -2717,7 +2732,14 @@ class teacher_info extends Controller
             'tea_gra'   => json_encode($tea_gra),
             'book'      => json_encode($book_arr),
             'type_list' => json_encode($type_list),
-            'resource_type'  => $resource_type
+            'resource_type'  => $resource_type,
+            'err_type'  => $err_type,
+            'err_knowledge'  => $err_knowledge,
+            'err_question_answer'  => $err_question_answer,
+            'err_code'  => $err_code,
+            'err_content'  => $err_content,
+            'err_whole'  => $err_whole,
+            'err_pic'  => $err_pic,
         ]);
     }
 
@@ -3385,6 +3407,7 @@ class teacher_info extends Controller
 
         $tag_one       = $this->get_in_int_val('tag_one', -1);
         $tag_two       = $this->get_in_int_val('tag_two', -1);
+        //dd($tag_two);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $tag_five      = $this->get_in_int_val('tag_five', -1);

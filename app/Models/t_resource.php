@@ -363,4 +363,19 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         $sql = $this->gen_sql_new("delete from %s where resource_id in %s",self::DB_TABLE_NAME,$idstr);
         return $this->main_update($sql);
     }
+
+    public function get_list_for_subject() { //试听课标准化讲义使用次数
+        $where_arr = [
+            "r.resource_type=3", // 资料类型：标准化试听课
+            "r.subject in (1,2,3)" // 科目要求：语文、数学、英语
+        ];
+
+        $sql = $this->gen_sql_new("select f.file_title,r.subject,r.grade,r.adminid,sum(f.visit_num) visit_num,sum(f.use_num) use_num from %s r left join %s f on r.resource_id=f.resource_id where %s group by f.file_title order by r.adminid",
+                                  self::DB_TABLE_NAME,
+                                  t_resource_file::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        
+        return $this->main_get_list($sql);
+    }
 }

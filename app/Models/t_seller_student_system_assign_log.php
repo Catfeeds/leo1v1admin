@@ -96,7 +96,7 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
 
         $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
         $sql=$this->gen_sql_new(
-            "select g.*, n.phone, s.origin_level,  s.origin, n.add_time  "
+            "select g.*, n.phone, s.origin_level,  s.origin, n.add_time, n.admin_revisiterid  "
             ." from  %s g "
             ." join  %s n on n.userid=g.userid "
             ." join  %s s on s.userid=g.userid "
