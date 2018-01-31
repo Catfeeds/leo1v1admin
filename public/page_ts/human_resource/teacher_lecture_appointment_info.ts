@@ -61,7 +61,7 @@ $(function(){
 
     Enum_map.append_option_list("lecture_appointment_status", $('#id_lecture_appointment_status'));
     Enum_map.append_option_list("grade", $('#id_grade'),false,[100,200,300]);
-    Enum_map.append_option_list("subject", $('#id_subject'));
+    Enum_map.append_option_list_by_not_id("subject", $('#id_subject'),false,[0,11]);
     Enum_map.append_option_list("boolean", $('#id_have_wx'));
     Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type'),false,[0,1,2,3,4]);
     Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type_new'),false,[0,2,5,6,8]);
@@ -1175,6 +1175,7 @@ $(function(){
             ["测试服务器性能问题","请添加20以下的数字"],
             ["添加个数",id_num],
         ];
+        id_num.val(19);
         Enum_map.append_option_list_by_not_id("identity",id_teacher_type,true,[0]);
         $.show_key_value_table("添加测试报名数据",arr,{
             label    : "确认",
@@ -1195,8 +1196,6 @@ $(function(){
         },function(){
             $.admin_select_user(id_reference,"teacher");
         });
-
-
     });
 
     $(".opt-test-through").on("click",function(){

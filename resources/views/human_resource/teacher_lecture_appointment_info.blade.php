@@ -164,7 +164,7 @@
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group">
                         <input type="text" value="" class=" form-control click_on put_name opt-change"  data-field="user_name"
-                               id="id_user_name" placeholder="姓名,手机号,QQ,科目,年级段,教材,院校,师资 回车查找"/>
+                               id="id_user_name" placeholder="姓名,手机号,QQ,教材,院校,师资 回车查找"/>
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-6">
@@ -187,7 +187,7 @@
                         <button class="btn btn-warning" id="id_set_zs_work_status">设置招师工作状态</button>
                     </div>
                 </div>
-                @if(!\App\Helper\Utils::check_env_is_release())
+                @if(!\App\Helper\Utils::check_env_is_release() || $_account_role==12)
                     <div class="col-md-2 col-xs-6">
                         <div>
                             <button class="btn btn-danger" id="id_add_teacher_lecture_appointment_for_test">快速添加测试老师</button>
@@ -305,18 +305,16 @@
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
                                 <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
                                 <!-- <a class="fa-edit opt-edit" title="编辑状态"></a> -->
+                                <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                                <a class="opt-more_grade">邮</a>
                                 @if($show_full_time==1)
                                     <a class="opt-set-lecture-revisit-type" title="设置邀约状态" >邀约状态</a>
                                     <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>
-                                    <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                                     <a class="opt-set-part-teacher " title="设置为兼职老师" >兼</a>
-                                    <a class="opt-more_grade">邮</a>
                                 @else
                                     <a class="fa-times opt-del" title="删除"></a>
-                                    <a class="opt-more_grade">邮</a>
                                     <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
-                                    <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
-                                    <a class="opt-trans_info" title="设置扩课" >扩</a>
+                                    <!-- <a class="opt-trans_info" title="设置扩课" >扩</a> -->
                                 @endif
                                 @if(@$var["hand_flag"]==1 || in_array($acc,["jack","李明玉"]))
                                     <a class="opt-edit-hand" title="修改" >修改</a>

@@ -18,7 +18,8 @@ class teacher_test_class extends Controller
      */
     public function __construct(){
         parent::__construct();
-        if(\App\Helper\Utils::check_env_is_release()){
+        $check_time = strtotime("2018-2-1");
+        if(time()>$check_time && \App\Helper\Utils::check_env_is_release()){
             echo $this->output_err("此功能只能在非正式环境使用!");
             exit;
         }
@@ -36,7 +37,7 @@ class teacher_test_class extends Controller
         $num          = $this->get_in_int_val("num");
 
         if($num>20){
-            return $this->output_err("测试服务器配置不高，请输入少于20的数字");
+            return $this->output_err("请输入少于20的数字");
         }
 
         $reference_phone = $this->t_teacher_info->get_phone($reference);
@@ -47,6 +48,9 @@ class teacher_test_class extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 添加测试老师
+     */
     public function add_teacher_for_test($reference_phone,$teacher_type){
         $max_phone  = $this->t_teacher_info->get_max_test_phone();
         $test_phone = $max_phone+1;

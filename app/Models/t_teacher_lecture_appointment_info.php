@@ -156,25 +156,23 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }
 
         if($have_wx==0){
-            $where_arr[] ="(ttt.wx_openid = '' or ttt.wx_openid is null )";
+            $where_arr[] ="(tt.wx_openid = '' or tt.wx_openid is null )";
         }elseif($have_wx==1){
-            $where_arr[] ="ttt.wx_openid <> '' and ttt.wx_openid is not null";
+            $where_arr[] ="tt.wx_openid <> '' and tt.wx_openid is not null";
         }
         $where_arr[] = $this->where_get_in_str_query("t.teacher_ref_type", $teacher_ref_type );
         if($teacher_pass_type==1){
-            $where_arr[] = "ttt.train_through_new=1";
+            $where_arr[] = "tt.train_through_new=1";
         }else{
             $where_arr[] =["la.teacher_pass_type=%u", $teacher_pass_type, -1 ];
         }
         if ($user_name) {
-            $user_name=$this->ensql($user_name);
+            $user_name = $this->ensql($user_name);
             $where_arr = [
                 "(la.name like '%%".$user_name."%%' "
                 ." or la.school like '%%".$user_name."%%' "
-                ." or la.phone like '%%".$user_name."%%' "
-                ." or grade_ex like '%%".$user_name."%%' "
+                ." or la.phone like '".$user_name."%%' "
                 ." or la.qq like '%%".$user_name."%%' "
-                ." or subject_ex like '%%".$user_name."%%' "
                 ." or textbook like '%%".$user_name."%%' "
                 ." or la.teacher_type like '%%".$user_name."%%')"
             ];
