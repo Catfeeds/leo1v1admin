@@ -245,7 +245,8 @@ class Controller extends ControllerEx
                 \App\Helper\Utils::logger("GOTO: " .$_SERVER["REQUEST_URI"] );
 
                 if ($this->get_in_str_val("callback"))  {
-                    echo $this->output_err( 1005 );
+                    $resp= $this->output_err( 1005 );
+                    $resp->send();
                     exit;
 
                 }else{
