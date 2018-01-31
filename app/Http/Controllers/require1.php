@@ -8,6 +8,8 @@ use \App\Helper\Config as Config;
 use Illuminate\Support\Facades\Redis;
 class require1 extends Controller
 {
+    use CacheNick;
+
     // 试听课标准化讲义使用次数
     public function get_resource_count() {
         $this->check_approval_require();
