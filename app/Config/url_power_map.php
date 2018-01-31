@@ -44,6 +44,7 @@ class url_power_map {
 			'/user_manage/parent_archive'	=>1010400,
 			'/user_manage/pc_relationship'	=>1010800,
 			'/user_manage_new/notify_phone'	=>1010706,
+			'/tongji2/lessoncancelrate'	=>1011100,
 			'/seller_student_new/assign_sub_adminid_list'	=>1150100,
 			'/seller_student_new/assign_member_list'	=>1150200,
 			'/seller_student_new/tmk_seller_student_new'	=>1152500,
