@@ -1,5 +1,4 @@
 interface GargsStatic {
-	use_type:	number;
 	resource_type:	number;
 	subject:	number;
 	grade:	number;
@@ -8,7 +7,6 @@ interface GargsStatic {
 	tag_three:	number;
 	tag_four:	number;
 	tag_five:	number;
-	file_title:	string;
 	page_num:	number;
 	page_count:	number;
 }
@@ -20,17 +18,14 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	resource_id	:any;
+	resource_type	:any;
 	file_title	:any;
 	file_size	:any;
 	file_type	:any;
-	ex_num	:any;
-	file_hash	:any;
-	file_link	:any;
+	create_time	:any;
 	file_id	:any;
-	file_use_type	:any;
-	use_type	:any;
-	resource_id	:any;
-	resource_type	:any;
+	visitor_id	:any;
 	subject	:any;
 	grade	:any;
 	tag_one	:any;
@@ -38,40 +33,36 @@ interface RowData {
 	tag_three	:any;
 	tag_four	:any;
 	tag_five	:any;
-	tag_four_str	:any;
-	create_time	:any;
-	visitor_id	:any;
+	file_link	:any;
+	file_use_type	:any;
+	use_num	:any;
+	tea_res_id	:any;
 	file_use_type_str	:any;
-	nick	:any;
 	tag_one_name	:any;
 	tag_two_name	:any;
 	tag_three_name	:any;
 	tag_four_name	:any;
 	tag_five_name	:any;
-	file_size_str	:any;
 	subject_str	:any;
 	grade_str	:any;
 	resource_type_str	:any;
 	use_type_str	:any;
 	tag_two_str	:any;
 	tag_three_str	:any;
-	tag_one_str	:any;
-	tag_five_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../resource; vi  ../resource/get_all.ts
+	 mkdir -p ../teacher_info; vi  ../teacher_info/get_leo_train.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/resource-get_all.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_info-get_leo_train.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
-		use_type:	$('#id_use_type').val(),
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
@@ -79,14 +70,12 @@ function load_data(){
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
-		tag_five:	$('#id_tag_five').val(),
-		file_title:	$('#id_file_title').val()
+		tag_five:	$('#id_tag_five').val()
 		});
 }
 $(function(){
 
 
-	$('#id_use_type').val(g_args.use_type);
 	$('#id_resource_type').val(g_args.resource_type);
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
@@ -95,7 +84,6 @@ $(function(){
 	$('#id_tag_three').val(g_args.tag_three);
 	$('#id_tag_four').val(g_args.tag_four);
 	$('#id_tag_five').val(g_args.tag_five);
-	$('#id_file_title').val(g_args.file_title);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -105,14 +93,6 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">use_type</span>
-                <input class="opt-change form-control" id="id_use_type" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["use_type title", "use_type", "th_use_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -177,14 +157,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["tag_five title", "tag_five", "th_tag_five" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">file_title</span>
-                <input class="opt-change form-control" id="id_file_title" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["file_title title", "file_title", "th_file_title" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
