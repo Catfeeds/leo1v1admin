@@ -791,6 +791,8 @@ return array(
     'TSellerStudentOriginAddLastSucLessonid' => $baseDir . '/database/migrations/2018_01_30_174946_t_seller_student_origin_add_last_suc_lessonid.php',
     'TSellerStudentSystemAssignCountLogAddDefCount' => $baseDir . '/database/migrations/2018_01_25_104534_t_seller_student_system_assign_count_log_add__def_count.php',
     'TSellerTongjiForMonthAdd' => $baseDir . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
+    'TSellerStudentSystemReleaseLog' => $baseDir . '/database/migrations/2018_01_30_120646_t_seller_student_system_release_log.php',
+    'TSellerTongjiForMonthAdd' => $baseDir . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
     'TSellerTongjiForMonthAddColumons' => $baseDir . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
     'TSellerTongjiForMonthAddDataType' => $baseDir . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',
     'TSellerTongjiForMonthAddItem' => $baseDir . '/database/migrations/2017_10_28_185426_t_seller_tongji_for_month_add_item.php',
