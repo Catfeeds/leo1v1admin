@@ -448,17 +448,7 @@ class resource extends Controller
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit'] += $visit;//浏览量
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
-            // @$total['file_num'] += $item["resource_type"]["file_num"];
-            // @$total["visit_num"] += $item["resource_type"]["visit_num"];
-            // @$total["error_num"] += $item["resource_type"]["error_num"];
-            // @$total["use_num"] += $item["resource_type"]["use_num"];
-            // @$total["visit"] += $visit;
-            // @$total["error"] += $error;
-            // @$total["use"] += $use;
         }
-        // @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
-        // @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
-        // @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
 
         $final_list = [];
         // dd($list);
@@ -507,9 +497,11 @@ class resource extends Controller
                 }
             }
         }
-        @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
-        @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
-        @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
+        if ($total) {
+            @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
+            @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
+            @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
+        }
         return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
             "total" => $total,
         ]);
