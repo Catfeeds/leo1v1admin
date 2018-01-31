@@ -60,7 +60,7 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info,500);
+        return $this->main_get_list_by_page($sql,$page_info,5000);
     }
 
     public function get_info_by_time_new($page_info,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag=-1,$start_time){
