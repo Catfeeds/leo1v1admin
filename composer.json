@@ -10,7 +10,8 @@
         "predis/predis": "^1.0",
         "phpoffice/phpexcel": "dev-develop",
         "doctrine/dbal": "v2.4.2",
-        "zedisdog/laravel-schema-extend": "~0.5"
+        "zedisdog/laravel-schema-extend": "~0.5",
+        "gregwar/captcha": "1.*" 
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

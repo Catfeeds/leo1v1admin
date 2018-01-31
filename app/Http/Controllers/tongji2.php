@@ -2019,6 +2019,9 @@ class tongji2 extends Controller
             "rateArr" => $rateArr
         ]);
     }
+    public function tongji_sys_assign_admin_info() {
+
+    }
 
     public function tongji_sys_assign_call_info() {
         $page_info= $this->get_in_page_info();

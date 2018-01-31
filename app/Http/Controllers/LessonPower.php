@@ -91,6 +91,12 @@ trait LessonPower{
     public function add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after){
         $uid          = $this->get_account_id();
         $operate_time = time();
+        if(is_array($operate_before)){
+            $operate_before = json_encode($operate_before);
+        }
+        if(is_array($operate_after)){
+            $operate_after = json_encode($operate_after);
+        }
         if(isset($_SERVER['HTTP_REFERER'])){
             $operate_referer = substr($_SERVER['HTTP_REFERER'],0,1000);
         }else{
@@ -243,4 +249,7 @@ trait LessonPower{
             return true;
         }
     }
+
+
+
 }
