@@ -394,14 +394,16 @@ class tom_do_once extends Command
                 $userid = $item['userid'];
                 $origin = $item['origin'];
                 $add_time = $item['add_time'];
+                $last_suc_lessonid = $item['last_suc_lessonid'];
+                $last_orderid = $item['last_orderid'];
                 $next_add_time = $this->task->t_seller_student_origin->get_next_add_time($userid,$add_time);
                 $add_time_max = $next_add_time>0?$next_add_time:time();
                 $lessonid = $this->task->t_lesson_info_b3->get_last_test_lessonid($userid,$add_time,$add_time_max);
-                if($lessonid>0){
+                if($lessonid>0 && $last_suc_lessonid!=$lessonid){
                     $arr['last_suc_lessonid'] = $lessonid;
                 }
                 $orderid = $this->task->t_order_info->get_last_orderid($userid,$add_time,$add_time_max);
-                if($orderid>0){
+                if($orderid>0 && $last_orderid!=$orderid){
                     $arr['last_orderid'] = $orderid;
                 }
                 if(count($arr)>0){
