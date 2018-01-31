@@ -243,6 +243,8 @@ class seller_student_system_assign extends cmd_base
                         $round_seller_level_map[$seller_level_flag][$opt_adminid]= $opt_adminid;
                     }
                 }
+                \App\Helper\Utils::logger("check_error1:$i-round_seller_level_map".json_encode($round_seller_level_map)); 
+                \App\Helper\Utils::logger("check_error1:$i-seller_student_level_map".json_encode($seller_student_level_map)); 
 
                 if (count($round_seller_level_map) >0 ) {
                     $this->round_set_adminid( $round_seller_level_map, $seller_student_level_map);
@@ -303,6 +305,8 @@ class seller_student_system_assign extends cmd_base
                 }
             }
         }
+        \App\Helper\Utils::logger("check_error2:$i-seller_level_admin_map".json_encode($seller_level_admin_map)); 
+        \App\Helper\Utils::logger("check_error2:$i-seller_student_level_map".json_encode($seller_student_level_map)); 
     }
     public  function assign_adminid( $userid, $check_seller_level_list , &$round_seller_level_map ) {
 
