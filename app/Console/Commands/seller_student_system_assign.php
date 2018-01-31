@@ -26,17 +26,13 @@ class seller_student_system_assign extends cmd_base
         \App\Helper\Utils::logger("deal :$start_time ,$end_time");
         //等级对应配额[抢新]
         $config=\App\Helper\Config::get_seller_new_user_day_count();
-        echo "等级对应配额[抢新]\n:";
-        print_r($config);
-
+        
         $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
         $check_work_time= strtotime(date("Y-m-d 14:00:00"));
         $need_work_flag=  (time(NULL) > $check_work_time);
 
         //得到要处理的的人
         $tmp_admin_list=$this->task->t_manager_info->get_seller_list(E\Eseller_student_assign_type::V_SYSTEM_ASSIGN );
-        echo "得到要处理的的人\n:";
-        print_r($tmp_admin_list);
         //得到已经分配的数据
         $admin_assign_map= $this->task->t_seller_student_system_assign_log->get_admin_assign_count_info($start_time, $end_time);
 
@@ -129,14 +125,10 @@ class seller_student_system_assign extends cmd_base
         //$def_count=@$config[$seller_level];
         $ret_info=$this->get_admin_info();
         $left_no_connected_count_all=$ret_info["left_no_connected_count_all"];//剩余未拨通数量之和
-        echo "剩余未拨通量之和:$left_no_connected_count_all\n";
         $left_new_count_all=$ret_info["left_new_count_all"];//还需总配额
-        echo "还需总配额left_new_count_all:$left_new_count_all\n";
         $admin_list=$ret_info["admin_list"];//销售信息
-        print_r($admin_list);
 
         $seller_max_new_count = $ret_info["seller_max_new_count"];//最大新例子配额
-        echo "最大新例子配额:$seller_max_new_count\n";
         $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
         $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
 
@@ -152,7 +144,6 @@ class seller_student_system_assign extends cmd_base
             "no_connected_count_assigned" => $ret_info["assigned_no_connected_count_all"] + $no_connnected_ret_info["assigned_count"],
 
         ]);
-        echo "ok!\n";
 
     }
 
@@ -214,8 +205,6 @@ class seller_student_system_assign extends cmd_base
         $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
             E\Etq_called_flag::V_0
         );
-        echo "待分配系统分配例子\n";
-        print_r($need_deal_list);
         $seller_student_level_map=[];
         $need_deal_count=count($need_deal_list);
         $assigned_count=0;
