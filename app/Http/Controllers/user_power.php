@@ -517,4 +517,10 @@ class user_power extends Controller
         return $this->output_succ(["data"=> $list]);
     }
 
+    // 备份当前权限
+    public function power_back() {
+        $this->t_power_back->back();
+        return $this->output_succ();
+    }
+
 }
