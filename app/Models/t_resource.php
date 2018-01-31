@@ -68,7 +68,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.create_time<=%u', $end_time, -1],
             ["subject=%u", $subject, -1],
             ["grade=%u", $grade, -1],
-            ["resource_type", $resource_type, -1],
+            ["resource_type=%u", $resource_type, -1],
         ];
         $sql = $this->gen_sql_new("select resource_type,adminid,subject,f.file_id,f.visit_num,f.use_num,f.error_num"
                                   ." from %s f"
