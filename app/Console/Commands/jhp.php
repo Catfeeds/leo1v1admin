@@ -87,7 +87,8 @@ class jhp extends Command
                 "stu_num_score"      => $item["stu_num_score"]*100,
                 "total_score"        => $item["total_score"]*100,
                 "reach_flag"         => $item["reach_flag"],
-                "withhold_money"     => $item["withhold_money"]*100
+                "withhold_money"     => $item["withhold_money"]*100,
+                "record_final_score" => $item["record_final_score"]*100
             ]);
             // E\Eboolean::set_item_value_str($item,"reach_flag");
 
