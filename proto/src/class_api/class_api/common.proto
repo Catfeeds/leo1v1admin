@@ -76,3 +76,13 @@ message package_list {
   string give_money_reason=10 ;  //优惠原因
   string valid_period_desc=11 ;  //有效期
 }
+
+message stu_apply_list {
+  string course_name=1 ;  //课程包名称
+  uint32 lesson_total=2 ;  //完整课包总课时数
+  string subject_str=3 ;  //科目
+  string grade_str=4 ;  //年级
+  string apply_time=5 ;  //用户申请时间
+  string status_str=6 ;  //处理状态
+  uint32 consume_lesson_num=7 ;  //学生兑换时消耗的课时数
+}

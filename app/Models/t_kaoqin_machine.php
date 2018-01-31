@@ -34,6 +34,16 @@ class t_kaoqin_machine extends \App\Models\Zgen\z_t_kaoqin_machine
         $sn=$this->get_sn($machine_id);
         $this->send_cmd_by_sn($sn,$data);
     }
+    public function get_info_by_sn($sn ) {
+        $where_arr=[
+            "sn" =>$sn
+        ];
+        $sql=$this->gen_sql_new("select * from %s where %s ",
+                           self::DB_TABLE_NAME,
+                           $where_arr );
+
+        return $this->main_get_row($sql);
+    }
 
     public function send_cmd_by_sn( $sn,$data)  {
         $key="kaoqin_$sn";

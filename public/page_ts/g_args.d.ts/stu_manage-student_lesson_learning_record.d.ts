@@ -25,33 +25,23 @@ interface RowData {
 	lesson_start	:any;
 	lesson_end	:any;
 	subject	:any;
-	confirm_flag	:any;
 	grade	:any;
 	teacherid	:any;
 	lessonid	:any;
 	realname	:any;
 	userid	:any;
 	lesson_num	:any;
-	issue_time	:any;
-	issue_url	:any;
-	finish_time	:any;
-	finish_url	:any;
-	work_status	:any;
-	score	:any;
-	check_url	:any;
-	download_time	:any;
-	stu_check_time	:any;
+	tea_cw_upload_time	:any;
+	tea_cw_url	:any;
+	preview_status	:any;
+	cw_status	:any;
 	grade_str	:any;
 	subject_str	:any;
 	lesson_time	:any;
-	issue_url_str	:any;
-	finish_url_str	:any;
-	check_url_str	:any;
-	issue_flag	:any;
-	check_flag	:any;
-	commit_flag	:any;
-	download_flag	:any;
-	stu_check_flag	:any;
+	cw_url	:any;
+	cw_status_str	:any;
+	cw_status_flag	:any;
+	preview_status_str	:any;
 }
 
 /*

@@ -6,6 +6,8 @@ use \App\Enums as E;
 
 class lesson_manage extends Controller
 {
+    use LessonPower;
+
     public function stu_status_count()
     {
         $start_date   = $this->get_in_str_val('start_date',date('Y-m-d', time(NULL)-86400*30 ));
@@ -45,10 +47,6 @@ class lesson_manage extends Controller
      * @param int lesson_count
      */
     public function change_lesson_info(){
-        if(\App\Helper\Utils::check_env_is_release()){
-            return $this->output_err("此功能只能在非正式环境使用！");
-        }
-
         $lessonid           = $this->get_in_int_val("lessonid");
         $level              = $this->get_in_int_val("level");
         $grade              = $this->get_in_int_val("grade");
@@ -64,8 +62,31 @@ class lesson_manage extends Controller
         \App\Helper\Utils::set_diff_value_for_update($update_arr,$lesson_info,"teacher_type",$teacher_type);
         \App\Helper\Utils::set_diff_value_for_update($update_arr,$lesson_info,"lesson_count",$lesson_count);
 
+        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+        $is_test_user = $this->t_teacher_info->get_is_test_user($teacherid);
+        //线上环境只能修改测试老师的数据
+        if(!$is_test_user && \App\Helper\Utils::check_env_is_release()){
+            return $this->output_err("只能修改测试老师的课程!");
+        }
+
         $ret = $this->t_lesson_info->field_update_list($lessonid, $update_arr);
 
+        //添加课程操作信息的记录
+        if(!empty($update_arr)){
+            $operate_column=[];
+            $operate_before=[];
+            foreach($update_arr as $u_key=>$u_val){
+                $operate_column[] = $u_key;
+                if(isset($lesson_info[$u_key])){
+                    $operate_before[$u_key] = $lesson_info[$u_key];
+                }else{
+                    $operate_before[$u_key] = "";
+                }
+            }
+
+            $operate_column = implode(",",$operate_column);
+            $this->add_lesson_operate_info($lessonid, $operate_column, $operate_before, $update_arr);
+        }
         return $this->output_ret($ret);
     }
 
