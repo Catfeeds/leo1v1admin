@@ -640,7 +640,7 @@ $(function(){
         var id_level              = $("<select/>");
         var id_start_time         = $("<input/>");
 
-        Enum_map.append_option_list("teacher_money_type", id_teacher_money_type, true );
+        Enum_map.append_option_list("teacher_money_type", id_teacher_money_type, true,[0,6,7] );
 
         id_teacher_money_type.val(opt_data.teacher_money_type);
         id_start_time.datetimepicker({
