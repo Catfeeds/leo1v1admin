@@ -4,8 +4,8 @@ interface self_Args {
 	order_by_str:	string;
 	machine_id:	number;
 	adminid:	number;
-	auth_flag:	number;//枚举: \App\Enums\Eboolean
-
+	auth_flag:	string;//枚举列表: \App\Enums\Eboolean
+ 
 }
 interface self_RowData {
 	title	:any;
@@ -99,10 +99,11 @@ export default class extends vtable {
 	});
 	$.admin_enum_select({
 		'join_header'  : $header_query_info,
-		"enum_type"    : "boolean",
-		"field_name" : "auth_flag",
+"enum_type"    : "boolean",
+"field_name" : "auth_flag",
 "title" : "auth_flag",
-		"multi_select_flag"     : false ,
+"select_value" : this.get_args().auth_flag,
+		"multi_select_flag"     : true,
 		"btn_id_config"     : {},
 	});
 
