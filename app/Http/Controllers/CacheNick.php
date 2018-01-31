@@ -19,7 +19,7 @@ trait  CacheNick {
            "account"   => ["db_weiyi_admin.t_manager_info", "uid","account" ],
            "seller"    => ["db_weiyi.t_seller_info", "sellerid","nick" ],
            "parent"    => ["db_weiyi.t_parent_info", "parentid","nick" ],
-           "origin"    => ["db_weiyi.t_origin_key", "origin","key0" ],
+           "origin"    => ["db_weiyi.t_origin_key", "value","key0" ],
         ];
 
     }
