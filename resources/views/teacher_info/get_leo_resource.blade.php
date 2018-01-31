@@ -42,7 +42,8 @@
      .error .error_pic_box{ margin-right:15px }
      .error .error_pic_box img{ border: 3px solid #a09b9b; }
      .error .error_button{ width: 100px;height: 100px;font-size: 60px;border: 1px dashed #b1b1b1;}
-     .error_pic_change a{ margin-right:15px;margin-top:15px }
+     .error_pic_change{ padding-top: 10px;text-indent: 5px;}
+     .error_pic_change a{ margin-right:15px; }
     </style>
     <section class="content li-section">
         <div>

@@ -294,9 +294,10 @@ $(function(){
 
     $('.opt-change').set_input_change_event(load_data);
 
-    var comment = $('.comment');
+    var comment2 = $('.comment');
     //评价
     $('.opt-comment').on('click',function(){
+        var comment = comment2;
         comment.removeClass('hide');
         if( resource_type == 3 ){
             comment.find('.comment_other_listen').remove();
@@ -348,7 +349,7 @@ $(function(){
                 console.log(data);
             }
         },function(){
-            comment = $('.comment').clone(); 
+            comment2 = comment.clone(); 
         },false,800,'padding-right:60px;');
 
                                    
