@@ -8,6 +8,7 @@ import "class_api/common.proto";
 
 message in  {
   	int32  pid= 1; //package id
+  	int32  num= 2; //购买数量
 }
 
 message out {

@@ -25,8 +25,15 @@ class o extends Controller
             return $this->error_view(["出错: sn=$sn"]);
         }
         $machine_id=$info["machine_id"];
-        $info["last_post_time"] = \App\Helper\Utils::unixtime2date( $info["last_post_time"]);
+        $last_post_time = $info["last_post_time"];
+        $now= time(NULL);
 
+        $info["last_post_time"] = \App\Helper\Utils::unixtime2date( $info["last_post_time"]);
+        /*
+        if ($now - $last_post_time  > 2*60 ) {
+            return $this->error_view(["考勤机不在线,最后一次在线时间:". $info["last_post_time"] ]);
+        }
+        */
 
         return $this->pageView(__METHOD__,null, [
             "info" => $info,

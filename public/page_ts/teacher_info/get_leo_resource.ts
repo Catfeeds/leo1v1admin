@@ -294,9 +294,9 @@ $(function(){
 
     $('.opt-change').set_input_change_event(load_data);
 
+    var comment = $('.comment');
     //评价
     $('.opt-comment').on('click',function(){
-        var comment = $('.comment').clone();
         comment.removeClass('hide');
         if( resource_type == 3 ){
             comment.find('.comment_other_listen').remove();
@@ -310,9 +310,46 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
-                
+                var comment_quality = comment.find('.comment_quality').attr('score');  //质量总评
+                var comment_help = comment.find('.comment_help').attr('score');  //帮助指数
+                var comment_whole = comment.find('.comment_whole').attr('score'); //全面指数
+                var comment_detail = comment.find('.comment_detail').attr('score'); //详细指数
+
+                if( comment_quality == 0 || comment_help == 0 || comment_whole == 0 || comment_detail == 0){
+                    BootstrapDialog.alert("质量总评、帮助指数、全面指数、详细指数是必须评价的！");
+                    return false;
+                }
+
+                var con_font = comment.find("input[name='con_font']:checked").val();        //文字大小评价
+                var con_spacing = comment.find("input[name='con_spacing']:checked").val();      //间距大小
+                var con_img = comment.find("input[name='con_img']:checked").val();      //背景图案
+                var con_type = comment.find("input[name='con_type']:checked").val();     //讲义类型
+                var con_answer = comment.find("input[name='con_answer']:checked").val();     //答案程度
+                var con_stu = comment.find("input[name='con_stu']:checked").val();     //适宜学生
+                if( resource_type == 3 ){
+                    var con_time = comment.find("input[name='con_test_time']:checked").val();    //试听课时长
+                }else{
+                    var con_time = comment.find("input[name='con_time']:checked").val();    //精品课时长
+                }
+                var data = {
+                    "comment_quality" : comment_quality,
+                    "comment_help" : comment_help,
+                    "comment_whole" : comment_whole,
+                    "comment_detail" : comment_detail,
+                    "con_font" : con_font,
+                    "con_spacing" : con_spacing,
+                    "con_img" : con_img,
+                    "con_type" : con_type,
+                    "con_answer" : con_answer,
+                    "con_stu" : con_stu,
+                    "con_time" : con_time
+                };
+
+                console.log(data);
             }
-        },'',false,800,'padding-right:60px;');
+        },function(){
+            comment = $('.comment').clone(); 
+        },false,800,'padding-right:60px;');
 
                                    
     })
