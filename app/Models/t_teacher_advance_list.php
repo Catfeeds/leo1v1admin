@@ -257,6 +257,22 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         return $this->main_get_list($sql);
     }
 
+    //扣款审批通过且未处理老师工资的名单
+    public function get_no_deal_withhold_info($start_time,$teacher_money_type){
+        $sql = $this->gen_sql_new("select a.level_after,t.wx_openid,t.email,t.teacher_type,a.teacherid,a.level_before  "
+                                  ." ,a.withhold_money"
+                                  ." from %s a left join %s t on a.teacherid = t.teacherid"
+                                  ." where a.start_time = %u and a.teacher_money_type=%u and withhold_wx_flag=0 and withhold_final_trial_flag=1",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $start_time,
+                                  $teacher_money_type
+
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 
 
 }

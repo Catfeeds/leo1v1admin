@@ -1849,16 +1849,24 @@ class teacher_level extends Controller
             if($withhold_final_trial_flag==1){
                 $withhold_money = $this->t_teacher_advance_list->get_withhold_money($start_time,$teacherid);
                 if ( \App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test() ){
+                    $month_start = strtotime(date("Y-m-d",time()));
                     for($i=4;$i<7;$i++){
-                        $month = strtotime("+$i months",$start_time)-86400;
-                        $this->t_teacher_money_list->row_insert([
-                            "teacherid" =>$teacherid,
-                            "type"      =>101,
-                            "add_time"  =>$month,
-                            "money"     => "-$withhold_money",
-                            "money_info"=> date("Y-m-d",$month)." 晋升等级不达标扣款"
-                        ]);
+                        $month = strtotime(date("Y-m-d",strtotime("+$i months",$start_time)-86400)." 10:00");
+                        $st = strtotime("+$i months",$start_time);
+                        if($st>=$month_start){                        
+                            $this->t_teacher_money_list->row_insert([
+                                "teacherid" =>$teacherid,
+                                "type"      =>101,
+                                "add_time"  =>$month,
+                                "money"     => "-$withhold_money",
+                                "money_info"=> date("Y-m-d",$month)." 等级不达标扣款"
+                            ]);
+                        }
                     }
+                    $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                        "withhold_wx_flag"     => 1,
+                    ]);
+
                    
                 }
 
@@ -1884,7 +1892,7 @@ class teacher_level extends Controller
             }elseif($acc=="ted" || $jim_flag==2){
                 $this->t_teacher_advance_list->update_second_advance_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type);
                 //发送微信/邮件推送
-                $job = new \App\Jobs\SendAdvanceTeacherWxEmail($start_time,$teacher_money_type);
+                $job = new \App\Jobs\SendAdvanceTeacherWxEmail($start_time,$teacher_money_type,1);
                 dispatch($job);
             }
         }elseif($agree_flag==2){
@@ -1914,6 +1922,9 @@ class teacher_level extends Controller
                 
             }elseif($acc=="ted" || $jim_flag==2){
                 $this->t_teacher_advance_list->update_second_withhold_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type); 
+                //老师工资扣款处理
+                $job = new \App\Jobs\SendAdvanceTeacherWxEmail($start_time,$teacher_money_type,2);
+                dispatch($job);
             }
         }elseif($agree_flag==2){
             if($acc=="江敏" || $jim_flag==1){
