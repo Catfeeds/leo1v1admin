@@ -2880,6 +2880,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "(l.uuid!='' or l.uuid_stu!='')"
         ];
 
+        $end = time();
+        $start = $end-3*86400;
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
+
+
         $sql = $this->gen_sql_new("  select zip_url, zip_url_stu, use_ppt_stu, use_ppt, uuid, uuid_stu, ppt_status_stu,ppt_status, lessonid from %s l "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
@@ -2897,6 +2902,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "(l.zip_url='' or l.zip_url_stu='') ",
             "(l.tea_cw_url!='' or l.stu_cw_url!='')",
         ];
+
+        $end = time();
+        $start = $end-2*86400;
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
 
         $sql = $this->gen_sql_new("  select stu_cw_name, use_ppt, use_ppt_stu, tea_cw_name, tea_cw_url , stu_cw_url, zip_url, zip_url_stu, lessonid from %s l "
                                   ." where %s"
