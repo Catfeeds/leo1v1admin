@@ -558,10 +558,6 @@ function custom_upload(new_flag,btn_id,containerid,obj){
     //console.log(qi_niu[0]);
     var token = "yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SNPUFt8-K2eSlkX70Nb8vzA7lo0=:eyJzY29wZSI6InRlYWNoZXItZG9jIiwiZGVhZGxpbmUiOjE1MTczOTIzOTR9";
 
-    if( obj == 1 && $("#"+containerid).find('.error_pic_box:hidden').length == 0 ){
-        BootstrapDialog.alert("最多只能传5张图片！");
-        return false;
-    }
     var uploader = qi_niu[0].uploader({
     
         runtimes: 'html5, flash, html4',
@@ -588,6 +584,10 @@ function custom_upload(new_flag,btn_id,containerid,obj){
 
             },
             'BeforeUpload': function(up, file) {
+                if( obj == 1 && $("#"+containerid).find('.error_pic_box:hidden').length == 0 ){
+                    BootstrapDialog.alert("最多只能传5张图片！");
+                    return false;
+                }
                 console.log('before uplaod the file');
             },
             'UploadProgress': function(up,file) {
