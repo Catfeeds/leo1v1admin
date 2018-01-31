@@ -13,8 +13,12 @@ $(function(){
             if (v) {
                 $.do_ajax("/ajax_deal2/office_open_door",{
                     "sn"  :  g_args.sn,
-                },function(){
-                    BootstrapDialog.alert ("请等待10秒, 开门中.. , 开门后,务必<font color=red>关门!! </font> ");
+                },function(resp){
+                    if (resp.ret==0 ) {
+                        BootstrapDialog.alert ("请等待10秒, 开门中.. , 开门后,务必<font color=red>关门!! </font> 不然将会取消你的权限 ");
+                    }else{
+                        alert(resp.info);
+                    }
                 });
 
             }
