@@ -25,10 +25,10 @@ import { Stream } from 'stream';
       },
     },
     multi_select:  {
-      type     :  [Boolean, String  ],
+      type     :  [Boolean ],
       required : false,
       "default" :  function(){
-        return true;
+        return false;
       },
     },
 
@@ -38,7 +38,7 @@ import { Stream } from 'stream';
       "default" :  function(){
         return {} ;
 
-      } ,
+      },
     },
 
   },

@@ -1473,9 +1473,16 @@ class seller_student_new2 extends Controller
                     $require_info['accept_status_str'] = E\Eaccept_status::get_desc($lesson_info['accept_status']);
                 }
             }else{
-                $require_info['teacherid']    = "";
-                $require_info['teacher_info'] = "";
-                $require_info['lesson_time']  = "";
+                if($require_info['green_channel_teacherid']>0){
+                    $green_teacher_info = $this->t_teacher_info->get_teacher_info($require_info['green_channel_teacherid']);
+                    $require_info['teacherid'] = $require_info['green_channel_teacherid'];
+                    $require_info['teacher_info'] = $green_teacher_info['nick']."/".$green_teacher_info['phone'];
+                }else{
+                    $require_info['teacherid']    = "";
+                    $require_info['teacher_info'] = "";
+                }
+
+                $require_info['lesson_time']  = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time']);
                 $require_info['accept_status_str'] = "";
             }
 

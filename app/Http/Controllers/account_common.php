@@ -425,6 +425,8 @@ class account_common extends Controller
                 $url ="http://dev.api.class.leo1v1.com/"; 
             }elseif(\App\Helper\Utils::check_env_is_test()){
                 $url ="http://test.api.class.leo1v1.com/"; 
+            }else{
+                $url ="http://api.class.leo1v1.com/"; 
             }
             $url .= "/order/call_back?contractid=".$contractid."&price=".$price."&pay_time=".$pay_time."&sign=".$sign;
 
@@ -445,6 +447,11 @@ class account_common extends Controller
         }else{
             return $this->output_err("系统错误");
         }
+    }
+
+    //图片验证码
+    public function get_pic_verify_code_info(){
+        
     }
    
    
