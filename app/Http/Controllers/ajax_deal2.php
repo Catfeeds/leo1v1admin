@@ -73,6 +73,24 @@ class ajax_deal2 extends Controller
     }
 
 
+
+    public function office_open_door () {
+        $sn = $this->get_in_str_val("sn");
+        $info=$this->t_kaoqin_machine->get_info_by_sn( $sn );
+        if (!$info) {
+            return $this->output_err("出错");
+        }
+        $machine_id= $info[ "machine_id"];
+        $adminid=$this->get_account_id();
+
+        $check_value= $this->t_kaoqin_machine_adminid->field_get_list_2($machine_id, $adminid,"adminid");
+        if (!$check_value) {
+            return $this->output_err("你没有权限开此门 :<");
+        }
+
+        $this->t_kaoqin_machine->send_cmd_reboot($machine_id);
+        return $this->output_succ();
+    }
     //JIM
     public function office_cmd_add () {
         $office_device_type = $this->get_in_e_office_device_type();
