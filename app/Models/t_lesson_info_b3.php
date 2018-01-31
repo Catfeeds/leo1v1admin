@@ -2892,8 +2892,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getTeaUploadPPTLink(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "(l.use_ppt=1 or l.use_ppt_stu=1)",
             "l.lesson_cancel_time_type=0",
+            "(l.use_ppt=1 or l.use_ppt_stu=1)",
             "(l.zip_url='' or l.zip_url_stu='') ",
             "(l.tea_cw_url!='' or l.stu_cw_url!='')",
         ];
