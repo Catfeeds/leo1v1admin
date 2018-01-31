@@ -608,6 +608,8 @@ class teacher_money extends Controller
             "acc"        => $acc,
         ];
 
+        //需要检测 money_info 是否为课程标示
+        $need_check_lesson_flag = false;
         if($type == E\Ereward_type::V_7){
             $update_arr['grade'] = $grade;
         }elseif($type != E\Ereward_type::V_1){
@@ -616,14 +618,14 @@ class teacher_money extends Controller
                 return $this->output_err("此类型奖励已存在!");
             }
             if($type==E\Ereward_type::V_2){ //签单奖
+                $need_check_lesson_flag = true;
                 $check_full_teacher = \App\Helper\Utils::check_teacher_is_full($teacher_money_type, $teacher_type, $teacherid);
                 if(in_array($teacher_money_type,[E\Eteacher_money_type::V_4,E\teacher_money_type::V_5,E\Eteacher_money_type::V_6])
                    && !$check_full_teacher){
                     return $this->output_err("老师工资分类错误！");
-                }else{
-                    $update_arr['lessonid'] = $money_info;
                 }
             }elseif($type==E\Ereward_type::V_3){ //90分钟课程补偿
+                $need_check_lesson_flag = true;
                 $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
                 $add_time    = $lesson_money_info['lesson_start'];
                 $diff_time   = $lesson_money_info['lesson_end']-$add_time;
@@ -645,6 +647,14 @@ class teacher_money extends Controller
                 $update_arr['money'] = $money;
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){ //工资补偿
                 return $this->output_err("请填写补偿原因！");
+            }
+        }
+
+        if($need_check_lesson_flag){
+            $update_arr['lessonid'] = $money_info;
+            $check_lesson_info=$this->t_lesson_info->get_lesson_info($money_info);
+            if(empty($check_lesson_info)){
+                return $this->output_err("没有该课程的信息，无法添加！");
             }
         }
 
