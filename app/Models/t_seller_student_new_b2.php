@@ -116,5 +116,24 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+    //@desn:获取cc有效例子数
+    //@param:$begin_time,$end_time 开始时间 结束时间
+    //@param:$admin_revisiterid cc的id
+    public function get_effect_num($begin_time,$end_time,$admin_revisiterid){
+        $where_arr=[
+            "seller_student_assign_type" => E\Eseller_student_assign_type::V_1,
+            "tq_called_flag =2",
+            "admin_revisiterid" => $admin_revisiterid
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "admin_assign_time", $begin_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
 
 }

@@ -68,9 +68,14 @@ class get_cc_day_top extends cmd_base
         $cc_result_arr = [];
         //获取所有cc信息
         $cc_info = $this->task->t_manager_info->get_seller_list();
-        //获取cc有效新例子个数
-        //获取cc试听成功个数
-        //获取cc签单个数
+        foreach($cc_info as &$item){
+            //获取cc有效新例子个数[拨打成功]
+            $item['effect_num'] = $this->task->t_seller_student_new_b2->get_effect_num($begin_time,$end_time,$item['uid']);
+            //获取cc试听成功个数
+            $item['test_lesson_succ_num'] = $this->task->t_test_lesson_subject_require->t_test_lesson_subject_require($begin_time,$end_time,$item['uid']);
+            //获取cc签单个数
+            $item['order_money'] = $this->task->t_order_info->get_order_money_by_adminid($begin_time,$end_time,$item['uid']);
+        }
         dd($cc_info);
     }
 }

@@ -758,7 +758,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "select uid,seller_level from %s " .
             " where   %s  order by  seller_level asc ",
             self::DB_TABLE_NAME , $where_arr );
-        echo $sql;
         return $this->main_get_list($sql);
     }
 
