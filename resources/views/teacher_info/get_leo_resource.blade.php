@@ -345,7 +345,7 @@
 
     </div>
 
-    <div class="error hide">
+    <div class="error">
         <h4>错误类型：</h4>
         <div class="error_type">
             <select class="error_type_01" onchange='get_err_sec(this.options[this.options.selectedIndex].value)'>

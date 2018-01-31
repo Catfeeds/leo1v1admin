@@ -534,8 +534,9 @@ function custom_upload(btn_id,containerid,obj){
                     console.log(errTip);
                 },
                 'Key': function(up, file) {
+                    var suffix = file.type.split('/').pop();
                     var time = (new Date()).valueOf();
-                    var key= pre_dir+time;
+                    var key= pre_dir+time + "." + suffix;
                     console.log(key);
                     return key;
                 }
