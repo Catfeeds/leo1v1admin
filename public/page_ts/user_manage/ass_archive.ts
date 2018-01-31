@@ -1361,9 +1361,8 @@ $(function(){
     });
 
     var edit_user_info_new_two = function(opt_data,opt_obj,click_type){
-        $.do_ajax("/ss_deal/get_user_info",{
+        $.do_ajax("/ss_deal/ass_get_user_info",{
             "userid" : opt_data.userid ,
-            "test_lesson_subject_id" : opt_data.test_lesson_subject_id,
         },function(ret){
             var data                = ret.data;
             var html_node           = $.dlg_need_html_by_id( "id_dlg_post_user_info_new_two");
@@ -1388,37 +1387,6 @@ $(function(){
                 html_node.find("#id_stu_rev_info_new_two").addClass("btn-primary");
                 html_node.find("#id_stu_rev_info_new_two").removeClass("btn-warning");
             }
-            html_node.find("#id_send_sms_new_two").on("click",function(){
-                $.do_ajax("/user_deal/get_admin_wx_info",{},function(resp){
-                    var data=resp.data;
-                    var xing=$.trim(data.name).substr(0,1);
-                    var dlg=BootstrapDialog.show({
-                        title: "发送信息内容:",
-                        message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+data.phone,
-                        closable: true,
-                        buttons: [{
-                            label: '返回',
-                            action: function(dialog) {
-                                dialog.close();
-                            }
-                        },{
-                            label: '发送',
-                            cssClass: 'btn-warning',
-                            action: function(dialog) {
-                                $.do_ajax("/user_deal/send_seller_sms_msg", {
-                                    "phone":opt_data.phone,
-                                    "name":xing,
-                                    "wx_id":data.wx_id,
-                                    "seller_phone":data.phone,
-                                },function( resp){
-                                    alert("发送成功");
-                                } );
-                            }
-                        }]
-                    });
-                });
-            });
-
             html_node.find("#id_stu_rev_info_new_two") .on("click",function(){
                 $(opt_obj).parent().find(".opt-return-back-list").click();
             });
@@ -1453,6 +1421,7 @@ $(function(){
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time_new_two");
             var id_stu_request_test_lesson_time_end = html_node.find("#id_stu_request_test_lesson_time_end_new_two");
             var id_test_paper = html_node.find("#id_test_paper_new_two");
+
             var id_status            = html_node.find("#id_stu_status_new_two");
             var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status_new_two");
             var id_next_revisit_time = html_node.find("#id_next_revisit_time_new_two");
@@ -1472,6 +1441,12 @@ $(function(){
             var id_courseware = html_node.find("#id_courseware_new_two");
             var id_teacher_type = html_node.find("#id_teacher_type_new_two");
             var id_add_tag = html_node.find("#id_add_tag_new_two");
+            var id_ass_test_lesson_type = html_node.find("#id_ass_test_lesson_type_new_two");//分类
+            var id_change_teacher_reason_type = html_node.find("#id_change_teacher_reason_type_new_two");//换老师类型
+            var id_change_reason_url = html_node.find("#id_change_reason_url_new_two");//换老师原因图片
+            var id_change_reason = html_node.find("#id_change_reason_new_two");//换老师原因
+            var id_green_channel_teacherid = html_node.find("#id_green_channel_teacherid_new_two");//绿色通道
+            var id_learning_situation = html_node.find("#id_learning_situation_new_two");//学情反馈
 
             var wuyaoqiu_html = "<option value='0'>无要求</option>";
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
@@ -2096,7 +2071,7 @@ $(function(){
                 Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9,10]);
                 Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
             }else if(id_grade.val()==301 || id_grade.val()==302 || id_grade.val()==303){
-                Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
+                // Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
                 Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
             }
             id_gender.val(data.gender);
@@ -2261,7 +2236,7 @@ $(function(){
                 reset_seller_student_status_options();
             });
 
-            if(data.stu_request_test_lesson_time == '无' || data.stu_request_test_lesson_time == ''){
+            if(data.stu_request_test_lesson_time == '无' || data.stu_request_test_lesson_time == '' || data.stu_request_test_lesson_time == undefined){
                 var myDate = Date.parse((new Date()).toString() )+3600*24*1000;
                 var time = new Date(myDate);
                 var year = time.getFullYear();
@@ -2274,7 +2249,7 @@ $(function(){
             }else{
                 id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
             }
-            if(data.stu_request_test_lesson_time_end == '无'){
+            if(data.stu_request_test_lesson_time_end == '无' || data.stu_request_test_lesson_time == undefined){
                 var start_time = Date.parse((new Date(id_stu_request_test_lesson_time.val())).toString() )+3600*2*1000;
                 var time = new Date(start_time);
                 var year = time.getFullYear();
@@ -2353,106 +2328,32 @@ $(function(){
                     }
                 }
             }
+            Enum_map.append_option_list("ass_test_lesson_type",id_ass_test_lesson_type,true);
+            id_ass_test_lesson_type.on("change",function(){
+                if(id_ass_test_lesson_type.val() == 2){
+                    id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                    id_change_reason.parent().parent().css('display','table-row');
+                    id_change_reason_url.parent().parent().css('display','table-row');
+                }else{
+                    id_change_teacher_reason_type.parent().parent().css('display','none');
+                    id_change_reason.parent().parent().css('display','none');
+                    id_change_reason_url.parent().parent().css('display','none');
+
+                    id_change_teacher_reason_type.val(0);
+                    id_change_reason.val('');
+                    id_change_reason_url.val('');
+                }
+            });
+            html_node.find(".upload_change_reason_url").attr("id","id_upload_change_reason_url");
+            Enum_map.append_option_list("change_teacher_reason_type",id_change_teacher_reason_type,true);
+            $.admin_select_user(id_green_channel_teacherid,"teacher");
+
             var dlg=BootstrapDialog.show({
                 title:  title,
                 size: "size-wide",
                 message : html_node,
                 closable: false,
                 buttons: [{
-                    label: '保存',
-                    cssClass:"btn-danger",
-                    action: function(dialog) {
-                        var region = html_node.find("#province_new_two").find("option:selected").text();
-                        var province = html_node.find("#province_new_two").val();
-                        var city = html_node.find("#city_new_two").find("option:selected").text();
-                        var area = html_node.find("#area_new_two").find("option:selected").text();
-                        if(province==""){
-                            region="";
-                            city="";
-                            area="";
-                        }
-                        if(html_node.find("#city_new_two").val()==""){
-                             city="";
-                        }
-                        if(html_node.find("#area_new_two").val()==""){
-                            area="";
-                        }
-                        var subject_str = '';
-                        $(".subject_score ").each(function(){
-                            var subject_score = $(this).children("div").children("div").children("select[name='subject_score_new_two']").find("option:selected").text();
-                            var subject_score_one = $(this).children("div").children("div").children("input[name='subject_score_one_new_two']").val();
-                            if(subject_score == ''){
-                            }else{
-                                subject_str += subject_score+':'+subject_score_one+',';
-                            }
-                        });
-                        var add_tag = '';
-                        $("[name = subject_tag]:checkbox").each(function(){
-                            if($(this).is(":checked")){
-                                add_tag += $(this).attr('value')+',';
-                            }
-                        });
-                        $.do_ajax("/ss_deal2/save_user_info_new",{
-                            save   : 1,
-                            new_demand_flag   : 1,
-                            click_type        : click_type,
-                            userid            : opt_data.userid,
-                            test_lesson_subject_id : opt_data.test_lesson_subject_id,
-                            phone: opt_data.phone,
-                            stu_nick      : id_stu_nick.val(),
-                            gender        : id_gender.val(),
-                            par_nick      : id_par_nick.val(),
-                            par_type      : id_par_type.val(),
-                            grade         : id_grade.val(),
-                            subject       : id_subject.val(),
-                            editionid     : id_editionid.val(),
-                            has_pad       : id_has_pad.val(),
-                            school        : id_school.val(),
-                            character_type: id_character_type.val(),
-                            interests_and_hobbies: id_interests_hobbies.val(),
-                            province: province,
-                            city: city,
-                            area: area,
-                            region: region,
-                            address       : id_address.val(),
-                            class_rank: html_node.find("#id_class_rank_new_two").val(),
-                            grade_rank: html_node.find("#id_grade_rank_new_two").val(),
-                            subject_score: subject_str,
-                            test_stress: html_node.find("#id_test_stress_new_two").val(),
-                            academic_goal: id_academic_goal.val(),
-                            entrance_school_type: id_entrance_school_type.val(),
-                            cultivation:id_cultivation.val(),
-                            add_tag:add_tag,
-                            teacher_nature:id_teacher_nature.val(),
-                            pro_ability:id_pro_ability.val(),
-                            class_env:id_class_env.val(),
-                            courseware:id_courseware.val(),
-                            recent_results: html_node.find("#id_recent_results_new_two").val(),
-                            advice_flag: id_advice_flag.val(),
-                            interest_cultivation: id_interest_cultivation.val(),
-                            extra_improvement : id_extra_improvement.val(),
-                            habit_remodel: id_habit_remodel.val(),
-                            study_habit : id_study_habit.val(),
-                            stu_request_test_lesson_demand : id_stu_request_test_lesson_demand.val(),
-                            stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            stu_request_test_lesson_time_end:id_stu_request_test_lesson_time_end.val(),
-                            test_paper: id_test_paper.val(),
-                            tea_identity:id_tea_status.val(),
-                            tea_age:id_tea_age.val(),
-                            tea_gender:id_tea_gender.val(),
-                            teacher_type:id_teacher_type.val(),
-                            need_teacher_style: id_need_teacher_style.val(),
-                            quotation_reaction: id_quotation_reaction.val(),
-                            intention_level : id_intention_level.val(),
-                            demand_urgency: id_demand_urgency.val(),
-                            seller_student_status : id_status.val(),
-                            seller_student_sub_status : id_seller_student_sub_status.val(),
-                            next_revisit_time : id_next_revisit_time.val(),
-                            stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                            user_desc     : id_user_desc.val(),
-                        });
-                    }
-                },{
                     label: '返回',
                     action: function(dialog) {
                         dialog.close();
@@ -2663,162 +2564,69 @@ $(function(){
                             }
                         }
 
-                        $.do_ajax("/ss_deal2/save_user_info_new",{
-                            save   : 2,
-                            new_demand_flag   : 1,
-                            click_type        : click_type,
-                            userid            : opt_data.userid,
-                            test_lesson_subject_id : opt_data.test_lesson_subject_id,
-                            phone: opt_data.phone,
-                            stu_nick      : id_stu_nick.val(),
-                            gender        : id_gender.val(),
-                            par_nick      : id_par_nick.val(),
-                            par_type      : id_par_type.val(),
-                            grade         : id_grade.val(),
-                            subject       : id_subject.val(),
-                            editionid     : id_editionid.val(),
-                            has_pad       : id_has_pad.val(),
-                            school        : id_school.val(),
-                            character_type: id_character_type.val(),
-                            interests_and_hobbies: id_interests_hobbies.val(),
-                            province: province,
-                            city: city,
-                            area: area,
-                            region: region,
-                            address       : id_address.val(),
-                            class_rank: html_node.find("#id_class_rank_new_two").val(),
-                            // class_num: html_node.find("#id_class_num_new_two").val(),
-                            grade_rank: html_node.find("#id_grade_rank_new_two").val(),
-                            subject_score: subject_str,
-                            test_stress: html_node.find("#id_test_stress_new_two").val(),
-                            academic_goal: id_academic_goal.val(),
-                            entrance_school_type: id_entrance_school_type.val(),
-                            cultivation:id_cultivation.val(),
-                            add_tag:add_tag,
-                            teacher_nature:id_teacher_nature.val(),
-                            pro_ability:id_pro_ability.val(),
-                            class_env:id_class_env.val(),
-                            courseware:id_courseware.val(),
-                            recent_results: html_node.find("#id_recent_results_new_two").val(),
-                            advice_flag: id_advice_flag.val(),
-                            interest_cultivation: id_interest_cultivation.val(),
-                            extra_improvement : id_extra_improvement.val(),
-                            habit_remodel: id_habit_remodel.val(),
-                            study_habit : id_study_habit.val(),
-                            stu_request_test_lesson_demand : id_stu_request_test_lesson_demand.val(),
-                            stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            stu_request_test_lesson_time_end:id_stu_request_test_lesson_time_end.val(),
-                            test_paper: id_test_paper.val(),
-                            tea_identity:id_tea_status.val(),
-                            tea_age:id_tea_age.val(),
-                            tea_gender:id_tea_gender.val(),
-                            teacher_type:id_teacher_type.val(),
-                            need_teacher_style: id_need_teacher_style.val(),
-                            quotation_reaction: id_quotation_reaction.val(),
-                            intention_level : id_intention_level.val(),
-                            demand_urgency: id_demand_urgency.val(),
-                            seller_student_status : id_status.val(),
-                            seller_student_sub_status : id_seller_student_sub_status.val(),
-                            next_revisit_time : id_next_revisit_time.val(),
-                            stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                            user_desc     : id_user_desc.val(),
-                        },function(){
-                            if(!opt_data.parent_wx_openid && g_args.account_role != 12 && g_args.jack_flag !=349 && g_args.jack_flag !=99
-                               && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186
-                               && g_args.jack_flag!=944
-                              ){//研发,jack,alan,adrian,sam
-                                alert("家长未关注微信,不能提交试听课");
-                                $(opt_obj).parent().find(".opt-seller-qr-code").click();
-                                return false;
-                            }
-
-                            var id_grade_select         = $("<select />");
-                            var id_user_agent           = $("<div />");
-                            var id_stu_test_ipad_flag   = $("<select/>");
-                            var id_not_test_ipad_reason = $("<textarea>");
-
-                            Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
-                            Enum_map.append_option_list("grade", id_grade_select, true);
-
-                            if(data.user_agent ==""){
-                                id_user_agent.html("您还没有设备信息!");
-                                id_user_agent.css("color","red");
-                            }else if(data.user_agent.indexOf("ipad") <0 && data.user_agent.indexOf("iPad")<0){
-                                id_user_agent.html(data.user_agent);
-                                id_user_agent.css("color","red");
-                            }else{
-                                id_user_agent.html(data.user_agent);
-                            }
-
-                            var arr=[
-                                ["姓名", id_stu_nick.val()],
-                                ["年级", id_grade_select],
-                                ["科目", html_node.find('#id_stu_subject_new_two').find("option:selected").text()],
-                                ["学校", id_school.val()],
-                                ["试听时间", id_stu_request_test_lesson_time.val()+'~'+id_stu_request_test_lesson_time_end.val()],
-                                ["试听需求", id_stu_request_test_lesson_demand.val()],
-                                ["机器版本",  id_user_agent ],
-                                ["是否已经连线测试 ", id_stu_test_ipad_flag],
-                                ["未连线测试原因", id_not_test_ipad_reason]
-                            ];
-
-                            id_grade_select.val(id_grade.val());
-                            id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
-                            id_not_test_ipad_reason.val(data.not_test_ipad_reason);
-                            id_stu_test_ipad_flag.on("change",function(){
-                                if(id_stu_test_ipad_flag.val() == 1){
-                                    id_not_test_ipad_reason.parent().parent().hide();
-                                }else{
-                                    id_not_test_ipad_reason.parent().parent().show();
-                                }
-                            });
-
-                            $.show_key_value_table("试听申请", arr, {
-                                label: '确认',
-                                cssClass: 'btn-warning',
-                                action: function (dialog) {
-                                    $.do_ajax("/ss_deal/require_test_lesson", {
-                                        "test_lesson_subject_id"  : opt_data.test_lesson_subject_id,
-                                        "userid" : opt_data.userid ,
-                                        "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
-                                        "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
-                                        "test_stu_grade" : id_grade_select.val(),
-                                    },function(resp){
-                                        if(resp.ret !=0){
-                                            BootstrapDialog.alert(resp.info);
-                                        }else{
-                                            if(resp.seller_top_flag==1){
-                                                if(11){
-                                                    var uu=40-resp.top_num;
-                                                    dialog.close();
-                                                    alert("试听申请成功,您的精排名额剩余"+uu+"个");
-                                                    window.location.reload();
-                                                }else if(resp.top_num==29){
-                                                    dialog.close();
-                                                    BootstrapDialog.alert("试听申请成功,您的精排名额剩余10个");
-                                                } else if(resp.top_num==34){
-                                                    dialog.close();
-                                                    BootstrapDialog.alert("试听申请成功,您的精排名额剩余5个");
-                                                } else if(resp.top_num==38){
-                                                    dialog.close();
-                                                    BootstrapDialog.alert("试听申请成功,您的精排名额剩余1个");
-                                                }else{
-                                                    dialog.close();
-                                                    window.location.reload();
-                                                }
-                                            }else{
-                                                window.location.reload();
-                                            }
-                                        }
-                                    });
-                                }
-                            },function(){
-                                if(id_stu_test_ipad_flag.val() == 1){
-                                    id_not_test_ipad_reason.parent().parent().hide();
-                                }else{
-                                    id_not_test_ipad_reason.parent().parent().show();
-                                }
-                            });
+                        $.do_ajax("/ss_deal2/ass_add_require_test_lesson_new",{
+                            new_demand_flag                  : 1,
+                            click_type                       : click_type,
+                            userid                           : opt_data.userid,
+                            test_lesson_subject_id           : opt_data.test_lesson_subject_id,
+                            phone                            : opt_data.phone,
+                            stu_nick                         : id_stu_nick.val(),
+                            gender                           : id_gender.val(),
+                            par_nick                         : id_par_nick.val(),
+                            par_type                         : id_par_type.val(),
+                            grade                            : id_grade.val(),
+                            subject                          : id_subject.val(),
+                            editionid                        : id_editionid.val(),
+                            has_pad                          : id_has_pad.val(),
+                            school                           : id_school.val(),
+                            character_type                   : id_character_type.val(),
+                            interests_and_hobbies            : id_interests_hobbies.val(),
+                            province                         : province,
+                            city                             : city,
+                            area                             : area,
+                            region                           : region,
+                            address                          : id_address.val(),
+                            class_rank                       : html_node.find("#id_class_rank_new_two").val(),
+                            grade_rank                       : html_node.find("#id_grade_rank_new_two").val(),
+                            subject_score                    : subject_str,
+                            test_stress                      : html_node.find("#id_test_stress_new_two").val(),
+                            academic_goal                    : id_academic_goal.val(),
+                            entrance_school_type             : id_entrance_school_type.val(),
+                            cultivation                      : id_cultivation.val(),
+                            add_tag                          : add_tag,
+                            teacher_nature                   : id_teacher_nature.val(),
+                            pro_ability                      : id_pro_ability.val(),
+                            class_env                        : id_class_env.val(),
+                            courseware                       : id_courseware.val(),
+                            recent_results                   : html_node.find("#id_recent_results_new_two").val(),
+                            advice_flag                      : id_advice_flag.val(),
+                            interest_cultivation             : id_interest_cultivation.val(),
+                            extra_improvement                : id_extra_improvement.val(),
+                            habit_remodel                    : id_habit_remodel.val(),
+                            study_habit                      : id_study_habit.val(),
+                            stu_request_test_lesson_demand   : id_stu_request_test_lesson_demand.val(),
+                            stu_request_test_lesson_time     : id_stu_request_test_lesson_time.val(),
+                            stu_request_test_lesson_time_end : id_stu_request_test_lesson_time_end.val(),
+                            test_paper                       : id_test_paper.val(),
+                            tea_identity                     : id_tea_status.val(),
+                            tea_age                          : id_tea_age.val(),
+                            tea_gender                       : id_tea_gender.val(),
+                            teacher_type                     : id_teacher_type.val(),
+                            need_teacher_style               : id_need_teacher_style.val(),
+                            quotation_reaction               : id_quotation_reaction.val(),
+                            intention_level                  : id_intention_level.val(),
+                            demand_urgency                   : id_demand_urgency.val(),
+                            seller_student_status            : id_status.val(),
+                            seller_student_sub_status        : id_seller_student_sub_status.val(),
+                            next_revisit_time                : id_next_revisit_time.val(),
+                            stu_test_ipad_flag               : id_stu_test_ipad_flag.val(),
+                            user_desc                        : id_user_desc.val(),
+                            ass_test_lesson_type             : id_ass_test_lesson_type.val(),
+                            change_teacher_reason_type       : id_change_teacher_reason_type.val(),
+                            change_reason_url                : id_change_reason_url.val(),
+                            change_reason                    : id_change_reason.val(),
+                            green_channel_teacherid          : id_green_channel_teacherid.val(),
+                            learning_situation               : id_learning_situation.val(),
                         });
                     }
                 }]
@@ -2831,6 +2639,11 @@ $(function(){
                 dlg.close();
             } );
             var th = setTimeout(function(){
+                $.custom_upload_file('id_upload_change_reason_url',true,function (up, info, file) {
+                    var res = $.parseJSON(info);
+                    console.log(res);
+                    id_change_reason_url.val(res.key);
+                }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
                 $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
                     var res = $.parseJSON(info);
                     console.log(res);
@@ -2839,6 +2652,7 @@ $(function(){
                 }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
                 clearTimeout(th);
             }, 1000);
+
         });
     };
 
