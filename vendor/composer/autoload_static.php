@@ -77,6 +77,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             'Illuminate\\' => 11,
         ),
+        'G' => 
+        array (
+            'Gregwar\\' => 8,
+        ),
         'F' => 
         array (
             'Faker\\' => 6,
@@ -218,6 +222,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
+        ),
+        'Gregwar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gregwar/captcha/src/Gregwar',
         ),
         'Faker\\' => 
         array (
@@ -995,6 +1003,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TLessonInfoAddColum' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_105733_t_lesson_info_add_colum.php',
         'TLessonInfoAddLearningRecord' => __DIR__ . '/../..' . '/database/migrations/2018_01_26_150901_t_lesson_info_add_learning_record.php',
         'TLessonInfoAddLessonRecord' => __DIR__ . '/../..' . '/database/migrations/2018_01_24_103407_t_lesson_info_add_lesson_record.php',
+        'TLessonInfoAddNewColum' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_163450_t_lesson_info_add_new_colum.php',
         'TLessonInfoAddOnWheatFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_101107_t_lesson_info_add_on_wheat_flag.php',
         'TLessonInfoAddOperateTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_122844_t_lesson_info_add_operate_time_index.php',
         'TLessonInfoAddTeaCwOrigin' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_182608_t_lesson_info_add_tea_cw_origin.php',
@@ -1069,7 +1078,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TRuffianActivityAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
         'TRuffianActivityAddStuType' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_152520_t_ruffian_activity_add_stu_type.php',
         'TRuffianActivityDropAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_151005_t_ruffian_activity_drop_add_time.php',
-        'TRuffianActivityModify' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
+        'TRuffianActivityModify' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_155743_t_ruffian_activity_modify.php',
         'TSellerEditLogAddFirstRevisitTime' => __DIR__ . '/../..' . '/database/migrations/2018_01_19_165523_t_seller_edit_log_add_first_revisit_time.php',
         'TSellerEditLogAddNewCreateTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
         'TSellerGetNewLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_18_110632_t_seller_get_new_log.php',
@@ -1104,7 +1113,8 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TSellerStudentOriginAddIsExistCount' => __DIR__ . '/../..' . '/database/migrations/2018_01_20_154416_t_seller_student_origin_add_is_exist_count.php',
         'TSellerStudentOriginAddLastSucLessonid' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_174946_t_seller_student_origin_add_last_suc_lessonid.php',
         'TSellerStudentSystemAssignCountLogAddDefCount' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_104534_t_seller_student_system_assign_count_log_add__def_count.php',
-        'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
+        'TSellerStudentSystemReleaseLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_120646_t_seller_student_system_release_log.php',
+        'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
         'TSellerTongjiForMonthAddColumons' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
         'TSellerTongjiForMonthAddDataType' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',
         'TSellerTongjiForMonthAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_185426_t_seller_tongji_for_month_add_item.php',
