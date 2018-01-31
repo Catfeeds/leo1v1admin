@@ -451,10 +451,16 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." ass_revisit_last_month_time, ass_revisit_last_week_time,ass_assign_time,a.phone_location, "
                                   ." if(realname='',nick,realname) as nick, "
                                   ." sum(b.lesson_count) as lesson_total "
-                                  ." from %s a left join %s b on a.userid = b.userid "
+                                  ."  "
+                                  ." from %s a "
+                                  ." left join %s b on a.userid = b.userid "
+                                  // ." left join %s n on n.userid = a.userid "
+                                  // ." left join %s t on t.userid = a.userid and t.grade=s.grade "
                                   ."  where  %s group by a.userid having %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_week_regular_course::DB_TABLE_NAME
+                                  // ,t_seller_student_new::DB_TABLE_NAME
+                                  // ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,$where_arr
                                   ,$have
         );
