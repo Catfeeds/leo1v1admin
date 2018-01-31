@@ -41,6 +41,15 @@ class test_ricky extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
 
+        // 试听课标准化讲义使用次数 科目、年级、文件名、教研员、浏览次数、使用次数
+        $info = $task->t_resource->get_list_for_subject();
+        foreach($info as $item) {
+            echo $item["file_title"].",".$item["subject"].",".$item["grade"];
+            echo $task->cache_get_account_nick($item["adminid"]).",";
+            echo $item["visit_num"].",".$item["use_num"];
+        }
+        exit;
+
         //90分钟 --- 排课时间、课程ID、老师姓名、学生姓名、上课时间、助教姓名、学生合同创建时间（第一份合同）
         // 常规课表
         $info = $task->t_week_regular_course->get_all_info();
