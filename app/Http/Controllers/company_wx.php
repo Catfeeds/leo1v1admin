@@ -282,7 +282,7 @@ class company_wx extends Controller
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
-        $start_time = strtotime("-2day");
+        $start_time = strtotime("-5day");
         $end_time = time();
 
         $approv = $this->t_company_wx_approval->get_all_info($start_time, $end_time);
@@ -301,15 +301,15 @@ class company_wx extends Controller
 
         $info = $output['data'];
         foreach($info as $item) {
-            if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
-                $index = $item['apply_user_id'].'-'.$item['apply_time'];
-                if ($approv[$index]['sp_status'] != $item['sp_status']) {
-                    $this->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
-                        "sp_status" => $item['sp_status']
-                    ]);
-                }
-                continue;
-            }
+            // if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
+            //     $index = $item['apply_user_id'].'-'.$item['apply_time'];
+            //     if ($approv[$index]['sp_status'] != $item['sp_status']) {
+            //         $this->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
+            //             "sp_status" => $item['sp_status']
+            //         ]);
+            //     }
+            //     continue;
+            // }
 
             $approval_name = implode(',', $item['approval_name']);
             $notify_name = implode(',', $item['notify_name']);
@@ -407,10 +407,13 @@ class company_wx extends Controller
                 $id = $this->t_company_wx_approval_data->get_last_insertid();
                 foreach($names as $name) {
                     $userid = $this->t_company_wx_users->get_userid_for_name($name);
-                    $this->t_company_wx_approval_notify->row_insert([
-                        "d_id" => $id,
-                        "user_id" => $userid
-                    ]);
+                    $did = $this->t_company_wx_approval_notify->get_list_for_user_id($id,$userid);
+                    if (!$did) {
+                        $this->t_company_wx_approval_notify->row_insert([
+                            "d_id" => $id,
+                            "user_id" => $userid
+                        ]);
+                    }
                 }
 
                 echo "加载拉取数据审批成功";
@@ -420,7 +423,7 @@ class company_wx extends Controller
         }
 
         if ($items) $common['item'] = json_encode($item);
-        $this->t_company_wx_approval->row_insert($common);
+        //$this->t_company_wx_approval->row_insert($common);
     }
 
     public function get_company_wx_data($url, $index='') { //根据不同路由获取不同的数据 (企业微信)
