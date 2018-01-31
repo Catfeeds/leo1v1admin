@@ -1947,9 +1947,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function updateTranResult(){
         $lessonid = $this->get_in_int_val('lessonid');
         $zip_url  = $this->get_in_str_val('zip_url');
-        $this->t_lesson_info_b3->field_update_list($lessonid,[
-            "zip_url" => $zip_url
-        ]);
+        $is_tea   = $this->get_in_int_val('is_tea');
+        if($is_tea == 1 ){ # 老师
+            $this->t_lesson_info_b3->field_update_list($lessonid,[
+                "zip_url" => $zip_url
+            ]);
+        }else{ # 学生
+            $this->t_lesson_info_b3->field_update_list($lessonid,[
+                "zip_url_stu" => $zip_url
+            ]);
+        }
         return $this->output_succ();
     }
 
@@ -1969,9 +1976,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function updateLessonUUid(){
         $lessonid = $this->get_in_int_val('lessonid');
         $uuid     = $this->get_in_str_val('uuid');
-        $this->t_lesson_info->field_update_list($lessonid, [
-            "uuid"=>$uuid
-        ]);
+        $is_tea   = $this->get_in_int_val('is_tea');
+
+        if($is_tea == 1){
+            $this->t_lesson_info->field_update_list($lessonid, [
+                "uuid"=>$uuid
+            ]);
+        }else{
+            $this->t_lesson_info->field_update_list($lessonid, [
+                "uuid_stu"=>$uuid
+            ]);
+        }
         return $this->output_succ();
     }
 

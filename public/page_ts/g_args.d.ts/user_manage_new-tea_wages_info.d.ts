@@ -45,14 +45,12 @@ interface RowData {
 	test_lesson_fail_flag	:any;
 	fail_greater_4_hour_flag	:any;
 	competition_flag	:any;
-	lesson_count_err	:any;
 	lesson_full_reward	:any;
 	lesson_cost_normal	:any;
 	lesson_cost	:any;
 	lesson_cost_info	:any;
 	pre_reward	:any;
 	price	:any;
-	pre_price	:any;
 	lesson_reward	:any;
 	tea_level_num	:any;
 	tea_level	:any;
@@ -62,6 +60,8 @@ interface RowData {
 	lesson_type_str	:any;
 	teacher_money_type_str	:any;
 	lesson_time	:any;
+	lesson_count_err	:any;
+	pre_price	:any;
 	key1	:any;
 	key2	:any;
 	key3	:any;

@@ -90,7 +90,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                  $teacher_ref_type,$interview_type=-1,$have_wx=-1, $lecture_revisit_type=-1,
                                  $full_time=-1, $lecture_revisit_type_new=-1,$fulltime_teacher_type=-1,
                                  $accept_adminid=-1,$second_train_status=-1,$teacher_pass_type=-1,
-                                 $opt_date_str=1,$gender=-1
+                                 $opt_date_str=1,$gender=-1,$is_test_user=-1
     ){
         $where_arr = [
             ["lecture_appointment_status=%u", $lecture_appointment_status, -1 ],
@@ -100,6 +100,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["la.full_time=%u", $full_time, -1 ],
             ["la.accept_adminid=%u", $accept_adminid, -1 ],
             ["tr2.trial_train_status=%u", $second_train_status, -1 ],
+            ["tt.is_test_user=%u", $is_test_user, -1 ],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         if($lecture_revisit_type==E\Electure_revisit_type::V_5){
@@ -156,25 +157,23 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }
 
         if($have_wx==0){
-            $where_arr[] ="(ttt.wx_openid = '' or ttt.wx_openid is null )";
+            $where_arr[] ="(tt.wx_openid = '' or tt.wx_openid is null )";
         }elseif($have_wx==1){
-            $where_arr[] ="ttt.wx_openid <> '' and ttt.wx_openid is not null";
+            $where_arr[] ="tt.wx_openid <> '' and tt.wx_openid is not null";
         }
         $where_arr[] = $this->where_get_in_str_query("t.teacher_ref_type", $teacher_ref_type );
         if($teacher_pass_type==1){
-            $where_arr[] = "ttt.train_through_new=1";
+            $where_arr[] = "tt.train_through_new=1";
         }else{
             $where_arr[] =["la.teacher_pass_type=%u", $teacher_pass_type, -1 ];
         }
         if ($user_name) {
-            $user_name=$this->ensql($user_name);
+            $user_name = $this->ensql($user_name);
             $where_arr = [
                 "(la.name like '%%".$user_name."%%' "
                 ." or la.school like '%%".$user_name."%%' "
-                ." or la.phone like '%%".$user_name."%%' "
-                ." or grade_ex like '%%".$user_name."%%' "
+                ." or la.phone like '".$user_name."%%' "
                 ." or la.qq like '%%".$user_name."%%' "
-                ." or subject_ex like '%%".$user_name."%%' "
                 ." or textbook like '%%".$user_name."%%' "
                 ." or la.teacher_type like '%%".$user_name."%%')"
             ];
@@ -188,7 +187,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." if(ta.lesson_start >0,4,la.lecture_revisit_type) lecture_revisit_type,"
                                   ." if(tr.trial_train_status is null,-2,tr.trial_train_status) trial_train_status,"
                                   ." l.subject,l.grade,l.add_time,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
-                                  ." ta.teacherid interviewer_teacherid,"
+                                  ." ta.teacherid interviewer_teacherid,tt.is_test_user,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account, "
                                   ." m.name as zs_name,"
                                   ." tt.teacherid train_teacherid,la.qq,tt.wx_openid,tt.user_agent,la.hand_flag,tt.gender,"

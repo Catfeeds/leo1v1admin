@@ -86,18 +86,20 @@ class update_company_wx_data extends Command
 
         $info = $output['data'];
         foreach($info as $item) {
-            // if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
-            //     $index = $item['apply_user_id'].'-'.$item['apply_time'];
-            //     if ($approv[$index]['sp_status'] != $item['sp_status']) {
-            //         $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
-            //             "sp_status" => $item['sp_status']
-            //         ]);
-            //     }
-            //     continue;
-            // }
+            if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
+                echo "数据已存在，正在更新状态 ... ";
+                $index = $item['apply_user_id'].'-'.$item['apply_time'];
+                if ($approv[$index]['sp_status'] != $item['sp_status']) {
+                    $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
+                        "sp_status" => $item['sp_status']
+                    ]);
+                }
+                continue;
+            }
             $approval_name = implode(',', $item['approval_name']);
             $notify_name = implode(',', $item['notify_name']);
             $names = array_merge($item["approval_name"], $item["notify_name"]);
+            array_push($names, $item["apply_name"]);
             $common = [
                 'spname' => $item['spname'],
                 'apply_name' => $item['apply_name'],
@@ -181,11 +183,14 @@ class update_company_wx_data extends Command
                     $id = $task->t_company_wx_approval_data->get_last_insertid();
                     foreach($names as $name) {
                         $userid = $task->t_company_wx_users->get_userid_for_name($name);
-                        $task->t_company_wx_approval_notify->row_insert([
-                            "d_id" => $id,
-                            "user_id" => $userid
-                        ]);
-                        echo "加载关联数据成功关联人".$name;
+                        $did = $task->t_company_wx_approval_notify->get_list_for_user_id($id,$userid);
+                        if (!$did) {
+                            $task->t_company_wx_approval_notify->row_insert([
+                                "d_id" => $id,
+                                "user_id" => $userid
+                            ]);
+                            echo "加载关联数据成功关联人".$name;
+                        }
                     }
 
                     echo "加载拉取数据审批成功";
@@ -195,8 +200,8 @@ class update_company_wx_data extends Command
 
             if ($items) $common['item'] = json_encode($items);
             // 添加数据
-            //$task->t_company_wx_approval->row_insert($common);
-            //echo '加载数据成功'.$common['spname'];
+            $task->t_company_wx_approval->row_insert($common);
+            echo '加载数据成功'.$common['spname'];
         }
     }
 

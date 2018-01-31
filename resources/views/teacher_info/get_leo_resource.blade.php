@@ -1,8 +1,14 @@
 @extends('layouts.teacher_header')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
 	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
 	  <script type="text/javascript" src="/js/pdfobject.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script>
      var tag_one = '{{$tag_info['tag_one']['menu']}}';
      var tag_two = '{{$tag_info['tag_two']['menu']}}';
@@ -33,6 +39,13 @@
      .error .error_type select{ min-width:240px;min-height:30px;margin-right:10px}
      .error .error_detail{ width:500px;height:300px}
      .error .error_pic_info{ color:#948f8f}
+     .error .error_pic_box{ margin-right:15px }
+     .error .error_pic_box img{ border: 3px solid #a09b9b; }
+     .error .error_button{ width: 100px;height: 100px;font-size: 60px;border: 1px dashed #b1b1b1;}
+     .error_pic_change{ padding-top: 10px; position: relative; height: 30px;width: 100px;}
+     .error_pic_change a{ position: absolute;z-index: 9999; }
+     .error_pic_change a:first-child{ left: 5px;}
+     .error_pic_change a:last-child{ right: 5px;}
     </style>
     <section class="content li-section">
         <div>
@@ -295,9 +308,9 @@
         <div class="comment_item">
             <span class="comment_title fl">适宜学生：</span>
             <div class="comment_radio comment_type fl">
-                <label><input type ="radio" name = "con_type" value ="1">基础，难度较低</label>
-                <label><input type ="radio" name = "con_type" value ="2" checked>中等，难度适中</label>
-                <label><input type ="radio" name = "con_type" value ="3">提优，难度较高</label>
+                <label><input type ="radio" name = "con_stu" value ="1">基础，难度较低</label>
+                <label><input type ="radio" name = "con_stu" value ="2" checked>中等，难度适中</label>
+                <label><input type ="radio" name = "con_stu" value ="3">提优，难度较高</label>
             </div>
             <div class="clall"></div>
         </div>
@@ -358,7 +371,54 @@
             <textarea class="error_detail"></textarea>
         </div>
         <p class="error_pic_info">仅支持jpeg,jpg,png,gif格式图片，大小不超过2M，最多上传5张</p>
+        <div class="error_upload">
+            <div class="error_pic_box hide fl">
+                <img width="100">
+                <div class="error_pic_change">
+                    <a class="pic_change_01" href="javascript:;">更改</a>
+                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                </div>
+            </div>
+            <div class="error_pic_box hide fl">
+                <img width="100">
+                <div class="error_pic_change">
+                    <a class="pic_change_02" href="javascript:;">更改</a>
+                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                </div>
+            </div>
+            <div class="error_pic_box hide fl">
+                <img width="100">
+                <div class="error_pic_change">
+                    <a class="pic_change_03" href="javascript:;">更改</a>
+                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                </div>
+            </div>
+            <div class="error_pic_box hide fl">
+                <img width="100">
+                <div class="error_pic_change">
+                    <a class="pic_change_04" href="javascript:;">更改</a>
+                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                </div>
+            </div>
+            <div class="error_pic_box hide fl">
+                <img width="100">
+                <div class="error_pic_change">
+                    <a class="pic_change_05" href="javascript:;">更改</a>
+                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                </div>
+            </div>
 
+            <input type="button" class="error_button fl" value="+" >
+            <div class="clall"></div>
+        </div>
+    </div>
+
+    <div class="error_pic_box fl hide">
+        <img width="100">
+        <div class="error_pic_change">
+            <a onclick="change_upload(this,event)" href="javascript:;">更改</a>
+            <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+        </div>
     </div>
 
     <select class="err_knowledge hide">

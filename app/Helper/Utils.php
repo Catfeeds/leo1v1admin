@@ -1897,8 +1897,10 @@ class Utils  {
     static public function get_teacher_contact_way($teacher_info){
         if(isset($teacher_info['phone_spare']) && $teacher_info['phone_spare']!=""){
             $phone=$teacher_info['phone_spare'];
-        }else{
+        }elseif(isset($teacher_info['phone'])){
             $phone=$teacher_info['phone'];
+        }else{
+            $phone="";
         }
 
         return $phone;
@@ -2857,4 +2859,5 @@ class Utils  {
         $arr['page_info']['total_num'] = $num;
         return $arr;
     }
+
 };

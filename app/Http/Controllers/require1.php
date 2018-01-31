@@ -10,9 +10,12 @@ class require1 extends Controller
 {
     use CacheNick;
 
+    public function  __construct() {
+        $this->check_approval_require();
+    }
+
     // 试听课标准化讲义使用次数
     public function get_resource_count() {
-        $this->check_approval_require();
 
         $info = $this->t_resource->get_list_for_subject();
         foreach($info as &$item) {

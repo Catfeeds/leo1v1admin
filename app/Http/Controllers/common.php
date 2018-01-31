@@ -1539,7 +1539,7 @@ class common extends Controller
             "domain" =>  "http://teacher-doc.qiniudn.com",
             "token"  => $this->get_token("teacher-doc"),
         ];
-
+        \App\Helper\Utils::logger("menu_str_show: ".json_encode($ret_arr));
         return $this->output_succ($ret_arr);
     }
 

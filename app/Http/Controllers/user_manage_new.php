@@ -3679,12 +3679,13 @@ class user_manage_new extends Controller
         $type       = $this->get_in_int_val("type",-1);
         $lessonid   = $this->get_in_int_val("lessonid",-1);
         $has_lesson = $this->get_in_int_val("has_lesson",-1);
+        $page_num = $this->get_in_page_num();
 
         $list = $this->t_teacher_money_list->get_teacher_trial_reward_list(
-            $start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
+            $page_num,$start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
         );
 
-        foreach($list as &$val){
+        foreach($list['list'] as &$val){
             $val['tea_nick'] = $this->cache_get_teacher_nick($val['teacherid']);
             \App\Helper\Utils::unixtime2date_for_item($val,"add_time","_str");
             E\Ereward_type::set_item_value_str($val,"type");
@@ -3700,7 +3701,6 @@ class user_manage_new extends Controller
             }
         }
 
-        $list = \App\Helper\Utils::list_to_page_info($list);
 
         return $this->Pageview(__METHOD__,$list, [
             'teacherid' => $teacherid
@@ -5238,6 +5238,54 @@ class user_manage_new extends Controller
         $adminid = $this->get_account_id();
         $type = 1;
         $new = $auth;
+        $this->t_seller_edit_log->row_insert([
+            "adminid"     => $adminid,
+            "type"        => $type,
+            "old"         => $old,
+            "new"         => $new,
+            "create_time" => time(NULL),
+        ],false,false,true );
+
+        return $this->output_succ();
+    }
+
+    // 备份当前权限
+    public function power_back() {
+        $this->t_power_back->back();
+        return $this->output_succ();
+    }
+
+    // 备份权限列表
+    public function power_back_list() {
+        $page_info = $this->get_in_page_info();
+        list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $ret_info = $this->t_power_back->get_list($start_time, $end_time, $page_info);
+
+        foreach($ret_info["list"] as &$item) {
+            $item['log_date'] = date("Y-m-d H:i:s", $item["log_date"]);
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
+    // 从备份表中更新数据
+    public function update_authority() {
+        $groupid = $this->get_in_str_val("groupid");
+        $group_name = $this->get_in_str_val("group_name");
+        $group_authority = $this->get_in_str_val("group_authority");
+        $role_groupid = $this->get_in_str_val("role_groupid");
+
+        $permission = $this->t_authority_group->field_get_list($groupid, "group_authority");
+        $old = $permission["group_authority"];
+
+        $this->t_authority_group->field_update_list($groupid, [
+            "group_name" => $group_name,
+            "group_authority" => $group_authority,
+            "role_groupid" => $role_groupid
+        ]);
+
+        $adminid = $this->get_account_id();
+        $type = 1;
+        $new = $group_authority;
         $this->t_seller_edit_log->row_insert([
             "adminid"     => $adminid,
             "type"        => $type,
