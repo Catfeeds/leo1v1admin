@@ -1022,9 +1022,12 @@ class wx_parent_gift extends Controller
                         "keyword2"  => '当前活动参与人数:'.$imgUrlInfo['add_num'].'关注页图片数量'.$imgNum.',关注页图片请及时上传!',
                         "keyword3"  => date("Y-m-d"),
                     ];
-                    \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
-                    \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
-                    $imgUrlInfo['followImgUrl'] = '';
+                    // \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                    // \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
+                    // $imgUrlInfo['followImgUrl'] = '';
+                    $follow_str = $img_arr[0];
+                    $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面
+
                 }else{
                     $follow_str = $img_arr[$index];
                     $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面
@@ -1040,8 +1043,8 @@ class wx_parent_gift extends Controller
                         "keyword2"  => "当前关注页编号:".($index+1).'即将切换至下一页',
                         "keyword3"  => date("Y-m-d"),
                     ];
-                    \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
-                    \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
+                    // \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                    // \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
                 }
             }
         }
