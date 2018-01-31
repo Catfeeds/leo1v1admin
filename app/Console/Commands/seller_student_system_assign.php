@@ -305,8 +305,8 @@ class seller_student_system_assign extends cmd_base
                 }
             }
         }
-        \App\Helper\Utils::logger("check_error2:$i-seller_level_admin_map".json_encode($seller_level_admin_map)); 
-        \App\Helper\Utils::logger("check_error2:$i-seller_student_level_map".json_encode($seller_student_level_map)); 
+        \App\Helper\Utils::logger("check_error2:-seller_level_admin_map".json_encode($seller_level_admin_map)); 
+        \App\Helper\Utils::logger("check_error2:-seller_student_level_map".json_encode($seller_student_level_map)); 
     }
     public  function assign_adminid( $userid, $check_seller_level_list , &$round_seller_level_map ) {
 
