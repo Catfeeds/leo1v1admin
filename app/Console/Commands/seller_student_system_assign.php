@@ -243,6 +243,8 @@ class seller_student_system_assign extends cmd_base
                         $round_seller_level_map[$seller_level_flag][$opt_adminid]= $opt_adminid;
                     }
                 }
+                \App\Helper\Utils::logger("check_error1:$i-round_seller_level_map".json_encode($round_seller_level_map)); 
+                \App\Helper\Utils::logger("check_error1:$i-seller_student_level_map".json_encode($seller_student_level_map)); 
 
                 if (count($round_seller_level_map) >0 ) {
                     $this->round_set_adminid( $round_seller_level_map, $seller_student_level_map);
@@ -296,13 +298,19 @@ class seller_student_system_assign extends cmd_base
 
             $account="系统分配-新例子-每轮首次按用户等级分 ";
             foreach( $seller_level_admin_map as $adminid=>$v ) {
+                \App\Helper\Utils::logger("check_error3:-seller_student_level_map".json_encode($seller_student_level_map)); 
+                \App\Helper\Utils::logger("check_error5:$find_origin_level"); 
                 $find_userid= @array_shift(@$seller_student_level_map[ $find_origin_level] );
+                \App\Helper\Utils::logger("check_error6:".json_encode($find_userid)); 
+                \App\Helper\Utils::logger("check_error4:-seller_student_level_map".json_encode($seller_student_level_map)); 
                 if ($find_userid) {
                     $this->do_assign($account, $find_userid, $adminid);
                     unset ( $seller_level_admin_map[$adminid]  );
                 }
             }
         }
+        \App\Helper\Utils::logger("check_error2:-seller_level_admin_map".json_encode($seller_level_admin_map)); 
+        \App\Helper\Utils::logger("check_error2:-seller_student_level_map".json_encode($seller_student_level_map)); 
     }
     public  function assign_adminid( $userid, $check_seller_level_list , &$round_seller_level_map ) {
 

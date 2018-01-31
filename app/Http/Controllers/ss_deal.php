@@ -406,6 +406,58 @@ class ss_deal extends Controller
         return $this->output_succ(["data" => $ret ]);
     }
 
+    public function  ass_get_user_info(){
+        $userid= $this->get_in_userid();
+        $student = $this->t_student_info->field_get_list($userid, "*");
+        $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
+        $ret["test_lesson_count"] = $this->t_lesson_info_b2->get_test_lesson_count($userid);
+        $ret["stu_nick"]       = $student["nick"];
+        $ret["par_nick"]       = $student["parent_name"];
+        $ret["par_type"]       = $student["parent_type"];
+        $ret["gender"]         = $student["gender"];
+        $ret["grade"]          = $student["grade"];
+        $ret["user_agent"]     = $student["user_agent"];
+        $ret["origin"]         = $student["origin"];
+        $ret["editionid"]      = $student["editionid"];
+        $ret["school"]         = $student["school"];
+        $ret["address"]        = $student["address"];
+        $ret["province"]       = $student["province"];
+        $ret["city"]           = $student["city"];
+        $ret["area"]           = $student["area"];
+        $ret["region"]         = $student["region"];
+        $ret["phone_location"] = mb_substr($student["phone_location"],0,2);
+
+        $ret["has_pad"]               = $ss_item["has_pad"];
+        $ret["user_desc"]             = $ss_item["user_desc"];
+        $ret["stu_test_ipad_flag"]    = $ss_item["stu_test_ipad_flag"];
+        $ret["not_test_ipad_reason"]  = $ss_item["not_test_ipad_reason"];
+        $ret["stu_score_info"]        = $ss_item["stu_score_info"];
+        $ret["stu_character_info"]    = $ss_item["stu_character_info"];
+        $ret["stu_test_ipad_flag"]    = $ss_item["stu_test_ipad_flag"];
+        $ret["class_rank"]            = $ss_item["class_rank"];
+        $ret["grade_rank"]            = $ss_item["grade_rank"];
+        $ret["academic_goal"]         = $ss_item["academic_goal"];
+        $ret["test_stress"]           = $ss_item["test_stress"];
+        $ret["entrance_school_type"]  = $ss_item["entrance_school_type"];
+        $ret["interest_cultivation"]  = $ss_item["interest_cultivation"];
+        $ret["extra_improvement"]     = $ss_item["extra_improvement"];
+        $ret["habit_remodel"]         = $ss_item["habit_remodel"];
+        $ret["study_habit"]           = $ss_item["study_habit"];
+        $ret["interests_and_hobbies"] = $ss_item["interests_and_hobbies"];
+        $ret["character_type"]        = $ss_item["character_type"];
+        $ret["need_teacher_style"]    = $ss_item["need_teacher_style"];
+        $ret["new_demand_flag"]       = $ss_item["new_demand_flag"];
+        $ret["subject_score"]         = $ss_item['subject_score'];
+        $ret["next_revisit_time"]     = \App\Helper\Utils::unixtime2date(
+            $ss_item["next_revisit_time"],
+            'Y-m-d H:i'
+        );
+        E\Egrade::set_item_value_str($ret);
+        E\Esubject::set_item_value_str($ret);
+
+        return $this->output_succ(["data" => $ret ]);
+    }
+
     public function ass_save_user_info()
     {
         $userid                         = $this->get_in_userid();
@@ -3028,7 +3080,7 @@ class ss_deal extends Controller
             "fail_greater_4_hour_flag" => $fail_greater_4_hour_flag,
         ]);
 
-        if ($fail_greater_4_hour_flag==1) {
+        if ($fail_greater_4_hour_flag==1 || $test_lesson_fail_flag>100) {
             $lesson_del_flag=1;
         }else{
             $lesson_del_flag=0;
@@ -3052,14 +3104,13 @@ class ss_deal extends Controller
 
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1  ){
             $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,
-                E\Eseller_student_status::V_120 , $this->get_account()
+                $require_id,\Eseller_student_status::V_120,$this->get_account()
             );
 
         }else{
             $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,
-                E\Eseller_student_status::V_290 , $this->get_account() );
+                $require_id,\Eseller_student_status::V_290,$this->get_account()
+            );
         }
 
 
@@ -3223,7 +3274,7 @@ class ss_deal extends Controller
      * 试听课课时确认
      * 路径：/tea_manage/lesson_list
      */
-    public function confirm_test_lesson_ass() {
+    public function confirm_test_lesson_ass(){
         $lessonid                 = $this->get_in_lessonid();
         $success_flag             = $this->get_in_str_val("success_flag");
         $fail_reason              = $this->get_in_str_val("fail_reason");
@@ -3236,7 +3287,7 @@ class ss_deal extends Controller
             return $check_flag;
         }
 
-        if ($success_flag==1 || $success_flag==0 ) {
+        if ($success_flag==1 || $success_flag==0){
             $fail_reason              = "";
             $test_lesson_fail_flag    = 0;
             $fail_greater_4_hour_flag = 0;
@@ -3251,15 +3302,10 @@ class ss_deal extends Controller
             "fail_greater_4_hour_flag" => $fail_greater_4_hour_flag,
         ]);
 
-        // set lesson_del_flag
-        // E\Etest_lesson_fail_flago( )
-        //103 => "[不付] 换时间 ",
-        //104 => "[不付] 换老师",
-        //105 => "[不付] 排课出错 ",
-        if ($fail_greater_4_hour_flag ==1 ) {
-            $lesson_del_flag=1;
+        if ($fail_greater_4_hour_flag ==1 || $test_lesson_fail_flag>100 ) {
+            $lesson_del_flag = 1;
         }else{
-            $lesson_del_flag=0;
+            $lesson_del_flag = 0;
         }
 
         $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
