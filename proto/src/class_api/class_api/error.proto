@@ -49,4 +49,6 @@ enum  enum_error {
   //时间冲突
   ERR_TIME_CONFLICT = 3014;
 
+  //课表中未查到该课程或未到进入课堂时间(提前15分钟可进入)
+  ERR_LESSON_NOFIND = 3015;
 };

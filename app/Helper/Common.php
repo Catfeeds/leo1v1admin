@@ -141,65 +141,7 @@ class Common {
         return $ret_arr;
     }
 
-    /**
-     * 模板名称: 通用验证
-     * 模板ID: SMS_7771547
-     * 模板内容: 您的手机验证码为：${code} ，请尽快完成验证 编号为： ${index}
-     * 不要直接使用 , 要用 \App\Helper\Common::sms_common($phone,$sms_id,$arr);
-     */
-    public static function send_sms_with_taobao($phone,$template_code,$data,$sign_name="理优教育"){
-        include_once( app_path("Libs/taobao_sms/TopSdk.php") );
 
-        // foreach ($data as   &$value) {
-        //     $value=strval($value);
-        // }
-        $c = new \TopClient();
-
-        /**
-         * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
-         */
-        if($template_code == "SMS_10671030"){
-            $template_code = "SMS_7795923";
-        }elseif($template_code == "SMS_10671029"){
-            $template_code = "SMS_7771547";
-        }
-
-        /**
-         * array( 7795923 ,'register','用户注册验证码',),
-         * array( 7786570,'','通知家长预约成功',),
-         * array( 7771547,'','通用验证',),
-         * array( 8295424 ,'','课程当天早上通知',),
-         */
-        $template_value = substr($template_code,4);
-
-        if ( $template_value==7795923
-            ||$template_value==7786570
-            ||$template_value==7771547
-            ||$template_value==8295424
-        ){
-            $c->appkey ="23287514" ;
-            $c->secretKey = "232fee572ba45d17cbe6fed8d39678ab";
-        }else{
-            $c->appkey ="23388285" ;
-            $c->secretKey = "cf52133f47748ac2330e9a22fa423d8e";
-        }
-
-        $c->format="json";
-        $req = new \AlibabaAliqinFcSmsNumSendRequest();
-
-        $req->setSmsType("normal");
-        $req->setSmsFreeSignName($sign_name);
-
-        $req->setSmsParam( json_encode($data) );
-        $req->setRecNum( $phone);
-        $req->setSmsTemplateCode($template_code);
-        try {
-            $resp = $c->execute($req);
-        }catch(\Exception $e ) {
-
-        }
-        return $resp;
-    }
 
     static function output_html($str) {
         echo "<head> <meta charset=\"UTF-8\"> <head> <body>$str" ;
