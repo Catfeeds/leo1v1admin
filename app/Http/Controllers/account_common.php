@@ -450,7 +450,7 @@ class account_common extends Controller
         }
     }
 
-    //图片验证码
+    //获取图片验证码
     public function get_pic_verify_code_info(){
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");      
