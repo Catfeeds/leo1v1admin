@@ -138,6 +138,13 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">测试老师</span>
+                        <select class="opt-change form-control" id="id_is_test_user" >
+                        </select>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2" >
                     <div class="input-group ">
                         <span class="input-group-addon">二面状态</span>
@@ -236,6 +243,7 @@
                         <td>二面状态</td>
                     @endif
                     <td>入职状态</td>
+                    <td style="display:none;">测试老师</td>
                     <td style="width:220px;display:none" >客户端版本</td>
                     <td >操作</td>
                 </tr>
@@ -300,6 +308,7 @@
                                 未设置
                             @endif
                         </td>
+                        <td>{{@$var["is_test_user_str"]}} </td>
                         <td>{{@$var["user_agent"]}} </td>
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >

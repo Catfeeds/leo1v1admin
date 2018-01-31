@@ -25,6 +25,7 @@ $(function(){
             second_train_status        : $('#id_second_train_status').val(),
             teacher_pass_type          : $('#id_teacher_pass_type').val(),
             gender                     : $('#id_gender').val(),
+            is_test_user               : $('#id_is_test_user').val(),
         });
     }
 
@@ -68,6 +69,7 @@ $(function(){
     Enum_map.append_option_list("boolean", $('#id_full_time'));
     Enum_map.append_option_list("fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
     Enum_map.append_option_list("gender", $('#id_gender'));
+    Enum_map.append_option_list("boolean", $('#id_is_test_user'));
     if(g_args.interview_type==-1){
         Enum_map.append_option_list("check_status", $('#id_status'));
     }else if(g_args.interview_type==0){
@@ -99,6 +101,7 @@ $(function(){
     $('#id_second_train_status').val(g_args.second_train_status);
     $('#id_teacher_pass_type').val(g_args.teacher_pass_type);
     $('#id_gender').val(g_args.gender);
+    $('#id_is_test_user').val(g_args.is_test_user);
 
     $.enum_multi_select($("#id_teacher_ref_type"),"teacher_ref_type", function( ){
         load_data();
