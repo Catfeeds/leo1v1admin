@@ -12,8 +12,8 @@ interface self_Args {
 	called_flag:	string;//枚举列表: \App\Enums\Eboolean
  	check_hold_flag:	string;//枚举列表: \App\Enums\Eboolean
  	seller_student_assign_from_type:	string;//枚举列表: \App\Enums\Eseller_student_assign_from_type
- 	same_admin_flag:	number;//枚举: \App\Enums\Eboolean
-
+ 	same_admin_flag:	string;//枚举列表: \App\Enums\Eboolean
+ 
 }
 interface self_RowData {
 	id	:any;
@@ -159,10 +159,11 @@ export default class extends vtable {
 
 	$.admin_enum_select({
 		'join_header'  : $header_query_info,
-		"enum_type"    : "boolean",
-		"field_name" : "same_admin_flag",
+"enum_type"    : "boolean",
+"field_name" : "same_admin_flag",
 "title" : "same_admin_flag",
-		"multi_select_flag"     : false ,
+"select_value" : this.get_args().same_admin_flag,
+		"multi_select_flag"     : true,
 		"btn_id_config"     : {},
 	});
 
