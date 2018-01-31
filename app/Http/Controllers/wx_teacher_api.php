@@ -1599,7 +1599,7 @@ class wx_teacher_api extends Controller
         $start=strtotime("2018-01-01");
         $lesson_flag = $this->t_lesson_info_b3->get_tea_lesson_total($start,time(),$teacherid);
         $tea_info = $this->t_teacher_info->field_get_list($teacherid,"*");
-        if(@$check_flag["stu_num"]>0 && $tea_info["teacher_money_type"]==6){
+        if(@$lesson_flag["stu_num"]>0 && $tea_info["teacher_money_type"]==6){
             $show_flag=1;//是否显示晋升数据一级规则 1,显示
             $score = @$info["total_score"]/100;
             $level = @$info["level_before"]?@$info["level_before"]:$tea_info["level"];
