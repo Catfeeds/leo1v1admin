@@ -3359,4 +3359,98 @@ class teacher_info extends Controller
         return $is_test_user;
     }
 
+
+    public function get_leo_train(){
+
+        $tea_info = $this->get_rule_range();
+        $type_list = [9]; //
+        $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
+        $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
+        $flag    = 0;
+        $tea_gra = [];
+        $tea_sub = [];
+        foreach($tea_info as $item){
+            $tea_sub[] = intval($item['subject']);
+            if($item['subject'] == $subject){
+                $flag = 1;
+                $tea_gra = $item['grade'];
+                $grade = $this->get_in_int_val('grade', @$tea_gra[0]);
+            }
+        }
+        if($flag == 0){
+            $subject = @$tea_info[0]['subject'];
+            $tea_gra = @$tea_info[0]['grade'];
+        }
+        $grade = $this->get_in_int_val('grade', @$tea_gra[0]);
+
+        $tag_one       = $this->get_in_int_val('tag_one', -1);
+        $tag_two       = $this->get_in_int_val('tag_two', -1);
+        $tag_three     = $this->get_in_int_val('tag_three', -1);
+        $tag_four      = $this->get_in_int_val('tag_four', -1);
+        $tag_five      = $this->get_in_int_val('tag_five', -1);
+        // $file_title    = $this->get_in_str_val('file_title', '');
+        $page_info     = $this->get_in_page_info();
+
+         //禁用，删除，老师段则不在显示
+        $ret_info = $this->t_resource->get_all_for_tea_train(
+            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$page_info
+        );
+
+        //dd($ret_info);
+
+        $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
+        $r_mark = 0;
+        $index  = 1;
+
+         foreach($ret_info['list'] as &$item){
+            if($r_mark == $item['resource_id']){
+                $index++;
+            } else {
+                $r_mark = $item['resource_id'];
+                $index = 1;
+            }
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            // \App\Helper\Utils::get_file_use_type_str($item, $index);
+            \App\Helper\Utils::get_file_use_type_str($item);
+            $item['file_size'] = round( $item['file_size'] / 1024,2) . 'M';
+            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
+            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
+            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
+            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
+            E\Egrade::set_item_field_list($item, [
+                "subject",
+                "grade",
+                "resource_type",
+                "use_type",
+                $tag_arr['tag_one']['menu'] => 'tag_one',
+                $tag_arr['tag_two']['menu'] => 'tag_two',
+                $tag_arr['tag_three']['menu'] => 'tag_three',
+                $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
+            ]);
+        }
+        $book_arr = [];
+        if($resource_type != 6){
+            //获取所有开放的教材版本
+            $book = $this->t_resource_agree_info->get_all_resource_type($resource_type,$subject,$grade);
+            $book_arr = [];
+            foreach($book as $v) {
+                if( $v['tag_one'] != 0 ){
+                    array_push($book_arr, intval($v['tag_one']) );
+                }
+            }
+        }
+        //dd($tag_arr);
+        return $this->pageView( __METHOD__,$ret_info,[
+            'tag_info'  => $tag_arr,
+            'tea_sub'   => json_encode( $tea_sub),
+            'tea_gra'   => json_encode($tea_gra),
+            'book'      => json_encode($book_arr),
+            'type_list' => json_encode($type_list),
+            'resource_type'  => $resource_type
+        ]);
+    }
+
 }

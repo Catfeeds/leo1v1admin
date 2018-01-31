@@ -430,10 +430,13 @@ class resource extends Controller
 
     public function resource_count(){
         list($start_time,$end_time) = $this->get_in_date_range(-30, 0 );
-        $ret_info = $this->t_resource->get_count($start_time, $end_time);
+        $subject = $this->get_in_int_val("subject", -1);
+        $grade = $this->get_in_int_val("grade", -1);
+        $resource_type = $this->get_in_int_val("resource_type", -1);
+        $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type);
 
         $list = [];
-
+        $total = [];
         foreach($ret_info as &$item){
             $visit = ($item['visit_num'] > 0)?1:0;
             $error = ($item['error_num'] > 0)?1:0;
@@ -446,6 +449,7 @@ class resource extends Controller
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
         }
+
         $final_list = [];
         // dd($list);
         foreach($list as $s=>$item){
@@ -482,10 +486,25 @@ class resource extends Controller
                     ];
                     $flag++;
                     $mark++;
+
+                    @$total['file_num'] += $v["file_num"];
+                    @$total["visit_num"] += $v["visit_num"];
+                    @$total["error_num"] += $v["error_num"];
+                    @$total["use_num"] += $v["use_num"];
+                    @$total["visit"] += $v["visit"];
+                    @$total["error"] += $v["error"];
+                    @$total["use"] += $v["use"];
                 }
             }
         }
-        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list));
+        if ($total) {
+            @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
+            @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
+            @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
+        }
+        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
+            "total" => $total,
+        ]);
     }
 
     public function resource_frame_new(){
