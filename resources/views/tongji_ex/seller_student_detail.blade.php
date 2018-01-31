@@ -41,7 +41,7 @@
                     <tr>
                         <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
-                        <td>{{@$var["origin_level_str"]}} </td>
+                        <td>{{@$var["origin_level_str"]}}/{{@$var["key0"]}} </td>
                         <td>{!! @$var["seller_student_status_str"] !!}</td>
                         <td>{{@$var["global_tq_called_flag_str"]}} </td>
                         <td>{{@$var["cc_nick"]}} </td>

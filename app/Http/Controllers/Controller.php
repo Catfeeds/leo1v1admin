@@ -43,14 +43,15 @@ class Controller extends ControllerEx
             return null;
         }
         $burl = $_SERVER["REQUEST_URI"];
-        $pattern = '/require[0-9]*/';
+        $pattern = '/^\/require[0-9]*/';
         preg_match($pattern, $burl, $matches);
         $url = explode("/", $burl);
         if (isset($url[1]) && isset($matches[0]) && $url[1] != 'requirement') {
             // 检测权限
             $acc = $this->get_account_id();
             $info = $this->t_manager_info->field_get_list($acc, "phone,account_role");
-            if ($info != E\Eaccount_role::V_12) {
+            if (intval($info["account_role"]) !== E\Eaccount_role::V_12) {
+
                 $own_power = $this->t_company_wx_approval_data->get_id_for_page_url($burl);
                 $power = "";
                 if ($own_power) {
@@ -66,7 +67,6 @@ class Controller extends ControllerEx
                     exit("您无权限操作此页面");
                 }
             } else {
-                exit("您无权限操作此页面");
             }
             
         }
@@ -245,7 +245,8 @@ class Controller extends ControllerEx
                 \App\Helper\Utils::logger("GOTO: " .$_SERVER["REQUEST_URI"] );
 
                 if ($this->get_in_str_val("callback"))  {
-                    echo $this->output_err( 1005 );
+                    $resp= $this->output_err( 1005 );
+                    $resp->send();
                     exit;
 
                 }else{

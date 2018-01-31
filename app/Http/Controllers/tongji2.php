@@ -2033,17 +2033,25 @@ class tongji2 extends Controller
         $adminid=$this->get_in_adminid(-1);
         $userid=$this->get_in_userid(-1);
         $called_flag= $this->get_in_el_boolean(-1, "called_flag");
+        $check_hold_flag= $this->get_in_el_boolean(-1, "check_hold_flag");
         $seller_student_assign_from_type=$this->get_in_el_seller_student_assign_from_type();
-        $ret_info=$this->t_seller_student_system_assign_log->get_list($page_info, $order_by_str ,$start_time, $end_time, $adminid,$userid, $called_flag ,$seller_student_assign_from_type );
+
+        $same_admin_flag = $this->get_in_el_boolean(-1, "same_admin_flag");
+        $same_admin_flag =  $same_admin_flag[0];
+
+        $ret_info=$this->t_seller_student_system_assign_log->get_list($page_info, $order_by_str ,$start_time, $end_time, $adminid,$userid, $called_flag ,$seller_student_assign_from_type ,$check_hold_flag ,$same_admin_flag);
 
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "logtime");
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             $this->cache_set_item_account_nick($item);
+            $this->cache_set_item_account_nick($item,"admin_revisiterid", "admin_revisiter_nick");
             $this->cache_set_item_student_nick($item);
             $item["call_time"]= \App\Helper\Common::get_time_format( $item["call_time"] );
             E\Eboolean::set_item_value_color_str($item, "called_flag");
             E\Eseller_student_assign_from_type::set_item_value_str($item);
             E\Eboolean::set_item_value_color_str($item, "check_hold_flag");
+            E\Eorigin_level:: set_item_value_str($item );
         }
 
         return $this->pageView(__METHOD__, $ret_info);

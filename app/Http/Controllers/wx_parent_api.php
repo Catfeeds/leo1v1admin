@@ -103,7 +103,7 @@ class wx_parent_api extends Controller
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_teacher_nick($item);
             $item["lesson_time"]=\App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
-            if ( $item["ass_comment_audit"]) {
+            if ( $item["ass_comment_audit"] || $item['tea_rate_time']>0) {
                 $item["teacher_report_url"]="http://www.api.leo1v1.com/show_teacher_comment.html?lessonid=$lessonid&userid=$userid";
             }else{
                 $item["teacher_report_url"]="";

@@ -951,6 +951,12 @@ class user_deal extends Controller
             $sys_operator=$this->t_order_info->get_sys_operator($orderid);
             $this->t_student_info->noti_ass_order($userid,$sys_operator,false);
             $this->t_seller_student_new->field_update_list($userid, ['orderid'=>$orderid]);
+
+            $order_time = $this->t_order_info->field_get_value($orderid, 'order_time');
+            $origin = $this->t_seller_student_origin->get_last_origin($userid,$order_time);
+            if($origin != ''){
+                $this->t_seller_student_origin->field_update_list_2($userid, $origin, ['last_orderid'=>$orderid]);
+            }
         }
 
         return $this->output_succ();

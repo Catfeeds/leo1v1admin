@@ -2685,11 +2685,7 @@ trait TeaPower {
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
             //各类渠道合作的平台总代理，助理不发伯乐奖
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                if(\App\Helper\Utils::check_env_is_release()){
-                    $this->add_reference_price($reference_info['teacherid'],$teacherid);
-                }else{
-                    $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid,false);
-                }
+                $this->add_reference_price($reference_info['teacherid'],$teacherid);
             }
 
         }
@@ -4706,7 +4702,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 "type"                  => E\Ereward_type::V_6,
                 "recommended_teacherid" => $recommended_teacherid,
             ]);
-
             //微信推送
             if($notice_flag && $teacher_info['wx_openid']!=""){
                 $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";

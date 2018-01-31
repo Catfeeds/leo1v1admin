@@ -464,6 +464,9 @@ class lesson extends TeaWxController
             ]);
 
             $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $now);
+            $this->t_lesson_info_b2->field_update_list($lessonid, [
+                "ass_comment_audit" => 3 # 默认通过
+            ]);
             /**
                 Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
                 {{first.DATA}}

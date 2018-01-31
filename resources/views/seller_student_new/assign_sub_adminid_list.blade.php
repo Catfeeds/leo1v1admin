@@ -309,6 +309,10 @@
                     <button class="btn" id="id_tmk_unallot" data-value="{{$unallot_info["tmk_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_all_uncall_count" data-value="{{@$unallot_info["all_uncall_count"]*1}}" > </button>
                     <button class="btn" id="id_by_hand_all_uncall_count" data-value="{{@$unallot_info["by_hand_all_uncall_count"]*1}}" > </button>
+                    @if($env_is_test == 1)
+                        <button class="btn btn-primary" id='seller_student_system_assign'>系统分配</button>
+                        <button class="btn btn-primary" id='seller_student_system_free'>系统释放</button>
+                    @endif
                 </div>
                 @if($button_show_flag==0)
                     <button  class="btn btn-primary" id="id_master_set_select_to_cc_list">主管分配给组员</button>

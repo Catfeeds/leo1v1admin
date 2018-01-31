@@ -15,8 +15,9 @@ interface JQueryStatic {
   do_select_menu(obj):void;
 
   get_table_key (fix):string ;
-    do_ajax( url:string,data: Object ,succ_call_back?: (result :any )=>void, jsonp_flag? ):void;
-    do_ajax_t( url:string,data: Object ,succ_call_back?: (result :any )=>void   ):void;
+  show_user_return_back_list(userid, phone ):void;
+  do_ajax( url:string,data: Object ,succ_call_back?: (result :any )=>void, jsonp_flag? ):void;
+  do_ajax_t( url:string,data: Object ,succ_call_back?: (result :any )=>void   ):void;
   wopen( url:string,open_self_window?:boolean ,vue_domain_flag?:boolean ):void;
     reload_self_page( args:Object, url? ):void;
     filed_init_date_range(date_type,  opt_date_type, start_time,  end_time):void;

@@ -54,6 +54,15 @@ class ss_deal extends Controller
             );
         }
 
+        //例子自动分配测试环境用
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            \App\Helper\Utils::logger("添加到自动抢单测试1"); 
+            $uid=$this->get_in_adminid();
+            $posterTag = 0;
+            $job = new \App\Jobs\new_seller_student($userid,$uid,$posterTag,$phone,$origin,$subject);
+            $job->handle();
+        }
+
         $this->t_user_log->add_data("新增例子");
         return $this->output_succ();
     }
@@ -5843,6 +5852,17 @@ class ss_deal extends Controller
         $phone=$this->get_in_str_val("phone","");
         $ytx_phone=session("ytx_phone");
 
+        if(\App\Helper\Utils::check_env_is_test()){
+            $userid = $this->get_in_userid();
+            $admind = $this->get_in_adminid();
+            //判断该例子是否还是当前cc的[已自动释放]
+            $current_adminid = $this->t_seller_student_new->field_get_value($userid, 'admin_revisiterid');
+            if($current_adminid != $adminid)
+                return $this->output_err("当前用户销售已修改,请刷新页面!");
+            //测试环境模拟拨打产生记录
+        }
+
+
         $admin_info=$this->t_manager_info->field_get_list(  $this->get_account_id(),"*");
         if ($admin_info["call_phone_type"]==E\Ecall_phone_type::V_TL)  {//天润
             //?enterpriseId=&cno=&pwd=&customerNumber=&userField=
@@ -6486,11 +6506,20 @@ class ss_deal extends Controller
         $phone= $this->get_in_phone();
         $userid= $this->get_in_userid(0);
         $tq_called_flag=$this->get_in_int_val("tq_called_flag") ;
+        $adminid = $this->get_in_adminid();
 
 
         if (!$phone) {
             return $this->output_err("当前用户不存在");
         }
+
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            //判断该例子是否还是当前cc的[已自动释放]
+            $current_adminid = $this->t_seller_student_new->field_get_value($userid, 'admin_revisiterid');
+            if($current_adminid != $adminid)
+                return $this->output_err("当前用户销售已修改,请刷新页面!");
+        }
+
         $cmd= new \App\Console\Commands\sync_tq();
         $count=$cmd->load_data($start_date,$end_date,$phone);
         $reload_flag=false;
