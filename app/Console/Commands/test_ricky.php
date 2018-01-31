@@ -44,9 +44,11 @@ class test_ricky extends Command
         // 试听课标准化讲义使用次数 科目、年级、文件名、教研员、浏览次数、使用次数
         $info = $task->t_resource->get_list_for_subject();
         foreach($info as $item) {
-            echo $item["file_title"].",".$item["subject"].",".$item["grade"];
+            echo $item["file_title"].",";
+            echo E\Esubject::get_desc($item["subject"]).",";
+            echo E\Egrade::get_desc($item["grade"]).",";
             echo $task->cache_get_account_nick($item["adminid"]).",";
-            echo $item["visit_num"].",".$item["use_num"];
+            echo $item["visit_num"].",".$item["use_num"].PHP_EOL;
         }
         exit;
 
