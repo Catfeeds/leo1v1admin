@@ -3679,9 +3679,10 @@ class user_manage_new extends Controller
         $type       = $this->get_in_int_val("type",-1);
         $lessonid   = $this->get_in_int_val("lessonid",-1);
         $has_lesson = $this->get_in_int_val("has_lesson",-1);
+        $page_num = $this->get_in_page_num();
 
         $list = $this->t_teacher_money_list->get_teacher_trial_reward_list(
-            $start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
+            $page_num,$start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
         );
 
         foreach($list as &$val){

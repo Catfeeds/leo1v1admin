@@ -113,7 +113,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
     }
 
-    public function get_teacher_trial_reward_list($start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson=-1){
+    public function get_teacher_trial_reward_list($page_num,$start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson=-1){
 		$has_sql = "true";
         if($lessonid==-1){
             $where_arr = [
@@ -154,7 +154,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ,$where_arr
                                   ,$has_sql
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page,10);
     }
 
     public function add_teacher_rewrad_money($type,$teacherid,$money,$money_info){
