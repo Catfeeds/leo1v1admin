@@ -97,8 +97,7 @@
                     <td>修改日期</td>
                     <td>文件格式</td>
                     <td>文件大小</td>
-                    <td>使用次数</td>
-                    <td>收藏状态</td>
+                    <td>查看次数</td>
                     <td> 操作 </td>
                 </tr>
             </thead>
@@ -118,13 +117,6 @@
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_size"]}}</td>
                         <td>{{@$var["use_num"]}} </td>
-                        <td>
-                            @if(@$var['tea_res_id'] == 0)
-                                <a class="collect opt-get btn color-red" data-file_id="{{@$var['file_id']}}">未收藏</a>
-                            @else
-                                <a class="collect btn color-blue" data-id="{{@$var['tea_res_id']}}" data-file_id="{{@$var['file_id']}}">已收藏</a>
-                            @endif
-                        </td>
                         <td>
                             <a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览</a>
 

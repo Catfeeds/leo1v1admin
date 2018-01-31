@@ -2141,6 +2141,7 @@ class human_resource extends Controller
         $second_train_status        = $this->get_in_int_val("second_train_status", -1);
         $teacher_pass_type          = $this->get_in_int_val("teacher_pass_type", -1);
         $gender                     = $this->get_in_int_val("gender", -1);
+        $is_test_user               = $this->get_in_int_val("is_test_user", 0);
 
         if($show_full_time ==1){
             $interview_type = $this->get_in_int_val("interview_type",-1);
@@ -2166,7 +2167,7 @@ class human_resource extends Controller
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
             $lecture_revisit_type_new,$fulltime_teacher_type,$accept_adminid,
-            $second_train_status,$teacher_pass_type,$opt_date_str,$gender
+            $second_train_status,$teacher_pass_type,$opt_date_str,$gender,$is_test_user
         );
         foreach($ret_info["list"] as &$item){
             $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);
@@ -2187,6 +2188,7 @@ class human_resource extends Controller
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
             E\Egender::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"is_test_user");
 
             if(($item['status']=="-2" && empty($item["lesson_start"])) || ($item['add_time'] <= 0 && $item['status'] <= 0 && $item['trial_train_status'] == -2)){
                 $item['status_str'] = "无试讲";

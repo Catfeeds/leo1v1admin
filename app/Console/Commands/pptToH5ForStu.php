@@ -3,16 +3,15 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use OSS\OssClient;
 
-class pdfConversionH5 extends Command
+class pptToH5ForStu extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:pdfConversionH5';
+    protected $signature = 'command:pptToH5ForStu';
 
     /**
      * The console command description.
@@ -36,7 +35,9 @@ class pdfConversionH5 extends Command
      *
      * @return mixed
      */
-    public function handle()
+
+
+        public function handle()
     {
         /**
          * @ 从七牛下载->上传未达->从未达下载->上传到七牛
@@ -48,102 +49,90 @@ class pdfConversionH5 extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-        $handoutArray = $this->getNeedTranLessonUid();
+        $handoutArray = $this->getNeedTranLessonUidForStu();
 
         foreach($handoutArray as $item){
-            if($item['uuid_stu']){
-                $this->deal_change($item,2); # 学生讲义
-            }
-            if($item['uuid']){
-                $this->deal_change($item,1); # 教师讲义
-            }
-
-
-
-        }
-    }
-
-    public function deal_change($item,$is_tea){
-        if($is_tea == 1){
             $uuid = $item['uuid'];
-        }else{
-            $uuid = $item['uuid_stu'];
+            # 从未达下载
+            $h5DownloadUrl  = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
+            $saveH5FilePath = public_path('ppt').'/'.$uuid.".zip";
+            $unzipFilePath  =  public_path('ppt'); // 解压后的文件夹
+
+            $data=@file_get_contents($h5DownloadUrl);
+            file_put_contents($saveH5FilePath, $data);
+
+            # 文件解压
+            $unzipShell = "unzip $saveH5FilePath -d $unzipFilePath ";
+            shell_exec($unzipShell);
+
+            # 获取index.html中实际引用的文件
+            $indexFilePath = public_path('ppt')."/".$uuid."/index.html";
+            $doneFilePath  = $indexFilePath;
+            $link_arr = $this->dealHtml($indexFilePath, $doneFilePath);
+
+            # 将需要的文件复制到文件夹中
+            foreach($link_arr['css'] as $css_item){
+                $csPathFrom = public_path('pptfiles')."/".$css_item;
+                $csPathTo   = public_path('ppt')."/".$uuid."/".$css_item;
+                $cpCs = "cp $csPathFrom $csPathTo ";
+                shell_exec($cpCs);
+            }
+
+            foreach($link_arr['js'] as $js_item){
+                $jsPathFrom = public_path('pptfiles')."/".$js_item;
+                $jsPathTo   = public_path('ppt')."/".$uuid."/".$js_item;
+                $cpJs = "cp $jsPathFrom $jsPathTo ";
+                shell_exec($cpJs);
+            }
+
+            foreach($link_arr['img'] as $img_item){
+                $imgPathFrom = public_path('pptfiles')."/".$img_item;
+                $imgPathTo   = public_path('ppt')."/".$uuid."/".$img_item;
+                $cpImg = "cp $imgPathFrom $imgPathTo ";
+                shell_exec($cpImg);
+            }
+
+            $fntPathFrom = public_path('ppt')."/".$uuid."/data/fnt0.woff";
+            $fntPathTo   = public_path('ppt')."/".$uuid."/fnt0.woff";
+            $cpFnt = "cp $fntPathFrom $fntPathTo ";
+            shell_exec($cpFnt);
+
+
+            # 重新打包压缩
+            $work_path= public_path('ppt');
+            $del_zip = $work_path."/".$uuid.".zip";
+            $zip_new_resource = public_path('ppt')."/".$uuid."_leo123.zip";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo123.zip * ";
+            \App\Helper\Utils::exec_cmd($zipCmd);
+
+            # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/[public 域名]
+            # http://7tszue.com2.z0.glb.qiniucdn.com [private 域名]
+            $qiniu     = \App\Helper\Config::get_config("qiniu");
+            // $bucket    = $qiniu['public']['bucket']; //[public]
+            // $bucket    = $qiniu['private_url']['bucket']; // [private_url]
+            $accessKey = $qiniu['access_key'];
+            $secretKey = $qiniu['secret_key'];
+            # 构建鉴权对象
+            $auth = new \Qiniu\Auth ($accessKey, $secretKey);
+
+            # 压缩包上传七牛
+            if(file_exists($zip_new_resource)){
+                // $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);//[public]
+                $saveH5Upload =  \App\Helper\Utils::qiniu_upload_private($zip_new_resource);
+                $this->deldir($work_path."/".$uuid);
+                $rmZipCmd = "rm $del_zip"; // 删除解压包
+                $rmResourceCmd = "rm $zip_new_resource";
+                shell_exec($rmZipCmd);
+                shell_exec($rmResourceCmd);
+
+                # 在42服务器端执行此段程序
+                $this->updateTranResult($item['lessonid'],$saveH5Upload);
+            }
         }
-        # 从未达下载
-        $h5DownloadUrl  = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
-        $saveH5FilePath = public_path('ppt').'/'.$uuid.".zip";
-        $unzipFilePath  =  public_path('ppt'); // 解压后的文件夹
-
-        $data=@file_get_contents($h5DownloadUrl);
-        file_put_contents($saveH5FilePath, $data);
-
-        # 文件解压
-        $unzipShell = "unzip $saveH5FilePath -d $unzipFilePath ";
-        shell_exec($unzipShell);
-
-        # 获取index.html中实际引用的文件
-        $indexFilePath = public_path('ppt')."/".$uuid."/index.html";
-        $doneFilePath  = $indexFilePath;
-        $link_arr = $this->dealHtml($indexFilePath, $doneFilePath);
-
-        # 将需要的文件复制到文件夹中
-        foreach($link_arr['css'] as $css_item){
-            $csPathFrom = public_path('pptfiles')."/".$css_item;
-            $csPathTo   = public_path('ppt')."/".$uuid."/".$css_item;
-            $cpCs = "cp $csPathFrom $csPathTo ";
-            shell_exec($cpCs);
-        }
-
-        foreach($link_arr['js'] as $js_item){
-            $jsPathFrom = public_path('pptfiles')."/".$js_item;
-            $jsPathTo   = public_path('ppt')."/".$uuid."/".$js_item;
-            $cpJs = "cp $jsPathFrom $jsPathTo ";
-            shell_exec($cpJs);
-        }
-
-        foreach($link_arr['img'] as $img_item){
-            $imgPathFrom = public_path('pptfiles')."/".$img_item;
-            $imgPathTo   = public_path('ppt')."/".$uuid."/".$img_item;
-            $cpImg = "cp $imgPathFrom $imgPathTo ";
-            shell_exec($cpImg);
-        }
-
-        $fntPathFrom = public_path('ppt')."/".$uuid."/data/fnt0.woff";
-        $fntPathTo   = public_path('ppt')."/".$uuid."/fnt0.woff";
-        $cpFnt = "cp $fntPathFrom $fntPathTo ";
-        shell_exec($cpFnt);
-
-
-        # 重新打包压缩
-        $work_path= public_path('ppt');
-        $del_zip = $work_path."/".$uuid.".zip";
-        $zip_new_resource = public_path('ppt')."/".$uuid."_leo123.zip";
-        $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo".mt_rand(1,100).".zip * ";
-        \App\Helper\Utils::exec_cmd($zipCmd);
-
-        $qiniu     = \App\Helper\Config::get_config("qiniu");
-        $accessKey = $qiniu['access_key'];
-        $secretKey = $qiniu['secret_key'];
-        # 构建鉴权对象
-        $auth = new \Qiniu\Auth ($accessKey, $secretKey);
-
-        # 压缩包上传七牛
-        if(file_exists($zip_new_resource)){
-            $saveH5Upload =  \App\Helper\Utils::qiniu_upload_private($zip_new_resource);
-            $this->deldir($work_path."/".$uuid);
-            $rmZipCmd = "rm $del_zip"; // 删除解压包
-            $rmResourceCmd = "rm $zip_new_resource";
-            shell_exec($rmZipCmd);
-            shell_exec($rmResourceCmd);
-
-            # 在42服务器端执行此段程序
-            $this->updateTranResult($item['lessonid'],$saveH5Upload);
-        }
-
     }
 
     public function updateTranResult($lessonid,$saveH5Upload){
-        $url = "http://admin.leo1v1.com/common_new/updateTranResult";
+        $url = "http://admin.leo1v1.com/common_new/updateTranResultForStu";
         $post_data = array(
             "lessonid" => $lessonid,
             "zip_url"  => $saveH5Upload
@@ -159,7 +148,7 @@ class pdfConversionH5 extends Command
     }
 
     public function getNeedTranLessonUid(){
-        $url = "http://admin.leo1v1.com/common_new/getNeedTranLessonUid";
+        $url = "http://admin.leo1v1.com/common_new/getNeedTranLessonUidForStu";
         $post_data = [];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
@@ -329,4 +318,44 @@ class pdfConversionH5 extends Command
             return false;
         }
     }
+
+    // $handler = opendir($unzipFilePath."/".$uuid);
+    // while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
+    //     if ($filename != "." && $filename != "..") {
+    //         $files[] = $filename ;
+    //     }
+    // }
+    // @closedir($handler);
+
+
+    // foreach ($files as $key) {
+    //     // 上传到七牛后保存的文件名
+    //     $upkey = $h5Path."/".$uuid."/".$key;
+
+    //     // 生成上传 Token
+    //     $token = $auth->uploadToken($bucket,$upkey);
+    //     $Upfile = $unzipFilePath."/".$uuid."/".$key;
+
+    //     // 初始化 UploadManager 对象并进行文件的上传。
+    //     $uploadMgr = new \Qiniu\Storage\UploadManager();
+
+    //     // 调用 UploadManager 的 putFile 方法进行文件的上传。
+    //     $checkIsExists = file_exists($Upfile);
+    //     if($checkIsExists){
+    //         list($ret, $err) = @$uploadMgr->putFile($token, $upkey, $Upfile);
+    //         $test_data .= $ret["key"]." ";
+    //         if($key == 'index.html'){
+    //             \App\Helper\Utils::logger("upkey_qiniu: $upkey");
+    //             $task->t_resource_file->field_update_list($item['file_id'],[
+    //                 "wx_index" => "https://ybprodpub.leo1v1.com/".$upkey
+    //             ]);
+
+    //         }
+    //     }
+    // }
+
+
+
+
 }
+

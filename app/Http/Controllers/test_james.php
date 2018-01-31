@@ -397,12 +397,11 @@ class test_james extends Controller
            3、位置：统计>个性海报转发记录
          **/
         Schema::dropIfExists('t_personality_poster');
-        Schema::create('db_tool.t_personality_poster', function(Blueprint $table) {
-            t_comment($table,"市场部个性海报");
-            t_field($table->increments("id"), "");
-            t_field($table->integer("uid"), "分享人id");
-            t_field($table->integer("clickNum"), "家长点击次数");
-            t_field($table->integer("stuNum"), "学生数量");
+        Schema::table('db_weiyi.t_lesson_info', function(Blueprint $table) {
+            t_field($table->string("uuid_stu"), "学生PPT讲义的uuid");
+            t_field($table->string("zip_url_stu"), "学生讲义压缩包链接");
+            t_field($table->tinyInteger("ppt_status_stu"), "学生ppt转化状态 0:未处理 1:已成功 2:失败");
+            $table->index('uuid_stu', 'uuid_stu_ppt');
         });
 
         Schema::dropIfExists('t_poster_share_log');

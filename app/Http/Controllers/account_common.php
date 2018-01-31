@@ -15,6 +15,7 @@ use Qiniu\Storage\BucketManager;
 
 //引入分词类
 use Analysis\PhpAnalysis;
+use Gregwar\Captcha\CaptchaBuilder;
 
 require_once  app_path("Libs/Pingpp/init.php");
 
@@ -451,7 +452,68 @@ class account_common extends Controller
 
     //图片验证码
     public function get_pic_verify_code_info(){
-        
+        $phone = $this->get_in_str_val("phone");
+        $role = $this->get_in_int_val("role");      
+
+        if($role==0){
+            return $this->output_err("角色值不能为空!");
+        }
+
+        $check_phone =  \App\Helper\Utils::check_phone($phone);
+        if(!$check_phone){
+            return $this->output_err("手机号码不合法!");
+        }
+
+        // //验证用户是否存在
+        // $exist = $this->t_phone_to_user->get_userid($phone,$role);
+        // if($exist){
+        //     return $this->output_err("用户已存在");
+        // }
+
+
+
+        $key = $phone."-".$role."pic_verify_code";        
+               
+
+        $builder = new CaptchaBuilder;
+        //可以设置图片宽高及字体
+        $builder->build($width = 200, $height = 80, $font = null);
+        //获取验证码的内容
+        $phrase = $builder->getPhrase();
+        session([
+            $key  =>  $phrase,
+        ]);
+
+        // echo $phrase;
+        // dd($phrase);
+        //把内容存入session
+        //  Session::flash('milkcaptcha', $phrase);
+        //生成图片
+        header("Cache-Control: no-cache, must-revalidate");
+        header('Content-Type: image/jpeg');
+        $cc = $builder->inline(); 
+        //  dd($cc);
+        // $builder->output();
+        // dd($cc);
+        //  echo $phrase."<br>";
+        // echo $cc;
+        return $this->output_succ(["pic_verify_code_url"=>$cc]);
+ 
+    }
+
+    //发送验证码前校验图片验证码,回调验证
+    public function send_time_code_for_pic(){
+        $phone = $this->get_in_str_val("phone");
+        $role = $this->get_in_int_val("role");
+        $pic_verify_code = $this->get_in_str_val("pic_verify_code");
+        $key = $phone."-".$role."pic_verify_code";
+        $pic_verify_code_admin = session($key);
+        if( $pic_verify_code !=  $pic_verify_code_admin){
+            return $this->output_err("图片验证码输入错误");
+        }
+
+        return $this->send_time_code();
+
     }
    
    
