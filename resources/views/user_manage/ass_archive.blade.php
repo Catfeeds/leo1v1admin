@@ -159,7 +159,9 @@
                             <a class="fa-calendar opt-lesson " title="排课"></a>
                             <a class="fa-gavel opt-modify " title="设置密码"></a>
                             <a class="fa-headphones opt-test-room" title="设置试听"></a>
-                            <a title="试听排课new" class="fa-chevron-up opt-edit-new_new_two"></a>
+                            @if(in_array($acc, ['tom','jim']))
+                                <a title="试听排课new" class="fa-chevron-up opt-edit-new_new_two"></a>
+                            @endif
                             @if($master_adminid >0)
                                 <a class="fa-deviantart opt-change-type-new" title="设置学员类型"></a>
                             @endif

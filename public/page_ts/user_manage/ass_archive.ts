@@ -12,6 +12,22 @@ function load_data(){
     warning_stu:	$('#id_warning_stu').val()
     });
 }
+function add_subject_score(obj){
+    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'>科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 2.0%'><div class='input-group' style='width:90px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 3% 0 -0.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 2% 0 -1.5%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+    var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']").last();
+    var id_grade = $(obj).parent().parent().parent().parent().parent().parent().parent().find('#id_stu_grade_new_two').val();
+    if(id_grade==101 || id_grade==102 || id_grade==103 || id_grade==104 || id_grade==105 || id_grade==106){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
+    }else if(id_grade==201 || id_grade==202 || id_grade==203){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
+    }else if(id_grade==301 || id_grade==302 || id_grade==303){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
+    }
+}
+function del_subject_score(obj){
+    $(obj).parent().parent().remove();
+}
+function add0(m){return m<10?'0'+m:m }
 
 $(function(){
     Enum_map.td_show_desc("grade", $(".td-grade"));
@@ -2104,7 +2120,6 @@ $(function(){
             id_editionid.val(data.editionid);
             id_next_revisit_time.val(data.next_revisit_time);
             html_node.find("#id_class_rank_new_two").val(data.class_rank);
-            // html_node.find("#id_class_num_new_two").val(data.class_num);
             html_node.find("#id_grade_rank_new_two").val(data.grade_rank);
             html_node.find("#id_recent_results_new_two").val(data.recent_results);
             html_node.find("#id_advice_flag_new_two").val(data.advice_flag);
