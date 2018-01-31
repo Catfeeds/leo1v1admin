@@ -36,7 +36,6 @@ $(function(){
                 text: '课次取消率'
             },
             xAxis: {
-                // categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
                 categories: dateArr
             },
             yAxis: {
@@ -48,14 +47,14 @@ $(function(){
                 line: {
                     dataLabels: {
                         enabled: true,// 开启数据标签
-                        format : '{y:.4f}%'
+                        format : '{y:.2f}%'
                     },
                     enableMouseTracking: true // 关闭鼠标跟踪，对应的提示框、点击事件会失效
                 }
             },
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{point.key}</span><br>',
-                pointFormat: '<span >取消率</span>: <b>{point.y:.4f}%</b><br/>'
+                pointFormat: '<span >取消率</span>: <b>{point.y:.2f}%</b><br/>'
             },
 
             series: [{
