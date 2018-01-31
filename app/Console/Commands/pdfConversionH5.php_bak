@@ -3,15 +3,16 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use OSS\OssClient;
 
-class pptToH5ForStu extends Command
+class pdfConversionH5 extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:pptToH5ForStu';
+    protected $signature = 'command:pdfConversionH5';
 
     /**
      * The console command description.
@@ -35,9 +36,7 @@ class pptToH5ForStu extends Command
      *
      * @return mixed
      */
-
-
-        public function handle()
+    public function handle()
     {
         /**
          * @ 从七牛下载->上传未达->从未达下载->上传到七牛
@@ -49,7 +48,7 @@ class pptToH5ForStu extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-        $handoutArray = $this->getNeedTranLessonUidForStu();
+        $handoutArray = $this->getNeedTranLessonUid();
 
         foreach($handoutArray as $item){
             $uuid = $item['uuid'];
@@ -102,14 +101,10 @@ class pptToH5ForStu extends Command
             $work_path= public_path('ppt');
             $del_zip = $work_path."/".$uuid.".zip";
             $zip_new_resource = public_path('ppt')."/".$uuid."_leo123.zip";
-            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo123.zip * ";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo".mt_rand(1,100).".zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
 
-            # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/[public 域名]
-            # http://7tszue.com2.z0.glb.qiniucdn.com [private 域名]
             $qiniu     = \App\Helper\Config::get_config("qiniu");
-            // $bucket    = $qiniu['public']['bucket']; //[public]
-            // $bucket    = $qiniu['private_url']['bucket']; // [private_url]
             $accessKey = $qiniu['access_key'];
             $secretKey = $qiniu['secret_key'];
             # 构建鉴权对象
@@ -117,7 +112,6 @@ class pptToH5ForStu extends Command
 
             # 压缩包上传七牛
             if(file_exists($zip_new_resource)){
-                // $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);//[public]
                 $saveH5Upload =  \App\Helper\Utils::qiniu_upload_private($zip_new_resource);
                 $this->deldir($work_path."/".$uuid);
                 $rmZipCmd = "rm $del_zip"; // 删除解压包
@@ -132,7 +126,7 @@ class pptToH5ForStu extends Command
     }
 
     public function updateTranResult($lessonid,$saveH5Upload){
-        $url = "http://admin.leo1v1.com/common_new/updateTranResultForStu";
+        $url = "http://admin.leo1v1.com/common_new/updateTranResult";
         $post_data = array(
             "lessonid" => $lessonid,
             "zip_url"  => $saveH5Upload
@@ -148,7 +142,7 @@ class pptToH5ForStu extends Command
     }
 
     public function getNeedTranLessonUid(){
-        $url = "http://admin.leo1v1.com/common_new/getNeedTranLessonUidForStu";
+        $url = "http://admin.leo1v1.com/common_new/getNeedTranLessonUid";
         $post_data = [];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
@@ -318,44 +312,4 @@ class pptToH5ForStu extends Command
             return false;
         }
     }
-
-    // $handler = opendir($unzipFilePath."/".$uuid);
-    // while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
-    //     if ($filename != "." && $filename != "..") {
-    //         $files[] = $filename ;
-    //     }
-    // }
-    // @closedir($handler);
-
-
-    // foreach ($files as $key) {
-    //     // 上传到七牛后保存的文件名
-    //     $upkey = $h5Path."/".$uuid."/".$key;
-
-    //     // 生成上传 Token
-    //     $token = $auth->uploadToken($bucket,$upkey);
-    //     $Upfile = $unzipFilePath."/".$uuid."/".$key;
-
-    //     // 初始化 UploadManager 对象并进行文件的上传。
-    //     $uploadMgr = new \Qiniu\Storage\UploadManager();
-
-    //     // 调用 UploadManager 的 putFile 方法进行文件的上传。
-    //     $checkIsExists = file_exists($Upfile);
-    //     if($checkIsExists){
-    //         list($ret, $err) = @$uploadMgr->putFile($token, $upkey, $Upfile);
-    //         $test_data .= $ret["key"]." ";
-    //         if($key == 'index.html'){
-    //             \App\Helper\Utils::logger("upkey_qiniu: $upkey");
-    //             $task->t_resource_file->field_update_list($item['file_id'],[
-    //                 "wx_index" => "https://ybprodpub.leo1v1.com/".$upkey
-    //             ]);
-
-    //         }
-    //     }
-    // }
-
-
-
-
 }
-
