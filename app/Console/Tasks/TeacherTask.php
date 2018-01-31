@@ -480,12 +480,12 @@ class TeacherTask extends TaskController
                 );
             }
 
-            $url = 'http://wx-teacher-web.leo1v1.com/wage_details.html';
+            // $url = 'http://wx-teacher-web.leo1v1.com/wage_details.html';
+            $url = "http://wx-teacher.leo1v1.com/wx_teacher_web/gotoWage";
             $val['info'] = "老师您好，本次课程已结束，您本次课的基本工资为".$lesson_base."元，如有疑问请及时到老师帮【个人中心】-【我的收入】中添加申诉说明或点击'详情'申诉。本月课程申诉通道将于下月5号24:00关闭，给您带来不便,敬请谅解。";
 
             $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
             if($openid){
-                // $this->teacher_wx_data("oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",$val,$type,$url);// 测试 james
                 $this->teacher_wx_data($openid,$val,$type,$url);
                 $wx_tea_price_flag=1;
             }else{
