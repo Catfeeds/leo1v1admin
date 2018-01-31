@@ -44,8 +44,8 @@
      .error .error_button{ width: 100px;height: 100px;font-size: 60px;border: 1px dashed #b1b1b1;}
      .error_pic_change{ padding-top: 10px; position: relative; height: 30px;width: 100px;}
      .error_pic_change a{ position: absolute;z-index: 9999; }
-     .error_pic_change a.first{ left: 5px;}
-     .error_pic_change a.last{ right: 5px;}
+     .error_pic_change a:first-child{ left: 5px;}
+     .error_pic_change a:last-child{ right: 5px;}
     </style>
     <section class="content li-section">
         <div>
