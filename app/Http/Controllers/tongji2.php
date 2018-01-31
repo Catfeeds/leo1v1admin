@@ -2040,6 +2040,7 @@ class tongji2 extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "logtime");
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             $this->cache_set_item_account_nick($item);
+            $this->cache_set_item_account_nick($item,"admin_revisiterid", "admin_revisiter_nick");
             $this->cache_set_item_student_nick($item);
             $item["call_time"]= \App\Helper\Common::get_time_format( $item["call_time"] );
             E\Eboolean::set_item_value_color_str($item, "called_flag");

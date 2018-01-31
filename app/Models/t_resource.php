@@ -370,11 +370,12 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             "r.subject in (1,2,3)" // 科目要求：语文、数学、英语
         ];
 
-        $sql = $this->gen_sql_new("select f.file_title,r.subject,r.grade,r.adminid,sum(f.visit_num) visit_num,sum(f.use_num) use_num from %s r left join %s f on r.resource_id=f.resource_id where %s group by f.file_title ",
+        $sql = $this->gen_sql_new("select f.file_title,r.subject,r.grade,r.adminid,sum(f.visit_num) visit_num,sum(f.use_num) use_num from %s r left join %s f on r.resource_id=f.resource_id where %s group by f.file_title order by r.adminid",
                                   self::DB_TABLE_NAME,
                                   t_resource_file::DB_TABLE_NAME,
                                   $where_arr
         );
+        
         return $this->main_get_list($sql);
     }
 }
