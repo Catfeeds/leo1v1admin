@@ -1032,7 +1032,7 @@ class wx_parent_gift extends Controller
                 # 检查人数 当人数超过 97 时 通知管理员活动页已切换 [罗艳] orwGAs9rPeoW665kCsrQD_rswjv4
                 $add_num = $imgUrlInfo['add_num'];
                 $noticeIndex = $add_num%97;
-                if($noticeIndex == 0){
+                if($noticeIndex == 0 && $add_num>0 ){
                     $data= [
                         "first"     => "市场推广活动 关注页切换通知 活动ID:".$id,
                         "keyword1"  => "活动标题:".$imgUrlInfo['title'],
