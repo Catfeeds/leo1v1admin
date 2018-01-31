@@ -27,6 +27,13 @@ class o extends Controller
         $machine_id=$info["machine_id"];
         $last_post_time = $info["last_post_time"];
         $now= time(NULL);
+        $adminid= $this->get_account_id();
+
+        $check_value= $this->t_kaoqin_machine_adminid->field_get_list_2($machine_id, $adminid,"adminid");
+        if (!$check_value) {
+            return $this->error_view([ "你没有权限开此门 :<"]);
+        }
+
 
         $info["last_post_time"] = \App\Helper\Utils::unixtime2date( $info["last_post_time"]);
         /*
