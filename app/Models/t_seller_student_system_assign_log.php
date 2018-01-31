@@ -96,13 +96,15 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
 
         $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
         $sql=$this->gen_sql_new(
-            "select g.*, n.phone  "
+            "select g.*, n.phone, s.origin_level,  s.origin, n.add_time  "
             ." from  %s g "
             ." join  %s n on n.userid=g.userid "
+            ." join  %s s on s.userid=g.userid "
             ." where  %s "
             . " $order_by_str ",
             self::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             $where_arr);
 
         return $this->main_get_list_by_page($sql,$page_info);
