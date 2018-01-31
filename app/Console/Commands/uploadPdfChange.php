@@ -72,24 +72,27 @@ class uploadPdfChange extends Command
         if($is_tea == 1){
             $pdf_file_path = $this->gen_download_url($item['file_link']);
             $ppt_key = $item['file_link'];
+            $title = $item['file_title']."_tea";
         }else{
             $pdf_file_path = $this->gen_download_url($item['stu_cw_url']);
             $ppt_key = $item['stu_cw_url'];
+            $title = $item['file_title']."_stu";
         }
+
 
         $savePathFile = public_path('wximg').'/'.$ppt_key;
         \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
         @chmod($savePathFile, 0777);
 
         //上传未达
-        $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=0&aut=leoedu&fn=".$item['file_title'].".pptx'";
+        $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=0&aut=leoedu&fn=".$title.".pptx'";
         $uuid_tmp = shell_exec($cmd);
         $uuid_arr = explode(':', $uuid_tmp);
         $uuid = @$uuid_arr[1];
         @unlink($savePathFile);
 
         # 42服务器端更新uuid
-        $this->updateLessonUUid($item['lessonid'],$uuid);
+        $this->updateLessonUUid($item['lessonid'],$uuid,$is_tea);
     }
 
     public function getTeaUploadPPTLink(){
@@ -106,11 +109,12 @@ class uploadPdfChange extends Command
         return $ret_arr['data'];
     }
 
-    public function updateLessonUUid($lessonid,$uuid){
+    public function updateLessonUUid($lessonid,$uuid,$is_tea){
         $url = "http://admin.leo1v1.com/common_new/updateLessonUUid";
         $post_data = [
             "lessonid" => $lessonid,
-            "uuid"     => $uuid
+            "uuid"     => $uuid,
+            "is_tea"   => $is_tea
         ];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
