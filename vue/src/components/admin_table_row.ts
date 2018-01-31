@@ -27,6 +27,9 @@ import { timingSafeEqual } from 'crypto';
 
   },
   computed : {
+    multi_select : function () {
+      return this.$parent.$props.multi_select;
+    }
   },
   mounted : function(){
   },

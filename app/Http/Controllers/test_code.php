@@ -437,5 +437,46 @@ class test_code extends Controller
         return $this->output_succ();
     }
 
+    public function set_lesson_end(){
+        $lesson_list = $this->t_lesson_info->get_need_set_lesson_end_list();
+        $now         = time();
+        foreach ($lesson_list as $item) {
+            $teacherid   = $item["teacherid"];
+            $userid      = $item["userid"];
+            $lessonid    = $item["lessonid"];
+            $courseid    = $item["courseid"];
+            $lesson_type = $item["lesson_type"];
+            $lesson_num  = $item["lesson_num"];
+            $lesson_end  = $item["lesson_end"];
+            if ($lesson_end < $now-1800) {
+                echo $lessonid;
+                echo "<br>";
+                $this->t_lesson_info->field_update_list($lessonid,[
+                    "lesson_status" => E\Elesson_status::V_END
+                ]);
+            }
+        }
+    }
+
+
+    public function add_feedback_info(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        if($lessonid==0){
+            return $this->output_err("lessonid 错误");
+        }
+
+        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+        $this->t_teacher_feedback_list->row_insert([
+            "lessonid"      => $lessonid,
+            "teacherid"     => $lesson_info['teacherid'],
+            "feedback_type" => E\Efeedback_type::V_102,
+            "lesson_count"  => $lesson_info['lesson_count'],
+            "tea_lesson"    => "90分钟补偿",
+            "add_time"      => time(),
+        ]);
+        echo "succ";
+    }
+
+
 
 }

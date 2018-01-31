@@ -14,5 +14,7 @@ message in  {
 message out {
   int32  id = 1 ;
   string  regChannel = 2 ; //渠道
+  string  wxOpenid = 3 ; //wx_openid
+
 }
 

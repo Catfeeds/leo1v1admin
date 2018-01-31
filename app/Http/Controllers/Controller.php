@@ -35,6 +35,41 @@ class Controller extends ControllerEx
             $this->set_call_ctl_init();
         }
         $this->setUpTraits();
+        //$this->check_approval_require(); // 检测数据页面权限 (仅申请人与研发部可见)
+    }
+
+    public function check_approval_require() {
+        if (!isset($_SERVER["REQUEST_URI"])) { // 处理执行 migrate 报错
+            return null;
+        }
+        $burl = $_SERVER["REQUEST_URI"];
+        $pattern = '/^\/require[0-9]*/';
+        preg_match($pattern, $burl, $matches);
+        $url = explode("/", $burl);
+        if (isset($url[1]) && isset($matches[0]) && $url[1] != 'requirement') {
+            // 检测权限
+            $acc = $this->get_account_id();
+            $info = $this->t_manager_info->field_get_list($acc, "phone,account_role");
+            if (intval($info["account_role"]) !== E\Eaccount_role::V_12) {
+
+                $own_power = $this->t_company_wx_approval_data->get_id_for_page_url($burl);
+                $power = "";
+                if ($own_power) {
+                    foreach($own_power as $item) {
+                        $power[] = $item["user_id"];
+                    }
+                    $phone = $info["phone"];
+                    $userid = $this->t_company_wx_users->get_userid_for_adminid($phone);
+                    if (!in_array($userid, $power)) {
+                        exit("您无权限操作此页面");
+                    }
+                } else {
+                    exit("您无权限操作此页面");
+                }
+            } else {
+            }
+
+        }
     }
 
 
@@ -210,7 +245,8 @@ class Controller extends ControllerEx
                 \App\Helper\Utils::logger("GOTO: " .$_SERVER["REQUEST_URI"] );
 
                 if ($this->get_in_str_val("callback"))  {
-                    echo $this->output_err( 1005 );
+                    $resp= $this->output_err( 1005 );
+                    $resp->send();
                     exit;
 
                 }else{

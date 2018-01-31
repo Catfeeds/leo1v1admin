@@ -948,4 +948,36 @@ $(function(){
     if(g_account=="wenbin"){
         window["download_show"]();
     }
+
+    //@desn:测试用模拟系统分配
+    $('#seller_student_system_assign').on('click',function(){
+        BootstrapDialog.confirm(
+            '20秒后系统分配完成'+"<span style='color:red;'>点击确定开始分配</span>",
+            function(val){
+                if (val) {
+                    $.do_ajax("/seller_student_new/system_assign",{
+                    });
+
+                }
+            }
+        );
+
+    })
+
+    //@desn:测试用模拟系统释放
+    $('#seller_student_system_free').on('click',function(){
+        BootstrapDialog.confirm(
+            '20秒后系统释放完成'+"<span style='color:red;'>点击确定开始释放</span>",
+            function(val){
+                if (val) {
+                    $.do_ajax("/seller_student_new/system_free",{
+                    });
+
+                }
+            }
+        );
+
+    })
+
+
 });

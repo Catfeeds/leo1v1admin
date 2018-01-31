@@ -55,7 +55,6 @@ class resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
-            $item['file_size'] = round( $item['file_size'] / 1024,2);
 
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
@@ -63,6 +62,7 @@ class resource extends Controller
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
             $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             // dd($item);
+            $item['file_size_str'] = $item['file_size'] > 1024 ? round( $item['file_size'] / 1024,2)."M" : $item['file_size']."kb";
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",
@@ -145,7 +145,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180128241439,
+            '_publish_version'    => 20180129151439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -221,7 +221,7 @@ class resource extends Controller
         }
         //dd($ret_info['list'] );
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801271349,
+            '_publish_version'    => 201801291349,
             'book'          => json_encode($book_arr),
             'resource_type' => $resource_type
         ]);
@@ -430,10 +430,13 @@ class resource extends Controller
 
     public function resource_count(){
         list($start_time,$end_time) = $this->get_in_date_range(-30, 0 );
-        $ret_info = $this->t_resource->get_count($start_time, $end_time);
+        $subject = $this->get_in_int_val("subject", -1);
+        $grade = $this->get_in_int_val("grade", -1);
+        $resource_type = $this->get_in_int_val("resource_type", -1);
+        $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type);
 
         $list = [];
-
+        $total = [];
         foreach($ret_info as &$item){
             $visit = ($item['visit_num'] > 0)?1:0;
             $error = ($item['error_num'] > 0)?1:0;
@@ -446,6 +449,7 @@ class resource extends Controller
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
         }
+
         $final_list = [];
         // dd($list);
         foreach($list as $s=>$item){
@@ -482,10 +486,25 @@ class resource extends Controller
                     ];
                     $flag++;
                     $mark++;
+
+                    @$total['file_num'] += $v["file_num"];
+                    @$total["visit_num"] += $v["visit_num"];
+                    @$total["error_num"] += $v["error_num"];
+                    @$total["use_num"] += $v["use_num"];
+                    @$total["visit"] += $v["visit"];
+                    @$total["error"] += $v["error"];
+                    @$total["use"] += $v["use"];
                 }
             }
         }
-        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list));
+        if ($total) {
+            @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
+            @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
+            @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
+        }
+        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
+            "total" => $total,
+        ]);
     }
 
     public function resource_frame_new(){
@@ -1066,6 +1085,60 @@ class resource extends Controller
         }
     }
 
+    public function add_multi_file() {
+        $multi_data = $this->get_in_str_val('multi_data');
+        if( $multi_data && is_array($multi_data)){
+            foreach( $multi_data as $data){
+                $ex_num        = 0;
+                //处理文件名
+                $file_title = $data['file_title'];
+                $dot_pos = strrpos($file_title,'.');
+                $file_title = substr($file_title,0,$dot_pos);
+                //处理文件类型
+                $file_type = trim( strrchr($data['file_type'], '/'), '/' );
+                $resource_id = $data['resource_id'];
+                $file_use_type = $data['file_use_type'];
+                $file_size = round( $data['file_size']/1024, 2);
+                if ($file_use_type == 3){
+                    if($is_reupload == 0){
+                        $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
+                        $ex_num     = @$ex_num_max+1;
+                    } else {
+                        if($ex_num == 0) {
+                            //上传额外文件区间，不属于重新上传
+                            $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
+                            $ex_num     = @$ex_num_max+1;
+                        }
+                    }
+                }
+                $insert_data = [
+                    'resource_id'   => $resource_id,
+                    'file_title'    => $file_title,
+                    'file_type'     => $file_type,
+                    'file_size'     => $file_size,
+                    'file_hash'     => $data['file_hash'],
+                    'file_link'     => $data['file_link'],
+                    'file_use_type' => $file_use_type,
+                    'ex_num'        => $ex_num,
+
+                ];
+                $this->t_resource_file->row_insert($insert_data);
+                $file_id = $this->t_resource_file->get_last_insertid();
+                $adminid = $this->get_account_id();
+                $this->t_resource_file_visit_info->row_insert([
+                    'file_id'     => $file_id,
+                    'visit_type'  => 9,
+                    'create_time' => time(),
+                    'visitor_id'  => $adminid,
+                    'ip'          => $_SERVER["REMOTE_ADDR"],
+                ]);                
+
+            }
+        }
+        return $this->output_succ();
+        \App\Helper\Utils::logger("多文件: ".json_encode($multi_data));
+    }
+
     public function rename_resource() {
         $file_title  = $this->get_in_str_val('file_title');
         $file_id     = $this->get_in_int_val('file_id');
@@ -1144,6 +1217,7 @@ class resource extends Controller
                     $this->t_resource_file->update_file_status($id, 0);
                 } else if ($type == 6){//彻底删除
                     $this->t_resource->field_update_list($id, ['is_del' => 2]);
+                    $this->t_resource_file->update_file_status($id, 2);
                 }
 
             }
@@ -1179,7 +1253,7 @@ class resource extends Controller
     public function get_del() {
 
         $use_type      = $this->get_in_int_val('use_type', 1);
-        $resource_type = $this->get_in_int_val('resource_type', 1);
+        $resource_type = $this->get_in_int_val('resource_type',1);
         $subject       = $this->get_in_int_val('subject', -1);
         $grade         = $this->get_in_int_val('grade', -1);
         $tag_one       = $this->get_in_int_val('tag_one', -1);
@@ -1188,10 +1262,12 @@ class resource extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $tag_five      = $this->get_in_int_val('tag_five', -1);
         $file_title    = $this->get_in_str_val('file_title', '');
+        $is_del        = $this->get_in_int_val('is_del', 1);
+        $status        = $this->get_in_int_val('status', 1);
         $page_info     = $this->get_in_page_info();
 
         $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,1
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,$is_del,$status
         );
         $r_mark = 0;
         $index  = 1;
@@ -1244,6 +1320,176 @@ class resource extends Controller
         return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
     }
 
+    //查询被彻底删除的文件
+    public function get_total_del() {
+
+        $use_type      = $this->get_in_int_val('use_type', -1);
+        $resource_type = $this->get_in_int_val('resource_type',-1);
+        $subject       = $this->get_in_int_val('subject', -1);
+        $grade         = $this->get_in_int_val('grade', -1);
+        $file_title    = $this->get_in_str_val('file_title', '');
+        $is_del        = $this->get_in_int_val('is_del', -1);
+        $status        = $this->get_in_int_val('status', 2);
+        $page_info     = $this->get_in_page_info();
+
+        $ret_info = $this->t_resource->get_total_del(
+            $use_type ,$resource_type, $subject, $grade,$file_title, $page_info,$is_del,$status
+        );
+        $r_mark = 0;
+        $index  = 1;
+        $tag_arr = \App\Helper\Utils::get_tag_arr( $resource_type );
+
+        // dd($ret_info);
+        $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
+        foreach($ret_info['list'] as &$item){
+            if($r_mark == $item['resource_id']){
+                $index++;
+            } else {
+                $r_mark = $item['resource_id'];
+                $index = 1;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::get_file_use_type_str($item, $index);
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
+            $item['file_size'] = round( $item['file_size'] / 1024,2);
+
+            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
+            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
+            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
+            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
+            // dd($item);
+            E\Egrade::set_item_field_list($item, [
+                "subject",
+                "grade",
+                "resource_type",
+                "use_type",
+                $tag_arr['tag_one']['menu'] => 'tag_one',
+                $tag_arr['tag_two']['menu'] => 'tag_two',
+                $tag_arr['tag_three']['menu'] => 'tag_three',
+                $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
+            ]);
+            $item['tag_one_str'] = E\Eregion_version::get_desc($item['tag_one']);
+
+            if( $item['resource_type'] == 1 ){
+                $item['tag_five_str'] = E\Eresource_diff_level::get_desc($item['tag_five']);
+            }else{
+                $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
+            }
+            if($item['resource_type'] == 3 ) {
+                $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
+            }
+
+        }
+
+        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
+    }
+
+    public function batch_del_resource(){
+        $res_id_str  = $this->get_in_str_val('res_id_str','');
+        $file_id_str = $this->get_in_str_val('file_id_str','');
+        $file_link_str = $this->get_in_str_val('file_link_str','');
+        $type   = $this->get_in_str_val('type','');
+
+        $adminid = $this->get_account_id();
+        $time    = time();
+        if($res_id_str != '') {
+            $res_id_arr  = !is_array($res_id_str) ? $this->str_to_arr($res_id_str) : $res_id_str;
+            $file_id_arr = !is_array($file_id_str) ? $this->str_to_arr($file_id_str) : $file_id_str;
+            
+
+            if(!is_array($file_link_str)){
+                $file_link_arr = $this->str_to_arr($file_link_str);
+            }else{
+                $file_link_arr = $file_link_str;
+            }
+
+            $id_str = "";
+            foreach($res_id_arr as $id){
+                if( $id != ''){
+                    $id_str .= $id.',';
+                }
+            }
+
+            //删除文件
+            foreach( $file_link_arr as $file){
+                $file_name = trim($file);
+                $file_name = ltrim($file_name,'"');
+                $file_name = rtrim($file_name,'"');
+
+                $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file_name);
+                if($file_name && $exits){
+                    $return = \App\Helper\Utils::qiniu_teacher_file_del($file_name);
+                }
+            }
+            if($id_str){
+                $id_str = "(".substr($id_str,0,-1).")";
+                //echo $id_str;
+                $this->t_resource->batch_del($id_str);
+                $this->t_resource_file->batch_del($id_str);
+            }
+            // foreach($file_id_arr as $file_id){
+            //     $this->t_resource_file_visit_info->row_insert([
+            //         'file_id'     => $file_id,
+            //         'visit_type'  => $type,
+            //         'create_time' => $time,
+            //         'visitor_id'  => $adminid,
+            //         'ip'          => $_SERVER["REMOTE_ADDR"],
+            //     ]);
+            // }
+            return $this->output_succ();
+        }
+
+    }
+
+    public function batch_del_file(){
+        $file_link_str = $this->get_in_str_val('file_link_str','');
+        if($file_link_str){
+            //删除文件
+            if(!is_array($file_link_str)){
+                $file_link_arr = $this->str_to_arr($file_link_str);
+            }else{
+                $file_link_arr = $file_link_str;
+            }
+            foreach( $file_link_arr as $file){
+                $file_name = trim($file);
+                $file_name = ltrim($file_name,'"');
+                $file_name = rtrim($file_name,'"');
+                //echo $file_name;
+                $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file_name);
+                if( $file_name && $exits){
+                    $result = \App\Helper\Utils::qiniu_teacher_file_del($file_name);
+                }
+            }
+        }     
+        return $this->output_succ();
+    }
+
+    public function total_del_file(){
+        $file_name      = trim($this->get_in_str_val('file_name'));
+        $tea_res_id = $this->get_in_int_val("tea_res_id");
+
+        //预览理优资料
+        $file_link = $this->t_resource_file->get_file_link($tea_res_id);
+        if(!$file_link){
+            return $this->output_err('信息有误，预览失败！');
+        }
+
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+
+        $exits = \App\Helper\Utils::qiniu_teacher_file_stat($file_name);
+
+        if($file_name && $exits){
+            $result = ['status' => 200,'url' => $authUrl ];
+        }else{
+            $result = ['status' => 500,'url' => $authUrl ];
+        }
+        return $this->output_succ($result);
+ 
+    }
     //预览
     public function tea_look_resource() {
         $tea_res_id = $this->get_in_int_val("tea_res_id");

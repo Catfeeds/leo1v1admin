@@ -6,6 +6,11 @@ use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
 use Illuminate\Support\Facades\Input;
+use App\Helper\Utils;
+use Illuminate\Support\Facades\Cookie ;
+use Illuminate\Support\Facades\Redis ;
+use Illuminate\Support\Facades\Session ;
+
 
 
 class wx_parent_gift extends Controller
@@ -994,25 +999,73 @@ class wx_parent_gift extends Controller
             $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //活动页面
         }
 
-        # 原有内容
-        if($imgUrlInfo['followImgUrl']){
-            $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
-        }
+        if(time()<strtotime('2018-1-30') ){
+            # 原有内容
+            if($imgUrlInfo['followImgUrl']){
+                $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
+            }
+        }else{
+            # 为了分散每个微信群的压力,满97人时切换另一个微信群
+            if($imgUrlInfo['followImgUrl']){
+                $img_arr = explode(',',$imgUrlInfo['followImgUrl']);
+                $index   = floor($imgUrlInfo['add_num']/97);
+                $imgNum  = count($img_arr);
+                // $AdminOpenid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek';//[james]
+                $AdminOpenid = 'orwGAs9rPeoW665kCsrQD_rswjv4';//[罗艳]
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU"; //[待办事项]
 
-        # 未上线,待测试
-        # 为了分散每个微信群的压力,满100人时切换另一个微信群
-        // if($imgUrlInfo['followImgUrl']){
-        //     $img_arr = implode($glue, $pieces);
-        //     $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
-        // }
+                if($imgNum<$index+1){
+                    $imgUrlInfo['followImgUrl'] = ""; //关注页面
+                    $data= [
+                        "first"     => "市场推广活动 关注页页面缺失通知 活动ID:".$id,
+                        "keyword1"  => "活动标题:".$imgUrlInfo['title'],
+                        "keyword2"  => '当前活动参与人数:'.$imgUrlInfo['add_num'].'关注页图片数量'.$imgNum.',关注页图片请及时上传!',
+                        "keyword3"  => date("Y-m-d"),
+                    ];
+                    // \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                    // \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
+                    // $imgUrlInfo['followImgUrl'] = '';
+                    $follow_str = $img_arr[0];
+                    $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面
+
+                }else{
+                    $follow_str = $img_arr[$index];
+                    $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面
+                }
+
+                # 检查人数 当人数超过 97 时 通知管理员活动页已切换 [罗艳] orwGAs9rPeoW665kCsrQD_rswjv4
+                $add_num = $imgUrlInfo['add_num'];
+                $noticeIndex = $add_num%97;
+                if($noticeIndex == 0 && $add_num>0 ){
+                    $data= [
+                        "first"     => "市场推广活动 关注页切换通知 活动ID:".$id,
+                        "keyword1"  => "活动标题:".$imgUrlInfo['title'],
+                        "keyword2"  => "当前关注页编号:".($index+1).'即将切换至下一页',
+                        "keyword3"  => date("Y-m-d"),
+                    ];
+                    // \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                    // \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
+                }
+            }
+        }
 
         return $this->output_succ(['data'=>$imgUrlInfo]);
     }
 
     # 记录添加人的数量
     public function recordAddNum(){
-        $id = $this->get_in_int_val('id');
-        $this->t_activity_usually->updateAddNum($id);
+        $id = $this->get_in_int_val('type');
+        $id = $id-100;
+        $openid = $this->get_in_str_val('openid');
+        $key = $id.'_'.$openid.'_market';
+        $checkData = \App\Helper\Common::redis_get($key);
+        \App\Helper\Common::redis_expire($key,86400);
+
+        if($checkData != 1){
+            \App\Helper\Common::redis_set($key,1);
+            $this->t_activity_usually->updateAddNum($id);
+        }
+
         return $this->output_succ();
     }
 

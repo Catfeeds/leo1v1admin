@@ -1144,12 +1144,12 @@ $(function(){
     });
 
     $(".opt-confirm-test").on("click",function(){
-        var opt_data=$(this).get_opt_data();
+        var opt_data = $(this).get_opt_data();
 
         var $fail_greater_4_hour_flag = $("<select> <option value=0>否</option> <option value=1>是</option>  </select>") ;
         var $success_flag = $("<select><option value=0>未设置</option><option value=1>成功</option><option value=2>失败</option></select>") ;
-        var $test_lesson_fail_flag=$("<select></select>") ;
-        var $fail_reason=$("<textarea></textarea>") ;
+        var $test_lesson_fail_flag = $("<select></select>") ;
+        var $fail_reason = $("<textarea></textarea>") ;
         Enum_map.append_option_list("test_lesson_fail_flag", $test_lesson_fail_flag, true );
         $success_flag.val(opt_data.success_flag );
         $fail_reason.val(opt_data.fail_reason);

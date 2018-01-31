@@ -120,13 +120,16 @@
                     </div>
                 </div>
                 @if(in_array($acc,["zoe","adrian","ivy","jim","abby","夏宏东"]))
-                    <div class="col-xs-6 col-md-2">
+                    <div class="col-xs-1 col-md-1">
                         <button class="btn btn-primary" id="id_add_other_teacher">新增招师代理</button>
                     </div>
                 @endif
-                @if(in_array($acc,["jack","jim"]))
-                    <div class="col-md-1 col-xs-6 "  >
-                        <button class="btn btn-warning" id="id_set_jw_subject">设置教务学科权限</button>
+                @if(in_array($acc,["jack","jim","江敏","ted"]))
+                    <div class="col-md-6 col-xs-4 "  >
+                        @if(in_array($acc,["jack","jim"]))
+                            <button class="btn btn-warning" id="id_set_jw_subject">设置教务学科权限</button>
+                        @endif
+                        <button class="btn btn-danger" id="id_add_teacher_callcard">新增老师名片</button>
                     </div>
                 @endif
 
@@ -232,9 +235,15 @@
                                     <a class="opt-old ">旧版</a>
                                 @endif
                                 @if($var["label_id"]==0)
-                                    <a class="opt-set-teacher-label" title="设置标签<">设置标签</a>
+                                    <a class="opt-set-teacher-label div_show" title="设置标签<">设置标签</a>
                                 @elseif($var["label_id"]>0)
-                                    <a class="opt-set-teacher-label" title="修改标签<">修改标签</a>
+                                    <a class="opt-set-teacher-label div_show" title="修改标签<">修改标签</a>
+                                @endif
+                                @if($elite_flag==1)
+                                    @if(in_array($acc,["jack","jim","江敏","ted"]))
+                                        <a class="opt-upload-teacher-call-crad" title="上传名片">上传名片</a>
+                                    @endif
+                                    <a class="opt-show-teacher-call-crad" title="老师名片">老师名片</a>
                                 @endif
 
                             </div>

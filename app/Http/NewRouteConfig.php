@@ -629,6 +629,7 @@ class NewRouteConfig {
         "/human_resource/reaearch_teacher_lesson_list"        => true,
         "/human_resource/reaearch_teacher_lesson_list_fulltime"      => true,
         "/human_resource/reaearch_teacher_lesson_list_research"      => true,
+        "/human_resource/get_elite_teacher_list"      => true,
 
 
 
@@ -731,6 +732,12 @@ class NewRouteConfig {
         "/resource/get_next_tag"                         =>true,
         "/resource/add_or_del_or_edit_new"               =>true,
         "/resource/get_resource_type"                    =>true,
+        "/resource/add_multi_file"                       =>true,
+        "/resource/get_total_del"                        =>true,
+        "/resource/batch_del_resource"                   =>true,
+        "/resource/batch_del_file"                       =>true,
+        "/test_bacon/change_resource"                    =>true,
+        "/resource/total_del_file"                       =>true,
         "/test_bacon/modify_res_agree_info"              =>true,
         "/test_bacon/luru_tag"                           =>true,
         "/test_bacon/modify_resource"                    =>true,

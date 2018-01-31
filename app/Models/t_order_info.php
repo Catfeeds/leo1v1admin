@@ -5029,5 +5029,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
     }
+
+    public function get_last_orderid($userid,$start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'userid', $userid);
+        $this->where_arr_add_int_field($where_arr, 'contract_type', E\Econtract_type::V_0);
+        $this->where_arr_add_time_range($where_arr, 'order_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            "select orderid "
+            ."from %s "
+            ."where %s order by order_time desc limit 1 "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 

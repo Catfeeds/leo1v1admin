@@ -261,7 +261,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
         $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1,$advance_list=[],
-        $per_subject=-1
+        $per_subject=-1,$elite_flag=-1
     ){
         $where_arr = array(
             // array( "teacherid=%u", $teacherid, -1 ),
@@ -299,6 +299,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                         ." or t.realname like '%%".$address."%%' or t.phone like '%%".$address."%%' or t.tea_note like '%%".$address."%%' "
                         ." or t.user_agent like '%%".$address."%%' or t.teacher_tags like '%%".$address."%%' "
                         ." or t.teacher_textbook like '%%".$address."%%' or t.teacherid like '%%".$address."%%')"];
+            
+        }
+        if($elite_flag==1){
+            $where_arr[]="t.callcard_url <> ''";
         }
 
 
@@ -4931,6 +4935,32 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array_push($where_arr, 't.identity in (5,6)');
         }else{
             array_push($where_arr, 't.identity in (0,7,8)');
+        }
+        $sql = $this->gen_sql_new("select count(1) "
+                                  ." from %s t "
+                                  ." left join %s ta on t.phone=ta.phone "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    /**
+     * 获取伯乐奖推荐个数
+     */
+    public function get_total_for_teacherid_2018_1_30($start_time, $end_time, $phone, $reference_type) {
+        $where_arr = [
+            ["t.train_through_new_time>=%u", $start_time, 0],
+            ["t.train_through_new_time<%u", $end_time, 0],
+            ["ta.reference='%s'",$phone,'']
+        ];
+
+        if($reference_type == 1){
+            array_push($where_arr, 't.identity in (0,7,8)');
+        }elseif($reference_type==2){
+            array_push($where_arr, 't.identity in (5,6)');
         }
         $sql = $this->gen_sql_new("select count(1) "
                                   ." from %s t "

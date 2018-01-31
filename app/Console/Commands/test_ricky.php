@@ -41,28 +41,51 @@ class test_ricky extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
 
+        // 试听课标准化讲义使用次数 科目、年级、文件名、教研员、浏览次数、使用次数
+        $info = $task->t_resource->get_list_for_subject();
+        foreach($info as $item) {
+            echo $item["file_title"].",";
+            echo E\Esubject::get_desc($item["subject"]).",";
+            echo E\Egrade::get_desc($item["grade"]).",";
+            echo $task->cache_get_account_nick($item["adminid"]).",";
+            echo $item["visit_num"].",".$item["use_num"].PHP_EOL;
+        }
+        exit;
+
         //90分钟 --- 排课时间、课程ID、老师姓名、学生姓名、上课时间、助教姓名、学生合同创建时间（第一份合同）
         // 常规课表
         $info = $task->t_week_regular_course->get_all_info();
+        // 寒假课表
+        //$info = $task->t_winter_week_regular_course->get_all_info();
         foreach($info as $item) {
             $teacherid = $item["teacherid"];
             $userid = $item["userid"];
             $start_time = explode("-", $item["start_time"]);
             $date = $start_time[0];
-            $time = $start_time[1];
-            $count = ($item["end_time"] * 100) - ($time * 100);
+            if ($date <= 3) {
+                $stime = strtotime("2018-1-".(28 + $date)." ".$start_time[1]);
+                $etime = strtotime("2018-1-".(28 + $date)." ".$item["end_time"]);
+            } else {
+                $stime = strtotime("2018-2-".($date - 3)." ".$start_time[1]);
+                $etime = strtotime("2018-2-".($date - 3)." ".$item["end_time"]);
+            }
+
+            $count = floor(($etime-$stime)%86400/60);//($end_time - $stime) * 60 / 100ear
+
             if ($count >= 80 && $count <= 100) {
-                if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$time);
-                else $start_time = strtotime("2018-2-".($date - 3)." ".$time);
-                $lesson = $task->t_week_regular_course->get_info_for_start_time($teacherid, $userid, $start_time);
+                // if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$start_time[1]);
+                // else $start_time = strtotime("2018-2-".($date - 3)." ".$start_time[1]);
+                $lesson = $task->t_week_regular_course->get_info_for_start_time($teacherid, $userid, $stime);
                 if ($lesson) {
+                    echo $item["end_time"]." ".$start_time[1]." $count".",";
                     echo date("Y-m-d H:i:s", $lesson["operate_time"]).",";
                     echo $lesson["lessonid"].",";
                     echo $task->cache_get_teacher_nick($teacherid).",";
                     echo $task->cache_get_student_nick($userid).",";
                     echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
+                    echo ($lesson["lesson_count"] / 100)."课时".",";
                     echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
-                    $order = $task->t_teacher_feedback_list->get_order_list($userid).",";
+                    $order = $task->t_teacher_feedback_list->get_order_list($userid);
                     echo date("Y-m-d H:i:s", $order).PHP_EOL;
                 }
             }

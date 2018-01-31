@@ -311,4 +311,15 @@ class test_bacon extends Controller
         }
         dd($jin_tag);
     }
+
+    public function change_resource(){
+        $data = $this->t_resource_file->get_resource_list();
+        if($data){
+            // foreach($data as $v){
+            //     $this->t_resource_file->field_update_list($v['file_id'],['file_size' => round( $v['file_size'] / 1024,2) ]);
+            // }
+        }
+        dd($data);
+        
+    }
 }

@@ -773,6 +773,9 @@ trait TeaPower {
             }
             $qz_flag     = 0;
             $tea_subject = "";
+            // if($adminid==1444){
+            //     $tea_subject ="(7,8,9,10)";
+            // }
         }
 
         $acc = $this->t_manager_info->get_account($adminid);
@@ -1529,7 +1532,7 @@ trait TeaPower {
             );
         }
 
-        $ret_row2=$this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+        $ret_row2 = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
         if($ret_row2){
             $error_lessonid = $ret_row2["lessonid"];
             return $this->output_err(
@@ -2682,11 +2685,7 @@ trait TeaPower {
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
             //各类渠道合作的平台总代理，助理不发伯乐奖
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                if(\App\Helper\Utils::check_env_is_release()){
-                    $this->add_reference_price($reference_info['teacherid'],$teacherid);
-                }else{
-                    $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid,false);
-                }
+                $this->add_reference_price($reference_info['teacherid'],$teacherid);
             }
 
         }
@@ -4395,6 +4394,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $list[$i]['lesson_reward_small_class'] = $reward_list[E\Ereward_type::V_9]['money'];
             //公开课工资
             $list[$i]['lesson_reward_open_class'] = $reward_list[E\Ereward_type::V_10]['money'];
+            // //晋升扣款
+            // $list[$i]['level_up_fail'] = $reward_list[E\Ereward_type::V_101]['money'];
 
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
@@ -4446,6 +4447,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 +$item['lesson_reward_reference']
                 +$item['lesson_reward_train']
                 +$item['lesson_reward_chunhui']
+                // +$item['level_up_fail']
             );
             $item['lesson_normal']       = strval($item['lesson_normal']);
             $item['lesson_trial']        = strval($item['lesson_trial']);
@@ -4482,16 +4484,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
                 $item['lesson_price'] -= $item['lesson_cost_tax'];
             }
-            // 老师帮 --- 我的收入页 12后显示选项
+            // 老师帮 --- 我的收入页 2017年12月后显示选项
             if ($item['start_time'] < strtotime('2017-12-1')) {
                 $item['list'] = [];
             } else {
                 $item['list'] = [
-                    ['name'=>'90分钟补偿','value'=> $item['lesson_reward_compensate'].''], 
-                    ['name'=>'工资补偿','value'=> $item['lesson_reward_compensate_price'].''],
                     ['name'=>'小班课工资','value'=> $item['lesson_reward_small_class'].''],
                     ['name'=>'微课工资','value'=> $item['lesson_reward_weike'].''],
-                    ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].'']
+                    ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].''],
+                    // ['name'=>'晋升未达标','value'=> $item['level_up_fail'].'']
                 ];
             }
             $item['lesson_reward_chunhui'] = $item['lesson_reward_chunhui'].'';
@@ -4639,8 +4640,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacher_type     = $teacher_info['teacher_type'];
         $teacher_ref_type = $teacher_info['teacher_ref_type'];
         //各类渠道不发伯乐奖,
-        //15333268257 和  李桂荣两位老师11月后不发伯乐奖
-        if(in_array($teacher_type,[E\Eteacher_type::V_31]) || in_array($teacherid,[420745,437138])){
+        //15333268257,420745;李桂荣 437138;青团社 320557;不发伯乐奖
+        if(in_array($teacher_type,[E\Eteacher_type::V_31]) || in_array($teacherid,[420745,437138,320557])){
             return false;
         }elseif(in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22])){
             $notice_flag = false;
@@ -4686,7 +4687,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         if(!$check_is_exists && $check_time_flag){
             //普通渠道
             if($reference_price==0){
-                $reference_num = $this->t_teacher_info->get_total_for_teacherid(
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid_2018_1_30(
                     $start_time,time(),$teacher_info['phone'],$reference_type
                 );
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
@@ -4701,7 +4702,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 "type"                  => E\Ereward_type::V_6,
                 "recommended_teacherid" => $recommended_teacherid,
             ]);
-
             //微信推送
             if($notice_flag && $teacher_info['wx_openid']!=""){
                 $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
@@ -4996,8 +4996,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return '';
     }
 
-    private function get_lesson_cost_info(&$val,&$check_num){
+    /**
+     * 检测课程的扣款项
+     * 每个月换课和迟到均有3此免责机会
+     * 如果有换课类型的扣款，则其他扣款不生效
+     * @param array val 课程信息
+     * @param array check_num 换课和迟到的统计次数
+     */
+    private function get_lesson_cost_info(&$val,&$check_num,$from_type="wx"){
         $lesson_all_cost = 0;
+        $lesson_cost     = 0;
+        $lesson_all_info = "";
         $lesson_info     = "";
         $deduct_type = E\Elesson_deduct::$s2v_map;
         $deduct_info = E\Elesson_deduct::$desc_map;
@@ -5010,30 +5019,50 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
             if($val['lesson_cancel_reason_type']==21){
-                $lesson_all_cost = $teacher_money['lesson_miss_cost']/100;
-                $info            = "上课旷课!";
+                $lesson_cost = $teacher_money['lesson_miss_cost']/100;
+                $lesson_info = "上课旷课!";
             }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
             && $val['lesson_cancel_time_type']==1){
                 if($change_num>=3){
-                    $lesson_all_cost = $teacher_money['lesson_cost']/100;
-                    $lesson_info     = "课前４小时内取消上课！";
+                    $lesson_cost = $teacher_money['lesson_cost']/100;
+                    $lesson_info = "课前４小时内取消上课！";
                 }else{
                     $change_num++;
-                    $lesson_info     = "本月第".$change_num."次换课";
-                    $lesson_all_cost = 0;
+                    $lesson_cost = 0;
+                    $lesson_info = "本月第".$change_num."次换课";
                 }
             }
+            $lesson_all_cost = $lesson_cost;
+            $lesson_all_info = $lesson_info;
+            if($lesson_cost>0 && $from_type=="wx"){
+                $val['list'][] = [
+                    "type"  => 3,
+                    "info"  => $lesson_info,
+                    "money" => $lesson_cost,
+                ];
+            }
         }else{
-            $lesson_cost = $teacher_money['lesson_cost']/100;
             foreach($deduct_type as $key=>$item){
                 if($val['deduct_change_class']==0){
                     if($val[$key]>0){
                         if($key=="deduct_come_late" && $late_num<3){
                             $late_num++;
+                            $lesson_cost = 0;
+                            $lesson_info = "本月第".$late_num."次迟到";
                         }else{
+                            $lesson_cost      = $teacher_money['lesson_cost']/100;
                             $lesson_all_cost += $lesson_cost;
-                            $lesson_info.=$deduct_info[$item]."/";
+                            $lesson_info      = $deduct_info[$item];
                         }
+                        if($from_type=="wx"){
+                            $val['list'][] = [
+                                "type"  => 3,
+                                "info"  => $lesson_info,
+                                "money" => $lesson_cost,
+                            ];
+                        }
+
+                        $lesson_all_info .= $lesson_info."/";
                     }
                 }
             }

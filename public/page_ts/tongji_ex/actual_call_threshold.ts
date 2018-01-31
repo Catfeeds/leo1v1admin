@@ -8,7 +8,9 @@ function load_data(){
         date_type        : $('#id_date_type').val(),
         opt_date_type    : $('#id_opt_date_type').val(),
         start_time       : $('#id_start_time').val(),
-        end_time         : $('#id_end_time').val()
+        end_time         : $('#id_end_time').val(),
+        adminid          : $('#id_admin_revisiterid').val(),
+        called_flag      : $('#id_called_flag').val(),
     });
 }
 $(function(){
@@ -22,6 +24,23 @@ $(function(){
             load_data();
         }
     });
+    Enum_map.append_option_list("boolean",$("#id_called_flag"));
+    $('#id_called_flag').val(g_args.called_flag);
+    $('#id_admin_revisiterid').val(g_args.adminid);
+    $.admin_select_user(
+        $('#id_admin_revisiterid'),
+        "admin", load_data ,false, {
+            " main_type": 2,
+            select_btn_config: [
+                {
+                "label": "[已分配]",
+                "value": -2
+            }, {
+                "label": "[未分配]",
+                "value": 0
+            }]
+        }
+    );
 
     $('.opt-change').set_input_change_event(load_data);
     var online_count_list=[];

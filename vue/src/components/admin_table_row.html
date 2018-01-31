@@ -2,6 +2,11 @@
   <td class="remove-for-not-xs" style="display: none;">
     <a class="  fa  fa-cog   " style="font-size:25px" href="javascript:;" @click="show_as_list($event )" > </a>
   </td>
+
+  <td v-if="multi_select" style="width:20px"  >
+          <input type="checkbox" class="multi-select-item"  v-bind:data-index="index" v-bind:checked="false" />
+  </td>
+
   <slot > </slot>
   <td class="remove-for-xs"  >
     <div>

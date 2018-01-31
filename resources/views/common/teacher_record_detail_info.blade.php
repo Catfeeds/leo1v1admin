@@ -70,7 +70,7 @@
                     互动情况
                 </td>
                 <td>
-                    @if($ret_info["tea_concentration_score"] < 5)
+                    @if(@$ret_info["tea_concentration_score"] < 5)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_concentration_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 

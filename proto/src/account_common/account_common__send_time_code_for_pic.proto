@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+//__CMD: 100x00010
+//__DESC: 发送验证码前校验图片验证码,回调验证 http://api.account.leo1v1.com/account_common/send_time_code_for_pic
+//__TAGS: for app
+
+
+message in  {
+  string phone =1;//手机
+  int32 role =2;//角色    1 学生,2 老师,3 助教,4 家长,6 销售
+string pic_verify_code=3;//图片验证码值
+
+}
+
+message out { 
+  
+}

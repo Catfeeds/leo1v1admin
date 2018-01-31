@@ -7,6 +7,9 @@ function load_data(){
         date_type_config:	$('#id_date_type_config').val(),
         date_type:	$('#id_date_type').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
+        grade:      $('#id_grade').val(),
+        subject:    $('#id_subject').val(),
+        resource_type: $('#id_resource_type').val(),
         start_time:	$('#id_start_time').val(),
         end_time:	$('#id_end_time').val()
     });
@@ -23,6 +26,13 @@ $(function(){
             load_data();
         }
     });
+
+    Enum_map.append_option_list("subject",$("#id_subject"));
+    Enum_map.append_option_list("grade",$("#id_grade"));
+    Enum_map.append_option_list("resource_type",$("#id_resource_type"));
+    $('#id_subject').val(g_args.subject);
+    $("#id_grade").val(g_args.grade);
+    $("#id_resource_type").val(g_args.resource_type);
 
     $('.mark').each(function(i){
         if($(this).data('mark') != 1){

@@ -35,7 +35,7 @@ $(function(){
     Enum_map.append_option_list("grade",$("#id_grade"));
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("seller_student_status",$("#id_test_lesson_student_status"),false,
-                                [110,120,200,210,220] );
+                                [110,120,200,210,220]);
     Enum_map.append_option_list("seller_require_change_flag",$("#id_seller_require_change_flag"),false,[1,2,3]);
     Enum_map.append_option_list("account_role",$("#id_require_admin_type"));
     Enum_map.append_option_list("set_boolean",$("#id_success_flag"));
@@ -138,154 +138,156 @@ $(function(){
     });
 
     $(".opt-set-lesson-new ").on("click",function(){
-        var opt_data = $(this).get_opt_data();
-        if(opt_data.jw_test_lesson_status == 2){
-            alert("请先解除挂载!");
-            return;
-        }
+        BootstrapDialog.alert("请使用新版排课功能!");
+        return false;
+        //  var opt_data = $(this).get_opt_data();
+       //  if(opt_data.jw_test_lesson_status == 2){
+       //      alert("请先解除挂载!");
+       //      return;
+       //  }
 
-        if(opt_data.test_lesson_student_status != 200 && opt_data.test_lesson_student_status != 120 ){
-            alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
-            return;
-        }
+       //  if(opt_data.test_lesson_student_status != 200 && opt_data.test_lesson_student_status != 120 ){
+       //      alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
+       //      return;
+       //  }
 
-       if(opt_data.accept_status == 1){
-            alert('已确认课程，若更换试听课，请取消课程，重新排课；');
-            return;
-        }
+       // if(opt_data.accept_status == 1){
+       //      alert('已确认课程，若更换试听课，请取消课程，重新排课；');
+       //      return;
+       //  }
 
-        var id_teacherid       = $("<input/>");
-        var id_start_time      = $("<input/>");
-        var id_top_seller_flag = $("<select />");
-        Enum_map.append_option_list("boolean",id_top_seller_flag,true);
+       //  var id_teacherid       = $("<input/>");
+       //  var id_start_time      = $("<input/>");
+       //  var id_top_seller_flag = $("<select />");
+       //  Enum_map.append_option_list("boolean",id_top_seller_flag,true);
 
-        if(opt_data.teacherid > 0){
-            id_teacherid.val(opt_data.teacherid);
-        }else if(opt_data.green_channel_teacherid > 0){
-            id_teacherid.val(opt_data.green_channel_teacherid);
-        }
+       //  if(opt_data.teacherid > 0){
+       //      id_teacherid.val(opt_data.teacherid);
+       //  }else if(opt_data.green_channel_teacherid > 0){
+       //      id_teacherid.val(opt_data.green_channel_teacherid);
+       //  }
 
-        id_start_time.datetimepicker({
-            lang             : 'ch',
-            datepicker       : true,
-            timepicker       : true,
-            format:'Y-m-d H:i',
-            step             : 30,
-            onChangeDateTime : function(){
-            }
-        });
+       //  id_start_time.datetimepicker({
+       //      lang             : 'ch',
+       //      datepicker       : true,
+       //      timepicker       : true,
+       //      format:'Y-m-d H:i',
+       //      step             : 30,
+       //      onChangeDateTime : function(){
+       //      }
+       //  });
 
-        var arr = [
-            ["学生",opt_data.nick]  ,
-            ["期待时间",opt_data.stu_request_test_lesson_time]  ,
-            ["老师",id_teacherid ]  ,
-            ["开始时间",id_start_time ]  ,
-            ["年级",opt_data.grade_str]  ,
-            ["科目",opt_data.subject_str]  ,
-        ];
-        if(opt_data.is_test_user > 0){ //1 测试用户
-            $.show_key_value_table("排课", arr ,[
-            {
-                label    : '驳回',
-                cssClass : 'btn-danger',
-                action   : function(dialog) {
-                    var $input = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
-                    $.show_input(
-                        opt_data.nick+" : "+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
-                        "",function(val){
-                            $.do_ajax("/ss_deal/set_no_accpect",{
-                                'require_id'       : opt_data.require_id,
-                                'fail_reason' : val
-                            });
-                        }, $input  );
-                    $input.val("未排课,期待时间已到");
-                }
-            },{
-                label    : '------',
-            },{
-                label    : '确认',
-                cssClass : 'btn-warning',
-                action   : function(dialog) {
-                    var do_post = function() {
-                        $.do_ajax("/ss_deal/course_set_new",{
-                            'require_id'   : opt_data.require_id,
-                            "grade"        : opt_data.grade,
-                            'teacherid'    : id_teacherid.val(),
-                            'lesson_start' : id_start_time.val(),
-                            'top_seller_flag' : opt_data.seller_top_flag
-                        });
-                    };
+       //  var arr = [
+       //      ["学生",opt_data.nick]  ,
+       //      ["期待时间",opt_data.stu_request_test_lesson_time]  ,
+       //      ["老师",id_teacherid ]  ,
+       //      ["开始时间",id_start_time ]  ,
+       //      ["年级",opt_data.grade_str]  ,
+       //      ["科目",opt_data.subject_str]  ,
+       //  ];
+       //  if(opt_data.is_test_user > 0){ //1 测试用户
+       //      $.show_key_value_table("排课", arr ,[
+       //      {
+       //          label    : '驳回',
+       //          cssClass : 'btn-danger',
+       //          action   : function(dialog) {
+       //              var $input = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
+       //              $.show_input(
+       //                  opt_data.nick+" : "+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
+       //                  "",function(val){
+       //                      $.do_ajax("/ss_deal/set_no_accpect",{
+       //                          'require_id'       : opt_data.require_id,
+       //                          'fail_reason' : val
+       //                      });
+       //                  }, $input  );
+       //              $input.val("未排课,期待时间已到");
+       //          }
+       //      },{
+       //          label    : '------',
+       //      },{
+       //          label    : '确认',
+       //          cssClass : 'btn-warning',
+       //          action   : function(dialog) {
+       //              var do_post = function() {
+       //                  $.do_ajax("/ss_deal/course_set_new",{
+       //                      'require_id'   : opt_data.require_id,
+       //                      "grade"        : opt_data.grade,
+       //                      'teacherid'    : id_teacherid.val(),
+       //                      'lesson_start' : id_start_time.val(),
+       //                      'top_seller_flag' : opt_data.seller_top_flag
+       //                  });
+       //              };
 
-                    var now        = (new Date()).getTime()/1000;
-                    var start_time = $.strtotime(id_start_time.val());
-                    if ( now > start_time ) {
-                        alert("上课时间比现在还小.");
-                        return ;
-                    } else if ( now + 5*3600  > start_time ) {
-                        BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
-                            if(val) {
-                                do_post();
-                            }
-                        });
-                    }else{
-                        do_post();
-                    }
-                }
-            }],function(){
-                $.admin_select_user(id_teacherid,"train_through_teacher");
-            });
-        }else{
-            $.show_key_value_table("排课", arr ,[
-            {
-                label    : '驳回',
-                cssClass : 'btn-danger',
-                action   : function(dialog) {
-                    var $input = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
-                    $.show_input(
-                        opt_data.nick+" : "+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
-                        "",function(val){
-                            $.do_ajax("/ss_deal/set_no_accpect",{
-                                'require_id'       : opt_data.require_id,
-                                'fail_reason' : val
-                            });
-                        }, $input  );
-                    $input.val("未排课,期待时间已到");
-                }
-            },{
-                label    : '------',
-            },{
-                label    : '确认',
-                cssClass : 'btn-warning',
-                action   : function(dialog) {
-                    var do_post = function() {
-                        $.do_ajax("/ss_deal/course_set_new",{
-                            'require_id'   : opt_data.require_id,
-                            "grade"        : opt_data.grade,
-                            'teacherid'    : id_teacherid.val(),
-                            'lesson_start' : id_start_time.val(),
-                            'top_seller_flag' : opt_data.seller_top_flag
-                        });
-                    };
+       //              var now        = (new Date()).getTime()/1000;
+       //              var start_time = $.strtotime(id_start_time.val());
+       //              if ( now > start_time ) {
+       //                  alert("上课时间比现在还小.");
+       //                  return ;
+       //              } else if ( now + 5*3600  > start_time ) {
+       //                  BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
+       //                      if(val) {
+       //                          do_post();
+       //                      }
+       //                  });
+       //              }else{
+       //                  do_post();
+       //              }
+       //          }
+       //      }],function(){
+       //          $.admin_select_user(id_teacherid,"train_through_teacher");
+       //      });
+       //  }else{
+       //      $.show_key_value_table("排课", arr ,[
+       //      {
+       //          label    : '驳回',
+       //          cssClass : 'btn-danger',
+       //          action   : function(dialog) {
+       //              var $input = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
+       //              $.show_input(
+       //                  opt_data.nick+" : "+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
+       //                  "",function(val){
+       //                      $.do_ajax("/ss_deal/set_no_accpect",{
+       //                          'require_id'       : opt_data.require_id,
+       //                          'fail_reason' : val
+       //                      });
+       //                  }, $input  );
+       //              $input.val("未排课,期待时间已到");
+       //          }
+       //      },{
+       //          label    : '------',
+       //      },{
+       //          label    : '确认',
+       //          cssClass : 'btn-warning',
+       //          action   : function(dialog) {
+       //              var do_post = function() {
+       //                  $.do_ajax("/ss_deal/course_set_new",{
+       //                      'require_id'   : opt_data.require_id,
+       //                      "grade"        : opt_data.grade,
+       //                      'teacherid'    : id_teacherid.val(),
+       //                      'lesson_start' : id_start_time.val(),
+       //                      'top_seller_flag' : opt_data.seller_top_flag
+       //                  });
+       //              };
 
-                    var now        = (new Date()).getTime()/1000;
-                    var start_time = $.strtotime(id_start_time.val());
-                    if ( now > start_time ) {
-                        alert("上课时间比现在还小.");
-                        return ;
-                    } else if ( now + 5*3600  > start_time ) {
-                        BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
-                            if(val) {
-                                do_post();
-                            }
-                        });
-                    }else{
-                        do_post();
-                    }
-                }
-            }],function(){
-                $.admin_select_user(id_teacherid,"train_through_teacher");
-            });
-        }
+       //              var now        = (new Date()).getTime()/1000;
+       //              var start_time = $.strtotime(id_start_time.val());
+       //              if ( now > start_time ) {
+       //                  alert("上课时间比现在还小.");
+       //                  return ;
+       //              } else if ( now + 5*3600  > start_time ) {
+       //                  BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
+       //                      if(val) {
+       //                          do_post();
+       //                      }
+       //                  });
+       //              }else{
+       //                  do_post();
+       //              }
+       //          }
+       //      }],function(){
+       //          $.admin_select_user(id_teacherid,"train_through_teacher");
+       //      });
+       //  }
     });
 
     $(".opt-confirm").on("click",function(){
@@ -340,7 +342,7 @@ $(function(){
             cssClass : 'btn-danger',
             action   : function(dialog) {
                 $.do_ajax("/ss_deal/confirm_test_lesson", {
-                    "require_id"             : opt_data.require_id ,
+                    "require_id"               : opt_data.require_id ,
                     "success_flag"             : $success_flag.val(),
                     "fail_reason"              : $fail_reason.val(),
                     "test_lesson_fail_flag"    : $test_lesson_fail_flag.val(),
@@ -712,12 +714,14 @@ $(function(){
             }
         );
     });
+
     $(".opt-accept-seller-require-change").each(function(){
         var opt_data=$(this).get_opt_data();
         if(opt_data.seller_require_change_flag != 1){
             $(this).hide();
         }
     });
+
     $(".opt-accept-seller-require-change").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var id_lesson_start_time = $("<input/>");
@@ -916,21 +920,18 @@ $(function(){
         });
     });
 
-
     $(".opt-set-teacher-time").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var $teacherid= $("<input/>") ;
-        var $lesson_start= $("<input/>") ;
+        var opt_data                       = $(this).get_opt_data();
+        var $teacherid                     = $("<input/>") ;
+        var $lesson_start                  = $("<input/>") ;
         var $id_change_teacher_reason_type = $("<select />");
-        var $id_change_reason = $("<textarea />");
-        var $id_change_reason_url = $("<div><input class=\"change_reason_url\" id=\"change_reason_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_change_reason\" href=\"javascript:;\">上传</a></span></div>");
+        var $id_change_reason              = $("<textarea />");
+        var $id_change_reason_url          = $("<div><input class=\"change_reason_url\" id=\"change_reason_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_change_reason\" href=\"javascript:;\">上传</a></span></div>");
 
         if(opt_data.accept_status == 1){
-            alert('已确认课程，若更换试听课，请取消课程，重新排课；');
+            BootstrapDialog.alert('已确认课程，若更换试听课，请取消课程，重新排课');
             return;
         }
-
-        console.log('accept_status'+opt_data.accept_status);
 
         var arr=[
             ["学生", opt_data.nick  ],
@@ -942,7 +943,7 @@ $(function(){
             // ["换老师原因图片",$id_change_reason_url],
         ];
         $teacherid.val(opt_data.teacherid);
-        $lesson_start.val(opt_data.lesson_start );
+        $lesson_start.val(opt_data.lesson_start);
 
         Enum_map.append_option_list("change_teacher_reason_type", $id_change_teacher_reason_type, true);
         $lesson_start.datetimepicker({
@@ -953,30 +954,25 @@ $(function(){
             step:30,
             onChangeDateTime :function(){
             }
-
         });
 
         $.show_key_value_table("换老师,换时间", arr, {
             label    : '提交',
             cssClass : 'btn-primary',
             action   : function(dialog) {
-
                 var do_post=function() {
                     $.do_ajax("/ss_deal/test_lesson_change", {
-                        "require_id": opt_data.require_id,
-                        "teacherid" : $teacherid.val(),
-                        "grade"        : opt_data.grade,
-                        "lesson_start" : $lesson_start.val(),
-                        "old_teacherid":opt_data.teacherid,
-                        "old_lesson_start":opt_data.lesson_time,
+                        "require_id"       : opt_data.require_id,
+                        "teacherid"        : $teacherid.val(),
+                        "grade"            : opt_data.grade,
+                        "lesson_start"     : $lesson_start.val(),
+                        "old_teacherid"    : opt_data.teacherid,
+                        "old_lesson_start" : opt_data.lesson_time,
                         // "change_teacher_reason_type" : $id_change_teacher_reason_type.val(),
                         // "change_reason" : $id_change_reason.val(),
                         // "change_reason_url" : $id_change_reason_url.find("#change_reason_url").val()
-
                     });
-
                 };
-
 
                 var now=(new Date()).getTime()/1000;
                 var start_time=$.strtotime($lesson_start.val() );
@@ -994,8 +990,6 @@ $(function(){
                 }else{
                     do_post();
                 }
-
-
             }
         },function(){
             $.admin_select_user($teacherid,"teacher" );
@@ -1003,10 +997,7 @@ $(function(){
                 var res = $.parseJSON(info);
                 $("#change_reason_url").val(res.key);
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
-
-
         });
-
     });
 
     var init_and_reload=function(  set_func ) {
@@ -1219,39 +1210,41 @@ $(function(){
 
 
     $(".opt-teacher-cancel-class-confirm_test").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var lessonid=opt_data.lessonid;
-        var lesson_time = opt_data.lesson_time;
-        if(lessonid <=0){
-            alert("尚未排课");
-            return;
-        }
-        if(opt_data.cancel_time >0){
-            alert("已存在该课程记录");
-            return;
-        }
+        BootstrapDialog.alert("功能暂停使用!");
+        return false;
+        // var opt_data=$(this).get_opt_data();
+        // var lessonid=opt_data.lessonid;
+        // var lesson_time = opt_data.lesson_time;
+        // if(lessonid <=0){
+        //     alert("尚未排课");
+        //     return;
+        // }
+        // if(opt_data.cancel_time >0){
+        //     alert("已存在该课程记录");
+        //     return;
+        // }
 
-        BootstrapDialog.show({
-            title: '增加老师4小时内取消课程记录',
-            message : "确认要增加吗？" ,
-            closable: false,
-            buttons: [{
-                label: '返回',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }, {
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-                    $.do_ajax("/ss_deal/add_cancel_lesson_four_hour_list", {
-                        "lessonid":lessonid,
-                        "teacherid" : opt_data.teacherid,
-                        "lesson_time":lesson_time
-                    });
-                }
-            }]
-        });
+        // BootstrapDialog.show({
+        //     title: '增加老师4小时内取消课程记录',
+        //     message : "确认要增加吗？" ,
+        //     closable: false,
+        //     buttons: [{
+        //         label: '返回',
+        //         action: function(dialog) {
+        //             dialog.close();
+        //         }
+        //     }, {
+        //         label: '确认',
+        //         cssClass: 'btn-warning',
+        //         action: function(dialog) {
+        //             $.do_ajax("/ss_deal/add_cancel_lesson_four_hour_list", {
+        //                 "lessonid":lessonid,
+        //                 "teacherid" : opt_data.teacherid,
+        //                 "lesson_time":lesson_time
+        //             });
+        //         }
+        //     }]
+        // });
     });
 
     $(".opt-teacher-cancel-class-confirm").on("click",function(){
@@ -1376,48 +1369,50 @@ $(function(){
     });
 
     $(".opt-add-grab-list").on("click",function(){
-        var data = $(this).get_opt_data();
-        var dom  = $(this);
-        var info = "";
-        var succ_info="";
-        var grab_status=0;
-        if(data.grab_status==0){
-            info        = "确认添加此申请至抢单库么？";
-            succ_info   = "已入库";
-            grab_status = 1;
-        }else if(data.grab_status==1){
-            info      = "确认把此申请从抢单库里去除么？";
-            succ_info = "未入库";
-        }
+        BootstrapDialog.alert("功能关闭!");
+        return false;
+        // var data = $(this).get_opt_data();
+        // var dom  = $(this);
+        // var info = "";
+        // var succ_info="";
+        // var grab_status=0;
+        // if(data.grab_status==0){
+        //     info        = "确认添加此申请至抢单库么？";
+        //     succ_info   = "已入库";
+        //     grab_status = 1;
+        // }else if(data.grab_status==1){
+        //     info      = "确认把此申请从抢单库里去除么？";
+        //     succ_info = "未入库";
+        // }
 
-        BootstrapDialog.show({
-            title   : "操作确认",
-            message : info,
-            buttons : [{
-                label  : "返回",
-                action : function(dialog) {
-                    dialog.close();
-                }
-            }, {
-                label: "确认",
-                cssClass: "btn-warning",
-                action: function(dialog) {
-                    $.do_ajax("/seller_student_new2/grab_test_lesson_plan",{
-                        "requireid"   : data.require_id,
-                        "grab_status" : grab_status
-                    },function(result){
-                        dialog.close();
-                        if(result.ret==0){
-                            BootstrapDialog.alert(result.info);
-                            dom.parents("td").siblings(".grab_status").html(succ_info);
-                            dom.parent().data("grab_status",grab_status);
-                        }else{
-                            BootstrapDialog.alert(result.info);
-                        }
-                    })
-                }
-            }]
-        });
+        // BootstrapDialog.show({
+        //     title   : "操作确认",
+        //     message : info,
+        //     buttons : [{
+        //         label  : "返回",
+        //         action : function(dialog) {
+        //             dialog.close();
+        //         }
+        //     }, {
+        //         label: "确认",
+        //         cssClass: "btn-warning",
+        //         action: function(dialog) {
+        //             $.do_ajax("/seller_student_new2/grab_test_lesson_plan",{
+        //                 "requireid"   : data.require_id,
+        //                 "grab_status" : grab_status
+        //             },function(result){
+        //                 dialog.close();
+        //                 if(result.ret==0){
+        //                     BootstrapDialog.alert(result.info);
+        //                     dom.parents("td").siblings(".grab_status").html(succ_info);
+        //                     dom.parent().data("grab_status",grab_status);
+        //                 }else{
+        //                     BootstrapDialog.alert(result.info);
+        //                 }
+        //             })
+        //         }
+        //     }]
+        // });
     });
 
     $("#id_opt_grab_trial_user_info").on("click",function(){

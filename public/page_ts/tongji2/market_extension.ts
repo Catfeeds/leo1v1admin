@@ -126,7 +126,7 @@ $(function(){
                     // $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
                     $follow_list.parent().parent().css('display','table-row');
 
-                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img style="width: 54px; height: 48px; position: relative; z-index: 1;" img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -264,7 +264,7 @@ $(function(){
                 $follow_list.parent().parent().css('display','table-row');
                 var list_arr = opt_data.followimgurl.split(',');
                 $.each(list_arr,function(i,item){
-                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+item+'" src="https://ybprodpub.leo1v1.com/'+item+'"></div>');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img style="width: 54px; height: 48px; position: relative; z-index: 1;" img_key="'+item+'" src="https://ybprodpub.leo1v1.com/'+item+'"></div>');
                 });
             }
 
@@ -300,9 +300,9 @@ $(function(){
                 var res = $.parseJSON(info);
                 $img_src4.val(res.key);
                 if(res.key){
-                    $('.del_share').css('display','block');
-                    // $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
-                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
+                    $('.del_follow').css('display','block');
+                    $follow_list.parent().parent().css('display','table-row');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img style="width: 54px; height: 48px; position: relative; z-index: 1;" img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
 
                 }
 
@@ -333,7 +333,6 @@ $(function(){
                 $follow_list.html('');
                 $follow_list.parent().parent().css('display','none');
             });
-
         });
     });
 
@@ -345,12 +344,14 @@ $(function(){
         },function(ret){
             var imglist = ret.data;
             var $img = $("<div/>");
+            var $follow_list = $("<div />");
 
-            $img.html("<div> <div>PNG格式</div>     <div style='margin-top:1rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>封面页</span><img  id='id_img1' style='width:54px;height:48px' src='"+imglist.coverImgUrl+"' /></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>活动页</span><img style='width:54px;height:48px' id='id_img2'  src='"+imglist.activityImgUrl+"' /></div><div style='clear:both'></div> </div>  <div style='margin-top:2rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>分享页</span><img id='id_img3' style='width:54px;height:48px' src='"+imglist.shareImgUrl+"' /></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>关注页</span><img  id='id_img4' style='width:54px;height:48px' src='"+imglist.followImgUrl+"' /></div> </div>  </div>");
+            $img.html("<div> <div>PNG格式</div>     <div style='margin-top:1rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>封面页</span><img  id='id_img1' style='width:54px;height:48px' src='"+imglist.coverImgUrl+"' /></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>活动页</span><img style='width:54px;height:48px' id='id_img2'  src='"+imglist.activityImgUrl+"' /></div><div style='clear:both'></div> </div>  <div style='margin-top:2rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>分享页</span><img id='id_img3' style='width:54px;height:48px' src='"+imglist.shareImgUrl+"' /></div>    </div>  </div>");
 
 
             var arr = [
                 ["活动图片", $img],
+                ["关注图片", $follow_list],
             ];
 
             $.show_key_value_table("查看活动图片", arr, {
@@ -360,6 +361,11 @@ $(function(){
                     load_data();
                 }
             },function(){
+                var $imgArr = imglist['followImgUrl'].split(',');
+                $.each($imgArr,function(i,item){
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img style="width: 54px; height: 48px; position: relative; z-index: 1;" img_key="'+item+'" src="'+item+'"></div>');
+                });
+
             });
         });
     });

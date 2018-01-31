@@ -297,10 +297,10 @@ $(function(){
                             subject = html_node.find(".add_pic_subject").val();
                         }
                         $.ajax({
-			                      type     : "post",
-			                      url      : "/pic_manage/add_pic_info",
-			                      dataType : "json",
-			                      data : {
+		                      type     : "post",
+		                      url      : "/pic_manage/add_pic_info",
+		                      dataType : "json",
+		                      data : {
                                 "opt_type"      : opt_type 
                                 ,"id"           : id
                                 ,"name"         : name

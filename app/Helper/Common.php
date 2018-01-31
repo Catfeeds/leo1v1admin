@@ -142,6 +142,58 @@ class Common {
     }
 
 
+<<<<<<< HEAD
+=======
+        $c->format="json";
+        $req = new \AlibabaAliqinFcSmsNumSendRequest();
+
+        $req->setSmsType("normal");
+        $req->setSmsFreeSignName($sign_name);
+
+        $req->setSmsParam(json_encode($data));
+        $req->setRecNum( $phone);
+        $req->setSmsTemplateCode($template_code);
+        try {
+            $resp = $c->execute($req);
+        }catch(\Exception $e ) {
+
+        }
+        return $resp;
+    }
+>>>>>>> 5fd1ced461172685098e17b71235d15efbe58090
+
+    // public static function send_voice_with_taobao($phone,$template_code,$data,$sign_name="理优教育"){
+    //     include_once( app_path("Libs/taobao_sms/TopSdk.php") );
+
+    //     $c = new \TopClient();
+
+    //     /**
+    //      * array( 7795923 ,'register','用户注册验证码',),
+    //      * array( 7786570,'','通知家长预约成功',),
+    //      * array( 7771547,'','通用验证',),
+    //      * array( 8295424 ,'','课程当天早上通知',),
+    //      */
+    //     $template_value = substr($template_code,4);
+    //     $c->appkey ="23388285" ;
+    //     $c->secretKey = "cf52133f47748ac2330e9a22fa423d8e";
+
+    //     $c->format="json";
+    //     $req = new AlibabaAliqinFcVoiceNumSinglecallRequest;
+
+    //     $req->setExtend("12345");
+    //     $req->setCalledNum($phone);
+    //     // $req->setCalledShowNum("4001112222");
+    //     // $req->setVoiceCode("c2e99ebc-2d4c-4e78-8d2a-afbb06cf6216.wav");
+
+    //     $req->setSmsParam(json_encode($data));
+    //     $req->setSmsTemplateCode($template_code);
+    //     try {
+    //         $resp = $c->execute($req);
+    //     }catch(\Exception $e ) {
+
+    //     }
+    //     return $resp;
+    // }
 
     static function output_html($str) {
         echo "<head> <meta charset=\"UTF-8\"> <head> <body>$str" ;

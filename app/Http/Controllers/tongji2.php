@@ -574,7 +574,7 @@ class tongji2 extends Controller
         ];
 
         $order_field_arr =  array_merge(["account" ] ,$sum_field_list );
-        
+
         $group_adminid   = $this->get_in_int_val("group_adminid",-1);
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
@@ -1104,7 +1104,7 @@ class tongji2 extends Controller
             }
             $tt["lesson_do_per"] = !empty( $tt["student_online"])?round($tt["lesson_total"]/$tt["student_online"]/$lesson_target*100,2):0;
             if($start_time>=strtotime("2018-01-01")){
-                $tt["renw_target"] = @$target_info["group_renew_target"]/100; 
+                $tt["renw_target"] = @$target_info["group_renew_target"]/100;
             }
             $tt["renw_per"] = !empty( $tt["renw_target"])?round($tt["renw_price"]/$tt["renw_target"]*100,2):0;
             if($tt["student_online"]){
@@ -1969,28 +1969,6 @@ class tongji2 extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function teaChriDate(){
-        $phone = $this->get_in_int_val('phone');
-        $openid = $this->t_teacher_info->get_wx_openid_by_phone($phone);
-        $page_num  = $this->get_in_page_num();
-
-        $ret_info = [];
-        $ret_info = $this->t_teacher_christmas->getChriDatePage($openid,$page_num);
-        // $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList($isLimit=1);
-        // $ret_info['end_time'] = strtotime('2017-1-2');
-        // foreach($ret_info['totalList'] as $i => &$item){
-        //     if($item['teacherid'] == $teacherid){
-        //         $ret_info['ranking'] = $i;
-        //     }
-        //     $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
-        // }
-
-        // dd($ret_info);
-
-        return $this->pageView(__METHOD__,$ret_info);
-
-    }
-
     # 市场部个性海报转发
     public function marketposterdata(){
         $page_num  = $this->get_in_page_num();
@@ -1998,4 +1976,89 @@ class tongji2 extends Controller
         $ret_info = $this->t_personality_poster->getData($page_num,$uid);
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+    # 课次取消-技术支持
+    public function lessoncancelrate(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3 );
+        $dayNum = ($end_time-$start_time)/86400;
+
+        $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
+        $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
+        $dateArr = [];
+        $rateArr = [];
+        $tmp = [];
+        for($i=0; $i<$dayNum; $i++){
+            $timeStart = $start_time+$i*86400;
+            $timeEnd   = $timeStart+86400;
+            $dateArr[] = date('Y-m-d',$timeStart);
+            $cancel_num = 0;
+            $actual_num = 0;
+
+            foreach($lessonCancelNum as $item_cancel){
+                if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
+                    $cancel_num+=1;
+                }
+            }
+
+            foreach($actualLessonNum as $item_actual){
+                if($item_actual['lesson_start']>=$timeStart && $item_actual['lesson_start']<=$timeEnd){
+                    $actual_num+=1;
+                }
+            }
+            if(($actual_num+$cancel_num)>0){
+                $rateArr[] = ($cancel_num/($actual_num+$cancel_num))*100;
+            }else{
+                $rateArr[] = 0;
+            }
+        }
+
+        $ret_info = [];
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "dateArr" => $dateArr,
+            "rateArr" => $rateArr
+        ]);
+    }
+    public function tongji_sys_assign_admin_info() {
+
+    }
+
+    public function tongji_sys_assign_call_info() {
+        $page_info= $this->get_in_page_info();
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            = $this->get_in_order_by_str([],"logtime asc",[
+                //"grade" => "s.grade",
+            ]);
+
+        list($start_time, $end_time ) = $this->get_in_date_range_day(0);
+
+
+        $adminid=$this->get_in_adminid(-1);
+        $userid=$this->get_in_userid(-1);
+        $called_flag= $this->get_in_el_boolean(-1, "called_flag");
+        $check_hold_flag= $this->get_in_el_boolean(-1, "check_hold_flag");
+        $seller_student_assign_from_type=$this->get_in_el_seller_student_assign_from_type();
+
+        $same_admin_flag = $this->get_in_el_boolean(-1, "same_admin_flag");
+        $same_admin_flag =  $same_admin_flag[0];
+
+        $ret_info=$this->t_seller_student_system_assign_log->get_list($page_info, $order_by_str ,$start_time, $end_time, $adminid,$userid, $called_flag ,$seller_student_assign_from_type ,$check_hold_flag ,$same_admin_flag);
+
+        foreach ($ret_info["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item, "logtime");
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
+            $this->cache_set_item_account_nick($item);
+            $this->cache_set_item_account_nick($item,"admin_revisiterid", "admin_revisiter_nick");
+            $this->cache_set_item_student_nick($item);
+            $item["call_time"]= \App\Helper\Common::get_time_format( $item["call_time"] );
+            E\Eboolean::set_item_value_color_str($item, "called_flag");
+            E\Eseller_student_assign_from_type::set_item_value_str($item);
+            E\Eboolean::set_item_value_color_str($item, "check_hold_flag");
+            E\Eorigin_level:: set_item_value_str($item );
+        }
+
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
+
 }

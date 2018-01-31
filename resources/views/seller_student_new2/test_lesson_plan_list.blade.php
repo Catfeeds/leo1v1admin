@@ -468,9 +468,7 @@
                                     <a title="用户信息" class="fa-user opt-user show_flag"></a>
                                     <a title="查看回访" class="fa-comments opt-return-back-list show_flag"></a>
                                     <a title="下载试卷" class="fa-download opt-download-test-paper show_flag"></a>
-                                    @if($var['grab_status']==0 || $var['grab_status']==1)
-                                        <a title="添加抢单库" class="opt-add-grab-list show_flag">抢</a>
-                                    @endif
+                                    <!-- <a title="添加抢单库" class="opt-add-grab-list show_flag">抢</a> -->
                                     @if ($cur_page =="ass_test_lesson_list" || $cur_page =="ass_test_lesson_list_tran" )
                                         <a title="上传试卷" id="upload-test-paper-{{$var["require_id"]}}" class="fa-upload opt-upload-test-paper show_flag"></a>
                                         <a title="编辑" class=" fa-edit opt-edit show_flag"></a>
@@ -479,14 +477,13 @@
                                         @endif
                                         <a title="删除" class=" fa-trash-o opt-del show_flag"></a>
                                     @else
-                                        <a title="排课" class="opt-set-lesson-new show_flag">驳回&排课</a>
-                                        <a title="换老师/时间" class=" fa-male  opt-set-teacher-time show_flag"></a>
+                                        <!-- <a title="排课" class="opt-set-lesson-new show_flag">驳回&排课</a> -->
+                                        <a title="换老师/时间" class="fa-male opt-set-teacher-time show_flag"></a>
                                     @endif
                                     <a title="确认课时" class="btn fa fa-gavel opt-confirm show_flag" ></a>
                                     <a title="用户试听信息" class="fa-info  opt-user-info show_flag"> </a>
                                     <a title="查看试听课老师反馈" class="fa fa-bookmark opt-get_stu_performance show_flag"></a>
                                     <a title="该申请的所有排课记录" class="fa-list fa-bookmark opt-lesson-list show_flag"></a>
-                                    <a title="回放" class="fa-video-camera opt-play show_flag"></a>
                                     <a title="助教 试听成功 绑定课程包" class="fa-smile-o   opt-binding-course-order show_flag"></a>
                                     <a title="助教 试听失败 设置原因" class=" fa-frown-o  opt-test_lesson_order_fail show_flag"></a>
                                     <a title="确认更换上课时间" class="fa-check-square-o opt-accept-seller-require-change show_flag"></a>
@@ -495,9 +492,7 @@
                                     @elseif ($var["jw_test_lesson_status"]==2)
                                         <a title="解除挂起" class="fa-pause opt-test-lesson-gz show_flag"></a>
                                     @endif
-                                    @if ($var["teacherid"] != null)
-                                        <a title="增加老师取消课程记录" class="show_flag icon-warning-sign opt-teacher-cancel-class-confirm"></a>
-                                    @endif
+                                    <!-- <a title="增加老师取消课程记录" class="show_flag opt-teacher-cancel-class-confirm"></a> -->
                                     <a title="限课特殊申请" class="fa-user-md opt-limit-lesson-require show_flag"></a>
                                     @if($var["limit_accept_flag"]==0)
                                         <a title="同意申请" class=" opt-set-limit-require-agree show_seller" >同意 </a>

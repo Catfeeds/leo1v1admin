@@ -7796,11 +7796,14 @@ class tongji_ss extends Controller
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $account_id = $this->get_account_id();
 
-        $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944'];
+        // $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944','1040'];
+        $account_role = $this->get_account_role();
         $master_flag = 0;
-        if(in_array($account_id,$root_adminid_arr)){
+        $role_arr = ['12','22']; // 研发|师资
+        if(in_array($account_role,$role_arr) || in_array($account_id,[889])){
             $master_flag = 1;
         }
+
 
         $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
         if(empty($ass_list)){
@@ -7848,7 +7851,7 @@ class tongji_ss extends Controller
                 $item['order_confirm_flag_str'] = "<font color=\"red\">失败</font>";
             }
         }
-            return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function tongji_kuoke_info(){ // 扩课统计

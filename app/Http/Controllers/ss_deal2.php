@@ -1488,4 +1488,29 @@ class ss_deal2 extends Controller
         return $this->output_succ();
     }
 
+    //@desn:测试环境模拟拨打
+    //@param:call_flag 拨打标识 1 模拟失败 2 模拟成功
+    public function test_simulation_call(){
+        $call_flag = $this->get_in_int_val('call_flag',0);
+        $this->set_in_value('call_flag', $call_flag);
+        $common_new = new App\Http\Controllers\common_ex;
+        return $common_new->tianrun_notify_call_end();
+    }
+
+    public function multi_set_assign_check_hold_flag() {
+        $id_list=$this->get_in_int_list("id_list");
+        $check_hold_flag= $this->get_in_int_val("check_hold_flag");
+        if (!$this->check_account_in_arr(["jim"]) ) {
+            return $this->output_err("没有权限");
+        }
+
+        foreach ( $id_list as $id) {
+            $this->t_seller_student_system_assign_log->field_update_list($id, [
+                "check_hold_flag" =>$check_hold_flag,
+            ]);
+        }
+        return $this->output_succ();
+    }
+
+
 }

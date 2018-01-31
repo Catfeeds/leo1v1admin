@@ -63,5 +63,17 @@ $(function(){
 
         } );
     });
+    $("#id_clear").on("click",function(){
+        $(".opt-del").each( function(){
+            if ($(this).closest("tr").hasClass("danger" )) {
+                var opt_data=$(this).get_opt_data();
+                $.do_ajax("/user_manage_new/record_audio_server_del",{
+                    "ip"   :opt_data.ip
+                });
+            }
+        } );
+
+    });
+
 
 });

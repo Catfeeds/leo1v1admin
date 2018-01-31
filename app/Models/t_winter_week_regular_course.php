@@ -166,6 +166,13 @@ class t_winter_week_regular_course extends \App\Models\Zgen\z_t_winter_week_regu
 
     }
 
+    public function get_all_info() {
+        $sql = $this->gen_sql_new("select teacherid,userid,start_time,end_time from %s",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
 
 

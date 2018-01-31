@@ -11,5 +11,5 @@ message in  {
 }
 
 message out {
-    int32  orderid = 1 ;//合同id
+    string  orderid = 1 ;//合同编号
 }

@@ -2,19 +2,16 @@
 @section('content')
 
     <section class="content ">
-        
-        <div style="display:none;">
+
+        <div >
             <div class="row">
                 <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
-                    </div>
+                    <button class="btn btn-primary" id="id_clear" >清空无效</button>
                 </div>
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr> <td>ip </td> <td>优先级</td> <td>同时最大记录数</td>  <td>声网userid</td>  <td>上报时间</td> <td>说明</td> <td> 操作  </td> </tr>
             </thead>
@@ -41,6 +38,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

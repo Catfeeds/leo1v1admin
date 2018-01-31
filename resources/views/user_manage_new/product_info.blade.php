@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax_test.js"></script>
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
 
     <section class="content">
         <div class="row  row-query-list" >
@@ -46,6 +47,12 @@
                     <button type="button" class="btn btn-warning" id="id_submit">添加</button>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-3">
+                <div class="input-group ">
+                    <button type="button" class="btn btn-warning" id="id_show">显示/隐藏统计</button>
+                </div>
+            </div>
+
         </div>
         <hr/>
         <table   class="common-table"   >
@@ -103,12 +110,12 @@
                                 <a class="fa-pencil-square-o opt-edit " title="编辑" ></a>
                             </div>
                         </td>
-            </tr>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
-
-
+        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto; display:none"></div>
+        <div id="pie_container" style="min-width:400px;height:400px;display:none;"></div>
         @include("layouts.page")
     </section>
 

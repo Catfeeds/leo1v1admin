@@ -58,6 +58,11 @@ class authority extends Controller
         $this->get_in_int_val("assign_groupid", -1);
         $this->get_in_int_val("assign_account_role",-1);
 
+        $flag = false;
+        $adminid = $this->get_account_id();
+        $role = $this->t_manager_info->get_account_role($adminid);
+        if ($role == E\Eaccount_role::V_12) $flag = true;
+
         $creater_adminid       = $this->get_in_int_val("creater_adminid",-1);
         $adminid               = $this->get_in_adminid(-1);
         $uid                   = $this->get_in_int_val('uid',0);
@@ -133,7 +138,8 @@ class authority extends Controller
         }
 
         return $this->pageView(__METHOD__,$ret_info,[
-            "adminid_right"     => $adminid_right
+            "adminid_right"     => $adminid_right,
+            "flag" => $flag
         ]);
     }
 

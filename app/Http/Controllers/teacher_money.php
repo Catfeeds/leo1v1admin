@@ -457,12 +457,17 @@ class teacher_money extends Controller
 
     /**
      * 添加老师额外奖金
-     * @param type 1 荣誉榜奖金 2 试听课奖金 3 90分钟课程补偿 4 工资补偿
+     * @param type 额外奖金类型 枚举类 reward_type
      * @param teacherid 老师id
      * @param money_info 获奖信息 1 为课时数 2,3均为lessonid信息 4 为补偿原因
      * @param money 奖金金额
      */
     public function add_teacher_reward(){
+        if(!\App\Helper\Utils::check_env_is_release()){
+            $ret = $this->add_teacher_reward_2018_01_21();
+            return $ret;
+        }
+
         $type       = $this->get_in_int_val("type");
         $grade      = $this->get_in_int_val("grade");
         $teacherid  = $this->get_in_int_val("teacherid");
@@ -483,6 +488,12 @@ class teacher_money extends Controller
             return $this->output_err("无法添加奖金到<font color='red'>已经结算工资</font>的月份!");
         }
 
+        if($type<100 && $money<0){
+            return $this->output_err("该类型金额不能为负数！");
+        }elseif($type>100 && $money>0){
+            return $this->output_err("该类型金额不能为正数！");
+        }
+
         $update_arr = [
             "teacherid"  => $teacherid,
             "type"       => $type,
@@ -493,7 +504,9 @@ class teacher_money extends Controller
         ];
 
         if($type==E\Ereward_type::V_6){
-            $this->add_reference_price($teacherid,$money_info,false);
+            $ret = $this->add_reference_price($teacherid,$money_info,false);
+            $this->t_user_log->add_teacher_reward_log($teacherid, $update_arr);
+            return $this->output_ret($ret);
         }elseif($type == E\Ereward_type::V_7){
             $update_arr['grade'] = $grade;
         }elseif($type != E\Ereward_type::V_1){
@@ -541,21 +554,19 @@ class teacher_money extends Controller
 
         $ret = $this->t_teacher_money_list->row_insert($update_arr);
         if($ret){
-            $log_arr = [
-                "add_info" => $update_arr
-            ];
-            $msg = json_encode($log_arr);
-            $this->t_user_log->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
+            $this->t_user_log->add_teacher_reward_log($teacherid, $update_arr);
         }
         return $this->output_ret($ret);
     }
 
     /**
      * 添加老师额外奖金
-     * @param type 1 荣誉榜奖金 2 试听课奖金 3 90分钟课程补偿 4 工资补偿
-     * @param teacherid 老师id
-     * @param money_info 获奖信息 1 为课时数 2,3均为lessonid信息 4 为补偿原因
-     * @param money 奖金金额
+     * @param int type 1 荣誉榜奖金 2 试听课奖金 3 90分钟课程补偿 4 工资补偿
+     * @param int teacherid 老师id
+     * @param string money_info 获奖信息 1 为课时数 2,3均为lessonid信息 4 为补偿原因
+     * @param int money 奖金金额
+     * @param int grade 年级  目前仅有春晖奖有效
+     * @param string add_date 额外奖金的发放时间
      */
     public function add_teacher_reward_2018_01_21(){
         $type       = $this->get_in_int_val("type");
@@ -576,6 +587,12 @@ class teacher_money extends Controller
         $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
         if(!$check_flag){
             return $this->output_err("无法添加奖金到<font color='red'>已经结算工资</font>的月份!");
+        }
+
+        if($type<100 && $money<0){
+            return $this->output_err("该类型金额不能为负数！");
+        }elseif($type>100 && $money>0){
+            return $this->output_err("该类型金额不能为正数！");
         }
 
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -632,7 +649,7 @@ class teacher_money extends Controller
         }
 
         if($type == E\Ereward_type::V_6){
-            $ret = $this->add_reference_price($teacherid,$money_info,false);
+            $ret = $this->add_reference_price_2018_01_21($teacherid,$money_info,false);
             $update_arr['recommended_teacherid'] = $money_info;
         }else{
             $ret = $this->t_teacher_money_list->row_insert($update_arr);
@@ -645,8 +662,9 @@ class teacher_money extends Controller
             $this->t_user_log->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
         }
 
-        return $this->output_ret($ret);
+        return $this->output_ret($ret,"添加失败，请检查该老师是否符合所添加奖励类型的规则！");
     }
+
     public function get_teacher_info_for_total_money($teacherid){
         $info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $level_str = \App\Helper\Utils::get_teacher_level_str($info);
@@ -967,19 +985,8 @@ class teacher_money extends Controller
     }
 
     /**
-     * 添加测试伯乐奖
+     * command:update_bole_reward  每天晚上23:59 更新伯乐奖
      */
-    public function add_test_reference_reward(){
-        if(\App\Helper\Utils::check_env_is_release()){
-            return $this->output_err("只能在非正式环境使用！");
-        }
-        $teacherid        = $this->get_in_int_val("teacherid");
-        $recomm_teacherid = $this->get_in_int_val("recomm_teacherid");
-        $this->add_reference_price($teacherid, $recomm_teacherid, false);
-
-        return $this->output_succ();
-    }
-
     public function update_bole_reward($teacherid, $re_teacherid) {
         $this->add_reference_price($teacherid, $re_teacherid, false);
     }

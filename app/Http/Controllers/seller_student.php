@@ -1805,7 +1805,6 @@ class seller_student extends Controller
         return outputjson_success(["data"=> $ret]);
     }
 
-
     public function test_lesson_list()
     {
         list($start_time,$end_time, $opt_date_str)=$this->get_in_date_range(

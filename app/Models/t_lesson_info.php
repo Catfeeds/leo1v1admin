@@ -147,9 +147,10 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_need_set_lesson_end_list(  ){
+    public function get_need_set_lesson_end_list(){
         $end_time    = time(NULL)-5*60;
         $start_time  = $end_time-86400;
+
 
         $sql = $this->gen_sql("select lessonid,l.userid,l.teacherid,c.courseid,"
                               . " lesson_type,lesson_num,lesson_end, xmpp_server_name, current_server " .
@@ -3090,8 +3091,8 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select lessonid,teacherid,assistantid,userid,lesson_type,lesson_start,lesson_end,lesson_count,"
                                   ." teacher_money_type,level,already_lesson_count,tea_attend,stu_attend,tea_rate_time,courseid,"
                                   ." lesson_full_num,tea_cw_upload_time,stu_cw_upload_time,real_begin_time,real_end_time,"
-                                  ." lesson_name,subject,grade,lesson_status,lesson_del_flag,lesson_sub_type,train_type,"
-                                  ." competition_flag,lesson_del_flag,confirm_flag,operate_time,lesson_num,teacher_type"
+                                  ." lesson_name,subject,grade,lesson_status,lesson_sub_type,train_type,"
+                                  ." competition_flag,lesson_del_flag,confirm_flag,operate_time,lesson_num,teacher_type,accept_status"
                                   ." from %s"
                                   ." where lessonid=%u"
                                   ,self::DB_TABLE_NAME

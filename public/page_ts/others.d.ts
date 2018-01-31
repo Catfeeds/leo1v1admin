@@ -1,5 +1,6 @@
 interface C_Enum_map {
     append_option_list(enum_type :string , $item: JQuery, no_show_all_flag?:boolean, need_list?: any ):void;
+    append_option_list_by_not_id(enum_type :string , $item: JQuery, no_show_all_flag?:boolean, need_list?: any ):void;
     td_show_desc(enum_type :string , $item: JQuery ):void;
     td_show_descs(enum_type :string , $item: JQuery ):void;
     get_desc(  enum_type :string ,value: any ):string;

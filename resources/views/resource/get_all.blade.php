@@ -29,6 +29,9 @@
      var book = {{@$book}};
      var is_teacher = {{@$is_teacher}};
     </script>
+    <style>
+     .up_file,.down_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
+    </style>
     <section class="content">
 
         <div>
@@ -177,7 +180,7 @@
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
-                        <td>{{@$var["file_size"]}}M </td>
+                        <td>{{@$var["file_size_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         @if( $resource_type <= 6)

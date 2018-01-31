@@ -649,26 +649,50 @@ class common_new extends Controller
           CDR(userfield) 使用第三方外呼调用接口时传递了参数userField 该值只是第三方外呼调用接口发起的呼叫，且传递了userField参数，在挂机推送时用来获取userField传递的值。
 
         */
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            $call_flag = $this->get_in_int_val('call_flag');
+            $obj_start_time = time(NULL);
+            $cdr_bridged_cno = 2000;
+            $cdr_customer_number = $this->get_in_str_val('phone');
+            $cdr_answer_time = time(NULL);
+            if($call_flag == 1){
+                //模拟拨打失败数据
+                $cdr_end_time = $obj_start_time;
+                $cdr_status = 21;
+            }elseif($call_flag == 2){
+                //模拟拨打成功数据
+                $cdr_end_time = strtotime('+ 20 minutes',$obj_start_time);
+                $cdr_status = 28;
+            }
 
-        //$cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
-        $obj_start_time=$this->get_in_int_val("cdr_bridge_time");
-        //$cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
-        $uniqueId= $this->get_in_str_val("cdr_main_unique_id");
+            $recid= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+            $duration=0;
+            if ($obj_start_time) {
+                $duration= $cdr_end_time-$obj_start_time;
+            }
 
-        $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
-        $cdr_end_time=$this->get_in_int_val("cdr_end_time");
+        }else{
 
-        $cdr_bridged_cno = $this->get_in_int_val("cdr_bridged_cno");
-        $cdr_status = $this->get_in_int_val("cdr_status");
+            //$cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
+            $obj_start_time=$this->get_in_int_val("cdr_bridge_time");
+            //$cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
+            $uniqueId= $this->get_in_str_val("cdr_main_unique_id");
 
-        $recid= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
-        $cdr_customer_number = $this->get_in_str_val("cdr_customer_number");
+            $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
+            $cdr_end_time=$this->get_in_int_val("cdr_end_time");
 
-        $duration=0;
-        if ($obj_start_time) {
-            $duration= $cdr_end_time-$obj_start_time;
+            $cdr_bridged_cno = $this->get_in_int_val("cdr_bridged_cno");
+            $cdr_status = $this->get_in_int_val("cdr_status");
+
+            $recid= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+            $cdr_customer_number = $this->get_in_str_val("cdr_customer_number");
+
+            $duration=0;
+            if ($obj_start_time) {
+                $duration= $cdr_end_time-$obj_start_time;
+            }
+            \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
         }
-        \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
 
         $this->t_tq_call_info->add(
             $recid,
@@ -678,7 +702,8 @@ class common_new extends Controller
             $cdr_end_time,
             $duration,
             $cdr_status==28?1:0,
-            "",0,0, $obj_start_time);
+            "",0,0, $obj_start_time
+        );
 
         $called_flag=($cdr_status==28 && $duration>60)?2:1;
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
@@ -1922,9 +1947,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function updateTranResult(){
         $lessonid = $this->get_in_int_val('lessonid');
         $zip_url  = $this->get_in_str_val('zip_url');
-        $this->t_lesson_info_b3->field_update_list($lessonid,[
-            "zip_url" => $zip_url
-        ]);
+        $is_tea   = $this->get_in_int_val('is_tea');
+        if($is_tea == 1 ){ # 老师
+            $this->t_lesson_info_b3->field_update_list($lessonid,[
+                "zip_url" => $zip_url
+            ]);
+        }else{ # 学生
+            $this->t_lesson_info_b3->field_update_list($lessonid,[
+                "zip_url_stu" => $zip_url
+            ]);
+        }
         return $this->output_succ();
     }
 
@@ -1944,15 +1976,28 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function updateLessonUUid(){
         $lessonid = $this->get_in_int_val('lessonid');
         $uuid     = $this->get_in_str_val('uuid');
-        $this->t_lesson_info->field_update_list($lessonid, [
-            "uuid"=>$uuid
-        ]);
+        $is_tea   = $this->get_in_int_val('is_tea');
+
+        if($is_tea == 1){
+            $this->t_lesson_info->field_update_list($lessonid, [
+                "uuid"=>$uuid
+            ]);
+        }else{
+            $this->t_lesson_info->field_update_list($lessonid, [
+                "uuid_stu"=>$uuid
+            ]);
+        }
         return $this->output_succ();
     }
 
-
-
-
-
+    //@desn:测试环境模拟拨打
+    //@param:call_flag 拨打标识 1 模拟失败 2 模拟成功
+    public function test_simulation_call(){
+        $call_flag = $this->get_in_int_val('call_flag',0);
+        $phone = $this->get_in_int_val('phone','');
+        $this->set_in_value('call_flag', $call_flag);
+        $this->set_in_value('phone', $phone);
+        return $this->tianrun_notify_call_end();
+    }
 
 }

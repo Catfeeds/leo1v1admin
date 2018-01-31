@@ -76,7 +76,13 @@ class wx_teacher_web extends Controller
     }
 
     public function wx_comment(){
-        
+
+    }
+
+    # 跳转至老师工资页面[解决session失效问题]
+    public function gotoWage(){
+        $url = "http://wx-teacher-web.leo1v1.com/wage_details.html";
+        header("Location: $url");
     }
 
 }

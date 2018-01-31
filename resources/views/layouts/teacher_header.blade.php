@@ -151,7 +151,8 @@
                             </a>
                             <ul class="treeview-menu" style="display:block;">
                                 <li> <a href="{{@$_cur_http}}/teacher_info/tea_resource"><i class="fa fa-folder"></i> <span>我的资料</span> </a></li>
-                                <li><a href="{{@$_cur_http}}/teacher_info/get_leo_resource"><i class="fa fa-folder"></i> <span>理优资料库</span> </a></li> 
+                                <li><a href="{{@$_cur_http}}/teacher_info/get_leo_resource"><i class="fa fa-folder"></i> <span>理优资料库</span> </a></li>
+                                <li><a href="{{@$_cur_http}}/teacher_info/get_leo_train"><i class="fa fa-folder"></i> <span>理优培训库</span> </a></li> 
                             </ul>
                         </li>
                         <li><a href="{{@$_cur_http}}/teacher_info/teacher_lecture_appointment_info"><i class="fa fa-user"></i> <span>招师代理</span> </a></li>

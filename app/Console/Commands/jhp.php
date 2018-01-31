@@ -41,6 +41,61 @@ class jhp extends Command
 
         $task = new \App\Console\Tasks\TaskController ();
 
+        $teacher_money_type=6;
+        $start_time = strtotime("2017-10-01");
+        $ret_info = $task->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
+        foreach($ret_info as &$item){
+            //$item["level"]=$item["level_before"];
+            // $item["level"]=$item["real_level"];
+            // if($teacher_money_type==6){
+            //     //  E\Enew_level::set_item_value_str($item,"level_before");
+            //     // E\Enew_level::set_item_value_str($item,"level_after");
+            //     $item["level_str"] = E\Enew_level::get_simple_desc($item["level"]);
+            //     $item["level_after_str"] = E\Enew_level::get_simple_desc($item["level_after"]);
+
+
+            // }else{
+            //     //  E\Elevel::set_item_value_str($item,"level_before");
+            //     // E\Elevel::set_item_value_str($item,"level_after");
+            //     $item["level_str"] = E\Elevel::get_simple_desc($item["level"]);
+            //     $item["level_after_str"] = E\Elevel::get_simple_desc($item["level_after"]);
+
+            // }
+            // \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
+            // \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
+
+            // E\Eaccept_flag::set_item_value_str($item);
+            // E\Eaccept_flag::set_item_value_str($item,"withhold_final_trial_flag");
+            // E\Eaccept_flag::set_item_value_str($item,"advance_first_trial_flag");
+            // E\Eaccept_flag::set_item_value_str($item,"withhold_first_trial_flag");
+            $item["lesson_count"] = $item["lesson_count"]/100;
+            $item["lesson_count_score"] = $task->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
+            $item["record_final_score"]= $task->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
+            $item["cc_order_score"]= $task->get_advance_score_by_num( $item["cc_order_num"],2);//cc签单数得分
+            $item["other_order_score"]= $task->get_advance_score_by_num( $item["other_order_num"],3);//cr签单得分
+            $item["stu_num_score"]= $task->get_advance_score_by_num( $item["stu_num"],4);//常规学生签单得分
+            $order_score = $item["cc_order_score"]+ $item["other_order_score"];//签单总分
+            if($order_score>=10){
+                $order_score=10;
+            }
+            $item["total_score"] =$item["lesson_count_score"]+$item["record_final_score"]+$order_score+ $item["stu_num_score"];//总得分
+            list($item["reach_flag"],$item["withhold_money"])=$task->get_tea_reach_withhold_list($item["level_before"],$item["total_score"]);
+            $task->t_teacher_advance_list->field_update_list_2($item["start_time"],$item["teacherid"],[
+                "lesson_count_score" => $item["lesson_count_score"]*100,
+                "cc_order_score"     => $item["cc_order_score"]*100,
+                "other_order_score"  =>  $item["other_order_score"]*100,
+                "stu_num_score"      => $item["stu_num_score"]*100,
+                "total_score"        => $item["total_score"]*100,
+                "reach_flag"         => $item["reach_flag"],
+                "withhold_money"     => $item["withhold_money"]*100,
+                "record_final_score" => $item["record_final_score"]*100
+            ]);
+            // E\Eboolean::set_item_value_str($item,"reach_flag");
+
+        }
+        dd(111);
+
+
         $user_map_60 = $task->t_lesson_info->get_user_list(60);
         $user_map_90 = $task->t_lesson_info->get_user_list(90);
         $user_map2 = $user_map3 = [];

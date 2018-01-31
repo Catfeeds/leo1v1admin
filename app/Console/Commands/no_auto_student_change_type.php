@@ -40,37 +40,6 @@ class no_auto_student_change_type extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
-        $start_time = strtotime("2017-01-01");
-        $end_time = strtotime("2018-01-01");
-        $order_num = $task->t_order_info->get_all_renew_stu_list_by_order($start_time,$end_time);
-        $end_stu = $task->t_student_info->get_end_stu_list_str($start_time,$end_time);
-        $list =[];
-        foreach($end_stu as $k=>$val){
-            if(!isset($order_num[$k])){
-                $list[$k]=$val;
-            }
-        }
-        $ass=[];
-        foreach($order_num as $k=>$val){
-            @$ass[$k]["renew_num"] ++;
-            $ass[$k]["name"] = $val["nick"];
-            $ass[$k]["id"] = $k;
-        }
-        foreach($list as $k=>$val){
-            @$ass[$k]["end_num"] ++;
-            $ass[$k]["name"] = $val["nick"];
-            $ass[$k]["id"] = $k;
-        }
-        $str = json_encode( $ass);
-        $task->t_teacher_info->field_update_list(240314,[
-            "prize" => $str
-        ]);
-
-
-        dd($ass);
-
-
-
         $time = strtotime(date("Y-m-d",time()));        
         $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);
         foreach($user_stop as $item){

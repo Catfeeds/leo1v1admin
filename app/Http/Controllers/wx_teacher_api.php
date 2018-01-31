@@ -266,7 +266,7 @@ class wx_teacher_api extends Controller
         if(!empty($last_info_arr)){
             $last_info = $last_info_arr[0];
             if($last_info['complaint_info'] == $complaint_info && ($last_info['add_time']+120) > $now){
-                return $this->output_err();
+                return $this->output_err('');
             }
         }
 
@@ -1038,9 +1038,9 @@ class wx_teacher_api extends Controller
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
         $ret_info['teacherid'] = $this->t_lesson_info->get_teacherid($lessonid);
 
-        $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($ret_info['teacherid']);
-
-        if($ret_info['lesson_del_flag']==1){
+        // $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($ret_info['teacherid']);
+        $success_flag = $this->t_test_lesson_subject_sub_list->get_success_flag($lessonid);
+        if($ret_info['lesson_del_flag']==1 || $success_flag==2){
             $ret_info['status'] = 2;
         }
 
@@ -1066,7 +1066,7 @@ class wx_teacher_api extends Controller
         $ret_info['subject_tag'] = $subject_tag_arr['学科化标签']?$subject_tag_arr['学科化标签']:$default_tag;
 
         // 数据待确认
-        if($checkIsFullTime == 1){// 全职老师可以看
+        // if($checkIsFullTime == 1){// 全职老师可以看
             $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
             $resource_id_arr = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
             $resource_id_str = '';
@@ -1079,20 +1079,17 @@ class wx_teacher_api extends Controller
             $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
             if($hasResourceId>0){
                 $ret_info['handout_flag'] = 1;
-                \App\Helper\Utils::logger("james_checkHasHandout: $hasResourceId");
 
             }elseif(!empty($resource_id_arr) && !$checkHasHandout){
                     $ret_info['handout_flag'] = 1;
-                \App\Helper\Utils::logger("james_hasResourceId: $hasResourceId");
 
             }else{
                 $ret_info['handout_flag'] = 0;
-                \App\Helper\Utils::logger("james_jrhgjgh:fjdjf");
 
             }
-        }else{
-            $ret_info['handout_flag'] = 0; //无讲义
-        }
+        // }else{
+        //     $ret_info['handout_flag'] = 0; //无讲义
+        // }
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -1584,6 +1581,14 @@ class wx_teacher_api extends Controller
         $ret_info['currentScore'] = $ret_info['currentScore']?$ret_info['currentScore']:0;
 
         return $this->output_succ($ret_info);
+    }
+
+
+    //兼职老师晋升相关接口
+    public function get_teacher_advance_info_for_wx(){
+        $teacherid = $this->get_in_int_val("teacherid");
+
+
     }
 
 

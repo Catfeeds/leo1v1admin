@@ -1641,6 +1641,7 @@ class teacher_level extends Controller
                 // E\Enew_level::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Enew_level::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Enew_level::get_simple_desc($item["level_after"]);
+                $item["level_before_str"] = E\Enew_level::get_simple_desc($item["level_before"]);
 
 
             }else{
@@ -1648,6 +1649,7 @@ class teacher_level extends Controller
                 // E\Elevel::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Elevel::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Elevel::get_simple_desc($item["level_after"]);
+                $item["level_before_str"] = E\Elevel::get_simple_desc($item["level_before"]);
 
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
@@ -1658,17 +1660,23 @@ class teacher_level extends Controller
             E\Eaccept_flag::set_item_value_str($item,"advance_first_trial_flag");
             E\Eaccept_flag::set_item_value_str($item,"withhold_first_trial_flag");
             $item["lesson_count"] = $item["lesson_count"]/100;
-            $item["lesson_count_score"] = $this->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
-            $item["record_final_score"]= $this->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
-            $item["cc_order_score"]= $this->get_advance_score_by_num( $item["cc_order_num"],2);//cc签单数得分
-            $item["other_order_score"]= $this->get_advance_score_by_num( $item["other_order_num"],3);//cr签单得分
-            $item["stu_num_score"]= $this->get_advance_score_by_num( $item["stu_num"],4);//常规学生签单得分
+            // $item["lesson_count_score"] = $this->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
+            $item["lesson_count_score"] = $item["lesson_count_score"]/100;
+            // $item["record_final_score"]= $this->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
+            $item["record_final_score"] =  $item["record_final_score"]/100;
+            //$item["cc_order_score"]= $this->get_advance_score_by_num( $item["cc_order_num"],2);//cc签单数得分
+            $item["cc_order_score"]= $item["cc_order_score"]/100;
+            // $item["other_order_score"]= $this->get_advance_score_by_num( $item["other_order_num"],3);//cr签单得分
+            $item["other_order_score"] =  $item["other_order_score"]/100;
+            // $item["stu_num_score"]= $this->get_advance_score_by_num( $item["stu_num"],4);//常规学生签单得分
+            $item["stu_num_score"] = $item["stu_num_score"]/100;
             $order_score = $item["cc_order_score"]+ $item["other_order_score"];//签单总分
             if($order_score>=10){
                 $order_score=10;
             }
             $item["total_score"] =$item["lesson_count_score"]+$item["record_final_score"]+$order_score+ $item["stu_num_score"];//总得分
-            list($item["reach_flag"],$item["withhold_money"])=$this->get_tea_reach_withhold_list($item["level"],$item["total_score"]);
+            // list($item["reach_flag"],$item["withhold_money"])=$this->get_tea_reach_withhold_list($item["level_before"],$item["total_score"]);
+            $item["withhold_money"]=$item["withhold_money"]/100;
             E\Eboolean::set_item_value_str($item,"reach_flag");
 
         }
@@ -1695,9 +1703,11 @@ class teacher_level extends Controller
     public function set_teacher_advance_withhold_require_2018(){
         $start_time   = $this->get_in_int_val("start_time");
         $teacherid    = $this->get_in_int_val("teacherid");
+        $withhold_money    = $this->get_in_str_val("withhold_money");
         $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
             "withhold_require_time"    => time(),
-            "withhold_require_adminid" => $this->get_account_id()
+            "withhold_require_adminid" => $this->get_account_id(),
+            "withhold_money"           => $withhold_money*100
         ]);
         return $this->output_succ();
 
@@ -1717,8 +1727,19 @@ class teacher_level extends Controller
                 "advance_first_trial_time"    => time(),
                 "advance_first_trial_adminid" => $this->get_account_id()
             ]);
+            if($advance_first_trial_flag==2){
+                $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                    "accept_flag"     => 2,
+                    "accept_time"    => time(),
+                    // "accept_adminid" => $this->get_account_id()
+                ]);
+            }
 
         }elseif( $accept_flag>0){
+            $check_accept_flag = $this->t_teacher_advance_list->get_advance_first_trial_flag($start_time,$teacherid);
+            if($check_accept_flag != 1){
+                return $this->output_err("教研总监还未审批!");
+            }
             $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
                 "accept_flag"     => $accept_flag,
                 "accept_time"    => time(),
@@ -1736,7 +1757,8 @@ class teacher_level extends Controller
                 $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
 
                 //已排課程工資等級更改
-                $level_start = strtotime(date("Y-m-01",time()));
+                // $level_start = strtotime(date("Y-m-01",time()));
+                $level_start = strtotime("+3 months",$start_time);
                 $teacher_money_type = $info["teacher_money_type"];
                 $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
 
@@ -1752,30 +1774,27 @@ class teacher_level extends Controller
                  */
                 $wx_openid = $info["wx_openid"];
                 $realname = $info["realname"];
-                // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+                $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
                 if($wx_openid){
                     $data=[];
                     $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
                     $data['first']    = "恭喜".$realname."老师,您已经成功晋级到了".$level_degree;
                     $data['keyword1'] = $realname;
                     $data['keyword2'] = $level_degree;
-                    $data['keyword3'] = date("Y-m-01 00:00",time());
+                    $data['keyword3'] = date("Y-m-01 00:00",$level_start);
                     /* $data['remark']   = "晋升分数:".$score
                        ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
                     $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
 
                     $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
-                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-                    if($teacherid==240314){
-                        \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxGZQHlRENGlUeA7Tn1nSeII",$template_id,$data,$url);                   
-                    }
+                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);                   
                 
                 }
 
                 // 邮件推送
                 $html  = $this->teacher_level_up_html($info);
                 $email = $this->t_teacher_info->get_email($teacherid);
-                // $email = "jack@leoedu.com";
+                $email = "jack@leoedu.com";
                 if($email){
                     dispatch( new \App\Jobs\SendEmailNew(
                         $email,"【理优1对1】老师晋升通知",$html
@@ -1806,22 +1825,119 @@ class teacher_level extends Controller
                 "withhold_first_trial_time"    => time(),
                 "withhold_first_trial_adminid" => $this->get_account_id()
             ]);
+            if($withhold_first_trial_flag==2){
+                $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                    "withhold_final_trial_flag"     => 2,
+                    "withhold_final_trial_time"    => time(),
+                    // "withhold_final_trial_adminid" => $this->get_account_id()
+                ]);
+
+            }
 
         }elseif($withhold_final_trial_flag>0){
+            $check_accept_flag = $this->t_teacher_advance_list->get_withhold_first_trial_flag($start_time,$teacherid);
+            if($check_accept_flag != 1){
+                return $this->output_err("教研总监还未审批!");
+            }
+
             $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
                 "withhold_final_trial_flag"     => $withhold_final_trial_flag,
                 "withhold_final_trial_time"    => time(),
                 "withhold_final_trial_adminid" => $this->get_account_id()
             ]);
 
-            if($withhold_final_trial_flag==1){          
- 
+            if($withhold_final_trial_flag==1){
+                $withhold_money = $this->t_teacher_advance_list->get_withhold_money($start_time,$teacherid);
+                if ( \App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test() ){
+                    $month_start = strtotime(date("Y-m-d",time()));
+                    for($i=4;$i<7;$i++){
+                        $month = strtotime(date("Y-m-d",strtotime("+$i months",$start_time)-86400)." 10:00");
+                        $st = strtotime("+$i months",$start_time);
+                        if($st>=$month_start){                        
+                            $this->t_teacher_money_list->row_insert([
+                                "teacherid" =>$teacherid,
+                                "type"      =>101,
+                                "add_time"  =>$month,
+                                "money"     => "-$withhold_money",
+                                "money_info"=> date("Y-m-d",$month)." 等级不达标扣款"
+                            ]);
+                        }
+                    }
+                    $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                        "withhold_wx_flag"     => 1,
+                    ]);
+
+                   
+                }
+
             }
  
         }
         
         return $this->output_succ();
     }
+
+    //一键晋升审批
+    public function set_teacher_advance_require_all_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $agree_flag   = $this->get_in_int_val("agree_flag");
+        $acc          = $this->get_account();
+        $jim_flag = $this->get_in_int_val("jim_flag",2);       
+        $teacher_money_type=6;
+        if($agree_flag==1){
+            if($acc=="江敏" || $jim_flag==1){
+                //更新所有未处理的申请
+                $this->t_teacher_advance_list->update_first_advance_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+                
+            }elseif($acc=="ted" || $jim_flag==2){
+                $this->t_teacher_advance_list->update_second_advance_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+                //发送微信/邮件推送
+                $job = new \App\Jobs\SendAdvanceTeacherWxEmail($start_time,$teacher_money_type,1);
+                dispatch($job);
+            }
+        }elseif($agree_flag==2){
+            if($acc=="江敏" || $jim_flag==1){
+                $this->t_teacher_advance_list->update_first_advance_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type); 
+
+            }elseif($acc=="ted" || $jim_flag==2){
+                $this->t_teacher_advance_list->update_second_advance_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+            }
+
+        }
+        return $this->output_succ();
+
+    }
+
+    //一键扣款审批
+    public function set_teacher_withhold_require_all_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $agree_flag   = $this->get_in_int_val("agree_flag");
+        $acc          = $this->get_account();
+        $jim_flag = $this->get_in_int_val("jim_flag",2);
+        $teacher_money_type=6;
+        if($agree_flag==1){
+            if($acc=="江敏" || $jim_flag==1){
+                //更新所有未处理的申请
+                $this->t_teacher_advance_list->update_first_withhold_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+                
+            }elseif($acc=="ted" || $jim_flag==2){
+                $this->t_teacher_advance_list->update_second_withhold_deal_info_all(1,$this->get_account_id(),time(),$start_time,$teacher_money_type); 
+                //老师工资扣款处理
+                $job = new \App\Jobs\SendAdvanceTeacherWxEmail($start_time,$teacher_money_type,2);
+                dispatch($job);
+            }
+        }elseif($agree_flag==2){
+            if($acc=="江敏" || $jim_flag==1){
+                $this->t_teacher_advance_list->update_first_withhold_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type); 
+            }elseif($acc=="ted" || $jim_flag==2){
+                $this->t_teacher_advance_list->update_second_withhold_deal_info_all(2,$this->get_account_id(),time(),$start_time,$teacher_money_type);
+            }
+
+        }
+        return $this->output_succ();
+
+    }
+
 
 
     //新版刷新数据

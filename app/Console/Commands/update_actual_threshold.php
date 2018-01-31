@@ -133,7 +133,7 @@ class update_actual_threshold extends Command
               .$threshold_desc.$threshold."%"."\n"
               ."拨打量：".$count_call."\n"
               ."拨不通：".$count_no_called;
-        $account_arr = ['tom','应怡莉'];
+        $account_arr = ['tom','应怡莉','alan'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
                 $account,
@@ -145,7 +145,8 @@ class update_actual_threshold extends Command
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
                 ],
-                $url='http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
+                $url='http://admin.leo1v1.com/tongji_ex/threshold_detail?color='.$color.'&threshold_line='.$threshold.'&count_call='.$count_call.'&count_no_called='.$count_no_called.'&type=1'
+            );
         }
     }
 
@@ -165,7 +166,7 @@ class update_actual_threshold extends Command
               ."总拨通率：".$rate."%"."\n"
               ."总拨打量：".$count_call."\n"
               ."总拨不通：".$count_no_called;
-        $account_arr = ['tom','应怡莉'];
+        $account_arr = ['tom','应怡莉','alan'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
                 $account,
@@ -177,7 +178,8 @@ class update_actual_threshold extends Command
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
                 ],
-                $url='http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
+                $url='http://admin.leo1v1.com/tongji_ex/threshold_detail?threshold_max='.$threshold_max.'&threshold_min='.$threshold_min.'&count_y='.$count_y.'&count_r='.$count_r.'&rate='.$rate.'&count_call='.$count_call.'&count_no_called='.$r_count_no_called.'&type=2'
+            );
         }
     }
 }

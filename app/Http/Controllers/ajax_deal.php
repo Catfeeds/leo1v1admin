@@ -529,4 +529,26 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    # 获取统计图片信息
+    public function getStatisticalChat(){
+        $startTime = strtotime($this->get_in_str_val('startTime'));
+        $endTime   = strtotime($this->get_in_str_val('endTime'));
+        $ret_info = $this->t_product_feedback_list->getDataForChat($startTime,$endTime);
+        $dataColumn = [];
+        $dataPie = [];
+        $tmpColumn = [];
+        $tmpPie = [];
+        $totalNum = count($ret_info);
+        foreach($ret_info as &$item){
+            $tmpColumn['name'] = $tmpPie[] = E\Elesson_problem::get_desc($item['lesson_problem']);
+            $tmpColumn['y']  = (int)$item['num'];
+            $tmpPie[] = (int)$item['num']/$totalNum;
+            $dataColumn[] = $tmpColumn;
+            $dataPie[] = $tmpPie;
+        }
+
+        $total_arr['column'] = $dataColumn;
+        $total_arr['pie'] = $dataColumn;
+        return $this->output_succ(['data'=>$total_arr]);
+    }
 }

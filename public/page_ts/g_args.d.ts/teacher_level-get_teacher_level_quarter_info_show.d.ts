@@ -70,6 +70,7 @@ interface RowData {
 	level	:any;
 	level_str	:any;
 	level_after_str	:any;
+	level_before_str	:any;
 	accept_time_str	:any;
 	require_time_str	:any;
 	accept_flag_str	:any;

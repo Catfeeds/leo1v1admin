@@ -20,6 +20,7 @@ interface GargsStatic {
 	train_through_new:	number;
 	seller_flag:	number;
 	sleep_teacher_flag:	number;
+	elite_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -195,6 +196,13 @@ interface RowData {
 	teaching_achievement	:any;
 	parent_student_evaluate	:any;
 	qq_info	:any;
+	wx_name	:any;
+	is_prove	:any;
+	phone_province	:any;
+	phone_city	:any;
+	week_limit_time_info	:any;
+	limit_seller_require_flag	:any;
+	callcard_url	:any;
 	label_id	:any;
 	tag_info	:any;
 	teacher_type_str	:any;
@@ -249,7 +257,8 @@ function load_data(){
 		lesson_hold_flag:	$('#id_lesson_hold_flag').val(),
 		train_through_new:	$('#id_train_through_new').val(),
 		seller_flag:	$('#id_seller_flag').val(),
-		sleep_teacher_flag:	$('#id_sleep_teacher_flag').val()
+		sleep_teacher_flag:	$('#id_sleep_teacher_flag').val(),
+		elite_flag:	$('#id_elite_flag').val()
 		});
 }
 $(function(){
@@ -285,6 +294,7 @@ $(function(){
 	$('#id_train_through_new').val(g_args.train_through_new);
 	$('#id_seller_flag').val(g_args.seller_flag);
 	$('#id_sleep_teacher_flag').val(g_args.sleep_teacher_flag);
+	$('#id_elite_flag').val(g_args.elite_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -413,4 +423,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["sleep_teacher_flag title", "sleep_teacher_flag", "th_sleep_teacher_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">elite_flag</span>
+                <input class="opt-change form-control" id="id_elite_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["elite_flag title", "elite_flag", "th_elite_flag" ]])!!}
 */

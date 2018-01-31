@@ -48,13 +48,13 @@ interface RowData {
 	tag_three_name	:any;
 	tag_four_name	:any;
 	tag_five_name	:any;
+	file_size_str	:any;
 	subject_str	:any;
 	grade_str	:any;
 	resource_type_str	:any;
 	use_type_str	:any;
-	tag_two_str	:any;
-	tag_three_str	:any;
 	tag_one_str	:any;
+	tag_two_str	:any;
 	tag_five_str	:any;
 }
 

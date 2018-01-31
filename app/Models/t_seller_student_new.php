@@ -3641,4 +3641,22 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         return $this->main_get_value($sql);
     }
+
+    public function get_item_tmk_list($count_flag=-1){
+        $where_arr = [];
+        if($count_flag==1){
+            $where_arr[] = 'o.is_exist_count>0';
+        }
+        $this->where_arr_add_int_field($where_arr, 'n.tmk_student_status', E\Etmk_student_status::V_2);
+        $sql = $this->gen_sql_new(
+            " select n.add_time add_time_old,n.phone,o.* "
+            ." from %s n "
+            ." left join %s o on o.userid=n.userid "
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_origin::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

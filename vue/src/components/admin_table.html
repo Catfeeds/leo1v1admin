@@ -3,6 +3,10 @@
     <thead>
       <tr >
         <td class="remove-for-not-xs" style="display: none;"> </td>
+        <td v-if="multi_select" style="width:20px"  >
+          <a href="javascript:;" title="全选" @click="opt_multi_select_all">全 </a>
+          <a href="javascript:;" title="反选" @click="opt_multi_select_other">反 </a>
+        </td>
         <slot name="th"></slot>
 
         <td v-for="field_info in real_table_config.field_list"
@@ -13,7 +17,7 @@
           <span v-html="field_info.title"> </span>
           <a v-if="field_info.order_field_name" class="fa td-sort-item "
 
-            v-bind:class="get_sort_class(field_info)" href="javascript:;"> </a>
+            v-bind:class="get_sort_class(field_info)" href="javascript:;" @click="do_sort" > </a>
         </td>
 
         <td class="remove-for-xs" >操作
@@ -28,8 +32,13 @@
     <tbody>
       <tr v-for="(item,index) in table_data ">
         <td class="remove-for-not-xs" style="display: none;">
-          <a class="  fa  fa-cog   " style="font-size:25px" href="javascript:;" @click="show_as_list($event, item,index)" > </a>
+
+          <a class="fa  fa-cog" style="font-size:25px" href="javascript:;" @click="show_as_list($event, item,index)" > </a>
         </td>
+        <td v-if="multi_select" style="width:20px"  >
+          <input type="checkbox" class="multi-select-item"  v-bind:data-index="index" v-bind:checked="false" />
+        </td>
+
         <td v-for="field_info in real_table_config.field_list "
           v-if="check_show(field_info)"
           v-html="field_render(item,  field_info,index)"></td>

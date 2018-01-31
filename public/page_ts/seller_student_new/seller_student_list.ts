@@ -11,6 +11,12 @@ function init_today_new()  {
         var userid_list=[];
         var user_admin_assign_time_map={};
         var opt_data_map={};
+        if(g_args.env_is_test==1)
+            var call_button =' <button class=" call-opt-call-fail btn btn-warning  fa fa-phone fa-1x "  style="width:30%" > 未拨通</button>'+' <button class=" call-opt-call-succ btn btn-warning  fa fa-phone fa-1x "  style="width:30%" > 拨通</button>';
+        else
+            var call_button ='<button class=" call-opt-call-phone btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>';
+
+            
         $(".opt-user").each( function(){
             var opt_data=$(this).get_opt_data();
             //alert (opt_data.nick);
@@ -79,8 +85,7 @@ function init_today_new()  {
                         '            <!-- Conversations are loaded here -->'+
                         '            <div class="call-item">'+
                         '                <button class=" call-opt-edit  btn btn-warning  fa fa-edit fa-2x" style="width:25%" title="编辑,同时同步tq" >'+
-                        '                </button>'+
-                        '                <button class=" call-opt-call-phone btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>'+
+                        '                </button>'+call_button+
                         '            </div>'+
                         '            <!-- Contacts are loaded here -->'+
                         '            <!-- /.direct-chat-pane -->'+
@@ -92,7 +97,7 @@ function init_today_new()  {
                         '</div>');
                 $seller_item.find(".call-opt-edit").on("click" ,function() {
                     $p_div.find(".opt-edit-new_new").click();
-
+                    
                     $.do_ajax("/ss_deal/sync_tq",{
                         "phone" : opt_data.phone,
                         "userid" : opt_data.userid,
@@ -107,6 +112,38 @@ function init_today_new()  {
                 $seller_item.find(".call-opt-call-phone").on("click" ,function() {
                     $p_div.find(".opt-telphone").click();
                 }) ;
+                //模拟拨打失败[测试用]
+                $seller_item.find(".call-opt-call-fail").on("click" ,function() {
+                    $.do_ajax("/common_new/test_simulation_call",{
+                        "call_flag" : 1, //模拟拨打失败
+                        "phone" : opt_data.phone
+                    },function(resp){
+                        if (resp.result) {
+                            alert('模拟拨打失败信息添加成功!');
+                            $.reload();
+                        }else{
+                            alert('模拟拨打失败信息添加失败!');
+                        }
+                    });
+
+                }) ;
+                //模拟拨打成功[测试用]
+                $seller_item.find(".call-opt-call-succ").on("click" ,function() {
+                    $.do_ajax("/common_new/test_simulation_call",{
+                        "call_flag" : 2, //模拟拨打成功
+                        "phone" : opt_data.phone
+                    },function(resp){
+                        if (resp.result) {
+                            alert('模拟拨打成功信息添加成功!');
+                            $.reload();
+                        }else{
+                            alert('模拟拨打成功信息添加失败!');
+                        }
+                    });
+
+                }) ;
+
+
                 /*
                   ' <span style="color:red;font-weight: bolder; " > 未拨打 <span>' +
                   ' <span style="color:red;font-weight: bolder; " > 未拨打 <span>' +
@@ -130,10 +167,14 @@ function init_today_new()  {
         },function(resp){
             var hold_msg="";
             if ( resp.max_hold_count <= resp.hold_count ) {
+                alert('新例子分配失败,例子库空间已满，请尽快清理');
                 hold_msg=' <span  style="color:red;">请释放不要是例子回公海,不然无法得到新例子 </span> ';
+            }else if(resp.max_hold_count-resp.hold_count<=10){
+                alert('例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count);
+                hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
             }
 
-            var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+ hold_msg);
+            var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
             $id_today_new_list.find(".new_list_title").html ($title);
 
             $.each(resp.user_list, function(i, user_item ){
@@ -651,7 +692,8 @@ $(function(){
 
         };
         $.do_ajax_t("/ss_deal/call_ytx_phone", {
-            "phone": opt_data.phone
+            "phone": opt_data.phone,
+            "userid": opt_data.userid
         } );
         $(me).parent().find(".opt-edit-new_new_two").click();
     });

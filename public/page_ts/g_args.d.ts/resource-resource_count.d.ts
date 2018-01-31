@@ -4,6 +4,9 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	subject:	number;
+	grade:	number;
+	resource_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -31,7 +34,10 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		subject:	$('#id_subject').val(),
+		grade:	$('#id_grade').val(),
+		resource_type:	$('#id_resource_type').val()
 		});
 }
 $(function(){
@@ -46,6 +52,9 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_subject').val(g_args.subject);
+	$('#id_grade').val(g_args.grade);
+	$('#id_resource_type').val(g_args.resource_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -60,4 +69,28 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">grade</span>
+                <input class="opt-change form-control" id="id_grade" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">resource_type</span>
+                <input class="opt-change form-control" id="id_resource_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["resource_type title", "resource_type", "th_resource_type" ]])!!}
 */

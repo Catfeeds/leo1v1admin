@@ -35,7 +35,7 @@
                 <div class="col-xs-6 col-md-6">
                     <button class="btn btn-primary" id="id_withhold_agree" style="float:right" > 一键同意扣款 </button>
                     <button class="btn btn-primary" id="id_advance_agree" style="float:right;margin-right:15px">一键同意晋升 </button>
-                    <button class="btn btn-primary" id="id_edit-rule" style="float:right;margin-right:15px"> 修改晋升规则</button>
+                    <button class="btn btn-primary" id="id_edit_rule" style="float:right;margin-right:15px"> 修改晋升规则</button>
                 </div>
 
                
@@ -63,6 +63,7 @@
                 <tr>
                     <td>id</td>
                     <td>老师</td>
+                    <td style="display:none">晋升前等级</td>
                     <td>等级</td>
                     <td>课耗平均</td>
                     <td>课耗得分</td>
@@ -92,6 +93,7 @@
                     <tr>
                         <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
+                        <td >{{@$var["level_before_str"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["lesson_count"]}} </td>
                         <td>{{@$var["lesson_count_score"]}} </td>
@@ -116,17 +118,23 @@
                             @else
                                 -{{ @$var["withhold_money"] }}元/月<br><br>
                                 @if(empty($var["withhold_require_time"]))
-                                    未申请
-                                @elseif(empty($var["withhold_final_trial_flag"]))
+                                    无
+                                @elseif(empty($var["withhold_first_trial_flag"]))
                                     待审批
+                                @elseif(empty($var["withhold_final_trial_flag"]))
+                                    审批中
                                 @else
-                                    已审批({{ $var["withhold_final_trial_flag_str"] }})
+                                    @if($var["withhold_final_trial_flag"]==1)
+                                        已通过
+                                    @elseif($var["withhold_final_trial_flag"]==2)
+                                        已拒绝
+                                    @endif
                                 @endif
                             @endif
                         </td>
                         <td>
                             @if(empty($var["require_time"]))
-                                状态:未申请
+                                状态:无
                             @elseif(empty($var["advance_first_trial_time"]) && empty($var["accept_time"]))
                                 状态:待审批<br>
                                 目标等级:{{@$var["level_after_str"]}}<br>
@@ -134,8 +142,11 @@
                                 状态:审批中<br>
                                 目标等级:{{@$var["level_after_str"]}}<br>
                             @else
-                                状态:已审批<br>
-                                审批结果:{{ @$var["accept_flag_str"] }}<br>
+                                @if($var["accept_flag"]==1)
+                                    状态:已通过<br>
+                                @elseif($var["accept_flag"]==2)
+                                    状态:已拒绝<br>
+                                @endif
                                 目标等级:{{@$var["level_after_str"]}}<br>
                             @endif
                         </td>
@@ -158,7 +169,7 @@
                                     @endif
 
                                 @endif
-                                @if($account=="jack")
+                                @if($account=="jack" || $account=="jim")
                                     @if($var["hand_flag"]==1)
                                         <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
                                     @endif

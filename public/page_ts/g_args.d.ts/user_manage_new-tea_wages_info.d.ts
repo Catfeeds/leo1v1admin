@@ -61,6 +61,7 @@ interface RowData {
 	teacher_money_type_str	:any;
 	lesson_time	:any;
 	lesson_count_err	:any;
+	pre_price	:any;
 	key1	:any;
 	key2	:any;
 	key3	:any;

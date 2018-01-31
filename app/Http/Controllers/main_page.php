@@ -44,11 +44,23 @@ class main_page extends Controller
         foreach ($sms_list as &$item)  {
             E\Esms_type::set_item_value_str($item, "type");
         }
+        $sys_assign=$this->t_seller_student_system_assign_count_log->get_last_item();
+
 
         $sys_info=[
             ["当前IP", $this->get_in_client_ip() ],
             ["job count:" ,$this->t_jobs->get_all_count() ],
             ["课时审查时间节点",\App\Helper\Config::get_lesson_confirm_start_time()],
+            ["",""],
+            ["系统分配例子时间", \App\Helper\Utils::unixtime2date( $sys_assign["logtime"])],
+            ["新例子剩余", $sys_assign["new_count"]],
+            ["新例子需要", $sys_assign["need_new_count"]],
+            ["新例子已分配", $sys_assign["new_count_assigned"]],
+
+            ["未联系剩余", $sys_assign["no_connected_count"]],
+            ["未联系已分配", $sys_assign["no_connected_count_assigned"]],
+            ["未联系需要", $sys_assign["need_no_connected_count"]],
+
         ];
 
 

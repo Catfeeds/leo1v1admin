@@ -25,6 +25,32 @@ $(function(){
         }
     });
 
+    $("#add_ass").on("click",function(){
+        var id_ass = $("<input />");
+        var arr = [
+            ["助教",id_ass],        
+        ];
+        $.show_key_value_table("增加",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/ajax_deal3/add_ass_performance",{
+                    "assistantid"   : id_ass.val(),                 
+                    "start_time":g_args.start_time,
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        },function(){
+            $.admin_select_user(id_ass, "assistant"); 
+        });
+
+    });
+
     $(".opt-reset-data").on("click",function(){
         //alert("开发中");
         var data           = $(this).get_opt_data();

@@ -175,7 +175,7 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
             $RoleId = $t_manager_info->checkIsRole($userOpenid);
             if($RoleId > 0){
-                $content = "http://wx-parent.leo1v1.com?uid=$RoleId"; // 待定
+                $content = "http://wx-parent-web.leo1v1.com/poster/index.html?uid=$RoleId"; // 待定
                 # 记录输入转发次数
             }
         }elseif($request['content'] == 'BBC'){

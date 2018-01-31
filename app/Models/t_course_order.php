@@ -579,9 +579,10 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
         return $this->main_get_list($sql);
     }
 
-    function add_course_info_new($orderid,$userid,$grade,$subject,$default_lesson_count,
-                                 $course_type,$course_status,$lesson_total,$lesson_left,$assistantid,
-                                 $teacherid
+    function add_course_info_new(
+        $orderid,$userid,$grade,$subject,$default_lesson_count,
+        $course_type,$course_status,$lesson_total,$lesson_left,$assistantid,
+        $teacherid
     ){
         $course_start = time();
         $date_now     = date('Y-m-d H:i:s',time());

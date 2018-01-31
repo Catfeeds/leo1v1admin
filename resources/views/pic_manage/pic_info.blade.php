@@ -94,9 +94,8 @@
                 <tr>
 			        <td style="text-align:right; width:150px;">图片类型</td>
 			        <td>
-                  
                   <select class="add_pic_type ">
-                      <option value="0">请选择</option> 
+                      <option value="0">请选择</option>
                         </select>
                     </td>
 		        </tr>

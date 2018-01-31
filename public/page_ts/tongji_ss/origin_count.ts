@@ -118,7 +118,6 @@ $(function(){
 
 
 
-
     $('#id_origin').val(g_args.origin);
     $('#id_origin_ex').val(g_args.origin_ex);
     $("#id_admin_revisiterid").val(g_args.admin_revisiterid);

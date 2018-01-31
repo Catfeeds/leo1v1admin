@@ -288,7 +288,7 @@ class seller_student_new2 extends Controller
             E\Egender::set_item_value_str($item);
 
             if($item['accept_status'] == 0){
-                $item['accept_status_str'] = '<font color="blue">未设置</font>';
+                $item['accept_status_str'] = '<font color="blue">未接受</font>';
             }elseif($item['accept_status'] == 1){
                 $item['accept_status_str'] = '<font color="green">已接受</font>';
             }elseif($item['accept_status'] == 2){
@@ -594,9 +594,15 @@ class seller_student_new2 extends Controller
         return $this->pageView(__METHOD__, $ret_info );
     }
 
+    /**
+     * 2018年01月29日关闭抢单库功能
+     * 教务将使用新版排课,旧版的抢单库功能暂停使用!
+     */
     public function grab_test_lesson_plan(){
         $requireid   = $this->get_in_str_val("requireid");
         $grab_status = $this->get_in_int_val("grab_status",-1);
+
+        return $this->output_err("抢单库功能已关闭!");
 
         if($requireid=="" || $grab_status==-1){
             return $this->output_err("请确认是否选择申请及其所要改变状态!");
@@ -1456,15 +1462,28 @@ class seller_student_new2 extends Controller
             if($require_info['current_lessonid']){
                 $lesson_info = $this->t_lesson_info->get_lesson_info($require_info['current_lessonid']);
                 $require_info['teacherid'] = $lesson_info['teacherid'];
-                $teacher_info = $this->t_teacher_info->get_teacher_info($lesson_info['teacherid']);
-                $tea_nick  = $teacher_info['realname'];
-                $tea_phone = $teacher_info['phone'];
+                $tea_info = $this->t_teacher_info->get_teacher_info($lesson_info['teacherid']);
+                $tea_nick  = $tea_info['realname'];
+                $tea_phone = $tea_info['phone'];
                 $require_info['teacher_info'] = $tea_nick."/".$tea_phone;
                 $require_info['lesson_time']  = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
+                if($lesson_info['accept_status']==0){
+                    $require_info['accept_status_str'] = "未接受";
+                }else{
+                    $require_info['accept_status_str'] = E\Eaccept_status::get_desc($lesson_info['accept_status']);
+                }
             }else{
-                $require_info['teacherid']    = "";
-                $require_info['teacher_info'] = "";
-                $require_info['lesson_time']  = "";
+                if($require_info['green_channel_teacherid']>0){
+                    $green_teacher_info = $this->t_teacher_info->get_teacher_info($require_info['green_channel_teacherid']);
+                    $require_info['teacherid'] = $require_info['green_channel_teacherid'];
+                    $require_info['teacher_info'] = $green_teacher_info['nick']."/".$green_teacher_info['phone'];
+                }else{
+                    $require_info['teacherid']    = "";
+                    $require_info['teacher_info'] = "";
+                }
+
+                $require_info['lesson_time']  = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time']);
+                $require_info['accept_status_str'] = "";
             }
 
             $identity       = $this->get_in_int_val("identity",$require_info['tea_identity']);
@@ -1608,7 +1627,7 @@ class seller_student_new2 extends Controller
                 $tea_val['is_identity'] = $identity==$tea_val['identity'] && $identity!=0?1:0;
                 $tea_val['is_gender']   = $gender==$tea_val['gender'] && $gender!=0?1:0;
                 $tea_val['is_age']      = $tea_age==$tea_val['age_flag'] && $tea_age!=0?1:0;
-                if($teacher_info!="" && (strstr($teacher_info,$tea_val['realname']) || strstr($teacher_info,$tea_val['phone']))){
+                if($teacher_info!="" && (strstr($tea_val['realname'],$teacher_info) || strstr($tea_val['phone'],$teacher_info))){
                     $tea_val['is_search'] = 1;
                 }else{
                     $tea_val['is_search'] = 0;

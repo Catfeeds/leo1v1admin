@@ -253,4 +253,19 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
+    public function get_resource_list(){
+        $sql = $this->gen_sql_new(" select f.file_title,f.file_id,f.file_size,r.create_time from %s f join %s r on f.resource_id = r.resource_id"
+                                  ." where r.resource_type=9 and r.create_time > 1517206316 and r.create_time < 1517208049 and r.is_del = 0 by r.resource_id deac,f.file_id desc"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_resource::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function batch_del($idstr){
+        $sql = $this->gen_sql_new("delete from %s where resource_id in %s",self::DB_TABLE_NAME,$idstr);
+        return $this->main_update($sql);
+    }
+
 }

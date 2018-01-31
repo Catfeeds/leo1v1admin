@@ -43,11 +43,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">总工资:{{@$all_price}}</span>
                     <span class="input-group-addon">
-                        @if(@$teacher_reward>0)
-                            <a class="teacher_reward_list">额外奖金</a>
-                        @else
-                            额外奖金
-                        @endif
+                        <a class="teacher_reward_list" style="cursor:pointer">额外奖金</a>
                         :{{@$teacher_reward}}
                     </span>
                     <span class="input-group-addon">常规课时:{{@$lesson_count['normal_total']/100}}</span>
@@ -104,15 +100,14 @@
                             <td >{{isset($var["already_lesson_count"])?@$var["already_lesson_count"]/100:""}}</td>
                             <td>
                                 <div class="opt-div"
-                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                     {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}
                                 >
                                     <a class="opt-goto-lesson">课程</a>
                                     <a class="fa-video-camera opt-play" title="回放"></a>
                                     <a class="opt-add_reward" title="添加奖励">奖</a>
                                     <a class="opt-reset_lesson" title="重置等级">重置</a>
-                                    @if(!\App\Helper\Utils::check_env_is_release())
+                                    @if(!\App\Helper\Utils::check_env_is_release() || $_account_role==12)
                                         <a class="opt-update-log" title="更改课程信息">更改课程信息</a>
-                                        <!-- <a class="opt-show-log" title="显示更改记录">修改记录</a> -->
                                     @endif
                                 </div>
                             </td>

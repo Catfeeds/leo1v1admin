@@ -282,7 +282,7 @@ class company_wx extends Controller
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
-        $start_time = strtotime("-1day");
+        $start_time = strtotime("-5day");
         $end_time = time();
 
         $approv = $this->t_company_wx_approval->get_all_info($start_time, $end_time);
@@ -301,18 +301,20 @@ class company_wx extends Controller
 
         $info = $output['data'];
         foreach($info as $item) {
-            if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
-                $index = $item['apply_user_id'].'-'.$item['apply_time'];
-                if ($approv[$index]['sp_status'] != $item['sp_status']) {
-                    $this->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
-                        "sp_status" => $item['sp_status']
-                    ]);
-                }
-                continue;
-            }
+            // if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
+            //     $index = $item['apply_user_id'].'-'.$item['apply_time'];
+            //     if ($approv[$index]['sp_status'] != $item['sp_status']) {
+            //         $this->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
+            //             "sp_status" => $item['sp_status']
+            //         ]);
+            //     }
+            //     continue;
+            // }
 
-            $approval_name = implode(',', $item['approval_name']);
-            $notify_name = implode(',', $item['notify_name']);
+            $approval_name = implode(',', $item['approval_name']); // 审批人
+            $notify_name = implode(',', $item['notify_name']); // 抄送人
+            $names = array_merge($item["approval_name"], $item["notify_name"]);
+            array_push($names, $item["apply_name"]); // 申请人
             $common = [
                 'spname' => $item['spname'],
                 'apply_name' => $item['apply_name'],
@@ -339,13 +341,17 @@ class company_wx extends Controller
                 $common['type'] = E\Eapproval_type::V_1;
             }
             $leave = json_decode($item['comm']['apply_data'], true);
-            $this->handle_aprove_type($item, $leave, $approv_type, $common);
+            $this->handle_aprove_type($item, $leave, $approv_type, $common, $names);
         }
+       
         return $this->output_succ();
     }
 
-    public function handle_aprove_type($item, $leave, $approv_type, $common) {
-        $items = '';
+    public function handle_aprove_type($item, $leave, $approv_type, $common, $names) {
+        $items = "";
+        //初始化
+        $data_desc = $data_column = $require_reason = $require_time = "";
+
         foreach ($leave as $val) {
             if ($item['spname'] == "武汉请假流") {
                 if ($val['title'] == '请假类型') {
@@ -370,8 +376,10 @@ class company_wx extends Controller
             }
 
             if ($item['spname'] == '拉取数据审批') {
-                if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
-                if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                if ($val['title'] == '数据描述') $data_desc = $val['value'];
+                if ($val["title"] == "数据字段") $data_column = $val["value"];
+                if ($val["title"] == "需求原因") $require_reason = $val["value"];
+                if ($val['title'] == '需要时间') $require_time = ($val['value'] / 1000);
                 $common['type'] = E\Eapproval_type::V_11;
             }
 
@@ -382,8 +390,41 @@ class company_wx extends Controller
             if (isset($val['value'])) $items[$val['title']] = $val['value'];
         }
 
+        if ($item["spname"] == "拉取数据审批") {
+            $info = $this->t_company_wx_approval_data->get_list_for_user_time($common["apply_user_id"], $common["apply_time"]);
+
+            if (!$info) {
+                $data = [
+                    "apply_name" => $common["apply_name"],
+                    "apply_user_id" => $common["apply_user_id"],
+                    "apply_time" => $common["apply_time"],
+                    "data_desc" => $data_desc,
+                    "data_column" => $data_column,
+                    "require_reason" => $require_reason,
+                    "require_time" => $require_time
+                ];
+                $this->t_company_wx_approval_data->row_insert($data);
+
+                $id = $this->t_company_wx_approval_data->get_last_insertid();
+                foreach($names as $name) {
+                    $userid = $this->t_company_wx_users->get_userid_for_name($name);
+                    $did = $this->t_company_wx_approval_notify->get_list_for_user_id($id,$userid);
+                    if (!$did) {
+                        $this->t_company_wx_approval_notify->row_insert([
+                            "d_id" => $id,
+                            "user_id" => $userid
+                        ]);
+                    }
+                }
+
+                echo "加载拉取数据审批成功";
+
+            }
+
+        }
+
         if ($items) $common['item'] = json_encode($item);
-        $this->t_company_wx_approval->row_insert($common);
+        //$this->t_company_wx_approval->row_insert($common);
     }
 
     public function get_company_wx_data($url, $index='') { //根据不同路由获取不同的数据 (企业微信)
@@ -395,14 +436,30 @@ class company_wx extends Controller
         return $info;
     }
 
+    public function show_approv_data_self() {
+        $adminid = $this->get_account_id();
+        $phone = $this->t_manager_info->get_phone($adminid);
+        $userid = $this->t_company_wx_users->get_userid_for_adminid($phone);
+        if ($userid) {
+            $this->set_in_value("userid", $userid);
+            return $this->show_approv_data();
+        } else {
+            exit("您企业微信中的手机号与后台不一致，请联系后台管理员更改手机号");
+        }
+    }
+
     public function show_approv_data() {
-        $info = $this->t_company_wx_approval_data->get_all_list();
+        $userid = $this->get_in_int_val("userid", -1);
+        $flag = false;
+        if ($userid == -1) $flag = true;
+        $info = $this->t_company_wx_approval_data->get_all_list($userid);
         foreach($info as &$item) {
             $item["apply_time"] = date("Y-m-d H:i:s", $item["apply_time"]);
             $item['require_time'] = date("Y-m-d H:i:s", $item["require_time"]);
         }
         return $this->pageView(__METHOD__, '', [
             'info' => $info,
+            "flag" => $flag
         ],[
             'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
@@ -421,6 +478,21 @@ class company_wx extends Controller
         ]);
         return $this->output_succ();
     }
+
+    public function update_approval_page_url() {
+        $id = $this->get_in_int_val("id");
+        $page_url = $this->get_in_str_val("page_url");
+        if (!$page_url) {
+            return $this->output_err("数据页面地址不能为空");
+        }
+        $acc = $this->get_account();
+        $this->t_company_wx_approval_data->field_update_list($id, [
+            "acc" => $acc,
+            "page_url" => $page_url
+        ]);
+        return $this->output_succ();
+    }
+
 
     public function show_approv() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
@@ -811,5 +883,12 @@ class company_wx extends Controller
             return $this->output_succ();
         }
         return $this->output_err('管理后台无此账号');
+    }
+
+    // 下载日志
+    public function download_log() {
+        $account = $this->get_account();
+        $this->t_user_log->add_data($account.":拉取数据审批页下载数据");
+        return $this->output_succ();
     }
 }

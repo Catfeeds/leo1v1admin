@@ -397,12 +397,11 @@ class test_james extends Controller
            3、位置：统计>个性海报转发记录
          **/
         Schema::dropIfExists('t_personality_poster');
-        Schema::create('db_tool.t_personality_poster', function(Blueprint $table) {
-            t_comment($table,"市场部个性海报");
-            t_field($table->increments("id"), "");
-            t_field($table->integer("uid"), "分享人id");
-            t_field($table->integer("clickNum"), "家长点击次数");
-            t_field($table->integer("stuNum"), "学生数量");
+        Schema::table('db_weiyi.t_lesson_info', function(Blueprint $table) {
+            t_field($table->string("uuid_stu"), "学生PPT讲义的uuid");
+            t_field($table->string("zip_url_stu"), "学生讲义压缩包链接");
+            t_field($table->tinyInteger("ppt_status_stu"), "学生ppt转化状态 0:未处理 1:已成功 2:失败");
+            $table->index('uuid_stu', 'uuid_stu_ppt');
         });
 
         Schema::dropIfExists('t_poster_share_log');
@@ -1767,6 +1766,9 @@ class test_james extends Controller
     }
 
     public function test_job(){
+        $add_num = 97;
+        $noticeIndex = $add_num%97;
+        dd($noticeIndex);
         $type = '';
         $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=111&type=2";
         $a = new \App\Jobs\marketActivityPoster('','',$qr_code_url,'','',$type);
@@ -1775,18 +1777,61 @@ class test_james extends Controller
     }
 
     public function getTea(){
-        dd(date('Y年m月d日'));
-        $a = $this->t_parent_info->get_stu();
-        foreach($a as $i => $item){
-            $checkNeedSend = $this->t_lesson_info_b3->checkNeedSend($item['userid']);
-            if($checkNeedSend != 1){
-                unset($a[$i]);
+
+        $a = 0.3;
+        dd($a);
+        $start_time = strtotime($this->get_in_str_val("s"));
+        $end_time = strtotime($this->get_in_str_val("e"));
+        $dayNum = ($end_time-$start_time)/86400;
+        $type = $this->get_in_int_val('t');
+
+        $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
+        $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
+        $dateArr = [];
+        $rateArr = [];
+        $tmp = [];
+
+        $a = 0;
+        for($i=0; $i<$dayNum; $i++){
+            $timeStart = $start_time+$i*86400;
+            $timeEnd   = $timeStart+86400;
+            $dateArr[] = date('Y-m-d',$timeStart);
+            $cancel_num = 0;
+            $actual_num = 0;
+
+            foreach($lessonCancelNum as $item_cancel){
+                if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
+                    $cancel_num+=1;
+                    // echo $cancel_num." lessonId:".$item_cancel['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd <br/>";
+                }
+            }
+
+            foreach($actualLessonNum as $item_actual){
+                if($item_actual['lesson_start']>=$timeStart && $item_actual['lesson_start']<=$timeEnd){
+                    $actual_num+=1;
+                    // echo $actual_num." lessonId:".$item_actual['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd <br/>";
+
+                }
+            }
+            // echo $actual_num+$cancel_num."<br>";
+            if(($actual_num+$cancel_num)>0){
+                $rateArr[] = $cancel_num/($actual_num+$cancel_num);
+                echo "a1<br>";
+            }else{
+                $rateArr[] = 0;
             }
         }
-        dd($a);
-        $num = $this->t_parent_info->getNeedSendInfo();
-        echo count($num);
-        dd($num);
+        $ret_info = [];
+
+        dd($rateArr);
+        if($type==1){
+            dd($lessonCancelNum);
+        }else{
+            dd($actualLessonNum);
+        }
+
+
+
     }
 
 }

@@ -57,6 +57,8 @@ class menu{
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
+                ["power_id"=>11, "name"=>"课次取消率-技术支持",   "url"=>"/tongji2/lessoncancelrate"],
+
             ]
             ],
             ["power_id"=>15, "name"=>"例子-新版", "list"=>[
@@ -461,6 +463,7 @@ class menu{
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
                 ["power_id"=>46, "name"=>"老师稳定性参考数据",   "url"=>"/tea_manage_new/approved_data"],
                 ["power_id"=>48, "name"=>"老师稳定性参考数据-new",   "url"=>"/tea_manage_new/approved_data_new"],
+                ["power_id"=>49, "name"=>"审批数据", "url"=>"/company_wx/show_approv_data"],
                 ["power_id"=>19, "name"=>"配置功能", "list"=>[
                     ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
                     ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
@@ -476,6 +479,10 @@ class menu{
                 ["power_id"=>10, "name"=>"排行榜数据",   "url"=>"/tongji_ex/top_list"],
                 ["power_id"=>13, "name"=>"学生成绩录入记录",   "url"=>"/human_resource/get_input_score_list"],
                 ["power_id"=>14, "name"=>"家长申请调时间记录",   "url"=>"/human_resource/get_lesson_modify_list"],
+                ["power_id"=>17, "name"=>"CC/CR分享H5页面统计数据",   "url"=>"/tongji2/marketPosterData"],
+                ["power_id"=>83, "name"=>"销售2", "list"=>[
+                    ["power_id"=>1, "name"=>"系统分配例子信息",   "url"=>"/tongji2/tongji_sys_assign_call_info", "domain_type" =>100],
+                ]],
                 ["power_id"=>1, "name"=>"销售", "list"=>[
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],
@@ -572,6 +579,7 @@ class menu{
                 ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
                 ["power_id"=>14, "name"=>"tmk合同",   "url"=>"/self_manage/get_self_order_list"],
                 //                ["power_id"=>14, "name"=>"分享知识库", "url"=>"/seller_student_new/share_knowledge"],
+                ["power_id"=>49, "name"=>"拉取数据审批", "url"=>"/company_wx/show_approv_data_self"],
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
@@ -583,6 +591,7 @@ class menu{
                 ["power_id"=>67, "name"=>"教师排课信息",   "url"=>"/human_resource/teacher_info_for_seller" ],
                 ["power_id"=>75, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list_seller"],
                 ["power_id"=>68, "name"=>"老师推荐",   "url"=>"/human_resource/index_seller" ],
+                ["power_id"=>69, "name"=>"精品老师",   "url"=>"/human_resource/get_elite_teacher_list" ],
                 ["power_id"=>76, "name"=>"暂停试听课老师",   "url"=>"/human_resource/index_new_seller_hold" ],
 
                 ["power_id"=>66, "name"=>"课堂状态-销售",   "url"=>"/supervisor/monitor_seller"],

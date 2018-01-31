@@ -312,7 +312,7 @@ class common extends Controller
                 //培训通过
                 if($totalvalue>=90 ){
                     if($teacher_info['train_through_new']==0){
-                        $this->teacher_train_through_deal($answer['userid']);
+                        $this->teacher_train_through_deal_2018_1_25($answer['userid']);
                     }
 
                     //发送微信通知进行模拟课堂
@@ -1539,7 +1539,7 @@ class common extends Controller
             "domain" =>  "http://teacher-doc.qiniudn.com",
             "token"  => $this->get_token("teacher-doc"),
         ];
-
+        \App\Helper\Utils::logger("menu_str_show: ".json_encode($ret_arr));
         return $this->output_succ($ret_arr);
     }
 

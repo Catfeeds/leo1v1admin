@@ -28,6 +28,11 @@
                     </div>
                 </div>
 
+                @if(in_array($account,["jack","jim"]))
+                    <button class="btn btn-warning" id="add_ass">新增助教</button>
+                @endif
+
+
                
             </div>
         </div>

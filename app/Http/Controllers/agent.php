@@ -441,11 +441,30 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $threshold_count = $this->t_seller_edit_log->get_threshold_count($start_time=1517068800,$end_time=1517155200);
-        list($count_y,$count_r) = isset($threshold_count[0]['count_y'])?[$threshold_count[0]['count_y'],$threshold_count[0]['count_r']]:[0,0];
-        dd($count_y,$count_r);
+        $origin = $this->t_seller_student_origin->get_last_origin($userid=99,time());
+        dd($origin);
+        $min   = $this->t_seller_student_origin->get_min_add_time($start_time=1512057600,$end_time=1514736000,$desc='asc');
+        dd($min);
+        $count = $this->t_seller_get_new_log->get_cc_end_count($adminid=1101,strtotime(date('Y-m-d 00:00:00',time())),time());
+        dd($count);
+        $count = $this->t_seller_get_new_log->get_cc_end_count($adminid=457,strtotime(date('Y-m-d 00:00:00',time())),time());
+        dd($count);
+        list($start_time,$end_time) = [1517068800,1517153400];
+        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
+        $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
+        $count_call = count(array_unique(array_column($ret_call, 'userid')));
+        $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time=1517068800,$end_time=1517153400,$call_flag=2);
+        $count_called = count(array_unique(array_column($ret_called, 'userid')));
+        $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+        dd($count_call,$count_called,$rate,$count_adminid);
+
+        // $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid);
+        // if(time()-$last_get_time<660){
+        //     $cmd= new \App\Console\Commands\sync_tianrun();
+        //     $count=$cmd->load_data($last_get_time,time());
+        // }
         list($start_time,$end_time)=$this->get_in_date_range_day(-1);
-        $ret = $this->t_tq_call_info->get_cc_end_list($adminid=743,$start_time, $end_time);
+        $ret = $this->t_seller_get_new_log->get_cc_end_list($adminid=743,$start_time, $end_time);
         dd($ret);
         dd('http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
         $time = strtotime(date('Y-m-d'));
