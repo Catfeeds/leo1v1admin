@@ -47,10 +47,6 @@ class lesson_manage extends Controller
      * @param int lesson_count
      */
     public function change_lesson_info(){
-        if(\App\Helper\Utils::check_env_is_release()){
-            return $this->output_err("此功能只能在非正式环境使用！");
-        }
-
         $lessonid           = $this->get_in_int_val("lessonid");
         $level              = $this->get_in_int_val("level");
         $grade              = $this->get_in_int_val("grade");
