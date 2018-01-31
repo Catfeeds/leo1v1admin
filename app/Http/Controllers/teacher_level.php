@@ -1641,6 +1641,7 @@ class teacher_level extends Controller
                 // E\Enew_level::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Enew_level::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Enew_level::get_simple_desc($item["level_after"]);
+                $item["level_before_str"] = E\Enew_level::get_simple_desc($item["level_before"]);
 
 
             }else{
@@ -1648,6 +1649,7 @@ class teacher_level extends Controller
                 // E\Elevel::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Elevel::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Elevel::get_simple_desc($item["level_after"]);
+                $item["level_before_str"] = E\Elevel::get_simple_desc($item["level_before"]);
 
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
@@ -1668,7 +1670,7 @@ class teacher_level extends Controller
                 $order_score=10;
             }
             $item["total_score"] =$item["lesson_count_score"]+$item["record_final_score"]+$order_score+ $item["stu_num_score"];//总得分
-            list($item["reach_flag"],$item["withhold_money"])=$this->get_tea_reach_withhold_list($item["level"],$item["total_score"]);
+            list($item["reach_flag"],$item["withhold_money"])=$this->get_tea_reach_withhold_list($item["level_before"],$item["total_score"]);
             E\Eboolean::set_item_value_str($item,"reach_flag");
 
         }
