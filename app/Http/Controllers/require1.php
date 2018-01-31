@@ -16,7 +16,7 @@ class require1 extends Controller
         foreach($info as &$item) {
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
-            $item["nick"] = $task->cache_get_account_nick($item["adminid"]);
+            $item["nick"] = $this->cache_get_account_nick($item["adminid"]);
         }
         return $this->pageView(__METHOD__, "", [
             "info" => $info
