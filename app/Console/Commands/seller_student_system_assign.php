@@ -201,6 +201,9 @@ class seller_student_system_assign extends cmd_base
     //@param:$admin_list  所有销售列表
     //@param:$seller_max_new_count 最大配额
     public function assign_new( $left_new_count_all, $admin_list,$seller_max_new_count  )  {
+        \App\Helper\Utils::logger("还需新例子数-left_new_count_all:$left_new_count_all");
+        \App\Helper\Utils::logger("分配销售列表-admin_list:".json_encode($admin_list));
+        \App\Helper\Utils::logger("最大配额-seller_max_new_count:$seller_max_new_count");
         //待分配系统分配例子
         $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
             E\Etq_called_flag::V_0
@@ -253,7 +256,12 @@ class seller_student_system_assign extends cmd_base
         ];
 
     }
+    //@desn:同等级分配
+    //@param:$account 分配注释
+    //@param:$userid 找到的用户id
+    //@param:$account 找到的销售id
     public function do_assign($account ,$userid, $adminid ) {
+        \App\Helper\Utils::logger("第一轮分配：userid:$userid adminid:$adminid"); 
         $userid_list=[$userid];
         $opt_type ="" ;
         $opt_type=0;
@@ -278,7 +286,8 @@ class seller_student_system_assign extends cmd_base
             6=> E\Eorigin_level::V_4,
             7=> E\Eorigin_level::V_4,
         ];
-
+        //$seller_level_flag cc等级
+        //$seller_level_admin_map 每个等级的销售arr
         foreach ( $round_seller_level_map as $seller_level_flag =>  &$seller_level_admin_map ) {
             $find_origin_level= @$seller_level_flag_to_origin_map[$seller_level_flag ];
             if (!$find_origin_level) {
@@ -287,7 +296,7 @@ class seller_student_system_assign extends cmd_base
 
             $account="系统分配-新例子-每轮首次按用户等级分 ";
             foreach( $seller_level_admin_map as $adminid=>$v ) {
-                 $find_userid= @array_shift(@$seller_student_level_map[ $find_origin_level] );
+                $find_userid= @array_shift(@$seller_student_level_map[ $find_origin_level] );
                 if ($find_userid) {
                     $this->do_assign($account, $find_userid, $adminid);
                     unset ( $seller_level_admin_map[$adminid]  );
@@ -311,8 +320,8 @@ class seller_student_system_assign extends cmd_base
 
     //每一轮分配例子
     public function  round_set_adminid(  $round_seller_level_map, &$seller_student_level_map) {
-        \App\Helper\Utils::logger("round_set_adminid: round_seller_level_map: " . json_encode( $round_seller_level_map ) );
-        \App\Helper\Utils::logger("round_set_adminid:  seller_student_level_map: " . json_encode( $seller_student_level_map) );
+        \App\Helper\Utils::logger("1round销售列表-round_seller_level_map: " . json_encode( $round_seller_level_map ) );
+        \App\Helper\Utils::logger("1round例子列表-seller_student_level_map: " . json_encode( $seller_student_level_map) );
 
 
         //每轮 第一次  通过cc 等级 找对应 例子

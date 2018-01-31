@@ -52,14 +52,11 @@ class pdfConversionH5 extends Command
 
         foreach($handoutArray as $item){
             if($item['uuid_stu']){
-                $this->deal_change($item,2); # 学生讲义
+                $this->deal_change($item,2); # 处理学生讲义
             }
             if($item['uuid']){
-                $this->deal_change($item,1); # 教师讲义
+                $this->deal_change($item,1); # 处理教师讲义
             }
-
-
-
         }
     }
 
@@ -118,7 +115,7 @@ class pdfConversionH5 extends Command
         $work_path= public_path('ppt');
         $del_zip = $work_path."/".$uuid.".zip";
         $zip_new_resource = public_path('ppt')."/".$uuid."_leo123.zip";
-        $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo".mt_rand(1,100).".zip * ";
+        $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo123.zip * ";
         \App\Helper\Utils::exec_cmd($zipCmd);
 
         $qiniu     = \App\Helper\Config::get_config("qiniu");
@@ -137,16 +134,17 @@ class pdfConversionH5 extends Command
             shell_exec($rmResourceCmd);
 
             # 在42服务器端执行此段程序
-            $this->updateTranResult($item['lessonid'],$saveH5Upload);
+            $this->updateTranResult($item['lessonid'],$saveH5Upload,$is_tea);
         }
 
     }
 
-    public function updateTranResult($lessonid,$saveH5Upload){
+    public function updateTranResult($lessonid,$saveH5Upload,$is_tea){
         $url = "http://admin.leo1v1.com/common_new/updateTranResult";
         $post_data = array(
             "lessonid" => $lessonid,
-            "zip_url"  => $saveH5Upload
+            "zip_url"  => $saveH5Upload,
+            "is_tea"   => $is_tea
         );
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
