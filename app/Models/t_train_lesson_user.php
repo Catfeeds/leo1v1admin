@@ -93,11 +93,14 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
         return $this->main_get_value($sql);
     }
 
+    /**
+     * 获取培训未通过的老师名单
+     */
     public function get_not_through_user($start_time,$end_time,$has_openid=-1,$type=-1){
         $where_arr = [
             ["add_time>%u",$start_time,0],
             ["add_time<%u",$end_time,0],
-            "t.train_through_new=0",
+            "t.train_through_new_time=0",
             "t.trial_lecture_is_pass=1",
             "t.is_test_user=0"
         ];
@@ -107,7 +110,8 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
             $where_arr[]="wx_openid!=''";
         }
 
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.train_through_new_time,t.phone,t.wx_openid,max(tl.score) as score,t.create_time"
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.train_through_new_time,t.phone,t.wx_openid,"
+                                  ." max(tl.score) as score,t.create_time"
                                   ." from %s tl"
                                   ." left join %s t on tl.userid=t.teacherid"
                                   ." where %s"

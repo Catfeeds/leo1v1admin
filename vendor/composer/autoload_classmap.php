@@ -790,6 +790,7 @@ return array(
     'TSellerStudentOriginAddIsExistCount' => $baseDir . '/database/migrations/2018_01_20_154416_t_seller_student_origin_add_is_exist_count.php',
     'TSellerStudentOriginAddLastSucLessonid' => $baseDir . '/database/migrations/2018_01_30_174946_t_seller_student_origin_add_last_suc_lessonid.php',
     'TSellerStudentSystemAssignCountLogAddDefCount' => $baseDir . '/database/migrations/2018_01_25_104534_t_seller_student_system_assign_count_log_add__def_count.php',
+    'TSellerStudentSystemReleaseLog' => $baseDir . '/database/migrations/2018_01_30_120646_t_seller_student_system_release_log.php',
     'TSellerTongjiForMonthAdd' => $baseDir . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
     'TSellerTongjiForMonthAddColumons' => $baseDir . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
     'TSellerTongjiForMonthAddDataType' => $baseDir . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',

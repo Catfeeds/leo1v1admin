@@ -243,11 +243,17 @@ class seller_student_new extends Controller
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
         }
         $this->set_filed_for_js('button_show_flag',$button_show_flag);
+        //测试模拟系统分配系统释放
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+            $env_is_test = 1;
+        else
+            $env_is_test = 0;
         return $this->pageView(__METHOD__,$ret_info,[
             "unallot_info" => $unallot_info,
             "show_list_flag" => $show_list_flag,
             "button_show_flag" => $button_show_flag,
             'account' => $this->get_account(),
+            'env_is_test' => $env_is_test
         ]);
     }
 
@@ -618,6 +624,12 @@ class seller_student_new extends Controller
         $seller_master_list[] = "349";
         $seller_master_list[] = "448";
         $is_seller_master= 1;
+        //添加测试标识[前端用]
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+            $this->set_filed_for_js("env_is_test",1);
+        else
+            $this->set_filed_for_js("env_is_test",0);
+
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("account_role",$account_role);
         $this->set_filed_for_js("account",$account);
@@ -1834,4 +1846,18 @@ class seller_student_new extends Controller
         }
         return $this->output_succ(['list' => []]);
     }
+
+    //@desn:调用系统分配command
+    public function system_assign(){
+        $system_assign = new \App\Console\Commands\seller_student_system_assign();
+        $system_assign->handle();
+        return $this->output_succ();
+    }
+    //@desn:调用系统释放command
+    public function system_free(){
+        $system_free = new \App\Console\Commands\seller_student_system_free();
+        $system_free->handle();
+        return $this->output_succ();
+    }
+
 }
