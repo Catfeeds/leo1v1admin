@@ -24,11 +24,15 @@ interface self_RowData {
 	call_time	:any;
 	check_hold_flag	:any;
 	phone	:any;
+	origin_level	:any;
+	origin	:any;
+	add_time	:any;
 	admin_nick	:any;
 	student_nick	:any;
 	called_flag_str	:any;
 	seller_student_assign_from_type_str	:any;
 	check_hold_flag_str	:any;
+	origin_level_str	:any;
 
 }
 export  {self_RowData , self_Args  }

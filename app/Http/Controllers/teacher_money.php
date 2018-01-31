@@ -662,7 +662,7 @@ class teacher_money extends Controller
             $this->t_user_log->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
         }
 
-        return $this->output_ret($ret);
+        return $this->output_ret($ret,"添加失败，请检查该老师是否符合所添加奖励类型的规则！");
     }
 
     public function get_teacher_info_for_total_money($teacherid){
