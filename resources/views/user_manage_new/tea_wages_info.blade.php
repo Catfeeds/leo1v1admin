@@ -43,11 +43,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">总工资:{{@$all_price}}</span>
                     <span class="input-group-addon">
-                        @if(@$teacher_reward>0)
-                            <a class="teacher_reward_list">额外奖金</a>
-                        @else
-                            额外奖金
-                        @endif
+                        <a class="teacher_reward_list" style="cursor:pointer">额外奖金</a>
                         :{{@$teacher_reward}}
                     </span>
                     <span class="input-group-addon">常规课时:{{@$lesson_count['normal_total']/100}}</span>
