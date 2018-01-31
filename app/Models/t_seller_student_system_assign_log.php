@@ -85,16 +85,23 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
         return $this->main_update($sql);
     }
 
-    public function  get_list($page_info, $order_by_str,  $start_time, $end_time, $adminid,$userid, $called_flag ,$seller_student_assign_from_type )
+    public function  get_list($page_info, $order_by_str,  $start_time, $end_time, $adminid,$userid, $called_flag ,$seller_student_assign_from_type, $check_hold_flag,$same_admin_flag )
     {
         $where_arr=[
             ["g.userid=%d", $userid, -1 ],
             ["g.adminid=%d", $adminid, -1 ],
-            ["g.called_flag=%d", $called_flag, -1 ],
-            ["g.seller_student_assign_from_type=%d",$seller_student_assign_from_type,-1],
         ];
 
         $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
+        $this->where_arr_add_int_or_idlist($where_arr,"check_hold_flag" , $check_hold_flag);
+        $this->where_arr_add_int_or_idlist($where_arr,"g.seller_student_assign_from_type" , $seller_student_assign_from_type);
+        $this->where_arr_add_int_or_idlist($where_arr,"g.called_flag" , $called_flag);
+        if ($same_admin_flag ==0) {
+            $where_arr[]="g.adminid <> n.admin_revisiterid ";
+        }else if ( $same_admin_flag ==1){
+            $where_arr[]="g.adminid = n.admin_revisiterid ";
+        }
+
         $sql=$this->gen_sql_new(
             "select g.*, n.phone, s.origin_level,  s.origin, n.add_time, n.admin_revisiterid  "
             ." from  %s g "

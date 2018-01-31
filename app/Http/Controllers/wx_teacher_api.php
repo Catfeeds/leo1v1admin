@@ -1584,6 +1584,14 @@ class wx_teacher_api extends Controller
     }
 
 
+    //兼职老师晋升相关接口
+    public function get_teacher_advance_info_for_wx(){
+        $teacherid = $this->get_in_int_val("teacherid");
+
+
+    }
+
+
 
 
 

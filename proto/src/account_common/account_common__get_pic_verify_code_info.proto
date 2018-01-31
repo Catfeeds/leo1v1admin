@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+//__CMD: 100x0009
+//__DESC: 获取图片验证码 http://api.account.leo1v1.com/account_common/get_pic_verify_code_info
+//__TAGS: for app
+
+
+message in  {
+  string phone =1;//手机
+  int32 role =2;//角色    1 学生,2 老师,3 助教,4 家长,6 销售
+
+}
+
+message out {
+  string pic_verify_code_url =1;//图片验证码地址 
+  
+}
