@@ -82,6 +82,21 @@
                         <td>{{@$var["score"]}} </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <td>合计</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{@$total["file_name"]}}</td>
+                    <td>{{@$total["visit"]}}</td>
+                    <td>{{@$total["visit_rate"]}}</td>
+                    <td>{{@$total["use"]}}</td>
+                    <td>{{@$total["use_rate"]}}</td>
+                    <td>{{@$total["use_num"]}}</td>
+                    <td>{{@$total["error"]}}</td>
+                    <td>{{@$total["error_rate"]}}</td>
+                    <td>{{@$total["error_num"]}}</td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
         @include("layouts.page")
