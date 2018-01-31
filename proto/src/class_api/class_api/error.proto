@@ -49,4 +49,14 @@ enum  enum_error {
   //时间冲突
   ERR_TIME_CONFLICT = 3014;
 
+  //无效的课程包id
+  ERR_INVALID_COURSE = 3015;
+
+  //已下架
+  ERR_ALREADY_DOWN = 3016;
+
+  //无效的班级id
+  ERR_INVALID_CLASS = 3017;
+
+
 };

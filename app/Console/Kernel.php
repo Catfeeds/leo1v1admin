@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         Commands\sendForMarketTmp::class,
         Commands\SendMsgToTeaSetFreeTime::class,
         Commands\update_rs_tea_money_type::class,
+        Commands\update_teacher_advance_info::class,       
         Commands\test_ricky::class,
         Commands\SendSmsByPhone::class,
         Commands\h5GetPoster::class,

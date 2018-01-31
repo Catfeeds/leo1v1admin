@@ -12,5 +12,5 @@ return array(
     array(9,"small_class","小班课工资"),
     array(10,"open_class","公开课工资"),
     //100-199为扣款
-    array(101,"level_up_fail","晋升未达标"),
+    array(101,"level_up_fail","等级未达标"),
 );
