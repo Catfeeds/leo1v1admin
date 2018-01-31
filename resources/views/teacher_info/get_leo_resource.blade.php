@@ -345,7 +345,7 @@
 
     </div>
 
-    <div class="error">
+    <div class="error hide">
         <h4>错误类型：</h4>
         <div class="error_type">
             <select class="error_type_01" onchange='get_err_sec(this.options[this.options.selectedIndex].value)'>
@@ -368,7 +368,7 @@
         </div>
         <p class="error_pic_info">仅支持jpeg,jpg,png,gif格式图片，大小不超过2M，最多上传5张</p>
         <div class="error_upload">
-            <div class="error_pic_box fl">
+            <div class="error_pic_box hide fl">
                 <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/196615029c455e76373f48a047499e431509439552005test.jpg" width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_01" href="javascript:;">更改</a>
