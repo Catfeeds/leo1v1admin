@@ -46,8 +46,10 @@ export default class extends vtable {
       field_name: "phone",
     },{
       field_name: "admin_nick",
-      "title": "cc",
-
+      "title": "分配给cc",
+    },{
+      field_name: "admin_revisiter_nick",
+      "title": "当前cc",
     },{
       field_name: "call_count",
       "order_field_name": "call_count",

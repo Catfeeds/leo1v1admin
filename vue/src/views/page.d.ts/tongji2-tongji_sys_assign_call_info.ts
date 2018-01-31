@@ -27,7 +27,9 @@ interface self_RowData {
 	origin_level	:any;
 	origin	:any;
 	add_time	:any;
+	admin_revisiterid	:any;
 	admin_nick	:any;
+	admin_revisiter_nick	:any;
 	student_nick	:any;
 	called_flag_str	:any;
 	seller_student_assign_from_type_str	:any;
