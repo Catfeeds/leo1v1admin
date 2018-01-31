@@ -2873,14 +2873,14 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getNeedTranLessonUid(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.use_ppt=1",
             "l.lesson_cancel_time_type=0",
-            "zip_url=''",
-            "l.ppt_status=1",
-            "l.uuid!=''"
+            "(l.zip_url='' or l.zip_url_stu='') ",
+            "(l.ppt_status=1 or l.ppt_status_stu=1) ",
+            "(l.use_ppt=1 or l.use_ppt_stu=1)",
+            "(l.uuid!='' or l.uuid_stu!='')"
         ];
 
-        $sql = $this->gen_sql_new("  select uuid, lessonid from %s l "
+        $sql = $this->gen_sql_new("  select zip_url, zip_url_stu, use_ppt_stu, use_ppt, uuid, uuid_stu, ppt_status_stu,ppt_status, lessonid from %s l "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -2892,13 +2892,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getTeaUploadPPTLink(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.use_ppt=1",
+            "(l.use_ppt=1 or l.use_ppt_stu=1)",
             "l.lesson_cancel_time_type=0",
-            "l.zip_url=''",
-            "l.tea_cw_url!=''"
+            "(l.zip_url='' or l.zip_url_stu='') ",
+            "(l.tea_cw_url!='' or l.stu_cw_url!='')",
         ];
 
-        $sql = $this->gen_sql_new("  select tea_cw_url as file_link, stu_cw_url, lessonid from %s l "
+        $sql = $this->gen_sql_new("  select stu_cw_name, use_ppt, use_ppt_stu, tea_cw_name, tea_cw_url , stu_cw_url, zip_url, zip_url_stu, lessonid from %s l "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -3672,6 +3672,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             . " where %s order by l.lesson_start desc limit 1 ",
             self::DB_TABLE_NAME,
             $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function checkIsStu($uuid){
+        $sql = $this->gen_sql_new("  select lessonid from %s l "
+                                  ." where uuid_stu=$uuid"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function checkIsTea($uuid){
+        $sql = $this->gen_sql_new("  select lessonid from %s l "
+                                  ." where uuid=$uuid"
+                                  ,self::DB_TABLE_NAME
         );
         return $this->main_get_value($sql);
     }
