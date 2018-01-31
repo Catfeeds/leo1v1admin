@@ -1023,6 +1023,7 @@ class wx_parent_gift extends Controller
                         "keyword3"  => date("Y-m-d"),
                     ];
                     \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                    \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
                     $imgUrlInfo['followImgUrl'] = '';
                 }else{
                     $follow_str = $img_arr[$index];
@@ -1040,6 +1041,7 @@ class wx_parent_gift extends Controller
                         "keyword3"  => date("Y-m-d"),
                     ];
                     \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                    \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
                 }
             }
         }
