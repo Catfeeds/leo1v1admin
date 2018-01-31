@@ -1495,35 +1495,34 @@ lesson_type in (0,1) "
     }
 
     public function check_teacher_time_free($teacherid,$cur_lessonid, $lesson_start,$lesson_end){
-        $sql=$this->gen_sql("select l.lessonid,lesson_start,lesson_end "
-                            ." from %s l left join %s tss on l.lessonid = tss.lessonid"
-                            ." where teacherid= %u "
-                            ." and l.lessonid<> %d "
-                            ." and (%u<lesson_end and %d>lesson_start) "
-                            ." and confirm_flag not in (2,3) "
-                            ." and lesson_type!=4001"
-                            ." and lesson_del_flag =0"
-                            ." and (tss.success_flag is null or tss.success_flag <>2)"
-                            ,self::DB_TABLE_NAME
-                            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                            ,$teacherid
-                            ,$cur_lessonid
-                            ,$lesson_start
-                            ,$lesson_end
+        $sql = $this->gen_sql_new("select l.lessonid,lesson_start,lesson_end "
+                                  ." from %s l left join %s tss on l.lessonid = tss.lessonid"
+                                  ." where teacherid= %u "
+                                  ." and l.lessonid<> %d "
+                                  ." and (%u<lesson_end and %u>lesson_start) "
+                                  ." and confirm_flag not in (2,3) "
+                                  ." and lesson_type!=4001"
+                                  ." and lesson_del_flag =0"
+                                  ." and (tss.success_flag is null or tss.success_flag<>2)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,$teacherid
+                                  ,$cur_lessonid
+                                  ,$lesson_start
+                                  ,$lesson_end
         );
         return $this->main_get_row($sql);
     }
 
     public function set_lesson_time($lessonid, $start, $end) {
         $now = time(NULL);
-        if ($now >$start && $now < $end ) {//时间在
+        if ($now >$start && $now < $end ){//时间在
             $lesson_status=1;
         }else{
             $lesson_status=0;
         }
         $userid=$this->get_userid($lessonid);
         $server_type=2;
-
 
         $sql = sprintf("update %s set lesson_start = %u, lesson_end = %u,lesson_status=%u  ,lesson_upload_time=0 "
                        .",server_type=%u  where lessonid = %u "
