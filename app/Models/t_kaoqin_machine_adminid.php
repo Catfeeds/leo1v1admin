@@ -15,7 +15,7 @@ class t_kaoqin_machine_adminid extends \App\Models\Zgen\z_t_kaoqin_machine_admin
         $sql=$this->gen_sql_new(
             "select  km.title, km.machine_id , kma.adminid, kma.auth_flag,km.open_door_flag, km.sn "
             . " from  %s km      "
-            . " left join  %s kma  on (kma.machine_id= km.machine_id and adminid = %u  ) " 
+            . " left join  %s kma  on (kma.machine_id= km.machine_id and adminid = %u  ) "
             , t_kaoqin_machine::DB_TABLE_NAME
             , self::DB_TABLE_NAME
             ,$adminid

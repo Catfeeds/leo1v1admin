@@ -2898,7 +2898,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.tea_cw_url!=''"
         ];
 
-        $sql = $this->gen_sql_new("  select tea_cw_url as file_link, lessonid from %s l "
+        $sql = $this->gen_sql_new("  select tea_cw_url as file_link, stu_cw_url, lessonid from %s l "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr

@@ -646,6 +646,15 @@ $(function(){
 
     });
 
+
+    $("#id_power_back").on("click", function () {
+        $.do_ajax("/user_manage_new/power_back",{});
+    });
+
+    $("#id_power_back_list").on("click", function () {
+        window.location.href="/user_manage_new/power_back_list";
+    });
+
     $('.opt-change').set_input_change_event(load_data);
 
 });

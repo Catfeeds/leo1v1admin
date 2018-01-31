@@ -67,7 +67,11 @@
 
                     <button id="id_del_group" class="btn btn-danger" style="margin-right:8px">删除权限组</button>
 
-                    <button class="btn  btn-primary" id="id_reload_power">更新在线用户权限</button>
+                    <button class="btn  btn-primary" id="id_reload_power" style="margin-right:8px">更新在线用户权限</button>
+
+                    <button class="btn btn-warning" id="id_power_back_list" style="margin-right:8px">查看备份权限</button>
+
+                    <button class="btn btn-danger" id="id_power_back">备份当前权限</button>
                 </div>
             </div>
 

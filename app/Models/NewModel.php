@@ -301,7 +301,6 @@ abstract class NewModel
             $page_num = $page_info;
         }
 
-
         $pattern     = '/select\s+(.*?)\s+from\s+(.*)/is';
         $replacement = 'from $2';
         $count_query = preg_replace($pattern, $replacement, $sql);
@@ -315,9 +314,7 @@ abstract class NewModel
         if ( !$use_group_by_flag ){
             $count=$this->main_get_value($count_query,0);
         }else{
-
             $count=count($this->main_get_list($sql ));
-
         }
 
 

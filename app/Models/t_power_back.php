@@ -29,6 +29,18 @@ class t_power_back extends \App\Models\Zgen\z_t_power_back
         return $this->main_update($sql);
     }
 
+    public function get_list($start_time, $end_time, $page_info) {
+        $where_arr = [
+            ["log_date>=%u", $start_time, -1],
+            ["log_date<%u", $end_time, -1],
+        ];
+        $sql = $this->gen_sql_new("select log_date,groupid,group_name,group_authority,role_groupid from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
 }
 
 

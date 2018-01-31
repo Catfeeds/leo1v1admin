@@ -294,9 +294,10 @@ $(function(){
 
     $('.opt-change').set_input_change_event(load_data);
 
+    var comment2 = $('.comment');
     //评价
     $('.opt-comment').on('click',function(){
-        var comment = $('.comment').clone();
+        var comment = comment2;
         comment.removeClass('hide');
         if( resource_type == 3 ){
             comment.find('.comment_other_listen').remove();
@@ -304,16 +305,52 @@ $(function(){
             comment.find('.comment_test_listen').remove();
         }
         var arr = [
-            ["merge","评价"],
             ["merge",comment],
         ];
         $.tea_show_key_value_table("讲义评价", arr,{
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
-                
+                var comment_quality = comment.find('.comment_quality').attr('score');  //质量总评
+                var comment_help = comment.find('.comment_help').attr('score');  //帮助指数
+                var comment_whole = comment.find('.comment_whole').attr('score'); //全面指数
+                var comment_detail = comment.find('.comment_detail').attr('score'); //详细指数
+
+                if( comment_quality == 0 || comment_help == 0 || comment_whole == 0 || comment_detail == 0){
+                    BootstrapDialog.alert("质量总评、帮助指数、全面指数、详细指数是必须评价的！");
+                    return false;
+                }
+
+                var con_font = comment.find("input[name='con_font']:checked").val();        //文字大小评价
+                var con_spacing = comment.find("input[name='con_spacing']:checked").val();      //间距大小
+                var con_img = comment.find("input[name='con_img']:checked").val();      //背景图案
+                var con_type = comment.find("input[name='con_type']:checked").val();     //讲义类型
+                var con_answer = comment.find("input[name='con_answer']:checked").val();     //答案程度
+                var con_stu = comment.find("input[name='con_stu']:checked").val();     //适宜学生
+                if( resource_type == 3 ){
+                    var con_time = comment.find("input[name='con_test_time']:checked").val();    //试听课时长
+                }else{
+                    var con_time = comment.find("input[name='con_time']:checked").val();    //精品课时长
+                }
+                var data = {
+                    "comment_quality" : comment_quality,
+                    "comment_help" : comment_help,
+                    "comment_whole" : comment_whole,
+                    "comment_detail" : comment_detail,
+                    "con_font" : con_font,
+                    "con_spacing" : con_spacing,
+                    "con_img" : con_img,
+                    "con_type" : con_type,
+                    "con_answer" : con_answer,
+                    "con_stu" : con_stu,
+                    "con_time" : con_time
+                };
+
+                console.log(data);
             }
-        },'',false,800,'padding-right:60px;');
+        },function(){
+            comment2 = comment.clone(); 
+        },false,800,'padding-right:60px;');
 
                                    
     })
@@ -325,7 +362,6 @@ $(function(){
         var error = $('.error').clone();
         error.removeClass('hide');  
         var arr = [
-            ["merge","报错"],
             ["merge",error],
         ];
         error.find('.error_upload').attr({"id":"error_upload_id"});
@@ -349,7 +385,27 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
-                
+                var error_type_01 = error.find('.error_type_01').val();
+                var error_type_02 = error.find('.error_type_02').val();
+                var error_detail = error.find('.error_detail').val();
+                //上传错误的图片
+                var img_arr = [];
+                if(error.find('.error_pic_box:visible').length > 0){
+                    error.find('.error_pic_box:visible').each(function(){
+                        var img_link = $(this).find('img').attr("src");
+                        if( img_link != '' && img_link != undefined){
+                            img_arr.push(img_link);
+                        }
+                    })
+                }
+                var data = {
+                    "error_type_01" : error_type_01,
+                    "error_type_02" : error_type_02,
+                    "error_detail" : error_detail,
+                    "img_arr" : JSON.stringify(img_arr)
+                };
+
+                console.log(data);
             }
         },function(){
             custom_upload(timestamp,"error_button_id","error_upload_id",1);
@@ -496,22 +552,18 @@ function get_err_sec(val){
 function custom_upload(new_flag,btn_id,containerid,obj){
 
     var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
-    var domain =  "http://teacher-doc.qiniudn.com/";
+    //var domain =  "http://teacher-doc.qiniudn.com/";
     var qi_niu = ['Qiniu_'+new_flag];
     qi_niu[0] = new QiniuJsSDK();
     //console.log(qi_niu[0]);
     var token = "yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SNPUFt8-K2eSlkX70Nb8vzA7lo0=:eyJzY29wZSI6InRlYWNoZXItZG9jIiwiZGVhZGxpbmUiOjE1MTczOTIzOTR9";
 
-    if( obj == 1 && $("#"+containerid).find('.error_pic_box:hidden').length == 0 ){
-        BootstrapDialog.alert("最多只能传5张图片！");
-        return false;
-    }
     var uploader = qi_niu[0].uploader({
     
         runtimes: 'html5, flash, html4',
         browse_button: btn_id , //choose files id
         uptoken_url: '/upload/pub_token',
-        uptoken: token,
+        //uptoken: token,
         domain: domain,
         container: containerid,
         drop_element: containerid,
@@ -532,6 +584,10 @@ function custom_upload(new_flag,btn_id,containerid,obj){
 
             },
             'BeforeUpload': function(up, file) {
+                if( obj == 1 && $("#"+containerid).find('.error_pic_box:hidden').length == 0 ){
+                    BootstrapDialog.alert("最多只能传5张图片！");
+                    return false;
+                }
                 console.log('before uplaod the file');
             },
             'UploadProgress': function(up,file) {
