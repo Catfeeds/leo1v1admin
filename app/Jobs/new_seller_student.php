@@ -61,7 +61,7 @@ class new_seller_student extends Job implements ShouldQueue
             $origin_level = $t_origin_key->field_get_value($this->origin, 'origin_level');
         else
             $origin_level = 0;
-        if(!in_array($this->origin, $special_origin) && !in_array($origin_level, $special_origin_level)){
+        if(!in_array(@$this->origin, $special_origin) && !in_array($origin_level, $special_origin_level)){
             $is_public = 0;//该用户从未注册
             /*//判断该用户是否重复且在公海中
             $data_item = $t_seller_student_new->field_get_list($this->userid,"admin_revisiterid,seller_resource_type" );
