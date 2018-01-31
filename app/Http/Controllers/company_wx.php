@@ -311,9 +311,10 @@ class company_wx extends Controller
             //     continue;
             // }
 
-            $approval_name = implode(',', $item['approval_name']);
-            $notify_name = implode(',', $item['notify_name']);
+            $approval_name = implode(',', $item['approval_name']); // 审批人
+            $notify_name = implode(',', $item['notify_name']); // 抄送人
             $names = array_merge($item["approval_name"], $item["notify_name"]);
+            array_push($names, $item["apply_name"]); // 申请人
             $common = [
                 'spname' => $item['spname'],
                 'apply_name' => $item['apply_name'],

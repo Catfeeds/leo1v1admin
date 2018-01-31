@@ -99,6 +99,7 @@ class update_company_wx_data extends Command
             $approval_name = implode(',', $item['approval_name']);
             $notify_name = implode(',', $item['notify_name']);
             $names = array_merge($item["approval_name"], $item["notify_name"]);
+            array_push($names, $item["apply_name"]);
             $common = [
                 'spname' => $item['spname'],
                 'apply_name' => $item['apply_name'],
