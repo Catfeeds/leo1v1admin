@@ -154,7 +154,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ,$where_arr
                                   ,$has_sql
         );
-        return $this->main_get_list_by_page($sql,$page,10);
+        return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
     public function add_teacher_rewrad_money($type,$teacherid,$money,$money_info){
