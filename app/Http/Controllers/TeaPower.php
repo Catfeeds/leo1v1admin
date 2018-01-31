@@ -5210,7 +5210,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $diff = $score-$score_target;
                 $level_score_info="您已经超过".$level_degree."教师".$diff."分了哦";
             }else{
-                $diff =$score_target-$diff;
+                $diff =$score_target-$score;
                 $level_score_info="您离".$level_degree."教师仅差了".$diff."分了哦";
             }
         }
