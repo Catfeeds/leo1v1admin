@@ -620,7 +620,7 @@ class teacher_money extends Controller
             if($type==E\Ereward_type::V_2){ //签单奖
                 $need_check_lesson_flag = true;
                 $check_full_teacher = \App\Helper\Utils::check_teacher_is_full($teacher_money_type, $teacher_type, $teacherid);
-                if(in_array($teacher_money_type,[E\Eteacher_money_type::V_4,E\teacher_money_type::V_5,E\Eteacher_money_type::V_6])
+                if(in_array($teacher_money_type,[E\Eteacher_money_type::V_4,E\Eteacher_money_type::V_5,E\Eteacher_money_type::V_6])
                    && !$check_full_teacher){
                     return $this->output_err("老师工资分类错误！");
                 }

@@ -3679,12 +3679,13 @@ class user_manage_new extends Controller
         $type       = $this->get_in_int_val("type",-1);
         $lessonid   = $this->get_in_int_val("lessonid",-1);
         $has_lesson = $this->get_in_int_val("has_lesson",-1);
+        $page_num = $this->get_in_page_num();
 
         $list = $this->t_teacher_money_list->get_teacher_trial_reward_list(
-            $start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
+            $page_num,$start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
         );
 
-        foreach($list as &$val){
+        foreach($list['list'] as &$val){
             $val['tea_nick'] = $this->cache_get_teacher_nick($val['teacherid']);
             \App\Helper\Utils::unixtime2date_for_item($val,"add_time","_str");
             E\Ereward_type::set_item_value_str($val,"type");
@@ -3700,7 +3701,6 @@ class user_manage_new extends Controller
             }
         }
 
-        $list = \App\Helper\Utils::list_to_page_info($list);
 
         return $this->Pageview(__METHOD__,$list, [
             'teacherid' => $teacherid

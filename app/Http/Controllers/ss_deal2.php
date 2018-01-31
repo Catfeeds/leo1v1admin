@@ -950,6 +950,232 @@ class ss_deal2 extends Controller
         }
     }
 
+    public function ass_add_require_test_lesson_new()
+    {
+        $userid = $this->get_in_userid();
+        $phone = $this->t_phone_to_user->get_phone($userid);
+        // if ($phone == "") {
+        //     $phone = $this->t_seller_student_new->get_phone($userid);
+        // }
+        $stu_nick              = $this->get_in_str_val("stu_nick");//学生姓名
+        $gender                = $this->get_in_int_val("gender");
+        $parent_name           = $this->get_in_str_val('par_nick');
+        $par_type              = $this->get_in_str_val("par_type");//家长关系
+        $grade                 = $this->get_in_grade();
+        $subject               = $this->get_in_subject();
+        $editionid             = $this->get_in_int_val("editionid");//教材id
+        $has_pad               = $this->get_in_int_val("has_pad");//pad
+        $school                = $this->get_in_str_val("school");
+        $character_type        = $this->get_in_str_val("character_type");//学习习惯
+        $interests_and_hobbies = $this->get_in_str_val("interests_and_hobbies");//兴趣爱好
+        $province              = $this->get_in_int_val("province");//省
+        $city                  = $this->get_in_str_val("city");//市.区
+        $area                  = $this->get_in_str_val("area");//县市
+        $region                = $this->get_in_str_val("region");//上学省
+        $address               = $this->get_in_str_val("address");//详细地址
+        $class_rank            = $this->get_in_str_val("class_rank",'');//班级排名
+        $class_num             = $this->get_in_int_val("class_num",0);//班级人数
+        $grade_rank            = $this->get_in_str_val("grade_rank");//年级排名
+        $subject_score         = $this->get_in_str_val('subject_score');//学科分数
+        $subject_score_arr     = array_filter(explode(',',$subject_score));
+        $sub_subject_scour_arr = [];
+        foreach($subject_score_arr as $item){
+            $subject_arr = explode(':',$item);
+            $sub_subject_scour_arr[$subject_arr[0]] = $subject_arr[1];
+        }
+        $subject_sore = json_encode($sub_subject_scour_arr);
+        $test_stress          = $this->get_in_int_val("test_stress");//应试压力
+        $academic_goal        = $this->get_in_int_val("academic_goal");//升学目标
+        $entrance_school_type = $this->get_in_int_val("entrance_school_type");//升学学校要求
+        $interest_cultivation = $this->get_in_int_val("interest_cultivation");//趣味培养
+        $cultivation          = $this->get_in_str_val("cultivation");//素质培养,无
+        $add_tag              = $this->get_in_str_val("add_tag");//学科化标签,无
+        $teacher_nature       = $this->get_in_str_val("teacher_nature");//风格性格,无
+        $pro_ability          = $this->get_in_str_val("pro_ability");//专业能力,无
+        $class_env            = $this->get_in_str_val("class_env");//课堂气氛,无
+        $courseware           = $this->get_in_str_val("courseware");//课件要求,无
+        $subject_tag_arr = [];
+        $subject_tag_arr['素质培养']   = $cultivation=='无要求'?'':$cultivation;
+        $subject_tag_arr['学科化标签'] = $add_tag;
+        $subject_tag_arr['风格性格']   = $teacher_nature=='无要求'?'':$teacher_nature;
+        $subject_tag_arr['专业能力']   = $pro_ability=='无要求'?'':$pro_ability;
+        $subject_tag_arr['课堂气氛']   = $class_env=='无要求'?'':$class_env;
+        $subject_tag_arr['课件要求']   = $courseware=='无要求'?'':$courseware;
+        $subject_tag = json_encode($subject_tag_arr);//学科标签
+        $recent_results                   = $this->get_in_str_val("recent_results");//近期成绩
+        $advice_flag                      = $this->get_in_int_val("advice_flag");//是否进步
+        $extra_improvement                = $this->get_in_int_val("extra_improvement");//课外提高
+        $habit_remodel                    = $this->get_in_int_val("habit_remodel");//习惯重塑
+        $study_habit                      = $this->get_in_str_val("study_habit");//学习习惯
+        $stu_request_test_lesson_demand   = $this->get_in_str_val("stu_request_test_lesson_demand");//试听需求
+        $stu_request_test_lesson_time     = strtotime($this->get_in_str_val("stu_request_test_lesson_time"));//试听时间
+        $default_end_time                 = date('Y-m-d',strtotime($stu_request_test_lesson_time)+3600*24*2).'00:00:00';
+        $stu_request_test_lesson_time_end = $this->get_in_str_val("stu_request_test_lesson_time_end",$default_end_time);//试听时间截止时间
+        $stu_test_paper                   = $this->get_in_str_val("test_paper");//试卷
+        $tea_identity                     = $this->get_in_int_val("tea_identity");//老师身份
+        $tea_age                          = $this->get_in_int_val("tea_age");//老师年龄
+        $tea_gender                       = $this->get_in_int_val("tea_gender");//老师性别
+        $teacher_type                     = $this->get_in_int_val("teacher_type");//老师类型
+        $need_teacher_style               = $this->get_in_str_val("need_teacher_style");//所需老师风格
+        $ass_test_lesson_type             = $this->get_in_int_val('ass_test_lesson_type');//分类
+        $change_teacher_reason_type       = $this->get_in_int_val('change_teacher_reason_type');//换老师原因分类
+        $url                              = $this->get_in_str_val('change_reason_url');//申请原因图片
+        $change_reason                    = trim($this->get_in_str_val('change_reason'));//申请原因
+        $green_channel_teacherid          = $this->get_in_int_val("green_channel_teacherid");//绿色通道
+        $learning_situation               = $this->get_in_str_val('learning_situation');//学情反馈
+        $new_demand_flag                  = $this->get_in_int_val('new_demand_flag',0);//试听需求新版本标识
+        // $tea_province                   = $this->get_in_str_val("tea_province");//老师省
+        // $tea_city                       = $this->get_in_str_val("tea_city");//老师市.区
+        // $tea_area                       = $this->get_in_str_val("tea_area");//老师县市
+
+        \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
+        if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
+            return $this->output_err('请选择换老师类型!');
+        }elseif($ass_test_lesson_type == 2 && !$change_reason){
+            return $this->output_err('请填写换老师原因!');
+        }elseif($ass_test_lesson_type == 2 && strlen(str_replace(" ","",$change_reason))<9){
+            return $this->output_err('换老师原因不得少于3个字!');
+        }
+        if($url){
+            $domain = config('admin')['qiniu']['public']['url'];
+            $change_reason_url = $domain.'/'.$url;
+        }else{
+            $change_reason_url = '';
+        }
+
+        if(!$stu_request_test_lesson_time){ return $this->output_err("请选择试听时间"); }
+
+        $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
+        if($green_channel_teacherid>0){
+            $is_green_flag=1;
+        }else{
+            $is_green_flag=0;
+        }
+        $ss_arr=[
+            "nick"        => $stu_nick,
+            "parent_type" => $par_type,
+            "parent_name" => $parent_name,
+            "grade"       => $grade,
+            "school"      => $school,
+            "editionid"   => $editionid,
+            "province"    => $province,
+            "city"        => $city,
+            "area"        => $area,
+            "region"      => $region,
+            "address"     => $address,
+        ];
+        $this->cache_del_student_nick($userid);
+        if($new_demand_flag>0){
+            $this->t_seller_student_new->field_update_list($userid,[
+                'new_demand_flag'=>$new_demand_flag,
+            ]);
+        }
+        $this->t_student_info->field_update_list($userid,$ss_arr);
+        $phone = $this->t_seller_student_new->get_phone($userid);
+        if (!$phone) {
+            $phone=$this->t_student_info->get_phone($userid);
+            $phone_location = \App\Helper\Common::get_phone_location($phone);
+            $this->t_seller_student_new->row_insert([
+                "has_pad"               => $has_pad,
+                "userid"                => $userid,
+                "class_rank"            => $class_rank,
+                "class_num"             => $class_num,
+                "grade_rank"            => $grade_rank,
+                "academic_goal"         => $academic_goal,
+                "study_habit"           => $study_habit,
+                "interests_and_hobbies" => $interests_and_hobbies,
+                "character_type"        => $character_type,
+                "need_teacher_style"    => $need_teacher_style,
+                "test_stress"           => $test_stress,
+                "interest_cultivation"  => $interest_cultivation,
+                "extra_improvement"     => $extra_improvement,
+                "habit_remodel"         => $habit_remodel,
+                "phone"                 => $phone,
+                "add_time"              => time(NULL) ,
+                "subject_score"         =>$subject_score,
+                "entrance_school_type"  =>$entrance_school_type,
+            ]);
+        }else{
+            $ss_arr=[
+                "has_pad"               => $has_pad,
+                "class_rank"            => $class_rank,
+                "class_num"             => $class_num,
+                "grade_rank"            => $grade_rank,
+                "academic_goal"         => $academic_goal,
+                "study_habit"           => $study_habit,
+                "interests_and_hobbies" => $interests_and_hobbies,
+                "character_type"        => $character_type,
+                "need_teacher_style"    => $need_teacher_style,
+                "test_stress"           => $test_stress,
+                "interest_cultivation"  => $interest_cultivation,
+                "extra_improvement"     => $extra_improvement,
+                "habit_remodel"         => $habit_remodel,
+                "subject_score"         =>$subject_score,
+                "entrance_school_type"  =>$entrance_school_type,
+            ];
+            $this->t_seller_student_new->field_update_list($userid,$ss_arr);
+        }
+        $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
+            $this->get_account_id(),$userid,$grade,$subject,$ass_test_lesson_type);
+        $origin="3助教-".E\Eass_test_lesson_type::get_desc( $ass_test_lesson_type);
+        if ($stu_request_test_lesson_time_end) {
+            $stu_request_test_lesson_time_end=strtotime( $stu_request_test_lesson_time_end);
+        } else {
+            $stu_request_test_lesson_time_end=0;
+        }
+        $this->t_test_lesson_subject->field_update_list(
+            $test_lesson_subject_id,[
+                "subject"                          => $subject,
+                "stu_request_test_lesson_demand"   => $stu_request_test_lesson_demand,
+                "stu_request_test_lesson_time"     => $stu_request_test_lesson_time,
+                "stu_request_test_lesson_time_end" => $stu_request_test_lesson_time_end,
+                "recent_results"                   => $recent_results,
+                "advice_flag"                      => $advice_flag,
+                "stu_test_paper"                   => $stu_test_paper,
+                "ass_test_lesson_type"             => $ass_test_lesson_type,
+                'learning_situation'               => $learning_situation,
+                "subject_tag"                      => $subject_tag,
+                "tea_identity"                     => $tea_identity,
+                "tea_age"                          => $tea_age,
+                "tea_gender"                       => $tea_gender,
+                "teacher_type"                     => $teacher_type,
+            ]);
+        $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
+        $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
+        $ret=$this->t_test_lesson_subject_require->add_require(
+            $this->get_account_id(),
+            $this->get_account(),
+            $test_lesson_subject_id,
+            $origin,
+            $stu_request_test_lesson_time,
+            $grade,
+            $stu_request_test_lesson_demand,
+            $change_reason_url,
+            $change_reason,
+            $change_teacher_reason_type,
+            $stu_request_test_lesson_time_end
+        );
+        $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+        if($require_id>0 && $ass_test_lesson_type ==2){
+            $this->t_test_lesson_subject_require->field_update_list($require_id,[
+                "change_teacher_reason"          => $change_reason,
+                "change_teacher_reason_img_url"  => $change_reason_url,
+                "change_teacher_reason_type"     => $change_teacher_reason_type
+            ]);
+        }
+        if (!$ret){
+            \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
+            return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
+        }else{
+            $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
+                "is_green_flag"                 => $is_green_flag,
+                "green_channel_teacherid"       => $green_channel_teacherid,
+            ]);
+
+            return $this->output_succ();
+        }
+    }
+
     public function ass_save_user_info()
     {
         $userid                         = $this->get_in_userid();
@@ -1076,6 +1302,8 @@ class ss_deal2 extends Controller
 
         return $this->output_succ();
     }
+
+    
 
     public function set_part_time_teacher(){
         $phone                    = $this->get_in_str_val('phone');

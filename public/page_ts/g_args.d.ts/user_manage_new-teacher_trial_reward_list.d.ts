@@ -8,6 +8,8 @@ interface GargsStatic {
 	type:	number;
 	lessonid:	number;
 	has_lesson:	number;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -132,4 +134,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["has_lesson title", "has_lesson", "th_has_lesson" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
