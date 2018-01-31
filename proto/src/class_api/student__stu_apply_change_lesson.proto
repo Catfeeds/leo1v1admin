@@ -8,8 +8,7 @@ import "class_api/common.proto";
 
 message in  {
   	int32  class_id= 1; //班级id
-  	string  apply_name= 2; //申请人姓名
-  	string  phone= 3; // 电话
+  	string  phone= 2; // 电话
 }
 
 message out {
