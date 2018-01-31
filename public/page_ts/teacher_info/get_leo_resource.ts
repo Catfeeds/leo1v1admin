@@ -464,87 +464,78 @@ function get_err_sec(val){
 function custom_upload(btn_id,containerid,obj){
     console.log(1);
     var $img = $('.error_pic_box:hidden:eq(0)');
-    console.log($img);
+    //console.log($img);
     if($img.length == 0){
         return false;
     }
-    var domain = "http://file-store.leo1v1.com/";
-    $.do_ajax("/teacher_info/get_upload_token",{
-        "dir" : ""
-    },function(resp){
-        var upload_token=resp.upload_token;
-        var pre_dir= resp.pre_dir;
-        var uploader = Qiniu.uploader({
+    var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
 
-            runtimes: 'html5, flash, html4',
-            browse_button: btn_id , //choose files id
-            //uptoken_url: uptoken_url,
-            uptoken:  upload_token ,
-            domain: domain,
-            container: containerid,
-            drop_element: containerid,
-            max_file_size: '100mb',
-            dragdrop: true,
-            flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
-            chunk_size: '4mb',
-            unique_names: false,
-            save_key: false,
-            auto_start: true,
-            init: {
-                'FilesAdded': function(up, files) {
+    var uploader = Qiniu.uploader({
 
-                    BootstrapDialog.show({
-                        title: '上传进度',
-                        message: $('<div class="progress progress-sm active">' +
-                                   '<div id="id_upload_process_info" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">'+'<span class="sr-only">0% Complete</span>  </div> </div>'),
-                    });
+        runtimes: 'html5, flash, html4',
+        browse_button: btn_id , //choose files id
+        uptoken_url: '/upload/pub_token',
+        domain: domain,
+        container: containerid,
+        drop_element: containerid,
+        max_file_size: '100mb',
+        dragdrop: true,
+        flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+        chunk_size: '4mb',
+        unique_names: false,
+        save_key: false,
+        auto_start: true,
+        init: {
+            'FilesAdded': function(up, files) {
 
-                    plupload.each(files, function(file) {
-                        var progress = new FileProgress(file, 'process_info');
-                        console.log('waiting...');
-                    });
-                },
-                'BeforeUpload': function(up, file) {
-                    console.log('before uplaod the file');
-                },
-                'UploadProgress': function(up,file) {
-                    var progress = new FileProgress(file, 'process_info');
-                    progress.setProgress(file.percent + "%", up.total.bytesPerSec, btn_id);
-                    console.log('upload progress');
-                },
-                'UploadComplete': function() {
-                    // $("#"+btn_id).siblings('div').remove();
-                    console.log('success');
-                },
-                'FileUploaded' : function(up, file, info) {
-                    console.log(file);
-                    console.log(info);
-                    var imgSrc = domain + JSON.parse(info.response).key;
-                    if(obj == 1){
-                        $img.find("img").attr("src", imgSrc);
-                        $img.removeClass("hide");
-                    }else{
-                        obj.parent().prev().attr("src", imgSrc);
-                    }
-                },
-                'Error': function(up, err, errTip) {
-                    console.log('Things below are from Error');
-                    console.log(up);
-                    console.log(err);
-                    console.log(errTip);
-                },
-                'Key': function(up, file) {
-                    var suffix = file.type.split('/').pop();
-                    var time = (new Date()).valueOf();
-                    var key= pre_dir+time + "." + suffix;
-                    console.log(key);
-                    return key;
+                // BootstrapDialog.show({
+                //     title: '上传进度',
+                //     message: $('<div class="progress progress-sm active">' +
+                //                '<div id="id_upload_process_info" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">'+'<span class="sr-only">0% Complete</span>  </div> </div>'),
+                // });
+
+                // plupload.each(files, function(file) {
+                //     var progress = new FileProgress(file, 'process_info');
+                //     console.log('waiting...');
+                // });
+            },
+            'BeforeUpload': function(up, file) {
+                console.log('before uplaod the file');
+            },
+            'UploadProgress': function(up,file) {
+                // var progress = new FileProgress(file, 'process_info');
+                // progress.setProgress(file.percent + "%", up.total.bytesPerSec, btn_id);
+                // console.log('upload progress');
+            },
+            'UploadComplete': function() {
+                // $("#"+btn_id).siblings('div').remove();
+                console.log('success');
+            },
+            'FileUploaded' : function(up, file, info) {
+                console.log(file);
+                console.log(info);
+                var imgSrc = domain + JSON.parse(info.response).key;
+                if(obj == 1){
+                    $img.find("img").attr("src", imgSrc);
+                    $img.removeClass("hide");
+                }else{
+                    obj.parent().prev().attr("src", imgSrc);
                 }
+            },
+            'Error': function(up, err, errTip) {
+                console.log('Things below are from Error');
+                console.log(up);
+                console.log(err);
+                console.log(errTip);
+            },
+            'Key': function(up, file) {
+                var suffix = file.type.split('/').pop();
+                var time = (new Date()).valueOf();
+                var key= time + "." + suffix;
+                console.log(key);
+                return key;
             }
-        });
-
-
-    } );
-
+        }
+    });
 }
 
