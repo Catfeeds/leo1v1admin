@@ -80,7 +80,8 @@ class tom_do_once extends Command
         // $this->update_seller_edit_log();
         // $this->update_seller_student_origin();
         // $this->seller_daily_threshold();
-        $this->update_actual_threshold();
+        // $this->update_actual_threshold();
+        $this->update_seller_student_origin_new();
     }
 
     public function update_cc_call(){
@@ -89,8 +90,7 @@ class tom_do_once extends Command
         $date1 = explode('-',date('y-m-d',$min));
         $date2 = explode('-',date('y-m-d',$max));
         $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
-        // $start = strtotime(date('y-m-1',$min));
-        $start = 1498838400;
+        $start = strtotime(date('y-m-1',$min));
         $end   = strtotime(date('y-m-1',$max));
         for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
@@ -234,7 +234,13 @@ class tom_do_once extends Command
             ],[
                 'start_time'=>strtotime('2016-06-30'),
                 'end_time'=>strtotime('2016-07-31')
-            ],
+            ],[
+                'start_time'=>strtotime('2016-05-31'),
+                'end_time'=>strtotime('2016-06-30')
+            ],[
+                'start_time'=>strtotime('2016-04-30'),
+                'end_time'=>strtotime('2016-05-31')
+            ]
         ];
         foreach($time_arr as $item){
             $start_time = $item['start_time'];
@@ -365,6 +371,44 @@ class tom_do_once extends Command
                 if($is_exist_count>0){
                     $this->task->t_seller_student_origin->field_update_list_2($userid, $origin, ['is_exist_count'=>$is_exist_count]);
                     echo $userid.':'.$origin.'=>'.$is_exist_count."\n";
+                }
+            }
+            $start = strtotime('+1 month',$start);
+        }
+    }
+
+    public function update_seller_student_origin_new(){
+        $min   = $this->task->t_seller_student_origin->get_min_add_time($desc='asc');
+        $max   = $this->task->t_seller_student_origin->get_min_add_time($desc='desc');
+        $date1 = explode('-',date('y-m-d',$min));
+        $date2 = explode('-',date('y-m-d',$max));
+        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
+        $start = strtotime(date('y-m-1',$min));
+        $end   = strtotime(date('y-m-1',$max));
+        for($i=1;$i<=$count+1;$i++){
+            $start_time = $start;
+            $end_time = strtotime('+1 month',$start);
+            $ret = $this->task->t_seller_student_origin->get_all_list($start_time,$end_time);
+            foreach($ret as $item){
+                $arr = [];
+                $userid = $item['userid'];
+                $origin = $item['origin'];
+                $add_time = $item['add_time'];
+                $last_suc_lessonid = $item['last_suc_lessonid'];
+                $last_orderid = $item['last_orderid'];
+                $next_add_time = $this->task->t_seller_student_origin->get_next_add_time($userid,$add_time);
+                $add_time_max = $next_add_time>0?$next_add_time:time();
+                $lessonid = $this->task->t_lesson_info_b3->get_last_test_lessonid($userid,$add_time,$add_time_max);
+                if($lessonid>0 && $last_suc_lessonid!=$lessonid){
+                    $arr['last_suc_lessonid'] = $lessonid;
+                }
+                $orderid = $this->task->t_order_info->get_last_orderid($userid,$add_time,$add_time_max);
+                if($orderid>0 && $last_orderid!=$orderid){
+                    $arr['last_orderid'] = $orderid;
+                }
+                if(count($arr)>0){
+                    $ret = $this->task->t_seller_student_origin->field_update_list_2($userid, $origin, $arr);
+                    echo $userid.':'.$origin.'=>'.$ret."\n";
                 }
             }
             $start = strtotime('+1 month',$start);

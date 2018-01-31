@@ -57,6 +57,8 @@ class menu{
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
+                ["power_id"=>11, "name"=>"课次取消率-技术支持",   "url"=>"/tongji2/lessoncancelrate"],
+
             ]
             ],
             ["power_id"=>15, "name"=>"例子-新版", "list"=>[

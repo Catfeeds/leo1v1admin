@@ -1641,6 +1641,7 @@ class teacher_level extends Controller
                 // E\Enew_level::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Enew_level::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Enew_level::get_simple_desc($item["level_after"]);
+                $item["level_before_str"] = E\Enew_level::get_simple_desc($item["level_before"]);
 
 
             }else{
@@ -1648,6 +1649,7 @@ class teacher_level extends Controller
                 // E\Elevel::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Elevel::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Elevel::get_simple_desc($item["level_after"]);
+                $item["level_before_str"] = E\Elevel::get_simple_desc($item["level_before"]);
 
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
@@ -1658,17 +1660,23 @@ class teacher_level extends Controller
             E\Eaccept_flag::set_item_value_str($item,"advance_first_trial_flag");
             E\Eaccept_flag::set_item_value_str($item,"withhold_first_trial_flag");
             $item["lesson_count"] = $item["lesson_count"]/100;
-            $item["lesson_count_score"] = $this->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
-            $item["record_final_score"]= $this->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
-            $item["cc_order_score"]= $this->get_advance_score_by_num( $item["cc_order_num"],2);//cc签单数得分
-            $item["other_order_score"]= $this->get_advance_score_by_num( $item["other_order_num"],3);//cr签单得分
-            $item["stu_num_score"]= $this->get_advance_score_by_num( $item["stu_num"],4);//常规学生签单得分
+            // $item["lesson_count_score"] = $this->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
+            $item["lesson_count_score"] = $item["lesson_count_score"]/100;
+            // $item["record_final_score"]= $this->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
+            $item["record_final_score"] =  $item["record_final_score"]/100;
+            //$item["cc_order_score"]= $this->get_advance_score_by_num( $item["cc_order_num"],2);//cc签单数得分
+            $item["cc_order_score"]= $item["cc_order_score"]/100;
+            // $item["other_order_score"]= $this->get_advance_score_by_num( $item["other_order_num"],3);//cr签单得分
+            $item["other_order_score"] =  $item["other_order_score"]/100;
+            // $item["stu_num_score"]= $this->get_advance_score_by_num( $item["stu_num"],4);//常规学生签单得分
+            $item["stu_num_score"] = $item["stu_num_score"]/100;
             $order_score = $item["cc_order_score"]+ $item["other_order_score"];//签单总分
             if($order_score>=10){
                 $order_score=10;
             }
             $item["total_score"] =$item["lesson_count_score"]+$item["record_final_score"]+$order_score+ $item["stu_num_score"];//总得分
-            list($item["reach_flag"],$item["withhold_money"])=$this->get_tea_reach_withhold_list($item["level"],$item["total_score"]);
+            // list($item["reach_flag"],$item["withhold_money"])=$this->get_tea_reach_withhold_list($item["level_before"],$item["total_score"]);
+            $item["withhold_money"]=$item["withhold_money"]/100;
             E\Eboolean::set_item_value_str($item,"reach_flag");
 
         }
