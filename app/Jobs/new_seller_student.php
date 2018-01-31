@@ -23,7 +23,7 @@ class new_seller_student extends Job implements ShouldQueue
      * @desn $origin 例子渠道
      * @desn $subject 预定科目
      */
-    public function __construct($userid,$uid,$posterTag,$phone,$origin,$subject)
+    public function __construct($userid,$uid,$posterTag,$phone,$origin='',$subject='')
     {
 
         parent::__construct();
