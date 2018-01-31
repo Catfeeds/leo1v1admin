@@ -86,3 +86,18 @@ message stu_apply_list {
   string status_str=6 ;  //处理状态
   uint32 consume_lesson_num=7 ;  //学生兑换时消耗的课时数
 }
+
+message order_detail {
+  uint32 id=1; //订单id,唯一标识
+  string contractid=2; //合同编号
+  string order_time=3; //下单时间 Y-m-d H:i:s类型(下同)
+  string pay_time=4; //付款时间
+  string expired_time=5;//订单过期时间
+  string price=6 ;  //订单总金额 单位元(下同)
+  uint32 contract_status=7 ;  //合同状态 0 未付款 1执行中 2 已结束 3 提前终止
+  uint32 package_id=8 ;  //(以下为套餐信息) 套餐id 
+  string package_sale_money=9 ;  //套餐销售价格
+  string package_give_money=10 ;  //套餐折扣价格
+  string package_name=11 ;  //套餐名称
+  string package_desc=12 ;  //套餐描述
+}
