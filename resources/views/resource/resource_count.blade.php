@@ -86,9 +86,10 @@
                     <td>合计</td>
                     <td></td>
                     <td></td>
-                    <td>{{@$total["file_name"]}}</td>
+                    <td>{{@$total["file_num"]}}</td>
                     <td>{{@$total["visit"]}}</td>
                     <td>{{@$total["visit_rate"]}}</td>
+                    <td>{{@$total["visit_num"]}}</td>
                     <td>{{@$total["use"]}}</td>
                     <td>{{@$total["use_rate"]}}</td>
                     <td>{{@$total["use_num"]}}</td>
