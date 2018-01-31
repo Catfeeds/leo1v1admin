@@ -776,4 +776,19 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_last_origin($userid,$add_time){
+        $where_arr = [
+            "add_time<$add_time",
+        ];
+        $this->where_arr_add_int_field($where_arr, 'userid', $userid);
+        $sql = $this->gen_sql_new(
+            " select origin "
+            ." from %s "
+            ." where %s order by add_time desc limit 1 "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

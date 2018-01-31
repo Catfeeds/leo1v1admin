@@ -2038,12 +2038,14 @@ class tongji2 extends Controller
 
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "logtime");
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             $this->cache_set_item_account_nick($item);
             $this->cache_set_item_student_nick($item);
             $item["call_time"]= \App\Helper\Common::get_time_format( $item["call_time"] );
             E\Eboolean::set_item_value_color_str($item, "called_flag");
             E\Eseller_student_assign_from_type::set_item_value_str($item);
             E\Eboolean::set_item_value_color_str($item, "check_hold_flag");
+            E\Eorigin_level:: set_item_value_str($item );
         }
 
         return $this->pageView(__METHOD__, $ret_info);

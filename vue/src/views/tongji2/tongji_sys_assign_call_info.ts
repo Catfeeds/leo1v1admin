@@ -27,6 +27,20 @@ export default class extends vtable {
       "title": "学生",
 
     },{
+      field_name: "add_time",
+      "order_field_name": "add_time",
+      "title": "进库时间",
+
+    },{
+      field_name: "origin",
+      "order_field_name": "origin",
+      "title": "渠道",
+    },{
+      field_name: "origin_level_str",
+      "order_field_name": "origin_level",
+      "title": "渠道等级",
+    },{
+
       "title": "电话号码",
       field_name: "phone",
     },{
@@ -37,11 +51,11 @@ export default class extends vtable {
       field_name: "call_count",
       "order_field_name": "call_count",
       "title": "拨打次数",
-
     },{
       field_name: "called_flag_str",
       "order_field_name": "called_flag",
       "title": "拨通",
+
     },{
       field_name: "call_time",
       "title": "拨打时长",
