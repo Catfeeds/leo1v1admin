@@ -307,7 +307,7 @@ $(function(){
             ["merge","评价"],
             ["merge",comment],
         ];
-        $.tea_show_key_value_table("", arr,{
+        $.tea_show_key_value_table("讲义评价", arr,{
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
@@ -318,7 +318,26 @@ $(function(){
                                    
     })
 
-    //Enum_map.append_option_list("resource_error", $(".error_type_01"),true);
+    //报错
+    $('.opt-error').on('click',function(){
+        var error = $('.error').clone();
+        error.removeClass('hide');
+    
+        var arr = [
+            ["merge","报错"],
+            ["merge",error],
+        ];
+        $.tea_show_key_value_table("讲义报错", arr,{
+            label    : '确认',
+            cssClass : 'btn-info col-xs-2 margin-lr-20',
+            action   : function() {
+                
+            }
+        },'',false,700,'padding-right:60px;');
+
+                                   
+    })
+
 
 });
 
@@ -402,4 +421,36 @@ function cancel(obj,oEvent){
             commentArray[k].style.color="#948f8f";
         }
     }    
+}
+
+function get_err_sec(val){
+    var $options;
+    var num = parseInt(val);
+    switch(num)
+    {
+    case 0:
+        $options  = $.trim($(".err_knowledge").clone().html());
+        break;
+    case 1:
+        $options  = $.trim($(".err_question_answer").clone().html());
+        break;
+    case 2:
+        $options  = $.trim($(".err_code").clone().html());
+        break;
+    case 3:
+        $options  = $.trim($(".err_content").clone().html());
+        break;
+    case 4:
+        $options  = $.trim($(".err_whole").clone().html());
+        break;
+    case 5:
+        $options  = $.trim($(".err_pic").clone().html());
+        break;
+
+    default:
+        $options  = $.trim($(".err_knowledge").clone().html());
+    }
+    //console.log($options);
+    $(".error_type_02").html($options);
+
 }

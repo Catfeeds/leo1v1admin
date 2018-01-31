@@ -29,7 +29,7 @@
      .comment .comment_radio label{ margin-right: 20px;padding-left: 20px; position: relative;font-weight:normal}
      .comment .comment_radio input{ width:15px;height:15px;border:1px; position: absolute;left: 0px;}
 
-     .error{ width:700px }
+     .error{ width:600px;text-align:left }
      .error .error_type select{ min-width:240px;min-height:30px;margin-right:10px}
      .error .error_detail{ width:500px;height:300px}
      .error .error_pic_info{ color:#948f8f}
@@ -339,19 +339,23 @@
     <div class="error hide">
         <h4>错误类型：</h4>
         <div class="error_type">
-            <select class="error_type_01">
+            <select class="error_type_01" onchange='get_err_sec(this.options[this.options.selectedIndex].value)'>
                 @foreach($err_type as $k => $type)
                     <option value="{{$k}}">{{$type}}</option>
                 @endforeach
             </select>
-            <select class="error_type_02"></select>
+            <select class="error_type_02">
+                @foreach($err_knowledge as $k => $type)
+                    <option value="{{$k}}">{{$type}}</option>
+                @endforeach
+
+            </select>
 
             
         </div>
         <h4>错误详情：</h4>
         <div class="error_detail_box">
-            <textarea class="error_detail">
-            </textarea>
+            <textarea class="error_detail"></textarea>
         </div>
         <p class="error_pic_info">仅支持jpeg,jpg,png,gif格式图片，大小不超过2M，最多上传5张</p>
 
