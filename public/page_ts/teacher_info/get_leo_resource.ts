@@ -304,7 +304,6 @@ $(function(){
             comment.find('.comment_test_listen').remove();
         }
         var arr = [
-            ["merge","评价"],
             ["merge",comment],
         ];
         $.tea_show_key_value_table("讲义评价", arr,{
@@ -325,7 +324,6 @@ $(function(){
         var error = $('.error').clone();
         error.removeClass('hide');  
         var arr = [
-            ["merge","报错"],
             ["merge",error],
         ];
         error.find('.error_upload').attr({"id":"error_upload_id"});
@@ -349,7 +347,27 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
-                
+                var error_type_01 = error.find('.error_type_01').val();
+                var error_type_02 = error.find('.error_type_02').val();
+                var error_detail = error.find('.error_detail').val();
+                //上传错误的图片
+                var img_arr = [];
+                if(error.find('.error_pic_box:visible').length > 0){
+                    error.find('.error_pic_box:visible').each(function(){
+                        var img_link = $(this).find('img').attr("src");
+                        if( img_link != '' && img_link != undefined){
+                            img_arr.push(img_link);
+                        }
+                    })
+                }
+                var data = {
+                    "error_type_01" : error_type_01,
+                    "error_type_02" : error_type_02,
+                    "error_detail" : error_detail,
+                    "img_arr" : JSON.stringify(img_arr)
+                };
+
+                console.log(data);
             }
         },function(){
             custom_upload(timestamp,"error_button_id","error_upload_id",1);
@@ -496,7 +514,7 @@ function get_err_sec(val){
 function custom_upload(new_flag,btn_id,containerid,obj){
 
     var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
-    var domain =  "http://teacher-doc.qiniudn.com/";
+    //var domain =  "http://teacher-doc.qiniudn.com/";
     var qi_niu = ['Qiniu_'+new_flag];
     qi_niu[0] = new QiniuJsSDK();
     //console.log(qi_niu[0]);
@@ -511,7 +529,7 @@ function custom_upload(new_flag,btn_id,containerid,obj){
         runtimes: 'html5, flash, html4',
         browse_button: btn_id , //choose files id
         uptoken_url: '/upload/pub_token',
-        uptoken: token,
+        //uptoken: token,
         domain: domain,
         container: containerid,
         drop_element: containerid,
