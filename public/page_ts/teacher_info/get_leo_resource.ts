@@ -322,29 +322,50 @@ $(function(){
 
     //报错
     $('.opt-error').on('click',function(){
+        var error = $('.error').clone();
         error.removeClass('hide');  
         var arr = [
             ["merge","报错"],
             ["merge",error],
         ];
+        error.find('.error_upload').attr({"id":"error_upload_id"});
+        error.find('.error_button').attr({"id":"error_button_id"});
+
+        error.find('.pic_change_01').parent().parent().attr({"id":"error_pic_box_01"});
+        error.find('.pic_change_02').parent().parent().attr({"id":"error_pic_box_02"});
+        error.find('.pic_change_03').parent().parent().attr({"id":"error_pic_box_03"});
+        error.find('.pic_change_04').parent().parent().attr({"id":"error_pic_box_04"});
+        error.find('.pic_change_05').parent().parent().attr({"id":"error_pic_box_05"});
+
+        error.find('.pic_change_01').attr({"id":"pic_modify_01"});
+        error.find('.pic_change_02').attr({"id":"pic_modify_02"});
+        error.find('.pic_change_03').attr({"id":"pic_modify_03"});
+        error.find('.pic_change_04').attr({"id":"pic_modify_04"});
+        error.find('.pic_change_05').attr({"id":"pic_modify_05"});
+
+        var timestamp = Date.parse(new Date());
+        
         $.tea_show_key_value_table("讲义报错", arr,{
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
                 
             }
-        },null,false,700,'padding-right:60px;');
+        },function(){
+            custom_upload(timestamp,"error_button_id","error_upload_id",1);
+            custom_upload(timestamp,"pic_modify_01","error_pic_box_01",2);
+            custom_upload(timestamp,"pic_modify_02","error_pic_box_02",2);
+            custom_upload(timestamp,"pic_modify_03","error_pic_box_03",2);
+            custom_upload(timestamp,"pic_modify_04","error_pic_box_04",2);
+            custom_upload(timestamp,"pic_modify_05","error_pic_box_05",2);
+
+        },false,700,'padding-right:60px;');
 
                                    
     })
 
-    custom_upload($('.error_button')[0],$('.error_pic_box')[0],1);
+    //var $img = $('.error_pic_box:hidden:eq(0)');
 
-    custom_upload($('.pic_change_01')[0],$('.error_pic_box')[0],$(".pic_change_01"));
-    custom_upload($('.pic_change_02')[0],$('.error_pic_box')[0],$(".pic_change_02"));
-    custom_upload($('.pic_change_03')[0],$('.error_pic_box')[0],$(".pic_change_03"));
-    custom_upload($('.pic_change_04')[0],$('.error_pic_box')[0],$(".pic_change_04"));
-    custom_upload($('.pic_change_05')[0],$('.error_pic_box')[0],$(".pic_change_05"));
 });
 
 function rate(obj,oEvent){
@@ -429,6 +450,17 @@ function cancel(obj,oEvent){
     }    
 }
 
+function dele_upload(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    $(target).parent().prev().attr({'src':''});
+    $(target).parents('.error_pic_box').addClass('hide');
+    var cur_obj = $(target).parents('.error_pic_box').clone();
+    var button = $(target).parents('.error_upload').find('.error_button');
+    $(target).parents('.error_pic_box').remove();
+    button.before(cur_obj);
+}
+
 function get_err_sec(val){
     var $options;
     var num = parseInt(val);
@@ -461,51 +493,49 @@ function get_err_sec(val){
 
 }
 
-function custom_upload(btn_id,containerid,obj){
-    console.log(1);
-    var $img = $('.error_pic_box:hidden:eq(0)');
-    //console.log($img);
-    if($img.length == 0){
+function custom_upload(new_flag,btn_id,containerid,obj){
+
+    var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
+    var domain =  "http://teacher-doc.qiniudn.com/";
+    var qi_niu = ['Qiniu_'+new_flag];
+    qi_niu[0] = new QiniuJsSDK();
+    //console.log(qi_niu[0]);
+    var token = "yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SNPUFt8-K2eSlkX70Nb8vzA7lo0=:eyJzY29wZSI6InRlYWNoZXItZG9jIiwiZGVhZGxpbmUiOjE1MTczOTIzOTR9";
+
+    if( obj == 1 && $("#"+containerid).find('.error_pic_box:hidden').length == 0 ){
+        BootstrapDialog.alert("最多只能传5张图片！");
         return false;
     }
-    var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
-
-    var uploader = Qiniu.uploader({
-
+    var uploader = qi_niu[0].uploader({
+    
         runtimes: 'html5, flash, html4',
         browse_button: btn_id , //choose files id
         uptoken_url: '/upload/pub_token',
+        uptoken: token,
         domain: domain,
         container: containerid,
         drop_element: containerid,
-        max_file_size: '100mb',
+        max_file_size: '4mb',
         dragdrop: true,
         flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
         chunk_size: '4mb',
+        filters: {
+            mime_types: [
+                {title: "仅支持jpeg,jpg,png,gif格式图片", extensions: "jpg,jpeg,png,gif"}
+            ]
+        },
         unique_names: false,
         save_key: false,
         auto_start: true,
         init: {
             'FilesAdded': function(up, files) {
 
-                // BootstrapDialog.show({
-                //     title: '上传进度',
-                //     message: $('<div class="progress progress-sm active">' +
-                //                '<div id="id_upload_process_info" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">'+'<span class="sr-only">0% Complete</span>  </div> </div>'),
-                // });
-
-                // plupload.each(files, function(file) {
-                //     var progress = new FileProgress(file, 'process_info');
-                //     console.log('waiting...');
-                // });
             },
             'BeforeUpload': function(up, file) {
                 console.log('before uplaod the file');
             },
             'UploadProgress': function(up,file) {
-                // var progress = new FileProgress(file, 'process_info');
-                // progress.setProgress(file.percent + "%", up.total.bytesPerSec, btn_id);
-                // console.log('upload progress');
+
             },
             'UploadComplete': function() {
                 // $("#"+btn_id).siblings('div').remove();
@@ -516,10 +546,11 @@ function custom_upload(btn_id,containerid,obj){
                 console.log(info);
                 var imgSrc = domain + JSON.parse(info.response).key;
                 if(obj == 1){
-                    $img.find("img").attr("src", imgSrc);
-                    $img.removeClass("hide");
+                    var $img_box = $("#"+containerid).find('.error_pic_box:hidden:eq(0)');                   
+                    $img_box.find("img").attr("src", imgSrc);
+                    $img_box.removeClass("hide");
                 }else{
-                    obj.parent().prev().attr("src", imgSrc);
+                    $('#'+containerid).find('img').attr("src", imgSrc);
                 }
             },
             'Error': function(up, err, errTip) {
@@ -529,11 +560,15 @@ function custom_upload(btn_id,containerid,obj){
                 console.log(errTip);
             },
             'Key': function(up, file) {
-                var suffix = file.type.split('/').pop();
+                var key = "";
                 var time = (new Date()).valueOf();
-                var key= time + "." + suffix;
-                console.log(key);
-                return key;
+                var match = file.name.match(/.*\.(.*)?/);
+                this.origin_file_name=file.name;
+                var file_name=$.md5(file.name) +time +'.' + match[1];
+                var suff = match[1].toLowerCase();         
+                console.log('gen file_name:'+file_name);
+                return file_name;
+
             }
         }
     });
