@@ -106,6 +106,12 @@ class reset_lesson_online_user_status extends Command
                     "lesson_user_online_status" =>  $lesson_online_user_status ? 1:2  ,
                     "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
                 ]);
+                if($lesson_online_user_status == 1){
+                    $origin = $this->$task->t_seller_student_origin->get_last_origin($item["userid"],$item["lesson_start"]);
+                    if($origin != ''){
+                        $this->$task->t_seller_student_origin->field_update_list_2($item["userid"], $origin, ['last_suc_lessonid'=>$lessonid]);
+                    }
+                }
             }
 
         }
