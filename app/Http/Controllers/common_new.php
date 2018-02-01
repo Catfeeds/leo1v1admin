@@ -1948,6 +1948,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $lessonid = $this->get_in_int_val('lessonid');
         $zip_url  = $this->get_in_str_val('zip_url');
         $is_tea   = $this->get_in_int_val('is_tea');
+        \App\Helper\Utils::logger("2_1zip_url: $zip_url; is_tea:$is_tea");
+
         if($is_tea == 1 ){ # 老师
             $this->t_lesson_info_b3->field_update_list($lessonid,[
                 "zip_url" => $zip_url
