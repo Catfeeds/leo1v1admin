@@ -127,27 +127,26 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         if (isset($http[0])) { // 完整路由
             $pattern = '/^http:\/\/[\w\.]+/'; // 匹配域名
             preg_match($pattern, $burl, $domain);
-            if (isset($domain[0]) && $cur_p_flag && $http_curr_host != $domain[0]) {
-                $url = str_replace("http://", "http://p.", $burl);
-                $cur_p_flag = false;
-            }
-            if (isset($domain[0]) && $url_p_flag && $http_curr_host != $domain[0]) {
-                $url = "http://".substr($burl, 9);
-                $url_p_flag = false;
-            }
-            // if (isset($domain[0]) && $http_curr_host != $domain[0]) {
-            //     // 2. 处理冒烟环境添加到收藏 正式环境显示 http://p.admin.leo1v1.com
-            //     $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境
-            //     preg_match($pattern, $burl, $pdomain);
-            //     if (isset($pdomain[0])) {
-            //         $url = "http://".substr($burl, 9);
-            //     } else {
-            //         // 3. 处理正式环境添加到收藏 冒烟环境显示
-            //         $url = str_replace("http://", "http://p.", $burl);
-            //     }
-            // } else {
-            //     $url = $burl;
+            // if (isset($domain[0]) && $cur_p_flag && $http_curr_host != $domain[0]) {
+            //     $url = str_replace("http://", "http://p.", $burl);
+            //     $cur_p_flag = false;
             // }
+            // if (isset($domain[0]) && $url_p_flag && $http_curr_host != $domain[0]) {
+            //     $url = "http://".substr($burl, 9);
+            //     $url_p_flag = false;
+            // }
+
+            if (isset($domain[0]) && $http_curr_host != $domain[0]) {
+                // 2. 处理冒烟环境添加到收藏 正式环境显示 http://p.admin.leo1v1.com
+                $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境
+                preg_match($pattern, $burl, $pdomain);
+                if (isset($pdomain[0])) {
+                    $url = "http://".substr($burl, 9);
+                } else {
+                    // 3. 处理正式环境添加到收藏 冒烟环境显示
+                    $url = str_replace("http://", "http://p.", $burl);
+                }
+            }
         } else { // 短路由 
             $url = $http_curr_host.$burl;
         }
