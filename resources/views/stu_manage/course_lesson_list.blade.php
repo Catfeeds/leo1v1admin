@@ -19,11 +19,13 @@
                 </select>
             </div>
         </div>
+       
         <div class="col-xs-6 col-md-1">
         </div>
-        <div class="col-xs-6 col-md-1">
+        <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <a class="btn btn-primary" id="id_add_lesson">增加课程</a>
+                <a class="btn btn-danger" id="id_cancel_lesson">批量删除课程</a>
             </div>
         </div>
     </div>
@@ -31,6 +33,10 @@
     <table class="common-table ">
         <thead>
             <tr>
+                <td style="width:10px">
+                    <a href="javascript:;" id="id_select_all" title="全选">全</a>
+                    <a href="javascript:;" id="id_select_other" title="反选">反</a>
+                </td>
                 <td >课程id</td>
                 <td >老师</td>
                 <td style="display:none;">工资分类</td>
@@ -53,6 +59,9 @@
         <tbody>
             @foreach ($table_data_list as $var)
                 <tr>
+                    <td>
+                        <input type="checkbox" class="opt-select-item" data-lessonid="{{$var["lessonid"]}}" data-lesson_status="{{$var["lesson_status"]}}"/>
+                    </td>
                     <td > {{$var["lessonid"]}} </td>
                     <td > {{$var["teacher_nick"]}} </td>
                     <td > {{$var["teacher_money_type_str"]}} </td>

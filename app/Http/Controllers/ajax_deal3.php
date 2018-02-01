@@ -12,6 +12,7 @@ class ajax_deal3 extends Controller
 {
     use CacheNick;
     use TeaPower;
+    use LessonPower;
 
     public function get_new_seller_student_info() {
         $work_start_time="";
@@ -922,6 +923,22 @@ class ajax_deal3 extends Controller
         return $this->output_succ();
 
         
+
+    }
+
+    //批量删除课程
+    public function cancel_lesson_list(){
+        $lessonid_list    = $this->get_in_str_val("lessonid_list");
+        $list = json_decode($lessonid_list,true);
+        foreach($list as $val){
+            $lessonid = $val;           
+            $ret = $this->t_lesson_info_b2->cancel_lesson_no_start($lessonid);
+            if($ret){
+                $this->add_cancel_lesson_operate_info($lessonid);
+            }
+
+        }
+        return $this->output_succ();
 
     }
 

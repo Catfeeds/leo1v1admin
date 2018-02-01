@@ -44,8 +44,24 @@ class fulltime_teacher_kaoqin extends Command
 
         if($h<6){
             //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+
+           
             $end_time = strtotime(date("Y-m-d",$time));
             $start_time = $end_time-86400;
+            //当日课时计算
+            $lesson_info = $task->t_lesson_info_b2->get_qz_tea_lesson_info($start_time,$end_time);
+            $list=[];
+            foreach($lesson_info as $val){
+                if($val["lesson_type"]==1100 && $val["train_type"]==5){
+                    @$list[$val["uid"]] += 0.8;
+                }elseif($val["lesson_type"]==2){
+                    @$list[$val["uid"]] += 1.5;
+                }else{
+                    @$list[$val["uid"]] += $val["lesson_count"]/100;
+                }
+            }
+
+            //考勤信息
             $date_list_old=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
             $date_arr=[];
             foreach($date_list_old as $k=>$val){
