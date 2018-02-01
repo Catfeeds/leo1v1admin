@@ -3533,10 +3533,11 @@ class teacher_info extends Controller
         $sub_error_type      = $this->get_in_int_val("sub_error_type",-1);
         $detail_error        = $this->get_in_str_val("detail_error",'');
         $error_url           = $this->get_in_str_val("error_url",'');
+        $teacherid           = $this->get_login_teacher();
 
         $this->t_resource_file_error_info->row_insert([
             "file_id"          => $file_id,
-            "teacherid"        => $this->get_login_teacher(),
+            "teacherid"        => $teacherid,
             "add_time"         => time(NULL),
             "resource_type"    => $resource_type,
             "phone"            => $this->t_teacher_info->get_phone($teacherid),
