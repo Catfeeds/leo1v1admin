@@ -145,7 +145,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180129151439,
+            '_publish_version'    => 20180131151439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -1024,8 +1024,9 @@ class resource extends Controller
                 'create_time'   => $time,
             ]);
         }
-        $last_id = $this->t_resource->get_last_insertid();
-        return $this->output_succ(['resource_id' => $last_id]);
+        $last_id_arr = $this->t_resource->get_latest_id($add_num);
+        $resource_id_arr = array_column($last_id_arr, 'resource_id');
+        return $this->output_succ(['resource_id_arr' => json_encode($resource_id_arr)]);
     }
 
     public function add_file() {
@@ -1087,6 +1088,11 @@ class resource extends Controller
 
     public function add_multi_file() {
         $multi_data = $this->get_in_str_val('multi_data');
+        $is_reupload   = $this->get_in_int_val('is_reupload', 0);
+
+        if( is_string($multi_data)){
+            $multi_data = json_decode($multi_data,true);
+        }
         if( $multi_data && is_array($multi_data)){
             foreach( $multi_data as $data){
                 $ex_num        = 0;
