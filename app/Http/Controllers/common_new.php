@@ -652,7 +652,9 @@ class common_new extends Controller
         if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
             $call_flag = $this->get_in_int_val('call_flag');
             $obj_start_time = time(NULL);
-            $cdr_bridged_cno = 2000;
+            $adminid = $this->get_account_id();
+            //获取用户tquin
+            $cdr_bridged_cno = $this->t_manager_info->get_tquin($adminid);
             $cdr_customer_number = $this->get_in_str_val('phone');
             $cdr_answer_time = time(NULL);
             if($call_flag == 1){
@@ -1948,6 +1950,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $lessonid = $this->get_in_int_val('lessonid');
         $zip_url  = $this->get_in_str_val('zip_url');
         $is_tea   = $this->get_in_int_val('is_tea');
+        \App\Helper\Utils::logger("2_1zip_url: $zip_url; is_tea:$is_tea");
+
         if($is_tea == 1 ){ # 老师
             $this->t_lesson_info_b3->field_update_list($lessonid,[
                 "zip_url" => $zip_url

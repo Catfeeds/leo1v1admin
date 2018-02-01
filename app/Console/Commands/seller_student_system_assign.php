@@ -298,14 +298,12 @@ class seller_student_system_assign extends cmd_base
 
             $account="系统分配-新例子-每轮首次按用户等级分 ";
             foreach( $seller_level_admin_map as $adminid=>$v ) {
-                \App\Helper\Utils::logger("check_error3:-seller_student_level_map".json_encode($seller_student_level_map)); 
-                \App\Helper\Utils::logger("check_error5:$find_origin_level"); 
-                $find_userid= @array_shift($seller_student_level_map[ $find_origin_level] );
-                \App\Helper\Utils::logger("check_error6:".json_encode($find_userid)); 
-                \App\Helper\Utils::logger("check_error4:-seller_student_level_map".json_encode($seller_student_level_map)); 
-                if ($find_userid) {
-                    $this->do_assign($account, $find_userid, $adminid);
-                    unset ( $seller_level_admin_map[$adminid]  );
+                if(@$seller_student_level_map[ $find_origin_level]){
+                    $find_userid= @array_shift($seller_student_level_map[ $find_origin_level] );
+                    if ($find_userid) {
+                        $this->do_assign($account, $find_userid, $adminid);
+                        unset ( $seller_level_admin_map[$adminid]  );
+                    }
                 }
             }
         }

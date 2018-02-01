@@ -121,7 +121,7 @@ class SendAdvanceTeacherWxEmail extends Job implements ShouldQueue
                     $st = strtotime("+$i months",$start_time-86400);
                     if($st>=$month_start){                        
                         $task->t_teacher_money_list->row_insert([
-                            "teacherid" =>$teacherid,
+                            "teacherid" =>$val["teacherid"],
                             "type"      =>101,
                             "add_time"  =>$month,
                             "money"     => "-".$val["withhold_money"],
@@ -129,7 +129,7 @@ class SendAdvanceTeacherWxEmail extends Job implements ShouldQueue
                         ]);
                     }
                 }
-                $task->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                $task->t_teacher_advance_list->field_update_list_2($start_time,$val["teacherid"],[
                     "withhold_wx_flag"     => 1,
                 ]);
             }
