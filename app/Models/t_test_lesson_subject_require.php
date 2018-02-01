@@ -4054,4 +4054,37 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_list($sql);
     }
+    //@desn:获取系统分配销售的试听成功数
+    //@param:$begin_time,$end_time 开始时间 结束时间
+    //@param:$admin_revisiterid cc的id
+    public function t_test_lesson_subject_require($start_time,$end_time,$admin_revisiterid){
+        $where_arr=[
+            'li.lesson_del_flag=0',
+            'li.lesson_type = 2 ',
+            'tlssl.success_flag in (0,1 )',
+            'tlsr.accept_flag=1',
+            'si.is_test_user = 0',
+            'tlsr.cur_require_adminid' => $admin_revisiterid,
+            '(li.lesson_user_online_status in (0,1) or f.flow_status = 2)'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+
+        $sql = $this->gen_sql_new(
+            'select  count(distinct tls.userid) '.
+            'from %s tlsr '.
+            'left join %s tlssl on tlssl.lessonid = tlsr.current_lessonid '.
+            'left join %s li on tlsr.current_lessonid=li.lessonid '.
+            'left join %s si on li.userid=si.userid '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
 }

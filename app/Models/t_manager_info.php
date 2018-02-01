@@ -751,7 +751,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "del_flag=0",
             //\App\Enums\Eaccount_role::V_2
             "account_role=2", //cc
-            "day_new_user_flag=1",
+            // "day_new_user_flag=1",
         ];
 
         $sql=$this->gen_sql_new(

@@ -5045,5 +5045,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取cc一段时间内的销售额
+    //@param:$begin_time,$end_time 开始时间 结束时间
+    //@param:$admin_revisiterid cc的id
+    public function get_order_money_by_adminid($begin_time,$end_time,$admin_revisiterid){
+        $where_arr=[
+            'oi.contract_type = 0',
+            'si.is_test_user = 0',
+            'oi.contract_status >0'
+        ];
+    }
 }
 
