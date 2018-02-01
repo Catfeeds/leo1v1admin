@@ -90,13 +90,31 @@ class sync_tianrun extends cmd_base
         $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
         $record_url=  $item["recordFile"];
         $userField = $item["userField"];
-
-        $db_item=$this->task->t_tq_call_info->field_get_list($id, "id, record_url")  ;
+        $sipCause = $item['sipCause'];
+        $client_number = $item['clientNumber'];
+        $endReason = 0;
+        if($item['endReason']=='是'){//客户
+            $endReason = 2;
+        }elseif($item['endReason']=='否'){//销售
+            $endReason = 1;
+        }
+        $db_item=$this->task->t_tq_call_info->field_get_list($id, "id, record_url,cause,client_number,end_reason")  ;
         if ($db_item) { //更新
-            if ($db_item["record_url"] != $record_url){
-                $this->task->t_tq_call_info->field_update_list($id,[
-                    "record_url" =>  $record_url ,
-                ]);
+            $arr = [];
+            if($db_item["record_url"] != $record_url){
+                $arr['record_url'] = $record_url;
+            }
+            if($db_item["cause"] != $sipCause){
+                $arr['cause'] = $sipCause;
+            }
+            if($db_item["client_number"] != $client_number){
+                $arr['client_number'] = $client_number;
+            }
+            if($db_item["end_reason"] != $endReason){
+                $arr['end_reason'] = $endReason;
+            }
+            if(count($arr)>0){
+                $this->task->t_tq_call_info->field_update_list($id,$arr);
             }
         }else{
             // $bridgeDuration= $item["bridgeDuration"];//通话时长
@@ -124,9 +142,6 @@ class sync_tianrun extends cmd_base
             $totalDuration = $item['totalDuration'];
             $totalDuration = strtotime("1970-01-01 $totalDuration")+28800;
             $cdr_end_time = $cdr_answer_time + $totalDuration;
-            $sipCause = $item['sipCause'];
-            $client_number = $item['clientNumber'];
-            $endReason = $item['endReason']=='是'?1:0;
             $this->task->t_tq_call_info->add(
                 $id,
                 $cdr_bridged_cno,
@@ -165,7 +180,6 @@ class sync_tianrun extends cmd_base
             $start_time=strtotime($day);
             $end_time=$start_time+86400;
         }
-
         $this->load_data($start_time,$end_time);
     }
 }

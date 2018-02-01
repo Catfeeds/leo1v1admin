@@ -12,7 +12,7 @@
             
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <bttton id="id_add" class="btn btn-primary">拉取数据</button>
+                <bttton id="id_pull_data" class="btn btn-primary">拉取数据</button>
             </div>
         </div>
         </div>
