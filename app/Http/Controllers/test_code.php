@@ -477,6 +477,8 @@ class test_code extends Controller
         echo "succ";
     }
 
-
+    public function test_a(){
+        var_dump($a);
+    }
 
 }
