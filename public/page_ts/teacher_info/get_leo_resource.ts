@@ -267,6 +267,39 @@ $(function(){
             }
         });
     });
+
+    $('.opt-look_new').on('click',function(){
+        var id = $(this).data('file_id');
+        var file_type = $(this).data('file_type');
+        file_type = file_type.toLowerCase();
+
+        var newTab;
+        if( file_type == "mp4" || file_type == "mp3" ){
+            newTab = window.open('about:blank');
+        }
+
+        do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
+            if(ret.ret == 0){ 
+                if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){
+                    newTab.location.href = ret.url;
+                }else{
+                    //newTab.close();
+                    $('.look-pdf').show();
+                    $('.look-pdf-son').mousedown(function(e){
+                        if(e.which == 3){
+                            return false;
+                        }
+                    });
+                    PDFObject.embed(ret.url).css({'width':'120%','height':'120%','margin':'-10%'});
+                    //PDFObject.embed(ret.url, ".look-pdf-son");
+                    //$('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
+                }
+            } else {
+                BootstrapDialog.alert(ret.info);
+            }
+        });
+    });
+
     $('body').on('click', function(){
         // $('.look-pdf').hide().empty();
         $('.look-pdf').hide().children().children().empty();
@@ -297,6 +330,8 @@ $(function(){
     var comment2 = $('.comment');
     //评价
     $('.opt-comment').on('click',function(){
+        var file_id = $(this).data('file_id');
+        var resource_type  = $(this).data('resource_type');
         var comment = comment2;
         comment.removeClass('hide');
         if( resource_type == 3 ){
@@ -332,6 +367,38 @@ $(function(){
                 }else{
                     var con_time = comment.find("input[name='con_time']:checked").val();    //精品课时长
                 }
+
+                if(!con_font){
+                    BootstrapDialog.alert("请评价文字大小！");
+                    return false;
+                }
+
+                if(!con_spacing){
+                    BootstrapDialog.alert("请评价间距大小！");
+                    return false;
+                }
+
+                if(!con_img){
+                    BootstrapDialog.alert("请评价背景图案！");
+                    return false;
+                }
+                if(!con_type){
+                    BootstrapDialog.alert("请评价讲义类型！");
+                    return false;
+                }
+                if(!con_answer){
+                    BootstrapDialog.alert("请评价答案详细程度！");
+                    return false;
+                }
+                if(!con_stu){
+                    BootstrapDialog.alert("请评价适宜学生！");
+                    return false;
+                }
+                if(!con_time){
+                    BootstrapDialog.alert("请勾选课程时长！");
+                    return false;
+                }
+
                 var data = {
                     "comment_quality" : comment_quality,
                     "comment_help" : comment_help,
@@ -346,11 +413,35 @@ $(function(){
                     "con_time" : con_time
                 };
 
-                console.log(data);
+                $.do_ajax( "/teacher_info/add_leo_resource_evalutation", {
+                    "file_id"           :file_id,
+                    "resource_type"     :resource_type,
+                    "quality_score"     :comment_quality, //质量总评
+                    "help_score"        :comment_help,    //帮助指数
+                    "overall_score"     :comment_whole,   //全面指数
+                    "detail_score"      :comment_detail,  //详细指数
+                    "size"              :con_font,        //文字大小
+                    "gap"               :con_spacing,     //间距大小
+                    "bg_picture"        :con_img,         //背景图案
+                    "text_type"         :con_type,        //讲义类型
+                    "answer"            :con_answer,      //答案程度
+                    "suit_student"      :con_stu,         //适宜学生
+                    "time_length"       :con_time,        //时长
+                },function(ret){
+                    if(ret.ret==0){
+                        BootstrapDialog.alert("评价成功!");
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);
+
+                    }else{
+                        alert(ret.info);
+                    }
+                });
             }
         },function(){
             comment2 = comment.clone(); 
-        },false,800,'padding-right:60px;');
+        },false,800,'padding-right:10px;');
 
                                    
     })
@@ -359,6 +450,9 @@ $(function(){
 
     //报错
     $('.opt-error').on('click',function(){
+        var file_id = $(this).data('file_id');
+        var resource_type  = $(this).data('resource_type');
+
         var error = $('.error').clone();
         error.removeClass('hide');  
         var arr = [
@@ -398,14 +492,40 @@ $(function(){
                         }
                     })
                 }
+
+                if( error_type_01 < 0 && error_type_02 < 0){
+                    BootstrapDialog.alert("请选择错误类型！");
+                    return false;
+                }
+
                 var data = {
                     "error_type_01" : error_type_01,
                     "error_type_02" : error_type_02,
-                    "error_detail" : error_detail,
+                    "error_detail"  : error_detail,
                     "img_arr" : JSON.stringify(img_arr)
                 };
 
                 console.log(data);
+
+                $.do_ajax( "/teacher_info/add_leo_resource_error", {
+                    "file_id"           :file_id,
+                    "resource_type"     :resource_type,
+
+                    "error_type"        :error_type_01,       //错误类型(资料库)
+                    "sub_error_type"    :error_type_02,       //错误子类型(资料库)
+                    "detail_error"      :error_detail,        //错误描述(资料库)
+                    "error_url"         :JSON.stringify(img_arr), //错误文件链接(资料库)
+                },function(ret){
+                    if(ret.ret==0){
+                        BootstrapDialog.alert("报错成功!");
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);
+
+                    }else{
+                        alert(ret.info);
+                    }
+                });
             }
         },function(){
             custom_upload(timestamp,"error_button_id","error_upload_id",1);
@@ -415,7 +535,7 @@ $(function(){
             custom_upload(timestamp,"pic_modify_04","error_pic_box_04",2);
             custom_upload(timestamp,"pic_modify_05","error_pic_box_05",2);
 
-        },false,700,'padding-right:60px;');
+        },false,700,'padding-right:10px;');
 
                                    
     })
@@ -515,6 +635,10 @@ function dele_upload(obj,oEvent){
     var button = $(target).parents('.error_upload').find('.error_button');
     $(target).parents('.error_pic_box').remove();
     button.before(cur_obj);
+    if( $(target).parents('.error_upload').find('.error_pic_box:hidden').length > 0){
+        $(target).parents('.error_upload').find('.error_button').removeClass('hide'); 
+    }
+
 }
 
 function get_err_sec(val){
@@ -522,6 +646,9 @@ function get_err_sec(val){
     var num = parseInt(val);
     switch(num)
     {
+    case -1:
+        $options  = $.trim($(".err_choose").clone().html());
+        break;
     case 0:
         $options  = $.trim($(".err_knowledge").clone().html());
         break;
@@ -545,8 +672,8 @@ function get_err_sec(val){
         $options  = $.trim($(".err_knowledge").clone().html());
     }
     //console.log($options);
-    $(".error_type_02").html($options);
 
+    $(".error_type_02").html($options);
 }
 
 function custom_upload(new_flag,btn_id,containerid,obj){
@@ -605,6 +732,9 @@ function custom_upload(new_flag,btn_id,containerid,obj){
                     var $img_box = $("#"+containerid).find('.error_pic_box:hidden:eq(0)');                   
                     $img_box.find("img").attr("src", imgSrc);
                     $img_box.removeClass("hide");
+                    if( $("#"+containerid).find('.error_pic_box:hidden').length == 0){
+                        $("#"+containerid).find('.error_button').addClass('hide'); 
+                    }
                 }else{
                     $('#'+containerid).find('img').attr("src", imgSrc);
                 }

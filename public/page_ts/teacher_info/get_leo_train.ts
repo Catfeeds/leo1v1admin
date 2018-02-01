@@ -222,7 +222,7 @@ $(function(){
         if( file_type == "mp4" || file_type == "mp3" ){
             newTab = window.open('about:blank');
         }
-
+        
         do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
             if(ret.ret == 0){ 
                 if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){

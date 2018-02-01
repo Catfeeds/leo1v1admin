@@ -75,13 +75,14 @@ class tom_do_once extends Command
         */
 
         // $this->update_cc_call();
-        // $this->update_tq_call_info();
+        $this->update_tq_call_info();
         // $this->give_seller_new_count();
         // $this->update_seller_edit_log();
         // $this->update_seller_student_origin();
         // $this->seller_daily_threshold();
         // $this->update_actual_threshold();
-        $this->update_seller_student_origin_new();
+        // $this->update_seller_student_origin_new();
+        // $this->update_seller_get_new_log();
     }
 
     public function update_cc_call(){
@@ -187,60 +188,73 @@ class tom_do_once extends Command
     public function update_tq_call_info(){
         $time_arr = [
             [
+                'start_time'=>strtotime('2018-01-31'),
+                'end_time'=>strtotime('2018-02-28')
+            ],[
+                'start_time'=>strtotime('2017-12-31'),
+                'end_time'=>strtotime('2018-01-31')
+            ],[
+                'start_time'=>strtotime('2017-11-30'),
+                'end_time'=>strtotime('2017-12-31')
+            ],[
+                'start_time'=>strtotime('2017-10-31'),
+                'end_time'=>strtotime('2017-11-30')
+            ],[
                 'start_time'=>strtotime('2017-09-30'),
                 'end_time'=>strtotime('2017-10-31')
-            ],[
-                'start_time'=>strtotime('2017-08-31'),
-                'end_time'=>strtotime('2017-09-30')
-            ],[
-                'start_time'=>strtotime('2017-07-31'),
-                'end_time'=>strtotime('2017-08-31')
-            ],[
-                'start_time'=>strtotime('2017-06-30'),
-                'end_time'=>strtotime('2017-07-31')
-            ],[
-                'start_time'=>strtotime('2017-05-31'),
-                'end_time'=>strtotime('2017-06-30')
-            ],[
-                'start_time'=>strtotime('2017-04-30'),
-                'end_time'=>strtotime('2017-05-31')
-            ],[
-                'start_time'=>strtotime('2017-03-31'),
-                'end_time'=>strtotime('2017-04-30')
-            ],[
-                'start_time'=>strtotime('2017-02-28'),
-                'end_time'=>strtotime('2017-03-31')
-            ],[
-                'start_time'=>strtotime('2017-01-31'),
-                'end_time'=>strtotime('2017-02-28')
-            ],[
-                'start_time'=>strtotime('2016-12-31'),
-                'end_time'=>strtotime('2017-01-31')
-            ],[
-                'start_time'=>strtotime('2016-11-30'),
-                'end_time'=>strtotime('2016-12-31')
-            ],[
-                'start_time'=>strtotime('2016-10-31'),
-                'end_time'=>strtotime('2016-11-30')
-            ],[
-                'start_time'=>strtotime('2016-09-30'),
-                'end_time'=>strtotime('2016-10-31')
-            ],[
-                'start_time'=>strtotime('2016-08-31'),
-                'end_time'=>strtotime('2016-09-30')
-            ],[
-                'start_time'=>strtotime('2016-07-31'),
-                'end_time'=>strtotime('2016-08-31')
-            ],[
-                'start_time'=>strtotime('2016-06-30'),
-                'end_time'=>strtotime('2016-07-31')
-            ],[
-                'start_time'=>strtotime('2016-05-31'),
-                'end_time'=>strtotime('2016-06-30')
-            ],[
-                'start_time'=>strtotime('2016-04-30'),
-                'end_time'=>strtotime('2016-05-31')
-            ]
+            ],
+            // [
+            //     'start_time'=>strtotime('2017-08-31'),
+            //     'end_time'=>strtotime('2017-09-30')
+            // ],[
+            //     'start_time'=>strtotime('2017-07-31'),
+            //     'end_time'=>strtotime('2017-08-31')
+            // ],[
+            //     'start_time'=>strtotime('2017-06-30'),
+            //     'end_time'=>strtotime('2017-07-31')
+            // ],[
+            //     'start_time'=>strtotime('2017-05-31'),
+            //     'end_time'=>strtotime('2017-06-30')
+            // ],[
+            //     'start_time'=>strtotime('2017-04-30'),
+            //     'end_time'=>strtotime('2017-05-31')
+            // ],[
+            //     'start_time'=>strtotime('2017-03-31'),
+            //     'end_time'=>strtotime('2017-04-30')
+            // ],[
+            //     'start_time'=>strtotime('2017-02-28'),
+            //     'end_time'=>strtotime('2017-03-31')
+            // ],[
+            //     'start_time'=>strtotime('2017-01-31'),
+            //     'end_time'=>strtotime('2017-02-28')
+            // ],[
+            //     'start_time'=>strtotime('2016-12-31'),
+            //     'end_time'=>strtotime('2017-01-31')
+            // ],[
+            //     'start_time'=>strtotime('2016-11-30'),
+            //     'end_time'=>strtotime('2016-12-31')
+            // ],[
+            //     'start_time'=>strtotime('2016-10-31'),
+            //     'end_time'=>strtotime('2016-11-30')
+            // ],[
+            //     'start_time'=>strtotime('2016-09-30'),
+            //     'end_time'=>strtotime('2016-10-31')
+            // ],[
+            //     'start_time'=>strtotime('2016-08-31'),
+            //     'end_time'=>strtotime('2016-09-30')
+            // ],[
+            //     'start_time'=>strtotime('2016-07-31'),
+            //     'end_time'=>strtotime('2016-08-31')
+            // ],[
+            //     'start_time'=>strtotime('2016-06-30'),
+            //     'end_time'=>strtotime('2016-07-31')
+            // ],[
+            //     'start_time'=>strtotime('2016-05-31'),
+            //     'end_time'=>strtotime('2016-06-30')
+            // ],[
+            //     'start_time'=>strtotime('2016-04-30'),
+            //     'end_time'=>strtotime('2016-05-31')
+            // ]
         ];
         foreach($time_arr as $item){
             $start_time = $item['start_time'];
@@ -276,7 +290,12 @@ class tom_do_once extends Command
                             $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
                             $sipCause = $item['sipCause'];
                             $client_number = $item['clientNumber'];
-                            $endReason = $item['endReason']=='是'?1:0;
+                            $endReason = 0;
+                            if($item['endReason']=='是'){//客户挂
+                                $endReason = 2;
+                            }elseif($item['endReason']=='否'){//销售挂
+                                $endReason = 1;
+                            }
                             $ret = $this->task->t_tq_call_info->field_get_list($id, '*');
                             $arr = [];
                             if($ret['cause'] != $sipCause){
@@ -481,5 +500,35 @@ class tom_do_once extends Command
         }
     }
 
+    public function update_seller_get_new_log(){
+        $min   = $this->task->t_seller_get_new_log->get_min_add_time($desc='asc');
+        $max   = $this->task->t_seller_get_new_log->get_min_add_time($desc='desc');
+        $min   = strtotime(date('Y-m-d',$min));
+        $max   = strtotime(date('Y-m-d',$max))+3600*24;
+        $count = ($max-$min)/(3600*24);
+        $start = $min;
+        $end   = $max;
+        for($i=1;$i<=$count+1;$i++){
+            $start_time = $start;
+            $end_time = strtotime('+1 day',$start);
+            $ret = $this->task->t_seller_get_new_log->get_all_list($start_time, $end_time);
+            foreach($ret as $item){
+                $id = $item['id'];
+                $cc_end = $item['cc_end'];
+                $create_time = $item['create_time'];
+                $phone = $item['phone'];
+                $adminid = $item['adminid'];
+                $ret_tq = $this->task->t_tq_call_info->get_all_list_new($create_time,time(),$phone,$adminid);
+                foreach($ret_tq as $info){
+                    $end_reason = $info['end_reason'];
+                    if($cc_end<$end_reason){
+                        $this->task->t_seller_get_new_log->field_update_list($id, ['cc_end'=>$end_reason]);
+                        echo $id.'=>'.$end_reason."\n";
+                    }
+                }
+            }
+            $start = strtotime('+1 day',$start);
+        }
+    }
 
 }

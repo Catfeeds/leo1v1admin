@@ -7,14 +7,8 @@
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
-
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
-
-
-
-
     <section class="content ">
-
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -48,9 +42,6 @@
                         </select>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
         <hr/>
@@ -78,7 +69,12 @@
                         <td>{{@$key}} </td>
                         <td>{{@$var["complaint_type_str"]}} </td>
                         <td>{{@$var["account_type_str"]}} </td>
-                        <td>{{@$var["user_nick"]}}/{{@$var["phone"]}} </td>
+                        <td>
+                            {{@$var["user_nick"]}}/
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
+                        </td>
                         <td class="ellipsis_jiaowu" >{{mb_substr($var["complaint_info"],0,50 )}}...</td>
                         <td style="display:none;" >{{$var["complaint_info"]}}</td>
 

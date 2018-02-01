@@ -3104,12 +3104,12 @@ class ss_deal extends Controller
 
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1  ){
             $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,\Eseller_student_status::V_120,$this->get_account()
+                $require_id,E\Eseller_student_status::V_120,$this->get_account()
             );
 
         }else{
             $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,\Eseller_student_status::V_290,$this->get_account()
+                $require_id,E\Eseller_student_status::V_290,$this->get_account()
             );
         }
 
@@ -5923,6 +5923,7 @@ class ss_deal extends Controller
                     "pwd" => md5($admin_info["call_phone_passwd"]),
                     "customerNumber"=>$phone,
                     "sync"=>0,
+                    // "userField"=>1,
                 ]);
             $error_code_conf=[
                 0=> "sync=1时表示座席已接听，sync=0时表示发起呼叫请求成功",
@@ -7882,8 +7883,8 @@ class ss_deal extends Controller
                 $followImgUrlOnline = $domain."/".$item;
                 list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
 
-                if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
-                if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!');
+                if($followType != 3 && $followType !=0){return $this->output_err('关注页 [图片格式] 不符合,请重新上传!');}
+                if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页 [图片尺寸] 不符合,请重新上传!');
                 }
             }
         }

@@ -115,8 +115,8 @@
                             {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                         >
                             @if(@$var['lesson_start']>0)
-                                <a class="opt-teacher-pdf">PDF上传/查看</a>
-                                <a class="opt-teacher-pdf-back">PDF上传/查看(备用上传)  </a>
+                                <a class="opt-teacher-pdf">讲义上传/查看</a>
+                                <a class="opt-teacher-pdf-back">讲义上传/查看(备用上传)  </a>
                                 <a class="opt-get_stu_performance" >课堂评价</a>
                                 <a class="opt-download-test-paper" title="下载试卷">下载试卷</a>
                                 @if(@$var['lesson_type'] == 2)

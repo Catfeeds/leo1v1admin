@@ -5045,5 +5045,24 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取cc一段时间内的销售额
+    //@param:$begin_time,$end_time 开始时间 结束时间
+    //@param:$sys_operator cc的昵称
+    public function get_order_money_by_adminid($begin_time,$end_time,$sys_operator){
+        $where_arr=[
+            'oi.contract_type = 0',
+            'si.is_test_user = 0',
+            'oi.contract_status >0',
+            'oi.sys_operator' => $sys_operator
+        ];
+        $this->where_arr_add_time_range($where_arr, 'oi.pay_time', $begin_time, $end_time);
+        $sql=$this->gen_sql_new(
+            'select sum(price) order_money,count(*) order_num from %s oi join %s si using(userid) where %s',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 

@@ -652,7 +652,9 @@ class common_new extends Controller
         if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
             $call_flag = $this->get_in_int_val('call_flag');
             $obj_start_time = time(NULL);
-            $cdr_bridged_cno = 2000;
+            $adminid = $this->get_account_id();
+            //获取用户tquin
+            $cdr_bridged_cno = $this->t_manager_info->get_tquin($adminid);
             $cdr_customer_number = $this->get_in_str_val('phone');
             $cdr_answer_time = time(NULL);
             if($call_flag == 1){
@@ -691,6 +693,16 @@ class common_new extends Controller
             if ($obj_start_time) {
                 $duration= $cdr_end_time-$obj_start_time;
             }
+
+            $sipCause = $this->get_in_int_val('sipCause');
+            $client_number = $this->get_in_str_val('clientNumber');
+            $endReason = 0;
+            if($this->get_in_str_val('endReason')=='是'){//客户
+                $endReason = 2;
+            }elseif($this->get_in_str_val('endReason')=='否'){//销售
+                $endReason = 1;
+            }
+
             \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
         }
 
@@ -702,7 +714,13 @@ class common_new extends Controller
             $cdr_end_time,
             $duration,
             $cdr_status==28?1:0,
-            "",0,0, $obj_start_time
+            "",
+            0,
+            0,
+            $obj_start_time,
+            $sipCause,
+            $client_number,
+            $endReason
         );
 
         $called_flag=($cdr_status==28 && $duration>60)?2:1;
