@@ -93,9 +93,9 @@ class sync_tianrun extends cmd_base
         $sipCause = $item['sipCause'];
         $client_number = $item['clientNumber'];
         $endReason = 0;
-        if($item['endReason']=='是'){
+        if($item['endReason']=='是'){//客户
             $endReason = 2;
-        }elseif($item['endReason']=='否'){
+        }elseif($item['endReason']=='否'){//销售
             $endReason = 1;
         }
         $db_item=$this->task->t_tq_call_info->field_get_list($id, "id, record_url,cause,client_number,end_reason")  ;
