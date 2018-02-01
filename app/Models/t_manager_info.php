@@ -747,6 +747,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function get_seller_list( $seller_student_assign_type=-1) {
         $where_arr=[
             ["seller_student_assign_type=%u", $seller_student_assign_type, -1],
+            // "seller_level>700",
             "seller_level>0",
             "del_flag=0",
             //\App\Enums\Eaccount_role::V_2
