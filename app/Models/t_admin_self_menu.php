@@ -106,25 +106,48 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         // 测试 http://self.admin.leo1v1.com/user_deal/reload_account_power 控制器中可以直接把数据打印到此页面用于测试
         $curr_host = $_SERVER['HTTP_HOST']; // 当前域名
         $http_curr_host = "http://".$curr_host;
+        $cur_p_flag = false;
+        $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境 (当前路由)
+        preg_match($pattern, $http_curr_host, $cur_p);
+        if (isset($cur_p[0])) {
+            $cur_p_flag = true;
+        }
+
+        $url_p_flag=false;
+        $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境 (数据路由)
+        preg_match($pattern, $burl, $url_p);
+        if (isset($url_p[0])) {
+            $url_p_flag = true;
+        }
+
         // 1. 处理以前数据库中的短地址 /controller/action
         $pattern = '/^http:\/\//'; // 匹配http://
         preg_match($pattern, $burl, $http);
         if (isset($http[0])) { // 完整路由
+            $url = $burl;
             $pattern = '/^http:\/\/[\w\.]+/'; // 匹配域名
             preg_match($pattern, $burl, $domain);
-            if (isset($domain[0]) && $http_curr_host != $domain[0]) {
-                // 2. 处理冒烟环境添加到收藏 正式环境显示 http://p.admin.leo1v1.com
-                $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境
-                preg_match($pattern, $burl, $pdomain);
-                if (isset($pdomain[0])) {
-                    $url = "http://".substr($burl, 9);
-                } else {
-                    // 3. 处理正式环境添加到收藏 冒烟环境显示
-                    $url = str_replace("http://", "http://p.", $burl);
-                }
-            } else {
-                $url = $burl;
+            if (isset($domain[0]) && $cur_p_flag && $http_curr_host != $domain[0]) {
+                $url = str_replace("http://", "http://p.", $burl);
+                $cur_p_flag = false;
             }
+            if (isset($domain[0]) && $url_p_flag && $http_curr_host != $domain[0]) {
+                $url = "http://".substr($burl, 9);
+                $url_p_flag = false;
+            }
+            // if (isset($domain[0]) && $http_curr_host != $domain[0]) {
+            //     // 2. 处理冒烟环境添加到收藏 正式环境显示 http://p.admin.leo1v1.com
+            //     $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境
+            //     preg_match($pattern, $burl, $pdomain);
+            //     if (isset($pdomain[0])) {
+            //         $url = "http://".substr($burl, 9);
+            //     } else {
+            //         // 3. 处理正式环境添加到收藏 冒烟环境显示
+            //         $url = str_replace("http://", "http://p.", $burl);
+            //     }
+            // } else {
+            //     $url = $burl;
+            // }
         } else { // 短路由 
             $url = $http_curr_host.$burl;
         }
