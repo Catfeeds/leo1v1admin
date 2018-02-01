@@ -769,7 +769,7 @@ class tongji_ex extends Controller
             echo '<td>'.date('Y-m-d H:i:s',$item['become_time']).'</td>';
             echo '<td>'.($item['price']/100).'</td>';
             echo '<td>'.E\Econtract_status::get_desc($item['contract_status']).'</td>';
-            echo '<td>'.date('Y-m-d H:i:s',$item['create_time']).'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['order_time']).'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['check_money_time']).'</td>';
             echo '</tr>';
         }
