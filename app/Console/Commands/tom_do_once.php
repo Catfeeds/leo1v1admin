@@ -75,14 +75,14 @@ class tom_do_once extends Command
         */
 
         // $this->update_cc_call();
-        $this->update_tq_call_info();
+        // $this->update_tq_call_info();
         // $this->give_seller_new_count();
         // $this->update_seller_edit_log();
         // $this->update_seller_student_origin();
         // $this->seller_daily_threshold();
         // $this->update_actual_threshold();
         // $this->update_seller_student_origin_new();
-        // $this->update_seller_get_new_log();
+        $this->update_seller_get_new_log();
     }
 
     public function update_cc_call(){
