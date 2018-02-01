@@ -89,7 +89,7 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         $data=[];
         foreach ($list as $item )  {
             $url = $item["url"];
-            //$url = $this->handle_url($url);
+            $url = $this->handle_url($url);
 
             $data[]= ["name"=>$item["title"], "url" => $url ];
         }
