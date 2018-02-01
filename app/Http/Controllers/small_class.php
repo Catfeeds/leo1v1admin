@@ -96,8 +96,9 @@ class small_class extends Controller
             );
         } else {
             foreach ($ret_list["list"] as &$item){
-                $work_status=$item["work_status"];
-                $item["student_nick"] = $this->cache_get_student_nick($item["studentid"]);
+                $work_status = $item["work_status"];
+                // $item["student_nick"] = $this->cache_get_student_nick($item["studentid"]);
+                $item["student_nick"] = $item['nick'];
                 if($work_status != 0){
                     $item['download_url'] = $item[E\Ework_status::v2s($work_status)."_url"];
                 }
