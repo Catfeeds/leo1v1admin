@@ -127,7 +127,6 @@
                     @if(in_array($resource_type,[1,2]))
                         <td>春暑秋寒</td>
                     @endif
-                    <td>文件标题</td>
                     <td>修改日期</td>
                     <td>文件格式</td>
                     <td>文件信息</td>
@@ -149,8 +148,6 @@
                         @if(in_array($resource_type,[1,2]))
                             <td>{{@$var["tag_two_str"]}}</td>
                         @endif
-
-                        <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
