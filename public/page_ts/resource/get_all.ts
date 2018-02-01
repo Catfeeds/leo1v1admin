@@ -253,7 +253,12 @@ $(function(){
         add_resource(timestamp);
     });
 
-    var last_id  = 0, stu_hash = '', stu_link = '';
+    //multi_resource_file 是个二维数组 [['课件版id','老师版id','学生版id'],['课件版id','老师版id','学生版id']]
+    //whole_resource_file 是个一维数组 [ '课件版id','老师版id','学生版id','课件版id','老师版id']
+    //resource_id_arr 插入多组课件时返回的资源id数组
+    //whole_upload_num 总共上传文件的数量
+    //have_upload_num  已经上传文件的数量
+    var last_id  = 0, stu_hash = '', stu_link = '',multi_resource_file = [],whole_resource_file=[],resource_id_arr = [],whole_upload_num = 0,have_upload_num = 0;
 
     var remove_id = [];
 
@@ -326,7 +331,11 @@ $(function(){
             id_grade.val(g_args.grade);
         }
 
+        //多文件上传
+       
         var id_tag_four_search = $("<button class=\"btn btn-primary\" id=\"id_search_tag\" style=\"margin-left:10px\">搜索</button>");
+
+        resource_id_arr = [];
 
         var arr= [
             ["分类", id_use_type],
@@ -362,17 +371,20 @@ $(function(){
                         }
                     }
 
+                    var obj_arr = [];  //必传
+                    var other_arr = [];//非必传
                     //移除其他文件,计算文件数量
                     if(id_resource_type.val() <= 3){//1v1
                         $('.other_file,.ff_file').each(function(){
                             remove_id.push($(this).data('id'));
                             $(this).remove();
                         });
-                        if( $('.les_file,.tea_file,.stu_file').length < 3){
-                            alert('缺少上传文件!');
-                            return false;
-                        }
-                        var file_num = 1;
+
+                        obj_arr = [ 'les_file','tea_file','stu_file' ];
+                        other_arr = ['ex_file'];
+                        if(!check_file_num(obj_arr,other_arr)) return;
+
+                        var file_num = $('.tea_file').length;
 
                     } else if(id_resource_type.val() < 6 ){
                         $('.les_file,.tea_file,.stu_file,.other_file').each(function(){
@@ -380,21 +392,23 @@ $(function(){
                             $(this).remove();
                         });
 
+                        obj_arr = [ 'ff_file' ];
+                        other_arr = ['ex_file'];
+                        if(!check_file_num(obj_arr,other_arr)) return;
+
                         var file_num = $('.ff_file').length;
-                        if( file_num < 1){
-                            alert('缺少上传文件!');
-                            return false;
-                        }
+
                     } else if(id_resource_type.val() == 6 ){
                         $('.les_file,.other_file').each(function(){
                             remove_id.push($(this).data('id'));
                             $(this).remove();
                         });
-                        if( $('.tea_file,.stu_file').length < 2){
-                            alert('缺少上传文件!');
-                            return false;
-                        }
-                        var file_num = 1;
+
+                        obj_arr = [ 'tea_file','stu_file' ];
+                        other_arr = ['ex_file'];
+                        if(!check_file_num(obj_arr,other_arr)) return;
+
+                        var file_num = $('.tea_file').length;
 
                     } else {
                         $('.les_file,.tea_file,.stu_file,.ex_file,.ff_file').each(function(){
@@ -402,13 +416,13 @@ $(function(){
                             $(this).remove();
                         });
 
-                        var file_num = $('.video_file').length;
-                        if( file_num < 1){
-                            alert('缺少上传文件!');
-                            return false;
-                        }
-                    }
+                        obj_arr = [ 'video_file' ];
+                        other_arr = [];
+                        if(!check_file_num(obj_arr,other_arr)) return;
 
+                        var file_num = $('.video_file').length;
+                    }
+          
                     $.ajax({
                         type     : "post",
                         url      : "/resource/add_resource",
@@ -426,9 +440,38 @@ $(function(){
                             'add_num'       : file_num,
                         } ,
                         success : function(result){
+                            whole_resource_file = [];  //总共上传文件
+                            have_upload_num = 0;       //已经上传文件的数量
                             if(result.ret == 0){
                                 // window.location.reload();
-                                last_id = result.resource_id;
+                                resource_id_arr = JSON.parse(result.resource_id_arr);
+                                resource_id_arr.reverse();
+                                console.log(resource_id_arr);
+                               
+                                for(var x in multi_resource_file){
+                                    for(var y in multi_resource_file[x]){
+                                        var file_id = multi_resource_file[x][y];
+                                        var file_obj = {};
+                                        if( file_id.indexOf("other_ff_") >= 0 ){
+                                            file_id = file_id.substr(9);
+                                            file_obj = {
+                                                'file_use_type' : "3",
+                                                'resource_id' : resource_id_arr[x],
+                                                'file_id' : file_id,
+                                            };
+
+                                        }else{
+                                            file_obj = {
+                                                'file_use_type' : y,
+                                                'resource_id' : resource_id_arr[x],
+                                                'file_id' : file_id,
+                                            };
+                                        }
+                                  
+                                        whole_resource_file.push(file_obj);
+                                    }
+                                }
+                                console.log(whole_resource_file);
                                 $('#up_load').attr('flag', new_flag);//开始上传
                                 $('#up_load').click();//开始上传
 
@@ -518,17 +561,17 @@ $(function(){
             }
 
             //其他版本
-            get_qiniu(new_flag,true,false,'id_other_file',0, 'other_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_other_file',0, 'other_file', 'pdf,PDF','150m');
             //课件版
-            get_qiniu(new_flag,false,false,'id_les_file',0, 'les_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_les_file',0, 'les_file', 'pdf,PDF','150m');
             //老师版
-            get_qiniu(new_flag,false,false,'id_tea_file',1, 'tea_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_tea_file',1, 'tea_file', 'pdf,PDF','150m');
             //学生版
-            get_qiniu(new_flag,false,false,'id_stu_file',2, 'stu_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_stu_file',2, 'stu_file', 'pdf,PDF','150m');
             //额外讲义
-            get_qiniu(new_flag,true,false,'id_ex_file',3, 'ex_file', 'pdf,PDF,mp3,mp4,MP3,MP4','15m');
+            get_qiniu(new_flag,true,false,'id_ex_file',3, 'ex_file', 'pdf,PDF,mp3,mp4,MP3,MP4','150m');
             //仅对resource_type = 4,5
-            get_qiniu(new_flag,false,false,'id_ff_file',0, 'ff_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_ff_file',0, 'ff_file', 'pdf,PDF','150m');
             //培训视频或者讲义
             get_qiniu(new_flag,true,false,'id_video_file',0, 'video_file', 'pdf,PDF,mp3,mp4,MP3,MP4','100m');
 
@@ -562,8 +605,76 @@ $(function(){
                 get_sub_grade_tag(subject,grade,bookid,resource,season_id,obj);
 
             })
-        },false,800);
+        },false,900);
     };
+
+    //检查文件数量是否一样
+    var check_file_num = function(obj,other_obj){
+        var resource_file = [];
+        multi_resource_file = [];  //上传的文件
+        whole_upload_num    = 0 ;  //总共上传文件的数量
+        var all_obj = obj.concat(other_obj);
+        var last_item = all_obj.length;
+        if(obj.length > 0){
+            for(var x in obj){
+                var $item = $("." + obj[x]);
+                if(resource_file[x] instanceof Array == false ){
+                    resource_file[x] = []
+                }
+                $item.each(function(){
+                    resource_file[x].push($(this).data('id'));
+                });
+                whole_upload_num += $item.length;
+            }
+        }
+
+        if( other_obj.length > 0 ){
+            for(var x in other_obj){
+                var $item = $("." + other_obj[x]);
+                if($item.length > 0 ){
+                    if(resource_file[last_item] instanceof Array == false ){
+                        resource_file[last_item] = []
+                    }
+                    $item.each(function(){
+                        var other_file_id = "other_ff_" + $(this).data('id');
+                        resource_file[last_item].push(other_file_id);
+                    });
+                    whole_upload_num += $item.length;
+                }
+            }
+        }
+
+        console.log(resource_file);
+
+        if( obj.length > 0){
+            var first_length = resource_file[0].length;
+            if(first_length > 11){
+                alert('每个课件最多传11个讲义!');
+                return false;
+            }
+            for(var x in resource_file){
+                if( resource_file[x].length == 0){
+                    alert('缺少必传讲义!');
+                    return false;
+                }
+                if( first_length != resource_file[x].length){
+                    alert('不同类型上传的讲义务必数量一致!');
+                    return false;
+                }         
+            }
+            for(var x in resource_file){
+                for(var y = 0;y < first_length;y++){
+                    if(multi_resource_file[y] instanceof Array == false ){
+                        multi_resource_file[y] = []
+                    }
+                    multi_resource_file[y].push(resource_file[x][y]);                                  
+                }
+            }
+
+        }
+        console.log(multi_resource_file);
+        return true;
+    }
 
     var change_tag = function(val){
         $('#id_other_file,#id_tea_file,#id_stu_file,#id_les_file,#id_ex_file,#id_ff_file,#id_video_file').parent().parent().hide();
@@ -776,16 +887,10 @@ $(function(){
         return remove_id;
     }
 
-    //判断是不是多文件上传
-    var is_multi = 0;
-    var multi_files_id = new Array;
-    var multi_upload = new Array;
-    var have_upload_num = 0;
     var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class,allow_str,max_size){
 
         multi_upload_file_new(flag, is_multi, is_auto_upload, btn_id, 0,
                               function(files){
-                                  console.log(files);
                                   var name_str = '';
                                   if (!is_multi){
                                       //单文件上传
@@ -798,18 +903,14 @@ $(function(){
 
                                   }else{
                                       //多文件上传
-                                      multi_files_id = new Array;
-                                      var multi_upload = new Array;
-                                      var up_file = "<button class='up_file btn btn-info' onclick='up_move($(this))'>上移</button>";                                   
+
+                                      var up_file = "<button class='up_file btn btn-info' onclick='up_move($(this))'>上移</button>";                          
                                       var down_file = "<button class='down_file btn btn-primary' onclick='down_move($(this))'>下移</button>";
+                                      var dele_file = "<button class='dele_file btn btn-danger' onclick='dele_file($(this))'>删除</button>";
                                       $(files).each(function(i){
                                           name_str = name_str+'<div><span data-id='+files[i].id+' data-index='+i+' class='
-                                              +add_class+' >'+files[i].name+'</span>' + up_file + down_file + '</div>';
-
-                                          multi_files_id.push(files[i].id);
-                                          multi_upload.push('');
+                                              +add_class+' >'+files[i].name+'</span>' + up_file + down_file + dele_file + '</div>';
                                       });
-                                      is_multi = 1;
                                   }
                                
                                   $('#'+btn_id).after(name_str);
@@ -838,33 +939,34 @@ $(function(){
                                   // console.log(up);
                                   // console.log(file);
                                   // console.log(info);
-                                  if(is_multi == 0){ 
-                                      if( info.status == 200 && last_id >0 ){
-                                          add_file(last_id, file, res, use_type);
-                                          if( btn_id == 'id_other_file'){
-                                              last_id = last_id -1;
-                                          }
+                                  if(!is_multi){ 
+                                      if( info.status == 200){
+                                          //add_file(last_id, file, res, use_type);                                        
                                       }
                                   }else{
                                       have_upload_num += 1;
                                                                                                   
-                                      if( info.status == 200 && last_id >0){
-                                          var index = $.inArray(file.id,multi_files_id);
-                                          multi_upload[index] = {
-                                              'resource_id'   : last_id,
-                                              'file_title'    : file.name,
-                                              'file_type'     : file.type,
-                                              'file_size'     : file.size,
-                                              'file_hash'     : res.hash,
-                                              'file_link'     : res.key,
-                                              'file_use_type' : use_type,
-                                          };
-                                          //console.log(multi_upload);
+                                      if( info.status == 200){
+                                          for(var x in whole_resource_file){
+                                              if( file.id == whole_resource_file[x].file_id){
+                                                  // console.log(have_upload_num);
+                                                  // console.log(whole_upload_num);
+                                                  //console.log( whole_resource_file[x]);
+                                                  whole_resource_file[x].file_title =  file.name;
+                                                  whole_resource_file[x].file_type =  file.type;
+                                                  whole_resource_file[x].file_size =  file.size;
+                                                  whole_resource_file[x].file_hash =  res.hash;
+                                                  whole_resource_file[x].file_link =  res.key;
+                                              }
+                                          }                                        
+               
                                       }
-                                      if( multi_files_id.length == have_upload_num ){
-                                          var data = { 'multi_data' : multi_upload };
+                         
+                                      if( whole_resource_file.length == have_upload_num ){
+                                          var data = { 'multi_data' : whole_resource_file };
                                           add_multi_file(data);
-                                          console.log(multi_upload);
+                                          console.log('开始传');
+                                          console.log(whole_resource_file);
                                       }
                                   }
                               },
@@ -1344,17 +1446,9 @@ function multi_upload_file_new(new_flag,is_multi,is_auto_start,btn_id, is_public
                     var key = "";
                     var time = (new Date()).valueOf();
                     var match = file.name.match(/.*\.(.*)?/);
-                    /*
-                      if( uploader.on_noti_origin_file_func) {
-                      uploader.on_noti_origin_file_func(file.name);
-                      }
-                    */
                     this.origin_file_name=file.name;
                     var file_name=$.md5(file.name) +time +'.' + match[1];
-                    //tapd 1001231
-                    //tapd ID：1001335
-                    // file_name = '/teacher-doc/'+file_name;
-                    console.log('gen file_name:'+file_name);
+                    //console.log('gen file_name:'+file_name);
                     return file_name;
 
                 }
@@ -1400,4 +1494,9 @@ function down_move(obj){
     curr_obj.remove();
     next_obj.after(transfer);
 
+}
+
+function dele_file(obj){
+    var curr_obj = obj.parent();
+    curr_obj.remove();
 }
