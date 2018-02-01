@@ -2880,7 +2880,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "(l.uuid!='' or l.uuid_stu!='')"
         ];
 
-        $end = time();
+        $end = time()+2*86400;
         $start = $end-3*86400;
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
 
@@ -2903,7 +2903,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "(l.tea_cw_url!='' or l.stu_cw_url!='')",
         ];
 
-        $end = time();
+        $end = time()+2*86400;
         $start = $end-2*86400;
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
 
