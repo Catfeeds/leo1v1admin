@@ -424,7 +424,7 @@
         </div>
     </div>
 
-    <select class="err_choose">
+    <select class="err_choose hide">
         <option value="-1">请选择二级错误</option>
         <option value="-2">请先选择一级错误</option>
     </select>

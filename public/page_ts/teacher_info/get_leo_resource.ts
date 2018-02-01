@@ -633,12 +633,10 @@ function dele_upload(obj,oEvent){
     $(target).parents('.error_pic_box').addClass('hide');
     var cur_obj = $(target).parents('.error_pic_box').clone();
     var button = $(target).parents('.error_upload').find('.error_button');
+    button.removeClass('hide');
     $(target).parents('.error_pic_box').remove();
     button.before(cur_obj);
-    if( $(target).parents('.error_upload').find('.error_pic_box:hidden').length > 0){
-        $(target).parents('.error_upload').find('.error_button').removeClass('hide'); 
-    }
-
+    
 }
 
 function get_err_sec(val){
