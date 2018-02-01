@@ -693,6 +693,16 @@ class common_new extends Controller
             if ($obj_start_time) {
                 $duration= $cdr_end_time-$obj_start_time;
             }
+
+            $sipCause = $this->get_in_int_val('sipCause');
+            $client_number = $this->get_in_str_val('clientNumber');
+            $endReason = 0;
+            if($this->get_in_str_val('endReason')=='是'){//销售
+                $endReason = 1;
+            }elseif($this->get_in_str_val('endReason')=='否'){//客户
+                $endReason = 2;
+            }
+
             \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
         }
 
@@ -704,7 +714,13 @@ class common_new extends Controller
             $cdr_end_time,
             $duration,
             $cdr_status==28?1:0,
-            "",0,0, $obj_start_time
+            "",
+            0,
+            0,
+            $obj_start_time,
+            $sipCause,
+            $client_number,
+            $endReason
         );
 
         $called_flag=($cdr_status==28 && $duration>60)?2:1;
