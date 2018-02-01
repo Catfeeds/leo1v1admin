@@ -749,4 +749,31 @@ class tongji_ex extends Controller
         }
         echo '</table>';
     }
+
+    public function get_order_info_list(){
+        $start_time = 1514736000;
+        $end_time = 1517414400;
+        $ret = $this->t_order_info->get_item_list($start_time,$end_time);
+        $num = 0;
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h4>1月份签单</h4></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>序号</th><th>orderid</th><th>下单人</th><th>下单人入职时间</th><th>成交的合同金额</th><th>合同状态</th><th>合同创建时间</th><th>财务确认时间</th>';
+        echo '</tr>';
+        foreach($ret as $item){
+            $num++;
+            echo '<tr>';
+            echo '<td>'.$num.'</td>';
+            echo '<td>'.$item['orderid'].'</td>';
+            echo '<td>'.$item['sys_operator'].'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['become_time']).'</td>';
+            echo '<td>'.($item['price']/100).'</td>';
+            echo '<td>'.E\Econtract_status::get_desc($item['contract_status']).'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['create_time']).'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['check_money_time']).'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
+
 }
