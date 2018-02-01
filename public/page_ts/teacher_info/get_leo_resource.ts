@@ -367,6 +367,38 @@ $(function(){
                 }else{
                     var con_time = comment.find("input[name='con_time']:checked").val();    //精品课时长
                 }
+
+                if(!con_font){
+                    BootstrapDialog.alert("请评价文字大小！");
+                    return false;
+                }
+
+                if(!con_spacing){
+                    BootstrapDialog.alert("请评价间距大小！");
+                    return false;
+                }
+
+                if(!con_img){
+                    BootstrapDialog.alert("请评价背景图案！");
+                    return false;
+                }
+                if(!con_type){
+                    BootstrapDialog.alert("请评价讲义类型！");
+                    return false;
+                }
+                if(!con_answer){
+                    BootstrapDialog.alert("请评价答案详细程度！");
+                    return false;
+                }
+                if(!con_stu){
+                    BootstrapDialog.alert("请评价适宜学生！");
+                    return false;
+                }
+                if(!con_time){
+                    BootstrapDialog.alert("请勾选课程时长！");
+                    return false;
+                }
+
                 var data = {
                     "comment_quality" : comment_quality,
                     "comment_help" : comment_help,
@@ -380,8 +412,6 @@ $(function(){
                     "con_stu" : con_stu,
                     "con_time" : con_time
                 };
-
-                console.log(data);
 
                 $.do_ajax( "/teacher_info/add_leo_resource_evalutation", {
                     "file_id"           :file_id,
@@ -462,6 +492,12 @@ $(function(){
                         }
                     })
                 }
+
+                if( error_type_01 < 0 && error_type_02 < 0){
+                    BootstrapDialog.alert("请选择错误类型！");
+                    return false;
+                }
+
                 var data = {
                     "error_type_01" : error_type_01,
                     "error_type_02" : error_type_02,
@@ -597,8 +633,10 @@ function dele_upload(obj,oEvent){
     $(target).parents('.error_pic_box').addClass('hide');
     var cur_obj = $(target).parents('.error_pic_box').clone();
     var button = $(target).parents('.error_upload').find('.error_button');
+    button.removeClass('hide');
     $(target).parents('.error_pic_box').remove();
     button.before(cur_obj);
+    
 }
 
 function get_err_sec(val){
@@ -606,6 +644,9 @@ function get_err_sec(val){
     var num = parseInt(val);
     switch(num)
     {
+    case -1:
+        $options  = $.trim($(".err_choose").clone().html());
+        break;
     case 0:
         $options  = $.trim($(".err_knowledge").clone().html());
         break;
@@ -629,8 +670,8 @@ function get_err_sec(val){
         $options  = $.trim($(".err_knowledge").clone().html());
     }
     //console.log($options);
-    $(".error_type_02").html($options);
 
+    $(".error_type_02").html($options);
 }
 
 function custom_upload(new_flag,btn_id,containerid,obj){
@@ -689,6 +730,9 @@ function custom_upload(new_flag,btn_id,containerid,obj){
                     var $img_box = $("#"+containerid).find('.error_pic_box:hidden:eq(0)');                   
                     $img_box.find("img").attr("src", imgSrc);
                     $img_box.removeClass("hide");
+                    if( $("#"+containerid).find('.error_pic_box:hidden').length == 0){
+                        $("#"+containerid).find('.error_button').addClass('hide'); 
+                    }
                 }else{
                     $('#'+containerid).find('img').attr("src", imgSrc);
                 }

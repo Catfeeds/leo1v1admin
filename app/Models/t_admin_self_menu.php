@@ -125,8 +125,8 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         $pattern = '/^http:\/\//'; // 匹配http://
         preg_match($pattern, $burl, $http);
         if (isset($http[0])) { // 完整路由
-            // $pattern = '/^http:\/\/[\w\.]+/'; // 匹配域名
-            // preg_match($pattern, $burl, $domain);
+            $pattern = '/^http:\/\/[\w\.]+/'; // 匹配域名
+            preg_match($pattern, $burl, $domain);
             // if (isset($domain[0]) && $cur_p_flag && $http_curr_host != $domain[0]) {
             //     $url = str_replace("http://", "http://p.", $burl);
             //     $cur_p_flag = false;
@@ -135,6 +135,7 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
             //     $url = "http://".substr($burl, 9);
             //     $url_p_flag = false;
             // }
+
             if (isset($domain[0]) && $http_curr_host != $domain[0]) {
                 // 2. 处理冒烟环境添加到收藏 正式环境显示 http://p.admin.leo1v1.com
                 $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境

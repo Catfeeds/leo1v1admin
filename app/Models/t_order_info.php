@@ -5062,7 +5062,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_student_info::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 }
 

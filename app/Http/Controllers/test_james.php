@@ -14,6 +14,9 @@ use  App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
 use  App\Jobs\wxPicSendToParent;
 use  App\Jobs\marketActivityPoster;
+use Illuminate\Support\Facades\Cookie ;
+use Illuminate\Support\Facades\Redis ;
+use Illuminate\Support\Facades\Session ;
 
 
 
@@ -1776,62 +1779,20 @@ class test_james extends Controller
         // dispatch( new \App\Jobs\marketActivityPoster('','',$qr_code_url,'',''));
     }
 
+
+    # 测试Redis 存储功能
     public function getTea(){
+        $key = '1';
+        $val = 'value1';
+        $flag = Redis::set($key,$val);
 
-        $a = 0.3;
-        dd($a);
-        $start_time = strtotime($this->get_in_str_val("s"));
-        $end_time = strtotime($this->get_in_str_val("e"));
-        $dayNum = ($end_time-$start_time)/86400;
-        $type = $this->get_in_int_val('t');
+        dd($flag);
+    }
 
-        $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
-        $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
-        $dateArr = [];
-        $rateArr = [];
-        $tmp = [];
-
-        $a = 0;
-        for($i=0; $i<$dayNum; $i++){
-            $timeStart = $start_time+$i*86400;
-            $timeEnd   = $timeStart+86400;
-            $dateArr[] = date('Y-m-d',$timeStart);
-            $cancel_num = 0;
-            $actual_num = 0;
-
-            foreach($lessonCancelNum as $item_cancel){
-                if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
-                    $cancel_num+=1;
-                    // echo $cancel_num." lessonId:".$item_cancel['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd <br/>";
-                }
-            }
-
-            foreach($actualLessonNum as $item_actual){
-                if($item_actual['lesson_start']>=$timeStart && $item_actual['lesson_start']<=$timeEnd){
-                    $actual_num+=1;
-                    // echo $actual_num." lessonId:".$item_actual['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd <br/>";
-
-                }
-            }
-            // echo $actual_num+$cancel_num."<br>";
-            if(($actual_num+$cancel_num)>0){
-                $rateArr[] = $cancel_num/($actual_num+$cancel_num);
-                echo "a1<br>";
-            }else{
-                $rateArr[] = 0;
-            }
-        }
-        $ret_info = [];
-
-        dd($rateArr);
-        if($type==1){
-            dd($lessonCancelNum);
-        }else{
-            dd($actualLessonNum);
-        }
-
-
-
+    public function getKey(){
+        $key = '*';
+        $val = Redis::keys($key);
+        dd(count($val));
     }
 
 }
