@@ -465,4 +465,16 @@
         @endforeach
     </select>
 
+    <select class="err_font hide">
+        @foreach($err_font as $k => $type)
+            <option value="{{$k}}">{{$type}}</option>
+        @endforeach
+    </select>
+
+    <select class="err_difficult hide">
+        @foreach($err_difficult as $k => $type)
+            <option value="{{$k}}">{{$type}}</option>
+        @endforeach
+    </select>
+
 @endsection

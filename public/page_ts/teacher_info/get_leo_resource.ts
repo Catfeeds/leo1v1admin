@@ -665,6 +665,12 @@ function get_err_sec(val){
     case 5:
         $options  = $.trim($(".err_pic").clone().html());
         break;
+    case 6:
+        $options  = $.trim($(".err_font").clone().html());
+        break;
+    case 7:
+        $options  = $.trim($(".err_difficult").clone().html());
+        break;
 
     default:
         $options  = $.trim($(".err_knowledge").clone().html());
