@@ -373,11 +373,7 @@ class seller_student_system_assign extends cmd_base
             \App\Helper\Utils::logger("33round_set_adminid  userid_list: " . json_encode( $userid_list) );
 
             while ( ($userid =@array_shift( $userid_list )) >0 ){ //抛出处理
-<<<<<<< HEAD
-                \App\Helper\Utils::logger("check for $userid ");
-=======
                 \App\Helper\Utils::logger("check-for".$x++.'-userid:'.$userid);
->>>>>>> fe42d1d3ec83b94da76ecdffa183ba82a27f4f37
 
                 $find_adminid=$this->assign_adminid($userid, $check_seller_level_list, $round_seller_level_map);
                 if (!$find_adminid ) {
