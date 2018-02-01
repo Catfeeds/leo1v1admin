@@ -10,6 +10,7 @@ message in  {
 	int32  role = 1; // 角色 1学生　2老师
   	string phone = 2; //电话
    	string passwd = 3; //密码 :md5( md5(passswd)."@leo" )  
+   	uint32 remember_me = 4; //是否记录密码
 }
 
 message out {
