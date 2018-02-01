@@ -482,7 +482,7 @@ class agent extends Controller
         $ret=json_decode($return_content, true  );
         $data_list= @$ret["msg"]["data"];
         foreach($data_list as $item){
-            if($item['customerNumber']=='18703473251'){
+            if($item['customerNumber']=='18791188051'){
                 $endReason = $item['endReason']=='是'?1:0;
                 // dd($endReason);
                 dd($item);

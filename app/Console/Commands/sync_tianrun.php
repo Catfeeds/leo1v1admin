@@ -88,17 +88,25 @@ class sync_tianrun extends cmd_base
         $uniqueId= $item["uniqueId"];
         $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
         $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+        $cdr_customer_number= $item["customerNumber"];
+        $is_called_flag = ($item['status']=='双方接听')?1:0;
+        $obj_start_time = strtotime($item['bridgeTime'])?strtotime($item['bridgeTime']):0;
+        $bridgeDuration = $item["bridgeDuration"];
+        $duration = strtotime("1970-01-01 $bridgeDuration")+28800;
+        $totalDuration = $item['totalDuration'];
+        $totalDuration = strtotime("1970-01-01 $totalDuration")+28800;
+        $cdr_end_time = $cdr_answer_time + $totalDuration;
         $record_url=  $item["recordFile"];
         $userField = $item["userField"];
         $sipCause = $item['sipCause'];
         $client_number = $item['clientNumber'];
         $endReason = 0;
-        if($item['endReason']=='是'){//客户
+        if($item['endReason']=='是'){//客户挂
             $endReason = 2;
-        }elseif($item['endReason']=='否'){//销售
+        }elseif($item['endReason']=='否'){//销售挂
             $endReason = 1;
         }
-        $db_item=$this->task->t_tq_call_info->field_get_list($id, "id, record_url,cause,client_number,end_reason")  ;
+        $db_item=$this->task->t_tq_call_info->field_get_list($id, "id,phone,adminid,record_url,cause,client_number,end_reason")  ;
         if ($db_item) { //更新
             $arr = [];
             if($db_item["record_url"] != $record_url){
@@ -112,6 +120,16 @@ class sync_tianrun extends cmd_base
             }
             if($db_item["end_reason"] != $endReason){
                 $arr['end_reason'] = $endReason;
+                if($duration<60 && $duration>0){//拨通未满60s
+                    $userid = $this->task->t_phone_to_user->get_userid($db_item["phone"]);
+                    $ret_log = $this->task->t_seller_get_new_log->get_row_by_adminid_userid($db_item["adminid"],$userid);
+                    if($ret_log){
+                        $arr_log = [];
+                        if($endReason>$ret_log['cc_end']){
+                            $this->task->t_seller_get_new_log->field_update_list($ret_log['id'], ['cc_end'=>$endReason]);
+                        }
+                    }
+                }
             }
             if(count($arr)>0){
                 $this->task->t_tq_call_info->field_update_list($id,$arr);
@@ -134,14 +152,6 @@ class sync_tianrun extends cmd_base
             //     "" );
             // $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
 
-            $cdr_customer_number= $item["customerNumber"];
-            $is_called_flag = ($item['status']=='双方接听')?1:0;
-            $obj_start_time = strtotime($item['bridgeTime'])?strtotime($item['bridgeTime']):0;
-            $bridgeDuration = $item["bridgeDuration"];
-            $duration = strtotime("1970-01-01 $bridgeDuration")+28800;
-            $totalDuration = $item['totalDuration'];
-            $totalDuration = strtotime("1970-01-01 $totalDuration")+28800;
-            $cdr_end_time = $cdr_answer_time + $totalDuration;
             $this->task->t_tq_call_info->add(
                 $id,
                 $cdr_bridged_cno,
