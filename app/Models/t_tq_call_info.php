@@ -741,6 +741,24 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list_new($start_time,$end_time,$phone,$adminid){
+        $where_arr=[
+            'duration<60',
+        ];
+        $this->where_arr_add_int_field($where_arr, 'is_called_phone', 1);
+        $this->where_arr_add_str_field($where_arr, 'phone', $phone);
+        $this->where_arr_add_int_field($where_arr, 'adminid', $adminid);
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            " select end_reason "
+            ." from %s "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_time_by_phone_adminid($adminid,$phone){
         $where_arr = [
             ["adminid=%u",$adminid,-1],

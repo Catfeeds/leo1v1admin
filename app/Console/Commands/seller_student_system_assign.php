@@ -243,8 +243,8 @@ class seller_student_system_assign extends cmd_base
                         $round_seller_level_map[$seller_level_flag][$opt_adminid]= $opt_adminid;
                     }
                 }
-                \App\Helper\Utils::logger("check_error1:$i-round_seller_level_map".json_encode($round_seller_level_map)); 
-                \App\Helper\Utils::logger("check_error1:$i-seller_student_level_map".json_encode($seller_student_level_map)); 
+                \App\Helper\Utils::logger("check_error1:$i-round_seller_level_map".json_encode($round_seller_level_map));
+                \App\Helper\Utils::logger("check_error1:$i-seller_student_level_map".json_encode($seller_student_level_map));
 
                 if (count($round_seller_level_map) >0 ) {
                     $this->round_set_adminid( $round_seller_level_map, $seller_student_level_map);
@@ -263,7 +263,7 @@ class seller_student_system_assign extends cmd_base
     //@param:$userid 找到的用户id
     //@param:$account 找到的销售id
     public function do_assign($account ,$userid, $adminid ) {
-        \App\Helper\Utils::logger("第一轮分配：userid:$userid adminid:$adminid"); 
+        \App\Helper\Utils::logger("第一轮分配：userid:$userid adminid:$adminid");
         $userid_list=[$userid];
         $opt_type ="" ;
         $opt_type=0;
@@ -309,8 +309,8 @@ class seller_student_system_assign extends cmd_base
                 }
             }
         }
-        \App\Helper\Utils::logger("check_error2:-seller_level_admin_map".json_encode($seller_level_admin_map)); 
-        \App\Helper\Utils::logger("check_error2:-seller_student_level_map".json_encode($seller_student_level_map)); 
+        \App\Helper\Utils::logger("check_error2:-seller_level_admin_map".json_encode($seller_level_admin_map));
+        \App\Helper\Utils::logger("check_error2:-seller_student_level_map".json_encode($seller_student_level_map));
     }
     //@desn:选择对应的cc
     //@param:$userid 用户id
@@ -373,7 +373,11 @@ class seller_student_system_assign extends cmd_base
             \App\Helper\Utils::logger("33round_set_adminid  userid_list: " . json_encode( $userid_list) );
 
             while ( ($userid =@array_shift( $userid_list )) >0 ){ //抛出处理
+<<<<<<< HEAD
+                \App\Helper\Utils::logger("check for $userid ");
+=======
                 \App\Helper\Utils::logger("check-for".$x++.'-userid:'.$userid);
+>>>>>>> fe42d1d3ec83b94da76ecdffa183ba82a27f4f37
 
                 $find_adminid=$this->assign_adminid($userid, $check_seller_level_list, $round_seller_level_map);
                 if (!$find_adminid ) {

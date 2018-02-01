@@ -92,7 +92,7 @@ class ajax_deal2 extends Controller
             return $this->output_err("你没有权限开此门 :<");
         }
 
-        $this->t_kaoqin_machine->send_cmd_reboot($machine_id);
+        $this->t_kaoqin_machine->send_cmd_unlock($machine_id);
         return $this->output_succ();
     }
     //JIM
