@@ -19,12 +19,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-wiki.d.ts" />
 
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		wiki_key:	$('#id_wiki_key').val()
+		});
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			wiki_key:	$('#id_wiki_key').val()
-        });
-    }
 
 
 	$('#id_wiki_key').val(g_args.wiki_key);
@@ -44,4 +46,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_wiki_key" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["wiki_key title", "wiki_key", "th_wiki_key" ]])!!}
 */
