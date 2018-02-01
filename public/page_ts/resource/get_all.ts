@@ -965,7 +965,7 @@ $(function(){
                                       if( whole_resource_file.length == have_upload_num ){
                                           var data = { 'multi_data' : whole_resource_file };
                                           add_multi_file(data);
-                                          console.log('开始传');
+                                          console.log(1212);
                                           console.log(whole_resource_file);
                                       }
                                   }
