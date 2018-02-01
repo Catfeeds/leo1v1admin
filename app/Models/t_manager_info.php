@@ -134,7 +134,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = sprintf("select permission , power from %s where account = '%s' ",
                        self::DB_TABLE_NAME, $this->ensql( $account));
         $row = $this->main_get_row( $sql);
-        $power_str=$row["permission"].",".$row["power"] ;
+        $power_str = $row["permission"].",".$row["power"] ;
         $grpid_arr = explode(',', $power_str);
         $perms = "";
         foreach($grpid_arr as $key => $value){

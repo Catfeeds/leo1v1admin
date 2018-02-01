@@ -247,6 +247,8 @@ return array(
     ["db_weiyi","t_teacher_advance_list", "start_time","teacherid"],
     ["db_weiyi","t_teaching_core_data", "time","type"],
     ["db_weiyi","t_phone_info","id"],
+    ["db_weiyi","t_resource_file_evalutation","id"],
+    ["db_weiyi","t_resource_file_error_info","id"],
     ["db_weiyi","t_subject_grade_config", "adminid","type"],
 
     ["db_weiyi","t_origin_key", "value"],
