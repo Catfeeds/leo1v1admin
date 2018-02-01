@@ -89,7 +89,7 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         $data=[];
         foreach ($list as $item )  {
             $url = $item["url"];
-            //$url = $this->handle_url($url);
+            $url = $this->handle_url($url);
 
             $data[]= ["name"=>$item["title"], "url" => $url ];
         }
@@ -103,6 +103,7 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
 
     // 处理地址
     public function handle_url($burl) {
+        $url = $burl;
         // 测试 http://self.admin.leo1v1.com/user_deal/reload_account_power 控制器中可以直接把数据打印到此页面用于测试
         $curr_host = $_SERVER['HTTP_HOST']; // 当前域名
         $http_curr_host = "http://".$curr_host;
@@ -124,7 +125,6 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         $pattern = '/^http:\/\//'; // 匹配http://
         preg_match($pattern, $burl, $http);
         if (isset($http[0])) { // 完整路由
-            $url = $burl;
             $pattern = '/^http:\/\/[\w\.]+/'; // 匹配域名
             preg_match($pattern, $burl, $domain);
             if (isset($domain[0]) && $cur_p_flag && $http_curr_host != $domain[0]) {
