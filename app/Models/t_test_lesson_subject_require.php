@@ -4070,7 +4070,7 @@ ORDER BY require_time ASC";
         $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
 
         $sql = $this->gen_sql_new(
-            'select  count(distinct tls.userid) '.
+            'select  count(distinct li.userid) '.
             'from %s tlsr '.
             'left join %s tlssl on tlssl.lessonid = tlsr.current_lessonid '.
             'left join %s li on tlsr.current_lessonid=li.lessonid '.

@@ -755,7 +755,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
 
         $sql=$this->gen_sql_new(
-            "select uid,seller_level from %s " .
+            "select uid,seller_level,account from %s " .
             " where   %s  order by  seller_level asc ",
             self::DB_TABLE_NAME , $where_arr );
         return $this->main_get_list($sql);
