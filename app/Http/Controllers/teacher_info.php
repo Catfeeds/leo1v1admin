@@ -3181,6 +3181,8 @@ class teacher_info extends Controller
                 'create_time'  => time(),
                 'ip'           => $_SERVER["REMOTE_ADDR"],
             ]);
+
+
             $this->t_resource_file->add_num('visit_num', $tea_res_id);
 
             $store=new \App\FileStore\file_store_tea();
@@ -3432,7 +3434,7 @@ class teacher_info extends Controller
         $r_mark = 0;
         $index  = 1;
 
-         foreach($ret_info['list'] as &$item){
+        foreach($ret_info['list'] as &$item){
             if($r_mark == $item['resource_id']){
                 $index++;
             } else {
@@ -3460,6 +3462,8 @@ class teacher_info extends Controller
                 $tag_arr['tag_four']['menu'] => 'tag_four',
                 $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
+
+            //$item['user_is']
         }
         $book_arr = [];
         if($resource_type != 6){
