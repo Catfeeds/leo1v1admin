@@ -70,6 +70,7 @@
                     <td>电话</td>
                     <td>状态</td>
                     <td>是否打通</td>
+                    <td>挂机人</td>
                     <td>通话时长(秒)</td>
                     <td> 操作  </td>
                 </tr>
@@ -86,6 +87,7 @@
                         <td>{{$var["phone"]}} </td>
                         <td>{{$var["seller_student_status_str"]}} </td>
                         <td> <font color="{{ $var["is_called_phone"]?"green":"red"   }}"> {{$var["is_called_phone_str"]}} </font> </td>
+                        <td>{{$var["end_reason_str"]}} </td>
                         <td>{{$var["duration"]}} </td>
                         <td>
                             <div
