@@ -3548,8 +3548,6 @@ class teacher_info extends Controller
             "detail_error"     => $detail_error,
             "error_url"        => $error_url,
         ]);
-
-
         return $this->output_succ();
     }
 
