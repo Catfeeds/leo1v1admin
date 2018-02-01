@@ -219,6 +219,7 @@ class Kernel extends ConsoleKernel
         Commands\week_report::class,
         Commands\month_report::class,
         Commands\get_cc_day_top::class,
+        Commands\ListenJob::class,
     ];
 
     /**

@@ -6,8 +6,8 @@
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
-	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
-	  <script type="text/javascript" src="/js/pdfobject.js"></script>
+	<script type="text/javascript" src="/js/area/distpicker.js"></script>
+	<script type="text/javascript" src="/js/pdfobject.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script>
      var tag_one = '{{$tag_info['tag_one']['menu']}}';
@@ -127,7 +127,6 @@
                     @if(in_array($resource_type,[1,2]))
                         <td>春暑秋寒</td>
                     @endif
-                    <td>文件标题</td>
                     <td>修改日期</td>
                     <td>文件格式</td>
                     <td>文件信息</td>
@@ -149,8 +148,6 @@
                         @if(in_array($resource_type,[1,2]))
                             <td>{{@$var["tag_two_str"]}}</td>
                         @endif
-
-                        <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
@@ -166,9 +163,14 @@
                         <td>
                             <a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览</a>
 
-                            <a class="opt-error btn color-blue"  title="报错" data-file_id="{{@$var['file_id']}}">报错</a>
-
-                            <a class="opt-comment btn color-blue"  title="评价" data-file_id="{{@$var['file_id']}}">评价</a>
+                            <a class="opt-error btn color-blue"  title="报错" data-file_id="{{@$var['file_id']}}" data-resource_type="{{@$var['resource_type']}}">报错</a>
+                            @if(@$var['is_eval'] > 0)
+                            <a class="btn color-blue"  title="评价" data-file_id="{{@$var['file_id']}}"
+                             data-resource_type="{{@$var['resource_type']}}">已评价</a>
+                            @else
+                            <a class="opt-comment btn color-blue"  title="评价" data-file_id="{{@$var['file_id']}}"
+                             data-resource_type="{{@$var['resource_type']}}">评价</a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

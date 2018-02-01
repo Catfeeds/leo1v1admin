@@ -182,13 +182,11 @@ class login extends Controller
                 return '<li> <a href="'.$url_base.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
-
                 //\App\Helper\Utils::logger("do:".$node["name"].":null--$power_id");
                 return "";
             }
         }
     }
-
 
     private function  gen_menu($power_map,$menu,$start,$level, $admin_domain_type = E\Eadmin_domain_type::V_ADMIN_1V1 ){
         $menu_str        = "";
@@ -232,8 +230,8 @@ class login extends Controller
     }
 
     public function login_check_verify_code(){
-        $account          = $this->get_in_str_val("account");
-        $ip               = $this->get_in_client_ip();
+        $account = $this->get_in_str_val("account");
+        $ip      = $this->get_in_client_ip();
 
         if (\App\Helper\Utils::check_env_is_release()
         ) {
@@ -264,7 +262,6 @@ class login extends Controller
         $_SESSION['seller_level']    = $ret_row["seller_level"];
         $_SESSION['face_pic']        = isset($ret_row["face_pic"])?$ret_row["face_pic"]:'';
         $_SESSION['power_set_time']  = time(NULL);
-
 
         $_SESSION['permission'] = @$permission[$account];
         //dd($permission[$account]);

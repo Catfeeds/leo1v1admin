@@ -3104,12 +3104,12 @@ class ss_deal extends Controller
 
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1  ){
             $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,\Eseller_student_status::V_120,$this->get_account()
+                $require_id,E\Eseller_student_status::V_120,$this->get_account()
             );
 
         }else{
             $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,\Eseller_student_status::V_290,$this->get_account()
+                $require_id,E\Eseller_student_status::V_290,$this->get_account()
             );
         }
 
@@ -5923,6 +5923,7 @@ class ss_deal extends Controller
                     "pwd" => md5($admin_info["call_phone_passwd"]),
                     "customerNumber"=>$phone,
                     "sync"=>0,
+                    "userField"=>1,
                 ]);
             $error_code_conf=[
                 0=> "sync=1时表示座席已接听，sync=0时表示发起呼叫请求成功",

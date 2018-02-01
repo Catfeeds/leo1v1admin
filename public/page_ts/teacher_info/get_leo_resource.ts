@@ -297,6 +297,8 @@ $(function(){
     var comment2 = $('.comment');
     //评价
     $('.opt-comment').on('click',function(){
+        var file_id = $(this).data('file_id');
+        var resource_type  = $(this).data('resource_type');
         var comment = comment2;
         comment.removeClass('hide');
         if( resource_type == 3 ){
@@ -347,10 +349,36 @@ $(function(){
                 };
 
                 console.log(data);
+
+                $.do_ajax( "/teacher_info/add_leo_resource_evalutation", {
+                    "file_id"           :file_id,
+                    "resource_type"     :resource_type,
+                    "quality_score"     :comment_quality, //质量总评
+                    "help_score"        :comment_help,    //帮助指数
+                    "overall_score"     :comment_whole,   //全面指数
+                    "detail_score"      :comment_detail,  //详细指数
+                    "size"              :con_font,        //文字大小
+                    "gap"               :con_spacing,     //间距大小
+                    "bg_picture"        :con_img,         //背景图案
+                    "text_type"         :con_type,        //讲义类型
+                    "answer"            :con_answer,      //答案程度
+                    "suit_student"      :con_stu,         //适宜学生
+                    "time_length"       :con_time,        //时长
+                },function(ret){
+                    if(ret.ret==0){
+                        BootstrapDialog.alert("评价成功!");
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);
+
+                    }else{
+                        alert(ret.info);
+                    }
+                });
             }
         },function(){
             comment2 = comment.clone(); 
-        },false,800,'padding-right:60px;');
+        },false,800,'padding-right:10px;');
 
                                    
     })
@@ -359,6 +387,9 @@ $(function(){
 
     //报错
     $('.opt-error').on('click',function(){
+        var file_id = $(this).data('file_id');
+        var resource_type  = $(this).data('resource_type');
+
         var error = $('.error').clone();
         error.removeClass('hide');  
         var arr = [
@@ -401,11 +432,31 @@ $(function(){
                 var data = {
                     "error_type_01" : error_type_01,
                     "error_type_02" : error_type_02,
-                    "error_detail" : error_detail,
+                    "error_detail"  : error_detail,
                     "img_arr" : JSON.stringify(img_arr)
                 };
 
                 console.log(data);
+
+                $.do_ajax( "/teacher_info/add_leo_resource_error", {
+                    "file_id"           :file_id,
+                    "resource_type"     :resource_type,
+
+                    "error_type"        :error_type_01,       //错误类型(资料库)
+                    "sub_error_type"    :error_type_02,       //错误子类型(资料库)
+                    "detail_error"      :error_detail,        //错误描述(资料库)
+                    "error_url"         :JSON.stringify(img_arr), //错误文件链接(资料库)
+                },function(ret){
+                    if(ret.ret==0){
+                        BootstrapDialog.alert("报错成功!");
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);
+
+                    }else{
+                        alert(ret.info);
+                    }
+                });
             }
         },function(){
             custom_upload(timestamp,"error_button_id","error_upload_id",1);
@@ -415,7 +466,7 @@ $(function(){
             custom_upload(timestamp,"pic_modify_04","error_pic_box_04",2);
             custom_upload(timestamp,"pic_modify_05","error_pic_box_05",2);
 
-        },false,700,'padding-right:60px;');
+        },false,700,'padding-right:10px;');
 
                                    
     })

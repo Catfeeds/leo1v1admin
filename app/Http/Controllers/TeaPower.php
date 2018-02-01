@@ -2708,7 +2708,7 @@ trait TeaPower {
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
-            $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid,false);
+            $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid);
         }
     }
     /**
