@@ -380,9 +380,9 @@ $(function(){
                             $(this).remove();
                         });
 
-                        obj_arr = [ 'les_file','tea_file','stu_file' ];
-                        other_arr = ['ex_file'];
-                        if(!check_file_num(obj_arr,other_arr)) return;
+                        obj_arr = ['les_file','tea_file','stu_file','ex_file'];
+                        
+                        if(!check_file_num(obj_arr)) return;
 
                         var file_num = $('.tea_file').length;
 
@@ -392,9 +392,9 @@ $(function(){
                             $(this).remove();
                         });
 
-                        obj_arr = [ 'ff_file' ];
-                        other_arr = ['ex_file'];
-                        if(!check_file_num(obj_arr,other_arr)) return;
+                        obj_arr = ['ff_file','','','ex_file'];
+
+                        if(!check_file_num(obj_arr)) return;
 
                         var file_num = $('.ff_file').length;
 
@@ -404,9 +404,8 @@ $(function(){
                             $(this).remove();
                         });
 
-                        obj_arr = [ 'tea_file','stu_file' ];
-                        other_arr = ['ex_file'];
-                        if(!check_file_num(obj_arr,other_arr)) return;
+                        obj_arr = ['','tea_file','stu_file','ex_file'];
+                        if(!check_file_num(obj_arr)) return;
 
                         var file_num = $('.tea_file').length;
 
@@ -416,9 +415,8 @@ $(function(){
                             $(this).remove();
                         });
 
-                        obj_arr = [ 'video_file' ];
-                        other_arr = [];
-                        if(!check_file_num(obj_arr,other_arr)) return;
+                        obj_arr = ['video_file'];
+                        if(!check_file_num(obj_arr)) return;
 
                         var file_num = $('.video_file').length;
                     }
@@ -450,24 +448,15 @@ $(function(){
                                
                                 for(var x in multi_resource_file){
                                     for(var y in multi_resource_file[x]){
-                                        var file_id = multi_resource_file[x][y];
-                                        var file_obj = {};
-                                        if( file_id.indexOf("other_ff_") >= 0 ){
-                                            file_id = file_id.substr(9);
-                                            file_obj = {
-                                                'file_use_type' : "3",
-                                                'resource_id' : resource_id_arr[x],
-                                                'file_id' : file_id,
-                                            };
-
-                                        }else{
-                                            file_obj = {
-                                                'file_use_type' : y,
-                                                'resource_id' : resource_id_arr[x],
-                                                'file_id' : file_id,
-                                            };
-                                        }
-                                  
+                                        var file_id_whole = multi_resource_file[x][y];
+                                        var file_id = file_id_whole.substr(3);
+                                        var file_use_type = file_id_whole.substr(0,1);
+                                        var file_obj =  {
+                                            'file_use_type' : file_use_type,
+                                            'resource_id' : resource_id_arr[x],
+                                            'file_id' : file_id,
+                                        };
+                                                                        
                                         whole_resource_file.push(file_obj);
                                     }
                                 }
@@ -611,73 +600,81 @@ $(function(){
     //检查文件数量是否一样
     var check_file_num = function(obj,other_obj){
         var resource_file = [];
+        var transfer_file = [];
         multi_resource_file = [];  //上传的文件
         whole_upload_num    = 0 ;  //总共上传文件的数量
-        var all_obj = obj.concat(other_obj);
-        var last_item = all_obj.length;
         if(obj.length > 0){
             for(var x in obj){
-                var $item = $("." + obj[x]);
                 if(resource_file[x] instanceof Array == false ){
                     resource_file[x] = []
                 }
-                $item.each(function(){
-                    resource_file[x].push($(this).data('id'));
-                });
-                whole_upload_num += $item.length;
-            }
-        }
 
-        if( other_obj.length > 0 ){
-            for(var x in other_obj){
-                var $item = $("." + other_obj[x]);
-                if($item.length > 0 ){
-                    if(resource_file[last_item] instanceof Array == false ){
-                        resource_file[last_item] = []
-                    }
+                if(obj[x] != ''){
+                    var $item = $("." + obj[x]);
                     $item.each(function(){
-                        var other_file_id = "other_ff_" + $(this).data('id');
-                        resource_file[last_item].push(other_file_id);
+                        var file_id =  x + "__" + $(this).data('id');
+                        resource_file[x].push(file_id);
                     });
                     whole_upload_num += $item.length;
                 }
+                
             }
-        }
 
-        console.log(resource_file);
-
-        if( obj.length > 0){
-            var first_length = resource_file[0].length;
-            if(first_length > 11){
-                alert('每个课件最多传11个讲义!');
-                return false;
+            for(var y = 0;y < obj.length;y++){
+                if( resource_file[y].length == 0){
+                    if(obj[y] != '' && y != 3 ){
+                        alert('缺少必传讲义!');
+                        return false;
+                    }
+                }else{
+                    transfer_file.push(resource_file[y]);
+                }                
             }
-            for(var x in resource_file){
-                if( resource_file[x].length == 0){
-                    alert('缺少必传讲义!');
+
+            var first_length = transfer_file[0].length;
+
+            for(var x in transfer_file){
+                if(transfer_file[x].length > 11){
+                    alert('每个课件最多传11个讲义!');
                     return false;
                 }
-                if( first_length != resource_file[x].length){
+
+                if( first_length != transfer_file[x].length){
                     alert('不同类型上传的讲义务必数量一致!');
                     return false;
-                }         
-            }
-            for(var x in resource_file){
+                }
+
                 for(var y = 0;y < first_length;y++){
                     if(multi_resource_file[y] instanceof Array == false ){
                         multi_resource_file[y] = []
                     }
-                    multi_resource_file[y].push(resource_file[x][y]);                                  
+                    multi_resource_file[y].push(transfer_file[x][y]);                                  
                 }
+
             }
 
         }
+
+        console.log(transfer_file);
         console.log(multi_resource_file);
         return true;
     }
 
+    var clearUpload = function(obj){
+        if(obj.length > 0){
+            for(var x in obj){
+                var $item = $("."+obj[x]);
+                if($item.length > 0){
+                    $item.each(function(){
+                        $(this).parent().remove();
+                    })
+                }
+            }
+        }
+    }
     var change_tag = function(val){
         $('#id_other_file,#id_tea_file,#id_stu_file,#id_les_file,#id_ex_file,#id_ff_file,#id_video_file').parent().parent().hide();
+        clearUpload(['other_file','tea_file','stu_file','les_file','ex_file','ff_file','video_file']);
         if(val == 2){//1v1
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_season",$('.tag_two'),true);
@@ -965,7 +962,7 @@ $(function(){
                                       if( whole_resource_file.length == have_upload_num ){
                                           var data = { 'multi_data' : whole_resource_file };
                                           add_multi_file(data);
-                                          console.log('开始传');
+                                          console.log(1212);
                                           console.log(whole_resource_file);
                                       }
                                   }

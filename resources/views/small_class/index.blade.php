@@ -14,7 +14,7 @@
         <div class="col-xs-6 col-md-2" >
             <div class="input-group ">
                 <span >助教</span>
-                <input id="id_assistantid"  /> 
+                <input id="id_assistantid"  />
             </div>
         </div>
         <div class="col-xs-6 col-md-4">
@@ -49,19 +49,19 @@
             </tr>
         </thead>
         <tbody >
-                @foreach ($table_data_list as $var)
-				<tr>
+            @foreach ($table_data_list as $var)
+				        <tr>
                     @include('layouts.td_xs_opt')
-					<td>{{$var["courseid"]}}</td>
-					<td>{{$var["course_name"]}}</td>
-					<td>{{@$var["teacher_nick"]}}</td>
-					<td>{{@$var["assistant_nick"]}}</td>
-					<td>{{$var["grade_str"]}}</td>
-					<td>{{$var["subject_str"]}}</td>
-					<td>{{$var["lesson_total"]}}</td>
-					<td>{{$var["lesson_left"]}}</td>
-					<td>{{$var["stu_total"]}}</td>
-					<td>{{$var["stu_current"]}}</td>
+					          <td>{{$var["courseid"]}}</td>
+					          <td>{{$var["course_name"]}}</td>
+					          <td>{{@$var["teacher_nick"]}}</td>
+					          <td>{{@$var["assistant_nick"]}}</td>
+					          <td>{{$var["grade_str"]}}</td>
+					          <td>{{$var["subject_str"]}}</td>
+					          <td>{{$var["lesson_total"]}}</td>
+					          <td>{{$var["lesson_left"]}}</td>
+					          <td>{{$var["stu_total"]}}</td>
+					          <td>{{$var["stu_current"]}}</td>
                     <td class="remove-for-xs">
                         <div class="opt"
                              {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -79,16 +79,13 @@
                                @else
                                href="/small_class/lesson_list_new?courseid={{$var["courseid"]}}"
                                @endif ></a>
-                            <a href="javascript:;" title="修改开课时间" class="btn fa fa-calendar opt-lesson-open"></a>
-                            <a href="javascript:;" title="添加额外小班课" class="btn fa fa-plus opt-add-extra-lesson"></a>
-                            <a href="javascript:;" title="删除小班课" class="btn fa fa-close opt-del-lesson-info"></a>
+                                <a href="javascript:;" title="修改开课时间" class="btn fa fa-calendar opt-lesson-open"></a>
+                                <a href="javascript:;" title="添加额外小班课" class="btn fa fa-plus opt-add-extra-lesson"></a>
+                                <a href="javascript:;" title="删除小班课" class="btn fa fa-close opt-del-lesson-info"></a>
                         </div>
                     </td>
-
-				</tr>
-                @endforeach
-
-
+				        </tr>
+            @endforeach
         </tbody>
     </table>
 	@include("layouts.page")

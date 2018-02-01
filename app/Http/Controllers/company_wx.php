@@ -301,15 +301,15 @@ class company_wx extends Controller
 
         $info = $output['data'];
         foreach($info as $item) {
-            // if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
-            //     $index = $item['apply_user_id'].'-'.$item['apply_time'];
-            //     if ($approv[$index]['sp_status'] != $item['sp_status']) {
-            //         $this->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
-            //             "sp_status" => $item['sp_status']
-            //         ]);
-            //     }
-            //     continue;
-            // }
+            if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
+                $index = $item['apply_user_id'].'-'.$item['apply_time'];
+                if ($approv[$index]['sp_status'] != $item['sp_status']) {
+                    $this->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
+                        "sp_status" => $item['sp_status']
+                    ]);
+                }
+                continue;
+            }
 
             $approval_name = implode(',', $item['approval_name']); // 审批人
             $notify_name = implode(',', $item['notify_name']); // 抄送人
@@ -424,7 +424,7 @@ class company_wx extends Controller
         }
 
         if ($items) $common['item'] = json_encode($item);
-        //$this->t_company_wx_approval->row_insert($common);
+        $this->t_company_wx_approval->row_insert($common);
     }
 
     public function get_company_wx_data($url, $index='') { //根据不同路由获取不同的数据 (企业微信)

@@ -163,6 +163,8 @@
                         <td>
                             <a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览</a>
 
+                            <a class="opt-look_new btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览(test)</a>
+
                             <a class="opt-error btn color-blue"  title="报错" data-file_id="{{@$var['file_id']}}" data-resource_type="{{@$var['resource_type']}}">报错</a>
                             @if(@$var['is_eval'] > 0)
                             <a class="btn color-blue"  title="评价" data-file_id="{{@$var['file_id']}}"
