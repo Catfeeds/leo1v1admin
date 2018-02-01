@@ -126,4 +126,17 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_min_add_time($desc='asc'){
+        $where_arr = [];
+        $sql = $this->gen_sql_new(
+            " select create_time ".
+            " from %s ".
+            " where %s order by create_time %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+            ,$desc
+        );
+        return $this->main_get_value($sql);
+    }
 }
