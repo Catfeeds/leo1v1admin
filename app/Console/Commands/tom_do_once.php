@@ -75,13 +75,13 @@ class tom_do_once extends Command
         */
 
         // $this->update_cc_call();
-        // $this->update_tq_call_info();
+        $this->update_tq_call_info();
         // $this->give_seller_new_count();
         // $this->update_seller_edit_log();
         // $this->update_seller_student_origin();
         // $this->seller_daily_threshold();
         // $this->update_actual_threshold();
-        $this->update_seller_student_origin_new();
+        // $this->update_seller_student_origin_new();
     }
 
     public function update_cc_call(){
@@ -276,7 +276,12 @@ class tom_do_once extends Command
                             $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
                             $sipCause = $item['sipCause'];
                             $client_number = $item['clientNumber'];
-                            $endReason = $item['endReason']=='是'?1:0;
+                            $endReason = 0;
+                            if($item['endReason']=='是'){//客户挂
+                                $endReason = 2;
+                            }elseif($item['endReason']=='否'){//销售挂
+                                $endReason = 1;
+                            }
                             $ret = $this->task->t_tq_call_info->field_get_list($id, '*');
                             $arr = [];
                             if($ret['cause'] != $sipCause){
