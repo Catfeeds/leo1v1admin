@@ -634,7 +634,7 @@ $(function(){
             var first_length = transfer_file[0].length;
 
             for(var x in transfer_file){
-                if(transfer_file[x].length > 11){
+                if(transfer_file[x].length > 20){
                     alert('每个课件最多传11个讲义!');
                     return false;
                 }
