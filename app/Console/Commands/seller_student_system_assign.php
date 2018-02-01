@@ -302,7 +302,7 @@ class seller_student_system_assign extends cmd_base
                 if(@$seller_student_level_map[ $find_origin_level]){
                     $find_userid= @array_shift($seller_student_level_map[ $find_origin_level] );
                     if ($find_userid) {
-                        \App\Helper\Utils::logger("check-for".$y++.'-userid:'.$find_userid);
+                        \App\Helper\Utils::logger("check-for2".$y++.'-userid:'.$find_userid);
                         $this->do_assign($account, $find_userid, $adminid);
                         unset ( $seller_level_admin_map[$adminid]  );
                     }
@@ -373,7 +373,7 @@ class seller_student_system_assign extends cmd_base
             \App\Helper\Utils::logger("33round_set_adminid  userid_list: " . json_encode( $userid_list) );
 
             while ( ($userid =@array_shift( $userid_list )) >0 ){ //抛出处理
-                \App\Helper\Utils::logger("check-for".$x++.'-userid:'.$userid);
+                \App\Helper\Utils::logger("check-for1".$x++.'-userid:'.$userid);
 
                 $find_adminid=$this->assign_adminid($userid, $check_seller_level_list, $round_seller_level_map);
                 if (!$find_adminid ) {
