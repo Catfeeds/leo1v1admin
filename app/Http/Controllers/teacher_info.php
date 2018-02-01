@@ -643,9 +643,9 @@ class teacher_info extends Controller
         $use_ppt_stu = 0;
         $use_ppt     = 0;
         $tea_cw_url_arr = explode('.', $tea_cw_url);
-        if($tea_cw_url_arr[1] == 'ppt'){$use_ppt = 1;}
+        if($tea_cw_url_arr[1] == 'ppt' || $tea_cw_url_arr[1] == 'pptx'){$use_ppt = 1;}
         $stu_cw_url_arr = explode('.', $stu_cw_url);
-        if($stu_cw_url_arr[1] == 'ppt'){$use_ppt_stu = 1;}
+        if($stu_cw_url_arr[1] == 'ppt' || $stu_cw_url_arr[1] == 'pptx'){$use_ppt_stu = 1;}
 
 
         $this->t_lesson_info_b2->field_update_list($lessonid,[
@@ -3181,6 +3181,8 @@ class teacher_info extends Controller
                 'create_time'  => time(),
                 'ip'           => $_SERVER["REMOTE_ADDR"],
             ]);
+
+
             $this->t_resource_file->add_num('visit_num', $tea_res_id);
 
             $store=new \App\FileStore\file_store_tea();
@@ -3432,7 +3434,7 @@ class teacher_info extends Controller
         $r_mark = 0;
         $index  = 1;
 
-         foreach($ret_info['list'] as &$item){
+        foreach($ret_info['list'] as &$item){
             if($r_mark == $item['resource_id']){
                 $index++;
             } else {
@@ -3460,6 +3462,8 @@ class teacher_info extends Controller
                 $tag_arr['tag_four']['menu'] => 'tag_four',
                 $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
+
+            //$item['user_is']
         }
         $book_arr = [];
         if($resource_type != 6){

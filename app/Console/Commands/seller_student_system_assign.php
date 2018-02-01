@@ -290,6 +290,7 @@ class seller_student_system_assign extends cmd_base
         ];
         //$seller_level_flag cc等级
         //$seller_level_admin_map 每个等级的销售arr
+        $y = 1;
         foreach ( $round_seller_level_map as $seller_level_flag =>  &$seller_level_admin_map ) {
             $find_origin_level= @$seller_level_flag_to_origin_map[$seller_level_flag ];
             if (!$find_origin_level) {
@@ -301,6 +302,7 @@ class seller_student_system_assign extends cmd_base
                 if(@$seller_student_level_map[ $find_origin_level]){
                     $find_userid= @array_shift($seller_student_level_map[ $find_origin_level] );
                     if ($find_userid) {
+                        \App\Helper\Utils::logger("check-for".$y++.'-userid:'.$userid);
                         $this->do_assign($account, $find_userid, $adminid);
                         unset ( $seller_level_admin_map[$adminid]  );
                     }
@@ -310,6 +312,10 @@ class seller_student_system_assign extends cmd_base
         \App\Helper\Utils::logger("check_error2:-seller_level_admin_map".json_encode($seller_level_admin_map));
         \App\Helper\Utils::logger("check_error2:-seller_student_level_map".json_encode($seller_student_level_map));
     }
+    //@desn:选择对应的cc
+    //@param:$userid 用户id
+    //@param:$check_seller_level_list 分配规则数组
+    //@param:$round_seller_level_map  剩下的销售
     public  function assign_adminid( $userid, $check_seller_level_list , &$round_seller_level_map ) {
 
         $account="系统分配-新例子-每轮二次 按例子等级分";
@@ -324,7 +330,9 @@ class seller_student_system_assign extends cmd_base
         return 0;
     }
 
-    //每一轮分配例子
+    //@desn:每一轮分配例子
+    //@param:$round_seller_level_map 待分配销售列表
+    //@param:$seller_student_level_map 待分配学员列表
     public function  round_set_adminid(  $round_seller_level_map, &$seller_student_level_map) {
         \App\Helper\Utils::logger("1round销售列表-round_seller_level_map: " . json_encode( $round_seller_level_map ) );
         \App\Helper\Utils::logger("1round例子列表-seller_student_level_map: " . json_encode( $seller_student_level_map) );
@@ -348,19 +356,28 @@ class seller_student_system_assign extends cmd_base
 
 
         $find_end_flag=false;
+        //$origin_level 渠道等级
+        //$userid_list 学员信息
+        $x = 1;
         foreach ( $seller_student_level_map as  $origin_level => &$userid_list ) {
-
+            \App\Helper\Utils::logger("check_sort".json_encode($userid_list));
+            //渠道等级
             $check_origin_level= $origin_level;
             if (!in_array( $check_origin_level, [1,2,3,4]) ) {
                 $check_origin_level= 4;
             }
+            //渠道对应cc顺序数组
             $check_seller_level_list= $origin_level_to_seller_level_flag_map[ $check_origin_level ];
             //防止有其它等级的用户,没有处理, 把所有的等级加入检查列表
             $check_seller_level_list = array_merge( $check_seller_level_list, array_keys($round_seller_level_map ));
             \App\Helper\Utils::logger("33round_set_adminid  userid_list: " . json_encode( $userid_list) );
 
             while ( ($userid =@array_shift( $userid_list )) >0 ){ //抛出处理
+<<<<<<< HEAD
                 \App\Helper\Utils::logger("check for $userid ");
+=======
+                \App\Helper\Utils::logger("check-for".$x++.'-userid:'.$userid);
+>>>>>>> fe42d1d3ec83b94da76ecdffa183ba82a27f4f37
 
                 $find_adminid=$this->assign_adminid($userid, $check_seller_level_list, $round_seller_level_map);
                 if (!$find_adminid ) {

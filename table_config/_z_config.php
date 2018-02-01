@@ -3,6 +3,7 @@ return array(
     ["db_weiyi_admin","t_seller_student_system_release_log","id"],
     ["db_weiyi_admin","t_company_wx_approval_notify","d_id"],
     ["db_weiyi_admin","t_company_wx_approval_data","id"],
+    ['db_weiyi','t_cc_day_top','id'],
     ['db_weiyi_admin','t_company_wx_approval','id'],
     ["db_tool","t_personality_poster","id"],
     ["db_tool","t_poster_share_log","poster_id"],

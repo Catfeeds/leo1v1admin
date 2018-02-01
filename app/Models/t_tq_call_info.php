@@ -78,10 +78,8 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                             $arr_log['no_called_count'] = $ret_log['no_called_count']+1;
                         }elseif($is_called_phone==1){
                             $arr_log['called_count'] = $ret_log['called_count']+1;
-                            if($duration<60 && $endReason==0){
-                                $arr_log['cc_end'] = 1;
-                            }elseif($duration<60 && $endReason==1){
-                                $arr_log['cc_end'] = 2;
+                            if($duration<60 && $endReason>$ret_log['cc_end']){
+                                $arr_log['cc_end'] = $endReason;
                             }
                         }
                         if(count($arr_log)>0){
@@ -735,6 +733,24 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         ];
         $sql=$this->gen_sql_new(
             " select phone "
+            ." from %s "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_list_new($start_time,$end_time,$phone,$adminid){
+        $where_arr=[
+            'duration<60',
+        ];
+        $this->where_arr_add_int_field($where_arr, 'is_called_phone', 1);
+        $this->where_arr_add_str_field($where_arr, 'phone', $phone);
+        $this->where_arr_add_int_field($where_arr, 'adminid', $adminid);
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            " select end_reason "
             ." from %s "
             ." where %s ",
             self::DB_TABLE_NAME,
