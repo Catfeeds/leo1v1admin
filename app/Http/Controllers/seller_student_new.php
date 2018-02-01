@@ -1593,7 +1593,6 @@ class seller_student_new extends Controller
             $success_flag=true;
         }
 
-
         $this->set_filed_for_js("open_flag",$success_flag?1:0);
         //list($start_time,$end_time)= $this->get_in_date_range(-7,0 );
         if ($userid==0) {

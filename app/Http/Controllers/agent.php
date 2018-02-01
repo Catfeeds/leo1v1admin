@@ -441,6 +441,9 @@ class agent extends Controller
     }
 
     public function test_new(){
+        if(date('Y-m-d',time()) == '2018-02-01'){
+            $limit_arr=array( [0, 14*60]);
+        }
         $origin = $this->t_seller_student_origin->get_last_origin($userid=99,time());
         dd($origin);
         $min   = $this->t_seller_student_origin->get_min_add_time($start_time=1512057600,$end_time=1514736000,$desc='asc');
