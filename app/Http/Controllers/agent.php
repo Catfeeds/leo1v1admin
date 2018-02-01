@@ -441,6 +441,7 @@ class agent extends Controller
     }
 
     public function test_new(){
+
         // $url="http://api.class.leo1v1.com/tq/index";
         // $post_arr=[
         //     "enterpriseId" => 3005131  ,
@@ -464,31 +465,31 @@ class agent extends Controller
         // //渠道等级
         // E\Eorigin_level::V_1;//(s,a,b类,连续3次未拨通) || c类
 
-        list($start_time,$end_time) = [1517464800,1517500800];
-        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
-        $post_arr=[
-            "enterpriseId" => 3005131  ,
-            "userName" => "admin" ,
-            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
-            "seed" => "seed1",
-            "startTime" => date("Y-m-d H:i:s", $start_time),
-            "endTime" => date("Y-m-d H:i:s", $end_time),
-        ];
-        $index_start=0;
-        $limit_count =500;
-        $post_arr["start"]  = $index_start;
-        $post_arr["limit"]  = $limit_count;
-        $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
-        $ret=json_decode($return_content, true  );
-        $data_list= @$ret["msg"]["data"];
-        foreach($data_list as $item){
-            if($item['customerNumber']=='18791188051'){
-                $endReason = $item['endReason']=='是'?1:0;
-                // dd($endReason);
-                dd($item);
-            }
-        }
-        dd($data_list);
+        // list($start_time,$end_time) = [1517464800,1517500800];
+        // $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+        // $post_arr=[
+        //     "enterpriseId" => 3005131  ,
+        //     "userName" => "admin" ,
+        //     "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
+        //     "seed" => "seed1",
+        //     "startTime" => date("Y-m-d H:i:s", $start_time),
+        //     "endTime" => date("Y-m-d H:i:s", $end_time),
+        // ];
+        // $index_start=0;
+        // $limit_count =500;
+        // $post_arr["start"]  = $index_start;
+        // $post_arr["limit"]  = $limit_count;
+        // $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+        // $ret=json_decode($return_content, true  );
+        // $data_list= @$ret["msg"]["data"];
+        // foreach($data_list as $item){
+        //     if($item['customerNumber']=='18791188051'){
+        //         $endReason = $item['endReason']=='是'?1:0;
+        //         // dd($endReason);
+        //         dd($item);
+        //     }
+        // }
+        // dd($data_list);
     }
 
     //处理等级头像
