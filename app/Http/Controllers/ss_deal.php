@@ -5923,6 +5923,7 @@ class ss_deal extends Controller
                     "pwd" => md5($admin_info["call_phone_passwd"]),
                     "customerNumber"=>$phone,
                     "sync"=>0,
+                    "userField"=>1,
                 ]);
             $error_code_conf=[
                 0=> "sync=1时表示座席已接听，sync=0时表示发起呼叫请求成功",
