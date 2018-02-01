@@ -441,109 +441,24 @@ class agent extends Controller
     }
 
     public function test_new(){
-        if(date('Y-m-d',time()) == '2018-02-01'){
-            $limit_arr=array( [0, 14*60]);
-        }
-        $origin = $this->t_seller_student_origin->get_last_origin($userid=99,time());
-        dd($origin);
-        $min   = $this->t_seller_student_origin->get_min_add_time($start_time=1512057600,$end_time=1514736000,$desc='asc');
-        dd($min);
-        $count = $this->t_seller_get_new_log->get_cc_end_count($adminid=1101,strtotime(date('Y-m-d 00:00:00',time())),time());
-        dd($count);
-        $count = $this->t_seller_get_new_log->get_cc_end_count($adminid=457,strtotime(date('Y-m-d 00:00:00',time())),time());
-        dd($count);
-        list($start_time,$end_time) = [1517068800,1517153400];
-        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
-        $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
-        $count_call = count(array_unique(array_column($ret_call, 'userid')));
-        $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time=1517068800,$end_time=1517153400,$call_flag=2);
-        $count_called = count(array_unique(array_column($ret_called, 'userid')));
-        $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
-        dd($count_call,$count_called,$rate,$count_adminid);
-
-        // $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid);
-        // if(time()-$last_get_time<660){
-        //     $cmd= new \App\Console\Commands\sync_tianrun();
-        //     $count=$cmd->load_data($last_get_time,time());
-        // }
-        list($start_time,$end_time)=$this->get_in_date_range_day(-1);
-        $ret = $this->t_seller_get_new_log->get_cc_end_list($adminid=743,$start_time, $end_time);
-        dd($ret);
-        dd('http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
-        $time = strtotime(date('Y-m-d'));
-        list($start_time,$end_time) = [$time,$time+3600*24];
-        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
-        dd($ret_call);
-        $time = time();
-        $start_time = strtotime(date('Y-m-d 08:00:00'));
-        $end_time = strtotime(date('Y-m-d'))+3600*24;
-        if($time>$start_time && $time<$end_time){
-            dd($start_time,$end_time);
-            $this->update_actual_threshold();
-        }
-        dd('b');
-        $time = strtotime(date('Y-m-d'));
-        list($start_time,$end_time) = [$time,$time+3600*24];
-        dd($start_time,$end_time);
-        $origin = '学校';
-        $this->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给你[$origin]例子:".$phone='133');
-        dd('a');
-        $time = strtotime(date('Y-m-d'));
-        list($start_time,$end_time)=$this->get_in_date_range_day(0);
-        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
-        if($ret_call){
-            if(time()>$ret_call[0]['create_time']+1800){
-                $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
-                $count_call = count(array_unique(array_column($ret_call, 'userid')));
-                if($count_adminid>=5 && $count_call>=10){
-                    $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
-                    $count_called = count(array_unique(array_column($ret_called, 'userid')));
-                    $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
-                    $this->t_seller_edit_log->row_insert([
-                        'type'=>E\Eseller_edit_log_type::V_6,
-                        'new'=>$rate,
-                        'create_time'=>time(),
-                    ]);
-                    $this->send_wx_threshold($rate,$start_time,$end_time);
-                }
-            }
-        }
-    }
-
-    public function send_wx_threshold($rate,$start_time,$end_time){
-        $threshold = $this->t_seller_edit_log->get_threshold($time);
-        $threshold_max = $threshold[0]['new'];
-        $threshold_min = $threshold[1]['new'];
-        $ret_threshold = $this->t_seller_edit_log->get_actual_threshold($start_time,$end_time);
-        if(count($ret_threshold) == 1){
-            if($rate<=$threshold_min){//红色
-                $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
-                    'old'=>2,
-                ]);
-            }elseif($rate<=$threshold_max && $rate>$threshold_min){//黄色
-                $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
-                    'old'=>1,
-                ]);
-            }
-        }elseif(count($ret_threshold)>1){
-            if($ret_threshold[1]['new']>$threshold_max){
-                if($ret_threshold[0]['new']<=$threshold_min){//红色
-                    $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
-                        'old'=>2,
-                    ]);
-                }elseif($ret_threshold[0]['new']<=$threshold_max && $ret_threshold[0]['new']>$threshold_min){//黄色
-                    $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
-                        'old'=>1,
-                    ]);
-                }
-            }elseif($ret_threshold[1]['new']>$threshold_min && $ret_threshold[1]['new']<=$threshold_max){
-                if($ret_threshold[0]['new']<=$threshold_min){//红色
-                    $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
-                        'old'=>2,
-                    ]);
-                }
-            }
-        }
+        list($start_time,$end_time) = [1517396400,1517400000];
+        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+        $post_arr=[
+            "enterpriseId" => 3005131  ,
+            "userName" => "admin" ,
+            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
+            "seed" => "seed1",
+            "startTime" => date("Y-m-d H:i:s", $start_time),
+            "endTime" => date("Y-m-d H:i:s", $end_time),
+        ];
+        $index_start=0;
+        $limit_count =500;
+        $post_arr["start"]  = $index_start;
+        $post_arr["limit"]  = $limit_count;
+        $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+        $ret=json_decode($return_content, true  );
+        $data_list= @$ret["msg"]["data"];
+        dd($data_list);
     }
 
     //处理等级头像
