@@ -25,7 +25,7 @@ function load_data(){
 
 	  $('.opt-change').set_input_change_event(load_data);
 
-    $('#id_add').on('click', function() {
+    $('#id_pull_data').on('click', function() {
         $.do_ajax("/company_wx/pull_approve_data", {});
     });
 
