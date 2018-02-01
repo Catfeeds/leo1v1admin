@@ -85,6 +85,7 @@ message stu_apply_list {
   string apply_time=5 ;  //用户申请时间
   string status_str=6 ;  //处理状态
   uint32 consume_lesson_num=7 ;  //学生兑换时消耗的课时数
+  string lesson_time=8 ;  //学生开课时间
 }
 
 message order_detail {
