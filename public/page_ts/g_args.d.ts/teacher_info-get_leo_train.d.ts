@@ -36,6 +36,7 @@ interface RowData {
 	file_link	:any;
 	file_use_type	:any;
 	use_num	:any;
+	visit_num	:any;
 	tea_res_id	:any;
 	file_use_type_str	:any;
 	tag_one_name	:any;

@@ -267,6 +267,39 @@ $(function(){
             }
         });
     });
+
+    $('.opt-look_new').on('click',function(){
+        var id = $(this).data('file_id');
+        var file_type = $(this).data('file_type');
+        file_type = file_type.toLowerCase();
+
+        var newTab;
+        if( file_type == "mp4" || file_type == "mp3" ){
+            newTab = window.open('about:blank');
+        }
+
+        do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
+            if(ret.ret == 0){ 
+                if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){
+                    newTab.location.href = ret.url;
+                }else{
+                    //newTab.close();
+                    $('.look-pdf').show();
+                    $('.look-pdf-son').mousedown(function(e){
+                        if(e.which == 3){
+                            return false;
+                        }
+                    });
+                    PDFObject.embed(ret.url).css({'width':'120%','height':'120%','margin':'-10%'});
+                    //PDFObject.embed(ret.url, ".look-pdf-son");
+                    //$('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
+                }
+            } else {
+                BootstrapDialog.alert(ret.info);
+            }
+        });
+    });
+
     $('body').on('click', function(){
         // $('.look-pdf').hide().empty();
         $('.look-pdf').hide().children().children().empty();
