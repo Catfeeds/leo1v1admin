@@ -697,10 +697,10 @@ class common_new extends Controller
             $sipCause = $this->get_in_int_val('sipCause');
             $client_number = $this->get_in_str_val('clientNumber');
             $endReason = 0;
-            if($this->get_in_str_val('endReason')=='是'){//销售
-                $endReason = 1;
-            }elseif($this->get_in_str_val('endReason')=='否'){//客户
+            if($this->get_in_str_val('endReason')=='是'){//客户
                 $endReason = 2;
+            }elseif($this->get_in_str_val('endReason')=='否'){//销售
+                $endReason = 1;
             }
 
             \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
