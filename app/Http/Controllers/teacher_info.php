@@ -640,6 +640,12 @@ class teacher_info extends Controller
             ]);
         }
 
+        $use_ppt_stu = 0;
+        $use_ppt     = 0;
+        $tea_cw_url_arr = explode('.', $tea_cw_url);
+        if($tea_cw_url_arr[1] == 'ppt'){$use_ppt = 1;}
+        $stu_cw_url_arr = explode('.', $stu_cw_url);
+        if($stu_cw_url_arr[1] == 'ppt'){$use_ppt_stu = 1;}
 
 
         $this->t_lesson_info_b2->field_update_list($lessonid,[
@@ -657,6 +663,8 @@ class teacher_info extends Controller
             "stu_cw_origin"      => $stu_cw_origin,
             "tea_cw_file_id"     => $tea_cw_file_id,
             "stu_cw_file_id"     => $stu_cw_file_id,
+            "use_ppt"            => $use_ppt,
+            "use_ppt_stu"        => $use_ppt_stu
         ]);
 
         $lesson_type=$this->t_lesson_info_b2->get_lesson_type($lessonid);
@@ -1877,7 +1885,7 @@ class teacher_info extends Controller
             $item['grade_str']        = $grade_str;
             $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
             $item['tags_flag']        = count($item['teacher_tags_arr']);
-            
+
             //添加able_edit
             $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','qq_info', 'wx_name','is_prove_str','is_prove','teacher_textbook_str','teacher_textbook','achievement','wx_name','is_prove',
                        'bank_account','idcard','bankcard','bank_address','bank_type', 'bank_phone','bank_province','bank_city'];
@@ -1910,7 +1918,7 @@ class teacher_info extends Controller
                         $integrity = $integrity + 3;
                         //echo $key.'-'.$integrity.'<br/>';
                     }
-                } 
+                }
             }
 
             $item['integrity'] = $integrity;
@@ -2558,11 +2566,11 @@ class teacher_info extends Controller
         $is_js = $this->get_in_int_val('is_js', 0);
         if($is_js){
             //return $this->output_err("暂未开放，敬请期待！");
-        } 
+        }
         /*
         //检测老师是不是全职
         $is_full_time = $this->check_teacher_type();
-        //add is_test_teacher open 
+        //add is_test_teacher open
         $is_test_user = $this->check_is_test_teacher();
         if($is_test_user == 1 || $is_full_time == 1){
         }
@@ -2773,7 +2781,7 @@ class teacher_info extends Controller
 
         $resource_type = $resource_type<1?1:$resource_type;
         $resource_type = $resource_type>6?6:$resource_type;
-   
+
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$page_info
@@ -2821,7 +2829,7 @@ class teacher_info extends Controller
                 array_push($book_arr, intval($v['tag_one']) );
             }
         }
-        
+
         // dd($tea_info);
 
         if($is_js != 0){
@@ -2871,7 +2879,7 @@ class teacher_info extends Controller
         $resource_type        = $this->get_in_int_val('resource_type',-1);
         $season_id        = $this->get_in_int_val('season_id',-1);
         $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
-         
+
         return $this->output_succ(['tag' => $data]);
     }
 
@@ -3354,7 +3362,7 @@ class teacher_info extends Controller
                 return $data;
             }
         }
-        
+
         return $data;
     }
 
