@@ -30,7 +30,7 @@ class admin_manage extends Controller
 
         $machine_id = $this->get_in_int_val("machine_id",-1);
         $adminid    = $this->get_in_adminid(-1);
-        $auth_flag = $this->get_in_e_boolean(-1,"auth_flag");
+        $auth_flag = $this->get_in_el_boolean(-1,"auth_flag");
         $ret_info=$this->t_kaoqin_machine_adminid->get_list($page_info,$machine_id,$adminid,$auth_flag);
 
         foreach( $ret_info["list"] as &$item ) {
@@ -39,13 +39,26 @@ class admin_manage extends Controller
         }
 
         $machine_info = $this->t_kaoqin_machine->get_list(["page_num"=>1, "page_count"=>10000 ]);
-        $this->html_power_list_add("auth_flag");
 
         return $this->pageView(
             __METHOD__,$ret_info,
             ["machine_list" => $machine_info["list"]  ]);
 
 
+    }
+
+    public function get_kaoqin_list_js()  {
+        $page_info=$this->get_in_page_info();
+        $machine_id= $this->get_in_int_val("machine_id",-1);
+
+        $ret_list=$this->t_kaoqin_machine->get_list_for_select($page_info , $machine_id);
+        $check_time=time(NULL)-60;
+
+        foreach($ret_list["list"] as &$item) {
+            //$item["status_class"]= ($item["last_active_time"] <$check_time)?"danger":"";
+            //\App\Helper\Utils::unixtime2date_for_item($item,"last_active_time");
+        }
+        return $this->output_ajax_table($ret_list);
     }
 
     public function office_cmd_list() {

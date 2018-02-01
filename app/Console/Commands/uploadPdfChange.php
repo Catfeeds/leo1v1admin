@@ -58,10 +58,10 @@ class uploadPdfChange extends Command
 
         foreach($handoutArray as $item){
             //七牛下载
-            if($item['stu_cw_url']){
+            if($item['stu_cw_url'] && $item['zip_url_stu']=='' && $item['use_ppt_stu'] ==1){
                 $this->deal($item,2); # 处理学生讲义
             }
-            if($item['tea_cw_url']){
+            if($item['tea_cw_url'] && $item['zip_url']=='' && $item['use_ppt'] ==1){
                 $this->deal($item,1); # 处理老师讲义
             }
         }
@@ -70,13 +70,13 @@ class uploadPdfChange extends Command
 
     public function deal($item,$is_tea){
         if($is_tea == 1){
-            $pdf_file_path = $this->gen_download_url($item['file_link']);
-            $ppt_key = $item['file_link'];
-            $title = $item['file_title']."_tea";
+            $pdf_file_path = $this->gen_download_url($item['tea_cw_url']);
+            $ppt_key = $item['tea_cw_url'];
+            $title   = $item['tea_cw_name']."_tea";
         }else{
             $pdf_file_path = $this->gen_download_url($item['stu_cw_url']);
             $ppt_key = $item['stu_cw_url'];
-            $title = $item['file_title']."_stu";
+            $title   = $item['stu_cw_name']."_stu";
         }
 
 
