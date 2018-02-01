@@ -302,7 +302,7 @@ class seller_student_system_assign extends cmd_base
                 if(@$seller_student_level_map[ $find_origin_level]){
                     $find_userid= @array_shift($seller_student_level_map[ $find_origin_level] );
                     if ($find_userid) {
-                        \App\Helper\Utils::logger("check-for".$y++.'-userid:'.$userid);
+                        \App\Helper\Utils::logger("check-for".$y++.'-userid:'.$find_userid);
                         $this->do_assign($account, $find_userid, $adminid);
                         unset ( $seller_level_admin_map[$adminid]  );
                     }
