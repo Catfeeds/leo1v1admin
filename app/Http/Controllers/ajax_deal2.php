@@ -83,8 +83,8 @@ class ajax_deal2 extends Controller
 
         $machine_id= $info[ "machine_id"];
         $adminid=$this->get_account_id();
-        if ($sn != "Q11163910015") {
-            return $this->output_err("未开启:<");
+        if ( !in_array( $sn,[ "Q11163910015", "0"] ) ) {
+            return $this->output_err("该门 未开启远程开关:<");
         }
 
         $check_value= $this->t_kaoqin_machine_adminid->field_get_list_2($machine_id, $adminid,"adminid");

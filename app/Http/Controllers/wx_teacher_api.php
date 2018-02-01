@@ -34,6 +34,7 @@ use OSS\Core\OssException;
 class wx_teacher_api extends Controller
 {
     use CacheNick;
+    use TeaPower;
     var $check_login_flag=false;
     public function __construct() {
         parent::__construct();
@@ -1435,8 +1436,19 @@ class wx_teacher_api extends Controller
         }else{
             $status = 1;
         }
+        $stu_lessonid = $this->t_lesson_info_b3->checkIsStu($uuid);
+        $tea_lessonid = $this->t_lesson_info_b3->checkIsTea($uuid);
+        if($stu_lessonid){
+            $this->t_lesson_info_b3->field_update_list($stu_lessonid, [
+                "ppt_status_stu" => $status
+            ]);
+        }elseif($tea_lessonid){
+            $this->t_lesson_info_b3->field_update_list($tea_lessonid, [
+                "ppt_status" => $status
+            ]);
+        }
 
-        $this->t_lesson_info_b3->updateStatusByUuid($uuid,$status);
+        // $this->t_lesson_info_b3->updateStatusByUuid($uuid,$status);
         return $this->output_succ();
     }
 
@@ -1587,9 +1599,52 @@ class wx_teacher_api extends Controller
     //兼职老师晋升相关接口
     public function get_teacher_advance_info_for_wx(){
         $teacherid = $this->get_in_int_val("teacherid");
+        if(!$teacherid){
+            return $this->output_err("老师id缺失!");
+        }
+        $season     = ceil((date('n'))/3);//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s',mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $info = $this->t_teacher_advance_list->field_get_list_2($start_time, $teacherid, "*");
+        $data=[];
+        //判断2018年1月1日之后是否有课
+        $start=strtotime("2018-01-01");
+        $lesson_flag = $this->t_lesson_info_b3->get_tea_lesson_total($start,time(),$teacherid);
+        $tea_info = $this->t_teacher_info->field_get_list($teacherid,"*");
+        if(@$lesson_flag["stu_num"]>0 && $tea_info["teacher_money_type"]==6){
+            $show_flag=1;//是否显示晋升数据一级规则 1,显示
+            $score = @$info["total_score"]/100;
+            $level = @$info["level_before"]?@$info["level_before"]:$tea_info["level"];
+            list($level_degree,$level_score_info)=$this->get_tea_level_str($score,$level);
+            $face = $this->get_tea_face_url_for_wx($tea_info);
+            $lesson_score = @$info["lesson_count_score"]/100;
+            $tea_score = @$info["record_final_score"]/100;
+            $cc_score = @$info["cc_order_score"]/100;
+            $cr_score = @$info["other_order_score"]/100;
+            $c_score = $cc_score+$cr_score;
+            if($c_score>10){
+                $c_score=10;
+            }
+            $stu_score = $c_score+@$info["stu_num_score"]/100;
+            $data["total_score"] =  $score;
+            $data["level"]       =  $level;
+            $data["level_degree"]=  $level_degree;
+            $data["level_score_info"]=  $level_score_info;
+            $data["face"]            =  $face;
+            $data["lesson_score"]    =  $lesson_score;
+            $data["tea_score"]=  $tea_score;
+            $data["stu_score"]=  $stu_score;
+
+
+            
+        }else{
+            $show_flag=0;
+        }
+
+        return $this->output_succ(["list"=>$data,"show_flag"=>$show_flag]);
 
 
     }
+        
 
 
 

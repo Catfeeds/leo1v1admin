@@ -856,6 +856,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type=0",
             "sys_operator<>'jim'",
             "gu.groupid = $groupid",
+            "o.contract_status<3",
         ];
 
         $sql = $this->gen_sql_new("select sys_operator, sum(price) as all_price,count(*)as all_count  "

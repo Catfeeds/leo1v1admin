@@ -89,6 +89,7 @@ class sync_tianrun extends cmd_base
         $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
         $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
         $record_url=  $item["recordFile"];
+        $userField = $item["userField"];
 
         $db_item=$this->task->t_tq_call_info->field_get_list($id, "id, record_url")  ;
         if ($db_item) { //更新

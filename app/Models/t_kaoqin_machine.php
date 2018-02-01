@@ -8,6 +8,14 @@ class t_kaoqin_machine extends \App\Models\Zgen\z_t_kaoqin_machine
         parent::__construct();
     }
 
+    public function get_list_for_select($page_info, $machine_id) {
+        $where_arr=[
+            ["machine_id=%u", $machine_id, -1 ]
+        ] ;
+        $sql=$this->gen_sql_new(
+            "select * from %s where %s ", self::DB_TABLE_NAME,  $where_arr );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
     public function get_list($page_info) {
         $sql=$this->gen_sql_new(
             "select * from %s ", self::DB_TABLE_NAME );

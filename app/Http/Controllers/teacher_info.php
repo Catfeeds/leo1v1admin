@@ -640,6 +640,12 @@ class teacher_info extends Controller
             ]);
         }
 
+        $use_ppt_stu = 0;
+        $use_ppt     = 0;
+        $tea_cw_url_arr = explode('.', $tea_cw_url);
+        if($tea_cw_url_arr[1] == 'ppt'){$use_ppt = 1;}
+        $stu_cw_url_arr = explode('.', $stu_cw_url);
+        if($stu_cw_url_arr[1] == 'ppt'){$use_ppt_stu = 1;}
 
 
         $this->t_lesson_info_b2->field_update_list($lessonid,[
@@ -657,6 +663,8 @@ class teacher_info extends Controller
             "stu_cw_origin"      => $stu_cw_origin,
             "tea_cw_file_id"     => $tea_cw_file_id,
             "stu_cw_file_id"     => $stu_cw_file_id,
+            "use_ppt"            => $use_ppt,
+            "use_ppt_stu"        => $use_ppt_stu
         ]);
 
         $lesson_type=$this->t_lesson_info_b2->get_lesson_type($lessonid);
@@ -1877,7 +1885,7 @@ class teacher_info extends Controller
             $item['grade_str']        = $grade_str;
             $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
             $item['tags_flag']        = count($item['teacher_tags_arr']);
-            
+
             //添加able_edit
             $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','qq_info', 'wx_name','is_prove_str','is_prove','teacher_textbook_str','teacher_textbook','achievement','wx_name','is_prove',
                        'bank_account','idcard','bankcard','bank_address','bank_type', 'bank_phone','bank_province','bank_city'];
@@ -1910,7 +1918,7 @@ class teacher_info extends Controller
                         $integrity = $integrity + 3;
                         //echo $key.'-'.$integrity.'<br/>';
                     }
-                } 
+                }
             }
 
             $item['integrity'] = $integrity;
@@ -2558,11 +2566,11 @@ class teacher_info extends Controller
         $is_js = $this->get_in_int_val('is_js', 0);
         if($is_js){
             //return $this->output_err("暂未开放，敬请期待！");
-        } 
+        }
         /*
         //检测老师是不是全职
         $is_full_time = $this->check_teacher_type();
-        //add is_test_teacher open 
+        //add is_test_teacher open
         $is_test_user = $this->check_is_test_teacher();
         if($is_test_user == 1 || $is_full_time == 1){
         }
@@ -2597,6 +2605,7 @@ class teacher_info extends Controller
         }
         dd($type_list);
         */
+        $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
         $type_list = [1,3,5,6]; //
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
@@ -2654,6 +2663,8 @@ class teacher_info extends Controller
                 $r_mark = $item['resource_id'];
                 $index = 1;
             }
+
+            $item['is_eval'] = $this->t_resource_file_evalutation->check_is_eval($item['file_id'],$teacherid);
 
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             // \App\Helper\Utils::get_file_use_type_str($item, $index);
@@ -2773,7 +2784,7 @@ class teacher_info extends Controller
 
         $resource_type = $resource_type<1?1:$resource_type;
         $resource_type = $resource_type>6?6:$resource_type;
-   
+
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$page_info
@@ -2821,7 +2832,7 @@ class teacher_info extends Controller
                 array_push($book_arr, intval($v['tag_one']) );
             }
         }
-        
+
         // dd($tea_info);
 
         if($is_js != 0){
@@ -2871,7 +2882,7 @@ class teacher_info extends Controller
         $resource_type        = $this->get_in_int_val('resource_type',-1);
         $season_id        = $this->get_in_int_val('season_id',-1);
         $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
-         
+
         return $this->output_succ(['tag' => $data]);
     }
 
@@ -3354,7 +3365,7 @@ class teacher_info extends Controller
                 return $data;
             }
         }
-        
+
         return $data;
     }
 
@@ -3470,6 +3481,74 @@ class teacher_info extends Controller
             'type_list' => json_encode($type_list),
             'resource_type'  => $resource_type
         ]);
+    }
+
+
+    public function add_leo_resource_evalutation(){
+        $file_id             = $this->get_in_int_val('file_id', -1);
+        $resource_type       = $this->get_in_int_val('resource_type', -1);
+
+        $quality_score       = $this->get_in_int_val('quality_score', -1);
+        $help_score          = $this->get_in_int_val('help_score', -1);
+        $overall_score       = $this->get_in_int_val('overall_score', -1);
+        $detail_score        = $this->get_in_int_val('detail_score', -1);
+        $size                = $this->get_in_int_val('size', -1);
+        $gap                 = $this->get_in_int_val('gap', -1);
+        $bg_picture          = $this->get_in_int_val('bg_picture', -1);
+        $text_type           = $this->get_in_int_val('text_type', -1);
+        $answer              = $this->get_in_int_val('answer', -1);
+        $suit_student        = $this->get_in_int_val('suit_student', -1);
+        $time_length         = $this->get_in_str_val("time_length","");
+
+
+
+        $this->t_resource_file_evalutation->row_insert([
+            "file_id"          => $file_id,
+            "teacherid"        => $this->get_login_teacher(),
+            "add_time"         => time(NULL),
+            "resource_type"    => $resource_type,
+
+            "quality_score"    => $quality_score,
+            "help_score"       => $help_score,
+            "overall_score"    => $overall_score,
+            "detail_score"     => $detail_score,
+            "size"             => $size,
+            "gap"              => $gap,
+            "bg_picture"       => $bg_picture,
+            "text_type"        => $text_type,
+            "answer"           => $answer,
+            "suit_student"     => $suit_student,
+            "time_length"      => $time_length,
+        ]);
+
+
+        return $this->output_succ();
+    }
+
+    public function add_leo_resource_error(){
+        $file_id             = $this->get_in_int_val('file_id', -1);
+        $resource_type       = $this->get_in_int_val('resource_type', -1);
+
+        $error_type          = $this->get_in_int_val("error_type",-1);
+        $sub_error_type      = $this->get_in_int_val("sub_error_type",-1);
+        $detail_error        = $this->get_in_str_val("detail_error",'');
+        $error_url           = $this->get_in_str_val("error_url",'');
+        $teacherid           = $this->get_login_teacher();
+
+        $this->t_resource_file_error_info->row_insert([
+            "file_id"          => $file_id,
+            "teacherid"        => $teacherid,
+            "add_time"         => time(NULL),
+            "resource_type"    => $resource_type,
+            "phone"            => $this->t_teacher_info->get_phone($teacherid),
+            "nick"             => $this->t_teacher_info->get_nick($teacherid),
+
+            "error_type"       => $error_type,
+            "sub_error_type"   => $sub_error_type,
+            "detail_error"     => $detail_error,
+            "error_url"        => $error_url,
+        ]);
+        return $this->output_succ();
     }
 
 }

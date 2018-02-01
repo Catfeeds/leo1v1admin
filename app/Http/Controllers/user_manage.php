@@ -399,7 +399,7 @@ class user_manage extends Controller
             $master_adminid=0;
         }
         // dd($ret_info);
-        return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc")]);
+        return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc"),"account_role"=>$this->get_account_role()]);
     }
 
     public function ass_random_revisit() {
@@ -2427,6 +2427,7 @@ class user_manage extends Controller
             $item['complaint_date']                 = \App\Helper\Utils::unixtime2date($item['add_time']);
             $item['current_admin_assign_time_date'] = \App\Helper\Utils::unixtime2date($item['current_admin_assign_time']);
             $item['deal_admin_nick'] = $this->t_manager_info->get_ass_master_nick($item['deal_adminid']);
+            \App\Helper\Utils::hide_item_phone($item,"phone");
 
 
             $this->get_nick_phone_by_account_type($item['account_type'],$item);
@@ -2435,8 +2436,6 @@ class user_manage extends Controller
             $current_account_last = reset($current_account_arr);
 
             $item['current_account'] = $current_account_last['account'];
-
-
 
             if ($item['current_account']) {
                 $item['follow_state_str'] = '<font color="green">已分配</font>';
