@@ -387,7 +387,7 @@ export default class admin_table extends Vue {
       }
     });
   }
-  do_select_list( field_name:string ,call_func ) {
+  do_select_list( field_name ,call_func ) {
 
     var select_list:Array<any>=[];
     var opt_list= $(this.$el).find (".multi-select-item");
@@ -396,7 +396,16 @@ export default class admin_table extends Vue {
       var $item= $(item);
       if ( $item.iCheckValue()) {
         var index= $item.data('index');
-        select_list.push(me.$props.table_data[index][field_name]  );
+        if ( $.isArray( field_name ) ){
+          var data_item:any={};
+          $.each(field_name, function (i,name){
+            data_item[name]= me.$props.table_data[index][name];
+          });
+          select_list.push(data_item);
+        }else{
+          select_list.push(me.$props.table_data[index][field_name]  );
+        }
+
       }
     });
     if (select_list.length ) {

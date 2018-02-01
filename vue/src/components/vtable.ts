@@ -39,7 +39,7 @@ export default class vtable extends Vue {
     call_func();
   }
 
-  do_select_list( field_name:string ,call_func ) {
+  do_select_list( field_name ,call_func ) {
 
     var me=this;
 
