@@ -3687,7 +3687,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function checkIsStu($uuid){
         $sql = $this->gen_sql_new("  select lessonid from %s l "
-                                  ." where uuid_stu=$uuid"
+                                  ." where uuid_stu='$uuid'"
                                   ,self::DB_TABLE_NAME
         );
         return $this->main_get_value($sql);
@@ -3695,7 +3695,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function checkIsTea($uuid){
         $sql = $this->gen_sql_new("  select lessonid from %s l "
-                                  ." where uuid=$uuid"
+                                  ." where uuid='$uuid'"
                                   ,self::DB_TABLE_NAME
         );
         return $this->main_get_value($sql);

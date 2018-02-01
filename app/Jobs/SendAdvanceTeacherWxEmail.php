@@ -112,30 +112,30 @@ class SendAdvanceTeacherWxEmail extends Job implements ShouldQueue
             }
  
         }elseif($deal_type==2){//扣款处理
-            if ( \App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test() ){
-                $list = $task->t_teacher_advance_list->get_no_deal_withhold_info($start_time,$teacher_money_type);
-                $month_start = strtotime(date("Y-m-d",time()));
-                foreach($list as $val){
-                    for($i=4;$i<7;$i++){
-                        $month = strtotime(date("Y-m-d",strtotime("+$i months",$start_time)-86400)." 10:00");
-                        $st = strtotime("+$i months",$start_time);
-                        if($st>=$month_start){                        
-                            $task->t_teacher_money_list->row_insert([
-                                "teacherid" =>$teacherid,
-                                "type"      =>101,
-                                "add_time"  =>$month,
-                                "money"     => "-".$val["withhold_money"],
-                                "money_info"=> date("Y-m-d",$month)." 等级不达标扣款"
-                            ]);
-                        }
+            // if ( \App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test() ){
+            $list = $task->t_teacher_advance_list->get_no_deal_withhold_info($start_time,$teacher_money_type);
+            $month_start = strtotime(date("Y-m-d",time()));
+            foreach($list as $val){
+                for($i=4;$i<7;$i++){
+                    $month = strtotime(date("Y-m-d",strtotime("+$i months",$start_time)-86400)." 10:00");
+                    $st = strtotime("+$i months",$start_time-86400);
+                    if($st>=$month_start){                        
+                        $task->t_teacher_money_list->row_insert([
+                            "teacherid" =>$val["teacherid"],
+                            "type"      =>101,
+                            "add_time"  =>$month,
+                            "money"     => "-".$val["withhold_money"],
+                            "money_info"=> date("Y-m-d",$month)." 等级不达标扣款"
+                        ]);
                     }
-                    $task->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
-                        "withhold_wx_flag"     => 1,
-                    ]);
                 }
+                $task->t_teacher_advance_list->field_update_list_2($start_time,$val["teacherid"],[
+                    "withhold_wx_flag"     => 1,
+                ]);
+            }
 
                    
-            }
+                // }
  
         }
        

@@ -7882,8 +7882,8 @@ class ss_deal extends Controller
                 $followImgUrlOnline = $domain."/".$item;
                 list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
 
-                if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
-                if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!');
+                if($followType != 3 && $followType !=0){return $this->output_err('关注页 [图片格式] 不符合,请重新上传!');}
+                if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页 [图片尺寸] 不符合,请重新上传!');
                 }
             }
         }
