@@ -11,6 +11,80 @@ $(function(){
     }
 	  $('#id_all_flag').val(g_args.all_flag);
 	  $('.opt-change').set_input_change_event(load_data);
+        $("#id_select_all").on("click",function(){
+        $(".opt-select-item").iCheck("check");
+    });
+
+    $("#id_select_other").on("click",function(){
+        $(".opt-select-item").each(function(){
+            var $item=$(this);
+            if ($item.iCheckValue() ) {
+                $item.iCheck("uncheck");
+            }else{
+                $item.iCheck("check");
+            }
+        } );
+    });
+
+    $("#id_cancel_lesson").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var select_lessonid_list=[];
+
+        var status_num=0;
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            if($item.iCheckValue()) {
+                select_lessonid_list.push( $item.data("lessonid") ) ;
+                var status =  $item.data("lesson_status");
+                if(status>0){
+                    status_num = parseInt(status_num)+parseInt(1);
+                }
+
+            }
+        } ) ;
+        
+        console.log(select_lessonid_list);
+        if(select_lessonid_list.length==0){
+            BootstrapDialog.alert("请选择课程!");
+            return;
+        }
+        if(status_num>0){
+            BootstrapDialog.alert("含有已结课的课程，请重新选择!");
+            return; 
+        }
+        BootstrapDialog.show({
+            title    : '删除',
+            message  : "是否删除所选课程？" ,
+            closable : false,
+            buttons  : [{
+                label: '返回',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }, {
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    dialog.close();
+                    $.do_ajax("/ajax_deal3/cancel_lesson_list",{
+                        'lessonid_list' : JSON.stringify(select_lessonid_list ),
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+                }
+            }]
+        });
+
+
+
+    });
+
+
+
 
     $(".cancel_lesson").on("click",function(){
         var data            = $(this).get_opt_data();
