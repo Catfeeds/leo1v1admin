@@ -652,7 +652,9 @@ class common_new extends Controller
         if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
             $call_flag = $this->get_in_int_val('call_flag');
             $obj_start_time = time(NULL);
-            $cdr_bridged_cno = 2000;
+            $adminid = $this->get_account_id();
+            //获取用户tquin
+            $cdr_bridged_cno = $this->t_manager_info->get_tquin($adminid);
             $cdr_customer_number = $this->get_in_str_val('phone');
             $cdr_answer_time = time(NULL);
             if($call_flag == 1){
