@@ -243,8 +243,8 @@ class seller_student_system_assign extends cmd_base
                         $round_seller_level_map[$seller_level_flag][$opt_adminid]= $opt_adminid;
                     }
                 }
-                \App\Helper\Utils::logger("check_error1:$i-round_seller_level_map".json_encode($round_seller_level_map)); 
-                \App\Helper\Utils::logger("check_error1:$i-seller_student_level_map".json_encode($seller_student_level_map)); 
+                \App\Helper\Utils::logger("check_error1:$i-round_seller_level_map".json_encode($round_seller_level_map));
+                \App\Helper\Utils::logger("check_error1:$i-seller_student_level_map".json_encode($seller_student_level_map));
 
                 if (count($round_seller_level_map) >0 ) {
                     $this->round_set_adminid( $round_seller_level_map, $seller_student_level_map);
@@ -263,7 +263,7 @@ class seller_student_system_assign extends cmd_base
     //@param:$userid 找到的用户id
     //@param:$account 找到的销售id
     public function do_assign($account ,$userid, $adminid ) {
-        \App\Helper\Utils::logger("第一轮分配：userid:$userid adminid:$adminid"); 
+        \App\Helper\Utils::logger("第一轮分配：userid:$userid adminid:$adminid");
         $userid_list=[$userid];
         $opt_type ="" ;
         $opt_type=0;
@@ -302,15 +302,15 @@ class seller_student_system_assign extends cmd_base
                 if(@$seller_student_level_map[ $find_origin_level]){
                     $find_userid= @array_shift($seller_student_level_map[ $find_origin_level] );
                     if ($find_userid) {
-                        \App\Helper\Utils::logger("check-for".$y++.'-userid:'.$userid);
+                        \App\Helper\Utils::logger("check-for".$y++.'-userid:'.$find_userid);
                         $this->do_assign($account, $find_userid, $adminid);
                         unset ( $seller_level_admin_map[$adminid]  );
                     }
                 }
             }
         }
-        \App\Helper\Utils::logger("check_error2:-seller_level_admin_map".json_encode($seller_level_admin_map)); 
-        \App\Helper\Utils::logger("check_error2:-seller_student_level_map".json_encode($seller_student_level_map)); 
+        \App\Helper\Utils::logger("check_error2:-seller_level_admin_map".json_encode($seller_level_admin_map));
+        \App\Helper\Utils::logger("check_error2:-seller_student_level_map".json_encode($seller_student_level_map));
     }
     //@desn:选择对应的cc
     //@param:$userid 用户id
