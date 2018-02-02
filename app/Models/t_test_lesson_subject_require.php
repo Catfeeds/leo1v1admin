@@ -3890,7 +3890,7 @@ ORDER BY require_time ASC";
         $where_arr = [
             ['l.lesson_type = %u',2],
             ['s.is_test_user = %u',0],
-            ['require_admin_type = 2' ],
+            'require_admin_type = 2' ,
 
         ];
         $this->where_arr_add_time_range($where_arr, 'tr.require_time', $start_time, $end_time);
