@@ -20,4 +20,31 @@ class t_resource_file_evalutation extends \App\Models\Zgen\z_t_resource_file_eva
     							,$where_arr);
     	return $this->main_get_value($sql);
     }
+
+    public function get_count($file_id){
+    	$where_arr = [
+    		[" file_id=%u",$file_id,-1],
+    	];
+    	$sql = $this->gen_sql_new(" select count(file_id) "
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+    	return $this->main_get_value($sql);
+
+    }
+
+    public function get_list($file_id){
+    	$where_arr = [
+    		[" file_id=%u",$file_id,-1],
+    	];
+    	$sql = $this->gen_sql_new(" select * "
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+    	return $this->main_get_list($sql);
+
+    }
+
 }

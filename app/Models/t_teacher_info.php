@@ -4729,7 +4729,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$lesson_arr
                                   ,$teacher_arr
         );
-        
         return $this->main_get_list($sql,function($item){
             return $item['teacherid']."_key";
         });

@@ -27,7 +27,8 @@ function load_data(){
         tag_three     :	$('#id_tag_three').val(),
         tag_four      :	$('#id_tag_four').val(),
         tag_five      :	$('#id_tag_five').val(),
-        file_title    :	$('#id_file_title').val()
+        file_title    :	$('#id_file_title').val(),
+        has_comment   : $('#id_has_comment').val(),
     });
 }
 $(function(){
@@ -117,6 +118,8 @@ $(function(){
     }
 
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
+    Enum_map.append_option_list("boolean", $("#id_has_comment"));
+    $("#id_has_comment").val(g_args.has_comment);
     $('#id_use_type').val(g_args.use_type);
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
@@ -856,6 +859,147 @@ $(function(){
             }
         });
     })
+
+    //查看评价
+    $('.opt-comment').click(function(){
+        var file_id = $(this).data('file_id');
+        var comment = $('.comment').clone().removeClass('hide');
+        var time_obj = comment.find('.comment_other_time tr:eq(1)');
+        if(g_args.resource_type == 3){
+            comment.find('.comment_other').addClass('hide');
+            comment.find('.comment_test').removeClass('hide');
+            time_obj = comment.find('.comment_test_time tr:eq(1)');
+        }
+        do_ajax('/resource/get_comment',{'file_id':file_id},function(ret){
+            console.log(ret);
+            if(ret.ret == 0){
+                if( ret.status == 200 ){
+                    var dlg= BootstrapDialog.show({
+                        title: "讲义评价",
+                        message : comment,
+                        buttons: [{
+                            label: '返回',
+                            cssClass: 'btn-warning',
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    //质量总评
+                    comment.find('.comment_num').text(ret.comment_num);
+                    comment.find('.comment_quality_score').text(ret.quality_score_average);
+
+                    write_comment(comment.find('.comment_quality tr:eq(2)'),ret.quality_score_5,ret.quality_score_4,ret.quality_score_3,
+                                  ret.quality_score_2,ret.quality_score_1);
+
+                    write_comment(comment.find('.comment_quality tr:eq(3)'),ret.quality_score_rate_5,ret.quality_score_rate_4,
+                                  ret.quality_score_rate_3,ret.quality_score_rate_2,ret.quality_score_rate_1);
+
+                    //帮助指数
+                    comment.find('.comment_help_score').text(ret.help_score_average);
+
+                    write_comment(comment.find('.comment_help tr:eq(2)'),ret.help_score_5,ret.help_score_4,ret.help_score_3,
+                                  ret.help_score_2,ret.help_score_1);
+
+                    write_comment(comment.find('.comment_help tr:eq(3)'),ret.help_score_rate_5,ret.help_score_rate_4,
+                                  ret.help_score_rate_3,ret.help_score_rate_2,ret.help_score_rate_1);
+
+                    //全面指数
+                    comment.find('.comment_whole_score').text(ret.overall_score_average);
+
+                    write_comment(comment.find('.comment_whole tr:eq(2)'),ret.overall_score_5,ret.overall_score_4,ret.overall_score_3,
+                                  ret.overall_score_2,ret.overall_score_1);
+
+                    write_comment(comment.find('.comment_whole tr:eq(3)'),ret.overall_score_rate_5,ret.overall_score_rate_4,
+                                  ret.overall_score_rate_3,ret.overall_score_rate_2,ret.overall_score_rate_1);
+
+                    //详细指数
+                    comment.find('.comment_detail_score').text(ret.detail_score_average);
+
+                    write_comment(comment.find('.comment_detail tr:eq(2)'),ret.detail_score_5,ret.detail_score_4,ret.detail_score_3,
+                                  ret.detail_score_2,ret.detail_score_1);
+
+                    write_comment(comment.find('.comment_detail tr:eq(3)'),ret.detail_score_rate_5,ret.detail_score_rate_4,
+                                  ret.detail_score_rate_3,ret.detail_score_rate_2,ret.detail_score_rate_1);
+
+                    //文字大小
+                    write_comment(comment.find('.comment_font tr:eq(1)'),ret.size_score_1,ret.size_score_2,ret.size_score_3);
+
+                    write_comment(comment.find('.comment_font tr:eq(2)'),ret.size_score_rate_1,ret.size_score_rate_2,ret.size_score_rate_3);
+
+                    //间距大小 
+                    write_comment(comment.find('.comment_gap tr:eq(1)'),ret.gap_score_1,ret.gap_score_2,ret.gap_score_3);
+
+                    write_comment(comment.find('.comment_gap tr:eq(2)'),ret.gap_score_rate_1,ret.gap_score_rate_2,ret.gap_score_rate_3);
+        
+                    //背景图案
+                    write_comment(comment.find('.comment_bg tr:eq(1)'),ret.bg_score_1,ret.bg_score_2,ret.bg_score_3);
+
+                    write_comment(comment.find('.comment_bg tr:eq(2)'),ret.bg_score_rate_1,ret.bg_score_rate_2,ret.bg_score_rate_3);
+
+                    //讲义类型
+                    write_comment(comment.find('.comment_type tr:eq(1)'),ret.type_score_1,ret.type_score_2,ret.type_score_3);
+
+                    write_comment(comment.find('.comment_type tr:eq(2)'),ret.type_score_rate_1,ret.type_score_rate_2,ret.type_score_rate_3);
+
+                    //答案程度
+                    write_comment(comment.find('.comment_answer tr:eq(1)'),ret.answer_score_1,ret.answer_score_2,ret.answer_score_3);
+
+                    write_comment(comment.find('.comment_answer tr:eq(2)'),ret.answer_score_rate_1,ret.answer_score_rate_2,ret.answer_score_rate_3);
+
+                    //适宜学生
+                    write_comment(comment.find('.comment_student tr:eq(1)'),ret.suit_score_1,ret.suit_score_2,ret.suit_score_3);
+
+                    write_comment(comment.find('.comment_student tr:eq(2)'),ret.suit_score_rate_1,ret.suit_score_rate_2,ret.suit_score_rate_3);
+
+                    //时间
+                    write_time(time_obj,ret.time_1,ret.time_2,ret.time_3,ret.time_4,ret.time_5,ret.time_6,ret.time_7,ret.time_8,ret.time_9,
+                               ret.time_10,ret.time_11);
+
+                    write_time(time_obj.next(),ret.time_rate_1,ret.time_rate_2,ret.time_rate_3,ret.time_rate_4,ret.time_rate_5,ret.time_rate_6,
+                              ret.time_rate_7,ret.time_rate_8,ret.time_rate_9,ret.time_rate_10);
+
+                    dlg.getModalDialog().css("width", "900px");
+
+                }else{
+                    BootstrapDialog.alert("暂无评价");
+                }
+
+            } else {
+                BootstrapDialog.alert("网络出错");
+            }
+        });
+
+    })
+
+    var write_comment = function($obj,val_1,val_2,val_3,val_4 = 0,val_5 = 0){
+        if($obj.find('td').length >= 3){
+            $obj.find('td:eq(0)').text(val_1);
+            $obj.find('td:eq(1)').text(val_2);
+            $obj.find('td:eq(2)').text(val_3);
+        }
+        if($obj.find('td').length == 5){
+            $obj.find('td:eq(3)').text(val_4);
+            $obj.find('td:eq(4)').text(val_5);
+        }
+    }
+
+    var write_time = function($obj,val_1,val_2,val_3,val_4,val_5,val_6,val_7,val_8 = 0,val_9 = 0,val_10 = 0){
+        if($obj.find('td').length >= 7){
+            $obj.find('td:eq(0)').text(val_1);
+            $obj.find('td:eq(1)').text(val_2);
+            $obj.find('td:eq(2)').text(val_3);
+            $obj.find('td:eq(3)').text(val_4);
+            $obj.find('td:eq(4)').text(val_5);
+            $obj.find('td:eq(5)').text(val_6);
+            $obj.find('td:eq(6)').text(val_7);
+        }
+        if($obj.find('td').length == 10){
+            $obj.find('td:eq(7)').text(val_8);
+            $obj.find('td:eq(8)').text(val_9);
+            $obj.find('td:eq(9)').text(val_10);
+        }
+    }
 
     var opt_look = function(data_obj){
         var id = data_obj.data('file_id');

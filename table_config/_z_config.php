@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_seller_student_do_tag_log","id"],
     ["db_weiyi_admin","t_seller_student_system_release_log","id"],
     ["db_weiyi_admin","t_company_wx_approval_notify","d_id"],
     ["db_weiyi_admin","t_company_wx_approval_data","id"],
