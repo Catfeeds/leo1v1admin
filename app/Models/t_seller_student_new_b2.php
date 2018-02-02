@@ -115,6 +115,7 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             . "  where  %s order by origin_level asc limit $limit_count ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
