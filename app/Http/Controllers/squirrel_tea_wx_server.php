@@ -54,7 +54,6 @@ class  squirrel_tea_wx_server extends Controller
 
 
         $ret =  \Squirrel_tea\Core\Menu::setMenu($menuList);
-        dd($ret);
         $result =  \Squirrel_tea\Core\Menu::getMenu($menuList);
         dd($result);
     }
