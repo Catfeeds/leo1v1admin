@@ -35,14 +35,12 @@
     <section class="content">
 
         <div>
-            <!-- <div class="row  row-query-list" >
-                 <div class="col-xs-12 col-md-5"  data-title="时间段">
-                 <div  id="id_date_range" >
-                 </div>
-                 </div>
-                 </div> -->
+            
             <div class="row">
                 <!-- <div class="row row-query-list"> -->
+                <div class="col-xs-12 col-md-4" data-title="时间段">
+                    <div id="id_date_range"> </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">分类</span>
@@ -106,25 +104,22 @@
                         <select class="form-control opt-change" id="id_tag_five"> </select>
                     </div>
                 </div>
-
-            </div>
-            <div class="row">
-                <div class="col-xs-2 col-md-1 ">
-                    <button class="btn btn-warning opt-add">上传</button>
-                </div>
-                <div class="col-xs-2 col-md-1 ">
-                    <button class="btn btn-warning opt-del">删除</button>
-                </div>
-                <div class="col-xs-2 col-md-2 ">
-                    <button class="btn btn-primary opt-sub-tag">添加学科化标签</button>
-                </div>
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <input class="opt-change form-control" id="id_file_title" placeholder="输入文件名称搜索" />
+                        <span class="input-group-addon">一级错误</span>
+                        <select class="form-control opt-change" id="id_error_type"> 
+                            <option value="-1">未设置</option>
+                        </select>
                     </div>
                 </div>
-
+                 <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">二级错误</span>
+                        <select class="form-control opt-change" id="id_sub_error_type"> 
+                            <option value="-1">未设置</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
         <hr/>
@@ -136,36 +131,15 @@
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
                     <td>文件名</td>
-                    <td>修改日期</td>
-                    <td>操作人</td>
-                    <td>文件格式</td>
-                    <td>文件信息</td>
-                    <td>文件大小</td>
-                    <td>科目</td>
-                    <td>年级</td>
-                    @if($resource_type <= 6)
-                        <td>教材</td>
-                    @endif
+                    <td>报错详情</td>
+                    <td>错误类型</td>
+                    <td>报错内容</td>
 
-                    @if( in_array($resource_type,[1,2,9]))
-                        <td>春暑秋寒</td>
-                    @endif
+                    <td>讲义详情</td>
 
-                    @if( $resource_type == 1 || $resource_type == 3 )
-                        <td>学科化标签</td>
-                        <td>难度类型</td>
-                    @endif
-
-                    @if($resource_type < 7 && $resource_type > 3)
-                        <td>上下册</td>
-                    @endif
-
-                    @if($resource_type == 6)
-                        <td>年份</td>
-                        <td>省份</td>
-                        <td>城市</td>
-                    @endif
-
+                    <td>上传详情</td>
+                    <td>状态</td>
+                
                     <td>操作</td>
                 </tr>
             </thead>
@@ -176,40 +150,55 @@
                             <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
                         <td>{{@$var["file_title"]}} </td>
-                        <td>{{@$var["create_time"]}} </td>
-                        <td>{{@$var["nick"]}} </td>
-                        <td>{{@$var["file_type"]}} </td>
-                        <td>{{@$var["file_use_type_str"]}} </td>
-                        <td>{{@$var["file_size_str"]}} </td>
-                        <td>{{@$var["subject_str"]}} </td>
-                        <td>{{@$var["grade_str"]}} </td>
-                        @if( $resource_type <= 6)
-                            <td>{{@$var["tag_one_str"]}} </td>
+                        <td>报错人:{{@$var['error_nick']}} <br/>
+                            报错时间:{{@$var['add_time']}}
+                        </td>
+                        @if( @$var['etype'] == 9)
+
+                        @else
+                        <td>一级:{{@$var['error_type_str']}}<br/>
+                            二级:{{@$var['sub_error_type_str']}}
+                        </td>
                         @endif
 
-                        @if( in_array($resource_type,[1,2,9]))
-                            <td>{{@$var["tag_two_str"]}}</td>
+                        @if( @$var['etype'] == 9)
+
+                        @else
+                        <td>
+                            {{@$var['detail_error']}}<br/>
+
+
+
+                        </td>
                         @endif
 
-                        @if( $resource_type == 1 || $resource_type == 3)
-                            <td>{{@$var["tag_four_str"]}} </td>
-                            @if( $resource_type == 1)
-                                <td>{{@$var["tag_five_str"]}} </td>
-                            @else
-                                <td>{{@$var["tag_three_str"]}} </td>
+                        <td>资源类型:{{@$var['resource_type_str']}}<br/>
+                            科目:{{@$var['subject_str']}}<br/>
+                            年级:{{@$var['grade_str']}}<br/>
+                            @if ($var['tag_one_name'] != '')
+                            {{ @$var['tag_one_name']}}:{{@$var['tag_one_str']}}<br/>
                             @endif
-                        @endif
 
-                        @if($resource_type < 7 && $resource_type > 3)
-                            <td>{{@$var["tag_five_str"]}}</td>
-                        @endif
+                            @if ($var['tag_two_name'] != '')
+                            {{@$var['tag_two_name']}}:{{@$var['tag_two_str']}}<br/>
+                            @endif
+                            @if ($var['tag_three_name'] != '')
+                            {{@$var['tag_three_name']}}:{{@$var['tag_three_str']}}<br/>
+                            @endif
+                            @if ($var['tag_four_name'] != '')
+                            {{@$var['tag_four_name']}}:{{@$var['tag_four_str']}}<br/>
+                            @endif
+                            @if ($var['tag_five_name'] != '')
+                            {{@$var['tag_five_name']}}:{{@$var['tag_five_str']}}<br/>
+                            @endif
+                        </td>
 
-                        @if($resource_type == 6)
-                            <td>{{@$var["tag_two"]}}</td>
-                            <td class="province">{{@$var["tag_three"]}}</td>
-                            <td class="city">{{@$var["tag_four"]}}</td>
-                        @endif
+                        <td>上传者:{{@$var['nick']}}<br/>
+                            上传时间:{{@$var['c_time']}}<br/>
 
+                        </td>
+
+                        <td></td>
                         <td>
                             <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
 

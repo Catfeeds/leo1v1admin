@@ -1,9 +1,9 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/resource-get_all.d.ts" />
+/// <reference path="../g_args.d.ts/resource_new-get_error.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    var res_type = 0;
+	if ( window["g_load_data_flag"]) {return;}
+	var res_type = 0;
     if($('#id_use_type').val() == 1){
         if( $('#id_resource_type').val() >7) {
             res_type = 1;
@@ -15,23 +15,38 @@ function load_data(){
     } else {
         res_type = 8;
     }
-
-
-    $.reload_self_page ( {
-        use_type     :	$('#id_use_type').val(),
-        resource_type :	res_type,
-        subject       :	$('#id_subject').val(),
-        grade         :	$('#id_grade').val(),
-        tag_one       :	$('#id_tag_one').val(),
-        tag_two       :	$('#id_tag_two').val(),
-        tag_three     :	$('#id_tag_three').val(),
-        tag_four      :	$('#id_tag_four').val(),
-        tag_five      :	$('#id_tag_five').val(),
-        file_title    :	$('#id_file_title').val()
-    });
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		use_type:	$('#id_use_type').val(),
+		resource_type:	$('#id_resource_type').val(),
+		subject:	$('#id_subject').val(),
+		grade:	$('#id_grade').val(),
+		tag_one:	$('#id_tag_one').val(),
+		tag_two:	$('#id_tag_two').val(),
+		tag_three:	$('#id_tag_three').val(),
+		tag_four:	$('#id_tag_four').val(),
+		tag_five:	$('#id_tag_five').val(),
+		file_title:	$('#id_file_title').val(),
+		date_type_config:   $('#id_date_type_config').val(),
+        date_type:  $('#id_date_type').val(),
+        opt_date_type:  $('#id_opt_date_type').val(),
+        start_time: $('#id_start_time').val(),
+        end_time:   $('#id_end_time').val(),
+        error_type: $('#id_error_type').val(),
+		sub_error_type: $('#id_sub_error_type').val(),
+		});
 }
 $(function(){
-
+	 $('#id_date_range').select_date_range({
+        'date_type'     : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        onQuery :function() {
+            load_data();
+        }
+    });
     //获取学科化标签
     var get_sub_grade_tag = function(subject,grade,booid,resource_type,season_id,obj,opt_type){
         obj.empty();
@@ -115,9 +130,12 @@ $(function(){
         $(obj).empty();
         $(obj).append(pro);
     }
-
+    Enum_map.append_option_list("resource_error",$('#id_error_type'),true);
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
     $('#id_use_type').val(g_args.use_type);
+
+    
+
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
         $('#id_resource_type').val(g_args.resource_type);
@@ -231,7 +249,7 @@ $(function(){
     $('#id_tag_four').val(g_args.tag_four);
     $('#id_tag_five').val(g_args.tag_five);
     $('#id_file_title').val(g_args.file_title);
-
+    $('#id_error_type').val(g_args.error_type);
     $("#id_select_all").on("click",function(){
         $(".opt-select-item").iCheck("check");
     });
