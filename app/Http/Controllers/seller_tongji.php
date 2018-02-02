@@ -183,9 +183,9 @@ class seller_tongji extends Controller
                 $become_member_num_l2 = 0;
                 $leave_member_num_l2 = 0;
             }
-            if(($item['main_type_str'] == '助教') || $item['main_type_str'] == '未定义'){
-                unset($ret_info[$key]);
-            }
+            // if(($item['main_type_str'] == '助教') || $item['main_type_str'] == '未定义'){
+            //     unset($ret_info[$key]);
+            // }
             if(isset($item['target_money'])){
                 $item['target_money'] = round($item['target_money']);
             }
@@ -223,9 +223,9 @@ class seller_tongji extends Controller
             $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
         }
         foreach($ret_info as &$item){
-            if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
-                unset($item);
-            }else{
+            // if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
+            //     unset($item);
+            // }else{
                 if($item['level'] == 'l-3'){
                     foreach($member_new as $info){
                         if($item['up_group_name'] == $info['up_group_name']){
@@ -246,7 +246,7 @@ class seller_tongji extends Controller
                         $item['leave_member_num'] = '';
                     }
                 }
-            }
+            // }
         }
 
 

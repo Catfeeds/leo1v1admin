@@ -72,6 +72,11 @@ interface RowData {
 	tag_four_name	:any;
 	tag_five_name	:any;
 	file_size_str	:any;
+	picture_one	:any;
+	picture_two	:any;
+	picture_three	:any;
+	picture_four	:any;
+	picture_five	:any;
 	subject_str	:any;
 	grade_str	:any;
 	resource_type_str	:any;

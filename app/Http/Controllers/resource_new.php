@@ -139,6 +139,19 @@ class resource_new extends Controller
             $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             // dd($item);
             $item['file_size_str'] = $item['file_size'] > 1024 ? round( $item['file_size'] / 1024,2)."M" : $item['file_size']."kb";
+            $item['picture_one'] = '';
+            $item['picture_two'] = '';
+            $item['picture_three'] = '';
+            $item['picture_four'] = '';
+            $item['picture_five'] = '';
+            if($item['error_picture'] != ''){
+                $arr =json_decode($item['error_picture']);
+                $item['picture_one'] = @$arr[0];
+                $item['picture_two'] = @$arr[1];
+                $item['picture_three'] = @$arr[2];
+                $item['picture_four'] = @$arr[3];
+                $item['picture_five'] = @$arr[4];
+            }
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",
@@ -166,7 +179,9 @@ class resource_new extends Controller
             }
          
         }
-        //dd($ret_info['list']);
+
+        //返回二级错误选项
+        $sub_error_arr = $this->get_sub_error($error_type);
 
         //获取所有开放的教材版本
         //$book = $this->t_resource_agree_info->get_all_resource_type();
@@ -182,18 +197,55 @@ class resource_new extends Controller
 
         $sub_grade_info = $this->get_rule_range();
         $is_teacher = 0;
-
+        //dd($ret_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180131161439,
+            '_publish_version'    => 20180203161439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
             'book'          => json_encode($book_arr),
             'resource_type' => $resource_type,
             'is_teacher'   => $is_teacher,
+            'sub_error_arr' => $sub_error_arr,
         ]);
     } 
 
+    private function get_sub_error($error_type){
+        $err_sub = ['-1'=>'请先选择一级错误'];
+        if( $error_type >=0 ){
+            switch($error_type){
+            case 0:
+                $err_sub = E\Eresource_knowledge::$desc_map;
+                break;
+            case 1:
+                $err_sub = E\Eresource_question_answer::$desc_map;;
+                break;
+            case 2:
+                $err_sub = E\Eresource_code_error::$desc_map;
+                break;
+            case 3:
+                $err_sub = E\Eresource_content::$desc_map;
+                break;
+            case 4:
+                $err_sub = E\Eresource_whole::$desc_map;
+                break;
+            case 5:
+                $err_sub = E\Eresource_picture::$desc_map;
+                break;
+            case 6:
+                $err_sub = E\Eresource_font::$desc_map;
+                break;
+            case 7:
+                $err_sub = E\Eresource_difficult::$desc_map;
+                break;
 
+            default:
+                break;
+            }
+ 
+        }
+
+        return $err_sub;
+    }
 
 }
