@@ -5019,7 +5019,21 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__, $ret_info);
     }
 
-   
+    public function update_tea_realname(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $nick      = $this->get_in_str_val("nick");
+        $realname  = $this->get_in_str_val("realname");
+
+        if($nick=="" || $realname==""){
+            return $this->output_err("姓名不能为空!");
+        }
+
+        $ret = $this->t_teacher_info->field_update_list($teacherid, [
+            "nick"     => $nick,
+            "realname" => $realname,
+        ]);
+        return $this->output_ret($ret);
+    }
 
 
 }
