@@ -447,13 +447,15 @@ class agent extends Controller
         if($userid>0){
             $detail_id = $this->t_seller_new_count_get_detail->get_item_rwo_by_userid($userid);
             if($detail_id>0){
-                $id_list[] = $id_new;
+                $id_list[] = $detail_id;
             }
         }
         foreach($id_list as $id){
             if($id>0){
                 $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
-                echo $id.'=>'.$ret;
+                if($ret>0){
+                    echo $id.'=>'.$ret;
+                }
             }
         }
 
