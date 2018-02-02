@@ -1383,11 +1383,11 @@ $(function(){
         var id_realname = $("<input>");
         var arr = [
             ["昵称",id_nick],
-            ["真实姓名",id_realname],
+            ["姓名",id_realname],
         ];
         id_nick.val(opt_data.nick);
         id_realname.val(opt_data.realname);
-        $.show_key_value_table("修改老师姓名",arr,{
+        $.show_key_value_table("修改昵称/姓名",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
