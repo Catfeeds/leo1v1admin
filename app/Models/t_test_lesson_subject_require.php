@@ -1006,7 +1006,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     public function tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
         $where_arr=[
-            "require_admin_type=2",
             "is_test_user=0",
             "tss.success_flag < 2",
             "l.del_flag = 0",
@@ -3888,7 +3887,6 @@ ORDER BY require_time ASC";
     //@param:$end_time 结束时间
     public function get_test_lesson_data($start_time,$end_time){
         $where_arr = [
-            ['t.require_admin_type = %u',2],
             ['l.lesson_type = %u',2],
             ['s.is_test_user = %u',0],
 
