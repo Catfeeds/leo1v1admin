@@ -17,6 +17,7 @@ use LaneWeChat\Core\UserManage;
 use LaneWeChat\Core\TemplateMessage;
 
 use LaneWeChat\Core\ResponsePassive;
+use LaneWeChat\Core\Media;
 
 class WechatRequest extends \LaneWeChat\Core\WechatRequest {
     /**
@@ -181,6 +182,11 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
         }elseif($request['content'] == 'BBC'){
             $content = "家长，您好！点击下方链接，输入密码，即可领取《英国BBC最强纪录片全10部》哦！
 链接：https://pan.baidu.com/s/1sm1x2Mh 密码：e4jg";
+        }elseif($request['content'] == '春节'){
+            $filename = "";
+            $type = 'image';
+            $mediaId = Media::upload($filename, $type);
+            return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
         }
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
