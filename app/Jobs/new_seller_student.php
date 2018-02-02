@@ -63,19 +63,18 @@ class new_seller_student extends Job implements ShouldQueue
             $origin_level = 0;
         if(!in_array(@$this->origin, $special_origin) && !in_array($origin_level, $special_origin_level)){
             $is_public = 0;//该用户从未注册
-            /*//判断该用户是否重复且在公海中
-            $data_item = $t_seller_student_new->field_get_list($this->userid,"admin_revisiterid,seller_resource_type" );
+
+            $data_item  = $t_seller_student_new->field_get_list($this->userid,"admin_revisiterid,seller_resource_type" );
             if ($data_item) {
                 $admin_revisiterid    = $data_item["admin_revisiterid"];
                 $seller_resource_type = $data_item["seller_resource_type"];
-            }
-            $add_flag=$t_seller_student_origin->check_and_add($this->userid,$this->origin,$this->subject);
-            if(!$add_flag) { //用户渠道增加失败[已注册]
-                if($seller_resource_type==1 && $admin_revisiterid==0  ) //在公海里
-                    $is_public = 1;//用户注册过但是在公海里
+                if($seller_resource_type==1 && $admin_revisiterid==0)
+                    $is_public = 1; //用户已注册且在公海里
                 else
-                    $is_public = 2;//用户注册过但是不在公海里
-            }*/ //判断学员是否在读
+                    $is_public = 2;//用户已注册但是不在公海里
+            }
+
+            //判断学员是否在读
             $is_reading = $t_student_info->field_get_value($this->userid, 'type');
             if($is_reading == 1)
                 $is_public = 3;//用户是在读学员
