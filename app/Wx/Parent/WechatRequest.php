@@ -185,9 +185,9 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
         }elseif($request['content'] == '春节'){
             $filename = "/home/ybai/market_2.jpg";
             $type = 'image';
-            // $mediaId = 'DS3UbUbfKf1ODWzP1mYC7UM3B3RLGr0Sskd9KQHsjPfyMaEu7G01WbDWXaTjYJUi';
-            $mediaId_arr = Media::upload($filename, $type);
-            $mediaId = $mediaId_arr['media_id'];
+            $mediaId = 'UtL9eUHDdCx-azBRYpZtHOVQBIFRm-D12y3pY9ECgL2KGc7zAo2hmZYqs8ClbbSF';
+            // $mediaId_arr = Media::upload($filename, $type);
+            // $mediaId = $mediaId_arr['media_id'];
             // \App\Helper\Utils::logger("james:_jsdfh: ".json_encode($mediaId_arr));
 
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
