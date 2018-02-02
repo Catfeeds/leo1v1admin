@@ -643,9 +643,9 @@ class teacher_info extends Controller
         $use_ppt_stu = 0;
         $use_ppt     = 0;
         $tea_cw_url_arr = explode('.', $tea_cw_url);
-        if($tea_cw_url_arr[1] == 'ppt'){$use_ppt = 1;}
+        if($tea_cw_url_arr[1] == 'ppt' || $tea_cw_url_arr[1] == 'pptx'){$use_ppt = 1;}
         $stu_cw_url_arr = explode('.', $stu_cw_url);
-        if($stu_cw_url_arr[1] == 'ppt'){$use_ppt_stu = 1;}
+        if($stu_cw_url_arr[1] == 'ppt' || $stu_cw_url_arr[1] == 'pptx'){$use_ppt_stu = 1;}
 
 
         $this->t_lesson_info_b2->field_update_list($lessonid,[
@@ -2707,6 +2707,8 @@ class teacher_info extends Controller
         $err_question_answer = E\Eresource_question_answer::$desc_map;
         $err_whole = E\Eresource_whole::$desc_map;
         $err_content = E\Eresource_content::$desc_map;
+        $err_font = E\Eresource_font::$desc_map;
+        $err_difficult = E\Eresource_difficult::$desc_map;
 
         if($is_js != 0){
             // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
@@ -2724,6 +2726,9 @@ class teacher_info extends Controller
                 'err_content'  => $err_content,
                 'err_whole'  => $err_whole,
                 'err_pic'  => $err_pic,
+                'err_font'  => $err_font,
+                'err_difficult'  => $err_difficult,
+
 
             ]);
 
@@ -2747,6 +2752,9 @@ class teacher_info extends Controller
             'err_content'  => $err_content,
             'err_whole'  => $err_whole,
             'err_pic'  => $err_pic,
+            'err_font'  => $err_font,
+            'err_difficult'  => $err_difficult,
+
         ]);
     }
 

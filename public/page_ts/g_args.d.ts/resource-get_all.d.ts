@@ -53,12 +53,8 @@ interface RowData {
 	grade_str	:any;
 	resource_type_str	:any;
 	use_type_str	:any;
-<<<<<<< HEAD
-=======
-	tag_two_str	:any;
-	tag_three_str	:any;
->>>>>>> 2c2500514300633610a67e56e15bd8f74de03ce3
 	tag_one_str	:any;
+	tag_two_str	:any;
 	tag_five_str	:any;
 }
 

@@ -69,7 +69,7 @@ class tq extends Controller
             E\Eaccount_role::set_item_value_str($item,"admin_role");
             E\Eseller_student_status::set_item_value_str($item);
             $this->cache_set_item_account_nick($item);
-
+            $item['end_reason_str'] = ($item['end_reason']>0)?($item['end_reason']>1?'客户':'销售'):'';
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
         return $this->pageView(__METHOD__,$ret_info);

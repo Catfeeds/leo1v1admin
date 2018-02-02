@@ -262,7 +262,7 @@
             <div class="comment_radio comment_font fl">
                 <label><input type ="radio" name = "con_font" value ="1">文字太大</label>
                 <label><input type ="radio" name = "con_font" value ="2">文字太小</label>
-                <label><input type ="radio" name = "con_font" value ="3" checked>文字大小适中</label>
+                <label><input type ="radio" name = "con_font" value ="3">文字大小适中</label>
             </div>
             <div class="clall"></div>
         </div>
@@ -272,7 +272,7 @@
             <div class="comment_radio comment_spacing fl">
                 <label><input type ="radio" name = "con_spacing" value ="1">间距太大</label>
                 <label><input type ="radio" name = "con_spacing" value ="2">间距太小</label>
-                <label><input type ="radio" name = "con_spacing" value ="3" checked>间距适中</label>
+                <label><input type ="radio" name = "con_spacing" value ="3">间距适中</label>
             </div>
             <div class="clall"></div>
         </div>
@@ -282,7 +282,7 @@
             <div class="comment_radio comment_img fl">
                 <label><input type ="radio" name = "con_img" value ="1">背景太单调</label>
                 <label><input type ="radio" name = "con_img" value ="2">背景太浮夸</label>
-                <label><input type ="radio" name = "con_img" value ="3" checked>背景风格适中</label>
+                <label><input type ="radio" name = "con_img" value ="3">背景风格适中</label>
             </div>
             <div class="clall"></div>
         </div>
@@ -292,7 +292,7 @@
             <div class="comment_radio comment_type fl">
                 <label><input type ="radio" name = "con_type" value ="1">纯知识梳理</label>
                 <label><input type ="radio" name = "con_type" value ="2">纯题目练习</label>
-                <label><input type ="radio" name = "con_type" value ="3" checked>讲解与练习相结合</label>
+                <label><input type ="radio" name = "con_type" value ="3">讲解与练习相结合</label>
             </div>
             <div class="clall"></div>
         </div>
@@ -302,7 +302,7 @@
             <div class="comment_radio comment_answer fl">
                 <label><input type ="radio" name = "con_answer" value ="1">答案有解题过程</label>
                 <label><input type ="radio" name = "con_answer" value ="2">答案无解题过程</label>
-                <label><input type ="radio" name = "con_answer" value ="3" checked>答案有多个解题方法</label>
+                <label><input type ="radio" name = "con_answer" value ="3">答案有多个解题方法</label>
             </div>
             <div class="clall"></div>
         </div>
@@ -311,7 +311,7 @@
             <span class="comment_title fl">适宜学生：</span>
             <div class="comment_radio comment_type fl">
                 <label><input type ="radio" name = "con_stu" value ="1">基础，难度较低</label>
-                <label><input type ="radio" name = "con_stu" value ="2" checked>中等，难度适中</label>
+                <label><input type ="radio" name = "con_stu" value ="2">中等，难度适中</label>
                 <label><input type ="radio" name = "con_stu" value ="3">提优，难度较高</label>
             </div>
             <div class="clall"></div>
@@ -321,7 +321,7 @@
             <span class="comment_title fl">试听课时长：</span>
             <div class="comment_radio comment_type fl">
                 <label><input type ="radio" name = "con_test_time" value ="30分钟">30分钟</label>
-                <label><input type ="radio" name = "con_test_time" value ="40分钟" checked>40分钟</label>
+                <label><input type ="radio" name = "con_test_time" value ="40分钟">40分钟</label>
                 <label><input type ="radio" name = "con_test_time" value ="50分钟">50分钟</label>
                 <label><input type ="radio" name = "con_test_time" value ="60分钟">60分钟</label>
                 <label><input type ="radio" name = "con_test_time" value ="70分钟">70分钟</label>
@@ -335,7 +335,7 @@
             <span class="comment_title fl">精品课时长：</span>
             <div class="comment_radio comment_type fl">
                 <label><input type ="radio" name = "con_time" value ="90分钟">90分钟</label>
-                <label><input type ="radio" name = "con_time" value ="100分钟" checked>100分钟</label>
+                <label><input type ="radio" name = "con_time" value ="100分钟">100分钟</label>
                 <label><input type ="radio" name = "con_time" value ="110分钟">110分钟</label>
                 <label><input type ="radio" name = "con_time" value ="120分钟">120分钟</label>
                 <label><input type ="radio" name = "con_time" value ="130分钟">130分钟</label>
@@ -355,15 +355,14 @@
         <h4>错误类型：</h4>
         <div class="error_type">
             <select class="error_type_01" onchange='get_err_sec(this.options[this.options.selectedIndex].value)'>
+                <option value="-1">选择一级错误</option>
                 @foreach($err_type as $k => $type)
                     <option value="{{$k}}">{{$type}}</option>
                 @endforeach
             </select>
             <select class="error_type_02">
-                @foreach($err_knowledge as $k => $type)
-                    <option value="{{$k}}">{{$type}}</option>
-                @endforeach
-
+                <option value="-1">选择二级错误</option>
+                <option value="-2">请先选择一级错误</option>
             </select>
 
             
@@ -423,6 +422,11 @@
         </div>
     </div>
 
+    <select class="err_choose hide">
+        <option value="-1">请选择二级错误</option>
+        <option value="-2">请先选择一级错误</option>
+    </select>
+
     <select class="err_knowledge hide">
         @foreach($err_knowledge as $k => $type)
             <option value="{{$k}}">{{$type}}</option>
@@ -455,6 +459,18 @@
 
     <select class="err_pic hide">
         @foreach($err_pic as $k => $type)
+            <option value="{{$k}}">{{$type}}</option>
+        @endforeach
+    </select>
+
+    <select class="err_font hide">
+        @foreach($err_font as $k => $type)
+            <option value="{{$k}}">{{$type}}</option>
+        @endforeach
+    </select>
+
+    <select class="err_difficult hide">
+        @foreach($err_difficult as $k => $type)
             <option value="{{$k}}">{{$type}}</option>
         @endforeach
     </select>
