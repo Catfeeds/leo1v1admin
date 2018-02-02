@@ -8387,7 +8387,7 @@ class tongji_ss extends Controller
             foreach ($test_lesson_data as  $test_item ) {
                 $channel_name=$test_item["check_value"];
                 if ($channel_name===null) {
-                    $channel_name=="NULL";
+                    $channel_name="NULL";
                 }
 
                 \App\Helper\Utils::logger("KKK:[$channel_name]");
