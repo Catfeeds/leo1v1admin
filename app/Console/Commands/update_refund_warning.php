@@ -56,6 +56,7 @@ class update_refund_warning extends Command
             $userid = $item["userid"];
             // 换老师次数 $tea["count"]
             $tea = $task->t_student_info->get_teacher_count($userid);
+            if (!isset($tea["teacherid"])) continue;
             //var_dump($tea);
             // 新老师上课次数
             $count = $task->t_lesson_info_b3->get_teacher_lesson_count($tea["teacherid"]);
