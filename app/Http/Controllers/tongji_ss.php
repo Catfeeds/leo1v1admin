@@ -8384,6 +8384,7 @@ class tongji_ss extends Controller
             $data_map=&$ret_info["list"];
             //试听信息
             $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
+            dd($test_lesson_data);
             foreach ($test_lesson_data as  $test_item ) {
                 $channel_name=$test_item["check_value"];
                 \App\Helper\Utils::logger("KKK:[$channel_name]");
