@@ -37,21 +37,6 @@ class t_seller_level_month extends \App\Models\Zgen\z_t_seller_level_month
         return $this->main_get_list($sql);
     }
 
-    public function get_item_all_list(){
-        $where_arr = [];
-        $this->where_arr_add_int_field($where_arr, 'l.month_date', 1514736000);
-        $sql = $this->gen_sql_new(
-            " select l.id,l.adminid,l.seller_level,m.account,m.create_time "
-            ." from %s l "
-            ." left join %s m on m.uid=l.adminid "
-            ." where % s"
-            ,self::DB_TABLE_NAME
-            ,t_manager_info::DB_TABLE_NAME
-            ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_row_by_adminid_month_date($adminid=-1,$month_date=-1,$define_date=1509465600){
         $where_arr = [
             ['m.adminid=%u',$adminid,-1],
