@@ -1019,10 +1019,10 @@ class wx_parent_gift extends Controller
                     $data= [
                         "first"     => "活动群满员通知 活动ID:".$id,
                         "keyword1"  => "活动标题:".$imgUrlInfo['title'],
-                        "keyword2"  => "\n活动ID: ".$id." \n活动标题: ".$imgUrlInfo['title']."\n满员页面: 关注页".($index+1)."\n满员时间: ".date("Y年m月d日 H:i:s"),
-                        "keyword3"  => date("Y-m-d"),
+                        "keyword2"  => "\n活动ID: ".$id." \n活动标题: ".$imgUrlInfo['title']."\n满员页面: 关注页".($index+1),
+                        "keyword3"  => date("Y年m月d日 H:i:s "),
                     ];
-                    // \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                    \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
                     \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
                     $follow_str = $img_arr[0];
                     $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面

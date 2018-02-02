@@ -2707,6 +2707,8 @@ class teacher_info extends Controller
         $err_question_answer = E\Eresource_question_answer::$desc_map;
         $err_whole = E\Eresource_whole::$desc_map;
         $err_content = E\Eresource_content::$desc_map;
+        $err_font = E\Eresource_font::$desc_map;
+        $err_difficult = E\Eresource_difficult::$desc_map;
 
         if($is_js != 0){
             // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
@@ -2724,6 +2726,9 @@ class teacher_info extends Controller
                 'err_content'  => $err_content,
                 'err_whole'  => $err_whole,
                 'err_pic'  => $err_pic,
+                'err_font'  => $err_font,
+                'err_difficult'  => $err_difficult,
+
 
             ]);
 
@@ -2747,6 +2752,9 @@ class teacher_info extends Controller
             'err_content'  => $err_content,
             'err_whole'  => $err_whole,
             'err_pic'  => $err_pic,
+            'err_font'  => $err_font,
+            'err_difficult'  => $err_difficult,
+
         ]);
     }
 
