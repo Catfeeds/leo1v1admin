@@ -3398,8 +3398,29 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_teacher_count($userid, $subject) {
-        $sql = "select count(distinct teacherid) count from t_lesson_info where userid=$userid and subject = $subject and lesson_type in (0,1,3)";
-        return $this->main_get_value($sql);
+    public function get_teacher_count($userid, $subject=-1) {
+        $where_arr = [
+            ["userid=%u", $userid, -1],
+            ["subject=%u", $subject, -1],
+            "lesson_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("select teacherid,count(distinct teacherid) count from %s where %s order by lesson_start desc",
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        
+        return $this->main_get_row($sql);
+    }
+
+    public function get_type_stu() {
+        $sql = "select userid,type from t_student_info where is_test_user=0 and refund_warning_level != 3 and type in (2,3,4)";
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_stu() {
+        $sql = $this->gen_sql_new("select userid,type from %s where is_test_user=0 and refund_warning_level != 3",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
     }
 }

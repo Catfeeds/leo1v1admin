@@ -441,6 +441,13 @@ class agent extends Controller
     }
 
     public function test_new(){
+        // $ret = $this->t_admin_group_user->get_item_list_new();
+        // foreach($ret as $key=>$item){
+        //     $groupid = $item['groupid'];
+        //     $adminid = $item['adminid'];
+        //     $ret = $this->t_admin_group_user->del_item_row($groupid,$adminid);
+        //     echo $ret."\n";
+        // }
         dd('a');
     }
 

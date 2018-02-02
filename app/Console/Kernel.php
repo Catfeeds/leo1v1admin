@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\update_refund_warning::class,
         Commands\pptToH5ForStu::class,
         Commands\sendForMarketTmp::class,
         Commands\SendMsgToTeaSetFreeTime::class,

@@ -28,6 +28,7 @@ class seller_student_system_free extends cmd_base
      */
     public function do_handle()
     {
+        \App\Helper\Utils::logger("begin");
         //14:30  发现没拨打
         $check_time=strtotime(date("Y-m-d 14:30"));
         $today_start_time=strtotime(date("Y-m-d"));
@@ -118,6 +119,7 @@ class seller_student_system_free extends cmd_base
 
                 }
             }
+            \App\Helper\Utils::logger("end");
         }
 
     }

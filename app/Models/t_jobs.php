@@ -11,7 +11,7 @@ class t_jobs extends \App\Models\Zgen\z_jobs
         return $this->main_get_value($sql);
     }
 
-    public function get_list( $page_info, $order_by_str,  $query_text) {
+    public function get_list( $page_info, $query_text) {
         $where_arr=[];
 
         $where_arr[]=sprintf("payload like '%%%s%%'", $query_text);

@@ -2427,10 +2427,9 @@ class user_manage extends Controller
             $item['complaint_date']                 = \App\Helper\Utils::unixtime2date($item['add_time']);
             $item['current_admin_assign_time_date'] = \App\Helper\Utils::unixtime2date($item['current_admin_assign_time']);
             $item['deal_admin_nick'] = $this->t_manager_info->get_ass_master_nick($item['deal_adminid']);
-            \App\Helper\Utils::hide_item_phone($item,"phone");
-
 
             $this->get_nick_phone_by_account_type($item['account_type'],$item);
+            \App\Helper\Utils::hide_item_phone($item,"phone");
 
             $current_account_arr = $this->t_complaint_assign_info->get_last_accept_adminid($item['complaint_id']);
             $current_account_last = reset($current_account_arr);

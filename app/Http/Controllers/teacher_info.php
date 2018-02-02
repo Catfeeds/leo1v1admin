@@ -2728,8 +2728,6 @@ class teacher_info extends Controller
                 'err_pic'  => $err_pic,
                 'err_font'  => $err_font,
                 'err_difficult'  => $err_difficult,
-
-
             ]);
 
         }
@@ -2740,7 +2738,7 @@ class teacher_info extends Controller
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info'  => $tag_arr,
-            'tea_sub'   => json_encode( $tea_sub),
+            'tea_sub'   => json_encode($tea_sub),
             'tea_gra'   => json_encode($tea_gra),
             'book'      => json_encode($book_arr),
             'type_list' => json_encode($type_list),
@@ -3544,7 +3542,7 @@ class teacher_info extends Controller
         $error_type          = $this->get_in_int_val("error_type",-1);
         $sub_error_type      = $this->get_in_int_val("sub_error_type",-1);
         $detail_error        = $this->get_in_str_val("detail_error",'');
-        $error_url           = $this->get_in_str_val("error_url",'');
+        $error_picture       = $this->get_in_str_val("error_url",'');
         $teacherid           = $this->get_login_teacher();
 
         $this->t_resource_file_error_info->row_insert([
@@ -3558,7 +3556,7 @@ class teacher_info extends Controller
             "error_type"       => $error_type,
             "sub_error_type"   => $sub_error_type,
             "detail_error"     => $detail_error,
-            "error_url"        => $error_url,
+            "error_picture"    => $error_picture,
         ]);
         return $this->output_succ();
     }
