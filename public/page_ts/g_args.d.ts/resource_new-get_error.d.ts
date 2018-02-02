@@ -55,12 +55,13 @@ interface RowData {
 	error_type	:any;
 	sub_error_type	:any;
 	detail_error	:any;
-	error_url	:any;
+	error_picture	:any;
 	detail_question	:any;
 	train_error_type	:any;
 	phone	:any;
 	error_nick	:any;
 	etype	:any;
+	estatus	:any;
 	file_use_type_str	:any;
 	nick	:any;
 	error_type_str	:any;

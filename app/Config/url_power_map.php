@@ -35,6 +35,7 @@ class url_power_map {
 			'/admin_manage/xmpp_server_list'	=>1417100,
 			'/tea_manage_new/lesson_record_server_list'	=>1411300,
 			'/login_log/login_list'	=>1417200,
+			'/admin_manage/job_list'	=>1410200,
 			'/supervisor/monitor'	=>1012200,
 			'/user_manage/all_users'	=>1010100,
 			'/user_manage/index'	=>1010200,

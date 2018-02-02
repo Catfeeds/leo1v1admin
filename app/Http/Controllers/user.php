@@ -123,10 +123,7 @@ class user extends TeaWxController
         }
     }
 
-
-
     public function set_vacant_time(){ // 协议编号 :1010
-
         $teacherid = $this->get_teacherid();
         $time      = $this->get_in_str_val('time');
         $type      = $this->get_in_str_val('type');
@@ -198,7 +195,6 @@ class user extends TeaWxController
             }else {
                 return $this->output_err('老师空闲时间设置失败!');
             }
-
         }
     }
 
