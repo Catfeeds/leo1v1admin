@@ -89,7 +89,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.tag_four=%u', $tag_four, -1],
             ['r.tag_five=%u', $tag_five, -1],
             ['is_del=%u', $is_del, -1],
-            ['status=%u', $status, -1],
+            ['f.status=%u', $status, -1],
             'e.id>0',
             ['e.add_time>=%u',$start_time,-1],
             ['e.add_time<=%u',$end_time,-1],
@@ -110,8 +110,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
             ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
             ." t.tag as tag_four_str,v.create_time,v.visitor_id,r.create_time as c_time, "
-            ." e.teacherid, e.add_time, e.error_type, e.sub_error_type,e.detail_error,e.error_url, "
-            ." e.detail_question, e.train_error_type ,e.phone ,e.nick as error_nick,e.resource_type as etype "
+            ." e.teacherid, e.add_time, e.error_type, e.sub_error_type,e.detail_error,e.error_picture, "
+            ." e.detail_question, e.train_error_type ,e.phone ,e.nick as error_nick,e.resource_type as etype,e.status as estatus "
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
             ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "
