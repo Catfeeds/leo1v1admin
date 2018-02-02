@@ -1,5 +1,4 @@
-<?php
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
@@ -672,7 +671,9 @@ class common_new extends Controller
             if ($obj_start_time) {
                 $duration= $cdr_end_time-$obj_start_time;
             }
-
+            $sipCause = 0;
+            $client_number = '';
+            $endReason = 1;//销售挂断
         }else{
 
             //$cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
@@ -2013,6 +2014,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     //@desn:测试环境模拟拨打
     //@param:call_flag 拨打标识 1 模拟失败 2 模拟成功
     public function test_simulation_call(){
+        \App\Helper\Utils::logger("模拟拨打开始!"); 
         $call_flag = $this->get_in_int_val('call_flag',0);
         $phone = $this->get_in_int_val('phone','');
         $this->set_in_value('call_flag', $call_flag);
