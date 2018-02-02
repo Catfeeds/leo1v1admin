@@ -3568,10 +3568,13 @@ class teacher_info extends Controller
         $token = $this->get_in_str_val("token","");
         $pdf = $this->get_in_str_val("url","");
         $type = $this->get_in_int_val("type",1);
+        $url = '';
         if($type == 2){
             $url = "http://teacher-doc.leo1v1.com".$pdf.".pdf?e=".$e."&token=".$token;
         }else if($type == 3){
             $url = "http://ebtest.qiniudn.com".$pdf.".pdf?e=".$e."&token=".$token;
+        }else if($type == 4){
+            $url = "http://7tszue.com2.z0.glb.qiniucdn.com".$pdf.".pdf?e=".$e."&token=".$token;
         }
         
         //dd($url);
