@@ -621,6 +621,7 @@ $(function(){
                         var pdf_name = pdf.split(".");
                         pdf_name = pdf_name[0];
                         var type = 0;
+                        alert(ret.url);
                         if(ret.url.indexOf("ebtest.qiniudn.com")!=-1){
                             type = 3;
                         }
