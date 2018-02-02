@@ -441,9 +441,31 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $price = $this->t_order_info->get_seller_price($start_time_last=1514736000,$end_time_last=1517414400,$adminid=1072);
-        dd($price);
-        dd('a');
+        $id_list = [173837,173863,173866,173879,173878,173867];
+        $phone = $this->get_in_str_val('phone');
+        $userid = $this->t_phone_to_user->get_userid($phone);
+        if($userid>0){
+            $detail_id = $this->t_seller_new_count_get_detail->get_item_rwo_by_userid($userid);
+            if($detail_id>0){
+                $id_list[] = $detail_id;
+            }
+        }
+        foreach($id_list as $id){
+            if($id>0){
+                $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
+                if($ret>0){
+                    echo $id.'=>'.$ret;
+                }
+            }
+        }
+
+        // $ret = $this->t_admin_group_user->get_item_list_new();
+        // foreach($ret as $key=>$item){
+        //     $groupid = $item['groupid'];
+        //     $adminid = $item['adminid'];
+        //     $ret = $this->t_admin_group_user->del_item_row($groupid,$adminid);
+        //     echo $ret."\n";
+        // }
     }
 
     //处理等级头像

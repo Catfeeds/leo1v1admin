@@ -2666,6 +2666,74 @@ class Utils  {
         }
     }
 
+     //获取2级标签(老师后台理优资料库报错分类)
+    static public function get_sub_error_type($error_type,$sub_error_type_num = -1){
+        $arr = [
+            0 => [
+                //$sub_error_type = "resource_knowledge",
+                0       =>"知识点缺失",
+                1       =>"知识点错误",
+                2       =>"知识点超纲",
+                3       =>"知识点与题目不匹配",
+            ],
+            1 => [
+                //$sub_error_type = "resource_question_answer",
+                0       =>"题目错误",
+                1       =>"答案错误",
+                2       =>"解析过程错误"
+            ],
+            2 => [
+                //$sub_error_type = "resource_code_error",
+                0       =>"有错别字",
+                1       =>"拼写错误",
+                2       =>"公式错误",
+                3       =>"乱码",
+                4       =>"标点符号错误",
+            ],
+            3 => [
+                //$sub_error_type = "resource_content",
+                0       =>"内容与标题不符",
+                1       =>"内容与知识点不符",
+                2       =>"内容与答案不符",
+            ],
+            4 => [
+                //$sub_error_type = "resource_whole",
+                0       => "缺乏知识点",
+                1       => "缺乏练习题",
+                2       => "缺乏答案",
+                3       => "缺乏解析"
+            ],
+            5 => [
+                //$sub_error_type = "resource_picture",
+                0       => "缺少图片",
+                1       => "图片错误",
+                2       =>"图片不清晰",
+                3       =>"图片无法显示" ,
+            ],
+            6 => [
+                //$sub_error_type = "resource_font",
+                0       => "文字太大",
+                1       => "文字太小",
+                2       => "间距太大",
+                3       => "间距太小",
+                4       => "背景太单调",
+                5       => "背景太浮夸",
+            ],
+            7 => [
+                //$sub_error_type = "resource_difficult";
+                0       => "题目难度太大，与分类不符",
+                1       => "题目难度太小，与分类不符",
+            ],
+
+        ];
+        if($sub_error_type_num > -1){
+            return $arr[$error_type][$sub_error_type_num];
+        } else {
+            return $arr[$error_type];
+        }
+        
+    }
+
     static public function check_is_match($adminid,$activity_id){
         $task = new  \App\Console\Tasks\TaskController();
         $end_time    = strtotime( substr($activity_id, 0, 8) );

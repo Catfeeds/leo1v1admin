@@ -2060,5 +2060,18 @@ class tongji2 extends Controller
         return $this->pageView(__METHOD__, $ret_info);
 
     }
+    //@desn:展示系统释放日志
+    public function tongji_sys_free_log(){
+        $page_info= $this->get_in_page_info();
+        list($start_time, $end_time ) = $this->get_in_date_range_day(0);
+        $adminid=$this->get_in_adminid(-1);
+        $userid=$this->get_in_userid(-1);
+        $ret_info=$this->t_seller_student_system_release_log->get_list($page_info,$start_time,$end_time,$adminid,$userid);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "release_time");
+            E\Erelease_reason_flag::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
 
 }

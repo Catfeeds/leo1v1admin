@@ -73,6 +73,66 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
+    public function get_all_error($start_time,$end_time,$error_type,$sub_error_type,$file_id,
+                                $use_type, $resource_type, $subject, $grade, $tag_one, 
+                                $tag_two, $tag_three, $tag_four,$tag_five, $page_info, 
+                                $is_del = 0,$status = 0
+    ){
+        $where_arr = [
+            ['r.use_type=%u', $use_type, -1],
+            ['r.resource_type=%u', $resource_type, -1],
+            ['r.subject=%u', $subject, -1],
+            ['r.grade=%u', $grade, -1],
+            ['r.tag_one=%u', $tag_one, -1],
+            ['r.tag_two=%u', $tag_two, -1],
+            ['r.tag_three=%u', $tag_three, -1],
+            ['r.tag_four=%u', $tag_four, -1],
+            ['r.tag_five=%u', $tag_five, -1],
+            ['is_del=%u', $is_del, -1],
+            ['f.status=%u', $status, -1],
+            'e.id>0',
+            ['e.add_time>=%u',$start_time,-1],
+            ['e.add_time<=%u',$end_time,-1],
+            ['e.error_type=%u',$error_type,-1],
+            ['e.sub_error_type=%u',$sub_error_type,-1],
+            ['e.file_id=%u',$file_id,-1],
+        ];
+        if( in_array($resource_type, [1,2,3,4,5,9]) ){
+            //添加通用版50000
+            if($tag_one != -1){
+                $where_arr[] = " r.tag_one in ($tag_one, 50000) ";
+            }
+        } else {
+            $where_arr[] = ['r.tag_one=%u', $tag_one, -1];
+        }
+
+        $sql = $this->gen_sql_new(
+            "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
+            ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
+            ." t.tag as tag_four_str,v.create_time,v.visitor_id,r.create_time as c_time, "
+            ." e.teacherid, e.add_time, e.error_type, e.sub_error_type,e.detail_error,e.error_picture, "
+            ." e.detail_question, e.train_error_type ,e.phone ,e.nick as error_nick,e.resource_type as etype,e.status as estatus "
+            ." from %s r"
+            ." left join %s f on f.resource_id=r.resource_id"
+            ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "
+            ." left join %s t on t.id=r.tag_four"
+            ." left join %s e on v.file_id = e.file_id"
+            ." where %s"
+            ." and not exists ( select 1 from %s where file_id=v.file_id and v.create_time<create_time and visitor_type=0) "
+            //." order by r.resource_id desc,f.file_use_type"
+            ." order by e.add_time asc"
+            ,self::DB_TABLE_NAME
+            ,t_resource_file::DB_TABLE_NAME
+            ,t_resource_file_visit_info::DB_TABLE_NAME
+            ,t_sub_grade_book_tag::DB_TABLE_NAME
+            ,t_resource_file_error_info::DB_TABLE_NAME
+            ,$where_arr
+            ,t_resource_file_visit_info::DB_TABLE_NAME
+        );
+        //dd($sql);
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
+    }
+
     public function get_count($start_time, $end_time, $subject=-1, $grade=-1, $resource_type=-1){
         $where_arr = [
             'r.is_del=0',

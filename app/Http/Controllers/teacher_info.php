@@ -3542,7 +3542,7 @@ class teacher_info extends Controller
         $error_type          = $this->get_in_int_val("error_type",-1);
         $sub_error_type      = $this->get_in_int_val("sub_error_type",-1);
         $detail_error        = $this->get_in_str_val("detail_error",'');
-        $error_url           = $this->get_in_str_val("error_url",'');
+        $error_picture       = $this->get_in_str_val("error_url",'');
         $teacherid           = $this->get_login_teacher();
 
         $this->t_resource_file_error_info->row_insert([
@@ -3556,7 +3556,7 @@ class teacher_info extends Controller
             "error_type"       => $error_type,
             "sub_error_type"   => $sub_error_type,
             "detail_error"     => $detail_error,
-            "error_url"        => $error_url,
+            "error_picture"    => $error_picture,
         ]);
         return $this->output_succ();
     }

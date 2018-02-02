@@ -8659,7 +8659,7 @@ class tongji_ss extends Controller
                     if (!isset($arr[$k])) {
                         $arr[$k]=0;
                     }
-                    $arr[$k]+=$v;
+                    @$arr[$k]+=$v;
                 }
             }
 
