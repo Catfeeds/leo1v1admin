@@ -42,6 +42,8 @@ function outputJson($array){
         $json_data=json_encode(["ret" => 6002,  "info"=> "JSON　出错"]  ,JSON_UNESCAPED_UNICODE);
         logger("ERROR  JSON ..");
     }
+    \App\Helper\Utils::logger("JSON DATA :".$json_data  );
+
 
     if( isset ($_GET['callback']) ) {
         $content  = htmlspecialchars($_GET['callback']) . '(' . $json_data . ')';
