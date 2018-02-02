@@ -56,6 +56,7 @@ interface RowData {
 	tag_one_str	:any;
 	tag_two_str	:any;
 	tag_five_str	:any;
+	comment	:any;
 }
 
 /*
