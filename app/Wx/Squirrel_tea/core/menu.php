@@ -97,7 +97,7 @@ class Menu{
         $data = urldecode($data);
         \App\Helper\Utils::logger('setmenu3');
         //获取ACCESS_TOKEN
-        $accessToken = \Teacher\Core\AccessToken::getAccessToken();
+        $accessToken = \Squirrel_tea\Core\AccessToken::getAccessToken();
         \App\Helper\Utils::logger('setmenu3.1');
 
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$accessToken;

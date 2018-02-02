@@ -18,7 +18,7 @@ class AccessToken  {
         //在获取token的过程中先判断环境
         \App\Helper\Utils::logger('accx');
 
-        if(\Teacher\Core\Environment::isSae(@$_SERVER['HTTP_APPNAME_TEC'],@$_SERVER['HTTP_ACCESSKEY_TEC'])){
+        if(\Squirrel_tea\Core\Environment::isSae(@$_SERVER['HTTP_APPNAME_TEC'],@$_SERVER['HTTP_ACCESSKEY_TEC'])){
             return self::_getSae();
         }
 
