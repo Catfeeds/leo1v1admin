@@ -413,6 +413,21 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_list($sql);
     }
 
+    public function get_item_list_new(){
+        $where_arr = [];
+        $this->where_arr_add_str_field($where_arr, 'g.groupid', 86);
+        $sql = $this->gen_sql_new(
+            " select u.* "
+            ." from %s u "
+            ." left join %s g on u.groupid=g.groupid "
+            ." where %s "
+            ,self::DB_TABLE_NAME//u
+            ,t_admin_group_name::DB_TABLE_NAME//g
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function del_item_row($groupid,$adminid){
         $sql = $this->gen_sql_new("delete from %s where groupid=%u and adminid=%u",
                                   self::DB_TABLE_NAME
