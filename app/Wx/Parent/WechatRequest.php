@@ -186,6 +186,8 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             $filename = "";
             $type = 'image';
             $mediaId = Media::upload($filename, $type);
+            \App\Helper\Utils::logger("james:_jsdfh: ".json_encode($mediaId));
+
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
         }
 
