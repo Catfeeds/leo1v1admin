@@ -1,4 +1,11 @@
 interface GargsStatic {
+	date_type_config:	string;
+	date_type:	number;
+	opt_date_type:	number;
+	start_time:	string;
+	end_time:	string;
+	error_type:	number;
+	sub_error_type:	number;
 	use_type:	number;
 	resource_type:	number;
 	subject:	number;
@@ -9,8 +16,7 @@ interface GargsStatic {
 	tag_four:	number;
 	tag_five:	number;
 	file_title:	string;
-	is_del:	number;
-	status:	number;
+	file_id:	string;
 	page_num:	number;
 	page_count:	number;
 }
@@ -43,36 +49,56 @@ interface RowData {
 	tag_four_str	:any;
 	create_time	:any;
 	visitor_id	:any;
-	comment_id	:any;
+	c_time	:any;
+	teacherid	:any;
+	add_time	:any;
+	error_type	:any;
+	sub_error_type	:any;
+	detail_error	:any;
+	error_url	:any;
+	detail_question	:any;
+	train_error_type	:any;
+	phone	:any;
+	error_nick	:any;
+	etype	:any;
 	file_use_type_str	:any;
 	nick	:any;
+	error_type_str	:any;
+	sub_error_type_str	:any;
 	tag_one_name	:any;
 	tag_two_name	:any;
 	tag_three_name	:any;
 	tag_four_name	:any;
 	tag_five_name	:any;
+	file_size_str	:any;
 	subject_str	:any;
 	grade_str	:any;
 	resource_type_str	:any;
 	use_type_str	:any;
 	tag_one_str	:any;
 	tag_two_str	:any;
-	tag_three_str	:any;
 	tag_five_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../resource; vi  ../resource/get_del.ts
+	 mkdir -p ../resource_new; vi  ../resource_new/get_error.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/resource-get_del.d.ts" />
+/// <reference path="../g_args.d.ts/resource_new-get_error.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		error_type:	$('#id_error_type').val(),
+		sub_error_type:	$('#id_sub_error_type').val(),
 		use_type:	$('#id_use_type').val(),
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
@@ -83,13 +109,23 @@ function load_data(){
 		tag_four:	$('#id_tag_four').val(),
 		tag_five:	$('#id_tag_five').val(),
 		file_title:	$('#id_file_title').val(),
-		is_del:	$('#id_is_del').val(),
-		status:	$('#id_status').val()
+		file_id:	$('#id_file_id').val()
 		});
 }
 $(function(){
 
 
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
+	$('#id_error_type').val(g_args.error_type);
+	$('#id_sub_error_type').val(g_args.sub_error_type);
 	$('#id_use_type').val(g_args.use_type);
 	$('#id_resource_type').val(g_args.resource_type);
 	$('#id_subject').val(g_args.subject);
@@ -100,8 +136,7 @@ $(function(){
 	$('#id_tag_four').val(g_args.tag_four);
 	$('#id_tag_five').val(g_args.tag_five);
 	$('#id_file_title').val(g_args.file_title);
-	$('#id_is_del').val(g_args.is_del);
-	$('#id_status').val(g_args.status);
+	$('#id_file_id').val(g_args.file_id);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -111,6 +146,27 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">error_type</span>
+                <input class="opt-change form-control" id="id_error_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["error_type title", "error_type", "th_error_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">sub_error_type</span>
+                <input class="opt-change form-control" id="id_sub_error_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["sub_error_type title", "sub_error_type", "th_sub_error_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -194,19 +250,11 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">is_del</span>
-                <input class="opt-change form-control" id="id_is_del" />
+                <span class="input-group-addon">file_id</span>
+                <input class="opt-change form-control" id="id_file_id" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["is_del title", "is_del", "th_is_del" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">status</span>
-                <input class="opt-change form-control" id="id_status" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["status title", "status", "th_status" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["file_id title", "file_id", "th_file_id" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

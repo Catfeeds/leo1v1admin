@@ -550,12 +550,19 @@ $(function(){
                 });
             }
         },function(){
-            custom_upload(timestamp,"error_button_id","error_upload_id",1);
-            custom_upload(timestamp,"pic_modify_01","error_pic_box_01",2);
-            custom_upload(timestamp,"pic_modify_02","error_pic_box_02",2);
-            custom_upload(timestamp,"pic_modify_03","error_pic_box_03",2);
-            custom_upload(timestamp,"pic_modify_04","error_pic_box_04",2);
-            custom_upload(timestamp,"pic_modify_05","error_pic_box_05",2);
+            // custom_upload(timestamp,"error_button_id","error_upload_id",1);
+            // custom_upload(timestamp,"pic_modify_01","error_pic_box_01",2);
+            // custom_upload(timestamp,"pic_modify_02","error_pic_box_02",2);
+            // custom_upload(timestamp,"pic_modify_03","error_pic_box_03",2);
+            // custom_upload(timestamp,"pic_modify_04","error_pic_box_04",2);
+            // custom_upload(timestamp,"pic_modify_05","error_pic_box_05",2);
+
+            custom_upload_new("error_button_id","error_upload_id",1);
+            custom_upload_new("pic_modify_01","error_pic_box_01",2);
+            custom_upload_new("pic_modify_02","error_pic_box_02",2);
+            custom_upload_new("pic_modify_03","error_pic_box_03",2);
+            custom_upload_new("pic_modify_04","error_pic_box_04",2);
+            custom_upload_new("pic_modify_05","error_pic_box_05",2);
 
         },false,700,'padding-right:10px;');
 
@@ -786,3 +793,36 @@ function custom_upload(new_flag,btn_id,containerid,obj){
     });
 }
 
+function custom_upload_new(btn_id,containerid,obj){
+
+    if( obj == 1 && $("#"+containerid).find('.error_pic_box:hidden').length == 0 ){
+        BootstrapDialog.alert("最多只能传5张图片！");
+        return false;
+    }
+    console.log('before upload the file');
+
+    $.custom_upload_file(
+        btn_id ,
+        true,function( up, info, file ){
+            var res = $.parseJSON(info);
+            var url=res.key;
+            $.do_ajax("/common_new/get_qiniu_download",{
+                "file_url" :res.key ,
+                "public_flag" :1,
+            }, function(resp){
+                var imgSrc = resp.url;
+                if(obj == 1){
+                    var $img_box = $("#"+containerid).find('.error_pic_box:hidden:eq(0)');                   
+                    $img_box.find("img").attr("src", imgSrc);
+                    $img_box.removeClass("hide");
+                    if( $("#"+containerid).find('.error_pic_box:hidden').length == 0){
+                        $("#"+containerid).find('.error_button').addClass('hide'); 
+                    }
+                }else{
+                    $('#'+containerid).find('img').attr("src", imgSrc);
+                }
+
+            })
+        },null,
+        ["png","jpg","gif","jpeg"] );
+} 

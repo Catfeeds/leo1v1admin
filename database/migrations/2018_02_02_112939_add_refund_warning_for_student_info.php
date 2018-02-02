@@ -14,7 +14,7 @@ class AddRefundWarningForStudentInfo extends Migration
     {
         Schema::table("db_weiyi.t_student_info", function(Blueprint $table) {
             t_field($table->integer("refund_warning_level"), "学员退费预警级别");
-            t_field($table->string("refund_warning_reason"), "学员退费预警原因");
+            t_field($table->string("refund_warning_reason","1000"), "学员退费预警原因");
         });
     }
 
