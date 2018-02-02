@@ -1545,7 +1545,7 @@ class seller_student_new extends Controller
         $cur_hm=date("H",$now)*60+date("i",$now);
         $cur_week=date("w",$now);
         if (in_array( $cur_week*1,[6,0])) {//周六,周日00:00~11:00
-            $limit_arr=array( [0,11*60] );
+            $limit_arr=array ([0,11*60] );
         }elseif(in_array( $cur_week*1,[1,3,4,5] )){//周一,周三,周四,周五 0:00-13:30
             $limit_arr=array( [0, 13*60+30]);
         }else{//周二 00:00~06:00
