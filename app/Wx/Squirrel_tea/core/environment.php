@@ -15,7 +15,7 @@ class Environment{
      * @return bool
      */
     public static function isSae($appname,$accesskey){
-        if(!strcmp(HTTP_APPNAME_SQU,$appname)&&!strcmp(HTTP_ACCESSKEY_SQU,$accesskey)){
+        if(!strcmp(HTTP_APPNAME_SST,$appname)&&!strcmp(HTTP_ACCESSKEY_SST,$accesskey)){
             return true;
         }
         return false;

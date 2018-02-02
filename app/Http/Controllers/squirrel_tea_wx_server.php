@@ -17,7 +17,7 @@ class  squirrel_tea_wx_server extends Controller
 {
     var $check_login_flag =false;//是否需要验证
     public function index() {
-        $wechat = new \App\Wx\Squirrel_tea\wechat(WECHAT_TOKEN_SQU, TRUE);
+        $wechat = new \App\Wx\Squirrel_tea\wechat(WECHAT_TOKEN_SST, TRUE);
         // $r = $wechat->checkSignature();
 
 
