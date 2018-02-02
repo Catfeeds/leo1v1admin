@@ -171,9 +171,21 @@
                         @else
                         <td>
                             {{@$var['detail_error']}}<br/>
-
-
-
+                            @if(@$var['picture_one'] != '')
+                                <a href="{{@$var['picture_one']}}" target="_blank">图片1</a>
+                            @endif
+                            @if(@$var['picture_two'] != '')
+                                <a href="{{@$var['picture_two']}}" target="_blank">图片2</a>
+                            @endif
+                            @if(@$var['picture_three'] != '')
+                                <a href="{{@$var['picture_three']}}" target="_blank">图片3</a>
+                            @endif
+                            @if(@$var['picture_four'] != '')
+                                <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
+                            @endif
+                            @if(@$var['picture_five'] != '')
+                                <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
+                            @endif
                         </td>
                         @endif
 

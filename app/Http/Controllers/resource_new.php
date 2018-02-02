@@ -139,6 +139,19 @@ class resource_new extends Controller
             $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             // dd($item);
             $item['file_size_str'] = $item['file_size'] > 1024 ? round( $item['file_size'] / 1024,2)."M" : $item['file_size']."kb";
+            $item['picture_one'] = '';
+            $item['picture_two'] = '';
+            $item['picture_three'] = '';
+            $item['picture_four'] = '';
+            $item['picture_five'] = '';
+            if($item['error_picture'] != ''){
+                $arr =json_decode($item['error_picture']);
+                $item['picture_one'] = $arr[0];
+                $item['picture_two'] = $arr[1];
+                $item['picture_three'] = $arr[2];
+                $item['picture_four'] = $arr[3];
+                $item['picture_five'] = $arr[4];
+            }
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",
@@ -166,7 +179,6 @@ class resource_new extends Controller
             }
          
         }
-        //dd($ret_info['list']);
 
         //获取所有开放的教材版本
         //$book = $this->t_resource_agree_info->get_all_resource_type();
@@ -182,7 +194,7 @@ class resource_new extends Controller
 
         $sub_grade_info = $this->get_rule_range();
         $is_teacher = 0;
-
+        //dd($ret_info);
         return $this->pageView( __METHOD__,$ret_info,[
             '_publish_version'    => 20180131161439,
             'tag_info'      => $tag_arr,
