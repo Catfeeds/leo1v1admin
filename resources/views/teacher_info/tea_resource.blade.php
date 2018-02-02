@@ -103,7 +103,7 @@
                                 我的收藏
                             @endif
                         </td>
-                        <td><a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}">预览</a></td>
+                        <td><a class="opt-look_new btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览</a></td>
                     </tr>
                 @endforeach
             </tbody>
