@@ -101,6 +101,7 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             "n.seller_student_assign_type=1", // 系统分配k
             "n.seller_resource_type=0", // 新例子
             "n.admin_revisiterid=0", // 未分配
+            'n.origin_level <= 4' //s a b c 类例子
         ];
         $start_time = time(NULL) -86400*30;
         $end_time = time(NULL) ;

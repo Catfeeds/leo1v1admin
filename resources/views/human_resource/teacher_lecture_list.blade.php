@@ -222,7 +222,7 @@
                                         @if($var['identity_image']!='')
                                             <a class="opt-get_identity_image" title="查看证书">证书</a>
                                         @endif
-                                        @if($var['resume_url']!='' && $account_role !=8 )
+                                        @if($var['resume_url']!='' && ($account_role !=8 || $account=="ivy"))
                                             <!-- 蔡老师要求　招师不可见   -->
                                             <a class="opt-resume_url" title="查看简历">简历</a>
                                         @endif

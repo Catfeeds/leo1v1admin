@@ -4,7 +4,6 @@ class menu{
    static  public  function get_config()  {
        // 70 -89 小班
         return [
-
             ["power_id"=>40, "name"=>"核心数据",  "list"=> [
                 ["power_id"=>80, "name"=>"测试","url"=>"/test/get_user_list", "domain_type" =>100  ],
                 ["power_id"=>81, "name"=>"测试22","url"=>"/test/get_user_list1", "domain_type" =>100  ],

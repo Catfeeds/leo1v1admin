@@ -115,7 +115,7 @@ class MyMiddleware
             if (!session("acc")) {
                 \App\Helper\Utils::logger("SESSION ACC NOFIND");
 
-                if (!\App\Helper\Utils::check_env_is_test() ) {
+                if (!\App\Helper\Utils::check_env_is_testing() ) {
                     $in_arr=$request->input();
                     if (isset($in_arr["callback"])) {
                         $resp=outputjson_error(1005,"没有权限!");
