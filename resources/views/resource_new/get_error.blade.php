@@ -121,7 +121,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-xs-2 col-md-2">
+                <div class="col-xs-1 col-md-1">
                     <div class="input-group ">
                         <input class="opt-change form-control" id="id_file_id" placeholder="" />
                     </div>
@@ -169,11 +169,26 @@
                         @if( @$var['etype'] == 9)
 
                         @else
-                            <td style="max-width:200px">
-                                <div>
-                                    {{@$var['detail_error']}}
-                                </div>
-                            </td>
+
+                        <td style="max-width:200px">
+                            {{@$var['detail_error']}}<br/>
+                            @if(@$var['picture_one'] != '')
+                                <a href="{{@$var['picture_one']}}" target="_blank">图片1</a>
+                            @endif
+                            @if(@$var['picture_two'] != '')
+                                <a href="{{@$var['picture_two']}}" target="_blank">图片2</a>
+                            @endif
+                            @if(@$var['picture_three'] != '')
+                                <a href="{{@$var['picture_three']}}" target="_blank">图片3</a>
+                            @endif
+                            @if(@$var['picture_four'] != '')
+                                <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
+                            @endif
+                            @if(@$var['picture_five'] != '')
+                                <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
+                            @endif
+                        </td>
+
                         @endif
 
                         <td>资源类型:{{@$var['resource_type_str']}}<br/>

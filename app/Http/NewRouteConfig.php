@@ -121,6 +121,7 @@ class NewRouteConfig {
         "/supervisor/add_error_info"              => true,
         "/tea_manage/get_lesson_xmpp_audio"       => true,
         "/tea_manage/get_tea_pad_lesson_qr"       => true,
+        "/tea_manage/get_lesson_reply"            => true,
         "/login/teacher"                          => true,
         "/login/agent"                          => true,
         "/lesson_manage/get_lesson_info"          => true,

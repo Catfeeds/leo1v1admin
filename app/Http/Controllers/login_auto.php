@@ -12,6 +12,9 @@ class login_auto extends Controller
 {
     var $check_login_flag = false;
 
+    /**
+     * 老师pc自动登录接口
+     */
     public function teacher(){
         $teacherid   = $this->get_in_teacherid();
         $login_token = $this->get_in_str_val("login_token");
@@ -35,13 +38,20 @@ class login_auto extends Controller
             return $this->output_err("账号检测出错！请重试！");
         }
 
-        $teacher_info        = $this->t_teacher_info->get_teacher_info_all($teacherid);
-        $_SESSION['phone']   = $teacher_info['phone'];
-        $_SESSION['account'] = $teacher_info['phone'];
-        $_SESSION['tid']     = $teacherid;
-        $_SESSION['role']    = E\Erole::V_TEACHER;
+        $teacher_info = $this->t_teacher_info->get_teacher_info_all($teacherid);
+        // $_SESSION['phone']   = $teacher_info['phone'];
+        // $_SESSION['account'] = $teacher_info['phone'];
+        // $_SESSION['tid']     = $teacherid;
+        // $_SESSION['role']    = E\Erole::V_TEACHER;
+        // session($_SESSION);
 
-        session($_SESSION);
+        $sess['tid']  = $teacherid;
+        $sess["acc"]  = $teacherid;
+        $sess['nick'] = $teacher_info["nick"] ;
+        $sess['face'] = $teacher_info["face"] ;
+        $sess['role'] = E\Erole::V_TEACHER;
+        session($sess);
+
         if (!$goto_url) {
             $goto_url="/teacher_info";
         }

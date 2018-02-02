@@ -24,9 +24,17 @@ export default class extends vtable {
       "order_field_name": "seller_student_assign_from_type",
       "title": "来源",
     },{
+      field_name: "userid",
+      "title": "userid",
+
+    },{
       field_name: "student_nick",
       "title": "学生",
 
+    },{
+
+      "title": "电话号码",
+      field_name: "phone",
     },{
       field_name: "add_time",
       "order_field_name": "add_time",
@@ -40,10 +48,6 @@ export default class extends vtable {
       field_name: "origin_level_str",
       "order_field_name": "origin_level",
       "title": "渠道等级",
-    },{
-
-      "title": "电话号码",
-      field_name: "phone",
     },{
       field_name: "admin_nick",
       "title": "分配给cc",

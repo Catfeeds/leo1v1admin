@@ -2667,7 +2667,7 @@ class Utils  {
     }
 
      //获取2级标签(老师后台理优资料库报错分类)
-    static public function get_sub_error_type($error_type,$sub_error_type_num){
+    static public function get_sub_error_type($error_type,$sub_error_type_num = -1){
         $arr = [
             0 => [
                 //$sub_error_type = "resource_knowledge",
@@ -2726,7 +2726,12 @@ class Utils  {
             ],
 
         ];
-        return $arr[$error_type][$sub_error_type_num];
+        if($sub_error_type_num > -1){
+            return $arr[$error_type][$sub_error_type_num];
+        } else {
+            return $arr[$error_type];
+        }
+        
     }
 
     static public function check_is_match($adminid,$activity_id){
