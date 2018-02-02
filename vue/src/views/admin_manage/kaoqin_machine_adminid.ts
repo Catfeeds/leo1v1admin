@@ -98,11 +98,21 @@ export default class extends vtable {
             $.do_ajax("/user_deal/del_kaoqin_machine_adminid",{
               "machine_id" : item.machine_id ,
               "adminid" :  item.adminid,
-            });
+            },function(){});
           });
         }
       });
     });
+  }
+  opt_sync_all_user ( e:MouseEvent )  {
+    if ( this.get_args() .machine_id== -1  ) {
+      alert("请选择考勤机");
+      return;
+    }
+    $.do_ajax("/user_deal/sync_kaoqin_all", {
+      "machine_id" :  this.get_args() .machine_id
+    });
+
   }
 
   opt_add ( e:MouseEvent ) {
@@ -149,7 +159,7 @@ export default class extends vtable {
       "url"          : "/admin_manage/get_kaoqin_list_js",
       select_primary_field   : "machine_id",
       select_display         : "title",
-      select_no_select_value : "",
+      select_no_select_value : -1,
       select_no_select_title : "考勤机[全部]",
       "th_input_id"  : null,
 
