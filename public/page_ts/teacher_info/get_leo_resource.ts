@@ -310,8 +310,7 @@ $(function(){
         });
     });
 
-    function GetUrlRelativePath(url)
-　　 {
+    function GetUrlRelativePath(url){
 　　　　var arrUrl = url.split("//");
 
 　　　　var start = arrUrl[1].indexOf("/");
