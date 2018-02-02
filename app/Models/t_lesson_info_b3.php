@@ -3717,8 +3717,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
-    public function get_lesson_count_by_userid() {
-        //select subject,count(distinct lessonid) count from t_lesson_info where userid = 479182 group by subject
+    public function get_lesson_count_by_userid($userid) {
+        $sql = "select subject,count(distinct lessonid) count from t_lesson_info where userid = $userid group by subject";
+        return $this->main_get_list($sql);
     }
 
 }
