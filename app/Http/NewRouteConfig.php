@@ -505,6 +505,7 @@ class NewRouteConfig {
         "/news_info/add_stu_message_content" => true,
         "/news_info/push_news_info"          => true,
 
+        "/human_resource/update_tea_realname" => true,
         "/human_resource/get_lesson_modify_list" => true,
         "/human_resource/get_input_score_list" => true,
         "/human_resource/interview_remind"   => true,
@@ -736,6 +737,7 @@ class NewRouteConfig {
         "/resource/get_total_del"                        =>true,
         "/resource/batch_del_resource"                   =>true,
         "/resource/batch_del_file"                       =>true,
+        "/resource/get_comment"                          =>true,
         "/test_bacon/change_resource"                    =>true,
         "/resource/total_del_file"                       =>true,
         "/test_bacon/modify_res_agree_info"              =>true,

@@ -379,19 +379,17 @@ class test_james extends Controller
 
     public function installNew(){ // 新建表单
         // Schema::dropIfExists('db_weiyi.t_activity_usually');
-        // Schema::create('db_weiyi.t_activity_usually', function(Blueprint $table) {
-        //     t_field($table->increments("id"), "市场日常活动表");
-        //     t_field($table->integer("gift_type"), "礼品类型");
-        //     t_field($table->string("title",524), "活动标题");
-        //     t_field($table->string("describe",2048), "活动描述");
-        //     t_field($table->string("url",512), "活动链接");
-        //     t_field($table->tinyInteger("activity_status"), "活动状态");
-        //     t_field($table->integer("add_time"), "添加时间");
-        //     t_field($table->integer("uid"), "添加人");
+        Schema::create('db_weiyi.t_seller_student_confirm_log', function(Blueprint $table) {
+            t_comment($table, "CC 标记资源日志表");
+            t_field($table->increments("id"), "");
+            t_field($table->integer("add_time"), "标记时间");
+            t_field($table->integer("adminid"), "销售ID");
+            t_field($table->integer("userid"), "学生ID");
+            t_field($table->integer("tag_flag"), "标记类别");
 
-        //     $table->index('userid');
-        //     $table->index('add_time');
-        // });
+            $table->index('userid');
+            $table->index('adminid');
+        });
         /**
            1、记录CC/CR获取转发链接的次数、名单、家长点击次数，家长ID、制作海报次数，最终获得常规课人数，通过此海报注册试听课人数；
 

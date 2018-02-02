@@ -65,12 +65,13 @@ class new_seller_student extends Job implements ShouldQueue
             $is_public = 0;//该用户从未注册
 
             $data_item  = $t_seller_student_new->field_get_list($this->userid,"admin_revisiterid,seller_resource_type" );
+            \App\Helper\Utils::logger("data_item:".json_encode($data_item));
             if ($data_item) {
                 $admin_revisiterid    = $data_item["admin_revisiterid"];
                 $seller_resource_type = $data_item["seller_resource_type"];
                 if($seller_resource_type==1 && $admin_revisiterid==0)
                     $is_public = 1; //用户已注册且在公海里
-                else
+                if($seller_resource_type==1 && $admin_revisiterid!=0)
                     $is_public = 2;//用户已注册但是不在公海里
             }
 
@@ -78,6 +79,7 @@ class new_seller_student extends Job implements ShouldQueue
             $is_reading = $t_student_info->field_get_value($this->userid, 'type');
             if($is_reading == 1)
                 $is_public = 3;//用户是在读学员
+            \App\Helper\Utils::logger("is_public:$is_public"); 
 
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --end--
 
