@@ -175,6 +175,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_finish_lessons()
     {
         $now=time(NULL);
+        $where_arr=[];
+        if (\App\Helper\Utils::check_env_is_test()) {
+            $where_arr[]=[ "l.record_audio_server1<>''" ];
+        }
         $sql = $this->gen_sql_new(
             "select lessonid, c.courseid,lesson_num,lesson_type,real_begin_time,real_end_time, l.teacherid , current_server, lesson_start, lesson_end ,server_type"
             . " from %s l"
