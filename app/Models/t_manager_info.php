@@ -1502,11 +1502,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function sync_kaoqin_user($ccid, $machine_id=-1) {
 
-        $this->sync_kaoqin_del_user([$ccid]);
+        $cur_sn= "";
+        if ( $machine_id != -1 ) {
+            $cur_sn= $this->task->t_kaoqin_machine->get_sn($machine_id);
+        }
+
+        $this->sync_kaoqin_del_user([$ccid],$cur_sn);
 
         $ret_info=$this->t_kaoqin_machine_adminid->get_list(null,$machine_id,$ccid,-1,0);
         $sn_list= $ret_info["list"] ;
-        $sn="";
         foreach( $sn_list as $item) {
             $sn=$item["sn"];
             $open_door_flag=$item["open_door_flag"];
@@ -1530,13 +1534,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             ]);
         }
 
-        //当 $machine_id  != -1 时, 只同步一台机器
-        if ($machine_id==-1) {
-            $sn="";
-        }
 
-        $this->sync_kaoqin_fingerprint($ccid,$sn);
-        $this->sync_kaoqin_headpic($ccid,$sn);
+        $this->sync_kaoqin_fingerprint($ccid,$cur_sn);
+        $this->sync_kaoqin_headpic($ccid,$cur_sn);
     }
 
     public function sync_kaoqin_by_sn( $sn, $data ) {
@@ -1566,13 +1566,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }
     }
     //{id:”1006”,do:”delete”,data:[”user”,”fingerprint”,”face”,”headpic”,”clockin”,”pic”],ccid:[13245,8784,54878]}
-    public function sync_kaoqin_del_user( $adminid_list ){
+    public function sync_kaoqin_del_user( $adminid_list,$sn="" ){
         $this->sync_kaoqin([
             "id"=>time(NULL),
             "do"=>"delete",
             "data"=>["user","fingerprint" , "face", "headpic","clockin", "pic" ],
             "ccid"=>$adminid_list,
-        ]);
+        ], $sn);
     }
     //{id:”1006”,do:”upload”,data:[”user”,”fingerprint”,”face”,”headpic”,”clockin”,”pic”],ccid:[13245,8784,54878]}
     public function sync_kaoqin_re_upload_user_info() {
