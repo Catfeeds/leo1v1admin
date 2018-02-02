@@ -441,24 +441,13 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $group_list = ['星火队','飞跃队'];
-        foreach($group_list as $group_name){
-            $ret = $this->t_admin_group_user->get_item_list($group_name);
-            foreach($ret as $key=>$item){
-                $groupid = $item['groupid'];
-                $adminid = $item['adminid'];
-                $ret = $this->t_admin_group_user->del_item_row($groupid,$adminid);
-                echo $ret."\n";
-            }
-        }
-        $ret = $this->t_admin_group_user->get_item_list_new();
-        foreach($ret as $key=>$item){
-            $groupid = $item['groupid'];
-            $adminid = $item['adminid'];
-            $ret = $this->t_admin_group_user->del_item_row($groupid,$adminid);
-            echo $ret."\n";
-        }
-
+        // $ret = $this->t_admin_group_user->get_item_list_new();
+        // foreach($ret as $key=>$item){
+        //     $groupid = $item['groupid'];
+        //     $adminid = $item['adminid'];
+        //     $ret = $this->t_admin_group_user->del_item_row($groupid,$adminid);
+        //     echo $ret."\n";
+        // }
         dd('a');
     }
 
