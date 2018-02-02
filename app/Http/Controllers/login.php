@@ -125,7 +125,6 @@ class login extends Controller
 
 
     function  gen_one_item ($node,$power_fix,$level,$power_map,$admin_domain_type) {
-
         $power_id= $power_fix*100+$node["power_id"];
         if (isset($node["list"])) {
             $sub_list_str="";
@@ -150,7 +149,7 @@ class login extends Controller
                 $sub_list_str.= $sub_list_str_tmp;
             }
 
-            if ($sub_list_str) {
+            if($sub_list_str){
                 return  array('<li class="treeview " > <a href="#"> <i class="fa fa-folder-o "></i> <span>'.$node["name"].'</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$sub_list_str.'</ul> </li>', $sub_list_str);
 
             }else{

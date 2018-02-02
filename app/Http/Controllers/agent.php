@@ -441,8 +441,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_group_user_month->del_item_row();
-        dd($ret);
+        dd('a');
     }
 
     //处理等级头像
