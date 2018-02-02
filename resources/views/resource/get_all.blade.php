@@ -232,7 +232,7 @@
                                     评价(0)
                                 @endif
                             </a>
-                            <a class="opt-error btn color-blue" data-file_id="{{$var["file_id"]}}"  title="报错">报错</a>
+                            <a class="opt-error btn color-blue" data-file_id="{{$var["file_id"]}}" data-resource_type="{{$var["resource_type"]}}"  title="报错">报错</a>
                         </td>
                     </tr>
                 @endforeach
