@@ -244,6 +244,59 @@ $(function(){
             }
         });
     });
+    $('.opt-look_new').on('click',function(){
+        var id = $(this).data('file_id');
+        var file_type = $(this).data('file_type');
+        file_type = file_type.toLowerCase();
+
+        var newTab;
+        if( file_type == "mp4" || file_type == "mp3" ){
+            newTab = window.open('about:blank');
+        }
+
+
+        do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
+            if(ret.ret == 0){ 
+                if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){
+                    newTab.location.href = ret.url;
+                }else{
+                    console.log(ret.url);
+                    var arr_url = ret.url.split("?");
+                    var pdf = GetUrlRelativePath(ret.url);
+                    var app = arr_url[1];
+                    var pdf_name = pdf.split(".");
+                    pdf_name = pdf_name[0];
+                    var type = 0;
+                    if(ret.url.indexOf("7tszue.com2.z0.glb.qiniucdn.com")!=-1){
+                        type = 4;
+                    }
+                    if(ret.url.indexOf("ebtest.qiniudn.com")!=-1){
+                        type = 3;
+                    }
+                    if(ret.url.indexOf("teacher-doc.leo1v1.com")!=-1){
+                        type = 2;
+                    }
+
+                    $.wopen("/teacher_info/look?"+app+"&url="+pdf_name+"&type="+type);
+                    return false;
+                }
+            } else {
+                BootstrapDialog.alert(ret.info);
+            }
+        });
+    });
+
+    function GetUrlRelativePath(url){
+　　　　var arrUrl = url.split("//");
+
+　　　　var start = arrUrl[1].indexOf("/");
+　　　　var relUrl = arrUrl[1].substring(start);
+
+　　　　if(relUrl.indexOf("?") != -1){
+　　　　　　relUrl = relUrl.split("?")[0];
+　　　　}
+　　　　return relUrl;
+　　 }
 
     $('body').on('click', function(){
         // $('.look-pdf').hide().empty();

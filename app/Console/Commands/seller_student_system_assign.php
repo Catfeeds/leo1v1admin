@@ -33,7 +33,6 @@ class seller_student_system_assign extends cmd_base
 
         //得到要处理的的人
         $tmp_admin_list=$this->task->t_manager_info->get_seller_list(E\Eseller_student_assign_type::V_SYSTEM_ASSIGN );
-        dd($tmp_admin_list);
         //得到已经分配的数据
         $admin_assign_map= $this->task->t_seller_student_system_assign_log->get_admin_assign_count_info($start_time, $end_time);
 
