@@ -863,6 +863,7 @@ $(function(){
         var comment = $('.comment').clone().removeClass('hide');
         var time_obj = comment.find('.comment_other_time tr:eq(1)');
         if(g_args.resource_type == 3){
+            comment.find('.comment_other').addClass('hide');
             comment.find('.comment_test').removeClass('hide');
             time_obj = comment.find('.comment_test_time tr:eq(1)');
         }

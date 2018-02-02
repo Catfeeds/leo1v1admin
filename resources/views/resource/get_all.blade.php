@@ -497,7 +497,7 @@
         <div class="comment_half">
             <p class="comment_info">
                 <span>讲义类型</span>
-                <span>人数：<b class="comment_type_num">0</b>人</span>
+                <span>人数：<b class="comment_num">0</b>人</span>
             </p>
             <table class="comment_eject comment_type">
                 <tbody>
