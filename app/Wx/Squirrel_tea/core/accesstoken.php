@@ -18,13 +18,13 @@ class AccessToken  {
         //在获取token的过程中先判断环境
         \App\Helper\Utils::logger('accx');
 
-        if(\Squirrel_tea\Core\Environment::isSae(@$_SERVER['HTTP_APPNAME_TEC'],@$_SERVER['HTTP_ACCESSKEY_TEC'])){
+        if(\Squirrel_tea\Core\Environment::isSae(@$_SERVER['HTTP_APPNAME_SQU'],@$_SERVER['HTTP_ACCESSKEY_SQU'])){
             return self::_getSae();
         }
 
 
-        $wx= new \App\Helper\Wx(WECHAT_APPID_TEC,WECHAT_APPSECRET_TEC) ;
-        return $wx->get_wx_token(WECHAT_APPID_TEC,WECHAT_APPSECRET_TEC);
+        $wx= new \App\Helper\Wx(WECHAT_APPID_SQU,WECHAT_APPSECRET_SQU) ;
+        return $wx->get_wx_token(WECHAT_APPID_SQU,WECHAT_APPSECRET_SQU);
         /*
         //检测本地是否已经拥有access_token，并且检测access_token是否过期
         $accessToken = self::_checkAccessToken();
@@ -41,7 +41,7 @@ class AccessToken  {
      * @return Ambigous|bool
      */
     private static function _getAccessToken(){
-        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WECHAT_APPID_TEC.'&secret='.WECHAT_APPSECRET_TEC;
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WECHAT_APPID_SQU.'&secret='.WECHAT_APPSECRET_SQU;
         $accessToken = Curl::callWebServer($url, '', 'GET');
         if(!isset($accessToken['access_token'])){
             return Msg::returnErrMsg(MsgConstant::ERROR_GET_ACCESS_TOKEN, '获取ACCESS_TOKEN失败');
@@ -106,7 +106,7 @@ class AccessToken  {
                 return $accessToken;
             }else{
                 //如果memcache中的值已经过期/不存在,再次请求获取
-                $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WECHAT_APPID_TEC.'&secret='.WECHAT_APPSECRET_TEC;
+                $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WECHAT_APPID_SQU.'&secret='.WECHAT_APPSECRET_SQU;
                 $accessToken = Curl::callWebServer($url, '', 'GET');
                 if(!isset($accessToken['access_token'])){
                     return Msg::returnErrMsg(MsgConstant::ERROR_GET_ACCESS_TOKEN, '获取ACCESS_TOKEN失败');
@@ -128,7 +128,7 @@ class AccessToken  {
         if(self::_existsToken()){
             if(self::_expriseToken()){
                 //重新获取一次access_token，并且将文件删除，重新向文件里面写一次
-                $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WECHAT_APPID_TEC.'&secret='.WECHAT_APPSECRET_TEC;
+                $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WECHAT_APPID_SQU.'&secret='.WECHAT_APPSECRET_SQU;
                 $accessToken = Curl::callWebServer($url, '', 'GET');
                 if(!isset($accessToken['access_token'])){
                     return Msg::returnErrMsg(MsgConstant::ERROR_GET_ACCESS_TOKEN, '获取ACCESS_TOKEN失败');
@@ -139,8 +139,7 @@ class AccessToken  {
                 $accessToken = file_get_contents('token.txt');
             }
         }else{
-            $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WECHAT_APPID_TEC.'&secret='.WECHAT_APPSECRET_TEC;
-            $accessToken = Curl::callWebServer($url, '', 'GET');
+            $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WECHAT_APPID_SQU.'&secret='.WECHAT_APPSECRET_SQU; $accessToken = Curl::callWebServer($url, '', 'GET');
             if(!isset($accessToken['access_token'])){
                 return Msg::returnErrMsg(MsgConstant::ERROR_GET_ACCESS_TOKEN, '获取ACCESS_TOKEN失败');
             }
