@@ -1023,7 +1023,7 @@ class wx_parent_gift extends Controller
                         "keyword3"  => date("Y年m月d日 H:i:s "),
                     ];
                     \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
-                    \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
+                    // \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
                     $follow_str = $img_arr[0];
                     $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面
 
