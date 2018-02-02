@@ -1050,6 +1050,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
+            "l.lesson_type=2",
             "l.lesson_del_flag=0",
         ];
         if(count($adminid_list)>0){
@@ -3891,7 +3892,7 @@ ORDER BY require_time ASC";
             ['l.lesson_type = %u',2],
             ['s.is_test_user = %u',0],
             'require_admin_type = 2' ,
-
+            "l.lesson_del_flag=0",
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new(
