@@ -96,7 +96,7 @@ class uploadPdfChange extends Command
     }
 
     public function getTeaUploadPPTLink(){
-        $url = "http://admin.leo1v1.com/common_new/getTeaUploadPPTLink";
+        $url = "http://test.admin.leo1v1.com/common_new/getTeaUploadPPTLink";
         $post_data = [];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
@@ -110,7 +110,7 @@ class uploadPdfChange extends Command
     }
 
     public function updateLessonUUid($lessonid,$uuid,$is_tea){
-        $url = "http://admin.leo1v1.com/common_new/updateLessonUUid";
+        $url = "http://test.admin.leo1v1.com/common_new/updateLessonUUid";
         $post_data = [
             "lessonid" => $lessonid,
             "uuid"     => $uuid,
