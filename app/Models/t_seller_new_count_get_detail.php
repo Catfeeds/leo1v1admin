@@ -55,6 +55,18 @@ class t_seller_new_count_get_detail extends \App\Models\Zgen\z_t_seller_new_coun
         return $this->main_get_list($sql);
     }
 
+    public function get_item_rwo_by_userid($userid){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'userid', $userid);
+        $sql = $this->gen_sql_new(
+            " select detail_id "
+            ." from %s "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
 
