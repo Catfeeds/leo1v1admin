@@ -108,15 +108,16 @@
                     <div class="input-group ">
                         <span class="input-group-addon">一级错误</span>
                         <select class="form-control opt-change" id="id_error_type"> 
-                            <option value="-1">未设置</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">二级错误</span>
-                        <select class="form-control opt-change" id="id_sub_error_type"> 
-                            <option value="-1">未设置</option>
+                        <select class="form-control opt-change" id="id_sub_error_type">
+                            @foreach($sub_error_arr as $k => $v)
+                                <option value="{{$k}}">{{$v}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -131,21 +132,20 @@
         <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
-                    <td style="width:10px">
+                    <th style="width:10px">
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
-                    </td>
-                    <td>文件名</td>
-                    <td>报错详情</td>
-                    <td>错误类型</td>
-                    <td>报错内容</td>
+                    </th>
+                    <th>文件名</th>
+                    <th>报错详情</th>
+                    <th>错误类型</th>
+                    <th style="max-width:200px">报错内容</th>
+                    <th>讲义详情</th>
 
-                    <td>讲义详情</td>
-
-                    <td>上传详情</td>
-                    <td>状态</td>
+                    <th>上传详情</th>
+                    <th>状态</th>
                 
-                    <td>操作</td>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -169,12 +169,11 @@
                         @if( @$var['etype'] == 9)
 
                         @else
-                        <td>
-                            {{@$var['detail_error']}}<br/>
-
-
-
-                        </td>
+                            <td style="max-width:200px">
+                                <div>
+                                    {{@$var['detail_error']}}
+                                </div>
+                            </td>
                         @endif
 
                         <td>资源类型:{{@$var['resource_type_str']}}<br/>

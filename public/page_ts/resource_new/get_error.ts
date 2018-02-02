@@ -131,7 +131,7 @@ $(function(){
         $(obj).empty();
         $(obj).append(pro);
     }
-    Enum_map.append_option_list("resource_error",$('#id_error_type'),true);
+    Enum_map.append_option_list("resource_error",$('#id_error_type'));
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
     $('#id_use_type').val(g_args.use_type);
 
