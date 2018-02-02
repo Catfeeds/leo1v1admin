@@ -84,7 +84,7 @@ class update_refund_warning extends Command
                 "上课次数(2周)" => $lesson_count_week,
                 "单科上课次数" => $one_count
             ];
-            dd($reason)
+            dd($reason);
             // $level = 1;
             // if (in_array($item["type"], [2,3,4])) {
             //     $level = 3;
