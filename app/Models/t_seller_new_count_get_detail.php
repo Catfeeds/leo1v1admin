@@ -57,11 +57,12 @@ class t_seller_new_count_get_detail extends \App\Models\Zgen\z_t_seller_new_coun
 
     public function get_item_rwo_by_userid($userid){
         $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'get_time', 1517500800, 1517587200);
         $this->where_arr_add_int_field($where_arr, 'userid', $userid);
         $sql = $this->gen_sql_new(
             " select detail_id "
             ." from %s "
-            ." where %s ",
+            ." where %s limit 1",
             self::DB_TABLE_NAME,
             $where_arr
         );
