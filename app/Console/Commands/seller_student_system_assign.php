@@ -167,6 +167,7 @@ class seller_student_system_assign extends cmd_base
                 for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
                     for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
                         $find_userid= @$need_deal_list[$j]["userid"];
+                        //判断之前没有分配给次用户过
                         if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
 
                             $assigned_count++;
