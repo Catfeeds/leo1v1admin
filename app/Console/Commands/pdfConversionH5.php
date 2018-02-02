@@ -151,7 +151,7 @@ class pdfConversionH5 extends Command
     }
 
     public function updateTranResult($lessonid,$saveH5Upload,$is_tea){
-        $url = "http://admin.leo1v1.com/common_new/updateTranResult";
+        $url = "http://test.admin.leo1v1.com/common_new/updateTranResult";
         $post_data = array(
             "lessonid" => $lessonid,
             "zip_url"  => $saveH5Upload,
@@ -168,7 +168,7 @@ class pdfConversionH5 extends Command
     }
 
     public function getNeedTranLessonUid(){
-        $url = "http://admin.leo1v1.com/common_new/getNeedTranLessonUid";
+        $url = "http://test.admin.leo1v1.com/common_new/getNeedTranLessonUid";
         $post_data = [];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);

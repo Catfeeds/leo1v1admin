@@ -16,11 +16,12 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\update_refund_warning::class,
         Commands\pptToH5ForStu::class,
         Commands\sendForMarketTmp::class,
         Commands\SendMsgToTeaSetFreeTime::class,
         Commands\update_rs_tea_money_type::class,
-        Commands\update_teacher_advance_info::class,       
+        Commands\update_teacher_advance_info::class,
         Commands\test_ricky::class,
         Commands\SendSmsByPhone::class,
         Commands\h5GetPoster::class,
@@ -36,6 +37,7 @@ class Kernel extends ConsoleKernel
         Commands\NoticeAssForFirstLesson::class,
         Commands\update_company_wx_data::class,
         Commands\update_identity_for_teacher::class,
+        Commands\sync_kaoqin_re_upload_user_info::class,
         Commands\update_haruteru_award::class,
         Commands\notice_cc_for_test_schedule::class,
         Commands\notice_teacher_bank::class,

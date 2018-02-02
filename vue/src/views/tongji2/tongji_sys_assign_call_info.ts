@@ -144,15 +144,15 @@ export default class extends vtable {
       "btn_id_config"     : {},
     });
 
-	$.admin_enum_select({
-		'join_header'  : $header_query_info,
-"enum_type"    : "boolean",
-"field_name" : "same_admin_flag",
-"title" : "cc一致",
-"select_value" : this.get_args().same_admin_flag,
-		"multi_select_flag"     : false,
-		"btn_id_config"     : {},
-	});
+	  $.admin_enum_select({
+		  'join_header'  : $header_query_info,
+      "enum_type"    : "boolean",
+      "field_name" : "same_admin_flag",
+      "title" : "cc一致",
+      "select_value" : this.get_args().same_admin_flag,
+		  "multi_select_flag"     : false,
+		  "btn_id_config"     : {},
+	  });
 
 
 	  $.admin_enum_select({

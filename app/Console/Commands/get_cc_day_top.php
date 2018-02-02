@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use \App\Enums as E;
 
 class get_cc_day_top extends cmd_base 
 {
@@ -40,10 +41,9 @@ class get_cc_day_top extends cmd_base
     {
         $end_time = strtotime(date('Y-m-d'));
         $begin_time = strtotime('- 7 day',$end_time);
-        $add_time = strtotime('- 1 day',$end_time);
         //计算排名前20%cc信息
         $cc_result_info = $this->get_cc_result_info($begin_time,$end_time);
-        $has_rank_count = $this->task->t_cc_day_top->get_has_rank_count($add_time);
+        $has_rank_count = $this->task->t_cc_day_top->get_has_rank_count($end_time);
         if($has_rank_count > 0){
 
             echo '今日名单已经生成了!';
@@ -57,7 +57,7 @@ class get_cc_day_top extends cmd_base
                         'uid' => $item['uid'],
                         'score' => $item['result'],
                         'rank' => $rank++,
-                        'add_time' => $add_time
+                        'add_time' => end_time
                     ]);
                 }
             }
