@@ -8,7 +8,7 @@ use LaneWeChat\Core\AccessToken;
 use LaneWeChat\Core\ResponsePassive;
 use Illuminate\Http\Request;
 use LaneWeChat\Core\WeChatOAuth;
-use Squirrel\Core\UserManage;
+use Squirrel_tea\Core\UserManage;
 use LaneWeChat\Core\TemplateMessage;
 
 include(app_path("Wx/Squirrel_tea/lanewechat_squirrel_tea.php"));
@@ -53,8 +53,8 @@ class  squirrel_tea_wx_server extends Controller
 
 
 
-        $ret =  \Squirrel\Core\Menu::setMenu($menuList);
-        $result =  \Squirrel\Core\Menu::getMenu($menuList);
+        $ret =  \Squirrel_tea\Core\Menu::setMenu($menuList);
+        $result =  \Squirrel_tea\Core\Menu::getMenu($menuList);
         dd($result);
     }
 
