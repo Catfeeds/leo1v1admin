@@ -32,8 +32,6 @@
                     <td>分配时间</td>
                     <td>例子来源</td>
                     <td>学生</td>
-                    <td>电话</td>
-                    <td>userid</td>
                     <td>cc</td>
                     <td>拨打次数</td>
                     <td>拨通</td>
@@ -46,9 +44,7 @@
                     <tr>
                         <td>{{$var["logtime"]}} </td>
                         <td>{{$var["seller_student_assign_from_type_str"]}} </td>
-                        <td>{{$var["student_nick"]}}</td>
-                        <td>{{$var["student_nick"]}}</td>
-                        <td>{{$var["userid"]}} </td>
+                        <td>{{$var["student_nick"]}} </td>
                         <td>{{$var["admin_nick"]}} </td>
                         <td>{{$var["call_count"]}} </td>
                         <td>{!!  $var["called_flag_str"]!!} </td>
