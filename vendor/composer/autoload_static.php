@@ -77,10 +77,6 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             'Illuminate\\' => 11,
         ),
-        'G' => 
-        array (
-            'Gregwar\\' => 8,
-        ),
         'F' => 
         array (
             'Faker\\' => 6,
@@ -223,10 +219,6 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
         ),
-        'Gregwar\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/gregwar/captcha/src/Gregwar',
-        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -335,6 +327,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'AddLeaderPowerForCompanyWxTag' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_144910_add_leader_power_for_company_wx_tag.php',
         'AddPermissionForCompanyWxUsers' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_173608_add_permission_for_company_wx_users.php',
         'AddPowerForManager' => __DIR__ . '/../..' . '/database/migrations/2017_11_30_182706_add_power_for_manager.php',
+        'AddRefundWarningForStudentInfo' => __DIR__ . '/../..' . '/database/migrations/2018_02_02_112939_add_refund_warning_for_student_info.php',
         'AddRidForCompanyWxUsers' => __DIR__ . '/../..' . '/database/migrations/2017_11_24_103609_add_rid_for_company_wx_users.php',
         'AddTTeacherApproveReferToData' => __DIR__ . '/../..' . '/database/migrations/2018_01_04_143621_add_t_teacher_approve_refer_to_data.php',
         'AddVotes2ToTTeacherApproveReferToData' => __DIR__ . '/../..' . '/database/migrations/2018_01_04_155434_add_votes_2_to_t_teacher_approve_refer_to_data.php',
@@ -361,6 +354,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'CreateTAgentIncomeLog' => __DIR__ . '/../..' . '/database/migrations/2017_11_10_151344_create_t_agent_income_log.php',
         'CreateTArea' => __DIR__ . '/../..' . '/database/migrations/2017_12_07_175834_create_t_area.php',
         'CreateTAssStuChangeList' => __DIR__ . '/../..' . '/database/migrations/2017_11_10_101911_create_t_ass_stu_change_list.php',
+        'CreateTCcDayTop' => __DIR__ . '/../..' . '/database/migrations/2018_01_27_132253_create_t_cc_day_top.php',
         'CreateTChannelFunnelArchiveData' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_100747_create_t_channel_funnel_archive_data.php',
         'CreateTChannelNodeTypeStatistics' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_175333_create_t_channel_node_type_statistics.php',
         'CreateTFunnelChannelStatistics' => __DIR__ . '/../..' . '/database/migrations/2017_12_05_164434_create_t_funnel_channel_statistics.php',
@@ -387,6 +381,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'CreateTRuffianShare' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_103922_create_t_ruffian_share.php',
         'CreateTRuleDetailInfo' => __DIR__ . '/../..' . '/database/migrations/2017_11_17_102008_create_t_rule_detail_info.php',
         'CreateTRuleInfo' => __DIR__ . '/../..' . '/database/migrations/2017_11_17_101959_create_t_rule_info.php',
+        'CreateTSellerStudentDoTagLog' => __DIR__ . '/../..' . '/database/migrations/2018_02_02_161323_create_t_seller_student_do_tag_log.php',
         'CreateTSumActivityQuota' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_132434_create_t_sum_activity_quota.php',
         'CreateTTagLibrary' => __DIR__ . '/../..' . '/database/migrations/2017_11_28_163729_create_t_tag_library.php',
         'CreateTTeacherChristmas' => __DIR__ . '/../..' . '/database/migrations/2017_12_21_154815_create_t_teacher_christmas.php',
@@ -1070,6 +1065,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TResourceFileAddFilePoster' => __DIR__ . '/../..' . '/database/migrations/2017_12_21_103316_t_resource_file_add_file_poster.php',
         'TResourceFileAddWxIndex' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_144649_t_resource_file_add_wx_index.php',
         'TResourceFileErrorInfo' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_181758_t_resource_file_error_info.php',
+        'TResourceFileErrorInfoAddStatus' => __DIR__ . '/../..' . '/database/migrations/2018_02_02_171505_t_resource_file_error_info_add_status.php',
         'TResourceFileErrorInfoAddTrainType' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_110644_t_resource_file_error_info_add_train_type.php',
         'TResourceFileEvalutation' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_172419_t_resource_file_evalutation.php',
         'TResourceFileReset' => __DIR__ . '/../..' . '/database/migrations/2017_12_30_111310_t_resource_file_reset.php',
@@ -1078,7 +1074,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TRuffianActivityAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
         'TRuffianActivityAddStuType' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_152520_t_ruffian_activity_add_stu_type.php',
         'TRuffianActivityDropAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_151005_t_ruffian_activity_drop_add_time.php',
-        'TRuffianActivityModify' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_155743_t_ruffian_activity_modify.php',
+        'TRuffianActivityModify' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
         'TSellerEditLogAddFirstRevisitTime' => __DIR__ . '/../..' . '/database/migrations/2018_01_19_165523_t_seller_edit_log_add_first_revisit_time.php',
         'TSellerEditLogAddNewCreateTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
         'TSellerGetNewLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_18_110632_t_seller_get_new_log.php',
@@ -1114,7 +1110,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TSellerStudentOriginAddLastSucLessonid' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_174946_t_seller_student_origin_add_last_suc_lessonid.php',
         'TSellerStudentSystemAssignCountLogAddDefCount' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_104534_t_seller_student_system_assign_count_log_add__def_count.php',
         'TSellerStudentSystemReleaseLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_120646_t_seller_student_system_release_log.php',
-        'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
+        'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
         'TSellerTongjiForMonthAddColumons' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
         'TSellerTongjiForMonthAddDataType' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',
         'TSellerTongjiForMonthAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_185426_t_seller_tongji_for_month_add_item.php',
