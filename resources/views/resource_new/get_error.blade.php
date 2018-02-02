@@ -132,11 +132,7 @@
         <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
-                    <th style="width:10px">
-                        <a href="javascript:;" id="id_select_all" title="全选">全</a>
-                        <a href="javascript:;" id="id_select_other" title="反选">反</a>
-                    </th>
-                    <th>文件名</th>
+                    <th style="max-width:200px">文件名</th>
                     <th>报错详情</th>
                     <th>错误类型</th>
                     <th style="max-width:200px">报错内容</th>
@@ -151,10 +147,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
-                        <td>
-                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
-                        </td>
-                        <td>{{@$var["file_title"]}} </td>
+                        <td style="max-width:200px">{{@$var["file_title"]}} </td>
                         <td>报错人:{{@$var['error_nick']}} <br/>
                             报错时间:{{@$var['add_time']}}
                         </td>
