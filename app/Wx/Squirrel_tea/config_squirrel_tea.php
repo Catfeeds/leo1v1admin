@@ -25,15 +25,8 @@ define('ENCODING_AES_KEY_SST', "81GCmaLyBPsN9NmXqwGR4JkwhURGOuFcjA0DVkBjk83");//
 //  * 开发者配置
 //  */
 
-
 define("WECHAT_APPID_SST", 'wxea9180dcd80afbe7'); //松鼠思维老师帮
 define("WECHAT_APPSECRET_SST",'be160158f67c3c78c12ffbeb57443180');//松鼠思维老师帮
-
-
-
-
-
-
 
 // /*
 //  * SAE平台配置
