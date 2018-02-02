@@ -50,17 +50,28 @@ class pdfConversionH5 extends Command
 
         $handoutArray = $this->getNeedTranLessonUid();
 
+        // $handoutArray = [
+        //     [
+        //         "uuid_stu"=>'cf0a4f0b1ff72ea9b9844466aa043c94',
+        //         "ppt_status_stu" => '1',
+        //         "zip_url_stu" => '',
+        //         "uuid" => 'dd3befdb8076ee124d4626dcd40f4c32',
+        //         "ppt_status" => '',
+        //         "zip_url" => ''
+        //     ]
+
+        // ];
         foreach($handoutArray as $item){
-            if($item['uuid_stu']){
-                $this->deal_change($item,2); # 处理学生讲义
+            if($item['uuid_stu'] && $item['ppt_status_stu'] == 1 && $item['zip_url_stu'] == ''){
+                $this->deal_change($item,2,$email,$pwd); # 处理学生讲义
             }
-            if($item['uuid']){
-                $this->deal_change($item,1); # 处理教师讲义
+            if($item['uuid'] && $item['ppt_status'] == 1 && $item['zip_url'] == ''){
+                $this->deal_change($item,1,$email,$pwd); # 处理教师讲义
             }
         }
     }
 
-    public function deal_change($item,$is_tea){
+    public function deal_change($item,$is_tea,$email,$pwd){
         if($is_tea == 1){
             $uuid = $item['uuid'];
         }else{
@@ -140,7 +151,7 @@ class pdfConversionH5 extends Command
     }
 
     public function updateTranResult($lessonid,$saveH5Upload,$is_tea){
-        $url = "http://admin.leo1v1.com/common_new/updateTranResult";
+        $url = "http://test.admin.leo1v1.com/common_new/updateTranResult";
         $post_data = array(
             "lessonid" => $lessonid,
             "zip_url"  => $saveH5Upload,
@@ -157,7 +168,7 @@ class pdfConversionH5 extends Command
     }
 
     public function getNeedTranLessonUid(){
-        $url = "http://admin.leo1v1.com/common_new/getNeedTranLessonUid";
+        $url = "http://test.admin.leo1v1.com/common_new/getNeedTranLessonUid";
         $post_data = [];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);

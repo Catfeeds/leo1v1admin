@@ -48,13 +48,22 @@ class t_small_lesson_info extends \App\Models\Zgen\z_t_small_lesson_info
 
     public function small_class_get_lesson_student_list($lessonid,$page_num ){
         $where_arr=[
-            [ "t1.lessonid=%d", $lessonid, -2 ],
+            ["t1.lessonid=%d",$lessonid, -2 ],
         ];
-        
-        $sql=$this->gen_sql_new("select t1.lessonid, t1.userid as studentid, t2.lesson_num, from_unixtime( t2.lesson_start) as lesson_start, t1.issue_url,t1.issue_time ,t1.finish_url, t1.finish_time, t1.check_url, t1.check_time, t1.tea_research_url,t1.tea_research_time, t1.ass_research_url, t1.ass_research_time ,t1.work_status from  %s t1 , %s t2   where t1.lessonid=t2.lessonid and %s ",
-                                self::DB_TABLE_NAME,
-                                t_lesson_info::DB_TABLE_NAME,
-                                $where_arr );
+
+        $sql=$this->gen_sql_new("select t1.lessonid, t1.userid as studentid, t2.lesson_num,s.nick,"
+                                ." from_unixtime( t2.lesson_start) as lesson_start, t1.issue_url,t1.issue_time ,t1.finish_url, "
+                                ." t1.finish_time, t1.check_url, t1.check_time, t1.tea_research_url,t1.tea_research_time, "
+                                ." t1.ass_research_url, t1.ass_research_time ,t1.work_status "
+                                ." from  %s t1 "
+                                ." left join %s t2  on t1.lessonid=t2.lessonid"
+                                ." left join %s s  on t1.userid=s.userid"
+                                ." where %s "
+                                ,self::DB_TABLE_NAME
+                                ,t_lesson_info::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num, 10);
     }
 

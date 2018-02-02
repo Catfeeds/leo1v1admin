@@ -1,8 +1,10 @@
 <?php
 return array(
+    ["db_weiyi","t_seller_student_do_tag_log","id"],
     ["db_weiyi_admin","t_seller_student_system_release_log","id"],
     ["db_weiyi_admin","t_company_wx_approval_notify","d_id"],
     ["db_weiyi_admin","t_company_wx_approval_data","id"],
+    ['db_weiyi','t_cc_day_top','id'],
     ['db_weiyi_admin','t_company_wx_approval','id'],
     ["db_tool","t_personality_poster","id"],
     ["db_tool","t_poster_share_log","poster_id"],
@@ -247,6 +249,8 @@ return array(
     ["db_weiyi","t_teacher_advance_list", "start_time","teacherid"],
     ["db_weiyi","t_teaching_core_data", "time","type"],
     ["db_weiyi","t_phone_info","id"],
+    ["db_weiyi","t_resource_file_evalutation","id"],
+    ["db_weiyi","t_resource_file_error_info","id"],
     ["db_weiyi","t_subject_grade_config", "adminid","type"],
 
     ["db_weiyi","t_origin_key", "value"],

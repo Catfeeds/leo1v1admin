@@ -43,6 +43,7 @@ interface RowData {
 	tag_four_str	:any;
 	create_time	:any;
 	visitor_id	:any;
+	comment_id	:any;
 	file_use_type_str	:any;
 	nick	:any;
 	tag_one_name	:any;
@@ -55,6 +56,8 @@ interface RowData {
 	resource_type_str	:any;
 	use_type_str	:any;
 	tag_one_str	:any;
+	tag_two_str	:any;
+	tag_three_str	:any;
 	tag_five_str	:any;
 }
 

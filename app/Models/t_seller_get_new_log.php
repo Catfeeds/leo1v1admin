@@ -13,7 +13,7 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
         $this->where_arr_add_int_field($where_arr, 'adminid', $adminid);
         $this->where_arr_add_int_field($where_arr, 'userid', $userid);
         $sql = $this->gen_sql_new(
-            "select id,called_count,no_called_count "
+            "select id,called_count,no_called_count,cc_end "
             ."from %s "
             ."where %s limit 1"
             ,self::DB_TABLE_NAME
@@ -125,5 +125,18 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
             ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_min_add_time($desc='asc'){
+        $where_arr = [];
+        $sql = $this->gen_sql_new(
+            " select create_time ".
+            " from %s ".
+            " where %s order by create_time %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+            ,$desc
+        );
+        return $this->main_get_value($sql);
     }
 }

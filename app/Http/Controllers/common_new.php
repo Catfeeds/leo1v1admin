@@ -1,5 +1,4 @@
-<?php
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
@@ -652,7 +651,9 @@ class common_new extends Controller
         if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
             $call_flag = $this->get_in_int_val('call_flag');
             $obj_start_time = time(NULL);
-            $cdr_bridged_cno = 2000;
+            $adminid = $this->get_account_id();
+            //获取用户tquin
+            $cdr_bridged_cno = $this->t_manager_info->get_tquin($adminid);
             $cdr_customer_number = $this->get_in_str_val('phone');
             $cdr_answer_time = time(NULL);
             if($call_flag == 1){
@@ -670,7 +671,9 @@ class common_new extends Controller
             if ($obj_start_time) {
                 $duration= $cdr_end_time-$obj_start_time;
             }
-
+            $sipCause = 0;
+            $client_number = '';
+            $endReason = 1;//销售挂断
         }else{
 
             //$cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
@@ -691,6 +694,16 @@ class common_new extends Controller
             if ($obj_start_time) {
                 $duration= $cdr_end_time-$obj_start_time;
             }
+
+            $sipCause = $this->get_in_int_val('sipCause');
+            $client_number = $this->get_in_str_val('clientNumber');
+            $endReason = 0;
+            if($this->get_in_str_val('endReason')=='是'){//客户
+                $endReason = 2;
+            }elseif($this->get_in_str_val('endReason')=='否'){//销售
+                $endReason = 1;
+            }
+
             \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
         }
 
@@ -702,10 +715,16 @@ class common_new extends Controller
             $cdr_end_time,
             $duration,
             $cdr_status==28?1:0,
-            "",0,0, $obj_start_time
+            "",
+            0,
+            0,
+            $obj_start_time,
+            $sipCause,
+            $client_number,
+            $endReason
         );
 
-        $called_flag=($cdr_status==28 && $duration>60)?2:1;
+        $called_flag=($cdr_status==28)?2:1;
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
         return json_encode(["result"=>"success"]);
     }
@@ -1948,6 +1967,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $lessonid = $this->get_in_int_val('lessonid');
         $zip_url  = $this->get_in_str_val('zip_url');
         $is_tea   = $this->get_in_int_val('is_tea');
+        \App\Helper\Utils::logger("2_1zip_url: $zip_url; is_tea:$is_tea");
+
         if($is_tea == 1 ){ # 老师
             $this->t_lesson_info_b3->field_update_list($lessonid,[
                 "zip_url" => $zip_url
@@ -1993,6 +2014,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     //@desn:测试环境模拟拨打
     //@param:call_flag 拨打标识 1 模拟失败 2 模拟成功
     public function test_simulation_call(){
+        \App\Helper\Utils::logger("模拟拨打开始!"); 
         $call_flag = $this->get_in_int_val('call_flag',0);
         $phone = $this->get_in_int_val('phone','');
         $this->set_in_value('call_flag', $call_flag);

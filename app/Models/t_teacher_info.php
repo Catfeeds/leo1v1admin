@@ -2454,8 +2454,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.train_through_new = 1",
             "l.lesson_del_flag=0",
             "l.confirm_flag  <>2",
-            "l.lesson_type<1000",
-            "l.lesson_type <>2",
+            "l.lesson_type in (0,1,3)",
             "t.level>=1"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -2479,8 +2478,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
             ["t.realname='%s'",$realname,""],
-            "l.lesson_type <>2",
-            "l.lesson_type<1000"
+            "l.lesson_type in (0,1,3)",
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[] = $this->where_get_in_str("t.teacherid",$arr);
@@ -4731,7 +4729,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$lesson_arr
                                   ,$teacher_arr
         );
-        
         return $this->main_get_list($sql,function($item){
             return $item['teacherid']."_key";
         });

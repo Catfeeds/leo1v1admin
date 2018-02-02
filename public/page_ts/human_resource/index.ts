@@ -1006,7 +1006,7 @@ $(function(){
                 step       : 30
             });
         });
-  });
+    });
 
     $(".show_phone").on("click",function(){
         var phone = $(this).data("phone");
@@ -1375,6 +1375,34 @@ $(function(){
                     });
 		            }
 	          }]
+        });
+    }
+
+    var update_tea_realname = function(opt_data){
+        var id_nick     = $("<input>");
+        var id_realname = $("<input>");
+        var arr = [
+            ["昵称",id_nick],
+            ["姓名",id_realname],
+        ];
+        id_nick.val(opt_data.nick);
+        id_realname.val(opt_data.realname);
+        $.show_key_value_table("修改昵称/姓名",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/human_resource/update_tea_realname",{
+                    "teacherid" : opt_data.teacherid,
+                    "nick"      : id_nick.val(),
+                    "realname"  : id_realname.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                });
+            }
         });
     }
 
@@ -1789,17 +1817,18 @@ $(function(){
     $(".opt-account-number").on("click",function(){
 	      var data = $(this).get_opt_data();
 
-        var id_send_offer_info         = $("<button class='btn btn-danger'>发送入职信息</button>");
-        var id_switch_teacher_to_test  = $("<button class='btn btn-primary'>一键转为测试老师</button>");
+        var id_tea_realname            = $("<button class='btn btn-primary'>修改老师姓名</button>");
+        var id_send_offer_info         = $("<button class='btn btn-primary'>发送入职信息</button>");
+        var id_switch_teacher_to_test  = $("<button class='btn btn-danger'>一键转为测试老师</button>");
         var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
-        var id_change_tea_to_new       = $("<button class='btn btn-primary'>账号转移</button>");
+        var id_change_tea_to_new       = $("<button class='btn btn-danger'>账号转移</button>");
         var id_subject_info            = $("<button class='btn btn-danger'>年级/科目修改</button>");
 
-        var id_update_tea_level        = $("<button class='btn btn-primary'>老师工资类型</button>");
+        var id_update_tea_level        = $("<button class='btn btn-danger'>老师工资类型</button>");
         var id_update_tea_bank         = $("<button class='btn btn-danger'>银行卡</button>");
-        var id_update_tea_pass_info    = $("<button class='btn btn-primary'>通过信息</button>");
-        var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
+        var id_update_tea_pass_info    = $("<button class='btn btn-danger'>通过信息</button>");
         var id_set_test_user           = $("<button class='btn btn-danger'>设为测试</button>");
+        var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
         var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
         var id_part_to_full            = $("<button class='btn btn-danger'>一键转全职</button>");
 
@@ -1815,6 +1844,7 @@ $(function(){
         id_switch_teacher_to_test.on("click",function(){switch_teacher_to_test(data);});
         id_send_offer_info.on("click",function(){send_offer_info(data);});
         id_part_to_full.on('click',function(){part_to_full(data);});
+        id_tea_realname.on('click',function(){update_tea_realname(data);});
 
         var arr = [
             ["",id_send_offer_info],
@@ -1822,9 +1852,10 @@ $(function(){
             ["",id_change_phone],
             ["",id_change_tea_to_new],
             ["",id_subject_info],
+            ["",id_tea_realname],
         ];
 
-        if(account_role == 12 ){
+        if(account_role == 12){
             var extra_arr = [
                 ["",id_update_tea_level],
                 ["",id_update_tea_bank],

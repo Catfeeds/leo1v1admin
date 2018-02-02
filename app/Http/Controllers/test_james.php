@@ -14,6 +14,9 @@ use  App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
 use  App\Jobs\wxPicSendToParent;
 use  App\Jobs\marketActivityPoster;
+use Illuminate\Support\Facades\Cookie ;
+use Illuminate\Support\Facades\Redis ;
+use Illuminate\Support\Facades\Session ;
 
 
 
@@ -376,19 +379,17 @@ class test_james extends Controller
 
     public function installNew(){ // 新建表单
         // Schema::dropIfExists('db_weiyi.t_activity_usually');
-        // Schema::create('db_weiyi.t_activity_usually', function(Blueprint $table) {
-        //     t_field($table->increments("id"), "市场日常活动表");
-        //     t_field($table->integer("gift_type"), "礼品类型");
-        //     t_field($table->string("title",524), "活动标题");
-        //     t_field($table->string("describe",2048), "活动描述");
-        //     t_field($table->string("url",512), "活动链接");
-        //     t_field($table->tinyInteger("activity_status"), "活动状态");
-        //     t_field($table->integer("add_time"), "添加时间");
-        //     t_field($table->integer("uid"), "添加人");
+        Schema::create('db_weiyi.t_seller_student_confirm_log', function(Blueprint $table) {
+            t_comment($table, "CC 标记资源日志表");
+            t_field($table->increments("id"), "");
+            t_field($table->integer("add_time"), "标记时间");
+            t_field($table->integer("adminid"), "销售ID");
+            t_field($table->integer("userid"), "学生ID");
+            t_field($table->integer("tag_flag"), "标记类别");
 
-        //     $table->index('userid');
-        //     $table->index('add_time');
-        // });
+            $table->index('userid');
+            $table->index('adminid');
+        });
         /**
            1、记录CC/CR获取转发链接的次数、名单、家长点击次数，家长ID、制作海报次数，最终获得常规课人数，通过此海报注册试听课人数；
 
@@ -1776,62 +1777,20 @@ class test_james extends Controller
         // dispatch( new \App\Jobs\marketActivityPoster('','',$qr_code_url,'',''));
     }
 
+
+    # 测试Redis 存储功能
     public function getTea(){
+        $key = '1';
+        $val = 'value1';
+        $flag = Redis::set($key,$val);
 
-        $a = 0.3;
-        dd($a);
-        $start_time = strtotime($this->get_in_str_val("s"));
-        $end_time = strtotime($this->get_in_str_val("e"));
-        $dayNum = ($end_time-$start_time)/86400;
-        $type = $this->get_in_int_val('t');
+        dd($flag);
+    }
 
-        $lessonCancelNum = $this->t_lesson_info_b3->getLessonCancelRate($start_time,$end_time);
-        $actualLessonNum = $this->t_lesson_info_b3->getTotalNum($start_time,$end_time);
-        $dateArr = [];
-        $rateArr = [];
-        $tmp = [];
-
-        $a = 0;
-        for($i=0; $i<$dayNum; $i++){
-            $timeStart = $start_time+$i*86400;
-            $timeEnd   = $timeStart+86400;
-            $dateArr[] = date('Y-m-d',$timeStart);
-            $cancel_num = 0;
-            $actual_num = 0;
-
-            foreach($lessonCancelNum as $item_cancel){
-                if($item_cancel['lesson_start']>=$timeStart && $item_cancel['lesson_start']<=$timeEnd){
-                    $cancel_num+=1;
-                    // echo $cancel_num." lessonId:".$item_cancel['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd <br/>";
-                }
-            }
-
-            foreach($actualLessonNum as $item_actual){
-                if($item_actual['lesson_start']>=$timeStart && $item_actual['lesson_start']<=$timeEnd){
-                    $actual_num+=1;
-                    // echo $actual_num." lessonId:".$item_actual['lessonid']." timeStart:$timeStart; timeEnd: $timeEnd <br/>";
-
-                }
-            }
-            // echo $actual_num+$cancel_num."<br>";
-            if(($actual_num+$cancel_num)>0){
-                $rateArr[] = $cancel_num/($actual_num+$cancel_num);
-                echo "a1<br>";
-            }else{
-                $rateArr[] = 0;
-            }
-        }
-        $ret_info = [];
-
-        dd($rateArr);
-        if($type==1){
-            dd($lessonCancelNum);
-        }else{
-            dd($actualLessonNum);
-        }
-
-
-
+    public function getKey(){
+        $key = '*';
+        $val = Redis::keys($key);
+        dd(count($val));
     }
 
 }

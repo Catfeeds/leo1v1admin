@@ -3,5 +3,19 @@
   <div id="id_header_query_info" > </div>
 
   <hr/>
-  <admin-table :table_data="table_data" :table_config="table_config"   />
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="input-group ">
+        <button class="btn btn-warning" @click="opt_multi_delete"  >批量删除</button>
+       ||
+        <button class="btn btn-primary fa fa-plus" @click="opt_add"  >添加</button>
+        <button class="btn btn-primary fa fa-plus" @click="opt_sync_all_user"  >同步考勤机</button>
+      </div>
+
+    </div>
+  </div>
+
+  <hr/>
+  <admin-table :multi_select="true" :table_data="table_data" :table_config="table_config"   />
 </section>

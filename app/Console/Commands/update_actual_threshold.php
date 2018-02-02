@@ -99,26 +99,26 @@ class update_actual_threshold extends Command
         $ret_threshold = $this->task->t_seller_edit_log->get_actual_threshold($start_time,$end_time);
         if(count($ret_threshold) == 1){
             if($rate<=$threshold_min){//红色
-                $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called);
+                $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called,$start_time,$end_time);
             }elseif($rate<=$threshold_max && $rate>$threshold_min){//黄色
-                $this->update_send_wx_flag($ret_threshold[0]['id'],1,$threshold_max,$threshold_min,$count_call,$count_no_called);
+                $this->update_send_wx_flag($ret_threshold[0]['id'],1,$threshold_max,$threshold_min,$count_call,$count_no_called,$start_time,$end_time);
             }
         }elseif(count($ret_threshold)>1){
             if($ret_threshold[1]['new']>$threshold_max){
                 if($ret_threshold[0]['new']<=$threshold_min){//红色
-                    $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called);
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called,$start_time,$end_time);
                 }elseif($ret_threshold[0]['new']<=$threshold_max && $ret_threshold[0]['new']>$threshold_min){//黄色
-                    $this->update_send_wx_flag($ret_threshold[0]['id'],1,$threshold_max,$threshold_min,$count_call,$count_no_called);
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],1,$threshold_max,$threshold_min,$count_call,$count_no_called,$start_time,$end_time);
                 }
             }elseif($ret_threshold[1]['new']>$threshold_min && $ret_threshold[1]['new']<=$threshold_max){
                 if($ret_threshold[0]['new']<=$threshold_min){//红色
-                    $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called);
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called,$start_time,$end_time);
                 }
             }
         }
     }
 
-    public function update_send_wx_flag($id,$flag,$threshold_max,$threshold_min,$count_call,$count_no_called){
+    public function update_send_wx_flag($id,$flag,$threshold_max,$threshold_min,$count_call,$count_no_called,$start_time,$end_time){
         $this->task->t_seller_edit_log->field_update_list($id, [
             'old'=>$flag,
         ]);
@@ -145,7 +145,7 @@ class update_actual_threshold extends Command
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
                 ],
-                $url='http://admin.leo1v1.com/tongji_ex/threshold_detail?color='.$color.'&threshold_line='.$threshold.'&count_call='.$count_call.'&count_no_called='.$count_no_called.'&type=1'
+                $url='http://admin.leo1v1.com/tongji_ex/threshold_detail?color='.$color.'&threshold_line='.$threshold.'&count_call='.$count_call.'&count_no_called='.$count_no_called.'&type=1'.'&start_time='.$start_time.'&end_time='.time()
             );
         }
     }
@@ -178,7 +178,7 @@ class update_actual_threshold extends Command
                     "keyword3" => date("Y-m-d H:i:s"),
                     "remark"   => $desc,
                 ],
-                $url='http://admin.leo1v1.com/tongji_ex/threshold_detail?threshold_max='.$threshold_max.'&threshold_min='.$threshold_min.'&count_y='.$count_y.'&count_r='.$count_r.'&rate='.$rate.'&count_call='.$count_call.'&count_no_called='.$r_count_no_called.'&type=2'
+                $url='http://admin.leo1v1.com/tongji_ex/threshold_detail?threshold_max='.$threshold_max.'&threshold_min='.$threshold_min.'&count_y='.$count_y.'&count_r='.$count_r.'&rate='.$rate.'&count_call='.$count_call.'&count_no_called='.$count_no_called.'&type=2'.'&start_time='.$start_time.'&end_time='.time()
             );
         }
     }

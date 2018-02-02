@@ -856,6 +856,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type=0",
             "sys_operator<>'jim'",
             "gu.groupid = $groupid",
+            "o.contract_status<3",
         ];
 
         $sql = $this->gen_sql_new("select sys_operator, sum(price) as all_price,count(*)as all_count  "
@@ -5043,6 +5044,43 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ,$where_arr
         );
         return $this->main_get_value($sql);
+    }
+    //@desn:获取cc一段时间内的销售额
+    //@param:$begin_time,$end_time 开始时间 结束时间
+    //@param:$sys_operator cc的昵称
+    public function get_order_money_by_adminid($begin_time,$end_time,$sys_operator){
+        $where_arr=[
+            'oi.contract_type = 0',
+            'si.is_test_user = 0',
+            'oi.contract_status >0',
+            'oi.sys_operator' => $sys_operator
+        ];
+        $this->where_arr_add_time_range($where_arr, 'oi.pay_time', $begin_time, $end_time);
+        $sql=$this->gen_sql_new(
+            'select sum(price) order_money,count(*) order_num from %s oi join %s si using(userid) where %s',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_item_list($start_time,$end_time){
+        $where_arr=[
+            'o.contract_type=0',
+            'o.price>0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'o.order_time', $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            " select o.*,m.create_time become_time "
+            ." from %s o "
+            ." left join %s m on m.account=o.sys_operator "
+            ." where %s",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }
 

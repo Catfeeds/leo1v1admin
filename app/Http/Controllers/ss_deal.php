@@ -3080,7 +3080,7 @@ class ss_deal extends Controller
             "fail_greater_4_hour_flag" => $fail_greater_4_hour_flag,
         ]);
 
-        if ($fail_greater_4_hour_flag==1) {
+        if ($fail_greater_4_hour_flag==1 || $test_lesson_fail_flag>100) {
             $lesson_del_flag=1;
         }else{
             $lesson_del_flag=0;
@@ -3104,14 +3104,13 @@ class ss_deal extends Controller
 
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1  ){
             $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,
-                E\Eseller_student_status::V_120 , $this->get_account()
+                $require_id,E\Eseller_student_status::V_120,$this->get_account()
             );
 
         }else{
             $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,
-                E\Eseller_student_status::V_290 , $this->get_account() );
+                $require_id,E\Eseller_student_status::V_290,$this->get_account()
+            );
         }
 
 
@@ -3275,7 +3274,7 @@ class ss_deal extends Controller
      * 试听课课时确认
      * 路径：/tea_manage/lesson_list
      */
-    public function confirm_test_lesson_ass() {
+    public function confirm_test_lesson_ass(){
         $lessonid                 = $this->get_in_lessonid();
         $success_flag             = $this->get_in_str_val("success_flag");
         $fail_reason              = $this->get_in_str_val("fail_reason");
@@ -3288,7 +3287,7 @@ class ss_deal extends Controller
             return $check_flag;
         }
 
-        if ($success_flag==1 || $success_flag==0 ) {
+        if ($success_flag==1 || $success_flag==0){
             $fail_reason              = "";
             $test_lesson_fail_flag    = 0;
             $fail_greater_4_hour_flag = 0;
@@ -3303,15 +3302,10 @@ class ss_deal extends Controller
             "fail_greater_4_hour_flag" => $fail_greater_4_hour_flag,
         ]);
 
-        // set lesson_del_flag
-        // E\Etest_lesson_fail_flago( )
-        //103 => "[不付] 换时间 ",
-        //104 => "[不付] 换老师",
-        //105 => "[不付] 排课出错 ",
-        if ($fail_greater_4_hour_flag ==1 ) {
-            $lesson_del_flag=1;
+        if ($fail_greater_4_hour_flag ==1 || $test_lesson_fail_flag>100 ) {
+            $lesson_del_flag = 1;
         }else{
-            $lesson_del_flag=0;
+            $lesson_del_flag = 0;
         }
 
         $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
@@ -5929,6 +5923,7 @@ class ss_deal extends Controller
                     "pwd" => md5($admin_info["call_phone_passwd"]),
                     "customerNumber"=>$phone,
                     "sync"=>0,
+                    // "userField"=>1,
                 ]);
             $error_code_conf=[
                 0=> "sync=1时表示座席已接听，sync=0时表示发起呼叫请求成功",
@@ -7888,8 +7883,8 @@ class ss_deal extends Controller
                 $followImgUrlOnline = $domain."/".$item;
                 list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
 
-                if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
-                if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!');
+                if($followType != 3 && $followType !=0){return $this->output_err('关注页 [图片格式] 不符合,请重新上传!');}
+                if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页 [图片尺寸] 不符合,请重新上传!');
                 }
             }
         }

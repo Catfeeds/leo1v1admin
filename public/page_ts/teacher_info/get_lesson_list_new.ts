@@ -161,7 +161,7 @@ $(function(){
 
     var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id,look_pdf, allow_arr){
         if(!allow_arr) {
-            allow_arr = ['pdf','ppt'];
+            allow_arr = ['pdf','ppt','pptx'];
         }
         var id_item = $(
             "<div class=\"row\"> "+
@@ -579,12 +579,12 @@ $(function(){
                 tea_cw_url_list[n][3] = 0;
             }
         }
-
-        var get_pdf_info = function(is_tea_flag, file_url, res_id, tea_flag){
+        //这是原来的方法
+        var get_pdf_info_origin = function(is_tea_flag, file_url, res_id, tea_flag){
             //console.log(file_url);
             var ret_func = function(ret){
                  if(ret.ret == 0){
-
+                        console.log(ret.url);
                      // if(is_tea_flag>0){
 
                          $('.look-pdf').show();
@@ -610,6 +610,53 @@ $(function(){
                 do_ajax('/teacher_info/get_pdf_download_url_new',{'file_url':file_url},ret_func);
             }
         };
+
+        var get_pdf_info = function(is_tea_flag, file_url, res_id, tea_flag){
+            //console.log(file_url);
+            var ret_func = function(ret){
+                 if(ret.ret == 0){
+                        var arr_url = ret.url.split("?");
+                        var pdf = GetUrlRelativePath(ret.url);
+                        var app = arr_url[1];
+                        var pdf_name = pdf.split(".");
+                        pdf_name = pdf_name[0];
+                        var type = 0;
+                        if(ret.url.indexOf("7tszue.com2.z0.glb.qiniucdn.com")!=-1){
+                            type = 4;
+                        }   
+                        if(ret.url.indexOf("ebtest.qiniudn.com")!=-1){
+                            type = 3;
+                        }
+                        if(ret.url.indexOf("teacher-doc.leo1v1.com")!=-1){
+                            type = 2;
+                        }
+                        $.wopen("/teacher_info/look?"+app+"&url="+pdf_name+"&type="+type);
+                        return false;
+                 } else {
+                    BootstrapDialog.alert(ret.info);
+                }
+            }
+
+            if(is_tea_flag > 0){
+                do_ajax('/teacher_info/tea_look_resource', {'tea_res_id':res_id,'tea_flag':tea_flag}, ret_func);
+            } else {
+                do_ajax('/teacher_info/get_pdf_download_url_new',{'file_url':file_url},ret_func);
+            }
+        };
+
+        function GetUrlRelativePath(url)
+    　　 {
+    　　　　var arrUrl = url.split("//");
+
+    　　　　var start = arrUrl[1].indexOf("/");
+    　　　　var relUrl = arrUrl[1].substring(start);
+
+    　　　　if(relUrl.indexOf("?") != -1){
+    　　　　　　relUrl = relUrl.split("?")[0];
+    　　　　}
+    　　　　return relUrl;
+    　　 }
+
 
         var get_resource_type_show = function(val){
             //1对1精品课程

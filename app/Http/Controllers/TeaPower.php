@@ -2708,7 +2708,7 @@ trait TeaPower {
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
-            $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid,false);
+            $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid);
         }
     }
     /**
@@ -4394,8 +4394,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $list[$i]['lesson_reward_small_class'] = $reward_list[E\Ereward_type::V_9]['money'];
             //公开课工资
             $list[$i]['lesson_reward_open_class'] = $reward_list[E\Ereward_type::V_10]['money'];
-            // //晋升扣款
-            // $list[$i]['level_up_fail'] = $reward_list[E\Ereward_type::V_101]['money'];
+            //晋升扣款
+            $list[$i]['level_up_fail'] = $reward_list[E\Ereward_type::V_101]['money'];
 
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
@@ -4447,7 +4447,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 +$item['lesson_reward_reference']
                 +$item['lesson_reward_train']
                 +$item['lesson_reward_chunhui']
-                // +$item['level_up_fail']
+                +$item['level_up_fail']
             );
             $item['lesson_normal']       = strval($item['lesson_normal']);
             $item['lesson_trial']        = strval($item['lesson_trial']);
@@ -4492,7 +4492,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     ['name'=>'小班课工资','value'=> $item['lesson_reward_small_class'].''],
                     ['name'=>'微课工资','value'=> $item['lesson_reward_weike'].''],
                     ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].''],
-                    // ['name'=>'晋升未达标','value'=> $item['level_up_fail'].'']
+                    ['name'=>'晋升未达标','value'=> $item['level_up_fail'].'']
                 ];
             }
             $item['lesson_reward_chunhui'] = $item['lesson_reward_chunhui'].'';
@@ -5197,6 +5197,42 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
         return [$reach_flag,$withhold_money];
     }
+
+    //晋升等级分差获取
+    public function get_tea_level_str($score,$level){
+        $level_degree = E\Enew_level::get_simple_desc($level);
+        $list =[2=>65,3=>75,4=>80,11=>90];
+        if($level==1){
+            $level_score_info="";
+        }else{
+            $score_target =  $list[$level];
+            if($score>=$score_target){
+                $diff = $score-$score_target;
+                $level_score_info="您已经超过".$level_degree."教师".$diff."分了哦";
+            }else{
+                $diff =$score_target-$score;
+                $level_score_info="您离".$level_degree."教师仅差了".$diff."分了哦";
+            }
+        }
+        return [$level_degree,$level_score_info];
+
+    }
+
+    //老师头像(晋升展示)
+    public function get_tea_face_url_for_wx($tea_info){
+        if(@$tea_info["face"]){
+            $face = $tea_info["face"];
+        }elseif(@$tea_info["gender"]==1){
+            $face="https://ybprodpub.leo1v1.com/f39d1e460a7a5516f9bd7bafbc7bbd411517394933247.png";           
+        }elseif(@$tea_info["gender"]==2){
+            $face="https://ybprodpub.leo1v1.com/3f6dbddc24c14053b7c8957c0d5421791517394874943.png";           
+        }else{
+            $face="http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png";
+        }
+        return $face;
+
+    }
+
 
     
 

@@ -101,7 +101,9 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             "n.seller_student_assign_type=1", // 系统分配k
             "n.seller_resource_type=0", // 新例子
             "n.admin_revisiterid=0", // 未分配
+            's.origin_level <= 4' //s a b c 类例子
         ];
+        // $where_arr[] = '(tls.seller_student_status in (1,2,101,102) and n.cc_no_called_count<=2)';
         $start_time = time(NULL) -86400*30;
         $end_time = time(NULL) ;
         $this->where_arr_add_time_range($where_arr, "add_time", $start_time, $end_time);
@@ -109,12 +111,33 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             "select  n.userid, s.origin_level "
             . " from %s n"
             . " join %s s on n.userid=s.userid "
+            // . ' left join %s tls on tls.userid = n.userid '
             . "  where  %s order by origin_level asc limit $limit_count ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
+            // t_test_lesson_subject::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
+    }
+    //@desn:获取cc有效例子数
+    //@param:$begin_time,$end_time 开始时间 结束时间
+    //@param:$admin_revisiterid cc的id
+    public function get_effect_num($begin_time,$end_time,$admin_revisiterid){
+        $where_arr=[
+            "seller_student_assign_type" => E\Eseller_student_assign_type::V_1,
+            "tq_called_flag =2",
+            "admin_revisiterid" => $admin_revisiterid
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "admin_assign_time", $begin_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+
     }
 
 }

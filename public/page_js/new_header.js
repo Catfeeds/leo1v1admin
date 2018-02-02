@@ -769,7 +769,8 @@ $(function(){
 
     $("#id_self_menu_add").on("click",function(){
         var title= $(".global-menu-select-item").text();
-        var url=   window.location.href.substr( window.location.origin.length);
+        //var url=   window.location.href.substr( window.location.origin.length);
+        var url = window.location.href;
         $.do_ajax("/self_manage/self_menu_add",{
             "title" : title,
             "url" : url,

@@ -125,7 +125,6 @@ class login extends Controller
 
 
     function  gen_one_item ($node,$power_fix,$level,$power_map,$admin_domain_type) {
-
         $power_id= $power_fix*100+$node["power_id"];
         if (isset($node["list"])) {
             $sub_list_str="";
@@ -150,7 +149,7 @@ class login extends Controller
                 $sub_list_str.= $sub_list_str_tmp;
             }
 
-            if ($sub_list_str) {
+            if($sub_list_str){
                 return  array('<li class="treeview " > <a href="#"> <i class="fa fa-folder-o "></i> <span>'.$node["name"].'</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$sub_list_str.'</ul> </li>', $sub_list_str);
 
             }else{
@@ -182,13 +181,11 @@ class login extends Controller
                 return '<li> <a href="'.$url_base.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
-
                 //\App\Helper\Utils::logger("do:".$node["name"].":null--$power_id");
                 return "";
             }
         }
     }
-
 
     private function  gen_menu($power_map,$menu,$start,$level, $admin_domain_type = E\Eadmin_domain_type::V_ADMIN_1V1 ){
         $menu_str        = "";
@@ -232,8 +229,8 @@ class login extends Controller
     }
 
     public function login_check_verify_code(){
-        $account          = $this->get_in_str_val("account");
-        $ip               = $this->get_in_client_ip();
+        $account = $this->get_in_str_val("account");
+        $ip      = $this->get_in_client_ip();
 
         if (\App\Helper\Utils::check_env_is_release()
         ) {
@@ -264,7 +261,6 @@ class login extends Controller
         $_SESSION['seller_level']    = $ret_row["seller_level"];
         $_SESSION['face_pic']        = isset($ret_row["face_pic"])?$ret_row["face_pic"]:'';
         $_SESSION['power_set_time']  = time(NULL);
-
 
         $_SESSION['permission'] = @$permission[$account];
         //dd($permission[$account]);

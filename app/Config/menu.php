@@ -4,7 +4,6 @@ class menu{
    static  public  function get_config()  {
        // 70 -89 小班
         return [
-
             ["power_id"=>40, "name"=>"核心数据",  "list"=> [
                 ["power_id"=>80, "name"=>"测试","url"=>"/test/get_user_list", "domain_type" =>100  ],
                 ["power_id"=>81, "name"=>"测试22","url"=>"/test/get_user_list1", "domain_type" =>100  ],
@@ -273,7 +272,7 @@ class menu{
                 ]],
 
                 ["power_id"=>32, "name"=>"考勤机器",   "url"=>"/admin_manage/kaoqin_machine"],
-                ["power_id"=>33, "name"=>"考勤机器-人员配置",   "url"=>"/admin_manage/kaoqin_machine_adminid"],
+                ["power_id"=>33, "name"=>"考勤机器-人员配置",   "url"=>"/admin_manage/kaoqin_machine_adminid", "domain_type" =>100 ],
                 ["power_id"=>84, "name"=>"开关设备",   "url"=>"/admin_manage/office_cmd_list"],
                 ["power_id"=>21, "name"=>"后台成员分组",   "url"=>"/user_manage_new/admin_group_edit"],
                 ["power_id"=>22, "name"=>"后台主管成员分组",   "url"=>"/user_manage_new/admin_main_group_edit"],

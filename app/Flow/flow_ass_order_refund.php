@@ -24,7 +24,8 @@ class flow_ass_order_refund  extends flow_base{
         7=>[ 6 ," 销售主管 复核 " ],
 
 
-        6 =>[-1, " xixi复核 "  ],
+        6 =>[8, " xixi复核 "  ],
+        10 =>[-1, " 抄送 "  ],
 
     ];
     static function get_self_info( $from_key_int,  $from_key_str, $from_key2_int   ) {
@@ -117,6 +118,12 @@ class flow_ass_order_refund  extends flow_base{
     }
 
 
+    static function next_node_process_10 ($flowid, $adminid){ //
+        return 0;
+    }
+
+
+
 
     static function next_node_process_2 ($flowid, $adminid){ //
         $flag=\App\Helper\Utils::check_env_is_release() ;
@@ -163,7 +170,8 @@ class flow_ass_order_refund  extends flow_base{
     }
 
     static function next_node_process_6 ($flowid, $adminid){ //
-        return 0;
+        $flag=\App\Helper\Utils::check_env_is_release() ;
+        return [10, $flag?"班洁":"jim" , 1 ]; //自动通过
     }
 
 
@@ -176,7 +184,8 @@ class flow_ass_order_refund  extends flow_base{
         $price=$self_info["real_refund"]/100;
         $post_admin_nick=$task->cache_get_account_nick($flow_info["post_adminid"]);
         if (\App\Helper\Utils::check_env_is_release() )  {
-            //$task->t_manager_info ->send_wx_todo_msg("xixi","退费完成","申请人[$post_admin_nick], $user_nick-退费课时数: $lesson_total - 金额 :$price ");
+            //return [7,"班洁" ];
+            //$task->t_manager_info ->send_wx_todo_msg("班洁","退费完成","申请人[$post_admin_nick], $user_nick-退费课时数: $lesson_total - 金额 :$price ");
         }else{
             //$task->t_manager_info->send_wx_todo_msg("jim","退费完成","申请人[$post_admin_nick], $user_nick-退费课时数: $lesson_total - 金额 :$price ");
         }

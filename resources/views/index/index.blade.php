@@ -38,9 +38,9 @@
                     </div>
                     <div class="form-group">
                         <input type="password" id="id_password"  class="form-control" placeholder="密码"/>
-                    </div>          
+                    </div>
                     <div class="row" id="id_verify"   >
-                        <div class="col-xs-5" style=" padding-right: 5px;">    
+                        <div class="col-xs-5" style=" padding-right: 5px;">
                             <input type="text" id="id_seccode"  class="form-control" placeholder="验证码"/>
                         </div><!-- /.col -->
                         <div class="col-xs-7" style="padding-left: 0px; padding-right: 0px;">

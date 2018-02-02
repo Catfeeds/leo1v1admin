@@ -38,6 +38,7 @@ interface RowData {
 	file_use_type	:any;
 	use_num	:any;
 	tea_res_id	:any;
+	is_eval	:any;
 	file_use_type_str	:any;
 	tag_one_name	:any;
 	tag_two_name	:any;
@@ -50,7 +51,7 @@ interface RowData {
 	use_type_str	:any;
 	tag_one_str	:any;
 	tag_two_str	:any;
-	tag_five_str	:any;
+	tag_three_str	:any;
 }
 
 /*

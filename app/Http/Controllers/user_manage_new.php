@@ -1846,10 +1846,10 @@ class user_manage_new extends Controller
         }
         return $this->Pageview(__METHOD__,$ret_info,[
             "_publish_version" => 201801127150,
-            "group_all" => $group_all,
-            "user_list"=>$user_list,
-            "list"=>$list,
-            "groupid" => $groupid
+            "group_all"        => $group_all,
+            "user_list"        => $user_list,
+            "list"             => $list,
+            "groupid"          => $groupid
         ]);
 
     }

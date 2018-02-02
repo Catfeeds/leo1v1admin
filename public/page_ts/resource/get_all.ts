@@ -27,7 +27,8 @@ function load_data(){
         tag_three     :	$('#id_tag_three').val(),
         tag_four      :	$('#id_tag_four').val(),
         tag_five      :	$('#id_tag_five').val(),
-        file_title    :	$('#id_file_title').val()
+        file_title    :	$('#id_file_title').val(),
+        has_comment   : $('#id_has_comment').val(),
     });
 }
 $(function(){
@@ -102,7 +103,7 @@ $(function(){
     }
 
     var get_city = function(obj,city_num, is_true){
-         if (is_true == true){
+        if (is_true == true){
             var pro = '<option value="0">[全部]</option>';
         } else {
             var pro = '<option value="-1">[全部]</option>';
@@ -117,6 +118,8 @@ $(function(){
     }
 
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
+    Enum_map.append_option_list("boolean", $("#id_has_comment"));
+    $("#id_has_comment").val(g_args.has_comment);
     $('#id_use_type').val(g_args.use_type);
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
@@ -253,7 +256,12 @@ $(function(){
         add_resource(timestamp);
     });
 
-    var last_id  = 0, stu_hash = '', stu_link = '';
+    //multi_resource_file 是个二维数组 [['课件版id','老师版id','学生版id'],['课件版id','老师版id','学生版id']]
+    //whole_resource_file 是个一维数组 [ '课件版id','老师版id','学生版id','课件版id','老师版id']
+    //resource_id_arr 插入多组课件时返回的资源id数组
+    //whole_upload_num 总共上传文件的数量
+    //have_upload_num  已经上传文件的数量
+    var last_id  = 0, stu_hash = '', stu_link = '',multi_resource_file = [],whole_resource_file=[],resource_id_arr = [],whole_upload_num = 0,have_upload_num = 0;
 
     var remove_id = [];
 
@@ -326,7 +334,11 @@ $(function(){
             id_grade.val(g_args.grade);
         }
 
+        //多文件上传
+       
         var id_tag_four_search = $("<button class=\"btn btn-primary\" id=\"id_search_tag\" style=\"margin-left:10px\">搜索</button>");
+
+        resource_id_arr = [];
 
         var arr= [
             ["分类", id_use_type],
@@ -362,17 +374,20 @@ $(function(){
                         }
                     }
 
+                    var obj_arr = [];  //必传
+                    var other_arr = [];//非必传
                     //移除其他文件,计算文件数量
                     if(id_resource_type.val() <= 3){//1v1
                         $('.other_file,.ff_file').each(function(){
                             remove_id.push($(this).data('id'));
                             $(this).remove();
                         });
-                        if( $('.les_file,.tea_file,.stu_file').length < 3){
-                            alert('缺少上传文件!');
-                            return false;
-                        }
-                        var file_num = 1;
+
+                        obj_arr = ['les_file','tea_file','stu_file','ex_file'];
+                        
+                        if(!check_file_num(obj_arr)) return;
+
+                        var file_num = $('.tea_file').length;
 
                     } else if(id_resource_type.val() < 6 ){
                         $('.les_file,.tea_file,.stu_file,.other_file').each(function(){
@@ -380,21 +395,22 @@ $(function(){
                             $(this).remove();
                         });
 
+                        obj_arr = ['ff_file','','','ex_file'];
+
+                        if(!check_file_num(obj_arr)) return;
+
                         var file_num = $('.ff_file').length;
-                        if( file_num < 1){
-                            alert('缺少上传文件!');
-                            return false;
-                        }
+
                     } else if(id_resource_type.val() == 6 ){
                         $('.les_file,.other_file').each(function(){
                             remove_id.push($(this).data('id'));
                             $(this).remove();
                         });
-                        if( $('.tea_file,.stu_file').length < 2){
-                            alert('缺少上传文件!');
-                            return false;
-                        }
-                        var file_num = 1;
+
+                        obj_arr = ['','tea_file','stu_file','ex_file'];
+                        if(!check_file_num(obj_arr)) return;
+
+                        var file_num = $('.tea_file').length;
 
                     } else {
                         $('.les_file,.tea_file,.stu_file,.ex_file,.ff_file').each(function(){
@@ -402,13 +418,12 @@ $(function(){
                             $(this).remove();
                         });
 
-                        var file_num = $('.video_file').length;
-                        if( file_num < 1){
-                            alert('缺少上传文件!');
-                            return false;
-                        }
-                    }
+                        obj_arr = ['video_file'];
+                        if(!check_file_num(obj_arr)) return;
 
+                        var file_num = $('.video_file').length;
+                    }
+          
                     $.ajax({
                         type     : "post",
                         url      : "/resource/add_resource",
@@ -426,9 +441,29 @@ $(function(){
                             'add_num'       : file_num,
                         } ,
                         success : function(result){
+                            whole_resource_file = [];  //总共上传文件
+                            have_upload_num = 0;       //已经上传文件的数量
                             if(result.ret == 0){
                                 // window.location.reload();
-                                last_id = result.resource_id;
+                                resource_id_arr = JSON.parse(result.resource_id_arr);
+                                resource_id_arr.reverse();
+                                console.log(resource_id_arr);
+                               
+                                for(var x in multi_resource_file){
+                                    for(var y in multi_resource_file[x]){
+                                        var file_id_whole = multi_resource_file[x][y];
+                                        var file_id = file_id_whole.substr(3);
+                                        var file_use_type = file_id_whole.substr(0,1);
+                                        var file_obj =  {
+                                            'file_use_type' : file_use_type,
+                                            'resource_id' : resource_id_arr[x],
+                                            'file_id' : file_id,
+                                        };
+                                                                        
+                                        whole_resource_file.push(file_obj);
+                                    }
+                                }
+                                console.log(whole_resource_file);
                                 $('#up_load').attr('flag', new_flag);//开始上传
                                 $('#up_load').click();//开始上传
 
@@ -518,17 +553,17 @@ $(function(){
             }
 
             //其他版本
-            get_qiniu(new_flag,true,false,'id_other_file',0, 'other_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_other_file',0, 'other_file', 'pdf,PDF','150m');
             //课件版
-            get_qiniu(new_flag,false,false,'id_les_file',0, 'les_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_les_file',0, 'les_file', 'pdf,PDF','150m');
             //老师版
-            get_qiniu(new_flag,false,false,'id_tea_file',1, 'tea_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_tea_file',1, 'tea_file', 'pdf,PDF','150m');
             //学生版
-            get_qiniu(new_flag,false,false,'id_stu_file',2, 'stu_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_stu_file',2, 'stu_file', 'pdf,PDF','150m');
             //额外讲义
-            get_qiniu(new_flag,true,false,'id_ex_file',3, 'ex_file', 'pdf,PDF,mp3,mp4,MP3,MP4','15m');
+            get_qiniu(new_flag,true,false,'id_ex_file',3, 'ex_file', 'pdf,PDF,mp3,mp4,MP3,MP4','150m');
             //仅对resource_type = 4,5
-            get_qiniu(new_flag,false,false,'id_ff_file',0, 'ff_file', 'pdf,PDF','15m');
+            get_qiniu(new_flag,true,false,'id_ff_file',0, 'ff_file', 'pdf,PDF','150m');
             //培训视频或者讲义
             get_qiniu(new_flag,true,false,'id_video_file',0, 'video_file', 'pdf,PDF,mp3,mp4,MP3,MP4','100m');
 
@@ -562,11 +597,87 @@ $(function(){
                 get_sub_grade_tag(subject,grade,bookid,resource,season_id,obj);
 
             })
-        },false,800);
+        },false,900);
     };
 
+    //检查文件数量是否一样
+    var check_file_num = function(obj,other_obj){
+        var resource_file = [];
+        var transfer_file = [];
+        multi_resource_file = [];  //上传的文件
+        whole_upload_num    = 0 ;  //总共上传文件的数量
+        if(obj.length > 0){
+            for(var x in obj){
+                if(resource_file[x] instanceof Array == false ){
+                    resource_file[x] = []
+                }
+
+                if(obj[x] != ''){
+                    var $item = $("." + obj[x]);
+                    $item.each(function(){
+                        var file_id =  x + "__" + $(this).data('id');
+                        resource_file[x].push(file_id);
+                    });
+                    whole_upload_num += $item.length;
+                }
+                
+            }
+
+            for(var y = 0;y < obj.length;y++){
+                if( resource_file[y].length == 0){
+                    if(obj[y] != '' && y != 3 ){
+                        alert('缺少必传讲义!');
+                        return false;
+                    }
+                }else{
+                    transfer_file.push(resource_file[y]);
+                }                
+            }
+
+            var first_length = transfer_file[0].length;
+
+            for(var x in transfer_file){
+                if(transfer_file[x].length > 20){
+                    alert('每个课件最多传11个讲义!');
+                    return false;
+                }
+
+                if( first_length != transfer_file[x].length){
+                    alert('不同类型上传的讲义务必数量一致!');
+                    return false;
+                }
+
+                for(var y = 0;y < first_length;y++){
+                    if(multi_resource_file[y] instanceof Array == false ){
+                        multi_resource_file[y] = []
+                    }
+                    multi_resource_file[y].push(transfer_file[x][y]);                                  
+                }
+
+            }
+
+        }
+
+        console.log(transfer_file);
+        console.log(multi_resource_file);
+        return true;
+    }
+
+    var clearUpload = function(obj){
+        if(obj.length > 0){
+            for(var x in obj){
+                var $item = $("."+obj[x]);
+                if($item.length > 0){
+                    $item.each(function(){
+                        $(this).parent().remove();
+                    })
+                }
+            }
+        }
+    }
     var change_tag = function(val){
         $('#id_other_file,#id_tea_file,#id_stu_file,#id_les_file,#id_ex_file,#id_ff_file,#id_video_file').parent().parent().hide();
+        clearUpload(['other_file','tea_file','stu_file','les_file','ex_file','ff_file','video_file']);
         if(val == 2){//1v1
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_season",$('.tag_two'),true);
@@ -749,6 +860,147 @@ $(function(){
         });
     })
 
+    //查看评价
+    $('.opt-comment').click(function(){
+        var file_id = $(this).data('file_id');
+        var comment = $('.comment').clone().removeClass('hide');
+        var time_obj = comment.find('.comment_other_time tr:eq(1)');
+        if(g_args.resource_type == 3){
+            comment.find('.comment_other').addClass('hide');
+            comment.find('.comment_test').removeClass('hide');
+            time_obj = comment.find('.comment_test_time tr:eq(1)');
+        }
+        do_ajax('/resource/get_comment',{'file_id':file_id},function(ret){
+            console.log(ret);
+            if(ret.ret == 0){
+                if( ret.status == 200 ){
+                    var dlg= BootstrapDialog.show({
+                        title: "讲义评价",
+                        message : comment,
+                        buttons: [{
+                            label: '返回',
+                            cssClass: 'btn-warning',
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    //质量总评
+                    comment.find('.comment_num').text(ret.comment_num);
+                    comment.find('.comment_quality_score').text(ret.quality_score_average);
+
+                    write_comment(comment.find('.comment_quality tr:eq(2)'),ret.quality_score_5,ret.quality_score_4,ret.quality_score_3,
+                                  ret.quality_score_2,ret.quality_score_1);
+
+                    write_comment(comment.find('.comment_quality tr:eq(3)'),ret.quality_score_rate_5,ret.quality_score_rate_4,
+                                  ret.quality_score_rate_3,ret.quality_score_rate_2,ret.quality_score_rate_1);
+
+                    //帮助指数
+                    comment.find('.comment_help_score').text(ret.help_score_average);
+
+                    write_comment(comment.find('.comment_help tr:eq(2)'),ret.help_score_5,ret.help_score_4,ret.help_score_3,
+                                  ret.help_score_2,ret.help_score_1);
+
+                    write_comment(comment.find('.comment_help tr:eq(3)'),ret.help_score_rate_5,ret.help_score_rate_4,
+                                  ret.help_score_rate_3,ret.help_score_rate_2,ret.help_score_rate_1);
+
+                    //全面指数
+                    comment.find('.comment_whole_score').text(ret.overall_score_average);
+
+                    write_comment(comment.find('.comment_whole tr:eq(2)'),ret.overall_score_5,ret.overall_score_4,ret.overall_score_3,
+                                  ret.overall_score_2,ret.overall_score_1);
+
+                    write_comment(comment.find('.comment_whole tr:eq(3)'),ret.overall_score_rate_5,ret.overall_score_rate_4,
+                                  ret.overall_score_rate_3,ret.overall_score_rate_2,ret.overall_score_rate_1);
+
+                    //详细指数
+                    comment.find('.comment_detail_score').text(ret.detail_score_average);
+
+                    write_comment(comment.find('.comment_detail tr:eq(2)'),ret.detail_score_5,ret.detail_score_4,ret.detail_score_3,
+                                  ret.detail_score_2,ret.detail_score_1);
+
+                    write_comment(comment.find('.comment_detail tr:eq(3)'),ret.detail_score_rate_5,ret.detail_score_rate_4,
+                                  ret.detail_score_rate_3,ret.detail_score_rate_2,ret.detail_score_rate_1);
+
+                    //文字大小
+                    write_comment(comment.find('.comment_font tr:eq(1)'),ret.size_score_1,ret.size_score_2,ret.size_score_3);
+
+                    write_comment(comment.find('.comment_font tr:eq(2)'),ret.size_score_rate_1,ret.size_score_rate_2,ret.size_score_rate_3);
+
+                    //间距大小 
+                    write_comment(comment.find('.comment_gap tr:eq(1)'),ret.gap_score_1,ret.gap_score_2,ret.gap_score_3);
+
+                    write_comment(comment.find('.comment_gap tr:eq(2)'),ret.gap_score_rate_1,ret.gap_score_rate_2,ret.gap_score_rate_3);
+        
+                    //背景图案
+                    write_comment(comment.find('.comment_bg tr:eq(1)'),ret.bg_score_1,ret.bg_score_2,ret.bg_score_3);
+
+                    write_comment(comment.find('.comment_bg tr:eq(2)'),ret.bg_score_rate_1,ret.bg_score_rate_2,ret.bg_score_rate_3);
+
+                    //讲义类型
+                    write_comment(comment.find('.comment_type tr:eq(1)'),ret.type_score_1,ret.type_score_2,ret.type_score_3);
+
+                    write_comment(comment.find('.comment_type tr:eq(2)'),ret.type_score_rate_1,ret.type_score_rate_2,ret.type_score_rate_3);
+
+                    //答案程度
+                    write_comment(comment.find('.comment_answer tr:eq(1)'),ret.answer_score_1,ret.answer_score_2,ret.answer_score_3);
+
+                    write_comment(comment.find('.comment_answer tr:eq(2)'),ret.answer_score_rate_1,ret.answer_score_rate_2,ret.answer_score_rate_3);
+
+                    //适宜学生
+                    write_comment(comment.find('.comment_student tr:eq(1)'),ret.suit_score_1,ret.suit_score_2,ret.suit_score_3);
+
+                    write_comment(comment.find('.comment_student tr:eq(2)'),ret.suit_score_rate_1,ret.suit_score_rate_2,ret.suit_score_rate_3);
+
+                    //时间
+                    write_time(time_obj,ret.time_1,ret.time_2,ret.time_3,ret.time_4,ret.time_5,ret.time_6,ret.time_7,ret.time_8,ret.time_9,
+                               ret.time_10,ret.time_11);
+
+                    write_time(time_obj.next(),ret.time_rate_1,ret.time_rate_2,ret.time_rate_3,ret.time_rate_4,ret.time_rate_5,ret.time_rate_6,
+                              ret.time_rate_7,ret.time_rate_8,ret.time_rate_9,ret.time_rate_10);
+
+                    dlg.getModalDialog().css("width", "900px");
+
+                }else{
+                    BootstrapDialog.alert("暂无评价");
+                }
+
+            } else {
+                BootstrapDialog.alert("网络出错");
+            }
+        });
+
+    })
+
+    var write_comment = function($obj,val_1,val_2,val_3,val_4 = 0,val_5 = 0){
+        if($obj.find('td').length >= 3){
+            $obj.find('td:eq(0)').text(val_1);
+            $obj.find('td:eq(1)').text(val_2);
+            $obj.find('td:eq(2)').text(val_3);
+        }
+        if($obj.find('td').length == 5){
+            $obj.find('td:eq(3)').text(val_4);
+            $obj.find('td:eq(4)').text(val_5);
+        }
+    }
+
+    var write_time = function($obj,val_1,val_2,val_3,val_4,val_5,val_6,val_7,val_8 = 0,val_9 = 0,val_10 = 0){
+        if($obj.find('td').length >= 7){
+            $obj.find('td:eq(0)').text(val_1);
+            $obj.find('td:eq(1)').text(val_2);
+            $obj.find('td:eq(2)').text(val_3);
+            $obj.find('td:eq(3)').text(val_4);
+            $obj.find('td:eq(4)').text(val_5);
+            $obj.find('td:eq(5)').text(val_6);
+            $obj.find('td:eq(6)').text(val_7);
+        }
+        if($obj.find('td').length == 10){
+            $obj.find('td:eq(7)').text(val_8);
+            $obj.find('td:eq(8)').text(val_9);
+            $obj.find('td:eq(9)').text(val_10);
+        }
+    }
+
     var opt_look = function(data_obj){
         var id = data_obj.data('file_id');
         var newTab=window.open('about:blank');
@@ -776,16 +1028,10 @@ $(function(){
         return remove_id;
     }
 
-    //判断是不是多文件上传
-    var is_multi = 0;
-    var multi_files_id = new Array;
-    var multi_upload = new Array;
-    var have_upload_num = 0;
     var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class,allow_str,max_size){
 
         multi_upload_file_new(flag, is_multi, is_auto_upload, btn_id, 0,
                               function(files){
-                                  console.log(files);
                                   var name_str = '';
                                   if (!is_multi){
                                       //单文件上传
@@ -798,18 +1044,14 @@ $(function(){
 
                                   }else{
                                       //多文件上传
-                                      multi_files_id = new Array;
-                                      var multi_upload = new Array;
-                                      var up_file = "<button class='up_file btn btn-info' onclick='up_move($(this))'>上移</button>";                                   
+
+                                      var up_file = "<button class='up_file btn btn-info' onclick='up_move($(this))'>上移</button>";                          
                                       var down_file = "<button class='down_file btn btn-primary' onclick='down_move($(this))'>下移</button>";
+                                      var dele_file = "<button class='dele_file btn btn-danger' onclick='dele_file($(this))'>删除</button>";
                                       $(files).each(function(i){
                                           name_str = name_str+'<div><span data-id='+files[i].id+' data-index='+i+' class='
-                                              +add_class+' >'+files[i].name+'</span>' + up_file + down_file + '</div>';
-
-                                          multi_files_id.push(files[i].id);
-                                          multi_upload.push('');
+                                              +add_class+' >'+files[i].name+'</span>' + up_file + down_file + dele_file + '</div>';
                                       });
-                                      is_multi = 1;
                                   }
                                
                                   $('#'+btn_id).after(name_str);
@@ -838,33 +1080,34 @@ $(function(){
                                   // console.log(up);
                                   // console.log(file);
                                   // console.log(info);
-                                  if(is_multi == 0){ 
-                                      if( info.status == 200 && last_id >0 ){
-                                          add_file(last_id, file, res, use_type);
-                                          if( btn_id == 'id_other_file'){
-                                              last_id = last_id -1;
-                                          }
+                                  if(!is_multi){ 
+                                      if( info.status == 200){
+                                          //add_file(last_id, file, res, use_type);                                        
                                       }
                                   }else{
                                       have_upload_num += 1;
                                                                                                   
-                                      if( info.status == 200 && last_id >0){
-                                          var index = $.inArray(file.id,multi_files_id);
-                                          multi_upload[index] = {
-                                              'resource_id'   : last_id,
-                                              'file_title'    : file.name,
-                                              'file_type'     : file.type,
-                                              'file_size'     : file.size,
-                                              'file_hash'     : res.hash,
-                                              'file_link'     : res.key,
-                                              'file_use_type' : use_type,
-                                          };
-                                          //console.log(multi_upload);
+                                      if( info.status == 200){
+                                          for(var x in whole_resource_file){
+                                              if( file.id == whole_resource_file[x].file_id){
+                                                  // console.log(have_upload_num);
+                                                  // console.log(whole_upload_num);
+                                                  //console.log( whole_resource_file[x]);
+                                                  whole_resource_file[x].file_title =  file.name;
+                                                  whole_resource_file[x].file_type =  file.type;
+                                                  whole_resource_file[x].file_size =  file.size;
+                                                  whole_resource_file[x].file_hash =  res.hash;
+                                                  whole_resource_file[x].file_link =  res.key;
+                                              }
+                                          }                                        
+               
                                       }
-                                      if( multi_files_id.length == have_upload_num ){
-                                          var data = { 'multi_data' : multi_upload };
+                         
+                                      if( whole_resource_file.length == have_upload_num ){
+                                          var data = { 'multi_data' : whole_resource_file };
                                           add_multi_file(data);
-                                          console.log(multi_upload);
+                                          console.log(1212);
+                                          console.log(whole_resource_file);
                                       }
                                   }
                               },
@@ -1344,17 +1587,9 @@ function multi_upload_file_new(new_flag,is_multi,is_auto_start,btn_id, is_public
                     var key = "";
                     var time = (new Date()).valueOf();
                     var match = file.name.match(/.*\.(.*)?/);
-                    /*
-                      if( uploader.on_noti_origin_file_func) {
-                      uploader.on_noti_origin_file_func(file.name);
-                      }
-                    */
                     this.origin_file_name=file.name;
                     var file_name=$.md5(file.name) +time +'.' + match[1];
-                    //tapd 1001231
-                    //tapd ID：1001335
-                    // file_name = '/teacher-doc/'+file_name;
-                    console.log('gen file_name:'+file_name);
+                    //console.log('gen file_name:'+file_name);
                     return file_name;
 
                 }
@@ -1400,4 +1635,9 @@ function down_move(obj){
     curr_obj.remove();
     next_obj.after(transfer);
 
+}
+
+function dele_file(obj){
+    var curr_obj = obj.parent();
+    curr_obj.remove();
 }
