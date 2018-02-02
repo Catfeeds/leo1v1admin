@@ -9,7 +9,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
     }
 
     public function get_all(
-        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $file_title, $page_info, $is_del = 0,$status = 0
+        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $file_title, $page_info,
+        $is_del = 0,$status = 0,$has_comment = -1
     ){
         $where_arr = [
             ['r.use_type=%u', $use_type, -1],
@@ -21,9 +22,18 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.tag_three=%u', $tag_three, -1],
             ['r.tag_four=%u', $tag_four, -1],
             ['r.tag_five=%u', $tag_five, -1],
-            ['is_del=%u', $is_del, -1],
-            ['status=%u', $status, -1],
+            ['r.is_del=%u', $is_del, -1],
+            ['f.status=%u', $status, -1],
         ];
+
+        if( $has_comment == 1 ){
+            $where_arr[] = ['com.id > %u',0];
+        }
+        $not = '';
+        if( $has_comment == 0 ){
+            $not = "and not exists ( select id from db_weiyi.t_resource_file_evalutation com where com.file_id=f.file_id) ";
+        }
+
         if( in_array($resource_type, [1,2,3,4,5,9]) ){
             //添加通用版50000
             if($tag_one != -1){
@@ -45,14 +55,17 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ." left join %s f on f.resource_id=r.resource_id"
             ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "
             ." left join %s t on t.id=r.tag_four"
+            ." left join %s com on com.file_id=f.file_id"
             ." where %s"
             ." and not exists ( select 1 from %s where file_id=v.file_id and v.create_time<create_time and visitor_type=0) "
+            .$not
             //." order by r.resource_id desc,f.file_use_type"
-            ." order by r.resource_id desc,v.file_id desc"
+            ."group by v.file_id order by r.resource_id desc,v.file_id desc"
             ,self::DB_TABLE_NAME
             ,t_resource_file::DB_TABLE_NAME
             ,t_resource_file_visit_info::DB_TABLE_NAME
             ,t_sub_grade_book_tag::DB_TABLE_NAME
+            ,t_resource_file_evalutation::DB_TABLE_NAME
             ,$where_arr
             ,t_resource_file_visit_info::DB_TABLE_NAME
         );

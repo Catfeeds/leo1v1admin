@@ -16,30 +16,23 @@ namespace App\Wx\Squirrel_tea;
 /*
  * 服务器配置，详情请参考@link http://mp.weixin.qq.com/wiki/index.php?title=接入指南
  */
-define("WECHAT_URL_SQU", 'http://admin.yb1v1.com/squirrel_tea_wx_server/');//松鼠思维老师帮
+define("WECHAT_URL_SST", 'http://admin.yb1v1.com/squirrel_tea_wx_server/');//松鼠思维老师帮
 
-define('WECHAT_TOKEN_SQU', 'leo123');
-define('ENCODING_AES_KEY_SQU', "81GCmaLyBPsN9NmXqwGR4JkwhURGOuFcjA0DVkBjk83");//松鼠思维老师帮
+define('WECHAT_TOKEN_SST', 'leo123');
+define('ENCODING_AES_KEY_SST', "81GCmaLyBPsN9NmXqwGR4JkwhURGOuFcjA0DVkBjk83");//松鼠思维老师帮
 
 // /*
 //  * 开发者配置
 //  */
 
-
-define("WECHAT_APPID_SQU", 'wxea9180dcd80afbe7'); //松鼠思维老师帮
-define("WECHAT_APPSECRET_SQU",'be160158f67c3c78c12ffbeb57443180');//松鼠思维老师帮
-
-
-
-
-
-
+define("WECHAT_APPID_SST", 'wxea9180dcd80afbe7'); //松鼠思维老师帮
+define("WECHAT_APPSECRET_SST",'be160158f67c3c78c12ffbeb57443180');//松鼠思维老师帮
 
 // /*
 //  * SAE平台配置
 //  */
-define("HTTP_ACCESSKEY_SQU", '04xmzo3zm5');
-define("HTTP_APPNAME_SQU", 'imcustom4test');
+define("HTTP_ACCESSKEY_SST", '04xmzo3zm5');
+define("HTTP_APPNAME_SST", 'imcustom4test');
 
 ////-----引入系统所需类库-------------------
 ////引入错误消息类

@@ -31,6 +31,12 @@
     </script>
     <style>
      .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
+     .hide{ display:none}
+     .comment{ width:900px }
+     .comment .comment_item{ width:440px;float:left; margin-bottom: 20px; }
+     .comment .comment_half{ float:left; margin-bottom: 20px; margin-right:10px; }
+     .comment .comment_item .comment_info span{ margin-right:10px }
+     .comment .comment_eject tr td{ padding:7px 10px; text-align: center; border: 1px solid #42474a; }
     </style>
     <section class="content">
 
@@ -104,6 +110,13 @@
                     <div class="input-group ">
                         <span class="input-group-addon">{{@$tag_info['tag_five']['name']}}</span>
                         <select class="form-control opt-change" id="id_tag_five"> </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否有评价</span>
+                        <select class="form-control opt-change" id="id_has_comment"> </select>
                     </div>
                 </div>
 
@@ -212,8 +225,14 @@
 
                         <td>
                             <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
-
-                            <a class="opt-error"></a>
+                            <a class="opt-comment btn color-blue" data-file_id="{{$var["file_id"]}}"  title="评价">
+                                @if($var['comment'] > 0 )
+                                    评价({{$var['comment']}})
+                                @else
+                                    评价(0)
+                                @endif
+                            </a>
+                            <a class="opt-error btn color-blue" data-file_id="{{$var["file_id"]}}"  title="报错">报错</a>
                         </td>
                     </tr>
                 @endforeach
@@ -237,4 +256,417 @@
         </table>
     </div>
 
+    <div class="comment hide">
+        <div class="comment_item">
+            <p class="comment_info">
+                <span>质量总评</span>
+                <span>人数：<b class="comment_num">100</b>人</span>
+                <span>均分：<b class="comment_quality_score">3.9</b>分</span>
+            </p>
+            <table class="comment_eject comment_quality">
+                <tbody>
+                    <tr>
+                        <td>五星</td>
+                        <td>四星</td>
+                        <td>三星</td>
+                        <td>二星</td>
+                        <td>一星</td>
+                    </tr>
+                    <tr>
+                        <td>质量很高</td>
+                        <td>质量较高</td>
+                        <td>质量一般</td>
+                        <td>质量较差</td>
+                        <td>质量很差</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+
+                </tbody>
+                
+            </table>
+        </div>
+
+        <div class="comment_item">
+            <p class="comment_info">
+                <span>帮助指数</span>
+                <span>人数：<b class="comment_num">100</b>人</span>
+                <span>均分：<b class="comment_help_score">3.9</b>分</span>
+            </p>
+            <table class="comment_eject comment_help">
+                <tbody>
+                    <tr>
+                        <td>五星</td>
+                        <td>四星</td>
+                        <td>三星</td>
+                        <td>二星</td>
+                        <td>一星</td>
+                    </tr>
+                    <tr>
+                        <td>帮助极大</td>
+                        <td>帮助较高</td>
+                        <td>帮助一般</td>
+                        <td>帮助较小</td>
+                        <td>毫无帮助</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>                
+            </table>
+        </div>
+
+        <div class="comment_item">
+            <p class="comment_info">
+                <span>全面指数</span>
+                <span>人数：<b class="comment_num">100</b>人</span>
+                <span>均分：<b class="comment_whole_score">3.9</b>分</span>
+            </p>
+            <table class="comment_eject comment_whole">
+                <tbody>
+                    <tr>
+                        <td>五星</td>
+                        <td>四星</td>
+                        <td>三星</td>
+                        <td>二星</td>
+                        <td>一星</td>
+                    </tr>
+                    <tr>
+                        <td>内容很全</td>
+                        <td>内容较全</td>
+                        <td>一般全面</td>
+                        <td>不够全面</td>
+                        <td>毫无帮助</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>                
+            </table>
+        </div>
+
+        <div class="comment_item">
+            <p class="comment_info">
+                <span>详细指数</span>
+                <span>人数：<b class="comment_num">100</b>人</span>
+                <span>均分：<b class="comment_detail_score">3.9</b>分</span>
+            </p>
+            <table class="comment_eject comment_detail">
+                <tbody>
+                    <tr>
+                        <td>五星</td>
+                        <td>四星</td>
+                        <td>三星</td>
+                        <td>二星</td>
+                        <td>一星</td>
+                    </tr>
+                    <tr>
+                        <td>非常详细</td>
+                        <td>比较详细</td>
+                        <td>一般详细</td>
+                        <td>不够详细</td>
+                        <td>很不详细</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>                
+            </table>
+        </div>
+
+        <div class="comment_half">
+            <p class="comment_info">
+                <span>文字大小</span>
+                <span>人数：<b class="comment_num">100</b>人</span>              
+            </p>
+            <table class="comment_eject comment_font">
+                <tbody>
+                    <tr>
+                        <td>文字太大</td>
+                        <td>文字太小</td>
+                        <td>文字大小适中</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+
+                </tbody>
+                
+            </table>
+        </div>
+
+        <div class="comment_half">
+            <p class="comment_info">
+                <span>间距大小</span>
+                <span>人数：<b class="comment_num">100</b>人</span>
+            </p>
+            <table class="comment_eject comment_gap">
+                <tbody>
+                    <tr>
+                        <td>间距太大</td>
+                        <td>间距太小</td>
+                        <td>间距适中</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+
+                </tbody>
+                
+            </table>
+        </div>
+
+        <div class="comment_half">
+            <p class="comment_info">
+                <span>背景图案</span>
+                <span>人数：<b class="comment_num">100</b>人</span>
+            </p>
+            <table class="comment_eject comment_bg">
+                <tbody>
+                    <tr>
+                        <td>背景太单调</td>
+                        <td>背景太浮夸</td>
+                        <td>背景风格适中</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comment_half">
+            <p class="comment_info">
+                <span>讲义类型</span>
+                <span>人数：<b class="comment_num">0</b>人</span>
+            </p>
+            <table class="comment_eject comment_type">
+                <tbody>
+                    <tr>
+                        <td>纯知识梳理</td>
+                        <td>纯题目练习</td>
+                        <td>讲解与练习相结合</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comment_half">
+            <p class="comment_info">
+                <span>答案程度</span>
+                <span>人数：<b class="comment_num">0</b>人</span>
+            </p>
+            <table class="comment_eject comment_answer">
+                <tbody>
+                    <tr>
+                        <td>答案有解题过程</td>
+                        <td>答案无解题过程</td>
+                        <td>答案有多个解题方法</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comment_half">
+            <p class="comment_info">
+                <span>适宜学生</span>
+                <span>人数：<b class="comment_num">0</b>人</span>
+            </p>
+            <table class="comment_eject comment_student">
+                <tbody>
+                    <tr>
+                        <td>基础，难度较低</td>
+                        <td>中等，难度居中</td>
+                        <td>提优，难度较高</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comment_half comment_test hide">
+            <p class="comment_info">
+                <span>试听课时长</span>
+                <span>人数：<b class="comment_num">0</b>人</span>
+            </p>
+            <table class="comment_eject comment_test_time">
+                <tbody>
+                    <tr>
+                        <td>30分钟</td>
+                        <td>40分钟</td>
+                        <td>50分钟</td>
+                        <td>60分钟</td>
+                        <td>70分钟</td>
+                        <td>80分钟</td>
+                        <td>其他</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comment_half comment_other">
+            <p class="comment_info">
+                <span>试听课时长</span>
+                <span>人数：<b class="comment_num">0</b>人</span>
+            </p>
+            <table class="comment_eject comment_other_time">
+                <tbody>
+                    <tr>
+                        <td>90分钟</td>
+                        <td>100分钟</td>
+                        <td>110分钟</td>
+                        <td>120分钟</td>
+                        <td>130分钟</td>
+                        <td>140分钟</td>
+                        <td>150分钟</td>
+                        <td>160分钟</td>
+                        <td>170分钟</td>
+                        <td>180分钟</td>
+                        <td>其他</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                        <td>0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="clear:both"></div>
+    </div>
 @endsection

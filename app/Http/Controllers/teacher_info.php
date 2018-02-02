@@ -2728,8 +2728,6 @@ class teacher_info extends Controller
                 'err_pic'  => $err_pic,
                 'err_font'  => $err_font,
                 'err_difficult'  => $err_difficult,
-
-
             ]);
 
         }
@@ -2740,7 +2738,7 @@ class teacher_info extends Controller
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info'  => $tag_arr,
-            'tea_sub'   => json_encode( $tea_sub),
+            'tea_sub'   => json_encode($tea_sub),
             'tea_gra'   => json_encode($tea_gra),
             'book'      => json_encode($book_arr),
             'type_list' => json_encode($type_list),
