@@ -3893,7 +3893,7 @@ ORDER BY require_time ASC";
             'require_admin_type = 2' ,
 
         ];
-        $this->where_arr_add_time_range($where_arr, 'tr.require_time', $start_time, $end_time);
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select s.origin as channel_name,count(tr.require_id) as require_count,'.
             'count(tr.accept_flag = 1) test_lesson_count,'.
