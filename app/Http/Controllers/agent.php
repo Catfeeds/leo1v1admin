@@ -441,8 +441,14 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $price = $this->t_order_info->get_seller_price($start_time_last=1514736000,$end_time_last=1517414400,$adminid=1072);
-        dd($price);
+        $group_name = $this->get_in_str_val('group_name');
+        $ret = $this->t_admin_group_user->get_item_list($group_name);
+        foreach($ret as $key=>$item){
+            $groupid = $item['groupid'];
+            $adminid = $item['adminid'];
+            $ret = $this->t_admin_group_user->del_item_row($groupid,$adminid);
+            echo $ret."\n";
+        }
         dd('a');
     }
 
