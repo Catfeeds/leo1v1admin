@@ -20,9 +20,9 @@ class WeChatOAuth extends \LaneWeChat\Core\WeChatOAuth{
             $redirect_uri = substr($redirect_uri, 1);
         }
         //公众号的唯一标识
-        $appid = WECHAT_APPID_SQU;
+        $appid = WECHAT_APPID_SST;
         //授权后重定向的回调链接地址，请使用urlencode对链接进行处理
-        $redirect_uri = WECHAT_URL_SQU . $redirect_uri;
+        $redirect_uri = WECHAT_URL_SST . $redirect_uri;
 
         $redirect_uri = urlencode($redirect_uri);
 
@@ -49,7 +49,7 @@ class WeChatOAuth extends \LaneWeChat\Core\WeChatOAuth{
         //填写为authorization_code
         $grant_type = 'authorization_code';
         //构造请求微信接口的URL
-        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.WECHAT_APPID_SQU.'&secret='.WECHAT_APPSECRET_SQU.'&code='.$code.'&grant_type='.$grant_type.'';
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.WECHAT_APPID_SST.'&secret='.WECHAT_APPSECRET_SST.'&code='.$code.'&grant_type='.$grant_type.'';
         //请求微信接口, Array(access_token, expires_in, refresh_token, openid, scope)
         \App\Helper\Utils::logger('wxcode3'.$url);
 
@@ -69,7 +69,7 @@ class WeChatOAuth extends \LaneWeChat\Core\WeChatOAuth{
         "scope"=>"用户授权的作用域，使用逗号（,）分隔")
      */
     public static function refreshToken($refreshToken){
-        $queryUrl = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.WECHAT_APPID_SQU.'&grant_type=refresh_token&refresh_token='.$refreshToken;
+        $queryUrl = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='.WECHAT_APPID_SST.'&grant_type=refresh_token&refresh_token='.$refreshToken;
         $queryAction = 'GET';
         return Curl::callWebServer($queryUrl, '', $queryAction);
     }
