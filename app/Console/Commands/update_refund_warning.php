@@ -70,11 +70,13 @@ class update_refund_warning extends Command
             $lesson_count_month = $task->t_lesson_info_b3->get_lesson_count_month($month_start_time, $month_end_time, $userid);
             var_dump($lesson_count_month);
             // 上课次数(2周)
-            $lesson_count_week = $task->t_lesson_info_b3->get_lesson_count_week($week_start_time, $week_end_time, $userid);
+            $lesson_count_week = $task->t_lesson_info_b3->get_lesson_count_month($week_start_time, $week_end_time, $userid);
             var_dump($lesson_count_week);
             // 单科上课次数(4周)
-            $lesson_count = $task->t_lesson_info_b3->get_lesson_count_week($start_time, $end_time, $userid);
+            $lesson_count = $task->t_lesson_info_b3->get_lesson_count_by_userid($userid);
             var_dump($lesson_count);
+            $one_count = array_column($lesson_count, "count");
+            var_dump($one_count);
             // $reson = [
             //     "换老师次数" => $tea["count"],
             //     "新老师上课次数" => $count,
@@ -94,10 +96,10 @@ class update_refund_warning extends Command
             // } else if ($lesson_count_week <= 0) {
             // }
 
-            $task->t_student_info->field_update_list($userid, [
-                "refund_warning_level" => $level,
-                "refund_warning_reason" => json_encode($reson)
-            ]);
+            // $task->t_student_info->field_update_list($userid, [
+            //     "refund_warning_level" => $level,
+            //     "refund_warning_reason" => json_encode($reson)
+            // ]);
 
 
             exit;
