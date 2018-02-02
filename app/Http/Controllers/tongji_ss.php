@@ -8386,6 +8386,8 @@ class tongji_ss extends Controller
             $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
             foreach ($test_lesson_data as  $test_item ) {
                 $channel_name=$test_item["check_value"];
+                \App\Helper\Utils::logger("KKK:[$check_value]");
+
                 \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
                 $data_map[$channel_name]["require_count"] = $test_item["require_count"];
                 $data_map[$channel_name]["test_lesson_count"] = $test_item["test_lesson_count"];
