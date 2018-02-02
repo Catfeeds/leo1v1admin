@@ -34,6 +34,7 @@ function load_data(){
         end_time:   $('#id_end_time').val(),
         error_type: $('#id_error_type').val(),
 		sub_error_type: $('#id_sub_error_type').val(),
+		file_id:    $('#id_file_id').val(),
 		});
 }
 $(function(){
@@ -134,7 +135,7 @@ $(function(){
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
     $('#id_use_type').val(g_args.use_type);
 
-    
+
 
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
@@ -250,6 +251,7 @@ $(function(){
     $('#id_tag_five').val(g_args.tag_five);
     $('#id_file_title').val(g_args.file_title);
     $('#id_error_type').val(g_args.error_type);
+    $('#id_file_id').val(g_args.file_id);
     $("#id_select_all").on("click",function(){
         $(".opt-select-item").iCheck("check");
     });

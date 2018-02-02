@@ -91,6 +91,7 @@ class resource_new extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $tag_five      = $this->get_in_int_val('tag_five', -1);
         $file_title    = trim( $this->get_in_str_val('file_title', '') );
+        $file_id       = intval($this->get_in_str_val("file_id",-1));
         $page_info     = $this->get_in_page_info();
 
         if($use_type == 1){
@@ -102,7 +103,8 @@ class resource_new extends Controller
             $resource_type = 8;
         }
         $ret_info = $this->t_resource->get_all_error($start_time,$end_time,$error_type,$sub_error_type,
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $page_info
+            $file_id,$use_type ,$resource_type, $subject, $grade, 
+            $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $page_info
         );
         $r_mark = 0;
         $index  = 1;
