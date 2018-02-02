@@ -29,8 +29,8 @@ class update_seller_level extends cmd_base
     {
         $reduce_flag = 0;
         // $time = time(null);
-        $time = 1517241600;
-        // $time = 1517499000;
+        // $time = 1517241600;
+        $time = 1517499000;
         $ret_time = $this->task->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
@@ -103,6 +103,7 @@ class update_seller_level extends cmd_base
                     }
                 }
                 //定级
+                $no_update_seller_level_flag == 1;
                 if($no_update_seller_level_flag == 0){//参与
                     $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
                     $price_very_last = isset($price_very_last)?$price_very_last/100:0;
