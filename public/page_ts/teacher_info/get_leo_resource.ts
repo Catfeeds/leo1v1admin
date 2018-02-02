@@ -278,27 +278,46 @@ $(function(){
             newTab = window.open('about:blank');
         }
 
+
         do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
             if(ret.ret == 0){ 
                 if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){
                     newTab.location.href = ret.url;
                 }else{
-                    //newTab.close();
-                    $('.look-pdf').show();
-                    $('.look-pdf-son').mousedown(function(e){
-                        if(e.which == 3){
-                            return false;
-                        }
-                    });
-                    PDFObject.embed(ret.url).css({'width':'120%','height':'120%','margin':'-10%'});
-                    //PDFObject.embed(ret.url, ".look-pdf-son");
-                    //$('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
+                    console.log(ret.url);
+                    var arr_url = ret.url.split("?");
+                    var pdf = GetUrlRelativePath(ret.url);
+                    var app = arr_url[1];
+                    var pdf_name = pdf.split(".");
+                    pdf_name = pdf_name[0];
+                    var type = 0;
+                    if(ret.url.indexOf("ebtest.qiniudn.com")!=-1){
+                        type = 3;
+                    }
+                    if(ret.url.indexOf("teacher-doc.leo1v1.com")!=-1){
+                        type = 2;
+                    }
+                    $.wopen("/teacher_info/look?"+app+"&url="+pdf_name+"&type="+type);
+                    return false;
                 }
             } else {
                 BootstrapDialog.alert(ret.info);
             }
         });
     });
+
+    function GetUrlRelativePath(url)
+　　 {
+　　　　var arrUrl = url.split("//");
+
+　　　　var start = arrUrl[1].indexOf("/");
+　　　　var relUrl = arrUrl[1].substring(start);
+
+　　　　if(relUrl.indexOf("?") != -1){
+　　　　　　relUrl = relUrl.split("?")[0];
+　　　　}
+　　　　return relUrl;
+　　 }
 
     $('body').on('click', function(){
         // $('.look-pdf').hide().empty();
