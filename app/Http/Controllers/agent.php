@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $price = $this->t_order_info->get_seller_price($start_time_last=1514736000,$end_time_last=1517414400,$adminid=1072);
+        dd($price);
         dd('a');
     }
 
