@@ -187,11 +187,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ." where lesson_upload_time = 0 and lesson_status = 2 and real_begin_time != 0 and lesson_type != 4001 and   confirm_flag<2  and"
             . " ( lesson_type >=1000  or s.is_test_user= 0 )" //
             . " and "
-            . "  lesson_start > %u  and lesson_start <%u and  lesson_end<%u and lesson_del_flag=0 order by   gen_video_grade desc,   lesson_start asc ",
+            . "  lesson_start > %u  and lesson_start <%u and  lesson_end<%u and lesson_del_flag=0 and %s order by   gen_video_grade desc,   lesson_start asc ",
             self::DB_TABLE_NAME ,
             t_course_order::DB_TABLE_NAME ,
             t_student_info::DB_TABLE_NAME,
-            $now - 86400*3, $now+3600*5 , $now );
+            $now - 86400*3, $now+3600*5 , $now, $where_arr  );
         return $this->main_get_list($sql);
     }
 
