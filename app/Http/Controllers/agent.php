@@ -441,12 +441,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret_info = $this->t_seller_level_month->get_item_all_list();
-        foreach($ret_info as $item){
-            $id = $item['id'];
-            $ret = $this->t_seller_level_month->row_delete($id);
-            echo $ret."\n";
-        }
         dd('a');
     }
 
