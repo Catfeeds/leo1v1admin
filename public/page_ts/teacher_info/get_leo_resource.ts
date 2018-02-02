@@ -291,12 +291,16 @@ $(function(){
                     var pdf_name = pdf.split(".");
                     pdf_name = pdf_name[0];
                     var type = 0;
+                    if(ret.url.indexOf("7tszue.com2.z0.glb.qiniucdn.com")!=-1){
+                        type = 4;
+                    }
                     if(ret.url.indexOf("ebtest.qiniudn.com")!=-1){
                         type = 3;
                     }
                     if(ret.url.indexOf("teacher-doc.leo1v1.com")!=-1){
                         type = 2;
                     }
+
                     $.wopen("/teacher_info/look?"+app+"&url="+pdf_name+"&type="+type);
                     return false;
                 }
