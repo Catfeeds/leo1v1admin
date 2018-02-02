@@ -89,12 +89,12 @@ class resource extends Controller
             if($item['resource_type'] == 3 ) {
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
-         
+
+            $item['comment'] = $this->t_resource_file_evalutation->get_count($item['file_id']);
         }
         //dd($ret_info['list']);
 
         //获取所有开放的教材版本
-        //$book = $this->t_resource_agree_info->get_all_resource_type();
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
         $book_arr = [];
         if($book){
@@ -145,7 +145,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180131161439,
+            '_publish_version'    => 20180202141439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -1496,6 +1496,221 @@ class resource extends Controller
         return $this->output_succ($result);
  
     }
+
+    public function get_comment(){
+        $file_id = $this->get_in_int_val("file_id");
+
+        $result = ['status'=>201];
+
+        $data = $this->t_resource_file_evalutation->get_list($file_id);
+
+        if($data){
+            $comment_num = count($data); //评价人数
+            $comment = [
+                'status'=>200,'comment_num' => $comment_num,
+                "quality_score_1" => 0,"quality_score_2" => 0,"quality_score_3" => 0,"quality_score_4" => 0,"quality_score_5" => 0,
+                "quality_score_rate_1" => 0,"quality_score_rate_2" => 0,"quality_score_rate_3" => 0,"quality_score_rate_4" => 0,"quality_score_rate_5" => 0,
+                "quality_score_average" => 0,
+
+                "help_score_1" => 0,"help_score_2" => 0,"help_score_3" => 0,"help_score_4" => 0,"help_score_5" => 0,
+                "help_score_rate_1" => 0,"help_score_rate_2" => 0,"help_score_rate_3" => 0,"help_score_rate_4" => 0,"help_score_rate_5" => 0,
+                "help_score_average" => 0,
+
+                "overall_score_1" => 0,"overall_score_2" => 0,"overall_score_3" => 0,"overall_score_4" => 0,"overall_score_5" => 0,
+                "overall_score_rate_1" => 0,"overall_score_rate_2" => 0,"overall_score_rate_3" => 0,"overall_score_rate_4" => 0,"overall_score_rate_5" => 0,
+                "overall_score_average" => 0,
+
+                "detail_score_1" => 0,"detail_score_2" => 0,"detail_score_3" => 0,"detail_score_4" => 0,"detail_score_5" => 0,
+                "detail_score_rate_1" => 0,"detail_score_rate_2" => 0,"detail_score_rate_3" => 0,"detail_score_rate_4" => 0,"detail_score_rate_5" => 0,
+                "detail_score_average" => 0,
+ 
+                "size_score_1" => 0,"size_score_2" => 0,"size_score_3" => 0,
+                "size_score_rate_1" => 0,"size_score_rate_2" => 0,"size_score_rate_3" => 0,
+
+                "gap_score_1" => 0,"gap_score_2" => 0,"gap_score_3" => 0,
+                "gap_score_rate_1" => 0,"gap_score_rate_2" => 0,"gap_score_rate_3" => 0,
+
+                "bg_score_1" => 0,"bg_score_2" => 0,"bg_score_3" => 0,
+                "bg_score_rate_1" => 0,"bg_score_rate_2" => 0,"bg_score_rate_3" => 0,
+
+                "type_score_1" => 0,"type_score_2" => 0,"type_score_3" => 0,
+                "type_score_rate_1" => 0,"type_score_rate_2" => 0,"type_score_rate_3" => 0,
+
+                "answer_score_1" => 0,"answer_score_2" => 0,"answer_score_3" => 0,
+                "answer_score_rate_1" => 0,"answer_score_rate_2" => 0,"answer_score_rate_3" => 0,
+
+                "suit_score_1" => 0,"suit_score_2" => 0,"suit_score_3" => 0,
+                "suit_score_rate_1" => 0,"suit_score_rate_2" => 0,"suit_score_rate_3" => 0,
+            ];
+
+            $time = [
+                "time_1"=>0,"time_2"=>0,"time_3"=>0,"time_4"=>0,"time_5"=>0,"time_6"=>0,"time_7"=>0,"time_8"=>0,"time_9"=>0,"time_10"=>0,"time_11"=>0,
+                "time_rate_1"=>0,"time_rate_2"=>0,"time_rate_3"=>0,"time_rate_4"=>0,"time_rate_5"=>0,"time_rate_6"=>0,
+                "time_rate_7"=>0,"time_rate_8"=>0,"time_rate_9"=>0,"time_rate_10"=>0,"time_rate_11"=>0,
+            ];
+            foreach($data as $var){
+                $this->get_comment_num($var['quality_score'],$comment['quality_score_1'],$comment['quality_score_2'],
+                                       $comment['quality_score_3'],$comment['quality_score_4'],$comment['quality_score_5']);
+
+                $this->get_comment_num($var['help_score'],$comment['help_score_1'],$comment['help_score_2'],
+                                       $comment['help_score_3'],$comment['help_score_4'],$comment['help_score_5']);
+
+                $this->get_comment_num($var['overall_score'],$comment['overall_score_1'],$comment['overall_score_2'],
+                                       $comment['overall_score_3'],$comment['overall_score_4'],$comment['overall_score_5']);
+
+                $this->get_comment_num($var['detail_score'],$comment['detail_score_1'],$comment['detail_score_2'],
+                                       $comment['detail_score_3'],$comment['detail_score_4'],$comment['detail_score_5']);
+
+                $this->get_comment_num($var['size'],$comment['size_score_1'],$comment['size_score_2'],$comment['size_score_3']);
+
+                $this->get_comment_num($var['gap'],$comment['gap_score_1'],$comment['gap_score_2'],$comment['gap_score_3']);
+
+                $this->get_comment_num($var['bg_picture'],$comment['bg_score_1'],$comment['bg_score_2'],$comment['bg_score_3']);
+
+                $this->get_comment_num($var['text_type'],$comment['type_score_1'],$comment['type_score_2'],$comment['type_score_3']);
+
+                $this->get_comment_num($var['answer'],$comment['answer_score_1'],$comment['answer_score_2'],$comment['answer_score_3']);
+
+                $this->get_comment_num($var['suit_student'],$comment['suit_score_1'],$comment['suit_score_2'],$comment['suit_score_3']);
+
+                $this->get_time_length($time,$var['time_length'],$var['resource_type']);
+             
+            }
+
+            $this->get_comment_average_score($comment_num,$comment['quality_score_average'],$comment['quality_score_1'],$comment['quality_score_2'],
+                                   $comment['quality_score_3'],$comment['quality_score_4'],$comment['quality_score_5']);
+
+            $this->get_comment_average_score($comment_num,$comment['help_score_average'],$comment['help_score_1'],$comment['help_score_2'],
+                                   $comment['help_score_3'],$comment['help_score_4'],$comment['help_score_5']);
+
+            $this->get_comment_average_score($comment_num,$comment['overall_score_average'],$comment['overall_score_1'],$comment['overall_score_2'],
+                                   $comment['overall_score_3'],$comment['overall_score_4'],$comment['overall_score_5']);
+
+            $this->get_comment_average_score($comment_num,$comment['detail_score_average'],$comment['detail_score_1'],$comment['detail_score_2'],
+                                   $comment['detail_score_3'],$comment['detail_score_4'],$comment['detail_score_5']);
+
+            $comment = array_merge($comment,$time);
+
+            $comment = $this->get_comment_average_num($comment);
+
+            return $this->output_succ($comment);
+        }
+
+        return $this->output_succ($result);
+    }
+
+    private function get_comment_num($score,&$val_1,&$val_2,&$val_3,&$val_4 = null,&$val_5 = null){
+        switch($score){
+            case 1:
+                $val_1 += 1;
+                break;
+            case 2:
+                $val_2 += 1;
+                break;
+            case 3:
+                $val_3 += 1;
+                break;
+            case 4:
+                $val_4 += 1;
+                break;
+            case 5:
+                $val_5 += 1;
+                break;
+                
+            default:
+                break;
+            }
+    }
+
+    private function get_time_length(&$time,$time_length,$resource_type){
+        if($resource_type == 3){
+            switch(trim($time_length)){
+            case "30分钟":
+                $time['time_1'] += 1;
+                break;
+            case "40分钟":
+                $time['time_2'] += 1;
+                break;
+            case "50分钟":
+                $time['time_3'] += 1;
+                break;
+            case "60分钟":
+                $time['time_4'] += 1;
+                break;
+            case "70分钟":
+                $time['time_5'] += 1;
+                break;
+            case "80分钟":
+                $time['time_6'] += 1;
+                break;
+            case "其他":
+                $time['time_7'] += 1;
+                break;  
+            default:
+                $time['time_8'] += 1;
+                break;
+            }
+
+        }else{
+            switch(trim($time_length)){
+            case "90分钟":
+                $time['time_1'] += 1;
+                break;
+            case "100分钟":
+                $time['time_2'] += 1;
+                break;
+            case "110分钟":
+                $time['time_3'] += 1;
+                break;
+            case "120分钟":
+                $time['time_4'] += 1;
+                break;
+            case "130分钟":
+                $time['time_5'] += 1;
+                break;
+            case "140分钟":
+                $time['time_6'] += 1;
+                break;
+            case "150分钟":
+                $time['time_7'] += 1;
+                break;
+            case "160分钟":
+                $time['time_8'] += 1;
+                break;
+            case "170分钟":
+                $time['time_9'] += 1;
+                break;
+            case "180分钟":
+                $time['time_10'] += 1;
+                break;
+            case "其他":
+                $time['time_11'] += 1;
+                break;
+            default:
+                $time['time_11'] += 1;
+                break;
+            }
+
+        }
+    }
+
+    private function get_comment_average_score($num,&$score,&$val_1,&$val_2,&$val_3,&$val_4 = 0,&$val_5 = 0){
+        $score = round ( ($val_1*1 + $val_2*2 + $val_3*3 + $val_4*4 + $val_5*5 )/$num ,1 );
+    }
+
+    private function get_comment_average_num($comment){
+        $comment_num = $comment['comment_num'];
+        foreach( $comment as $k => $v){
+            $pos = strpos($k,'rate');
+            if($pos > 0){
+                $score = substr($k,0,$pos).substr($k,$pos+5);
+                $ave = round ( ($comment[$score] / $comment_num),4)*100;
+                $comment[$k] = $ave."%";
+            }
+        }
+        return $comment;
+    }
+
     //预览
     public function tea_look_resource() {
         $tea_res_id = $this->get_in_int_val("tea_res_id");

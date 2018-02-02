@@ -736,6 +736,7 @@ class NewRouteConfig {
         "/resource/get_total_del"                        =>true,
         "/resource/batch_del_resource"                   =>true,
         "/resource/batch_del_file"                       =>true,
+        "/resource/get_comment"                          =>true,
         "/test_bacon/change_resource"                    =>true,
         "/resource/total_del_file"                       =>true,
         "/test_bacon/modify_res_agree_info"              =>true,

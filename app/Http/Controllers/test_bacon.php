@@ -313,13 +313,25 @@ class test_bacon extends Controller
     }
 
     public function change_resource(){
-        $data = $this->t_resource_file->get_resource_list();
-        if($data){
-            // foreach($data as $v){
-            //     $this->t_resource_file->field_update_list($v['file_id'],['file_size' => round( $v['file_size'] / 1024,2) ]);
-            // }
-        }
-        dd($data);
+        // $this->t_resource_file_evalutation->row_insert([
+        //     "file_id"          => 59,
+        //     "teacherid"        => 663,
+        //     "add_time"         => time(NULL),
+        //     "resource_type"    => 1,
+
+        //     "quality_score"    => 5,
+        //     "help_score"       => 5,
+        //     "overall_score"    => 4,
+        //     "detail_score"     => 4,
+        //     "size"             => 2,
+        //     "gap"              => 2,
+        //     "bg_picture"       => 3,
+        //     "text_type"        => 2,
+        //     "answer"           => 2,
+        //     "suit_student"     => 1,
+        //     "time_length"      => '90分钟',
+        // ]);
+
         
     }
 }
