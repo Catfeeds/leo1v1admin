@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use \App\Enums as E;
 
 class get_cc_day_top extends cmd_base 
 {
