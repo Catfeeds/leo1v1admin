@@ -1049,7 +1049,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     public function tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1,$adminid_list=[]) {
         $where_arr=[
             "accept_flag=1",
-            // "require_admin_type=2",
+            "require_admin_type=2",
             "is_test_user=0",
             "l.lesson_del_flag=0",
         ];
@@ -3888,15 +3888,16 @@ ORDER BY require_time ASC";
     //@param:$end_time 结束时间
     public function get_test_lesson_data($start_time,$end_time){
         $where_arr = [
-            //['t.require_admin_type = %u',2],
+            ['t.require_admin_type = %u',2],
             ['l.lesson_type = %u',2],
             ['s.is_test_user = %u',0],
+
         ];
         $this->where_arr_add_time_range($where_arr, 'tr.require_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select s.origin as channel_name,count(tr.require_id) as require_count,'.
             'count(tr.accept_flag = 1) test_lesson_count,'.
-            'sum( (lesson_user_online_status in (0,1) or  f.flow_status = 2) and tss.success_flag in (0,1 ) ) as succ_test_lesson_count,'.
+            'sum( accept_flag=1 and  (lesson_user_online_status in (0,1) or  f.flow_status = 2) and tss.success_flag in (0,1 ) ) as succ_test_lesson_count,'.
             'count(distinct if(tr.accept_flag = 1,tr.userid,null)) as distinct_test_count,'.
             'count(distinct if(tss.success_flag in (0,1 ),tr.userid,null)) as distinct_succ_count '.
             " from %s tr "
