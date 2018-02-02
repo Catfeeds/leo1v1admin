@@ -51,12 +51,6 @@ class update_refund_warning extends Command
         $end_time = strtotime(date("Y-m-d", time()));
         $start_time = strtotime("-28day", $end_time);
 
-        // $test = [
-        //     "换老师次数" => 1
-        // ];
-        // echo json_encode($test);
-        // exit;
-
         foreach ($info as $key => $item) {
             if ($key % 5000 == 0) sleep(5);
             $userid = $item["userid"];
@@ -74,102 +68,44 @@ class update_refund_warning extends Command
             //var_dump($lesson_count_week);
             // 单科上课次数(4周)
             $lesson_count = $task->t_lesson_info_b3->get_lesson_count_by_userid($userid);
-           
-            $one_count = min(array_column($lesson_count, "count"));
-            var_dump($one_count);
+            $one_count = array_column($lesson_count, "count");
+            //var_dump($one_count);
             $reason = [
                 "换老师次数" => $tea["count"],
                 "新老师上课次数" => $count,
                 "上课次数(30天)" => $lesson_count_month,
                 "上课次数(2周)" => $lesson_count_week,
-                "单科上课次数" => $one_count
+                "单科上课次数" => min($one_count)
             ];
-            dd($reason);
-            // $level = 1;
-            // if (in_array($item["type"], [2,3,4])) {
-            //     $level = 3;
-            // } else if ($lesson_count_month <= 0) {
-            //     $level = 3;
-            // } else if ($tea["count"] > 2 && $count < 6) {
-            //     $level = 3;
-            // } else if ($tea["count"] > 1 && $count < 6) {
-            //     $level = 2;
-            // } else if ($lesson_count_week <= 0) {
-            // }
 
-            // $task->t_student_info->field_update_list($userid, [
-            //     "refund_warning_level" => $level,
-            //     "refund_warning_reason" => json_encode($reson)
-            // ]);
-
-
-            exit;
-        }
-
-
-        exit;
-
-        $type_stu = $task->t_student_info->get_type_stu();
-        $users = [];
-        foreach($type_stu as $item) {
-            $userid = $item["userid"];
-            $users[] = $userid;
-            $task->t_student_info->field_update_list($userid, [
-                "refund_warning_level" => 3,
-                "refund_warning_reason" => E\Estudent_stu_type::get_desc($item["type"])
-            ]);
-        }
-
-        $info = $task->t_student_info->get_all_stu();
-        // 获取一个月有课时学生
-        $end_time = strtotime(date("Y-m-d", time()));
-        $start_time = strtotime("-1 month", $end_time);
-        $lesson_count_stu = $task->t_lesson_info_b3->get_lesson_count_info($start_time, $end_time);
-
-        foreach($info as $item) {
-            $userid = $item["userid"];
-            if (!in_array($userid, $lesson_count_stu)) {
-                $task->t_student_info->field_update_list($userid, [
-                    "refund_warning_level" => 3,
-                    "refund_warning_reason" => "连续一个月无课时消耗"
-                ]);
-                echo $userid;
-            } else {
-                if (in_array($userid, $users)) continue;
-                //换老师两次及以上，且最新的老师上课次数低于6
-                $tea = $task->t_student_info->get_teacher_count($userid);
-                if ($tea["count"] > 2) {
-                    $count = $task->t_lesson_info_b3->get_teacher_lesson_count($tea["teacherid"]);
-                    if ($count < 6) {
-                        $task->t_student_info->field_update_list($userid, [
-                            "refund_warning_level" => 3,
-                            "refund_warning_reason" => "换老师两次及以上，且最新的老师上课次数低于6"
-                        ]);
-                        $users[] = $userid;
-                    }
-                }
-                if (in_array($userid, $users)) continue;
-                $count = $task->t_lesson_info_b3->get_teacher_lesson_count($tea["teacherid"]);
-                if ($count < 6) {
-                    $task->t_student_info->field_update_list($userid, [
-                        "refund_warning_level" => 2,
-                        "refund_warning_reason" => "换老师一次，且最新的老师上课次数低于6"
-                    ]);
-                } else {
-                    $end_time = strtotime(date("Y-m-d", time()));
-                    $start_time = strtotime("-14day", $end_time);
-                    $lesson_count_stu = $task->t_lesson_info_b3->get_lesson_count_info($start_time, $end_time);
-                    if (!in_array($userid, $lesson_count_stu)) {
-                        $task->t_student_info->field_update_list($userid, [
-                            "refund_warning_level" => 2,
-                            "refund_warning_reason" => "连续两周以上无课时消耗"
-                        ]);
-                    } else {
-                        // 	近四周单科目的上课次数小于3
-                        $task->t_lesson_info_b3->get_lesson_count_by_userid($userid);
-                    }
-                }
+            $level = 0;
+            if (max($one_count) <= 3) {
+                $level = 1;
             }
+
+            if ($lesson_count_week <= 0) {
+                $level = 2;
+            } else if ($tea["count"] > 1 && $count < 6) {
+                $level = 2;
+            }
+
+
+            if (in_array($item["type"], [2,3,4])) {
+                $level = 3;
+            } else if ($lesson_count_month <= 0) {
+                $level = 3;
+            } else if ($tea["count"] > 2 && $count < 6) {
+                $level = 3;
+            }
+
+            $task->t_student_info->field_update_list($userid, [
+                "refund_warning_level" => $level,
+                "refund_warning_reason" => json_encode($reason)
+            ]);
+
+            echo $userid." level : ".$level;
+            var_dump($reason);
         }
+
     }
 }
