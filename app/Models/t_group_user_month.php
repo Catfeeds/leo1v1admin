@@ -141,7 +141,7 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
 
     public function del_item_row(){
         $sql=$this->gen_sql_new(
-            "delete from %s where groupid=0 and adminid=68 and month=1512057600",
+            "delete from %s where groupid=0 and adminid=68 and month=1514736000",
             self::DB_TABLE_NAME
         );
         return $this->main_update($sql);

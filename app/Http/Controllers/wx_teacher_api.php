@@ -1596,9 +1596,10 @@ class wx_teacher_api extends Controller
     }
 
 
-    //兼职老师晋升相关接口
+    //兼职老师晋升相关接口 #增加老师姓名
     public function get_teacher_advance_info_for_wx(){
-        $teacherid = $this->get_in_int_val("teacherid");
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid  = $this->get_teacherid();
         if(!$teacherid){
             return $this->output_err("老师id缺失!");
         }
@@ -1633,9 +1634,7 @@ class wx_teacher_api extends Controller
             $data["lesson_score"]    =  $lesson_score;
             $data["tea_score"]=  $tea_score;
             $data["stu_score"]=  $stu_score;
-
-
-            
+            $data["tea_nick"] = $this->t_teacher_info->get_nick($teacherid);
         }else{
             $show_flag=0;
         }
@@ -1644,7 +1643,7 @@ class wx_teacher_api extends Controller
 
 
     }
-        
+
 
 
 

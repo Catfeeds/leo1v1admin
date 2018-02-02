@@ -5362,6 +5362,29 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    public function sync_kaoqin_all() {
+        $machine_id=$this->get_in_int_val("machine_id");
+
+        $page_num=null;
+        $uid=-1;
+        $user_info="";
+        $has_question_user=0;
+        $creater_adminid=-1;
+        $account_role=-1;
+        $del_flag=0;
+        $cardid=-1;
+        $tquin=-1 ;
+        $day_new_user_flag=-1;
+
+        $admin_list= $this->t_manager_info->get_all_manager(
+$page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag);
+        foreach($admin_list["list"] as $item ) {
+            $adminid=$item["uid"];
+            $this->t_manager_info->sync_kaoqin_user($adminid,$machine_id);
+        }
+        return $this->output_succ();
+    }
+
     public function copy_admin_group_info(){
         $month = strtotime($this->get_in_str_val("start_time"));
         $main_type_flag = $this->get_in_int_val("main_type_flag");

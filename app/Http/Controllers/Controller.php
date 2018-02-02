@@ -241,7 +241,7 @@ class Controller extends ControllerEx
     function check_login() {
         if (!session("acc")){
             Log::debug(" DO: Location: / ");
-            if (!\App\Helper\Utils::check_env_is_test()) {
+            if (!\App\Helper\Utils::check_env_is_testing()) {
                 \App\Helper\Utils::logger("GOTO: " .$_SERVER["REQUEST_URI"] );
 
                 if ($this->get_in_str_val("callback"))  {

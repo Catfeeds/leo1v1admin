@@ -194,9 +194,8 @@ class admin_manage extends Controller
         $query_text=$this->get_in_query_text();
 
         $ret_info=$this->t_jobs->get_list($page_info, $order_by_str,  $query_text );
-
-
-        return $this->pageOutJson(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
+        // return $this->pageOutJson(__METHOD__, $ret_info);
     }
 
 

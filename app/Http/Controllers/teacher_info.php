@@ -2707,6 +2707,8 @@ class teacher_info extends Controller
         $err_question_answer = E\Eresource_question_answer::$desc_map;
         $err_whole = E\Eresource_whole::$desc_map;
         $err_content = E\Eresource_content::$desc_map;
+        $err_font = E\Eresource_font::$desc_map;
+        $err_difficult = E\Eresource_difficult::$desc_map;
 
         if($is_js != 0){
             // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
@@ -2724,6 +2726,9 @@ class teacher_info extends Controller
                 'err_content'  => $err_content,
                 'err_whole'  => $err_whole,
                 'err_pic'  => $err_pic,
+                'err_font'  => $err_font,
+                'err_difficult'  => $err_difficult,
+
 
             ]);
 
@@ -2747,6 +2752,9 @@ class teacher_info extends Controller
             'err_content'  => $err_content,
             'err_whole'  => $err_whole,
             'err_pic'  => $err_pic,
+            'err_font'  => $err_font,
+            'err_difficult'  => $err_difficult,
+
         ]);
     }
 
@@ -3553,6 +3561,27 @@ class teacher_info extends Controller
             "error_url"        => $error_url,
         ]);
         return $this->output_succ();
+    }
+
+    public function look(){
+        $e = $this->get_in_str_val("e","");
+        $token = $this->get_in_str_val("token","");
+        $pdf = $this->get_in_str_val("url","");
+        $type = $this->get_in_int_val("type",1);
+        $url = '';
+        if($type == 2){
+            $url = "http://teacher-doc.leo1v1.com".$pdf.".pdf?e=".$e."&token=".$token;
+        }else if($type == 3){
+            $url = "http://ebtest.qiniudn.com".$pdf.".pdf?e=".$e."&token=".$token;
+        }else if($type == 4){
+            $url = "http://7tszue.com2.z0.glb.qiniucdn.com".$pdf.".pdf?e=".$e."&token=".$token;
+        }
+        
+        //dd($url);
+        $ret_info['url'] = $url;
+        return $this->view(__METHOD__,$ret_info,[
+            'url' => $url,
+        ]);
     }
 
 }

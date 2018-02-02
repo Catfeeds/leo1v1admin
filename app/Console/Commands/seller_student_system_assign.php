@@ -161,27 +161,31 @@ class seller_student_system_assign extends cmd_base
             shuffle ($need_deal_list);
             $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
             foreach( $admin_list as &$item ) {
-                $assigned_no_connected_count=$item["assigned_no_connected_count"];//已获取奖励数量
-                $def_no_connected_count=$item["def_no_connected_count"];//分配奖励数量
-                $opt_adminid= $item["uid"];
-                for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
-                    for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
-                        $find_userid= @$need_deal_list[$j]["userid"];
-                        if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
+                //销售在奖励名单内
+                if($item['is_top']){
+                    $assigned_no_connected_count=$item["assigned_no_connected_count"];//已获取奖励数量
+                    $def_no_connected_count=$item["def_no_connected_count"];//分配奖励数量
+                    $opt_adminid= $item["uid"];
+                    for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
+                        for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
+                            $find_userid= @$need_deal_list[$j]["userid"];
+                            //判断之前没有分配给此用户过
+                            if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
 
-                            $assigned_count++;
-                            $userid_list=[$find_userid];
-                            $opt_type ="" ;
-                            $opt_type=0;
-                            $account="系统分配-未拨通例子";
-                            $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
-                            $check_hold_flag = false;
-                            $this->task->t_seller_student_system_assign_log->add(
-                                E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
-                            );
-                            unset($need_deal_list[$j]);
-                            $start_deal_index=$j+1;
-                            break;
+                                $assigned_count++;
+                                $userid_list=[$find_userid];
+                                $opt_type ="" ;
+                                $opt_type=0;
+                                $account="系统分配-未拨通例子";
+                                $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                                $check_hold_flag = false;
+                                $this->task->t_seller_student_system_assign_log->add(
+                                    E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
+                                );
+                                unset($need_deal_list[$j]);
+                                $start_deal_index=$j+1;
+                                break;
+                            }
                         }
                     }
                 }
@@ -302,7 +306,7 @@ class seller_student_system_assign extends cmd_base
                 if(@$seller_student_level_map[ $find_origin_level]){
                     $find_userid= @array_shift($seller_student_level_map[ $find_origin_level] );
                     if ($find_userid) {
-                        \App\Helper\Utils::logger("check-for2".$y++.'-userid:'.$find_userid);
+                        \App\Helper\Utils::logger("check-for-1".$y++.'-userid:'.$find_userid);
                         $this->do_assign($account, $find_userid, $adminid);
                         unset ( $seller_level_admin_map[$adminid]  );
                     }
@@ -373,7 +377,7 @@ class seller_student_system_assign extends cmd_base
             \App\Helper\Utils::logger("33round_set_adminid  userid_list: " . json_encode( $userid_list) );
 
             while ( ($userid =@array_shift( $userid_list )) >0 ){ //抛出处理
-                \App\Helper\Utils::logger("check-for1".$x++.'-userid:'.$userid);
+                \App\Helper\Utils::logger("check-for-2".$x++.'-userid:'.$userid);
 
                 $find_adminid=$this->assign_adminid($userid, $check_seller_level_list, $round_seller_level_map);
                 if (!$find_adminid ) {

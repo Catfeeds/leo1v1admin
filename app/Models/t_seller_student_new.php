@@ -2325,7 +2325,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
         $where_arr[] =  "last_contact_time <  $last_contact_time " ;
-        $where_arr[]='((s.origin_level in (1,2,3) and n.cc_no_called_count>3) or (s.origin_level=4 and n.cc_no_called_count>2))';
+        $where_arr[]= 's.origin_level in (1,2,3,4)';
+        $where_arr[] = 'n.cc_no_called_count>2';
         //E\Eseller_student_status
         //if ( $seller_student_status ==2 ) {
         //$where_arr[] =  'n.call_admin_count>0 ';
