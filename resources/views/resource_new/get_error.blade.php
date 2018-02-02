@@ -112,12 +112,17 @@
                         </select>
                     </div>
                 </div>
-                 <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">二级错误</span>
                         <select class="form-control opt-change" id="id_sub_error_type"> 
                             <option value="-1">未设置</option>
                         </select>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-md-2">
+                    <div class="input-group ">
+                        <input class="opt-change form-control" id="id_file_id" placeholder="" />
                     </div>
                 </div>
             </div>

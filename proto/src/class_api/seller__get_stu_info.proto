@@ -8,8 +8,7 @@ import "class_api/common.proto";
 
 message in  {
 	int32  admin_id = 1; // cc ID
-  	string resource = 2; //渠道
-   	string type = 3; //对渠道的操作，待确认  
+  	string id = 2; //seller_student 主键
 }
 
 message out {

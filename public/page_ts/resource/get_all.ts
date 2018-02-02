@@ -1439,6 +1439,11 @@ $(function(){
     $('body').click(function(){
         menu_hide();
     });
+    $('.opt-error').click(function(){
+         var file_id = $(this).data('file_id');
+         var resource_type = $(this).data('resource_type');
+        $.wopen("/resource_new/get_error?file_id="+file_id+"&resource_type="+resource_type);
+    });
 
     $('#id_resource_type').change(function(){
         $('#id_tag_one').val(-1);

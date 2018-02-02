@@ -73,7 +73,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
-    public function get_all_error($start_time,$end_time,$error_type,$sub_error_type,
+    public function get_all_error($start_time,$end_time,$error_type,$sub_error_type,$file_id,
                                 $use_type, $resource_type, $subject, $grade, $tag_one, 
                                 $tag_two, $tag_three, $tag_four,$tag_five, $page_info, 
                                 $is_del = 0,$status = 0
@@ -95,6 +95,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['e.add_time<=%u',$end_time,-1],
             ['e.error_type=%u',$error_type,-1],
             ['e.sub_error_type=%u',$sub_error_type,-1],
+            ['e.file_id=%u',$file_id,-1],
         ];
         if( in_array($resource_type, [1,2,3,4,5,9]) ){
             //添加通用版50000
