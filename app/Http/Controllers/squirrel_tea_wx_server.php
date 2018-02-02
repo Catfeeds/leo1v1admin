@@ -11,7 +11,7 @@ use LaneWeChat\Core\WeChatOAuth;
 use Squirrel\Core\UserManage;
 use LaneWeChat\Core\TemplateMessage;
 
-include(app_path("Wx/Squirrel_tea/lanewechat_squirrel.php"));
+include(app_path("Wx/Squirrel_tea/lanewechat_squirrel_tea.php"));
 
 class  squirrel_tea_wx_server extends Controller
 {
