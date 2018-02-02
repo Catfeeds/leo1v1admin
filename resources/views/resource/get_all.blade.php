@@ -113,6 +113,13 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否有评价</span>
+                        <select class="form-control opt-change" id="id_has_comment"> </select>
+                    </div>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-xs-2 col-md-1 ">
