@@ -104,7 +104,7 @@ class Wechat    {
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
 
-        $token = WECHAT_TOKEN_SQU;
+        $token = WECHAT_TOKEN_SST;
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );

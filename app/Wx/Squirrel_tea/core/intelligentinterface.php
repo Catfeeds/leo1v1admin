@@ -23,12 +23,12 @@ class IntelligentInterface {
      * 《接口协议文档》：http://mp.weixin.qq.com/wiki/images/1/1f/微信语义理解协议文档.zip
      */
     public static function semanticSemproxy($query, $category, $openId, $latitude='', $longitude='', $region='', $city=''){
-        $queryUrl = 'https://api.weixin.qq.com/semantic/semproxy/search?access_token='.AccessToken_SQU::getAccessToken();
+        $queryUrl = 'https://api.weixin.qq.com/semantic/semproxy/search?access_token='.AccessToken_SST::getAccessToken();
         $queryAction = 'POST';
         $template = array();
         $template['query'] = $query;
         $template['category'] = $category;
-        $template['appid'] = WECHAT_APPID_SQU;
+        $template['appid'] = WECHAT_APPID_SST;
         $template['uid'] = $openId;
         if(!empty($latitude)) $template['latitude'] = $latitude;
         if(!empty($longitude)) $template['longitude'] = $longitude;

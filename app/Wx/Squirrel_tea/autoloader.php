@@ -11,7 +11,7 @@ namespace App\Wx\Squirrel_tea;
  * WebSite: http://www.lanecn.com
  */
 class Autoloadersqu extends \LaneWeChat\Autoloader{
-    const NAMESPACE_PREFIX_SQU = 'Squirrel_tea\\';
+    const NAMESPACE_PREFIX_SST = 'Squirrel_tea\\';
     /**
      * 向PHP注册在自动载入函数
      */
@@ -23,8 +23,8 @@ class Autoloadersqu extends \LaneWeChat\Autoloader{
      * 根据类名载入所在文件
      */
     public static function autoload($className){
-        $namespacePrefixStrlen = strlen(self::NAMESPACE_PREFIX_SQU);
-        if(strncmp(self::NAMESPACE_PREFIX_SQU, $className, $namespacePrefixStrlen) === 0){
+        $namespacePrefixStrlen = strlen(self::NAMESPACE_PREFIX_SST);
+        if(strncmp(self::NAMESPACE_PREFIX_SST, $className, $namespacePrefixStrlen) === 0){
             $className = strtolower($className);
             $filePath = str_replace('\\', DIRECTORY_SEPARATOR, substr($className, $namespacePrefixStrlen));
             $filePath = realpath(__DIR__ . (empty($filePath) ? '' : DIRECTORY_SEPARATOR) . $filePath . '.lib.php');
