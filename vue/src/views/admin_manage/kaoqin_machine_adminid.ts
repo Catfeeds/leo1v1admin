@@ -20,7 +20,7 @@ export default class extends vtable {
       field_name: "admin_nick",
       "order_field_name": "admin_nick",
       "title": "昵称",
-      "default_display":  false,
+      //"default_display":  false,
       render:function(value, item:self_RowData ,index){
         return item.admin_nick;
       }
