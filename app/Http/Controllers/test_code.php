@@ -454,7 +454,14 @@ class test_code extends Controller
                 }
             }
         }
+    }
+
+    public function set_del_flag(){
+        if(\App\Helper\Utils::check_env_is_release()){
+            return $this->output_err("无法使用");
+        }
 
 
     }
+
 }

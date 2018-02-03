@@ -146,12 +146,17 @@ class user extends TeaWxController
         $ret_arr = json_decode($ret_str,true);
         if(!empty($ret_arr)){
             foreach($ret_arr as $i=>$item_ret){
-                foreach($format_arr as &$item_format){
-                    if($item_ret==' '){
-                        unset($ret_arr[$i]);
-                    }else{
-                        if($item_format == @$item_ret['0']){
+                $timestamp = strtotime($item_ret);
+                if($timestamp<time()){
+                    unset($ret_arr[$i]);
+                }else{
+                    foreach($format_arr as &$item_format){
+                        if($item_ret==' '){
                             unset($ret_arr[$i]);
+                        }else{
+                            if($item_format == @$item_ret['0']){
+                                unset($ret_arr[$i]);
+                            }
                         }
                     }
                 }
