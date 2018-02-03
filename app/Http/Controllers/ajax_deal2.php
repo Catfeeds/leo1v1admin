@@ -291,8 +291,9 @@ class ajax_deal2 extends Controller
                 "keyword3" => date("Y年m月d日 H:i:s")
             ];
             $parentOpenid = $this->t_parent_info->getWxOpenidByStuId($useid);
+            $pdf_url = "http://admin.leo1v1.com/common_new/redirectForPdf?url=".$pdf_file_url."&orderid=".$orderid;
 
-            \App\Helper\Utils::send_wx_to_parent($parentOpenid,$template_id,$data,$pdf_file_url);
+            \App\Helper\Utils::send_wx_to_parent($parentOpenid,$template_id,$data,$pdf_url);
 
         }
         return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
