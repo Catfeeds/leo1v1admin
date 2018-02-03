@@ -5222,9 +5222,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function get_tea_face_url_for_wx($tea_info){
         if(@$tea_info["face"]){
             $face = $tea_info["face"];
-        }elseif(@$tea_info["gender"]==1){
-            $face="https://ybprodpub.leo1v1.com/f39d1e460a7a5516f9bd7bafbc7bbd411517394933247.png";
         }elseif(@$tea_info["gender"]==2){
+            $face="https://ybprodpub.leo1v1.com/f39d1e460a7a5516f9bd7bafbc7bbd411517394933247.png";
+        }elseif(@$tea_info["gender"]==1){
             $face="https://ybprodpub.leo1v1.com/3f6dbddc24c14053b7c8957c0d5421791517394874943.png";
         }else{
             $face="http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png";
