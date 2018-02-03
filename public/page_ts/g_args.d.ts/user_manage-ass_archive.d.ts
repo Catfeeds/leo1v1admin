@@ -14,6 +14,7 @@ interface GargsStatic {
 	revisit_flag:	number;
 	warning_stu:	number;
 	revisit_warn_flag:	number;
+	refund_warn:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -24,6 +25,8 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	userid	:any;
+	type	:any;
+	refund_warning_level	:any;
 	lesson_num	:any;
 	is_auto_set_type_flag	:any;
 	stu_lesson_stop_reason	:any;
@@ -40,7 +43,6 @@ interface RowData {
 	lesson_count_all	:any;
 	lesson_count_left	:any;
 	user_agent	:any;
-	type	:any;
 	ass_revisit_last_month_time	:any;
 	ass_revisit_last_week_time	:any;
 	ass_assign_time	:any;
@@ -90,7 +92,8 @@ function load_data(){
 		userid:	$('#id_userid').val(),
 		revisit_flag:	$('#id_revisit_flag').val(),
 		warning_stu:	$('#id_warning_stu').val(),
-		revisit_warn_flag:	$('#id_revisit_warn_flag').val()
+		revisit_warn_flag:	$('#id_revisit_warn_flag').val(),
+		refund_warn:	$('#id_refund_warn').val()
 		});
 }
 $(function(){
@@ -139,6 +142,7 @@ $(function(){
 	$('#id_revisit_flag').val(g_args.revisit_flag);
 	$('#id_warning_stu').val(g_args.warning_stu);
 	$('#id_revisit_warn_flag').val(g_args.revisit_warn_flag);
+	$('#id_refund_warn').val(g_args.refund_warn);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -254,4 +258,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["revisit_warn_flag title", "revisit_warn_flag", "th_revisit_warn_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">refund_warn</span>
+                <input class="opt-change form-control" id="id_refund_warn" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["refund_warn title", "refund_warn", "th_refund_warn" ]])!!}
 */

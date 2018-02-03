@@ -225,6 +225,9 @@ class user_manage extends Controller
         $warning_stu  = $this->get_in_int_val('warning_stu',-1);
         $revisit_warn_flag  = $this->get_in_int_val('revisit_warn_flag',1);
 
+        // 退费预警
+        $refund_warn = $this->get_in_int_val("refund_warn", -1);
+
         //回访预警名单
         // $warn_list = $this->t_revisit_info->get_warn_stu_list();
         $warn_list=[];
@@ -277,7 +280,7 @@ class user_manage extends Controller
         $ret_info = $this->t_student_info->get_student_list_archive( $userid, $grade, $status, $user_name, $phone, $teacherid,
                                                                      $assistantid, $test_user, $originid, $page_num, $student_type,
                                                                      $revisit_flag, $warning_stu,$sum_start,$revisit_warn_flag,
-                                                                     $warn_list
+                                                                     $warn_list, $refund_warn
         );
         $userid_list=[];
         foreach($ret_info['list'] as $t_item) {
@@ -532,7 +535,6 @@ class user_manage extends Controller
             "acc"            => session("acc")
         ]);
     }
-
 
     public function contract_list_seller () {
         $this->set_in_value("sys_operator", $this->get_account());

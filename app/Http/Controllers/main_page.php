@@ -962,6 +962,10 @@ class main_page extends Controller
         $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
         $used_assign_lesson_count = $this->t_order_info->get_assign_lesson_count_by_account($account);
 
+        $refund_warning = $this->t_student_info->get_refund_warning($assistantid);
+        foreach($refund_warning as $val) {
+            @$refund_warning["total"] += $val;
+        }
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
@@ -980,7 +984,8 @@ class main_page extends Controller
             "today_info"   => @$today_info,
             "ass_month"    =>  $ass_month,
             "assign_lesson_count"=>$assign_lesson_count,
-            "used_assign_lesson_count"=>$used_assign_lesson_count
+            "used_assign_lesson_count"=>$used_assign_lesson_count,
+            "refund_warning" => $refund_warning
         ]);
 
     }
@@ -2294,7 +2299,10 @@ class main_page extends Controller
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
         }
 
-
+        $refund_warning = $this->t_student_info->get_refund_warning();
+        foreach($refund_warning as $val) {
+            @$refund_warning["total"] += $val;
+        }
         // dd($month_info);
 
         return $this->pageView(__METHOD__ ,null, [
@@ -2305,6 +2313,7 @@ class main_page extends Controller
             "warning"       => $warning_type_num,
             "month_info" =>$month_info,
             "leader_revisit_info" =>$leader_revisit_info,
+            "refund_warning" => $refund_warning
         ]);
 
     }
