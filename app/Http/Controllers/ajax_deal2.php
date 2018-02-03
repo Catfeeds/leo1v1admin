@@ -280,14 +280,13 @@ class ajax_deal2 extends Controller
 
         # 增加发送给家长
         $parentid = $this->t_parent_child->get_parentid_by_userid($userid);
-        $test_arr = ['335719','321232'];
-        if($pdf_file_url && in_array($parentid,$test_arr) ){
+        if($pdf_file_url){
             $cc_row = $this->t_manager_info->get_phone_by_account($row['sys_operator']);
             $cc_phone = $cc_row['phone'];
             $template_id = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
             $data = [
                 "keyword1" => "请查看合同",
-                "keyword2" => "\n".$parent_name."家长:\n\n您的购课合同已生成,请注意点击查看 \n联系老师: ".$row['sys_operator']."老师 \n联系电话: ".$cc_phone,
+                "keyword2" => "\n".$parent_name."家长:\n\n您的购课合同已生成,请注意点击查看 \n\n联系老师: ".$row['sys_operator']."老师 \n联系电话: ".$cc_phone,
                 "keyword3" => date("Y年m月d日 H:i:s")
             ];
             $parentOpenid = $this->t_parent_info->getWxOpenidByStuId($userid);
