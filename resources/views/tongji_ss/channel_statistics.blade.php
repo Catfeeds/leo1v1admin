@@ -28,7 +28,6 @@
             <div class="row row-query-list">
                 <div class="col-xs-12 col-md-3" >
                     <button id="id_query" class="btn btn-warning" >点击查询 </button>
-                    <button id="id_align" class="btn btn-primary" >对齐</button>
                     <button id="id_update" class="btn btn-primary" >更新数据</button>
                 </div>
                 <div class="col-xs-12 col-md-2">
