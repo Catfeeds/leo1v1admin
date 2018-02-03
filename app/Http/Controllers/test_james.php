@@ -406,8 +406,8 @@ class test_james extends Controller
         });
 
         Schema::dropIfExists('t_poster_share_log');
-        Schema::table('db_weiyi.t_activity_usually', function(Blueprint $table) {
-            t_field($table->integer("add_num"), "已添加人数");
+        Schema::table('db_weiyi.t_order_info', function(Blueprint $table) {
+            t_field($table->integer("first_check_time"), "家长首次查看时间");
         });
 
     }
