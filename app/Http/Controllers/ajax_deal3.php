@@ -15,7 +15,6 @@ class ajax_deal3 extends Controller
     use LessonPower;
 
     public function get_new_seller_student_info() {
-        list($start_time, $end_time)=$this->get_in_date_range_day(0);
         $work_start_time="";
         $adminid= $this->get_account_id();
         $userid_list= $this->get_in_int_list("userid_list");
@@ -35,7 +34,7 @@ class ajax_deal3 extends Controller
             }
 
             $user_list=$this->t_seller_student_system_assign_log->get_seller_student_assign_from_type_list($adminid, $userid_list);
-            $new_count = $this->t_seller_student_system_assign_log->get_new_count($adminid,$start_time,$end_time);
+            $new_count = $this->t_seller_student_new_b2->get_today_new_count($adminid);
             foreach ($user_list as &$item) {
                 $userid=&$item["userid"];
                 $admin_assign_time=strtotime( @$user_admin_assign_time_map[$userid] );
