@@ -1462,12 +1462,14 @@ $(function(){
                         //最左侧
                         var error_item = error.find('tbody tr:eq(0)').clone();
                         error_item.find('.error_item_content p').text(result.list[x]['detail_error']);
-                        var error_picture_arr = $.parseJSON(result.list[x]['error_picture']);
-                        if(error_picture_arr.length>0){
-                            for(var y in error_picture_arr){
-                                var img_obj = error_item.find('.error_item_content .look_err_pic:eq(0)').clone().removeClass('hide');
-                                img_obj.attr({"link":error_picture_arr[y]});
-                                error_item.find('.err_pic_box').append(img_obj);
+                        if(result.list[x]['error_picture'] != ''){
+                            var error_picture_arr = $.parseJSON(result.list[x]['error_picture']);
+                            if(error_picture_arr.length>0){
+                                for(var y in error_picture_arr){
+                                    var img_obj = error_item.find('.error_item_content .look_err_pic:eq(0)').clone().removeClass('hide');
+                                    img_obj.attr({"link":error_picture_arr[y]});
+                                    error_item.find('.err_pic_box').append(img_obj);
+                                }
                             }
                         }
                         error_item.find(".error_type_1").text(result.list[x]['error_type_str']);
