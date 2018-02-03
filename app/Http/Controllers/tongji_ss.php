@@ -8386,7 +8386,8 @@ class tongji_ss extends Controller
             $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
             foreach ($test_lesson_data as  $test_item ) {
                 $channel_name=$test_item["check_value"];
-                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
+
+                $channel_name= \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
                 $data_map[$channel_name]["require_count"] = $test_item["require_count"];
                 $data_map[$channel_name]["test_lesson_count"] = $test_item["test_lesson_count"];
                 $data_map[$channel_name]["distinct_test_count"] = $test_item["distinct_test_count"];
@@ -8403,7 +8404,7 @@ class tongji_ss extends Controller
             $order_data = $this->t_order_info->get_node_type_order_data_now($field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str, $origin);
             foreach($order_data as $order_item){
                 $channel_name=$order_item["check_value"];
-                \App\Helper\Utils:: array_item_init_if_nofind($data_map, $channel_name,["check_value" => $channel_name]);
+                $channel_name= \App\Helper\Utils:: array_item_init_if_nofind($data_map, $channel_name,["check_value" => $channel_name]);
 
                 $data_map[$channel_name]["order_count"] = $order_item["order_count"];
                 $data_map[$channel_name]["user_count"] = $order_item["user_count"];
@@ -8426,7 +8427,7 @@ class tongji_ss extends Controller
                 // $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
                 foreach ($test_lesson_list_new as  $test_item ) {
                     $check_value=$test_item["check_value"];
-                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+                    $check_value=\App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
                     $data_map[$check_value]["require_count"] = $test_item["require_count"];
                     $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
                     $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
@@ -8448,7 +8449,7 @@ class tongji_ss extends Controller
                 // $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str, $origin);
                 foreach ($order_list_new as  $order_item ) {
                     $check_value=$order_item["check_value"];
-                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+                    $check_value=\App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
 
                     $data_map[$check_value]["order_count"] = $order_item["order_count"];
                     $data_map[$check_value]["user_count"] = $order_item["user_count"];
@@ -8539,7 +8540,7 @@ class tongji_ss extends Controller
                 $order_info = $this->t_test_lesson_subject_require->get_distinct_order_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
                 foreach ($order_info as  $item ) {
                     $check_value=$item["check_value"];
-                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+                    $check_value=\App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
                     $data_map[$check_value]["user_count"] = $item["user_count"];
                     //矫正预约数、上课成功数
                     $data_map[$check_value]["require_count"] = $data_map[$check_value]["require_count"]-($data_map[$check_value]["order_count"]-$data_map[$check_value]["user_count"]);
@@ -8556,7 +8557,7 @@ class tongji_ss extends Controller
                 $order_info = $this->t_lesson_info->get_distinct_order_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
                 foreach ($order_info as  $item ) {
                     $check_value=$item["check_value"];
-                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+                    $check_value=\App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
                     $data_map[$check_value]["user_count"] = $item["user_count"];
                     //上课成功数
                     $data_map[$check_value]["succ_test_lesson_count"] = $data_map[$check_value]["succ_test_lesson_count"]-($data_map[$check_value]["order_count"]-$data_map[$check_value]["user_count"]);

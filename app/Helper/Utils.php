@@ -695,10 +695,16 @@ class Utils  {
         $arr[$field_name]=@$arr[$field_name]+$value;
     }
 
-    static function array_item_init_if_nofind(&$arr,$field_name, $init_value=array() ) {
+    static function array_item_init_if_nofind(&$arr,&$field_name, $init_value=array() ) {
+
+        if ($field_name===null) {
+            $field_name="__NULL";
+        }
+
         if (!isset( $arr[$field_name]  ) ) {
             $arr[$field_name]  =$init_value;
         }
+        return $field_name;
     }
 
     static function get_up_month_day($time) {
@@ -2731,7 +2737,7 @@ class Utils  {
         } else {
             return $arr[$error_type];
         }
-        
+
     }
 
     static public function check_is_match($adminid,$activity_id){
