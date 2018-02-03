@@ -725,6 +725,9 @@ class user_manage extends Controller
             }
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
             \App\Helper\Utils::hide_item_phone($item);
+            # 新增显示家长查看合同状态
+            $item['first_check_time_str'] = date('Y-m-d H:i:s',$item['first_check_time']);
+
         }
 
         $this->set_filed_for_js("account_role_self",$this->get_account_role());
