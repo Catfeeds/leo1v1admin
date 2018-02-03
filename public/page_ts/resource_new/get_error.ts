@@ -47,7 +47,8 @@ $(function(){
         onQuery :function() {
             load_data();
         }
-    });
+   });
+
     //获取学科化标签
     var get_sub_grade_tag = function(subject,grade,booid,resource_type,season_id,obj,opt_type){
         obj.empty();
@@ -642,10 +643,10 @@ $(function(){
     var color_id = 0,color_res = 0,color_flag = 0;
     $('.common-table tr').each(function(i){
         if(i>0){
-            if($(this).data('resource_id') == color_res){
+            if($(this).data('file_id') == color_res){
                 $(this).css('background',color_id );
             } else {
-                color_res = $(this).data('resource_id');
+                color_res = $(this).data('file_id');
                 (color_flag == 0) ? color_flag = 1: color_flag = 0;
                 (color_flag == 0) ? color_id = '#e6e6e6' : color_id = '#bfbfbf';
                 $(this).css('background',color_id);
@@ -668,6 +669,110 @@ $(function(){
         }
         window.open("/resource/sub_grade_book_tag?subject="+subject+"&grade="+grade+
                     "&bookid="+bookid+"&resource_type="+resource_type+"&season_id="+season_id);
+    })
+
+    //同意修改
+    $('.opt-agree').click(function(){
+        var data = $(this).parents('tr').get_self_opt_data();
+        
+        var change = {
+            "id"  : data.id,
+            "file_id" : data.file_id,
+        };
+        var $this = $(this);
+        console.log($this);
+        //return false;
+        var obj = "<span style='color:#2d2828'>已同意</span>";
+        var info = "<span style='color:#e81616'>待修改</span>";
+
+        $.ajax({
+            type    : "post",
+            url     : "/resource_new/file_err_agree",
+            dataType: "json",
+            data    : change,
+            success : function(result){
+                console.log(result)
+                if(result.ret == 0 && result.status == 200){
+                    $this.next().removeClass('hide');
+                    $this.after(obj);
+                    $this.parent().prev().html(info);
+                    $this.remove();
+                }else{
+                    BootstrapDialog.alert('网络错误！');
+                }
+            }
+        });
+
+    })
+
+    //初审驳回
+    $(".opt-first-look").click(function(){
+        var data = $(this).parents('tr').get_self_opt_data();
+        
+        var change = {
+            "id"  : data.id,
+            "file_id" : data.file_id,
+            "status"  : 3,
+        };
+
+        var $this = $(this);
+
+        var obj = "<span style='color:#e81616'>初审已驳回</span>";
+        var info = "<span style='color:#e81616'>初审驳回</span>";
+
+        $.ajax({
+            type    : "post",
+            url     : "/resource_new/file_err_refuse",
+            dataType: "json",
+            data    : change,
+            success : function(result){
+                console.log(result)
+                if(result.ret == 0 && result.status == 200){
+                    $this.parent().find('.opt-upload').text('重传');
+                    $this.after(obj);
+                    $this.parent().prev().html(info);
+                    $this.remove();
+                }else{
+                    BootstrapDialog.alert(result.info);
+                }
+            }
+        });
+
+    })
+
+    //复审驳回
+    $(".opt-sec-look").click(function(){
+        var data = $(this).parents('tr').get_self_opt_data();
+        
+        var change = {
+            "id"  : data.id,
+            "file_id" : data.file_id,
+            "status"  : 4,
+        };
+
+        var $this = $(this);
+
+        var obj = "<span style='color:#e81616'>复审已驳回</span>";
+        var info = "<span style='color:#e81616'>复审驳回</span>";
+
+        $.ajax({
+            type    : "post",
+            url     : "/resource_new/file_err_refuse",
+            dataType: "json",
+            data    : change,
+            success : function(result){
+                console.log(result)
+                if(result.ret == 0 && result.status == 200){
+                    $this.parent().find('.opt-upload').text('重传');
+                    $this.after(obj);
+                    $this.parent().prev().html(info);
+                    $this.remove();
+                }else{
+                    BootstrapDialog.alert(result.info);
+                }
+            }
+        });
+
     })
 
 });

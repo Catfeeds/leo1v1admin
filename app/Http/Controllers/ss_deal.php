@@ -3970,6 +3970,32 @@ class ss_deal extends Controller
         }
     }
 
+    public function upload_item_student_from_xls()
+    {
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $ret = $objPHPExcel->getActiveSheet()->toArray();
+            $ret_info = [];
+            foreach($ret as $item){
+                $phone = ceil($item[1]);
+                $account = $item[5];
+                $adminid = $this->t_manager_info->get_adminid_by_account($account);
+                if($adminid>0 && $phone>0){
+                    dd($adminid,$phone);
+                }
+            }
+            dd($arr);
+            return outputjson_success();
+        } else {
+            return outputjson_ret(false);
+        }
+    }
+
     public function upload_ass_stu_from_xls(){
         $file = Input::file('file');
         if ($file->isValid()) {
