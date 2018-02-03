@@ -1,4 +1,6 @@
 	userid	:any;
+	type	:any;
+	refund_warning_level	:any;
 	lesson_num	:any;
 	is_auto_set_type_flag	:any;
 	stu_lesson_stop_reason	:any;
@@ -15,7 +17,6 @@
 	lesson_count_all	:any;
 	lesson_count_left	:any;
 	user_agent	:any;
-	type	:any;
 	ass_revisit_last_month_time	:any;
 	ass_revisit_last_week_time	:any;
 	ass_assign_time	:any;
