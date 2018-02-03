@@ -441,7 +441,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd(substr(13815015352.0,0,11));
         list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,1517500800,[],[]];
         $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
         return $this->pageView(__METHOD__,null);
