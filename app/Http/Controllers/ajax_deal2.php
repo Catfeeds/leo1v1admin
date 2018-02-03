@@ -290,7 +290,7 @@ class ajax_deal2 extends Controller
                 "keyword2" => $parent_name."家长: \n 您的购课合同已生成,请注意点击查看 \n 联系老师: ".$row['sys_operator']."老师 \n 联系电话: ".$cc_phone,
                 "keyword3" => date("Y年m月d日 H:i:s")
             ];
-            $parentOpenid = $this->t_parent_info->getWxOpenidByStuId($useid);
+            $parentOpenid = $this->t_parent_info->getWxOpenidByStuId($userid);
             $pdf_url = "http://admin.leo1v1.com/common_new/redirectForPdf?url=".$pdf_file_url."&orderid=".$orderid;
 
             if($parentOpenid){
