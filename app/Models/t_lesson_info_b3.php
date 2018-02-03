@@ -3723,6 +3723,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["lesson_start>=%u", $start_time, -1],
             ["lesson_start<%u", $end_time, -1],
             ["userid=%u", $userid, -1],
+            "confirm_flag != 2",
             "lesson_type in (0,1,3)"
         ];
         $sql = $this->gen_sql_new("select subject,count(distinct lessonid) count from %s where %s group by subject",
