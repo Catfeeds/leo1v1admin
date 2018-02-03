@@ -37,7 +37,20 @@ class GetData extends cmd_base
      */
     public function handle()
     {
-        //
-        $ret_list = $this->task->t_student_info->get_();
+        $ret_list = $this->task->t_student_info->get_student_for_stop_study();
+        foreach($ret_list as &$val){
+            $order_start = \App\Helper\Utils::unixtime2date($val['contract_starttime']);
+            $order_end   = \App\Helper\Utils::unixtime2date($val['contract_endtime']);
+            if($val['contract_endtime']<time()){
+                $val['useful_flag'] = "过期";
+            }else{
+                $val['useful_flag'] = "未过期";
+            }
+            echo $val['userid']."|".$val['nick']."|".$val['ass_nick']."|".$val['group_name']."|".$val['useful_flag']
+                               ."|".$order_start."|".$order_end;
+            echo PHP_EOL;
+        }
+
+
     }
 }

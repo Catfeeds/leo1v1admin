@@ -3423,8 +3423,33 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_all_stu() {
-        $sql = $this->gen_sql_new("select userid,type from %s where is_test_user=0 and refund_warning_level != 3",
+        $sql = $this->gen_sql_new("select userid,type from %s where is_test_user=0", //and refund_warning_level != 3",
                                   self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_student_for_stop_study(){
+        $where_arr = [
+            "s.type in (2,4)",
+            "s.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.nick,o.contract_starttime,o.contract_endtime,o.contract_status,  "
+                                  ." a.nick as ass_nick,gn.group_name"
+                                  ." from %s s "
+                                  ." left join %s o on s.userid=o.userid and o.contract_type in (0,1,3) and o.contract_status>0"
+                                  ." left join %s a on s.assistantid=a.assistantid"
+                                  ." left join %s m on a.phone=m.phone"
+                                  ." left join %s gu on m.uid=gu.adminid"
+                                  ." left join %s gn on gu.groupid=gn.groupid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }

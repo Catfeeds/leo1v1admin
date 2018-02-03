@@ -66,9 +66,10 @@ class update_refund_warning extends Command
             // 单科上课次数(4周)
             $lesson_count = $task->t_lesson_info_b3->get_lesson_count_by_userid($userid);
             $one_count = array_column($lesson_count, "count");
-            //var_dump($one_count);
+            $tea_count = 0;
+            if ($tea["count"] > 0) $tea_count = $tea["count"] - 1;
             $reason = [
-                "换老师次数" => $tea["count"],
+                "换老师次数" => $tea_count,
                 "新老师上课次数" => $count,
                 "上课次数(30天)" => $lesson_count_month,
                 "上课次数(2周)" => $lesson_count_week,
@@ -100,8 +101,7 @@ class update_refund_warning extends Command
                 "refund_warning_reason" => json_encode($reason)
             ]);
 
-            echo $userid." level : ".$level;
-            var_dump($reason);
+            echo $userid." level : ".$level." tea_count";
         }
 
     }
