@@ -2026,7 +2026,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function redirectForPdf(){
         $url = $this->get_in_str_val('url');
         $orderid =  $this->get_in_int_val('orderid');
-        $checkTime = $this->t_order_info->get_first_check_time($orderid);
+        $checkTime = $this->t_order_info->get_first_check_time_by_orderid($orderid);
         if(!$checkTime){
             $this->t_order_info->field_update_list($orderid, [
                 "first_check_time" => time()
