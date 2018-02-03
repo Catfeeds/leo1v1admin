@@ -101,4 +101,5 @@ message order_detail {
   string package_give_money=10 ;  //套餐折扣价格
   string package_name=11 ;  //套餐名称
   string package_desc=12 ;  //套餐描述
+  string poster=13 ;  //海报
 }

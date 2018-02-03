@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1014
-//__DESC: /order/create 下单接口 
+//__DESC: http://api.class.leo1v1.com/order/create?pid=6&num=1 下单接口 
 //__TAGS: for_app,for_website
 
 
