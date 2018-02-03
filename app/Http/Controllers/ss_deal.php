@@ -3979,7 +3979,16 @@ class ss_deal extends Controller
             $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
             $objPHPExcel = $objReader->load($realPath);
             $objPHPExcel->setActiveSheetIndex(0);
-            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            $ret = $objPHPExcel->getActiveSheet()->toArray();
+            $ret_info = [];
+            foreach($ret as $item){
+                $phone = ceil($item[1]);
+                $account = $item[5];
+                $adminid = $this->t_manager_info->get_adminid_by_account($account);
+                if($adminid>0 && $phone>0){
+                    dd($adminid,$phone);
+                }
+            }
             dd($arr);
             return outputjson_success();
         } else {
