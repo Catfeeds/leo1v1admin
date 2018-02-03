@@ -12,14 +12,16 @@ class t_seller_student_system_release_log extends \App\Models\Zgen\z_t_seller_st
     //@param:$userid 用户id
     //@param:$phone 用户电话
     //@param:$release_reason_flag  释放分类标识
-    public function add_log($admin_revisiterid,$userid,$phone,$release_reason_flag){
+    //@param:$admin_assign_time  例子分配的时间
+    public function add_log($admin_revisiterid,$userid,$phone,$release_reason_flag,$admin_assign_time){
         $time_now = time(NULL);
         $this->row_insert([
             'adminid' => $admin_revisiterid,
             'userid' => $userid,
             'phone' => $phone,
             'release_time' => $time_now,
-            'release_reason_flag' => $release_reason_flag
+            'release_reason_flag' => $release_reason_flag,
+            'admin_assign_time' => $admin_assign_time
         ]);
     }
     //@desn:展示释放日志信息
@@ -33,7 +35,8 @@ class t_seller_student_system_release_log extends \App\Models\Zgen\z_t_seller_st
         ];
         $this->where_arr_add_time_range($where_arr, 'release_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            'select srl.adminid,srl.userid,si.nick,srl.phone,srl.release_time,srl.release_reason_flag,mi.account '.
+            'select srl.adminid,srl.userid,si.nick,srl.phone,srl.release_time,srl.release_reason_flag,mi.account, '.
+            'srl.admin_assign_time '.
             'from %s srl '.
             'join %s mi on srl.adminid=mi.uid '.
             'join %s si using(userid) '.

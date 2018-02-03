@@ -130,16 +130,14 @@
                     <td >{{$var["location"]}}</td>
                     <td >{{$var["type"]}}</td>
                     @if ($var["refund_warning_level"] == 3)
-                        <td><div><span class="refund_warn_reason" style='color:#FF0000'>三级</span></div></td>
+                        <td><div><span class="refund_warn_reason" style='color:#FF0000;cursor:pointer'>三级</span></div></td>
                     @elseif ($var["refund_warning_level"] == 2)
-                        <td><div><span class="refund_warn_reason" style='color:#FFCC33'>二级</span></div></td>
+                        <td><div><span class="refund_warn_reason" style='color:#FFCC33;cursor:pointer'>二级</span></div></td>
                     @elseif ($var["refund_warning_level"] == 1)
-                        <td><div><span class="refund_warn_reason" style='color:#0099FF'>一级</span></div></td>
+                        <td><div><span class="refund_warn_reason" style='color:#0099FF;cursor:pointer'>一级</span></div></td>
                     @else
-                        <td><div><span class="refund_warn_reason" style='color:#0000FF'>无</span></div></td>
+                        <td><div><span class="refund_warn_reason" style='color:#0000FF;cursor:pointer'>无</span></div></td>
                     @endif
-
-                    <td>{{$var["refund_warning_level"]}}</td>
                     <td class="" >{{$var["parent_name"]}}</td>
                     <td class="" >{{$var["assistant_nick"]}}</td>
                     <td class="td-parent-type" data-v="{{$var["parent_type"]}}"></td>

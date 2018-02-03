@@ -2675,7 +2675,7 @@ $(function(){
                     if ((key == "上课次数(30天)" && parseInt(val) == 0) || (key == "换老师次数" && parseInt(val) == 1) ||
                         (key == "退费预警级别" && val == "三级")) {val = "<span style='color:#FF0000'>" + val + "</span>";}
                     if (key == "学员类型" && (val == "休学学员" || val == "停课学员" || val == "寒暑假停课")) {val = "<span style='color:#FF0000'>" + val + "</span>";}
-                    if (key == "退费预警级别" && val == "无") {val = "<span style='color:##0000FF'>" + val + "</span>";}
+                    if (key == "退费预警级别" && val == "无") {val = "<span style='color:#0000FF'>" + val + "</span>";}
                     arr.push([key, val]);
                 }
                 $.show_key_value_table("退费预警级别详情", arr);
@@ -2709,7 +2709,7 @@ $(function(){
 
         $.show_key_value_table("退费预警级别详情", arr, {
             label : "确定",
-            cssClass : "btn-danger",
+            cssClass : "btn-warning",
             action : function(dialog) {
                 $.do_ajax("/company_wx/add_warn_revisit_record", {
                     "userid" : userid,

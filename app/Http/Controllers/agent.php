@@ -494,12 +494,14 @@ class agent extends Controller
     }
 
     public function del_detailid(){
-        $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174055);
-        dd($ret);
+        $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174354);
+        $ret_new = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174355);
+        dd($ret,$ret_new);
+        list($start_time,$end_time) = $this->get_in_date_range_day(0);
         $phone = $this->get_in_str_val('phone');
         $userid = $this->t_phone_to_user->get_userid($phone);
         if($userid>0){
-            $id = $this->t_seller_new_count_get_detail->get_item_rwo_by_userid($userid);
+            $id = $this->t_seller_new_count_get_detail->get_item_row_by_userid($userid,$start_time,$end_time);
             if($id>0){
                 $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
                 dd($ret);
