@@ -36,7 +36,7 @@ class t_seller_student_system_release_log extends \App\Models\Zgen\z_t_seller_st
         $this->where_arr_add_time_range($where_arr, 'release_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select srl.adminid,srl.userid,si.nick,srl.phone,srl.release_time,srl.release_reason_flag,mi.account, '.
-            'srl.admin_assign_time ',
+            'srl.admin_assign_time '.
             'from %s srl '.
             'join %s mi on srl.adminid=mi.uid '.
             'join %s si using(userid) '.
