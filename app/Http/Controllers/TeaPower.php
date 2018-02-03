@@ -5202,7 +5202,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function get_tea_level_str($score,$level){
         $level_degree = E\Enew_level::get_simple_desc($level);
         $list =[2=>65,3=>75,4=>80,11=>90];
-        if($level==1){
+        if($level==1 || $level==0){
             $level_score_info="";
         }else{
             $score_target =  $list[$level];
