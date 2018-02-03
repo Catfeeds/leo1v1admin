@@ -287,7 +287,7 @@ class ajax_deal2 extends Controller
             $template_id = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
             $data = [
                 "keyword1" => "请查看合同",
-                "keyword2" => $parent_name."家长: \n 您的购课合同已生成,请注意点击查看 \n 联系老师: ".$row['sys_operator']."老师 \n 联系电话: ".$cc_phone,
+                "keyword2" => "\n".$parent_name."家长: \n 您的购课合同已生成,请注意点击查看 \n \n 联系老师: ".$row['sys_operator']."老师 \n \n 联系电话: ".$cc_phone,
                 "keyword3" => date("Y年m月d日 H:i:s")
             ];
             $parentOpenid = $this->t_parent_info->getWxOpenidByStuId($userid);
