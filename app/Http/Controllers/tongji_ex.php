@@ -567,11 +567,11 @@ class tongji_ex extends Controller
                 $ret_report[$key]['type']='红色';
                 $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
             }
-            if($item['new']==$rate_min && $rate_min>0 && $item['create_time']<=$end_time){
+            if($item['new']==$rate_min && $rate_min>0 && $item['create_time']<=$end_time && $item['new']==6){
                 $ret_rate[$rate_min]['type'] = '今最低';
                 $ret_rate[$rate_min]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_min]['time'] = date('Y-m-d H:i:s',$item['create_time']);
-            }elseif($item['new']==$rate_max && $rate_max>0 && $item['create_time']<=$end_time){
+            }elseif($item['new']==$rate_max && $rate_max>0 && $item['create_time']<=$end_time && $item['new']==6){
                 $ret_rate[$rate_max]['type'] = '今最高';
                 $ret_rate[$rate_max]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_max]['time'] = date('Y-m-d H:i:s',$item['create_time']);
