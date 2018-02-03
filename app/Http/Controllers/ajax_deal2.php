@@ -277,26 +277,26 @@ class ajax_deal2 extends Controller
         $this->t_order_info->field_update_list($orderid,[
             "pdf_url" =>$pdf_file_url
         ]);
-
-        # 增加发送给家长
-        $parentid = $this->t_parent_child->get_parentid_by_userid($userid);
-        if($pdf_file_url){
-            $cc_row = $this->t_manager_info->get_phone_by_account($row['sys_operator']);
-            $cc_phone = $cc_row['phone'];
-            $template_id = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-            $data = [
-                "keyword1" => "请查看合同",
-                "keyword2" => "\n".$parent_name."家长:\n\n您的购课合同已生成,请注意点击查看 \n\n联系老师: ".$row['sys_operator']."老师 \n联系电话: ".$cc_phone,
-                "keyword3" => date("Y年m月d日 H:i:s")
-            ];
-            $parentOpenid = $this->t_parent_info->getWxOpenidByStuId($userid);
-            $pdf_url = "http://admin.leo1v1.com/common_new/redirectForPdf?url=".$pdf_file_url."&orderid=".$orderid;
-
-            if($parentOpenid){
-                \App\Helper\Utils::send_wx_to_parent($parentOpenid,$template_id,$data,$pdf_url);
-            }
-        }
         return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
+
+        # 增加发送给家长 [暂停发布]
+        // $parentid = $this->t_parent_child->get_parentid_by_userid($userid);
+        // if($pdf_file_url ){
+        //     $cc_row = $this->t_manager_info->get_phone_by_account($row['sys_operator']);
+        //     $cc_phone = $cc_row['phone'];
+        //     $template_id = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+        //     $data = [
+        //         "keyword1" => "请查看合同",
+        //         "keyword2" => "\n".$parent_name."家长:\n\n您的购课合同已生成,请注意点击查看 \n\n联系老师: ".$row['sys_operator']."老师 \n联系电话: ".$cc_phone,
+        //         "keyword3" => date("Y年m月d日 H:i:s")
+        //     ];
+        //     $parentOpenid = $this->t_parent_info->getWxOpenidByStuId($userid);
+        //     $pdf_url = "http://admin.leo1v1.com/common_new/redirectForPdf?url=".$pdf_file_url."&orderid=".$orderid;
+
+        //     if($parentOpenid){
+        //         \App\Helper\Utils::send_wx_to_parent($parentOpenid,$template_id,$data,$pdf_url);
+        //     }
+        // }
     }
 
     /**
