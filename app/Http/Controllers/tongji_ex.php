@@ -549,12 +549,9 @@ class tongji_ex extends Controller
                 $rate_arr[] = $item['new'];
             }
         }
-        if(count($rate_arr)>1){
+        if(count($rate_arr)>0){
             $rate_min = min($rate_arr);
             $rate_max = max($rate_arr);
-        }else{
-            $rate_min = 0;
-            $rate_max = 0;
         }
         $num = 0;
         foreach($ret as $key=>$item){
