@@ -699,6 +699,16 @@ class Utils  {
 
         if ($field_name===null) {
             $field_name="__NULL";
+
+            // check for \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
+            if (is_array($init_value ) ) {
+                foreach ($init_value  as  &$v ) {
+                    if ($v===null)  {
+                        $v= $field_name;
+                        break;
+                    }
+                }
+            }
         }
 
         if (!isset( $arr[$field_name]  ) ) {
