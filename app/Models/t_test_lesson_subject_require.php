@@ -4107,4 +4107,31 @@ ORDER BY require_time ASC";
         return $this->main_get_value($sql);
 
     }
+    //@desn:该销售所有试听成功的学生是否回访
+    public function get_succ_test_lesson_info($adminid){
+        $where_arr = [
+            'tlsr.accept_flag' => 1,
+            'tlsr.cur_require_adminid' => $adminid,
+            'si.is_test_user'=>0,
+            'li.lesson_del_flag'=>0,
+            'li.lesson_type'=>2,
+            '(li.lesson_user_online_status in (0,1) or f.flow_status = 2)',
+            'tlssl.success_flag in (0,1 )'
+        ];
+        $sql = $this->gen_sql_new(
+            'select si.phone,tlsr.require_time from %s tlsr '.
+            'join %s tlssl on tlsr.current_lessonid=tlssl.lessonid '.
+            'left join %s li on tlsr.current_lessonid = li.lessonid '.
+            'join %s si  on li.userid=si.userid '.
+            'left join %s f  on f.flow_type=2003 and li.lessonid= f.from_key_int '. //特殊申请
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

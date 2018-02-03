@@ -23,7 +23,13 @@ class ajax_deal3 extends Controller
         $user_list=[];
         $new_count=0;
         $no_connected_count=0;
+        $no_call_test_succ = 0;
+        //获取销售所有试听课是否有回访
+        $succ_test_lesson_info = $this->t_test_lesson_subject_require->get_succ_test_lesson_info($adminid);
+        $no_call_test_succ_arr = array_column($succ_test_lesson_info, 'phone');
+        $no_call_test_succ_str = join(',', $no_call_test_succ_arr);
 
+        $item['no_call_test_succ'] = $this->t_tq_call_info->get_is_call_back($adminid,$item['require_time'],$no_call_test_succ_str);
         if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
 
         }else{
@@ -77,6 +83,8 @@ class ajax_deal3 extends Controller
             "no_connected_count" => $no_connected_count,
             "max_hold_count" =>$max_hold_count,
             "hold_count" =>$hold_count,
+            'no_call_test_succ' => $no_call_test_succ,
+            'no_call_test_succ_str' => $no_call_test_succ_str
         ]);
     }
 

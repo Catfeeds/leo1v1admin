@@ -1060,6 +1060,22 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         );
         return $this->main_get_value($sql);
     }
-
+    //@desn:获取试听成功后有没有回访
+    //@param:$adminid cc_id
+    //@param:$require_time 试听课申请时间
+    //@param:$phone 用户电弧
+    public function get_is_call_back($adminid,$require_time,$phone){
+        $where_arr=[
+            'adminid' => $adminid,
+            'start_time >= '.$require_time,
+            'phone' => $phone
+        ];
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }
