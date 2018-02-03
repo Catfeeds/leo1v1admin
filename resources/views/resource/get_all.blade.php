@@ -37,6 +37,22 @@
      .comment .comment_half{ float:left; margin-bottom: 20px; margin-right:10px; }
      .comment .comment_item .comment_info span{ margin-right:10px }
      .comment .comment_eject tr td{ padding:7px 10px; text-align: center; border: 1px solid #42474a; }
+
+     .error{ width:800px}
+     .error .error_info .error_title{ font-size: 17px;font-weight: bold;}
+     .error .error_info .error_status_choose{ float:right;margin-right:10px }
+     .error .error_info .error_choose{ width: 120px;margin-left: 10px;display: inline-block; }
+     .error .error_upload_info{ text-align: right;margin: 10px;font-size: 14px;color: #828181;}
+     .error .error_content{ padding: 10px 5px;background: #fbfbfb;}
+     .error .error_detail tr th,.error .error_detail tr td{border: 1px solid #aab2b7;padding:7px 10px;  }
+     .error .error_detail .look_err_pic{ background: #d2cfcf;padding: 0px 20px;color: #3290a7;margin-right: 10px;}
+     .error_type_1,.error_type_2{font-size: 16px;font-weight: bold;color:#029dc3;margin-right: 10px;}
+     .error_author{ margin: 0px 20px;color: #6f6a6a;}
+     .error_time{color: #6f6a6a; }
+     .error .color-blue{ padding:0px 10px}
+     .error .error_status{ color:red }
+     .error .error_status_pass{ color:#04a704 }
+
     </style>
     <section class="content">
 
@@ -668,5 +684,60 @@
         </div>
 
         <div style="clear:both"></div>
+    </div>
+
+    <div class="error hide">
+        <div class="error_info">
+            <span class="error_title">全部报错（<b class="error_no">0</b>）</span>
+            <div class="error_status_choose">
+                <span>状态选择</span>
+                <select class="form-control error_choose">
+                    <option value="-1">全部</option>
+                    <option value="0">未处理</option>
+                    <option value="1">同意修改</option>
+                    <option value="3">初审驳回</option>
+                    <option value="4">复审驳回</option>
+                </select>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <p class="error_upload_info">提示：该文件如果还没有未处理的报错，请处理完再重传</p>
+        <div class="error_content">
+            <table class="error_detail">
+                <thead>
+                    <tr>
+                        <th width="70%">报错内容</th>
+                        <th width="15%">状态</th>
+                        <th width="15%">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="error_item">
+                        <td>
+                            <div class="error_item_content">
+                                <p></p>
+                                <div class="err_pic_box" style="margin-top:20px">
+                                    <a class="look_err_pic btn hide" onclick="show_error_pic(this,event)" link="">图片</a>
+                                </div>
+
+                                <div style="margin-top:20px">
+                                    <span class="error_type_1"></span>
+                                    <span class="error_type_2"></span>
+                                    <span class="error_author"></span>
+                                    <span class="error_time"></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="error_deal_box"></td>
+                        <td>
+                            <p><a class="error_agree btn color-blue" onclick="error_agree(this,event)" >同意修改</a></p>
+                            <p><a class="err_first_check btn color-blue" onclick="error_first_check(this,event)" >初审驳回</a></p>
+                            <p><a class="err_sec_check btn color-blue" onclick="error_second_check(this,event)" >复审驳回</a></p>
+                        </td>
+                      
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection
