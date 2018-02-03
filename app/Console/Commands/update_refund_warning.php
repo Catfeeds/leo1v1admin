@@ -41,14 +41,14 @@ class update_refund_warning extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         // 清除已结课学员
-        $type_1 = $task->t_student_info->gen_all_stu_1();
-        foreach($type_1 as $type) {
-            $userid = $type["userid"];
-            $task->t_student_info->field_update_list($userid, [
-                "refund_warning_level" => 0,
-                "refund_warning_reason" => ''
-            ]);
-        }
+        // $type_1 = $task->t_student_info->gen_all_stu_1();
+        // foreach($type_1 as $type) {
+        //     $userid = $type["userid"];
+        //     $task->t_student_info->field_update_list($userid, [
+        //         "refund_warning_level" => 0,
+        //         "refund_warning_reason" => ''
+        //     ]);
+        // }
 
         $info = $task->t_student_info->get_all_stu();
         // 30天
@@ -64,6 +64,12 @@ class update_refund_warning extends Command
         foreach ($info as $key => $item) {
             if ($key % 5000 == 0) sleep(5);
             $userid = $item["userid"];
+            // 清除以前数据
+            $task->t_student_info->field_update_list($userid, [
+                "refund_warning_level" => 0,
+                "refund_warning_reason" => ''
+            ]);
+
             // 换老师次数 $tea["count"]
             $tea = $task->t_student_info->get_teacher_count($userid);
             if (!isset($tea["teacherid"])) continue;
