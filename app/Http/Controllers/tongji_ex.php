@@ -554,6 +554,7 @@ class tongji_ex extends Controller
             $rate_min = min($rate_arr);
             $rate_max = max($rate_arr);
         }
+        dd($rate_arr,$rate_min,$rate_max);
         $num = 0;
         foreach($ret as $key=>$item){
             if($item['old'] == 1){
