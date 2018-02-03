@@ -30,8 +30,12 @@ export default class extends vtable {
       "title": "用户电话",
 
     },{
-      field_name: "release_time",
-      "title": "释放时间",
+      field_name: "phone",
+      "title": "用户电话",
+
+    },{
+      field_name: "admin_assign_time",
+      "title": "分配时间",
 
     },{
 

@@ -484,14 +484,15 @@ class tongji_ex extends Controller
     public function actual_call_threshold(){
         $ret = [];
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        $time = strtotime(date('Y-m-d',$start_time));
         $ret_info = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
         foreach($ret_info as $key=>$item){
             if($item['type'] == 6){
                 $ret[$key]['time'] = date('H:i',$item['create_time']);
                 $ret[$key]['threshold'] = $item['new'];
-            }elseif($item['type'] == 4){
+            }elseif($item['type'] == 4 && $item['create_time']==$time){
                 $threshold_max = $item['new'];
-            }elseif($item['type'] == 5){
+            }elseif($item['type'] == 5 && $item['create_time']==$time){
                 $threshold_min = $item['new'];
             }
         }
@@ -544,8 +545,12 @@ class tongji_ex extends Controller
         $rate = $this->get_in_int_val('rate');
 
         $ret = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
-        $rate_arr = array_unique(array_column($ret, 'new'));
-        if(count($rate_arr)>1){
+        foreach($ret as $item){
+            if($item['type']==6){
+                $rate_arr[] = $item['new'];
+            }
+        }
+        if(count($rate_arr)>0){
             $rate_min = min($rate_arr);
             $rate_max = max($rate_arr);
         }
@@ -562,11 +567,11 @@ class tongji_ex extends Controller
                 $ret_report[$key]['type']='红色';
                 $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
             }
-            if($item['new']==$rate_min){
+            if($item['new']==$rate_min && $rate_min>0 && $item['type']==6){
                 $ret_rate[$rate_min]['type'] = '今最低';
                 $ret_rate[$rate_min]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_min]['time'] = date('Y-m-d H:i:s',$item['create_time']);
-            }elseif($item['new']==$rate_max){
+            }elseif($item['new']==$rate_max && $rate_max>0 && $item['type']==6){
                 $ret_rate[$rate_max]['type'] = '今最高';
                 $ret_rate[$rate_max]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_max]['time'] = date('Y-m-d H:i:s',$item['create_time']);

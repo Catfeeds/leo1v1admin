@@ -385,11 +385,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
 
-    public function get_student_list_archive( $userid,$grade, $status, $user_name, $phone, $teacherid, $assistantid, $test_user, $originid, $page_num,$student_type,$revisit_flag,$warning_stu=-1,$sum_start=0,$revisit_warn_flag=1,$warn_list=[]
+    public function get_student_list_archive( $userid,$grade, $status, $user_name, $phone, $teacherid, $assistantid, $test_user, $originid, $page_num,$student_type,$revisit_flag,$warning_stu=-1,$sum_start=0,$revisit_warn_flag=1,$warn_list=[],$refund_warn=-1
 )
     {
         $where_arr=[
             ["a.userid=%u", $userid, -1] ,
+            ["a.refund_warning_level=%d", $refund_warn, -1],
             ["status=%u", $status, -1] ,
             ["user=%u", $status, -1] ,
             ["assistantid=%u", $assistantid, -1] ,
@@ -407,6 +408,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             $where_arr[] = "ass_revisit_last_week_time < ".$sum_start;
         }elseif($revisit_flag == 2){
             $where_arr[] = "(ass_revisit_last_month_time < $now - 28 * 86400 )";
+        } elseif ($revisit_flag == 3) {
+            $where_arr[] = "a.refund_warning_count=0";
+        } elseif ($revisit_flag == 4) {
+            $where_arr[] = "a.refund_warning_count<4";
         }
 
         if ($user_name) {
@@ -445,7 +450,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         }
 
 
-        $sql = $this->gen_sql_new("select a.userid, count(*) lesson_num, is_auto_set_type_flag, a.stu_lesson_stop_reason, "
+        $sql = $this->gen_sql_new("select a.userid,a.type,a.refund_warning_level, count(*) lesson_num, is_auto_set_type_flag, a.stu_lesson_stop_reason, "
                                   ." a.phone, a.is_test_user, originid, a.grade, praise, assistantid, parent_name, parent_type, "
                                   ." last_login_ip, last_login_time, lesson_count_all, a.lesson_count_left, user_agent, type, "
                                   ." ass_revisit_last_month_time, ass_revisit_last_week_time,ass_assign_time,a.phone_location, "
@@ -3418,9 +3423,50 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_all_stu() {
-        $sql = $this->gen_sql_new("select userid,type from %s where is_test_user=0 and refund_warning_level != 3",
+        $sql = $this->gen_sql_new("select userid,type from %s where is_test_user=0", //and refund_warning_level != 3",
                                   self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_student_for_stop_study(){
+        $where_arr = [
+            "s.type in (2,4)",
+            "s.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.nick,o.contract_starttime,o.contract_endtime,o.contract_status,  "
+                                  ." a.nick as ass_nick,gn.group_name"
+                                  ." from %s s "
+                                  ." left join %s o on s.userid=o.userid and o.contract_type in (0,1,3) and o.contract_status>0"
+                                  ." left join %s a on s.assistantid=a.assistantid"
+                                  ." left join %s m on a.phone=m.phone"
+                                  ." left join %s gu on m.uid=gu.adminid"
+                                  ." left join %s gn on gu.groupid=gn.groupid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_refund_warning($assistantid=-1) {
+        $where_arr = [
+            ["assistantid=%u", $assistantid, -1]
+        ];
+        $sql = $this->gen_sql_new("select sum(if(refund_warning_level=1,1,0)) one, sum(if(refund_warning_level=2,1,0)) two, sum(if(refund_warning_level=3,1,0)) three from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_refund_warn_info($userid) {
+        $sql = $this->gen_sql_new("select type,refund_warning_level,refund_warning_reason from %s where userid=$userid", self::DB_TABLE_NAME);
+        return $this->main_get_row($sql);
     }
 }

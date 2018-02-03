@@ -8,7 +8,8 @@ function load_data(){
         "grade"        : $("#id_grade").val(),
         "student_type" : $("#id_student_type").val(),
         "user_name"    : $("#id_user_name").val(),
-    "revisit_flag" : $('#id_revisit_flag').val(),
+        "revisit_flag" : $('#id_revisit_flag').val(),
+        "refund_warn"  : $("#id_refund_warn").val(),
     warning_stu:	$('#id_warning_stu').val()
     });
 }
@@ -48,6 +49,7 @@ $(function(){
     $("#id_assistantid").val(g_args.assistantid);
     $("#id_revisit_flag").val(g_args.revisit_flag);
     $('#id_warning_stu').val(g_args.warning_stu);
+    $("#id_refund_warn").val(g_args.refund_warn);
 
     $.admin_select_user($("#id_assistantid"), "assistant",function(){
         load_data();
@@ -2656,5 +2658,70 @@ $(function(){
         });
     };
 
+    $(".refund_warn_reason").on("click", function() {
+        var userid = $(this).parent().parent().parent().find(".userid").text();
+
+        $.do_ajax("/user_manage_new/get_refund_warn_info", {"userid":userid},
+            function(res) {
+            if (res.data) {
+                var data = res.data;
+                var arr = [];
+                
+                for (var key in data) {
+                    var val = data[key];
+                    if ((key == "单科上课次数" && parseInt(val) < 3) || (key == "退费预警级别" && val == "一级")) {val = "<span style='color:#0099FF'>" + val + "</span>";}
+                    if ((key == "上课次数(2周)" && parseInt(val) == 0) || (key == "换老师次数" && parseInt(val) == 1) ||
+                        (key == "退费预警级别" && val == "二级")) {val = "<span style='color:#FFCC33'>" + val + "</span>";}
+                    if ((key == "上课次数(30天)" && parseInt(val) == 0) || (key == "换老师次数" && parseInt(val) == 1) ||
+                        (key == "退费预警级别" && val == "三级")) {val = "<span style='color:#FF0000'>" + val + "</span>";}
+                    if (key == "学员类型" && (val == "休学学员" || val == "停课学员" || val == "寒暑假停课")) {val = "<span style='color:#FF0000'>" + val + "</span>";}
+                    if (key == "退费预警级别" && val == "无") {val = "<span style='color:##0000FF'>" + val + "</span>";}
+                    arr.push([key, val]);
+                }
+                $.show_key_value_table("退费预警级别详情", arr);
+
+            } else {
+                alert('没有数据');
+            }
+        });
+
+    })
+
+    $(".refund_return_back_new").on("click", function() { // 回访
+        var userid = $(this).parent().parent().parent().find(".userid").text();
+        var id_return_record_type = $("<select />");
+        var id_return_record_person = $("<select />");
+        var id_revisit_path = $("<select />");
+        var id_return_record_record = $("<textarea />");
+        var id_is_over = $("<select name='is_over'><option value=0>是</option><option value=1>否</option></select>")
+
+        Enum_map.append_option_list("revisit_type",id_return_record_type,true,[11]);
+        Enum_map.append_option_list("revisit_person",id_return_record_person,true,[0,1,2,3]);
+        Enum_map.append_option_list("revisit_path",id_revisit_path,true);
+
+        var arr = [
+            ["回访类型", id_return_record_type],
+            ["回访对象", id_return_record_person] ,
+            ["回访路径", id_revisit_path] ,
+            ["回访记录", id_return_record_record],
+            ["退费预警是否解除", id_is_over]
+        ];
+
+        $.show_key_value_table("退费预警级别详情", arr, {
+            label : "确定",
+            cssClass : "btn-danger",
+            action : function(dialog) {
+                $.do_ajax("/company_wx/add_warn_revisit_record", {
+                    "userid" : userid,
+                    "revisit_type" : id_return_record_type.val(),
+                    "revisit_person" : id_return_record_person.val(),
+                    "revisit_path" : id_revisit_path.val(),
+                    "operator_note" : id_return_record_record.val(),
+                    "is_over" : id_is_over.val()
+                });
+            }
+
+        });
+    });
 
 });

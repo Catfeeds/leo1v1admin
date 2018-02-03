@@ -96,39 +96,39 @@
                                     </tr>
                                 </thead>
                                 <tbody >
-                                        <tr>
-                                            <td>在册学员</td>
-                                            <td>{{$stu_info["all_student"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>有效学员(截止上月底)</td>
-                                            <td>{{$stu_info["read_student_last"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>在读学员</td>
-                                            <td>{{$stu_info["read_student"]}} </td>
-                                        </tr>
+                                    <tr>
+                                        <td>在册学员</td>
+                                        <td>{{$stu_info["all_student"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>有效学员(截止上月底)</td>
+                                        <td>{{$stu_info["read_student_last"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>在读学员</td>
+                                        <td>{{$stu_info["read_student"]}} </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td>停课学员(本月)</td>
-                                            <td>{{$stu_info["month_stop_student"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>停课学员(累积)</td>
-                                            <td>{{$stu_info["stop_student"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>退费</td>
-                                            <td>{{@$stu_info["refund_student"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>扩课成功数</td>
-                                            <td>{{@$stu_info["kk_suc"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>扩课申请数</td>
-                                            <td>{{@$stu_info["kk_require"]}} </td>
-                                        </tr>
+                                    <tr>
+                                        <td>停课学员(本月)</td>
+                                        <td>{{$stu_info["month_stop_student"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>停课学员(累积)</td>
+                                        <td>{{$stu_info["stop_student"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>退费</td>
+                                        <td>{{@$stu_info["refund_student"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>扩课成功数</td>
+                                        <td>{{@$stu_info["kk_suc"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>扩课申请数</td>
+                                        <td>{{@$stu_info["kk_require"]}} </td>
+                                    </tr>
 
 
 
@@ -205,38 +205,45 @@
                 </div>
             </div>
 
-            <!-- <div class="row">
-                 <div class="col-xs-12 col-md-6">
-                 <div class="panel panel-warning"  >
-                 <div class="panel-heading center-title ">
-                 退费预警
-                 </div>
-                 <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            退费预警
+                        </div>
+                        <div class="panel-body">
 
-                 <table   class="table table-bordered "   >
-                 <thead>
-                 <tr>
-                 <td>退费预警级别</td>
-                 <td>学生数量</td>
-                 </tr>
-                 </thead>
-                 <tbody >
-                 <tr>
-                 <td>三级</td>
-                 <td></td>
-                 </tr>
-                 <tr>
-                 <td>二级</td>
-                 <td></td>
-                 </tr>
-
-                 </tbody>
-                 </table>
-                 </div>
-                 </div>
-                 </div>
-                 </div>
-            -->
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>退费预警级别</td>
+                                        <td>学生数量</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr style="color:#FF0000">
+                                        <td>三级</td>
+                                        <td><a href="/user_manage/ass_archive?refund_warn=3"><span style="color:#FF0000">{{$refund_warning["three"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#FFCC33">
+                                        <td>二级</td>
+                                        <td><a href="/user_manage/ass_archive?refund_warn=2"><span style="color:#FFCC33">{{$refund_warning["two"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#0099FF">
+                                        <td>一级</td>
+                                        <td><a href="/user_manage/ass_archive?refund_warn=1"><span style="color:#0099FF">{{$refund_warning["one"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#0000FF">
+                                        <td>总计</td>
+                                        <td>{{$refund_warning["total"]}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
@@ -483,13 +490,13 @@
                             </thead>
                             <tbody>
                                 @foreach ( $month_info as $var )
-                                <tr>
-                                    <td>{{@$var['name']}}</td>
-                                    <td>{{@$var["revisit_num"]/1}} </td>
-                                    <td>{{@$var["stu_num"]*2}} </td>
-                                    <td>{{@$var["call_num"]}}</td>
-                                    <td>{{@$var["stu_num"]*6}}:00 </td>
-                                </tr>
+                                    <tr>
+                                        <td>{{@$var['name']}}</td>
+                                        <td>{{@$var["revisit_num"]/1}} </td>
+                                        <td>{{@$var["stu_num"]*2}} </td>
+                                        <td>{{@$var["call_num"]}}</td>
+                                        <td>{{@$var["stu_num"]*6}}:00 </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
