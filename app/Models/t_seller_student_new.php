@@ -1818,7 +1818,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             */
             //同步给销售
             if (  $tq_called_flag == 2
-            // if (  $duration>60
                   &&  $admin_info["uid"] == $competition_call_adminid
                   &&  $item["seller_resource_type"] == 0
                   &&  $item["tmk_student_status"]<>E\Etmk_student_status::V_3
