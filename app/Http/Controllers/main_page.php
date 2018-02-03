@@ -871,7 +871,7 @@ class main_page extends Controller
 
         $assistant_renew_list = $this->t_assistant_info->get_all_assistant_renew($start_time,$end_time);
         $all_money_ass = 0;
-        foreach($assistant_renew_list as  &$val){
+        foreach($assistant_renew_list as &$val){
             $val['bye_total']=$val['all_total']-$val['give_total'];
             $all_money_ass += $val["all_price"];
         }
@@ -960,8 +960,8 @@ class main_page extends Controller
         $used_assign_lesson_count = $this->t_order_info->get_assign_lesson_count_by_account($account);
 
         $refund_warning = $this->t_student_info->get_refund_warning($assistantid);
-        foreach($refund_warning as $val) {
-            @$refund_warning["total"] += $val;
+        foreach($refund_warning as $re_val) {
+            @$refund_warning["total"] += $re_val;
         }
 
         return $this->pageView(__METHOD__ ,null, [
