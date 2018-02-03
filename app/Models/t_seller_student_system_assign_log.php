@@ -116,6 +116,21 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
 
         return $this->main_get_list_by_page($sql,$page_info);
     }
+    //@desn:获取新例子数目
+    public function get_new_count($adminid,$start_time,$end_time){
+        $where_arr = [
+            'adminid' => $adminid,
+            'check_hold_flag' => 0
+
+        ];
+        $this->where_arr_add_time_range($where_arr, 'logtime', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 
 }
