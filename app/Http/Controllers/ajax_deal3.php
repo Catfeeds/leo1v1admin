@@ -55,9 +55,9 @@ class ajax_deal3 extends Controller
 
                 if($item["seller_student_assign_from_type"]==1) {
                     $no_connected_count++;
+                }else{
+                    $new_count++;
                 }
-
-                $new_count++;
 
             }
 
