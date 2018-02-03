@@ -5104,5 +5104,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_first_check_time_by_orderid($orderid){
+        $sql = $this->gen_sql_new("  select  first_check_time from %s o where orderid=$orderid",self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+
 }
 
