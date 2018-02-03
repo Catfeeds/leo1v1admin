@@ -97,7 +97,7 @@ class lesson extends TeaWxController
         $teacher_type= $this->t_teacher_info->get_teacher_type($teacherid);
 
         $type=0;
-        if($teacher_money_type == E\Eteacher_money_type::V_0 && !in_array($teacher_type,[3,4])) {
+        if($teacher_money_type == E\Eteacher_money_type::V_0 && !in_array($teacher_type,[E\Eteacher_type::V_3,E\Eteacher_type::V_4])) {
             $type=5;
         }else if($teacher_money_type == E\Eteacher_money_type::V_1) {
             $type=5;

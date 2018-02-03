@@ -746,7 +746,7 @@ function hu(d, az) {
                 tt.gO = function() {
                     var now = (new Date().getTime()) - starttm;
                     dU += "bk_" + now + "_" + this.trigger + "_" + K.id + ";";
-                    tt.bu();
+                    this.bu();
                     do {
                         if (this.ak == 0) {
                             return;
@@ -1901,7 +1901,7 @@ function mF() {
 };
 function bE(bP) {
     console.log("gopage " + bP);
-    syncPageAnim(bP, 0, -1, false);
+    syncPageAnim(bP, -1, -1, false);
     if (aJ.ak == bP && bP != 0) {
         return;
     }
@@ -1971,12 +1971,13 @@ function gI() {
 };
 function ExecAnim(ek, fM, trigger) {
     console.log("execanim" + ek + ":" + fM + ":" + trigger);
-    if (K.id != "s" + ek) {
+    if (K.id != "s" + ek || fM == -1) {
         bE(ek);
     } else {
         var tt = K.tl["sp" + trigger];
         if (tt.au.length <= fM) return;
         tt.dI(tt.au[fM]);
+	tt.ak = fM+1;
         if (tt.bj == -1) {
             tt.bj = 1;
             tt.et();

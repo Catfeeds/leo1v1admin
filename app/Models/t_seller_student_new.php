@@ -1785,7 +1785,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0 ,$is_called_phone = 0 ) {
+    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0 ,$is_called_phone = 0,$duration=0){
         $userid=$this->get_userid_by_phone($phone);
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {

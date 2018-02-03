@@ -2391,6 +2391,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_row($sql);
     }
 
+    public function get_phone_by_account($account) {
+        $sql = $this->gen_sql_new("select uid,phone from %s where account='$account'", self::DB_TABLE_NAME);
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_admin_leave_num($start_time,$end_time){
         $where_arr = [
             'account_role =5',

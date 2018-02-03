@@ -883,11 +883,14 @@ function kT(aN, p) {
         p.cA = aN.style["font-size"];
         if (p.cA) p.cA = parseInt(p.cA);
     }
-    if (p.hasOwnProperty("ih") == false) p.ih = aN.style.cssText;
+    if (p.hasOwnProperty("ih") == false) p.ih = aN.innerHTML;
 }
 function lq(aN, p, r) {
     var fw = Math.floor(p.cA * ((p.size - 1) * r + 1));
     ad(aN, "font-size", fw + "px");
+}
+function lq1(aN, p){
+    if (p.hasOwnProperty("ih")) aN.innerHTML=p.ih;
 }
 function kX(aN, p) {
     if (p.hasOwnProperty("ih") == false) p.ih = aN.style.cssText;
@@ -2326,7 +2329,7 @@ var ereset = {
     e54: ko,
     e55: aI,
     e56: aI,
-    e57: aI,
+    e57: lq1,
     e58: aI,
     e59: mK,
     e60: kR,

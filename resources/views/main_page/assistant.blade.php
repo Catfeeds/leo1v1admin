@@ -135,7 +135,45 @@
                     </div>
                 </div>
 
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            退费预警
+                        </div>
+                        <div class="panel-body">
 
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>退费预警级别</td>
+                                        <td>学生数量</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr style="color:#FF0000">
+                                        <td>三级</td>
+                                        <td><a href="/user_manage/ass_archive_ass?refund_warn=3"><span style="color:#FF0000">{{$refund_warning["three"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#FFCC33">
+                                        <td>二级</td>
+                                        <td><a href="/user_manage/ass_archive_ass?refund_warn=2"><span style="color:#FFCC33">{{$refund_warning["two"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#0099FF">
+                                        <td>一级</td>
+                                        <td><a href="/user_manage/ass_archive_ass?refund_warn=1"><span style="color:#0099FF">{{$refund_warning["one"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#0000FF">
+                                        <td>总计</td>
+                                        <td>{{$refund_warning["total"]}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
 
                 <div class="col-md-12">
                     <div class="panel panel-warning"  >
@@ -205,7 +243,7 @@
                                 <tbody>
                                     @foreach($ass_month as $var)
                                         <tr>
-                                            <td>{{$var["num_range"]}}</td>
+                                            <td>{{@$var["num_range"]}}</td>
                                             <td>{{$var["name"]}}</td>
                                             <td>{{$var["lesson_price_money"]}}</td>
                                             <td>{{$var["kk_money"]}}</td>

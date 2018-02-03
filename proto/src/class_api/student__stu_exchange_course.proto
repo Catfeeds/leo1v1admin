@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1024
-//__DESC: /student/stu_exchange_course 学生兑换课程包 接口
+//__DESC: 3.91 http://api.class.leo1v1.com/student/stu_exchange_course?course_id=2&lesson_time=2018-02-02%2010:00:00,2018-02-02%2010:00:00 学生兑换课程
 //__TAGS: for_app,for_website
 
 
