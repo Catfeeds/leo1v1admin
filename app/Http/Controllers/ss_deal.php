@@ -3982,10 +3982,10 @@ class ss_deal extends Controller
             $ret = $objPHPExcel->getActiveSheet()->toArray();
             $ret_info = [];
             foreach($ret as $item){
-                $phone = ceil($item[1]);
+                $phone = substr($item[1],0,11);
                 $account = $item[5];
                 $adminid = $this->t_manager_info->get_adminid_by_account($account);
-                if($adminid>0 && $phone>0){
+                if($adminid>0 && $phone!=''){
                     dd($adminid,$phone);
                 }
             }
