@@ -2669,7 +2669,7 @@ $(function(){
                 
                 for (var key in data) {
                     var val = data[key];
-                    if ((key == "单科上课次数" && parseInt(val) == 1) || (key == "退费预警级别" && val == "一级")) {val = "<span style='color:#0099FF'>" + val + "</span>";}
+                    if ((key == "单科上课次数" && parseInt(val) < 3) || (key == "退费预警级别" && val == "一级")) {val = "<span style='color:#0099FF'>" + val + "</span>";}
                     if ((key == "上课次数(2周)" && parseInt(val) == 0) || (key == "换老师次数" && parseInt(val) == 1) ||
                         (key == "退费预警级别" && val == "二级")) {val = "<span style='color:#FFCC33'>" + val + "</span>";}
                     if ((key == "上课次数(30天)" && parseInt(val) == 0) || (key == "换老师次数" && parseInt(val) == 1) ||
