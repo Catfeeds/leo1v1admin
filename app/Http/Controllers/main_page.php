@@ -838,9 +838,6 @@ class main_page extends Controller
 
     public  function assistant() {
         $this->switch_tongji_database();
-        // return $this->error_view([
-        //     "关闭首页统计,请看其它."
-        // ]);
 
         $end_time = strtotime( date("Y-m-d") );
         $end_time_date = date("Y-m-d") ;
@@ -922,19 +919,19 @@ class main_page extends Controller
 
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
         $master_arr=[];
-        foreach($ass_month as &$val){
-            $list=$this->get_ass_percentage_money_list($val);
-            $val["lesson_price_money"] = $list["lesson_money"];
-            $val["kk_money"] = $list["kk_money"];
-            $val["renw_money"] = $list["renw_money"];
-            $val["tran_num_money"] = $list["tran_num_money"];
-            $val["cc_tran_price"] = $list["cc_tran_money"];
-            $val["all_money"] = $list["all_money"];
-            if(!isset($master_arr[$val["master_adminid"]])){
-                $master_arr[$val["master_adminid"]] =$val["master_adminid"];
+        foreach($ass_month as &$ass_val){
+            $list=$this->get_ass_percentage_money_list($ass_val);
+            $ass_val["lesson_price_money"] = $list["lesson_money"];
+            $ass_val["kk_money"] = $list["kk_money"];
+            $ass_val["renw_money"] = $list["renw_money"];
+            $ass_val["tran_num_money"] = $list["tran_num_money"];
+            $ass_val["cc_tran_price"] = $list["cc_tran_money"];
+            $ass_val["all_money"] = $list["all_money"];
+            if(!isset($master_arr[$ass_val["master_adminid"]])){
+                $master_arr[$ass_val["master_adminid"]] =$ass_val["master_adminid"];
             }
-
         }
+
         \App\Helper\Utils::order_list( $ass_month,"all_money", 0 );
         $i=1;
         foreach($ass_month as &$v){

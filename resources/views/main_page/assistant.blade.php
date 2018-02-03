@@ -243,7 +243,7 @@
                                 <tbody>
                                     @foreach($ass_month as $var)
                                         <tr>
-                                            <td>{{$var["num_range"]}}</td>
+                                            <td>{{@$var["num_range"]}}</td>
                                             <td>{{$var["name"]}}</td>
                                             <td>{{$var["lesson_price_money"]}}</td>
                                             <td>{{$var["kk_money"]}}</td>

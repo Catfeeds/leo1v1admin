@@ -456,12 +456,17 @@ class test_code extends Controller
         }
     }
 
-    public function set_del_flag(){
-        if(\App\Helper\Utils::check_env_is_release()){
-            return $this->output_err("无法使用");
-        }
-
-
+    public function add_train_lesson(){
+        $this->t_teacher_record_list->row_insert([
+            "teacherid"      => 510403,
+            "type"           => E\Erecord_type::V_1,
+            "add_time"       => time()+1000,
+            "train_lessonid" => 537758,
+            "lesson_style"   => E\Elesson_style::V_5
+        ]);
     }
+
+
+
 
 }

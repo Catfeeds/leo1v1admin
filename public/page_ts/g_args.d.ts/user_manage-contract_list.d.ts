@@ -44,6 +44,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	first_check_time	:any;
 	order_price_desc	:any;
 	promotion_spec_is_not_spec_flag	:any;
 	promotion_spec_diff_money	:any;
@@ -141,6 +142,8 @@ interface RowData {
 	status_color	:any;
 	is_staged_flag_str	:any;
 	phone_hide	:any;
+	first_check_time_str	:any;
+	hasCheck	:any;
 }
 
 /*

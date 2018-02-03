@@ -77,7 +77,7 @@ class update_refund_warning extends Command
             ];
 
             $level = 0;
-            if (max($one_count) <= 3) {
+            if (max($one_count) < 3) {
                 $level = 1;
             }
 

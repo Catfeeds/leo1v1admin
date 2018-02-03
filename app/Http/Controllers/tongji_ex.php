@@ -114,11 +114,13 @@ class tongji_ex extends Controller
 
     }
     public function show_sys_error_info() {
+        $this->check_and_switch_tongji_domain();
         $id=$this->get_in_id();
         $item= $this->t_sys_error_info->field_get_list($id,"*");
         \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
         E\Ereport_error_from_type::set_item_value_str($item);
         E\Ereport_error_type::set_item_value_str($item);
+
         return $this->pageView(__METHOD__, null, ["report_info"=> $item]);
     }
 
