@@ -38,7 +38,7 @@ trait TeaPower {
 
         $lesson_start_date = date("Y-m-d",$lesson_start);
         if(empty($lesson_end)){
-            $lesson_end = $lesson_count*2400+$lesson_start; 
+            $lesson_end = $lesson_count*2400+$lesson_start;
         }
         if($account_role ==4 && !in_array($lesson_start_date,$day_arr)){
             $create_time = $this->t_manager_info->get_create_time($admin_info["uid"]);
@@ -134,9 +134,9 @@ trait TeaPower {
         $list = json_decode($week_limit_time_info,true);
         if($list){
             foreach($list as $val){
-                if($day==$val["week_num"]){                    
+                if($day==$val["week_num"]){
                     $start= strtotime($day_time." ".$val["start"]);
-                    $end= strtotime($day_time." ".$val["end"]);                 
+                    $end= strtotime($day_time." ".$val["end"]);
                     if($lesson_start <$end && $lesson_end >=$start ){
                         return $this->output_err("该教研老师该时间段排课受限制");
                     }
@@ -1055,7 +1055,7 @@ trait TeaPower {
     }
 
     public function   check_test_lesson_grade_subject_new($require_id,$teacherid,$grade,$is_test){
-        
+
         $test_lesson_subject_id = $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
         $tt_item          = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"subject,userid");
         $tea_info  = $this->t_teacher_info->field_get_list($teacherid,"*");
@@ -1079,7 +1079,7 @@ trait TeaPower {
                 if(in_array($grade,$not_grade)){
                     return $this->output_err("该老师对应年级段已被冻结!");
                 }
- 
+
             }elseif($subject==$tea_info["second_subject"]){
                 $not_grade_second       = explode(",",$tea_info['second_not_grade']);
                 $grade_start_second     = $tea_info['second_grade_start'];
@@ -1091,7 +1091,7 @@ trait TeaPower {
                     return $this->output_err("该老师对应年级段已被冻结!");
                 }
 
-                
+
             }
         }
 
@@ -4492,13 +4492,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     ['name'=>'小班课工资','value'=> $item['lesson_reward_small_class'].''],
                     ['name'=>'微课工资','value'=> $item['lesson_reward_weike'].''],
                     ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].''],
-                    ['name'=>'晋升未达标','value'=> $item['level_up_fail'].'']
+                    ['name'=>'等级未达标','value'=> $item['level_up_fail'].''],
                 ];
             }
             $item['lesson_reward_chunhui'] = $item['lesson_reward_chunhui'].'';
             $item['lesson_reward_reference'] = $item['lesson_reward_reference'].'';
         }
-        array_multisort($start_list,SORT_DESC,$list); 
+        array_multisort($start_list,SORT_DESC,$list);
         return $list;
     }
 
@@ -5174,7 +5174,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $reach_flag=1;
         $withhold_money=0;
         if($level==1){
-            
+
         }elseif($level==2){
             if($score<65){
                 $reach_flag=0;
@@ -5193,7 +5193,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
         }elseif($level==11){
-            
+
         }
         return [$reach_flag,$withhold_money];
     }
@@ -5202,16 +5202,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function get_tea_level_str($score,$level){
         $level_degree = E\Enew_level::get_simple_desc($level);
         $list =[2=>65,3=>75,4=>80,11=>90];
-        if($level==1){
+        if($level==1 || $level==0){
             $level_score_info="";
         }else{
             $score_target =  $list[$level];
             if($score>=$score_target){
                 $diff = $score-$score_target;
-                $level_score_info="您已经超过".$level_degree."教师".$diff."分了哦";
+                $level_score_info="您已经超过".$level_degree."达标分".$diff."分哦";
             }else{
                 $diff =$score_target-$score;
-                $level_score_info="您离".$level_degree."教师仅差了".$diff."分了哦";
+                $level_score_info="您距离".$level_degree."达标分还差".$diff."分哦";
             }
         }
         return [$level_degree,$level_score_info];
@@ -5223,9 +5223,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         if(@$tea_info["face"]){
             $face = $tea_info["face"];
         }elseif(@$tea_info["gender"]==1){
-            $face="https://ybprodpub.leo1v1.com/f39d1e460a7a5516f9bd7bafbc7bbd411517394933247.png";           
+            $face="https://ybprodpub.leo1v1.com/f39d1e460a7a5516f9bd7bafbc7bbd411517394933247.png";
         }elseif(@$tea_info["gender"]==2){
-            $face="https://ybprodpub.leo1v1.com/3f6dbddc24c14053b7c8957c0d5421791517394874943.png";           
+            $face="https://ybprodpub.leo1v1.com/3f6dbddc24c14053b7c8957c0d5421791517394874943.png";
         }else{
             $face="http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png";
         }
@@ -5234,7 +5234,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
 
-    
+
 
 
 }

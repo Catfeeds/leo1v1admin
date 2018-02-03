@@ -1526,6 +1526,7 @@ class seller_student_new extends Controller
             ]);
         }
 
+
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
         $this->set_filed_for_js("open_flag",0);
@@ -1601,6 +1602,12 @@ class seller_student_new extends Controller
                 ["user_info"=>null, "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count ]
             );
         }
+
+
+        # 处理该学生的通话状态 [james]
+        $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
+        $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
+
 
 
 

@@ -891,4 +891,41 @@ class company_wx extends Controller
         $this->t_user_log->add_data($account.":拉取数据审批页下载数据");
         return $this->output_succ();
     }
+
+    public function add_warn_revisit_record() { // 添加退费预警回访
+        $userid = $this->get_in_str_val("userid");
+        $revisit_type = $this->get_in_str_val("revisit_type");
+        $revisit_person = $this->get_in_str_val("revisit_person");
+        $revisit_path = $this->get_in_str_val("revisit_path");
+        $operator_note = $this->get_in_str_val("operator_note");
+        $is_over = $this->get_in_str_val("is_over");
+        $sys_operator = $this->get_account();
+
+        $this->t_revisit_info->row_insert([
+            "userid" => $userid,
+            "revisit_type" => $revisit_type,
+            "revisit_person" => $revisit_person,
+            "revisit_path" => $revisit_path,
+            "operator_note" => $operator_note,
+            "sys_operator" => $sys_operator,
+            "revisit_time" => time()
+        ]);
+
+        $refund = $this->t_student_info->field_get_list($userid, "refund_warning_count");
+        $count = $refund["refund_warning_count"] + 1;
+        if ($is_over == 0) {
+            $this->t_student_info->field_update_list($userid, [
+                "refund_warning_level" => 0,
+                "refund_warning_count" => $count
+            ]);
+        } else {
+            $this->t_student_info->field_update_list($userid, [
+                "refund_warning_count" => $count
+            ]);
+        }
+
+        $this->t_user_log->add_data($sys_operator."操作退费预警回访,userid:".$userid." 回访时间:".date("Y-m-d H:i:s", time()));
+        return $this->output_succ();
+    }
+
 }

@@ -16,6 +16,7 @@ interface GargsStatic {
 	tag_four:	number;
 	tag_five:	number;
 	file_title:	string;
+	file_id:	string;
 	page_num:	number;
 	page_count:	number;
 }
@@ -54,12 +55,13 @@ interface RowData {
 	error_type	:any;
 	sub_error_type	:any;
 	detail_error	:any;
-	error_url	:any;
+	error_picture	:any;
 	detail_question	:any;
 	train_error_type	:any;
 	phone	:any;
 	error_nick	:any;
 	etype	:any;
+	estatus	:any;
 	file_use_type_str	:any;
 	nick	:any;
 	error_type_str	:any;
@@ -70,6 +72,11 @@ interface RowData {
 	tag_four_name	:any;
 	tag_five_name	:any;
 	file_size_str	:any;
+	picture_one	:any;
+	picture_two	:any;
+	picture_three	:any;
+	picture_four	:any;
+	picture_five	:any;
 	subject_str	:any;
 	grade_str	:any;
 	resource_type_str	:any;
@@ -107,7 +114,8 @@ function load_data(){
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
 		tag_five:	$('#id_tag_five').val(),
-		file_title:	$('#id_file_title').val()
+		file_title:	$('#id_file_title').val(),
+		file_id:	$('#id_file_id').val()
 		});
 }
 $(function(){
@@ -134,6 +142,7 @@ $(function(){
 	$('#id_tag_four').val(g_args.tag_four);
 	$('#id_tag_five').val(g_args.tag_five);
 	$('#id_file_title').val(g_args.file_title);
+	$('#id_file_id').val(g_args.file_id);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -244,6 +253,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["file_title title", "file_title", "th_file_title" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">file_id</span>
+                <input class="opt-change form-control" id="id_file_id" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["file_id title", "file_id", "th_file_id" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

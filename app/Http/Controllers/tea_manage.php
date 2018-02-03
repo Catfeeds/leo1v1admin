@@ -17,6 +17,9 @@ class tea_manage extends Controller
     use TeaPower;
 
     public function __construct() {
+        if ($this->get_action_str()=="get_lesson_reply" ) {
+            $this->check_login_flag=false;
+        }
         parent::__construct();
     }
 
@@ -2379,7 +2382,6 @@ class tea_manage extends Controller
         return $this->trial_train_lesson_list();
     }
 
-
     public function trial_train_lesson_list(){
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
             1 => array("l.lesson_start","上课时间"),
@@ -3351,4 +3353,28 @@ class tea_manage extends Controller
     public function auto_rank_lesson(){
         return 1;
     }
+    public function get_lesson_reply()
+    {
+        $lessonid = $this->get_in_int_val('lessonid', -1);
+        if($lessonid == -1) {
+            return $this->output_err("错误的课程id！");
+        }
+
+        //TODO 权限管理
+        $ret_video= $this->t_lesson_info->field_get_list($lessonid, "audio, draw,userid ,real_begin_time");
+        $userid=  $ret_video["userid"];
+        if(empty($ret_video) || $ret_video['audio'] == "" || $ret_video['draw'] == "") {
+            return $this->output_err("视频参数不完整1");
+        }
+
+        $nick = $this->t_student_info->get_nick($userid);
+        $draw_url=\App\Helper\Common:: get_url_ex($ret_video['draw'] );
+        $audio_url=\App\Helper\Common:: get_url_ex($ret_video['audio'] );
+
+        return $this->output_succ([
+            'draw_url' => $draw_url,'audio_url' => $audio_url,'real_begin_time' =>
+            $ret_video['real_begin_time'],'stu_nick'=>$nick
+        ]);
+    }
+
 }

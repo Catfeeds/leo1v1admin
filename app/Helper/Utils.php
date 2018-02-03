@@ -695,10 +695,26 @@ class Utils  {
         $arr[$field_name]=@$arr[$field_name]+$value;
     }
 
-    static function array_item_init_if_nofind(&$arr,$field_name, $init_value=array() ) {
+    static function array_item_init_if_nofind(&$arr,&$field_name, $init_value=array() ) {
+
+        if ($field_name===null) {
+            $field_name="__NULL";
+
+            // check for \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
+            if (is_array($init_value ) ) {
+                foreach ($init_value  as  &$v ) {
+                    if ($v===null)  {
+                        $v= $field_name;
+                        break;
+                    }
+                }
+            }
+        }
+
         if (!isset( $arr[$field_name]  ) ) {
             $arr[$field_name]  =$init_value;
         }
+        return $field_name;
     }
 
     static function get_up_month_day($time) {
@@ -2667,7 +2683,7 @@ class Utils  {
     }
 
      //获取2级标签(老师后台理优资料库报错分类)
-    static public function get_sub_error_type($error_type,$sub_error_type_num){
+    static public function get_sub_error_type($error_type,$sub_error_type_num = -1){
         $arr = [
             0 => [
                 //$sub_error_type = "resource_knowledge",
@@ -2726,7 +2742,12 @@ class Utils  {
             ],
 
         ];
-        return $arr[$error_type][$sub_error_type_num];
+        if($sub_error_type_num > -1){
+            return $arr[$error_type][$sub_error_type_num];
+        } else {
+            return $arr[$error_type];
+        }
+
     }
 
     static public function check_is_match($adminid,$activity_id){

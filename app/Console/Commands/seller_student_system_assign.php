@@ -78,10 +78,12 @@ class seller_student_system_assign extends cmd_base
 
             //未拨通例子重新分配的个数
             $def_no_connected_count= 5;
-            $item["def_no_connected_count"] = $def_no_connected_count ;//配置未拨通数量
-            $item["assigned_no_connected_count"] = $assigned_no_connected_count ;//已获取未拨通数量
+            if($item['is_top']){
+                $item["def_no_connected_count"] = $def_no_connected_count ;//配置未拨通数量
 
-            $need_no_connected_count_all+=$def_no_connected_count;//配置未拨通数量之和
+                $need_no_connected_count_all+=$def_no_connected_count;//配置未拨通数量之和
+            }
+            $item["assigned_no_connected_count"] = $assigned_no_connected_count ;//已获取未拨通数量
             //已获取未拨通数量之和
             $assigned_no_connected_count_all+= min([ $assigned_no_connected_count, $def_no_connected_count  ]);
             //得到每个人上限
@@ -153,6 +155,8 @@ class seller_student_system_assign extends cmd_base
         $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
             E\Etq_called_flag::V_1
         );
+        //获取未拨打过的例子
+        // $no_call_list=$this->task->t_seller_student_new_b2->get_no_call_list(E\Etq_called_flag::V_1);
         $need_deal_count= count( $need_deal_list);
         $old_need_deal_count=$need_deal_count;
         $assigned_count=0;
@@ -219,6 +223,9 @@ class seller_student_system_assign extends cmd_base
             foreach ($need_deal_list as $user_info)  {
                 $userid=$user_info["userid"];
                 $origin_level=$user_info["origin_level"];
+                //y类渠道[优学优享]按s类分配
+                if($origin_level == 99)
+                    $origin_level = 1;
                 if (!isset($seller_student_level_map[$origin_level]) ) {
                     $seller_student_level_map[$origin_level]=[];
                 }

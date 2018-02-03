@@ -1047,7 +1047,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
     //@param:$is_called_phone 1已拨通 0未拨通
     //@param:$phone 拨打者电话
     //@param:$adminid 拨打者电话
-    public function get_is_through($phone,$adminid,$is_called_phone=true){
+    public function get_is_through($phone,$adminid,$is_called_phone=1){
         $where_arr = [
             ['phone=%u',$phone,''],
             ['adminid=%u',$adminid,-1],

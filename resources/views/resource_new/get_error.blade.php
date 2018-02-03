@@ -108,16 +108,22 @@
                     <div class="input-group ">
                         <span class="input-group-addon">一级错误</span>
                         <select class="form-control opt-change" id="id_error_type"> 
-                            <option value="-1">未设置</option>
                         </select>
                     </div>
                 </div>
-                 <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">二级错误</span>
-                        <select class="form-control opt-change" id="id_sub_error_type"> 
-                            <option value="-1">未设置</option>
+                        <select class="form-control opt-change" id="id_sub_error_type">
+                            @foreach($sub_error_arr as $k => $v)
+                                <option value="{{$k}}">{{$v}}</option>
+                            @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="col-xs-1 col-md-1">
+                    <div class="input-group ">
+                        <input class="opt-change form-control" id="id_file_id" placeholder="" />
                     </div>
                 </div>
             </div>
@@ -126,30 +132,22 @@
         <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
-                    <td style="width:10px">
-                        <a href="javascript:;" id="id_select_all" title="全选">全</a>
-                        <a href="javascript:;" id="id_select_other" title="反选">反</a>
-                    </td>
-                    <td>文件名</td>
-                    <td>报错详情</td>
-                    <td>错误类型</td>
-                    <td>报错内容</td>
+                    <th style="max-width:200px">文件名</th>
+                    <th>报错详情</th>
+                    <th>错误类型</th>
+                    <th style="max-width:200px">报错内容</th>
+                    <th>讲义详情</th>
 
-                    <td>讲义详情</td>
-
-                    <td>上传详情</td>
-                    <td>状态</td>
+                    <th>上传详情</th>
+                    <th>状态</th>
                 
-                    <td>操作</td>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
-                        <td>
-                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
-                        </td>
-                        <td>{{@$var["file_title"]}} </td>
+                        <td style="max-width:200px">{{@$var["file_title"]}} </td>
                         <td>报错人:{{@$var['error_nick']}} <br/>
                             报错时间:{{@$var['add_time']}}
                         </td>
@@ -164,12 +162,26 @@
                         @if( @$var['etype'] == 9)
 
                         @else
-                        <td>
+
+                        <td style="max-width:200px">
                             {{@$var['detail_error']}}<br/>
-
-
-
+                            @if(@$var['picture_one'] != '')
+                                <a href="{{@$var['picture_one']}}" target="_blank">图片1</a>
+                            @endif
+                            @if(@$var['picture_two'] != '')
+                                <a href="{{@$var['picture_two']}}" target="_blank">图片2</a>
+                            @endif
+                            @if(@$var['picture_three'] != '')
+                                <a href="{{@$var['picture_three']}}" target="_blank">图片3</a>
+                            @endif
+                            @if(@$var['picture_four'] != '')
+                                <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
+                            @endif
+                            @if(@$var['picture_five'] != '')
+                                <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
+                            @endif
                         </td>
+
                         @endif
 
                         <td>资源类型:{{@$var['resource_type_str']}}<br/>

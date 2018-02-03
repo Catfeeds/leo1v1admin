@@ -56,7 +56,7 @@ class new_seller_student extends Job implements ShouldQueue
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --begin--
         //特殊渠道不进入自动分配例子
         $special_origin = ['美团—1230','学校-180112'];
-        $special_origin_level = [90,99,100];
+        $special_origin_level = [90,100];
         if(@$this->origin)
             $origin_level = $t_origin_key->field_get_value($this->origin, 'origin_level');
         else

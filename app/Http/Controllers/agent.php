@@ -441,11 +441,73 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $price = $this->t_order_info->get_seller_price($start_time_last=1514736000,$end_time_last=1517414400,$adminid=1072);
-        dd($price);
-        dd('a');
+        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,1517500800,[],[]];
+        $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
+        if(date('w')!=2){
+            for($i=1;$i<=12;$i++){
+                $start_time = $time-3600*24*$i;
+                $end_time = $start_time+3600*24;
+                if(date('w',$start_time) != 2){
+                    $ret_info[$i]['start_time'] = $start_time;
+                    $ret_info[$i]['end_time'] = $end_time;
+                    if(count($ret_info)==10){
+                        break;
+                    }
+                }
+            }
+            foreach($ret_info as $item){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
+                $count_call = count(array_unique(array_column($ret_call, 'userid')));
+                $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                $count_called = count(array_unique(array_column($ret_called, 'userid')));
+                $ret[$start_time]['call_count'] = $count_call;
+                $ret[$start_time]['called_count'] = $count_called;
+                $ret[$start_time]['rate'] = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+                echo date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time)."=>拨打个数:".$count_call.',拨通个数:'.$count_called.',拨通率:'.$ret[$start_time]['rate']."%<br/>";
+            }
+            $rate_arr = array_column($ret, 'rate');
+            $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4);
+            foreach($ret as $start_time=>$item){
+                $ret[$start_time]['dif_square'] = round(pow($item['rate']-$rate_avg,2),2);
+            }
+            $pow_sqrt = round(sqrt(array_sum(array_column($ret, 'dif_square'))/(count($ret)-1)),2);
+
+            $count_call_all = array_sum(array_column($ret, 'call_count'));
+            $count_called_all = array_sum(array_column($ret, 'called_count'));
+            $threshold_max = $count_call_all>0?(round($count_called_all/$count_call_all,4)*100):0;
+            $threshold_min = $threshold_max-$pow_sqrt;
+            echo "黄色预警线:".$threshold_max."%";
+            echo "红色警戒线:".$threshold_min."%";
+            // $this->t_seller_edit_log->row_insert([
+            //     'type'=>E\Eseller_edit_log_type::V_4,
+            //     'new'=>$threshold_max,
+            //     'create_time'=>$time,
+            // ]);
+            // $this->t_seller_edit_log->row_insert([
+            //     'type'=>E\Eseller_edit_log_type::V_5,
+            //     'new'=>$threshold_min,
+            //     'create_time'=>$time,
+            // ]);
+        }
     }
 
+    public function del_detailid(){
+        $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174354);
+        $ret_new = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174355);
+        dd($ret,$ret_new);
+        list($start_time,$end_time) = $this->get_in_date_range_day(0);
+        $phone = $this->get_in_str_val('phone');
+        $userid = $this->t_phone_to_user->get_userid($phone);
+        if($userid>0){
+            $id = $this->t_seller_new_count_get_detail->get_item_row_by_userid($userid,$start_time,$end_time);
+            if($id>0){
+                $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
+                dd($ret);
+            }
+        }
+    }
     //处理等级头像
     public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
         $datapath = $face_pic;

@@ -38,7 +38,8 @@ class node_type_channel_statistics extends cmd_base
      */
     public function handle($job=1)
     {
-        $start_time = strtotime(date('Y-m-01'));
+        //处理上个月
+        $start_time = strtotime(date('Y-m-01', strtotime('-1 month ')))  ;
         $end_time = strtotime('+1 month -1 second',$start_time);
         $origin_ex = '';
 
@@ -65,8 +66,9 @@ class node_type_channel_statistics extends cmd_base
         $sort = 0;
         //插入数据库
         foreach($structured_data as $item){
-            if($job==1)
+            if($job==1){
                 echo $sort.'ok'."\n";
+            }
             $id = $this->task->t_channel_node_type_statistics->get_id_by_sort($sort,$start_time);
             if($id){
                 //更新数据
