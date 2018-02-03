@@ -923,6 +923,8 @@ class company_wx extends Controller
                 "refund_warning_count" => $count
             ]);
         }
+
+        $this->t_user_log->add_data($sys_operator."操作退费预警回访,userid:".$userid." 回访时间:".date("Y-m-d H:i:s", time()));
         return $this->output_succ();
     }
 

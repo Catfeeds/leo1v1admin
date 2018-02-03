@@ -2297,8 +2297,8 @@ class main_page extends Controller
         }
 
         $refund_warning = $this->t_student_info->get_refund_warning();
-        foreach($refund_warning as $val) {
-            @$refund_warning["total"] += $val;
+        foreach($refund_warning as $re_val) {
+            @$refund_warning["total"] += $re_val;
         }
         // dd($month_info);
 
