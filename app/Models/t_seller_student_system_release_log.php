@@ -18,7 +18,7 @@ class t_seller_student_system_release_log extends \App\Models\Zgen\z_t_seller_st
             'adminid' => $admin_revisiterid,
             'userid' => $userid,
             'phone' => $phone,
-            'release_time' => $release_time,
+            'release_time' => $time_now,
             'release_reason_flag' => $release_reason_flag
         ]);
     }
