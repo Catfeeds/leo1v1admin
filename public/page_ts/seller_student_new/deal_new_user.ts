@@ -7,6 +7,18 @@ $(function(){
         });
     }
 
+    // 处理标记空号功能 [james]
+    var ccNoCallCount = g_args.ccNoCalledNum;
+    if(ccNoCallCount==3){
+        $('#id_tip_no_call').addClass('btn-warning').removeClass('btn-default');
+    }else{
+       
+        $('#id_tip_no_call').addClass('btn-default').removeClass('btn-warning');
+        $('#id_tip_no_call').addClass('btn-default').removeClass('btn-warning');
+    }
+
+
+
     $("#id_sync_tq").on("click",function(){
         $.do_ajax("/ss_deal/sync_tq",{
             "phone" : g_args.phone,
