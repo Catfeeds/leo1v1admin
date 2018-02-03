@@ -35,6 +35,7 @@ class menu{
                     ["power_id"=>2, "name"=>"课程信息管理",   "url"=>"/course/index"],
                     ["power_id"=>3, "name"=>"学生课程管理",   "url"=>"/course/student_course"],
                     ["power_id"=>4, "name"=>"学生调课申请",   "url"=>"/stu_apply/index"],
+                    ["power_id"=>5, "name"=>"测试-调课申请-vue","url"=>"/stu_apply/index", "domain_type" =>100  ],
                     // ["power_id"=>2, "name"=>"老师时间",   "url"=>"/class_stu_manage/cb"],
                 ]],
                 ["power_id"=>6, "name"=>"小班课-活动管理",   "list"=>[

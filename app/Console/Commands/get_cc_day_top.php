@@ -57,7 +57,7 @@ class get_cc_day_top extends cmd_base
                         'uid' => $item['uid'],
                         'score' => $item['result'],
                         'rank' => $rank++,
-                        'add_time' => end_time
+                        'add_time' => $end_time
                     ]);
                 }
             }

@@ -27,7 +27,8 @@ function load_data(){
         tag_three     :	$('#id_tag_three').val(),
         tag_four      :	$('#id_tag_four').val(),
         tag_five      :	$('#id_tag_five').val(),
-        file_title    :	$('#id_file_title').val()
+        file_title    :	$('#id_file_title').val(),
+        has_comment   : $('#id_has_comment').val(),
     });
 }
 $(function(){
@@ -102,7 +103,7 @@ $(function(){
     }
 
     var get_city = function(obj,city_num, is_true){
-         if (is_true == true){
+        if (is_true == true){
             var pro = '<option value="0">[全部]</option>';
         } else {
             var pro = '<option value="-1">[全部]</option>';
@@ -117,6 +118,8 @@ $(function(){
     }
 
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
+    Enum_map.append_option_list("boolean", $("#id_has_comment"));
+    $("#id_has_comment").val(g_args.has_comment);
     $('#id_use_type').val(g_args.use_type);
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
@@ -1435,6 +1438,11 @@ $(function(){
 
     $('body').click(function(){
         menu_hide();
+    });
+    $('.opt-error').click(function(){
+         var file_id = $(this).data('file_id');
+         var resource_type = $(this).data('resource_type');
+        $.wopen("/resource_new/get_error?file_id="+file_id+"&resource_type="+resource_type);
     });
 
     $('#id_resource_type').change(function(){

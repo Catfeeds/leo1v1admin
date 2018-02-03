@@ -121,6 +121,7 @@ class NewRouteConfig {
         "/supervisor/add_error_info"              => true,
         "/tea_manage/get_lesson_xmpp_audio"       => true,
         "/tea_manage/get_tea_pad_lesson_qr"       => true,
+        "/tea_manage/get_lesson_reply"            => true,
         "/login/teacher"                          => true,
         "/login/agent"                          => true,
         "/lesson_manage/get_lesson_info"          => true,
@@ -649,6 +650,7 @@ class NewRouteConfig {
         "/authority/set_fulltime_teacher_type" => true,
         "/fulltime_teacher/fulltime_teacher_count" => true,
         "/tongji2/fulltime_teacher_kpi_chart"  => true,
+        "/tongji2/cc_day_top_list"  => true,
 
         "/revisit/get_revisit_info"                 => true,
         "/revisit/update_revisit"                   => true,

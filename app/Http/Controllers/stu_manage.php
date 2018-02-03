@@ -41,7 +41,7 @@ class stu_manage extends Controller
             $ret_db['master_adminid_name'] = $master_adminid_name;
        }
 
-        $ret_channel=$this->t_user_info->get_reg_channel( $ret_db['userid']);
+        $ret_channel=$this->t_user_info->get_reg_channel($ret_db['userid']);
         $student_info = array(
             'master_adminid_name'   => @$ret_db['master_adminid_name'],
             'group_name'        => @$ret_db['group_name'],
@@ -87,11 +87,8 @@ class stu_manage extends Controller
         );
 
         $l_1v1_list = [];
-
         $data_list  = [] ;//$this->t_order_info->get_order_info($sid);
-
-        foreach ( $data_list as $item )
-        {
+        foreach ( $data_list as $item ){
             $item["teacher_nick"]   = $this->cache_get_teacher_nick($item["teacherid"]);
             $item["assistant_nick"] = $this->cache_get_assistant_nick($item["assistantid"]);
             \App\Helper\Utils::unixtime2date_for_item($item,"pay_time","", "Y-m-d H:i" );

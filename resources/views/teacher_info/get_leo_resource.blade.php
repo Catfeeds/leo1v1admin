@@ -45,7 +45,7 @@
      .error_pic_change{ padding-top: 10px; position: relative; height: 30px;width: 100px;}
      .error_pic_change a{ position: absolute;z-index: 9999; }
      .error_pic_change a:first-child{ left: 5px;}
-     .error_pic_change a:last-child{ right: 5px;}
+     .error_pic_change a.pic_dele{ right: 5px;}
     </style>
     <section class="content li-section">
         <div>
@@ -377,35 +377,35 @@
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_01" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
             <div class="error_pic_box hide fl">
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_02" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
             <div class="error_pic_box hide fl">
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_03" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
             <div class="error_pic_box hide fl">
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_04" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
             <div class="error_pic_box hide fl">
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_05" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
 

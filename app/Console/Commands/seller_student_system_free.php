@@ -28,6 +28,7 @@ class seller_student_system_free extends cmd_base
      */
     public function do_handle()
     {
+        \App\Helper\Utils::logger("begin");
         //14:30  发现没拨打
         $check_time=strtotime(date("Y-m-d 14:30"));
         $today_start_time=strtotime(date("Y-m-d"));
@@ -60,7 +61,7 @@ class seller_student_system_free extends cmd_base
                     }
                 }
                 //再次检测该用户是否已拨通
-                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid,$is_called_phone=true);
+                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
                 if($is_through)
                     $free_flag=false;
 
@@ -84,6 +85,7 @@ class seller_student_system_free extends cmd_base
         }else { //  free -1 day
             $check_free_list= $this->task->t_seller_student_new_b2->get_need_check_free_list();
             $free_flag=false;
+
             foreach( $check_free_list as $item ) {
                 $admin_revisiterid = $item["admin_revisiterid"];
                 $userid = $item["userid"];
@@ -94,8 +96,8 @@ class seller_student_system_free extends cmd_base
                     $release_reason_flag = 3;
                 }
 
+                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
                 //再次检测该用户是否已拨通
-                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid,$is_called_phone=true);
                 if($is_through)
                     $free_flag=false;
 
@@ -118,6 +120,7 @@ class seller_student_system_free extends cmd_base
 
                 }
             }
+            \App\Helper\Utils::logger("end");
         }
 
     }

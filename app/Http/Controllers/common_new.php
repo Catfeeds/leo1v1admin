@@ -724,8 +724,9 @@ class common_new extends Controller
             $endReason
         );
 
-        $called_flag=($cdr_status==28)?2:1;
-        $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
+        $called_flag=($cdr_status==28 && $duration>60)?2:1;
+        $is_called_phone = ($cdr_status==28)?1:0;
+        $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno,$is_called_phone,$duration);
         return json_encode(["result"=>"success"]);
     }
 

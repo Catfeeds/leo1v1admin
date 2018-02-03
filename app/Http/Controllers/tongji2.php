@@ -2060,5 +2060,75 @@ class tongji2 extends Controller
         return $this->pageView(__METHOD__, $ret_info);
 
     }
+    //@desn:展示系统释放日志
+    public function tongji_sys_free_log(){
+        $page_info= $this->get_in_page_info();
+        list($start_time, $end_time ) = $this->get_in_date_range_day(0);
+        $adminid=$this->get_in_adminid(-1);
+        $userid=$this->get_in_userid(-1);
+        $ret_info=$this->t_seller_student_system_release_log->get_list($page_info,$start_time,$end_time,$adminid,$userid);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "release_time");
+            E\Erelease_reason_flag::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+    //对业绩值进行增改查
+    public function cc_day_top_list(){
+        $page_info= $this->get_in_page_info();
+        list($start_time, $end_time ) = $this->get_in_date_range_day(0);
+        $adminid=$this->get_in_adminid(-1);
+        $ret_info = $this->t_cc_day_top->get_list($page_info,$start_time, $end_time,$adminid);
+        foreach($ret_info['list'] as &$item){
+            $item['score'] /= 100;
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+    //@desn:添加销售排名
+    public function cc_day_top_add(){
+        $score = $this->get_in_int_val('score');
+        $rank = $this->get_in_int_val('rank');
+        $uid = $this->get_in_int_val('uid');
+        if($score>0 && $rank>0 && $uid >0){
+            $this->t_cc_day_top->row_insert([
+                'uid' => $uid,
+                'score' => $score*100,
+                'rank' => $rank,
+                'add_time' => strtotime(date('Y-m-d'))
+            ]);
+            return $this->output_succ();
+        }
+
+        return $this->output_err('业绩、排名、销售不能为空!');
+    }
+    //@desn:修改销售排名信息
+    public function cc_day_top_update(){
+        $id = $this->get_in_id();
+        $score = $this->get_in_int_val('score');
+        $rank = $this->get_in_int_val('rank');
+        $uid = $this->get_in_int_val('uid');
+        if($score>0 && $rank>0 && $uid >0){
+            $this->t_cc_day_top->field_update_list($id,[
+                'uid' => $uid,
+                'score' => $score*100,
+                'rank' => $rank,
+            ]);
+            return $this->output_succ();
+        }
+
+        return $this->output_err('业绩、排名、销售不能为空!');
+    }
+    //@desn:删除该条排名信息
+    public function cc_day_top_del(){
+        $id = $this->get_in_id();
+        if($id){
+            $this->t_cc_day_top->row_delete($id);
+            return $this->output_succ();
+        }else
+            return $this->output_err('为传入id');
+    }
+
+
 
 }

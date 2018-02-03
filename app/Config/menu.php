@@ -41,6 +41,7 @@ class menu{
 
                 ["power_id"=>13, "name"=>"录音xmpp分布",   "url"=>"/tea_manage_new/lesson_record_server_list"],
                 ["power_id"=>72, "name"=>"ssh 登录记录",   "url"=>"/login_log/login_list"],
+                ["power_id"=>2, "name"=>"job统计",   "url"=>"/admin_manage/job_list"],
             ]],
 
             ["power_id"=>1, "name"=>"服务管理",  "list"=> [
@@ -481,6 +482,7 @@ class menu{
                 ["power_id"=>17, "name"=>"CC/CR分享H5页面统计数据",   "url"=>"/tongji2/marketPosterData"],
                 ["power_id"=>83, "name"=>"销售2", "list"=>[
                     ["power_id"=>1, "name"=>"系统分配例子信息",   "url"=>"/tongji2/tongji_sys_assign_call_info", "domain_type" =>100],
+                    ["power_id"=>2, "name"=>"系统释放例子日志",   "url"=>"/tongji2/tongji_sys_free_log", "domain_type" =>100],
                 ]],
                 ["power_id"=>1, "name"=>"销售", "list"=>[
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],

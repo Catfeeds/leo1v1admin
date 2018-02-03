@@ -305,7 +305,7 @@ function RGBColor(color_string)
 
 	// ...or as browserify
 	else if ( typeof module !== 'undefined' && module.exports ) {
-		// module.exports = factory( require( 'rgbcolor' ), require( 'stackblur' ) ); // gavan 要求注释
+		//module.exports = factory( require( 'rgbcolor' ), require( 'stackblur' ) );
 	}
 
 	global.canvg = factory( global.RGBColor, global.stackBlur );
