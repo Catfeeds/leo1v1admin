@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1017
-//__DESC: /student/stu_course_info 获取学生课程包信息
+//__DESC: 4.4 http://api.class.leo1v1.com/student/stu_course_info 获取学生兑换课程列表
 //__TAGS: for_app,for_website
 
 
