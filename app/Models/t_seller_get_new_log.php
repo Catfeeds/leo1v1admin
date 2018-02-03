@@ -76,7 +76,7 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
             ['l.adminid=%u',$adminid,-1],
         ];
         if($called_flag==0){
-            $where_arr[] = 'l.called_count=0';
+            $where_arr[] = 'l.called_count=0 and l.no_called_count>0';
         }elseif($called_flag==1){
             $where_arr[] = 'l.called_count>0';
         }

@@ -42,6 +42,8 @@
                     <option value="-1">全部 </option>
                     <option value="1">学情未回访</option>
                     <option value="2">月度未回访</option>
+                    <option value="3">当月退费预警未回访</option>
+                    <option value="4">当月退费预警回访<4</option>
                 </select>
             </div>
         </div>
@@ -62,6 +64,18 @@
                 </select>
             </div>
         </div>
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">退费预警级别</span>
+                <select class="stu_sel form-control" id="id_refund_warn">
+                    <option value="-1">全部退费预警</option>
+                    <option value="3">三级</option>
+                    <option value="2">二级</option>
+                    <option value="1">一级</option>
+                </select>
+            </div>
+        </div>
+
         <div class="col-xs-6 col-md-3">
             <div class="input-group ">
                 <input type="text" value="" class=" form-control click_on put_name for_input"  data-field="user_name" id="id_user_name"  placeholder="学生/家长姓名,userid,手机,地区 回车查找" />
@@ -78,23 +92,24 @@
             <tr>
                 <td >分配时间</td>
 
-                    {!!\App\Helper\Utils::th_order_gen([
-                        ["id","userid" ],
-                        ["姓名","nick" ],
-                        ["地区","location" ],
-                        ["学员类型","type" ],
-                        ["家长姓名","parent_name" ],
-                        ["助教","assistant_nick" ],
-                        ["关系","parent_type" ],
-                        ["联系电话","phone" ],
-                        ["年级","grade"],
-                        ["科目数量","course_list_total"],
-                        ["签约课时","lesson_count_all" ],
-                        ["剩余课时","lesson_count_left" ],
-                        ["已上课时","lesson_count_done" ],
-                        ["每周总课时","lesson_total" ],
-                        ["赞","praise" ],
-                       ])  !!}
+                {!!\App\Helper\Utils::th_order_gen([
+                    ["id","userid" ],
+                    ["姓名","nick" ],
+                    ["地区","location" ],
+                    ["学员类型","type" ],
+                    ["退费预警级别", "refund_warning_level"],
+                    ["家长姓名","parent_name" ],
+                    ["助教","assistant_nick" ],
+                    ["关系","parent_type" ],
+                    ["联系电话","phone" ],
+                    ["年级","grade"],
+                    ["科目数量","course_list_total"],
+                    ["签约课时","lesson_count_all" ],
+                    ["剩余课时","lesson_count_left" ],
+                    ["已上课时","lesson_count_done" ],
+                    ["每周总课时","lesson_total" ],
+                    ["赞","praise" ],
+                   ])  !!}
 
                 <td >回访  {{@$last_time_str}}/{{@$cur_time_str}}</td>
                 <td >本月成绩记录</td>
@@ -110,10 +125,21 @@
             @foreach ($table_data_list as $var)
                 <tr>
                     <td  >{{$var["ass_assign_time_str"]}} </td>
-                    <td  >{{$var["userid"]}} </td>
+                    <td  class="userid">{{$var["userid"]}} </td>
                     <td class="user_nick">{{$var["nick"]}}</td>
                     <td >{{$var["location"]}}</td>
                     <td >{{$var["type"]}}</td>
+                    @if ($var["refund_warning_level"] == 3)
+                        <td><div><span class="refund_warn_reason" style='color:#FF0000'>三级</span></div></td>
+                    @elseif ($var["refund_warning_level"] == 2)
+                        <td><div><span class="refund_warn_reason" style='color:#FFCC33'>二级</span></div></td>
+                    @elseif ($var["refund_warning_level"] == 1)
+                        <td><div><span class="refund_warn_reason" style='color:#0099FF'>一级</span></div></td>
+                    @else
+                        <td><div><span class="refund_warn_reason" style='color:#0000FF'>无</span></div></td>
+                    @endif
+
+                    <td>{{$var["refund_warning_level"]}}</td>
                     <td class="" >{{$var["parent_name"]}}</td>
                     <td class="" >{{$var["assistant_nick"]}}</td>
                     <td class="td-parent-type" data-v="{{$var["parent_type"]}}"></td>
@@ -177,6 +203,8 @@
                             @if($acc=="jim" || $acc=="jack" || $acc=="michael")
                                 <a class="fa-comment opt-return-back-new " title="回访" ></a>
                             @endif
+                            <a class="refund_return_back_new" title="回访-new">退费预警回访</a>
+                            <a class="refund_warn_reason" title="退费预警级别详情">详情</a>
 
                         </div>
                     </td>

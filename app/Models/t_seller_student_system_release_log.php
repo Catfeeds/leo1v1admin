@@ -13,12 +13,12 @@ class t_seller_student_system_release_log extends \App\Models\Zgen\z_t_seller_st
     //@param:$phone 用户电话
     //@param:$release_reason_flag  释放分类标识
     public function add_log($admin_revisiterid,$userid,$phone,$release_reason_flag){
-        $time = time(NULL);
+        $time_now = time(NULL);
         $this->row_insert([
             'adminid' => $admin_revisiterid,
             'userid' => $userid,
             'phone' => $phone,
-            'release_time' => $release_time,
+            'release_time' => $time_now,
             'release_reason_flag' => $release_reason_flag
         ]);
     }
