@@ -3987,7 +3987,7 @@ class ss_deal extends Controller
                 $adminid = $this->t_manager_info->get_adminid_by_account($account);
                 if($adminid>0 && $phone!=''){
                     $userid = $this->t_phone_to_user->get_userid($phone);
-                    $ret = $this->field_update_list($userid,[
+                    $ret = $this->t_seller_student_new->field_update_list($userid,[
                         // "admin_assignerid"  => 0,
                         // "sub_assign_adminid_1"  => $adminid,
                         // "sub_assign_time_1"  => time(),
