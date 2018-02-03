@@ -395,7 +395,6 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             "create_time>=$start_time",
             "create_time<=$end_time",
         ];
-        // $this->where_arr_add_time_range($where_arr, 'create_time', $start_time, $end_time);
         $sql = $this->gen_sql_new (
             " select * "
             ." from %s "
