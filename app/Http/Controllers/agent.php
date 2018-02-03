@@ -494,9 +494,15 @@ class agent extends Controller
     }
 
     public function del_detailid(){
-        $id = $this->get_in_int_val('id',174055);
-        $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
-        dd($ret);
+        $phone = $this->get_in_str_val('phone');
+        $userid = $this->t_phone_to_user->get_userid($phone);
+        if($userid>0){
+            $id = $this->t_seller_new_count_get_detail->get_item_rwo_by_userid($userid);
+            if($id>0){
+                $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
+                dd($ret);
+            }
+        }
     }
     //处理等级头像
     public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
