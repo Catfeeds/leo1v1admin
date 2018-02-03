@@ -98,7 +98,8 @@ class t_teacher_freetime_for_week extends \App\Models\Zgen\z_t_teacher_freetime_
         $sql = $this->gen_sql_new("select t.free_time_new from %s t where t.teacherid = %d",
                                   self::DB_TABLE_NAME,
                                   $teacherid);
-        return $this->main_get_value($sql);
+        // return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
 }

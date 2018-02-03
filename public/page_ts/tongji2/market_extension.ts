@@ -32,6 +32,7 @@ $(function(){
         var opt_data=$(this).get_opt_data();
 
         var $main_type_name = $("<select/>");
+        var $follow_activ_type = $("<select/>");
         var $title = $("<textarea style='width:100%' />");
         var $describe = $("<textarea style='width:100%'/>");
         var $img = $("<div/>");
