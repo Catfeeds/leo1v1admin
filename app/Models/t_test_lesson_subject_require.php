@@ -1006,7 +1006,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     public function tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
         $where_arr=[
-            "require_admin_type=2",
             "is_test_user=0",
             "tss.success_flag < 2",
             "l.del_flag = 0",
@@ -1021,7 +1020,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $sql=$this->gen_sql_new(
             "select  cur_require_adminid as admin_revisiterid, count(*) as test_lesson_count,   sum( test_lesson_fail_flag in (1,2,3) ) as fail_need_pay_count  "
             .", sum( lesson_user_online_status =2 and  (f.flow_status is null  or f.flow_status <>2 ) ) fail_all_count "
-            .", sum( lesson_user_online_status in (0,1) or  f.flow_status = 2  ) succ_all_count "
+            .", sum( (lesson_user_online_status in (0,1) or  f.flow_status = 2) and tss.success_flag in (0,1 )  ) succ_all_count "
             .",sum(green_channel_teacherid>0) green_lesson_count"
             .", sum(success_flag in (0,1) and green_channel_teacherid>0) succ_green_count "
             ." from %s tr "
@@ -1038,7 +1037,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             t_test_lesson_subject::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
+
             $where_arr);
+        //TODOJIM
 
         return $this->main_get_list_as_page($sql);
 
@@ -1047,8 +1048,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     public function tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1,$adminid_list=[]) {
         $where_arr=[
             "accept_flag=1",
-            // "require_admin_type=2",
+            "require_admin_type=2",
             "is_test_user=0",
+            "l.lesson_type=2",
             "l.lesson_del_flag=0",
         ];
         if(count($adminid_list)>0){
@@ -1063,12 +1065,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $sql=$this->gen_sql_new(
             "select cur_require_adminid as admin_revisiterid, count(*) test_lesson_count,"
-            ."sum(tss.success_flag IN (0,1) and lesson_user_online_status in (0,1) or f.flow_status = 2) succ_all_count,"
+            ."sum(tss.success_flag IN (0,1) and (lesson_user_online_status in (0,1) or f.flow_status = 2)) succ_all_count,"
             ."sum(lesson_user_online_status =2 and (f.flow_status is null or f.flow_status <>2)) fail_all_count "
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
-            // ." join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+             ." join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s s on l.userid=s.userid"
             ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
             ." where %s "
@@ -1076,11 +1078,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-            // t_test_lesson_subject::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
             $where_arr);
         return $this->main_get_list_as_page($sql);
+        //TODOJIM
     }
 
     public function tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1,$adminid_list=[]) {
@@ -3886,30 +3889,35 @@ ORDER BY require_time ASC";
     //@param:$end_time 结束时间
     public function get_test_lesson_data($start_time,$end_time){
         $where_arr = [
-            ['tls.require_admin_type = %u',2],
-            ['li.lesson_type = %u',2],
-            ['si.is_test_user = %u',0],
+            ['l.lesson_type = %u',2],
+            ['s.is_test_user = %u',0],
+            'require_admin_type = 2' ,
+            "l.lesson_del_flag=0",
         ];
-        $this->where_arr_add_time_range($where_arr, 'tlsr.require_time', $start_time, $end_time);
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            'select tlsr.origin as channel_name,count(tlsr.require_id) as require_count,'.
-            'count(tlsr.accept_flag = 1) test_lesson_count,'.
-            'sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count,'.
-            'count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count,'.
-            'count(distinct if(tlssl.success_flag in (0,1 ),tls.userid,null)) as distinct_succ_count '.
-            'from %s tlsr '.
-            'left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id '.
-            'left join %s tlssl on tlssl.require_id = tlsr.require_id '.
-            'left join %s li on tlsr.current_lessonid=li.lessonid '.
-            'left join %s si on tls.userid=si.userid '.
-            'where %s group by tlsr.origin',
+            'select s.origin as channel_name,count(tr.require_id) as require_count,'.
+            'count(tr.accept_flag = 1) test_lesson_count,'.
+            'sum( accept_flag=1 and  (lesson_user_online_status in (0,1) or  f.flow_status = 2) and tss.success_flag in (0,1 ) ) as succ_test_lesson_count,'.
+            'count(distinct if(tr.accept_flag = 1,t.userid,null)) as distinct_test_count,'.
+            'count(distinct if(tss.success_flag in (0,1 ),t.userid,null)) as distinct_succ_count '.
+            " from %s tr "
+            ." join %s l on tr.current_lessonid=l.lessonid "
+            ." join %s tss on tr.current_lessonid=tss.lessonid "
+            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." join %s s  on l.userid=s.userid"
+            ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
+            .'where %s group by s.origin',
+
             self::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
-            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
             $where_arr
         );
+        //TODOJIM
         return $this->main_get_list($sql);
     }
     //@desn:获取节点型试听课统计数据
@@ -3919,46 +3927,56 @@ ORDER BY require_time ASC";
     public function get_test_lesson_data_now($origin='', $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="" ){
         switch ( $field_name ) {
         case "origin" :
-            $field_name="si.origin";
+            $field_name="s.origin";
             break;
         case "grade" :
-            $field_name="li.grade";
+            $field_name="l.grade";
             break;
         case "subject" :
-            $field_name="li.subject";
+            $field_name="l.subject";
             break;
         default:
             break;
         }
 
         $where_arr=[
-            ["si.origin like '%%%s%%' ",$origin,''],
-            'si.is_test_user=0',
-            'li.lesson_del_flag=0'
+            ["s.origin like '%%%s%%' ",$origin,''],
+            's.is_test_user=0',
+            'l.lesson_del_flag=0',
+            "l.lesson_type=2",
+            "t.require_admin_type =2",
         ];
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"si.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         // $this->where_arr_adminid_in_list($where_arr,"tls.require_adminid",$adminid_list);
 
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
-        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
 
         $sql = $this->gen_sql_new(
-            'select '.$field_name.' as check_value,count(tlsr.require_id) as require_count,'.
-            'count(tlsr.accept_flag = 1) test_lesson_count,'.
-            'sum(tlssl.success_flag in (0,1 ) and ((li.lesson_user_online_status in (0,1) or f.flow_status = 2)) '.
-            'and tlsr.accept_flag=1) as succ_test_lesson_count,'.
-            'count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count,'.
-            'count(distinct if((tlssl.success_flag in (0,1 ) and (li.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
-            'and tlsr.accept_flag=1),tls.userid,null)) as distinct_succ_count '.
-            'from %s tlsr '.
-            'left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id '.
-            'left join %s tlssl on tlssl.lessonid = tlsr.current_lessonid '.
-            'left join %s li on tlsr.current_lessonid=li.lessonid '.
-            'left join %s si on li.userid=si.userid '.
-            'left join %s ssn on tls.userid = ssn.userid '.
-            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
-            'where %s group by check_value',
+            'select '.$field_name.' as check_value,count(tr.require_id) as require_count,'.
+            'count(tr.accept_flag = 1) test_lesson_count,'.
+            'sum(tss.success_flag in (0,1 ) and ((l.lesson_user_online_status in (0,1) or f.flow_status = 2)) '.
+            'and tr.accept_flag=1) as succ_test_lesson_count,'.
+            'count(distinct if(tr.accept_flag = 1,t.userid,null)) as distinct_test_count,'.
+            'count(distinct if((tss.success_flag in (0,1 ) and (l.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
+            'and tr.accept_flag=1),t.userid,null)) as distinct_succ_count '.
+
+            " from %s tr "
+            ." join %s l on tr.current_lessonid=l.lessonid "
+            ." join %s tss on tr.current_lessonid=tss.lessonid "
+            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." join %s s  on l.userid=s.userid"
+            ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
+            .'where %s group by check_value',
+
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            /*
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
@@ -3966,8 +3984,10 @@ ORDER BY require_time ASC";
             t_student_info::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
+            */
             $where_arr
         );
+        //TODOJIM
         return $this->main_get_list($sql);
     }
 

@@ -437,4 +437,24 @@ class test_code extends Controller
         return $this->output_succ();
     }
 
+    public function test_free_time(){ // 协议编号 :1010
+        $teacherid = 60024;
+        $ret_str = $this->t_teacher_freetime_for_week->get_vacant_arr($teacherid);
+        $ret_arr = json_decode($ret_str,true);
+        if(!empty($ret_arr)){
+            foreach($ret_arr as $i=>$item_ret){
+                foreach($format_arr as &$item_format){
+                    if($item_ret==' '){
+                        unset($ret_arr[$i]);
+                    }else{
+                        if($item_format == @$item_ret['0']){
+                            unset($ret_arr[$i]);
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
 }

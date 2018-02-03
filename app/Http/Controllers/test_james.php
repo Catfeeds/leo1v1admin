@@ -379,7 +379,7 @@ class test_james extends Controller
 
     public function installNew(){ // 新建表单
         // Schema::dropIfExists('db_weiyi.t_activity_usually');
-        Schema::create('db_weiyi.t_seller_student_confirm_log', function(Blueprint $table) {
+        Schema::create('db_weiyi.t_seller_student_do_tag_log', function(Blueprint $table) {
             t_comment($table, "CC 标记资源日志表");
             t_field($table->increments("id"), "");
             t_field($table->integer("add_time"), "标记时间");
@@ -1780,6 +1780,10 @@ class test_james extends Controller
 
     # 测试Redis 存储功能
     public function getTea(){
+        $season     = ceil((date('n'))/3);//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s',mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+
+        dd($start_time);
         $key = '1';
         $val = 'value1';
         $flag = Redis::set($key,$val);

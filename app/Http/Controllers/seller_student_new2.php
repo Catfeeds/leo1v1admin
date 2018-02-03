@@ -1365,7 +1365,10 @@ class seller_student_new2 extends Controller
         $res = [];
         list($res[$adminid]['test_lesson_count'],$res[$adminid]['succ_all_count_for_month'],$res[$adminid]['fail_all_count_for_month'],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['all_new_contract_for_month'],$res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4]) = [0,0,0,0,0,0,[],[],[],[]];
         $this->t_test_lesson_subject_require->switch_tongji_database();
+        \App\Helper\Utils::logger("111");
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
+
+        \App\Helper\Utils::logger("10100000");
         foreach($test_leeson_list['list'] as $item){
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
@@ -1378,8 +1381,11 @@ class seller_student_new2 extends Controller
         if($end_time_new >= time()){
             $end_time_new = time();
         }
+        \App\Helper\Utils::logger("010101");
         $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
         $this->t_test_lesson_subject_require->switch_tongji_database();
+        \App\Helper\Utils::logger("22222");
+
         $test_leeson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list_new['list'] as $item){
             $lesson_start = $item['lesson_start'];

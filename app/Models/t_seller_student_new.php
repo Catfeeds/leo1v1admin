@@ -109,10 +109,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         //通知
         $admin_revisiterid    = 0;
         $seller_resource_type = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type" );
+        $tmk_student_status   = 0;
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status" );
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
+            $tmk_student_status   = $data_item['tmk_student_status'];
         }
         if ($admin_revisiterid  ) {
             $subject_desc=E\Esubject::get_desc($subject);

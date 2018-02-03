@@ -123,14 +123,11 @@ class user extends TeaWxController
         }
     }
 
-
-
     public function set_vacant_time(){ // 协议编号 :1010
-
         $teacherid = $this->get_teacherid();
         $time      = $this->get_in_str_val('time');
         $type      = $this->get_in_str_val('type');
-        $time = $time/1000;
+        $time      = $time/1000;
 
         $timeArr = [];
         if($time){
@@ -141,26 +138,18 @@ class user extends TeaWxController
         }
 
         $format_arr = [];
-
         foreach($timeArr as $item_time){
             $format_arr[] = date("Y-m-d H:i",$item_time);
         }
 
         $ret_str = $this->t_teacher_freetime_for_week->get_vacant_arr($teacherid);
-
-        if (!$ret_str) {
-            $time_str_value = [];
-        }
-
         $ret_arr = json_decode($ret_str,true);
-
         if(!empty($ret_arr)){
             foreach($ret_arr as $i=>$item_ret){
                 foreach($format_arr as &$item_format){
                     if($item_ret==' '){
                         unset($ret_arr[$i]);
                     }else{
-
                         if($item_format == @$item_ret['0']){
                             unset($ret_arr[$i]);
                         }
@@ -181,16 +170,13 @@ class user extends TeaWxController
             if(empty($ret_arr)){
                 $ret_arr = [];
             }
-
             array_push($ret_arr,$time_arr);
         }
 
         $time_value = json_encode($ret_arr);
-
-
         if($time_value){
             $ret_update = $this->t_teacher_freetime_for_week->field_update_list($teacherid,[
-                'free_time_new'=>$time_value
+                'free_time_new' => $time_value
             ]);
 
             if($ret_update) {
@@ -198,7 +184,6 @@ class user extends TeaWxController
             }else {
                 return $this->output_err('老师空闲时间设置失败!');
             }
-
         }
     }
 
