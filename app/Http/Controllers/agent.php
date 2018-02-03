@@ -494,6 +494,8 @@ class agent extends Controller
     }
 
     public function del_detailid(){
+        $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174055);
+        dd($ret);
         $phone = $this->get_in_str_val('phone');
         $userid = $this->t_phone_to_user->get_userid($phone);
         if($userid>0){
