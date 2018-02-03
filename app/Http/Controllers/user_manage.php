@@ -726,8 +726,17 @@ class user_manage extends Controller
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
             \App\Helper\Utils::hide_item_phone($item);
             # 新增显示家长查看合同状态
-            $item['first_check_time_str'] = date('Y-m-d H:i:s',$item['first_check_time']);
+            if($item['first_check_time']>0){
+                $item['first_check_time_str'] = date('Y-m-d H:i:s',$item['first_check_time']);
+            }else{
+                $item['first_check_time_str'] = '无';
+            }
 
+            if($item['first_check_time']){
+                $item['hasCheck'] = "<font color='green'>已查看</font>";
+            }else{
+                $item['hasCheck'] = "<font color='red'>未查看</font>";
+            }
         }
 
         $this->set_filed_for_js("account_role_self",$this->get_account_role());
@@ -2671,7 +2680,7 @@ class user_manage extends Controller
         }
 
 
-        
+
 
         $ret = $this->t_order_refund->field_update_list_2($orderid,$apply_time,[
             "real_refund" => ($real_refund*100)
@@ -3275,7 +3284,7 @@ class user_manage extends Controller
         $page_num     = $this->get_in_page_num();
         $end_date     = date("Y-m-d H:i:s",$end_time);
         $start_time = $start_time > 1451577600 ? $start_time:1451577600;
-        $one_year     = strtotime("$end_date -1 year") > 1451577600 ? strtotime("$end_date -1 year") :  1451577600; 
+        $one_year     = strtotime("$end_date -1 year") > 1451577600 ? strtotime("$end_date -1 year") :  1451577600;
         $half_year    = strtotime("$end_date -6 month") > 1451577600 ? strtotime("$end_date -6 month") :1451577600;
         $three_month  = strtotime("$end_date -3 month") > 1451577600 ? strtotime("$end_date -3 month") : 1451577600;
 
@@ -3304,7 +3313,7 @@ class user_manage extends Controller
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
                 if(!isset($ret[$key]['apply_num']) ||$ret[$key]['apply_num'] == '' ){
-                   $ret[$key]['apply_num'] = 0; 
+                   $ret[$key]['apply_num'] = 0;
                 }
             }else{//add
                 $ret[$key] = [];
@@ -3345,7 +3354,7 @@ class user_manage extends Controller
             }
         }
         //dd($ret_arr);
-        
+
         return $this->Pageview(__METHOD__,$ret_arr);
     }
 
@@ -3374,7 +3383,7 @@ class user_manage extends Controller
         $page_num     = $this->get_in_page_num();
         $end_date     = date("Y-m-d H:i:s",$end_time);
         $start_time = $start_time > 1451577600 ? $start_time:1451577600;
-        $one_year     = strtotime("$end_date -1 year") > 1451577600 ? strtotime("$end_date -1 year") :  1451577600; 
+        $one_year     = strtotime("$end_date -1 year") > 1451577600 ? strtotime("$end_date -1 year") :  1451577600;
         $half_year    = strtotime("$end_date -6 month") > 1451577600 ? strtotime("$end_date -6 month") :1451577600;
         $three_month  = strtotime("$end_date -3 month") > 1451577600 ? strtotime("$end_date -3 month") : 1451577600;
 
@@ -3404,7 +3413,7 @@ class user_manage extends Controller
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
                 if(!isset($ret[$key]['apply_num']) ||$ret[$key]['apply_num'] == '' ){
-                   $ret[$key]['apply_num'] = 0; 
+                   $ret[$key]['apply_num'] = 0;
                 }
             }else{//add
                 $ret[$key] = [];
@@ -3460,7 +3469,7 @@ class user_manage extends Controller
             }
         }
         //dd($ret_arr);
-        
+
         return $this->Pageview(__METHOD__,$ret_arr);
 
 
