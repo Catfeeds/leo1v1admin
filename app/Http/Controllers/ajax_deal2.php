@@ -277,6 +277,26 @@ class ajax_deal2 extends Controller
         $this->t_order_info->field_update_list($orderid,[
             "pdf_url" =>$pdf_file_url
         ]);
+
+        # 增加发送给家长
+        $parentid = $this->t_parent_child->get_parentid_by_userid($userid);
+        $test_arr = ['335719','321232'];
+        if($pdf_file_url && in_array($parentid,$test_arr) ){
+            $cc_row = $this->t_manager_info->get_phone_by_account($row['sys_operator']);
+            $cc_phone = $cc_row['phone'];
+            $template_id = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+            $data = [
+                "keyword1" => "请查看合同",
+                "keyword2" => $parent_name."家长: \n 您的购课合同已生成,请注意点击查看 \n 联系老师: ".$row['sys_operator']."老师 \n 联系电话: ".$cc_phone,
+                "keyword3" => date("Y年m月d日 H:i:s")
+            ];
+            $parentOpenid = $this->t_parent_info->getWxOpenidByStuId($useid);
+            $pdf_url = "http://admin.leo1v1.com/common_new/redirectForPdf?url=".$pdf_file_url."&orderid=".$orderid;
+
+            if($parentOpenid){
+                \App\Helper\Utils::send_wx_to_parent($parentOpenid,$template_id,$data,$pdf_url);
+            }
+        }
         return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
     }
 
@@ -407,7 +427,7 @@ class ajax_deal2 extends Controller
         $grade_rank_last = $this->t_student_score_info->get_last_grade_rank($subject,$userid);
         if( $score > $total_score){
             return $this->output_err("成绩输入有误!");
-        }        
+        }
 
 
         if($grade_rank_last  && $rank_now != ''){
@@ -2892,7 +2912,7 @@ class ajax_deal2 extends Controller
 
         //先计算是否第一次课学员
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        $list = @$ass_month[$adminid];        
+        $list = @$ass_month[$adminid];
         $first_lesson_stu_list = $list["first_lesson_stu_list"];
         if($first_lesson_stu_list){
             $first_lesson_stu_arr = json_decode($first_lesson_stu_list,true);
@@ -2901,14 +2921,14 @@ class ajax_deal2 extends Controller
                 $lesson_start = $val["lesson_start"];
                 if($userid==$val["userid"]){
                     $revisit_end = $lesson_start+86400;
-                            
+
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$lesson_start,$revisit_end,$account,5);
                     if($revisit_num <=0){
                         $revisit_value +=1;
                         $deduct_list[]=[
                             "deduct_type"=>"第一次课",
                             "subject"    => E\Esubject::get_desc(@$val["subject"]),
-                            "time"       => date("Y-m-d H:i",$lesson_start),                            
+                            "time"       => date("Y-m-d H:i",$lesson_start),
                         ];
                     }
 
@@ -2916,29 +2936,29 @@ class ajax_deal2 extends Controller
             }
         }
 
-        // if($type_flag==1){                    
+        // if($type_flag==1){
         //     $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($userid);
         //     $assign_time = $this->t_student_info->get_ass_assign_time($userid);
         //     $first_lesson_time = @$regular_lesson_list[0]["lesson_start"];
         //     foreach($regular_lesson_list as $t_item){
         //         if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
         //             $revisit_end = $t_item["lesson_start"]+86400;
-                            
+
         //             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$t_item["lesson_start"],$revisit_end,$account,5);
         //             if($revisit_num <=0){
         //                 $revisit_value +=1;
         //             }
 
-                            
+
         //         }
         //         if($t_item["lesson_start"]<$first_lesson_time){
         //             $first_lesson_time = $t_item["lesson_start"];
         //         }
 
-               
+
         //     }
-           
-        
+
+
 
         //     if($first_lesson_time>0 && $first_lesson_time<$month_half){
         //         if($assign_time < $month_half){
@@ -2946,14 +2966,14 @@ class ajax_deal2 extends Controller
         //             if($revisit_num <2){
         //                 $revisit_value +=1;
         //             }
-        //         }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+        //         }elseif($assign_time>=$month_half && $assign_time <$end_time){
         //             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
         //             if($revisit_num <1){
         //                 $revisit_value +=1;
         //             }
 
         //         }
-        //     }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){                       
+        //     }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){
         //         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
         //         if($revisit_num <1){
         //             $revisit_value +=1;
@@ -2964,7 +2984,7 @@ class ajax_deal2 extends Controller
         // }else
         if($type_flag==2){
             $history_list = $this->t_ass_stu_change_list->get_ass_history_list($adminid,$start_time,$end_time,$userid);
-                       
+
             foreach($history_list as $val){
                 $add_time = $val["add_time"];
                 if($add_time<$month_half){
@@ -2974,7 +2994,7 @@ class ajax_deal2 extends Controller
                         $deduct_list[]=[
                             "deduct_type"=>"常规回访扣分",
                             "subject"    => "",
-                            "time"       => "",                            
+                            "time"       => "",
                         ];
 
                     }
@@ -2984,13 +3004,13 @@ class ajax_deal2 extends Controller
                     if($assign_time <$month_half){
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
-                          
+
                             if($revisit_num <2){
                                 $revisit_value +=1*(2-$revisit_num);
                                 $deduct_list[]=[
                                     "deduct_type"=>"常规回访扣分",
                                     "subject"    => "",
-                                    "time"       => "",                            
+                                    "time"       => "",
                                 ];
 
                             }
@@ -3000,7 +3020,7 @@ class ajax_deal2 extends Controller
                                 $deduct_list[]=[
                                     "deduct_type"=>"常规回访扣分",
                                     "subject"    => "",
-                                    "time"       => "",                            
+                                    "time"       => "",
                                 ];
 
                             }
@@ -3014,7 +3034,7 @@ class ajax_deal2 extends Controller
                             $deduct_list[]=[
                                 "deduct_type"=>"常规回访扣分",
                                 "subject"    => "",
-                                "time"       => "",                            
+                                "time"       => "",
                             ];
 
                         }
@@ -3023,25 +3043,25 @@ class ajax_deal2 extends Controller
                 }
                 break;
 
-            
+
             }
- 
+
         }elseif($type_flag==3 || $type_flag==1){
             //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
             $first_regular_lesson_time = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($userid);
-            $assign_time = $this->t_student_info->get_ass_assign_time($userid);                        
+            $assign_time = $this->t_student_info->get_ass_assign_time($userid);
 
             if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                 if($assign_time < $month_half){
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$start_time,$end_time,$account,-2);
                     if($type_flag==1 && $month_lesson_flag==1){
-                      
+
                         if($revisit_num <2){
                             $revisit_value +=1*(2-$revisit_num);
                             $deduct_list[]=[
                                 "deduct_type"=>"常规回访扣分",
                                 "subject"    => "",
-                                "time"       => "",                            
+                                "time"       => "",
                             ];
 
                         }
@@ -3051,7 +3071,7 @@ class ajax_deal2 extends Controller
                             $deduct_list[]=[
                                 "deduct_type"=>"常规回访扣分",
                                 "subject"    => "",
-                                "time"       => "",                            
+                                "time"       => "",
                             ];
 
                         }
@@ -3064,26 +3084,26 @@ class ajax_deal2 extends Controller
                         $deduct_list[]=[
                             "deduct_type"=>"常规回访扣分",
                             "subject"    => "",
-                            "time"       => "",                            
+                            "time"       => "",
                         ];
 
                     }
 
                 }
-            }elseif($first_regular_lesson_time>0 && $first_regular_lesson_time>=$month_half &&  $first_regular_lesson_time<=$end_time){                       
+            }elseif($first_regular_lesson_time>0 && $first_regular_lesson_time>=$month_half &&  $first_regular_lesson_time<=$end_time){
                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
                 if($revisit_num <1){
                     $revisit_value +=1;
                     $deduct_list[]=[
                         "deduct_type"=>"常规回访扣分",
                         "subject"    => "",
-                        "time"       => "",                            
+                        "time"       => "",
                     ];
 
                 }
 
             }
- 
+
         }
         return $this->output_succ(["revisit_value"=>$revisit_value,"deduct_list"=>$deduct_list]);
 
@@ -3135,12 +3155,12 @@ class ajax_deal2 extends Controller
                 "num"       => $num,
                 "name_list" =>$str
             ];
-            
+
         }
         return $this->output_succ(["data"=>$data]);
 
 
- 
+
     }
 
     public function reset_train_lesson_record_info(){
@@ -3162,7 +3182,7 @@ class ajax_deal2 extends Controller
             "free_time"    =>$str
         ]);
 
-        
+
 
         return $this->output_succ();
     }
@@ -3213,7 +3233,7 @@ class ajax_deal2 extends Controller
             "acc"  =>$account
         ]);
         if( $status==2){
-                    
+
             $keyword2 = "未通过";
         }else{
             $keyword2 = "可重审";
@@ -3265,7 +3285,7 @@ class ajax_deal2 extends Controller
         ]);
         $this->t_teacher_info->field_update_list($teacherid,["level"=>$level]);
         return $this->output_succ();
- 
+
     }
 
     //获取学生所有的信息(个人信息,上课信息等)
@@ -3274,7 +3294,7 @@ class ajax_deal2 extends Controller
         $data= $this->t_student_info->field_get_list($userid,"face,nick,realname");
         $first_lesson_time = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($userid);
         if($first_lesson_time>0){
-            $study_day = ceil((time()-$first_lesson_time)/86400); 
+            $study_day = ceil((time()-$first_lesson_time)/86400);
         }else{
             $study_day=0;
         }
@@ -3286,7 +3306,7 @@ class ajax_deal2 extends Controller
         $lesson_detail = $this->t_lesson_info_b3->get_student_all_lesson_info($userid,0,0);
         $cw_num=$pre_num=$tea_commit=$leave_num=$absence_num=$commit_num=$a_num=$b_num=$c_num=$d_num=$score_total=$check_num=$stu_praise=0;
         foreach($lesson_detail as $val){
-           
+
             if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
             }else{
                 $cw_num++;
@@ -3306,7 +3326,7 @@ class ajax_deal2 extends Controller
             if($val["work_status"]>=2){
                 $commit_num++;
             }
-           
+
             if($val["work_status"]>=3){
                 $score =$val["score"];
                 $check_num++;
@@ -3324,7 +3344,7 @@ class ajax_deal2 extends Controller
                     $d_num++;
                 }
 
-            }          
+            }
             $stu_praise +=$val["stu_praise"];
 
         }
@@ -3347,7 +3367,7 @@ class ajax_deal2 extends Controller
 
 
 
-        
+
         return $this->output_succ(["data"=>$data]);
     }
 

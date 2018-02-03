@@ -4492,7 +4492,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     ['name'=>'小班课工资','value'=> $item['lesson_reward_small_class'].''],
                     ['name'=>'微课工资','value'=> $item['lesson_reward_weike'].''],
                     ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].''],
-                    ['name'=>'晋升未达标','value'=> $item['level_up_fail'].'']
+                    ['name'=>'等级未达标','value'=> $item['level_up_fail'].'']
                 ];
             }
             $item['lesson_reward_chunhui'] = $item['lesson_reward_chunhui'].'';
@@ -5208,12 +5208,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $score_target =  $list[$level];
             if($score>=$score_target){
                 $diff = $score-$score_target;
-                $level_score_info="您已经超过".$level_degree."达标分".$diff."分了哦";
-                // $level_score_info="您已经超过".$level_degree."教师".$diff."分了哦";
+                $level_score_info="您已经超过".$level_degree."达标分".$diff."分哦";
             }else{
                 $diff =$score_target-$score;
-                $level_score_info="您距离".$level_degree."达标分还差".$diff."分了哦";
-                // $level_score_info="您离".$level_degree."教师仅差了".$diff."分了哦";
+                $level_score_info="您距离".$level_degree."达标分还差".$diff."分哦";
             }
         }
         return [$level_degree,$level_score_info];
