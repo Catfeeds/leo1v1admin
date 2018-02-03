@@ -2709,7 +2709,7 @@ $(function(){
 
         $.show_key_value_table("退费预警级别详情", arr, {
             label : "确定",
-            cssClass : "btn-danger",
+            cssClass : "btn-warning",
             action : function(dialog) {
                 $.do_ajax("/company_wx/add_warn_revisit_record", {
                     "userid" : userid,
