@@ -14,7 +14,7 @@ class TResourceFileErrorInfoChangeStatus extends Migration
     {
         //
         Schema::table('db_weiyi.t_resource_file_error_info', function(Blueprint $table) {
-            t_field($table->integer("resource_id"),"讲义资源id");
+            //t_field($table->integer("resource_id"),"讲义资源id");
             t_field($table->integer("first_check")->default(0),"初审");
             t_field($table->integer("second_check")->default(0),"复审");
             t_field($table->integer("first_check_adminid")->default(0),"初审人");
