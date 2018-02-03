@@ -32,7 +32,7 @@ $(function(){
         var opt_data=$(this).get_opt_data();
 
         var $main_type_name = $("<select/>");
-        var $follow_activ_type = $("<select/>");
+        var $follow_activity_type = $("<select/>");
         var $title = $("<textarea style='width:100%' />");
         var $describe = $("<textarea style='width:100%'/>");
         var $img = $("<div/>");
@@ -48,6 +48,7 @@ $(function(){
 
         var arr = [
             ["礼品类型", $main_type_name],
+            ["关注类型", $follow_activity_type],
             ["标题", $title],
             ["活动描述", $describe],
             ["活动图片", $img],
