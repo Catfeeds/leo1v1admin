@@ -2069,6 +2069,7 @@ class tongji2 extends Controller
         $ret_info=$this->t_seller_student_system_release_log->get_list($page_info,$start_time,$end_time,$adminid,$userid);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, "release_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time");
             E\Erelease_reason_flag::set_item_value_str($item);
         }
         return $this->pageView(__METHOD__, $ret_info);

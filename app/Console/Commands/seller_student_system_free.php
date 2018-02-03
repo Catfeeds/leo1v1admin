@@ -115,7 +115,7 @@ class seller_student_system_free extends cmd_base
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
                     //记录释放日志
                     $this->task->t_seller_student_system_release_log->add_log(
-                        $admin_revisiterid,$userid,$phone,$release_reason_flag
+                        $admin_revisiterid,$userid,$phone,$release_reason_flag,$admin_assign_time
                     );
 
                 }
