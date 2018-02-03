@@ -120,7 +120,7 @@ class sync_tq extends cmd_base
                         $admin_role = $admin_info ["account_role"];
                     }
 
-                    $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin,$is_called_phone);
+                    $this->task->t_seller_student_new->sync_tq($phone,$tq_called_flag,$call_time,$tquin,$is_called_phone,$duration);
                 }
             }
         }
