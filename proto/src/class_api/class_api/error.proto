@@ -63,4 +63,9 @@ enum  enum_error {
 
   //没有找到对应订单
   ORDER_NOFIND = 3019;
+
+  //无效的课程包id
+  ERR_INVALID_PACKAGE = 3020;
+
+
 };
