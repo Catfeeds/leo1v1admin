@@ -3538,7 +3538,7 @@ class teacher_info extends Controller
     public function add_leo_resource_error(){
         $file_id             = $this->get_in_int_val('file_id', -1);
         $resource_type       = $this->get_in_int_val('resource_type', -1);
-
+        $resource_id       = $this->get_in_int_val('resource_id', -1);
         $error_type          = $this->get_in_int_val("error_type",-1);
         $sub_error_type      = $this->get_in_int_val("sub_error_type",-1);
         $detail_error        = $this->get_in_str_val("detail_error",'');
@@ -3550,6 +3550,7 @@ class teacher_info extends Controller
             "teacherid"        => $teacherid,
             "add_time"         => time(NULL),
             "resource_type"    => $resource_type,
+            "resource_id"      => $resource_id,
             "phone"            => $this->t_teacher_info->get_phone($teacherid),
             "nick"             => $this->t_teacher_info->get_nick($teacherid),
 
