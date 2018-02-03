@@ -336,8 +336,8 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         return $this->main_get_list($sql);
     }
 
-    public function getWxOpenidByStuId($useid){
-        $sql = $this->gen_sql_new("  select wx_openid from %s p "
+    public function getWxOpenidByStuId($userid){
+        $sql = $this->gen_sql_new("  select p.wx_openid from %s p "
                                   ." left join %s s on s.parentid=p.parentid"
                                   ." where s.userid=$userid"
                                   ,self::DB_TABLE_NAME
