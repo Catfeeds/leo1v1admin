@@ -4034,18 +4034,6 @@ function init_edit() {
                             html_node.find("#id_intention_level_new_two").parent().attr('style','');
                         }
 
-                        // 空号标示 [james]
-                        // if(html_node.find("#id_stu_status_new_two").val() <= 0){
-                        //     html_node.find("#id_stu_status_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                        //     return false;
-                        // }else{
-                        //     html_node.find("#id_stu_status_new_two").parent().attr('style','');
-                        // }
-
-                        // if(!confirm("是否标注为 无效-空号？ \n 提示：如经核验不符，将被罚款！") && id_status.val()==1){
-                        //     return ;
-                        // }
-                        // // 空号标示 [james]
 
 
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
