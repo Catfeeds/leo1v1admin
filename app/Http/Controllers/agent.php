@@ -494,23 +494,9 @@ class agent extends Controller
     }
 
     public function del_detailid(){
-        $id_list = [173837,173863,173866,173879,173878,173867];
-        $phone = $this->get_in_str_val('phone');
-        $userid = $this->t_phone_to_user->get_userid($phone);
-        if($userid>0){
-            $detail_id = $this->t_seller_new_count_get_detail->get_item_rwo_by_userid($userid);
-            if($detail_id>0){
-                $id_list[] = $detail_id;
-            }
-        }
-        foreach($id_list as $id){
-            if($id>0){
-                $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
-                if($ret>0){
-                    echo $id.'=>'.$ret;
-                }
-            }
-        }
+        $id = $this->get_in_int_val('id',174055);
+        $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
+        dd($ret);
     }
     //处理等级头像
     public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
