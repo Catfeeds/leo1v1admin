@@ -102,4 +102,5 @@ message order_detail {
   string package_name=11 ;  //套餐名称
   string package_desc=12 ;  //套餐描述
   string poster=13 ;  //海报
+  string package_lesson_num=14;//套餐总课时数
 }

@@ -2382,7 +2382,6 @@ class tea_manage extends Controller
         return $this->trial_train_lesson_list();
     }
 
-
     public function trial_train_lesson_list(){
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
             1 => array("l.lesson_start","上课时间"),

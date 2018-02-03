@@ -2707,9 +2707,9 @@ $(function(){
             ["退费预警是否解除", id_is_over]
         ];
 
-        $.show_key_value_table("退费预警级别详情", arr, {
+        $.show_key_value_table("退费预警回访", arr, {
             label : "确定",
-            cssClass : "btn-danger",
+            cssClass : "btn-warning",
             action : function(dialog) {
                 $.do_ajax("/company_wx/add_warn_revisit_record", {
                     "userid" : userid,

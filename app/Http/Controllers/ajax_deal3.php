@@ -34,6 +34,7 @@ class ajax_deal3 extends Controller
             }
 
             $user_list=$this->t_seller_student_system_assign_log->get_seller_student_assign_from_type_list($adminid, $userid_list);
+            $new_count = $this->t_seller_student_new_b2->get_today_new_count($adminid);
             foreach ($user_list as &$item) {
                 $userid=&$item["userid"];
                 $admin_assign_time=strtotime( @$user_admin_assign_time_map[$userid] );
@@ -55,9 +56,9 @@ class ajax_deal3 extends Controller
 
                 if($item["seller_student_assign_from_type"]==1) {
                     $no_connected_count++;
+                }else{
+                    // $new_count++;
                 }
-
-                $new_count++;
 
             }
 

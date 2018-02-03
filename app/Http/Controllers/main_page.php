@@ -838,9 +838,6 @@ class main_page extends Controller
 
     public  function assistant() {
         $this->switch_tongji_database();
-        // return $this->error_view([
-        //     "关闭首页统计,请看其它."
-        // ]);
 
         $end_time = strtotime( date("Y-m-d") );
         $end_time_date = date("Y-m-d") ;
@@ -874,7 +871,7 @@ class main_page extends Controller
 
         $assistant_renew_list = $this->t_assistant_info->get_all_assistant_renew($start_time,$end_time);
         $all_money_ass = 0;
-        foreach($assistant_renew_list as  &$val){
+        foreach($assistant_renew_list as &$val){
             $val['bye_total']=$val['all_total']-$val['give_total'];
             $all_money_ass += $val["all_price"];
         }
@@ -922,19 +919,19 @@ class main_page extends Controller
 
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
         $master_arr=[];
-        foreach($ass_month as &$val){
-            $list=$this->get_ass_percentage_money_list($val);
-            $val["lesson_price_money"] = $list["lesson_money"];
-            $val["kk_money"] = $list["kk_money"];
-            $val["renw_money"] = $list["renw_money"];
-            $val["tran_num_money"] = $list["tran_num_money"];
-            $val["cc_tran_price"] = $list["cc_tran_money"];
-            $val["all_money"] = $list["all_money"];
-            if(!isset($master_arr[$val["master_adminid"]])){
-                $master_arr[$val["master_adminid"]] =$val["master_adminid"];
+        foreach($ass_month as &$ass_val){
+            $list=$this->get_ass_percentage_money_list($ass_val);
+            $ass_val["lesson_price_money"] = $list["lesson_money"];
+            $ass_val["kk_money"] = $list["kk_money"];
+            $ass_val["renw_money"] = $list["renw_money"];
+            $ass_val["tran_num_money"] = $list["tran_num_money"];
+            $ass_val["cc_tran_price"] = $list["cc_tran_money"];
+            $ass_val["all_money"] = $list["all_money"];
+            if(!isset($master_arr[$ass_val["master_adminid"]])){
+                $master_arr[$ass_val["master_adminid"]] =$ass_val["master_adminid"];
             }
-
         }
+
         \App\Helper\Utils::order_list( $ass_month,"all_money", 0 );
         $i=1;
         foreach($ass_month as &$v){
@@ -963,8 +960,8 @@ class main_page extends Controller
         $used_assign_lesson_count = $this->t_order_info->get_assign_lesson_count_by_account($account);
 
         $refund_warning = $this->t_student_info->get_refund_warning($assistantid);
-        foreach($refund_warning as $val) {
-            @$refund_warning["total"] += $val;
+        foreach($refund_warning as $re_val) {
+            @$refund_warning["total"] += $re_val;
         }
 
         return $this->pageView(__METHOD__ ,null, [
@@ -2300,8 +2297,8 @@ class main_page extends Controller
         }
 
         $refund_warning = $this->t_student_info->get_refund_warning();
-        foreach($refund_warning as $val) {
-            @$refund_warning["total"] += $val;
+        foreach($refund_warning as $re_val) {
+            @$refund_warning["total"] += $re_val;
         }
         // dd($month_info);
 

@@ -4492,7 +4492,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     ['name'=>'小班课工资','value'=> $item['lesson_reward_small_class'].''],
                     ['name'=>'微课工资','value'=> $item['lesson_reward_weike'].''],
                     ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].''],
-                    ['name'=>'等级未达标','value'=> $item['level_up_fail'].'']
+                    ['name'=>'等级未达标','value'=> $item['level_up_fail'].''],
                 ];
             }
             $item['lesson_reward_chunhui'] = $item['lesson_reward_chunhui'].'';

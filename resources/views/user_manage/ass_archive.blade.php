@@ -138,8 +138,6 @@
                     @else
                         <td><div><span class="refund_warn_reason" style='color:#0000FF;cursor:pointer'>无</span></div></td>
                     @endif
-
-                    <td>{{$var["refund_warning_level"]}}</td>
                     <td class="" >{{$var["parent_name"]}}</td>
                     <td class="" >{{$var["assistant_nick"]}}</td>
                     <td class="td-parent-type" data-v="{{$var["parent_type"]}}"></td>
