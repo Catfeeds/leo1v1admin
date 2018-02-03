@@ -484,14 +484,15 @@ class tongji_ex extends Controller
     public function actual_call_threshold(){
         $ret = [];
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        $time = strtotime(date('Y-m-d',$start_time));
         $ret_info = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
         foreach($ret_info as $key=>$item){
             if($item['type'] == 6){
                 $ret[$key]['time'] = date('H:i',$item['create_time']);
                 $ret[$key]['threshold'] = $item['new'];
-            }elseif($item['type'] == 4){
+            }elseif($item['type'] == 4 && $item['create_time']==$time){
                 $threshold_max = $item['new'];
-            }elseif($item['type'] == 5){
+            }elseif($item['type'] == 5 && $item['create_time']==$time){
                 $threshold_min = $item['new'];
             }
         }
