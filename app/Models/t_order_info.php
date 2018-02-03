@@ -2539,7 +2539,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         }
 
         $sql = $this->gen_sql_new(
-            "select  order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
+            "select  o.first_check_time, order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
             ." from_parent_order_type,s.lesson_count_all,o.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,l.lesson_start,l.lesson_end,tmk_adminid,s.user_agent,"
             ." o.orderid,order_time,o.stu_from_type, is_new_stu,contractid,"
