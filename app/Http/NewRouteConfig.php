@@ -748,6 +748,9 @@ class NewRouteConfig {
         "/teacher_info/get_leo_resource_new"             =>true,
         "/teacher_info/get_sub_grade_book_tag"           =>true,
         "/user_manage_new/set_power_with_groupid_list_new" => true,
+        "/resource_new/file_err_agree"                   =>true,
+        "/resource_new/file_err_refuse"                  =>true,
+        "/resource_new/get_error_by_file_id"             =>true,
     ];
 
     static $dev_url_map = [

@@ -1439,10 +1439,114 @@ $(function(){
     $('body').click(function(){
         menu_hide();
     });
+
+    //报错
     $('.opt-error').click(function(){
          var file_id = $(this).data('file_id');
          var resource_type = $(this).data('resource_type');
-        $.wopen("/resource_new/get_error?file_id="+file_id+"&resource_type="+resource_type);
+        //$.wopen("/resource_new/get_error?file_id="+file_id+"&resource_type="+resource_type);
+        var error = $('.error').clone();
+
+        error.removeClass("hide");
+        $.ajax({
+            type     : "post",
+            url      : "/resource_new/get_error_by_file_id",
+            dataType : "json",
+            data : {
+                'file_id'       : file_id,
+            } ,
+            success   : function(result){
+                console.log(result);
+                if(result.ret == 0 && result.status == 200){
+                    for(var x in result.list){
+                        //最左侧
+                        var error_item = error.find('tbody tr:eq(0)').clone();
+                        error_item.find('.error_item_content p').text(result.list[x]['detail_error']);
+                        var error_picture_arr = $.parseJSON(result.list[x]['error_picture']);
+                        if(error_picture_arr.length>0){
+                            for(var y in error_picture_arr){
+                                var img_obj = error_item.find('.error_item_content .look_err_pic:eq(0)').clone().removeClass('hide');
+                                img_obj.attr({"link":error_picture_arr[y]});
+                                error_item.find('.err_pic_box').append(img_obj);
+                            }
+                        }
+                        error_item.find(".error_type_1").text(result.list[x]['error_type_str']);
+                        error_item.find(".error_type_2").text(result.list[x]['sub_error_type_str']);
+                        error_item.find(".error_author").text(result.list[x]['nick']+' '+result.list[x]['phone']);
+                        error_item.find(".error_time").text(result.list[x]['add_time']);
+                        
+                        //处理状态
+                        var error_status;
+                        if(result.list[x]['status'] == 0){
+                            error_status = "<span class='error_status error_status_0'>未处理</span>";
+                            error_item.find('.error_agree').text("同意修改");
+                        }else if(result.list[x]['status'] == 1){
+                            error_status = "<span class='error_status error_status_1'>已同意修改</span>";
+                            error_item.find('.error_agree').text("已同意");
+                        }else if(result.list[x]['status'] == 2){
+                            error_status = "<span class='eror_status_pass'>已经上传</span>";
+                        }
+
+                        error_item.find('.error_agree').attr({"error_id":result.list[x]['id'],"status":result.list[x]['status']});
+                        error_item.find('.err_first_check').attr({"error_id":result.list[x]['id']});
+                        error_item.find('.err_first_check').attr({"error_id":result.list[x]['id']});
+
+                        //初审未通过
+                        if(result.list[x]['first_check'] == 1 && result.list[x]['first_check_adminid'] > 0){
+                            error_status += "<span class='error_status'>初审拒绝</span>";
+                            error_status += "<span class='error_status'>拒绝人："+result.list[x]['first_check_name']+"</span>";
+                            error_status += "<span class='error_status'>拒绝时间："+result.list[x]['first_check_time']+"</span>";
+                        }
+
+                        //复审未通过
+                        if(result.list[x]['second_check'] == 1 && result.list[x]['second_check_adminid'] > 0){
+                            error_status += "<span class='error_status'>复审拒绝</span>";
+                            error_status += "<span class='error_status'>拒绝人："+result.list[x]['second_check_name']+"</span>";
+                            error_status += "<span class='error_status'>拒绝时间："+result.list[x]['second_check_time']+"</span>";
+                        }
+
+                        error_item.find('.error_deal_box').html(error_status);
+
+                        error.find('tbody').append(error_item);
+                    }
+                    error.find('tbody tr:eq(0)').remove();
+                    var dlg= BootstrapDialog.show({
+                        title: "讲义报错",
+                        message : error,
+                        buttons: [{
+                            label: '预览',
+                            cssClass: 'btn-primary',
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        },
+                                  {
+                            label: '重传',
+                            cssClass: 'btn-primary',
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        },
+                                  {
+                            label: '返回',
+                            cssClass: 'btn-warning',
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        }
+
+                                 ]
+                    });
+
+                    dlg.getModalDialog().css("width", "850px");
+
+                } else {
+                    BootstrapDialog.alert("暂无报错");
+                }
+            }
+        });
+
+
     });
 
     $('#id_resource_type').change(function(){
@@ -1645,4 +1749,136 @@ function down_move(obj){
 function dele_file(obj){
     var curr_obj = obj.parent();
     curr_obj.remove();
+}
+
+//显示报错图片
+function show_error_pic(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+    var link = $(target).attr('link');
+    var error_img = $("<img src='"+link+"' width='820'>");
+    var dlg= BootstrapDialog.show({
+        title: "报错图片",
+        message : error_img,
+        buttons: [
+            {
+            label: '新标签大图',
+            cssClass: 'btn-primary',
+            action: function(dialog) {
+                $.wopen(link);
+            }
+        },
+            {
+            label: '返回',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }
+        ]
+    });
+
+    dlg.getModalDialog().css("width", "850px");
+
+}
+
+
+//同意修改
+function error_agree(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+
+    var error_id = $(target).attr('error_id');
+    if(!error_id){
+        return false;
+    }
+    var change = {
+        "id"  : error_id,
+    };
+    var $this = $(target);
+    console.log($this);
+    //return false;
+    var agree = "<span style='color:#2d2828'>已同意</span>";
+    var info = "<span style='color:#e81616'>待修改</span>";
+
+    $.ajax({
+        type    : "post",
+        url     : "/resource_new/file_err_agree",
+        dataType: "json",
+        data    : change,
+        success : function(result){
+            console.log(result)
+            if(result.ret == 0 && result.status == 200){
+                $this.text('已同意');
+                $this.parents('td').prev().find('.error_status_0').text("已同意修改");
+                $this.removeAttr('error_id');
+            }else{
+                BootstrapDialog.alert('网络错误！');
+            }
+        }
+    });
+
+}
+
+//初审驳回
+function err_first_check(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+
+    var error_id = $(target).attr('error_id');
+    
+    var $this = $(target);
+    
+    var change = {
+        "id"  : error_id,
+        "status"  : 3,
+    };
+
+    return false;
+    $.ajax({
+        type    : "post",
+        url     : "/resource_new/file_err_refuse",
+        dataType: "json",
+        data    : change,
+        success : function(result){
+            console.log(result)
+            if(result.ret == 0 && result.status == 200){
+                
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        }
+    });
+
+}
+
+//复审驳回
+function err_sec_check(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+
+    var error_id = $(target).attr('error_id');
+    
+    var $this = $(target);
+    
+    var change = {
+        "id"  : error_id,
+        "status"  : 4,
+    };
+    return false;
+    $.ajax({
+        type    : "post",
+        url     : "/resource_new/file_err_refuse",
+        dataType: "json",
+        data    : change,
+        success : function(result){
+            console.log(result)
+            if(result.ret == 0 && result.status == 200){
+                
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        }
+    });
+
 }
