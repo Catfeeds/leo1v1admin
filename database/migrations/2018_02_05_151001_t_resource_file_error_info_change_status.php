@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TResourceFileErrorInfoAddStatus extends Migration
+class TResourceFileErrorInfoChangeStatus extends Migration
 {
     /**
      * Run the migrations.
