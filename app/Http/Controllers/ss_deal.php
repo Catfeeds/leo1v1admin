@@ -3986,7 +3986,15 @@ class ss_deal extends Controller
                 $account = $item[5];
                 $adminid = $this->t_manager_info->get_adminid_by_account($account);
                 if($adminid>0 && $phone!=''){
-                    dd($adminid,$phone);
+                    $userid = $this->t_phone_to_user->get_userid($phone);
+                    $ret = $this->field_update_list($userid,[
+                        // "admin_assignerid"  => 0,
+                        // "sub_assign_adminid_1"  => $adminid,
+                        // "sub_assign_time_1"  => time(),
+                        "admin_revisiterid"  => $adminid,
+                        "admin_assign_time"  => time(),
+                    ]);
+                    echo $ret;
                 }
             }
             dd($arr);
