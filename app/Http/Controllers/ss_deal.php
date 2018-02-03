@@ -7931,7 +7931,8 @@ class ss_deal extends Controller
             "shareImgUrl" => $shareImgUrl,
             "coverImgUrl" => $coverImgUrl,
             "activityImgUrl" => $activityImgUrl,
-            "followImgUrl"   => $followImgUrl
+            "followImgUrl"   => $followImgUrl,
+            "use_flag"   => $use_flag
         ]);
         $id = $this->t_activity_usually->get_last_insertid();
         $share_type = $id+100;
@@ -7960,6 +7961,7 @@ class ss_deal extends Controller
         $coverImgUrl = $this->get_in_str_val('coverImgUrl');
         $activityImgUrl = $this->get_in_str_val('activityImgUrl');
         $followImgUrl   = trim($this->get_in_str_val('followImgUrl'),',');
+        $use_flag = $this->get_in_int_val('use_flag');
         $add_time = time();
         $uid = $this->get_account_id();
         $id = $this->get_in_int_val('id');
@@ -8013,19 +8015,14 @@ class ss_deal extends Controller
             list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrlOnline);
         }
 
-        // if($followImgUrlOnline){
-        //     list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
-        // }
 
         if($shareType != 3 && $shareType !=0){return $this->output_err('分享页图片格式不符合,请重新上传!');}
         if($coverType != 3 && $coverType !=0){return $this->output_err('封面图片格式不符合,请重新上传!');}
         if($activityType != 3 && $activityType !=0){return $this->output_err('活动页图片格式不符合,请重新上传!');}
-        // if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
 
         if(($shareWidth!=750 || $shareHeight<1200 || $shareHeight>1340 )&&$shareType!=0){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
         if(($coverWidth!=300 || $coverHeight!=300)&&$coverType!=0){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
         if(($activityWidth!=750 || $activityHeight>1340 || $activityHeight<1200 )&&$activityType!=0){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
-        // if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
 
 
         $this->t_activity_usually->field_update_list($id,[
@@ -8037,7 +8034,8 @@ class ss_deal extends Controller
             "shareImgUrl" => $shareImgUrl,
             "coverImgUrl" => $coverImgUrl,
             "activityImgUrl" => $activityImgUrl,
-            "followImgUrl"   => $followImgUrl
+            "followImgUrl"   => $followImgUrl,
+            "use_flag"    => $use_flag
         ]);
 
         $dealAccount = $this->get_account_id();
