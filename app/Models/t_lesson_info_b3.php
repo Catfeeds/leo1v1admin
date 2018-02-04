@@ -3706,19 +3706,31 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["lesson_start>=%u", $start_time, -1],
             ["lesson_start<%u", $end_time, -1],
             ["userid=%u", $userid, -1],
-            "confirm_flag != 2"
+            "confirm_flag != 2",
+            "lesson_type in (0,1,3)"
         ];
         $sql = $this->gen_sql_new("select count(distinct lessonid) from %s where %s", self::DB_TABLE_NAME, $where_arr);
         return $this->main_get_value($sql);
     }
 
-    public function get_teacher_lesson_count($teacherid) {
-        $sql = "select count(distinct lessonid) from t_lesson_info where teacherid=$teacherid";
+    public function get_teacher_lesson_count($teacherid, $userid) {
+        $sql = "select count(distinct lessonid) from t_lesson_info where teacherid=$teacherid and userid=$userid and lesson_type in (0,1,3)";
         return $this->main_get_value($sql);
     }
 
-    public function get_lesson_count_by_userid($userid) {
-        $sql = "select subject,count(distinct lessonid) count from t_lesson_info where userid = $userid group by subject";
+    public function get_lesson_count_by_userid($userid, $start_time, $end_time) {
+        $where_arr = [
+            ["lesson_start>=%u", $start_time, -1],
+            ["lesson_start<%u", $end_time, -1],
+            ["userid=%u", $userid, -1],
+            "confirm_flag != 2",
+            "lesson_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("select subject,count(distinct lessonid) count from %s where %s group by subject",
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
         return $this->main_get_list($sql);
     }
 

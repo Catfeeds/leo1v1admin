@@ -183,12 +183,12 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             $content = "家长，您好！点击下方链接，输入密码，即可领取《英国BBC最强纪录片全10部》哦！
 链接：https://pan.baidu.com/s/1sm1x2Mh 密码：e4jg";
         }elseif($request['content'] == '春节'){
-            $filename = "/home/ybai/market_2.jpg";
+            $filename = "/home/ybai/market_4.jpg";
             $type = 'image';
-            $mediaId = 'UtL9eUHDdCx-azBRYpZtHOVQBIFRm-D12y3pY9ECgL2KGc7zAo2hmZYqs8ClbbSF';
+            $mediaId = 'nd4j0-_5vtIMcrLo2Fxn7iM2hPXqh5MkXNOZnM4mt4q_EGggAT4uxP6dHiHsO48-';
             // $mediaId_arr = Media::upload($filename, $type);
             // $mediaId = $mediaId_arr['media_id'];
-            // \App\Helper\Utils::logger("james:_jsdfh: ".json_encode($mediaId_arr));
+            // \App\Helper\Utils::logger("james:_jsdfh_333: ".json_encode($mediaId_arr));
 
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
         }

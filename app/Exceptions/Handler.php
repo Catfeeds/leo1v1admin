@@ -116,8 +116,6 @@ class Handler extends ExceptionHandler
                     return  $data;
                 }
             */
-
-
                 return  "no find url=[".  $request->url() ."]" ;
             }
         }

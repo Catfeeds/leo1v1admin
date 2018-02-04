@@ -1730,7 +1730,7 @@ class ss_deal2 extends Controller
     public function multi_set_assign_check_hold_flag() {
         $id_list=$this->get_in_int_list("id_list");
         $check_hold_flag= $this->get_in_int_val("check_hold_flag");
-        if (!$this->check_account_in_arr(["jim"]) ) {
+        if (!$this->check_account_in_arr(["jim",'abner']) ) {
             return $this->output_err("没有权限");
         }
 

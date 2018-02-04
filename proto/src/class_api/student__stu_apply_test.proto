@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1022
-//__DESC: /student/stu_apply_test 学生申请试听课接口
+//__DESC: 3.2 http://api.class.leo1v1.com/student/stu_apply_test?subject=2&grade=2&lesson_time=2018-02-02%2010:00:00 学生申请试听课接口
 //__TAGS: for_app,for_website
 
 

@@ -23,10 +23,9 @@ class user extends TeaWxController
         curl_setopt($ch,CURLOPT_URL, $url);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $post_data);
         $output = curl_exec($ch);
         curl_close($ch);
-
         $ret_arr = json_decode($output,true);
 
         if($ret_arr == null){
@@ -40,7 +39,6 @@ class user extends TeaWxController
             return $this->output_err('工资汇总详情不存在!');
         }
     }
-
 
     public function get_vacant_time(){ // 协议编号: 1009
         $type = $this->get_in_int_val("type");
@@ -146,12 +144,17 @@ class user extends TeaWxController
         $ret_arr = json_decode($ret_str,true);
         if(!empty($ret_arr)){
             foreach($ret_arr as $i=>$item_ret){
-                foreach($format_arr as &$item_format){
-                    if($item_ret==' '){
-                        unset($ret_arr[$i]);
-                    }else{
-                        if($item_format == @$item_ret['0']){
+                $timestamp = strtotime($item_ret['0']);
+                if($timestamp<time()){
+                    unset($ret_arr[$i]);
+                }else{
+                    foreach($format_arr as &$item_format){
+                        if($item_ret==' '){
                             unset($ret_arr[$i]);
+                        }else{
+                            if($item_format == @$item_ret['0']){
+                                unset($ret_arr[$i]);
+                            }
                         }
                     }
                 }
@@ -203,12 +206,10 @@ class user extends TeaWxController
         return $this->output_succ(['data'=>$arr]);
     }
 
-
     public function get_teacher_feedback_list (){//1019
-
         $teacherid = $this->get_teacherid();
-        $lessonid  = $this->get_in_int_val('lessonid');
 
+        $lessonid  = $this->get_in_int_val('lessonid');
         $feedlist_arr = $this->t_teacher_feedback_list->get_feedback_list($teacherid,$lessonid);
 
         if(!$feedlist_arr){
