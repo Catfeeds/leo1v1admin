@@ -289,7 +289,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
                               ." from %s f "
                               ." left join %s t on t.teacherid = f.phone"
                               ." left join %s k on k.file_id = f.file_id "
-                              ." where file_id = %s "
+                              ." where f.file_id = %s "
                               ,t_resource_file_error_info::DB_TABLE_NAME
                               ,t_teacher_info::DB_TABLE_NAME
                               ,t_resource_file::DB_TABLE_NAME
