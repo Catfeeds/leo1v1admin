@@ -1,117 +1,118 @@
 @extends('layouts.app')
 @section('content')
 
-<script type="text/javascript" src="/page_js/lib/flow.js"></script>
-<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
-<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-<script type="text/javascript" src="/js/qiniu/ui.js"></script>
-<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
-<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
-<script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
 
-<script type="text/javascript" src="/page_js/select_course.js"></script>
-<script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
-<script type="text/javascript" src="/page_js/select_user.js"></script>
-<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
-<script src='/page_js/select_teacher_free_time.js?{{@$_publish_version}}'></script>
-<script src='/page_js/set_lesson_time.js?{{@$_publish_version}}'></script>
+    <script type="text/javascript" src="/page_js/select_course.js"></script>
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script src='/page_js/select_teacher_free_time.js?{{@$_publish_version}}'></script>
+    <script src='/page_js/set_lesson_time.js?{{@$_publish_version}}'></script>
 
 
-<!--
-     <script type="text/javascript">
-     var _KDA = _KDA || [];
-     window._KDA = _KDA;
-     (function(){
-     var _dealProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-     var _sdkURL = _dealProtocol + "deal-admin.kuick.cn/sdk/v1/";
-     _KDA.push(['SDK_URL', _dealProtocol + "deal-admin.kuick.cn/sdk/v1/"]);
-     _KDA.push(['APP_KEY', '128994ec-ba97-4a28-9ecc-faa1b00eba33']);
-     _KDA.push(['APP_SECRET', 'e1888aa6-f527-4477-ae9b-409fca29f44c']);
-     (function() {
-     var dealAdmin = document.createElement('script');
-     dealAdmin.type='text/javascript';
-     dealAdmin.async = true;
-     dealAdmin.src = _sdkURL + 'kuickdealadmin-pc.min.js';
-     var s = document.getElementsByTagName('script')[0];
-     s.parentNode.insertBefore(dealAdmin, s);
-     })();
-     })();
+    <!--
+         <script type="text/javascript">
+         var _KDA = _KDA || [];
+         window._KDA = _KDA;
+         (function(){
+         var _dealProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+         var _sdkURL = _dealProtocol + "deal-admin.kuick.cn/sdk/v1/";
+         _KDA.push(['SDK_URL', _dealProtocol + "deal-admin.kuick.cn/sdk/v1/"]);
+         _KDA.push(['APP_KEY', '128994ec-ba97-4a28-9ecc-faa1b00eba33']);
+         _KDA.push(['APP_SECRET', 'e1888aa6-f527-4477-ae9b-409fca29f44c']);
+         (function() {
+         var dealAdmin = document.createElement('script');
+         dealAdmin.type='text/javascript';
+         dealAdmin.async = true;
+         dealAdmin.src = _sdkURL + 'kuickdealadmin-pc.min.js';
+         var s = document.getElementsByTagName('script')[0];
+         s.parentNode.insertBefore(dealAdmin, s);
+         })();
+         })();
 
-     function onKDAReady(){
-     // 客户下拉组件
-     KDAJsSdk.widget.createCustomerDropMenuWidget({
-     selector: ".kda-customer-widget",
-     });
-     $(function(){
-     var $title=$(".kda-customer-widget .KDA_customerDropMenuName "  );
-     $title.text("K");
-     $(".kda-customer-widget .KDA_customerDropMenuCon"  ).attr( "style" ,"width:30px;");
-     });
+         function onKDAReady(){
+         // 客户下拉组件
+         KDAJsSdk.widget.createCustomerDropMenuWidget({
+         selector: ".kda-customer-widget",
+         });
+         $(function(){
+         var $title=$(".kda-customer-widget .KDA_customerDropMenuName "  );
+         $title.text("K");
+         $(".kda-customer-widget .KDA_customerDropMenuCon"  ).attr( "style" ,"width:30px;");
+         });
 
+         }
+
+         if (typeof KDAJsSdk == "undefined"){
+         if(document.addEventListener){
+         document.addEventListener('KDAReady', onKDAReady, false);
+         } else if (document.attachEvent){
+         document.attachEvent('KDAReady', onKDAReady);
+         document.attachEvent('onKDAReady', onKDAReady);
+         }
+         } else {
+         onKDAReady();
+         }
+         </script>
+    -->
+
+    <style>
+     .btn-app {
+         border-radius: 3px;
+         position: relative;
+         padding: 10px 10px 10px 10px;
+         margin: 10px 10px 10px 10px;
+         min-width: 0px;
+         height: 40px;
+         text-align: center;
+         color: #666;
+         border: 1px solid #ddd;
+         background-color: #f4f4f4;
+         font-size: 12px;
+     }
+     .call-item .call-item-title {
+         background-color: #d2d6de;
+         font-size: 18px;
+         border-radius: 3px;
+         width: 25%;
+         display: inline-block;
+         text-align: center;
      }
 
-     if (typeof KDAJsSdk == "undefined"){
-     if(document.addEventListener){
-     document.addEventListener('KDAReady', onKDAReady, false);
-     } else if (document.attachEvent){
-     document.attachEvent('KDAReady', onKDAReady);
-     document.attachEvent('onKDAReady', onKDAReady);
+
+
+     .call-item  {
+         margin-top: 10px;
+         padding-left: 20px;
+         padding-right: 10px;
      }
-     } else {
-     onKDAReady();
+
+     .call-item .call-item-text {
+         background-color: #d2d6de;
+         border-radius: 3px;
+         font-size: 18px;
+         width: 70%;
+         display: inline-block;
+         text-align: center;
      }
-     </script>
--->
 
-<style>
- .btn-app {
-     border-radius: 3px;
-     position: relative;
-     padding: 10px 10px 10px 10px;
-     margin: 10px 10px 10px 10px;
-     min-width: 0px;
-     height: 40px;
-     text-align: center;
-     color: #666;
-     border: 1px solid #ddd;
-     background-color: #f4f4f4;
-     font-size: 12px;
- }
- .call-item .call-item-title {
-     background-color: #d2d6de;
-     font-size: 18px;
-     border-radius: 3px;
-     width: 25%;
-     display: inline-block;
-     text-align: center;
- }
+     .call-item .phone {
+         background-color: #9CE3FF;
+     }
 
-
-
- .call-item  {
-     margin-top: 10px;
-     padding-left: 20px;
-     padding-right: 10px;
- }
-
- .call-item .call-item-text {
-     background-color: #d2d6de;
-     border-radius: 3px;
-     font-size: 18px;
-     width: 70%;
-     display: inline-block;
-     text-align: center;
- }
-
- .call-item .phone {
-     background-color: #9CE3FF;
- }
-
-</style>
+    </style>
 
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
     <section class="content ">
+
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-6"  data-title="时间段">
@@ -205,7 +206,7 @@
                     <div class="input-group ">
                         <span class="input-group-addon">PAD类型</span>
                         <select class="opt-change form-control" id="id_has_pad" >
-                            </select>
+                        </select>
                     </div>
                 </div>
 
@@ -258,48 +259,48 @@
 
 
                 <div class="col-xs-6 col-md-2"
-                           style="   {{$cur_page!=10002?"display:none;":""}}"
+                     style="   {{$cur_page!=10002?"display:none;":""}}"
                 >
-                       <div
-                           class="input-group ">
-                           <span class="input-group-addon">角色</span>
-                           <select class="opt-change form-control" id="id_origin_assistant_role" >
-                           </select>
-                       </div>
-                   </div>
-               @if ( $cur_page==10001 )
-                   <div class="col-xs-6 col-md-1">
-                       <button class="btn btn-primary fa fa-plus" id="id_add" > 转介绍</button>
-                   </div>
-               @elseif ( $cur_page==10002 )
+                    <div
+                        class="input-group ">
+                        <span class="input-group-addon">角色</span>
+                        <select class="opt-change form-control" id="id_origin_assistant_role" >
+                        </select>
+                    </div>
+                </div>
+                @if ( $cur_page==10001 )
+                    <div class="col-xs-6 col-md-1">
+                        <button class="btn btn-primary fa fa-plus" id="id_add" > 转介绍</button>
+                    </div>
+                @elseif ( $cur_page==10002 )
 
-               @else
-               @endif
+                @else
+                @endif
             </div>
         </div>
         <div class="row">
-               @if ( $cur_page==10001 )
-               @elseif ( $cur_page==10002 )
+            @if ( $cur_page==10001 )
+            @elseif ( $cur_page==10002 )
 
-               @else
-                   <div class=" col-xs-12 col-md-12" >
+            @else
+                <div class=" col-xs-12 col-md-12" >
 
-                       <div class="input-group">
-                           <button class="btn  " id="id_today_new_count" ></button>
-                           <button class="btn  " id="id_new_no_called_count" ></button>
-                           <button class="btn  " id="id_no_called_count" ></button>
-                           <button class="btn  " id="id_next_revisit" ></button>
-                           <button class="btn  " id="id_today_free" ></button>
-                           <button  class="btn  " id="id_lesson_today"></button>
-                           <button  class="btn  " id="id_lesson_tomorrow" ></button>
-                           <button  class="btn  " id="id_require_count" ></button>
-                           <button class="btn  " id="id_return_back_count"></button>
-                           <button class="btn  " id="id_favorite_count"></button>
+                    <div class="input-group">
+                        <button class="btn  " id="id_today_new_count" ></button>
+                        <button class="btn  " id="id_new_no_called_count" ></button>
+                        <button class="btn  " id="id_no_called_count" ></button>
+                        <button class="btn  " id="id_next_revisit" ></button>
+                        <button class="btn  " id="id_today_free" ></button>
+                        <button  class="btn  " id="id_lesson_today"></button>
+                        <button  class="btn  " id="id_lesson_tomorrow" ></button>
+                        <button  class="btn  " id="id_require_count" ></button>
+                        <button class="btn  " id="id_return_back_count"></button>
+                        <button class="btn  " id="id_favorite_count"></button>
 
-                       </div>
-                   </div>
+                    </div>
+                </div>
 
-               @endif
+            @endif
 
         </div>
 
@@ -350,244 +351,244 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                         <td  class="td-phone">
-                             <div class="phone-data">
-                                 @if($account == 'jim' || $account_role == 12 || $account == 'tom')
-                                     {{$var["phone"]}}
-                                 @else
-                                     {{$var["phone_hide"]}}
-                                     @if($var['origin']=='学校-180112')
-                                         <font color="red">学校渠道</font>
-                                     @endif
-                                 @endif
-                             </div>
-                         </td>
-                         <td  class="td-phone">
-                             <div class="phone-data">
-                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805' || $var['origin']=='美团—1230' || $var['origin']=='学校-180112')
-                                     <font color="red">{{$var["origin"]}}/{{$var["nickname"]}}</font>
-                                 @endif
-                             </div>
-                         </td>
-                         <td >
-                             @if($account == 'jim' || $account_role == 12 || $account == 'tom')
-                                 {{$var["phone"]}}
-                             @else
-                                 {{$var["phone_hide"]}}
-                             @endif
-                             {{$var["phone_location"]}} <br/>
-                             姓名: {{$var["nick"]}} <br/>
-                             年级:{{$var["grade_str"]}}<br/>
-                             科目:{{$var["subject_str"]}}<br/>
-                             PAD: {{$var["has_pad_str"]}}<br/>
-                             @if (!$var["origin_assistantid"]  )
-                             @else
-                                 转介绍申请人:{{$var["origin_assistant_nick"]}}<br>
-                                 介绍人:{{$var["origin_user_nick"]}}
-                             @endif
-                         </td>
-                         <td >{{$var["opt_time"]}}</td>
-                         <td >{{$var["add_time"]}}</td>
-                         <td class="">
-                             @if (!$var["origin_assistantid"]  )
-                             @else
-                                 转介绍申请人:{{$var["origin_assistant_nick"]}}<br>
-                                 介绍人:{{$var["origin_user_nick"]}}
-                             @endif
-                         </td>
-
-                         <td >{{$var["nick"]}}</td>
-                         <td >
-                             {{$var["seller_student_status_str"]}}<br><br>
-                             @if($var["seller_student_status"]==110)
-                                 驳回理由:{{$var["no_accept_reason"]}}
-                             @endif
-                         </td>
-                         <td>{{$var["tq_called_flag_str"]}}</td>
-                         <td >{{$var["user_desc"]}}</td>
-                         <td >{{$var["grade_str"]}}</td>
-                         <td >{{$var["subject_str"]}}</td>
-                         <td >{{$var["has_pad_str"]}}</td>
-                         <td >
-                             {!!  $var["stu_test_paper_flag_str"] !!}
-                             <br/>
-                             @if( $var["stu_test_paper_flow_status"])
-                                 不传审核:{!!   $var["stu_test_paper_flow_status_str"] !!}
-                             @endif
-                         </td>
-                         <td >
-                             下次跟进时间: {{$var["next_revisit_time"]}} <br/>
-                             最后一次回访时间:{{$var["last_revisit_time"]}}<br/>
-                             最后一次回访记录:{{$var["last_revisit_msg_sub"]}}<br/>
-
-                             <br/>
-                             备注:{{$var["user_desc_sub"]}}</td>
-                         </td>
-                         <td >{{$var["next_revisit_time"]}}</td>
-                         <td >{{$var["admin_revisiter_nick"]}}</td>
-                         <td >{{$var["admin_assign_time"]}}</td>
-                         <td >{{$var["last_revisit_time"]}}</td>
-                         <td >{{$var["last_revisit_msg_sub"]}}</td>
-                         <td >
-                             <div
-                                 style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
-                                 >试卷: {!!  $var["stu_test_paper_flag_str"] !!}
-                             </div>
-
-
-
-
-                             <br/>
-                             是否保留: {!!  $var["lesson_used_flag_str"] !!} <br/>
-                             老师: {{$var["teacher_nick"]}} <br/>
-                             时间: {{$var["lesson_start"]}} <br/>
-                             {!! @$var["notify_lesson_flag_str"]!!}
-
-                         </td>
-                         <td >
-                                课时确认(是否成功):{!!$var["success_flag_str"]!!} <br/>
-                                确认人:{!!$var["confirm_admin_nick"]!!} <br/>
-                                确认时间:{!!$var["confirm_time"]!!} <br/>
-
-                                @if ($var["success_flag"]==2)
-                                    是否付工资:
-                                    @if ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
-                                        <font color="red"> 付</font>
-                                    @else
-                                        <font > 不付</font>
+                        <td  class="td-phone">
+                            <div class="phone-data">
+                                @if($account == 'jim' || $account_role == 12 || $account == 'tom')
+                                    {{$var["phone"]}}
+                                @else
+                                    {{$var["phone_hide"]}}
+                                    @if($var['origin']=='学校-180112')
+                                        <font color="red">学校渠道</font>
                                     @endif
-                                    <br/>
-                                    上课4小时前取消: {{$var["fail_greater_4_hour_flag_str"]}} <br/>
-                                    出错类型:{{$var["test_lesson_fail_flag_str"]}} <br/>
-                                    说明:{{$var["fail_reason"]}} <br/>
-
-                                @endif
-
-
-                         </td>
-                         <td >{{$var["accept_admin_nick"]}} </td>
-                         <td >{{$var["teacher_nick"]}}
-
-                         </td>
-                         <td >
-                             @if( $var["parent_wx_openid"] )
-                                 <font color="green">家长已绑定微信 </font>
-                             @else
-                                 <font color="red"> 家长未绑定微信  </font>
-                             @endif
-                             <br/>
-                             版本: {{$var["user_agent"]}}
-                             <br/>
-                             上课时间: {{$var["lesson_start"]}}
-                             <br/>
-                             家长确认时间: {{$var["parent_confirm_time"]}}
-                             <br/>
-                             @if( $var["call_end_time"] )
-                                 <font color="green">课后回访:{{$var["call_end_time"]}} </font>
-                             @else
-                                 <font color="red">课后回访:{{$var["call_end_time"]}} </font>
-                             @endif
-
-                             {!! @$var["notify_lesson_flag_str"]!!}
-                         </td>
-                         <td >
-                                {!!$var["success_flag_str"]!!}
-                         </td>
-                        <td >
-
-                            @if ($var["success_flag"] ==2 )
-                                @if (! $var["success_flag"]   )
-                                @elseif ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
-                                    <font color="red"> 付</font>
-                                @else
-                                    <font > 不付</font>
-                                @endif
-                            @endif
-
-                        </td>
-                        <td >
-                            @if ($var["success_flag"] ==2 )
-                                {{$var["test_lesson_fail_flag_str"]}}
-                            @endif
-                         </td>
-
-                         <td >{{$var["seller_require_change_flag_str"]}} </td>
-                         <td >{{intval($var["order_price"])}} </td>
-                         <td >{{$var["test_lesson_order_fail_flag_str"]}} </td>
-                         <td >{{$var["test_lesson_order_fail_desc"]}} </td>
-
-
-                        <td>
-                            <div
-                                @if($show_son_flag)
-                                style="display:none;"
-                                @endif
-                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                            >
-                                <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
-                                <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-                                <a title="试听申请new" class="fa-chevron-up opt-edit-new_new_two"></a>
-                                <a title="录入回访信息" style="display:none;" class="fa-edit opt-edit-new_new"></a>
-                                <a title="手机拨打&录入回访信息" class="fa-phone  opt-telphone   "></a>
-                                <a title="试听申请" style="display:none;" class="fa fa-headphones opt-post-test-lesson "></a>
-                                <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
-                                <a title="试听申请未排-取消"  class="fa fa-undo opt-undo-test-lesson "></a>
-                                <a title="查看试听课老师反馈" class="fa fa-bookmark opt-get_stu_performance"></a>
-                                <a title="上传试卷"
-                                   style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
-                                   id="upload-test-paper-{{$var["test_lesson_subject_id"]}}"
-                                   class=" fa-upload opt-upload-test-paper "></a>
-                                <a title="下载试卷"
-                                   style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
-                                   class=" fa-download opt-download-test-paper "></a>
-                                <a
-                                    style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
-                                    title="设置排课通知家长"  class=" fa-bullhorn opt-notify-lesson"></a>
-                                <a
-                                    style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
-                                    title="试听请求列表" class="fa fa-list opt-get-require-list "></a>
-
-                                <a
-                                    style="   {{$cur_page!=301?"display:none;":""}}"
-                                    href="javascript:;" class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
-
-                                <a
-                                    style="   {{$cur_page!=10001?"display:none;":""}}"
-                                    title="删除" class="fa  fa-trash-o   opt-del "></a>
-
-
-
-                                <a href="javascript:;" class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
-
-                                <a title="扩课"  class="  fa-share-alt opt-kuoke"></a>
-                                <a class="btn  fa-tumblr-square  opt-seller-require" title="申请更换时间"></a>
-                                <a class="btn  opt-seller-qr-code " title="产生二维码">P</a>
-                                <a class="btn fa-hand-o-right opt-seller-green-channel" title="申请绿色通道"></a>
-
-                                <div  class="kda-customer-widget"
-                                     auid="{{$var["userid"]}}"
-                                     duid=""
-                                     name="{{$var["nick"]?$var["nick"]:"无昵称"}}"
-                                     phone=""
-                                     email=""
-                                     company=""
-                                     title=""
-                                      style=" display:inline-block;  "> </div>
-                                @if($is_seller_master==1)
-                                    <a href="javascript:;" class="opt-require-commend-teacher" title="申请推荐老师">推</a>
-                                @endif
-                                <a title="匹配老师" class="opt-match-teacher show_flag">匹配老师</a>
-                                <a title="TMK 信息" class="opt-tmk-valid ">TMK</a>
-                                <a class="btn  fa-chevron-left  opt-set_user_free" title="回流公海"></a>
-                                <a title="排课解冻" class=" fa-asterisk opt-test_lesson-review"></a>
-                                @if($var["favorite_adminid"] == 0)
-                                    <a title="收藏" class=" fa-star-o opt-favorite"></a>
-                                @else
-                                    <a title="取消收藏" class=" fa-star  opt-favorite"></a>
                                 @endif
                             </div>
-
                         </td>
+                        <td  class="td-phone">
+                            <div class="phone-data">
+                                @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805' || $var['origin']=='美团—1230' || $var['origin']=='学校-180112')
+                                    <font color="red">{{$var["origin"]}}/{{$var["nickname"]}}</font>
+                                @endif
+                            </div>
+                        </td>
+                        <td >
+                            @if($account == 'jim' || $account_role == 12 || $account == 'tom')
+                                {{$var["phone"]}}
+                            @else
+                                {{$var["phone_hide"]}}
+                            @endif
+                            {{$var["phone_location"]}} <br/>
+                            姓名: {{$var["nick"]}} <br/>
+                            年级:{{$var["grade_str"]}}<br/>
+                            科目:{{$var["subject_str"]}}<br/>
+                            PAD: {{$var["has_pad_str"]}}<br/>
+                            @if (!$var["origin_assistantid"]  )
+                            @else
+                                转介绍申请人:{{$var["origin_assistant_nick"]}}<br>
+                                介绍人:{{$var["origin_user_nick"]}}
+                            @endif
+                        </td>
+                        <td >{{$var["opt_time"]}}</td>
+                        <td >{{$var["add_time"]}}</td>
+                        <td class="">
+                            @if (!$var["origin_assistantid"]  )
+                            @else
+                                转介绍申请人:{{$var["origin_assistant_nick"]}}<br>
+                                介绍人:{{$var["origin_user_nick"]}}
+                            @endif
+                        </td>
+
+                        <td >{{$var["nick"]}}</td>
+                        <td >
+                            {{$var["seller_student_status_str"]}}<br><br>
+                            @if($var["seller_student_status"]==110)
+                                驳回理由:{{$var["no_accept_reason"]}}
+                            @endif
+                        </td>
+                        <td>{{$var["tq_called_flag_str"]}}</td>
+                        <td >{{$var["user_desc"]}}</td>
+                        <td >{{$var["grade_str"]}}</td>
+                        <td >{{$var["subject_str"]}}</td>
+                        <td >{{$var["has_pad_str"]}}</td>
+                        <td >
+                            {!!  $var["stu_test_paper_flag_str"] !!}
+                            <br/>
+                            @if( $var["stu_test_paper_flow_status"])
+                                不传审核:{!!   $var["stu_test_paper_flow_status_str"] !!}
+                            @endif
+                        </td>
+                        <td >
+                            下次跟进时间: {{$var["next_revisit_time"]}} <br/>
+                            最后一次回访时间:{{$var["last_revisit_time"]}}<br/>
+                            最后一次回访记录:{{$var["last_revisit_msg_sub"]}}<br/>
+
+                            <br/>
+                            备注:{{$var["user_desc_sub"]}}</td>
+                    </td>
+                    <td >{{$var["next_revisit_time"]}}</td>
+                    <td >{{$var["admin_revisiter_nick"]}}</td>
+                    <td >{{$var["admin_assign_time"]}}</td>
+                    <td >{{$var["last_revisit_time"]}}</td>
+                    <td >{{$var["last_revisit_msg_sub"]}}</td>
+                    <td >
+                        <div
+                            style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                        >试卷: {!!  $var["stu_test_paper_flag_str"] !!}
+                        </div>
+
+
+
+
+                        <br/>
+                        是否保留: {!!  $var["lesson_used_flag_str"] !!} <br/>
+                        老师: {{$var["teacher_nick"]}} <br/>
+                        时间: {{$var["lesson_start"]}} <br/>
+                        {!! @$var["notify_lesson_flag_str"]!!}
+
+                    </td>
+                    <td >
+                        课时确认(是否成功):{!!$var["success_flag_str"]!!} <br/>
+                        确认人:{!!$var["confirm_admin_nick"]!!} <br/>
+                        确认时间:{!!$var["confirm_time"]!!} <br/>
+
+                        @if ($var["success_flag"]==2)
+                            是否付工资:
+                            @if ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
+                                <font color="red"> 付</font>
+                            @else
+                                <font > 不付</font>
+                            @endif
+                            <br/>
+                            上课4小时前取消: {{$var["fail_greater_4_hour_flag_str"]}} <br/>
+                            出错类型:{{$var["test_lesson_fail_flag_str"]}} <br/>
+                            说明:{{$var["fail_reason"]}} <br/>
+
+                        @endif
+
+
+                    </td>
+                    <td >{{$var["accept_admin_nick"]}} </td>
+                    <td >{{$var["teacher_nick"]}}
+
+                    </td>
+                    <td >
+                        @if( $var["parent_wx_openid"] )
+                            <font color="green">家长已绑定微信 </font>
+                        @else
+                            <font color="red"> 家长未绑定微信  </font>
+                        @endif
+                        <br/>
+                        版本: {{$var["user_agent"]}}
+                        <br/>
+                        上课时间: {{$var["lesson_start"]}}
+                        <br/>
+                        家长确认时间: {{$var["parent_confirm_time"]}}
+                        <br/>
+                        @if( $var["call_end_time"] )
+                            <font color="green">课后回访:{{$var["call_end_time"]}} </font>
+                        @else
+                            <font color="red">课后回访:{{$var["call_end_time"]}} </font>
+                        @endif
+
+                        {!! @$var["notify_lesson_flag_str"]!!}
+                    </td>
+                    <td >
+                        {!!$var["success_flag_str"]!!}
+                    </td>
+                    <td >
+
+                        @if ($var["success_flag"] ==2 )
+                            @if (! $var["success_flag"]   )
+                            @elseif ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
+                                <font color="red"> 付</font>
+                            @else
+                                <font > 不付</font>
+                            @endif
+                        @endif
+
+                    </td>
+                    <td >
+                        @if ($var["success_flag"] ==2 )
+                            {{$var["test_lesson_fail_flag_str"]}}
+                        @endif
+                    </td>
+
+                    <td >{{$var["seller_require_change_flag_str"]}} </td>
+                    <td >{{intval($var["order_price"])}} </td>
+                    <td >{{$var["test_lesson_order_fail_flag_str"]}} </td>
+                    <td >{{$var["test_lesson_order_fail_desc"]}} </td>
+
+
+                    <td>
+                        <div
+                            @if($show_son_flag)
+                            style="display:none;"
+                            @endif
+                            {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                        >
+                            <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
+                            <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
+                            <a title="试听申请new" class="fa-chevron-up opt-edit-new_new_two"></a>
+                            <a title="录入回访信息" style="display:none;" class="fa-edit opt-edit-new_new"></a>
+                            <a title="手机拨打&录入回访信息" class="fa-phone  opt-telphone   "></a>
+                            <a title="试听申请" style="display:none;" class="fa fa-headphones opt-post-test-lesson "></a>
+                            <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
+                            <a title="试听申请未排-取消"  class="fa fa-undo opt-undo-test-lesson "></a>
+                            <a title="查看试听课老师反馈" class="fa fa-bookmark opt-get_stu_performance"></a>
+                            <a title="上传试卷"
+                               style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                               id="upload-test-paper-{{$var["test_lesson_subject_id"]}}"
+                               class=" fa-upload opt-upload-test-paper "></a>
+                            <a title="下载试卷"
+                               style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                               class=" fa-download opt-download-test-paper "></a>
+                            <a
+                                style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                                title="设置排课通知家长"  class=" fa-bullhorn opt-notify-lesson"></a>
+                            <a
+                                style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                                title="试听请求列表" class="fa fa-list opt-get-require-list "></a>
+
+                            <a
+                                style="   {{$cur_page!=301?"display:none;":""}}"
+                                href="javascript:;" class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
+
+                            <a
+                                style="   {{$cur_page!=10001?"display:none;":""}}"
+                                title="删除" class="fa  fa-trash-o   opt-del "></a>
+
+
+
+                            <a href="javascript:;" class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
+
+                            <a title="扩课"  class="  fa-share-alt opt-kuoke"></a>
+                            <a class="btn  fa-tumblr-square  opt-seller-require" title="申请更换时间"></a>
+                            <a class="btn  opt-seller-qr-code " title="产生二维码">P</a>
+                            <a class="btn fa-hand-o-right opt-seller-green-channel" title="申请绿色通道"></a>
+
+                            <div  class="kda-customer-widget"
+                                  auid="{{$var["userid"]}}"
+                                  duid=""
+                                  name="{{$var["nick"]?$var["nick"]:"无昵称"}}"
+                                  phone=""
+                                  email=""
+                                  company=""
+                                  title=""
+                                  style=" display:inline-block;  "> </div>
+                            @if($is_seller_master==1)
+                                <a href="javascript:;" class="opt-require-commend-teacher" title="申请推荐老师">推</a>
+                            @endif
+                            <a title="匹配老师" class="opt-match-teacher show_flag">匹配老师</a>
+                            <a title="TMK 信息" class="opt-tmk-valid ">TMK</a>
+                            <a class="btn  fa-chevron-left  opt-set_user_free" title="回流公海"></a>
+                            <a title="排课解冻" class=" fa-asterisk opt-test_lesson-review"></a>
+                            @if($var["favorite_adminid"] == 0)
+                                <a title="收藏" class=" fa-star-o opt-favorite"></a>
+                            @else
+                                <a title="取消收藏" class=" fa-star  opt-favorite"></a>
+                            @endif
+                        </div>
+
+                    </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -1198,7 +1199,7 @@
 
 
 
-    <div style="display:none;" id="id_dlg_post_user_info_new_two">
+    <div style="display:none;" id="id_dlg_post_user_info_new_two" style="z-index:-1">
         <div class="alert alert-danger note-info" style="margin-bottom:0px" >
             <strong>重要提示:</strong> <span>  xx </span>
         </div>
@@ -1458,7 +1459,7 @@
             </div>
         </div>
 
-         <div class="row">
+        <div class="row">
             <div class="col-xs-12 col-md-12  ">
                 <span>老师要求</span>
             </div>
@@ -1608,7 +1609,7 @@
 
                     <div class="col-xs-12 col-md-7 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">回访状态：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp回访状态：</span>
                             <select id="id_stu_status_new_two" class=" form-control "   >
                             </select>
                             <span> &gt </span>
@@ -1654,7 +1655,10 @@
                 </div>
             </div>
         </div>
-    </div>
 
+
+
+
+    </div>
 
 @endsection

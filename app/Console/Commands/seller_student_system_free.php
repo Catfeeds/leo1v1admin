@@ -61,7 +61,7 @@ class seller_student_system_free extends cmd_base
                     }
                 }
                 //再次检测该用户是否已拨通
-                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid,$is_called_phone=true);
+                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
                 if($is_through)
                     $free_flag=false;
 
@@ -84,8 +84,9 @@ class seller_student_system_free extends cmd_base
             }
         }else { //  free -1 day
             $check_free_list= $this->task->t_seller_student_new_b2->get_need_check_free_list();
-            $free_flag=false;
+
             foreach( $check_free_list as $item ) {
+                $free_flag=false;
                 $admin_revisiterid = $item["admin_revisiterid"];
                 $userid = $item["userid"];
                 $phone = $item["phone"];
@@ -95,8 +96,8 @@ class seller_student_system_free extends cmd_base
                     $release_reason_flag = 3;
                 }
 
+                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
                 //再次检测该用户是否已拨通
-                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid,$is_called_phone=true);
                 if($is_through)
                     $free_flag=false;
 
@@ -114,7 +115,7 @@ class seller_student_system_free extends cmd_base
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
                     //记录释放日志
                     $this->task->t_seller_student_system_release_log->add_log(
-                        $admin_revisiterid,$userid,$phone,$release_reason_flag
+                        $admin_revisiterid,$userid,$phone,$release_reason_flag,$admin_assign_time
                     );
 
                 }

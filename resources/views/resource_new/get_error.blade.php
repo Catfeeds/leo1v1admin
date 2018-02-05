@@ -28,8 +28,10 @@
      var my_grade = {{@$grade}};
      var book = {{@$book}};
      var is_teacher = {{@$is_teacher}};
+     var identity = "{{@$identity}}";
     </script>
     <style>
+     .hide{ display:none }
      .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
     </style>
     <section class="content">
@@ -132,11 +134,7 @@
         <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
-                    <th style="width:10px">
-                        <a href="javascript:;" id="id_select_all" title="全选">全</a>
-                        <a href="javascript:;" id="id_select_other" title="反选">反</a>
-                    </th>
-                    <th>文件名</th>
+                    <th style="max-width:200px">文件名</th>
                     <th>报错详情</th>
                     <th>错误类型</th>
                     <th style="max-width:200px">报错内容</th>
@@ -144,71 +142,66 @@
 
                     <th>上传详情</th>
                     <th>状态</th>
-                
+                    
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
-                        <td>
-                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
-                        </td>
-                        <td>{{@$var["file_title"]}} </td>
+                        <td style="max-width:200px">{{@$var["file_title"]}} </td>
                         <td>报错人:{{@$var['error_nick']}} <br/>
                             报错时间:{{@$var['add_time']}}
                         </td>
                         @if( @$var['etype'] == 9)
 
                         @else
-                        <td>一级:{{@$var['error_type_str']}}<br/>
-                            二级:{{@$var['sub_error_type_str']}}
-                        </td>
+                            <td>一级:{{@$var['error_type_str']}}<br/>
+                                二级:{{@$var['sub_error_type_str']}}
+                            </td>
                         @endif
 
                         @if( @$var['etype'] == 9)
 
                         @else
-
-                        <td style="max-width:200px">
-                            {{@$var['detail_error']}}<br/>
-                            @if(@$var['picture_one'] != '')
-                                <a href="{{@$var['picture_one']}}" target="_blank">图片1</a>
-                            @endif
-                            @if(@$var['picture_two'] != '')
-                                <a href="{{@$var['picture_two']}}" target="_blank">图片2</a>
-                            @endif
-                            @if(@$var['picture_three'] != '')
-                                <a href="{{@$var['picture_three']}}" target="_blank">图片3</a>
-                            @endif
-                            @if(@$var['picture_four'] != '')
-                                <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
-                            @endif
-                                @if(@$var['picture_five'] != '')
-                                <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
-                            @endif
-                        </td>
-
+                            <td style="max-width:200px">
+                                {{@$var['detail_error']}}<br/>
+                                @if(@$var['picture_one'] != '')
+                                    <a href="{{@$var['picture_one']}}" target="_blank">图片1</a>
+                                @endif
+                                @if(@$var['picture_two'] != '')
+                                    <a href="{{@$var['picture_two']}}" target="_blank">图片2</a>
+                                @endif
+                                @if(@$var['picture_three'] != '')
+                                    <a href="{{@$var['picture_three']}}" target="_blank">图片3</a>
+                                @endif
+                                @if(@$var['picture_four'] != '')
+                                    <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
+                                @endif
+                                    @if(@$var['picture_five'] != '')
+                                    <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
+                                @endif
+                            </td>
                         @endif
 
                         <td>资源类型:{{@$var['resource_type_str']}}<br/>
                             科目:{{@$var['subject_str']}}<br/>
                             年级:{{@$var['grade_str']}}<br/>
                             @if ($var['tag_one_name'] != '')
-                            {{ @$var['tag_one_name']}}:{{@$var['tag_one_str']}}<br/>
+                                {{ @$var['tag_one_name']}}:{{@$var['tag_one_str']}}<br/>
                             @endif
 
                             @if ($var['tag_two_name'] != '')
-                            {{@$var['tag_two_name']}}:{{@$var['tag_two_str']}}<br/>
+                                {{@$var['tag_two_name']}}:{{@$var['tag_two_str']}}<br/>
                             @endif
                             @if ($var['tag_three_name'] != '')
-                            {{@$var['tag_three_name']}}:{{@$var['tag_three_str']}}<br/>
+                                {{@$var['tag_three_name']}}:{{@$var['tag_three_str']}}<br/>
                             @endif
                             @if ($var['tag_four_name'] != '')
-                            {{@$var['tag_four_name']}}:{{@$var['tag_four_str']}}<br/>
+                                {{@$var['tag_four_name']}}:{{@$var['tag_four_str']}}<br/>
                             @endif
                             @if ($var['tag_five_name'] != '')
-                            {{@$var['tag_five_name']}}:{{@$var['tag_five_str']}}<br/>
+                                {{@$var['tag_five_name']}}:{{@$var['tag_five_str']}}<br/>
                             @endif
                         </td>
 
@@ -217,9 +210,49 @@
 
                         </td>
 
-                        <td></td>
-                        <td>
+                        <td class="file_status">
+                            @if(@$var['estatus'] == 0)
+                                <span style="color:#e81616">未处理</span>
+                            @elseif(@$var['estatus'] == 1)
+                                <span style="color:#e81616">待修改</span>
+                            @elseif(@$var['estatus'] == 2)
+                                <span style="color:#2c8404">已修改</span>
+                            @elseif(@$var['estatus'] == 3)
+                                <span style="color:#e81616">初审驳回</span>
+                            @elseif(@$var['estatus'] == 4)
+                                <span style="color:#e81616">复审驳回</span>
+                            @endif
+                        </td>
+                        <td style="max-width:150px">
                             <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
+                            @if(@$var['estatus'] == 0)
+                                <a class="opt-agree btn color-blue" title="预览">同意修改</a>
+                            @else
+                                <span style="color:#2d2828">已同意</span>
+                            @endif
+
+                            @if(@$var['estatus'] == 0)
+                                <a class="opt-upload btn color-blue hide" title="上传">上传</a>
+                            @elseif(@$var['estatus'] == 1)
+                                <a class="opt-upload btn color-blue" title="上传">上传</a>
+                            @else
+                                <a class="opt-upload btn color-blue" title="重传">重传</a>
+                            @endif
+
+                            @if($var['estatus'] == 3 && $var['estatus'] != 4)
+                                <span style="color:#e81616">初审已驳回</span>
+                            @endif
+
+                            @if($var['estatus'] != 3 && $var['estatus'] != 4)
+                                <a class="opt-first-look btn color-blue" title="初审驳回">初审驳回</a>
+                            @endif
+
+                            @if(@$var['estatus'] == 4)
+                                <span style="color:#e81616">初审已驳回</span>
+                                <span style="color:#e81616">复审已驳回</span>
+                            @else
+                                <a class="opt-sec-look btn color-blue"  title="复审驳回">复审驳回</a>
+                            @endif
 
                             <a class="opt-error"></a>
                         </td>

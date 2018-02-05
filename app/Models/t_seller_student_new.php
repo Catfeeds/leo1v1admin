@@ -437,9 +437,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ($userid >0 || $phone || $nick) {
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
-                ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ];
+            if ( $admin_revisiterid >0 ) {
+                $where_arr[]= ["ss.phone like '%%%s%%'", $this->ensql($phone) , ""];
+                $where_arr[]= ["s.nick like '%%%s%%'",$this->ensql($nick), ""];
+            }else{
+                $where_arr[]= ["ss.phone like '%s%%'", $this->ensql($phone) , ""];
+                $where_arr[]= ["s.nick like '%s%%'",$this->ensql($nick), ""];
+            }
+
         } else if ( $current_require_id_flag != -1 ) {
             $this->where_arr_add_boolean_for_value($where_arr,"current_require_id",$current_require_id_flag,true);
         }else{
@@ -1785,7 +1791,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0 ,$is_called_phone = 0 ) {
+    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0 ,$is_called_phone = 0,$duration=0){
         $userid=$this->get_userid_by_phone($phone);
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {

@@ -2,7 +2,7 @@
 return array(
     array(0,"NO_CALL","未回访" ),
     array(1,"","无效资源" ),
-    array(2,"NO_CALL_PASS","未接通" ),
+    array(2,"NO_CALL_PASS","暂时未接通" ),
     array(50,"NO_PUBLISH","无效-公海/试听未签不出现" ),
     array(60,"","结课无意向" ),
     array(61,"","结课待跟进" ),

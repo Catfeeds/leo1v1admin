@@ -697,7 +697,7 @@ class url_power_map {
 			'/course/index_admin'	=>3800501,
 			'/course/index'	=>3800502,
 			'/course/student_course'	=>3800503,
-			'/stu_apply/index'	=>3800504,
+			'/stu_apply/index'	=>3800505,
 			'/package/index'	=>3800601,
 			'/stu_manage/index'	=>2010100,
 			'/stu_manage/lesson_plan'	=>2010300,

@@ -650,6 +650,7 @@ class NewRouteConfig {
         "/authority/set_fulltime_teacher_type" => true,
         "/fulltime_teacher/fulltime_teacher_count" => true,
         "/tongji2/fulltime_teacher_kpi_chart"  => true,
+        "/tongji2/cc_day_top_list"  => true,
 
         "/revisit/get_revisit_info"                 => true,
         "/revisit/update_revisit"                   => true,
@@ -748,6 +749,9 @@ class NewRouteConfig {
         "/teacher_info/get_leo_resource_new"             =>true,
         "/teacher_info/get_sub_grade_book_tag"           =>true,
         "/user_manage_new/set_power_with_groupid_list_new" => true,
+        "/resource_new/file_err_agree"                   =>true,
+        "/resource_new/file_err_refuse"                  =>true,
+        "/resource_new/get_error_by_file_id"             =>true,
     ];
 
     static $dev_url_map = [

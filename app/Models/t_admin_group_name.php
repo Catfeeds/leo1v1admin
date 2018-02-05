@@ -248,19 +248,15 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
             }
         }
         return $arr;
-
-
     }
 
-
     public function get_group_id_by_aid($ass_admind){
-        $sql = $this->gen_sql_new(" select  agn.master_adminid,agn.group_name from %s agn".
+        $sql = $this->gen_sql_new(" select agn.master_adminid,agn.group_name from %s agn".
                                   " left join %s agu on agu.groupid = agn.groupid ".
                                   " where agu.adminid = $ass_admind",
                                   self::DB_TABLE_NAME,
                                   t_admin_group_user::DB_TABLE_NAME
         );
-
         return $this->main_get_row($sql);
     }
 

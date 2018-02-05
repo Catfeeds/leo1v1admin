@@ -441,16 +441,26 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $ret = $this->t_admin_group_user->get_item_list_new();
-        // foreach($ret as $key=>$item){
-        //     $groupid = $item['groupid'];
-        //     $adminid = $item['adminid'];
-        //     $ret = $this->t_admin_group_user->del_item_row($groupid,$adminid);
-        //     echo $ret."\n";
-        // }
-        dd('a');
+        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,1517500800,[],[]];
+        $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
+        return $this->pageView(__METHOD__,null);
     }
 
+    public function del_detailid(){
+        $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174354);
+        $ret_new = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174355);
+        dd($ret,$ret_new);
+        list($start_time,$end_time) = $this->get_in_date_range_day(0);
+        $phone = $this->get_in_str_val('phone');
+        $userid = $this->t_phone_to_user->get_userid($phone);
+        if($userid>0){
+            $id = $this->t_seller_new_count_get_detail->get_item_row_by_userid($userid,$start_time,$end_time);
+            if($id>0){
+                $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
+                dd($ret);
+            }
+        }
+    }
     //处理等级头像
     public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
         $datapath = $face_pic;

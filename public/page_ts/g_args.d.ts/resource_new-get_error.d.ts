@@ -50,6 +50,7 @@ interface RowData {
 	create_time	:any;
 	visitor_id	:any;
 	c_time	:any;
+	id	:any;
 	teacherid	:any;
 	add_time	:any;
 	error_type	:any;
