@@ -3568,10 +3568,10 @@ class teacher_info extends Controller
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
 
             $data['first']      = " 讲义报错通知";
-            $data['keyword1']   = " 您好，xxx老师，您负责的讲义“***讲义名称”被老师报错，请及时查看详情并处理";
-            $data['keyword2']   = " 原上课时间:".$lesson_start_date;
+            $data['keyword1']   = " 请及时检查并处理讲义的报错内容";
+            $data['keyword2']   = " 21";
             $data['keyword3']   = date('Y-m-d H:i:s');
-            $data['remark']     = "";
+            $data['remark']     = "22";
 
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
 
