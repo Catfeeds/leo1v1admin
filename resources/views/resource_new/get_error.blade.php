@@ -184,7 +184,7 @@
                             @if(@$var['picture_four'] != '')
                                 <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
                             @endif
-                            @if(@$var['picture_five'] != '')
+                                @if(@$var['picture_five'] != '')
                                 <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
                             @endif
                         </td>
