@@ -1267,6 +1267,7 @@ class resource extends Controller
         $ex_num        = $this->get_in_int_val('ex_num', 0);
         $adminid       = $this->get_account_id();
         $time          = time();
+        $is_wx         = $this->get_in_int_val("is_wx",0);
 
         if($file_id != 0){
             $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
@@ -1284,6 +1285,25 @@ class resource extends Controller
             'visitor_id'  => $adminid,
             'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
+
+        if($is_wx > 0){
+            $info = $this->t_resource_file->get_teacherinfo_new($file_id);
+            $wx_openid    = $info['wx_openid'];
+            $file_name    = $info['file_title'];
+            $teacher_nick = $info['nick'];
+            //dd($teacher_nick);
+            $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+
+            $data['first']      = " 您好，$teacher_nick老师，您报错的讲义“$file_name”已被理优更改，感谢您对理优的监督与支持。";
+            $data['keyword1']   = " 讲义重传通知";
+            $data['keyword2']   = " 请随时查看理优新的讲义资料";
+            $data['keyword3']   = date('Y-m-d');
+            $data['remark']     = "让我们共同努力，让理优明天更美好";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
+
+        }
         return $this->output_succ();
     }
 

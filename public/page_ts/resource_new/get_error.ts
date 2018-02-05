@@ -511,6 +511,7 @@ $(function(){
                         'file_link'     : res.key,
                         'file_use_type' : file_use_type,
                         'ex_num'        : ex_num,
+                        'is_wx'         : 1,
                     } ,
                     success   : function(result){
                         if(result.ret == 0){

@@ -3562,21 +3562,37 @@ class teacher_info extends Controller
         //send wx_message
         if($ret){   
             //search 
-            $info = $this->t_resource_file->get_teacherinfo($file_id);
+            $info = $this->t_resource_file->get_teacherinfo_new($file_id);
             $wx_openid    = $info['wx_openid'];
             $file_name    = $info['file_title'];
             $teacher_nick = $info['nick'];
+            //dd($teacher_nick);
             $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
             $teacher_url = ''; //待定
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
 
-            $data['first']      = " 您好，$teacher_nick 老师，您负责的讲义“$file_name ”被老师报错，请及时查看详情并处理。 ";
-            $data['keyword1']   = " 讲义报错通知";
-            $data['keyword2']   = " 请及时检查并处理讲义的报错内容";
+            $data['first']      = " 您好，$teacher_nick老师，您报错的讲义“$file_name”已被理优更改，感谢您对理优的监督与支持。";
+            $data['keyword1']   = " 讲义重传通知";
+            $data['keyword2']   = " 请随时查看理优新的讲义资料";
             $data['keyword3']   = date('Y-m-d');
-            $data['remark']     = "处理报错位置：理优管理系统——教研备课后台";
-
+            $data['remark']     = "让我们共同努力，让理优明天更美好";
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
+            
+            // $info = $this->t_resource_file->get_teacherinfo($file_id);
+            // $wx_openid    = $info['wx_openid'];
+            // $file_name    = $info['file_title'];
+            // $teacher_nick = $info['nick'];
+            // //dd($teacher_nick);
+            // $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
+            // $teacher_url = ''; //待定
+            // $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+
+            // $data['first']      = " 您好,$teacher_nick老师，您负责的讲义“$file_name ”被老师报错，请及时查看详情并处理。";
+            // $data['keyword1']   = " 讲义报错通知";
+            // $data['keyword2']   = " 请及时检查并处理讲义的报错内容";
+            // $data['keyword3']   = date('Y-m-d');
+            // $data['remark']     = "处理报错位置：理优管理系统——教研备课后台";
+            // \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
 
         }
         return $this->output_succ();
