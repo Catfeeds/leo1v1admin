@@ -557,9 +557,9 @@ class resource extends Controller
                     'visit'             => $v['visit'],
                     'use'               => $v['user'],
                     'error'             => $v['error'],
-                    'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) . '%',
-                    'error_rate'        => round( $v['error']*100/$v['file_num'], 2) . '%',
-                    'use_rate'          => round( $v['user']*100/$v['file_num'], 2) . '%',
+                    'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) ,
+                    'error_rate'        => round( $v['error']*100/$v['file_num'], 2) ,
+                    'use_rate'          => round( $v['user']*100/$v['file_num'], 2) ,
                     'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
                 ];
                 if($type == 2){

@@ -137,13 +137,13 @@
                     <td>合计</td>
                     <td>{{@$total["file_num"]}}</td>
                     <td>{{@$total["visit"]}}</td>
-                    <td>{{@$total["visit_rate"]}}</td>
+                    <td>{{@$total["visit_rate"]}}%</td>
                     <td>{{@$total["visit_num"]}}</td>
                     <td>{{@$total["use"]}}</td>
-                    <td>{{@$total["use_rate"]}}</td>
+                    <td>{{@$total["use_rate"]}}%</td>
                     <td>{{@$total["use_num"]}}</td>
                     <td>{{@$total["error"]}}</td>
-                    <td>{{@$total["error_rate"]}}</td>
+                    <td>{{@$total["error_rate"]}}%</td>
                     <td>{{@$total["error_num"]}}</td>
                     <td></td>
                 </tr>
