@@ -157,6 +157,40 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_list($sql);
     }
 
+    public function get_count_new($start_time, $end_time, $type){
+        $where_arr = [
+            'r.is_del=0',
+            'f.status=0',
+            ['r.create_time>%u', $start_time, -1],
+            ['r.create_time<=%u', $end_time, -1],
+        ];
+        if($type == 2){
+            $group = "adminid";
+        }else if($type == 3){
+            $group = "subject";
+        }else if($type == 4){
+            $group = "grade";
+        }else if($type == 5){
+            $group = "resource_type";
+        }
+        $sql = $this->gen_sql_new("select %s,  count(f.file_id) as file_num ,sum(f.visit_num) as visit_num, "
+                                ." sum(f.use_num) as use_num ,sum(f.error_num) as error_num, "
+                                ." sum(if(f.visit_num>0,1,0)) as visit ,sum(if(f.use_num>0,1,0)) as user, "
+                                ." sum(if(f.error_num>0,1,0))  as error "
+                                  ." from %s f"
+                                  ." left join %s r on r.resource_id=f.resource_id"
+                                  ." where %s"
+                                  ." group by %s"
+                                  ,$group
+                                  ,t_resource_file::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$group
+        );
+        //dd($sql);
+        return $this->main_get_list($sql);
+    }
+
     public function is_has_file($resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four){
         $where_arr = [
             ['resource_type=%u', $resource_type, -1],

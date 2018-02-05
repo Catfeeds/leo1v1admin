@@ -465,6 +465,7 @@ class resource extends Controller
             $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type,$adminid);
             $list = [];
             $total = [];
+
             foreach($ret_info as &$item){
                 $visit = ($item['visit_num'] > 0)?1:0;
                 $error = ($item['error_num'] > 0)?1:0;
@@ -541,8 +542,59 @@ class resource extends Controller
                 "total" => $total,
                 "type"  => $type,
             ]);
-        }else if($type == 2){
-            dd(2);
+        }else if($type >= 2){
+            $ret_info = $this->t_resource->get_count_new($start_time, $end_time,$type);
+
+            $final_list = [];
+            // dd($list);
+            foreach($ret_info as $s=>$v){
+                $arr = [
+                    'mark'              => 1,
+                    'file_num'          => $v['file_num'],
+                    'visit_num'         => $v['visit_num'],
+                    'error_num'         => $v['error_num'],
+                    'use_num'           => $v['use_num'],
+                    'visit'             => $v['visit'],
+                    'use'               => $v['user'],
+                    'error'             => $v['error'],
+                    'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) . '%',
+                    'error_rate'        => round( $v['error']*100/$v['file_num'], 2) . '%',
+                    'use_rate'          => round( $v['user']*100/$v['file_num'], 2) . '%',
+                    'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
+                ];
+                if($type == 2){
+                    $arr['adminid'] = $this->cache_get_account_nick($v["adminid"]);
+                }else if($type == 3){
+                    $arr['subject'] = E\Esubject::get_desc($v["subject"]);
+                }else if($type == 4){
+                    $arr['grade']   = E\Egrade::get_desc($v["grade"]);
+                }else if($type == 5){
+                    $arr['resource_type'] = E\Eresource_type::get_desc($v["resource_type"]);
+                }
+                $final_list[] = $arr;
+                @$total['file_num'] += $v["file_num"];
+                @$total["visit_num"] += $v["visit_num"];
+                @$total["error_num"] += $v["error_num"];
+                @$total["use_num"] += $v["use_num"];
+                @$total["visit"] += $v["visit"];
+                @$total["error"] += $v["error"];
+                @$total["use"] += $v["user"];
+            }
+            if ($total) {
+                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
+                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
+                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
+            }
+
+            if (!$order_in_db_flag) {
+                \App\Helper\Utils::order_list( $final_list, $order_field_name, $order_type );
+            }
+            //$ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
+            //dd($final_list);
+            return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
+                "total" => $total,
+                "type"  => $type,
+            ]);
         }
         
     }
