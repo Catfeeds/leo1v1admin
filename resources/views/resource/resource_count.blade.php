@@ -125,7 +125,7 @@
                         <td>{{@$var["score"]}} </td>
                     </tr>
                 @endforeach
-                @if ($type > 0)
+                @if ($type > 1)
                 <tr>
                     <td>合计</td>
                     <td>{{@$total["file_num"]}}</td>
