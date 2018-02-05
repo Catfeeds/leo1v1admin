@@ -98,14 +98,11 @@
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <!-- <tr class="mark" data-mark="{{$var["mark"]}}" key1="{{@$var["subject"]}}" key2="{{@$var["subject"]}}_{{@$var["adminid"]}}"> -->
-                        <!-- <td class="key1" data-key1="{{@$var["subject"]}}">{{@$var["subject_str"]}}</td>
-                        <td class="key2" data-key2="{{@$var["subject"]}}_{{@$var["adminid"]}}">{{@$var["nick"]}} </td> -->
                     <tr>
                         @if($type == 1)
-                        <td  data-key2="{{@$var["subject"]}}_{{@$var["adminid"]}}">{{@$var["nick"]}} </td>
+                        <td>{{@$var["subject_str"]}}</td>
+                        <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["resource_type_str"]}} </td>
-                        <td>{{@$var["file_num"]}} </td>
                         @endif
                         @if($type == 2)
                         <td>{{@$var['adminid']}}</td>
