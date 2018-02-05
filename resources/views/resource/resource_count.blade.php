@@ -10,7 +10,24 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">总分类</span>
+                        <select class="opt-change form-control" id="id_type" >
+                            <option value="1">分项统计</option>
+                            <option value="2">总类</option>
+                            <option value="3">年级</option>
+                            <option value="4">科目</option>
+                            <option value="5">资料类型</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >老师 </span>
+                        <input type="text" value=""  class="opt-change"  id="id_teacherid"  placeholder="" />
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <span class="input-group-addon">年级</span>
@@ -65,9 +82,12 @@
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr class="mark" data-mark="{{$var["mark"]}}" key1="{{$var["subject"]}}" key2="{{$var["subject"]}}_{{$var["adminid"]}}">
-                        <td class="key1" data-key1="{{$var["subject"]}}">{{@$var["subject_str"]}}</td>
-                        <td class="key2" data-key2="{{$var["subject"]}}_{{$var["adminid"]}}">{{@$var["nick"]}} </td>
+                    <!-- <tr class="mark" data-mark="{{$var["mark"]}}" key1="{{$var["subject"]}}" key2="{{$var["subject"]}}_{{$var["adminid"]}}"> -->
+                        <!-- <td class="key1" data-key1="{{$var["subject"]}}">{{@$var["subject_str"]}}</td>
+                        <td class="key2" data-key2="{{$var["subject"]}}_{{$var["adminid"]}}">{{@$var["nick"]}} </td> -->
+                    <tr>
+                        <td>{{@$var["subject_str"]}}</td>
+                        <td>{{@$var["nick"]}}</td>
                         <td>{{@$var["resource_type_str"]}} </td>
                         <td>{{@$var["file_num"]}} </td>
                         <td>{{@$var["visit"]}} </td>
@@ -82,6 +102,7 @@
                         <td>{{@$var["score"]}} </td>
                     </tr>
                 @endforeach
+                @if ($type > 1)
                 <tr>
                     <td>合计</td>
                     <td></td>
@@ -98,6 +119,7 @@
                     <td>{{@$total["error_num"]}}</td>
                     <td></td>
                 </tr>
+                @endif
             </tbody>
         </table>
         @include("layouts.page")

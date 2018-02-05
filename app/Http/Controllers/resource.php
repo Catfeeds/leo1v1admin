@@ -434,78 +434,87 @@ class resource extends Controller
         $subject = $this->get_in_int_val("subject", -1);
         $grade = $this->get_in_int_val("grade", -1);
         $resource_type = $this->get_in_int_val("resource_type", -1);
-        $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type);
+        $teacherid     = $this->get_in_int_val("teacherid",-1);
+        $type          = $this->get_in_int_val("type",1);
+        if($type == 1){
+            $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type,$teacherid);
+            $list = [];
+            $total = [];
+            foreach($ret_info as &$item){
+                $visit = ($item['visit_num'] > 0)?1:0;
+                $error = ($item['error_num'] > 0)?1:0;
+                $use   = ($item['use_num'] > 0)?1:0;
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['file_num']++;//上传文件数
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit_num'] += $item['visit_num'];//浏览次数
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error_num'] += $item['error_num'];//收藏次数
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use_num'] += $item['use_num'];//使用次数
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit'] += $visit;//浏览量
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
+            }
+            $final_list = [];
+            // dd($list);
+            foreach($list as $s=>$item){
+                //subject
+                //标记,这科目的第一个
+                $flag = 1;
+               foreach($item as $a=>$val){
+                    //adminid
+                    //标记,这个人的第一个
+                    $mark = 1;
+                    foreach($val as $r=>$v){
+                        //resource_type
+                        $mark = 1;
+                        $flag = 1;
+                        $subject = ($flag == 1) ? E\Esubject::get_desc($s): '';
+                        $nick = ($mark == 1) ? $this->cache_get_account_nick($a): '';
+                        $final_list[] = [
+                            'mark'              => $mark,
+                            'subject'           => $s,
+                            'subject_str'       => $subject,
+                            'adminid'           => $a,
+                            'nick'              => $nick,
+                            'resource_type'     => $r,
+                            'resource_type_str' => E\Eresource_type::get_desc($r),
+                            'file_num'          => $v['file_num'],
+                            'visit_num'         => $v['visit_num'],
+                            'error_num'         => $v['error_num'],
+                            'use_num'           => $v['use_num'],
+                            'visit'             => $v['visit'],
+                            'use'               => $v['use'],
+                            'error'             => $v['error'],
+                            'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) . '%',
+                            'error_rate'        => round( $v['error']*100/$v['file_num'], 2) . '%',
+                            'use_rate'          => round( $v['use']*100/$v['file_num'], 2) . '%',
+                            'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
+                        ];
+                        $flag++;
+                        $mark++;
 
-        $list = [];
-        $total = [];
-        foreach($ret_info as &$item){
-            $visit = ($item['visit_num'] > 0)?1:0;
-            $error = ($item['error_num'] > 0)?1:0;
-            $use   = ($item['use_num'] > 0)?1:0;
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['file_num']++;//上传文件数
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit_num'] += $item['visit_num'];//浏览次数
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error_num'] += $item['error_num'];//收藏次数
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use_num'] += $item['use_num'];//使用次数
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit'] += $visit;//浏览量
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
-        }
-
-        $final_list = [];
-        // dd($list);
-        foreach($list as $s=>$item){
-            //subject
-            //标记,这科目的第一个
-            $flag = 1;
-           foreach($item as $a=>$val){
-                //adminid
-                //标记,这个人的第一个
-                $mark = 1;
-                foreach($val as $r=>$v){
-                    //resource_type
-                    $subject = ($flag == 1) ? E\Esubject::get_desc($s): '';
-                    $nick = ($mark == 1) ? $this->cache_get_account_nick($a): '';
-                    $final_list[] = [
-                        'mark'              => $mark,
-                        'subject'           => $s,
-                        'subject_str'       => $subject,
-                        'adminid'           => $a,
-                        'nick'              => $nick,
-                        'resource_type'     => $r,
-                        'resource_type_str' => E\Eresource_type::get_desc($r),
-                        'file_num'          => $v['file_num'],
-                        'visit_num'         => $v['visit_num'],
-                        'error_num'         => $v['error_num'],
-                        'use_num'           => $v['use_num'],
-                        'visit'             => $v['visit'],
-                        'use'               => $v['use'],
-                        'error'             => $v['error'],
-                        'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) . '%',
-                        'error_rate'        => round( $v['error']*100/$v['file_num'], 2) . '%',
-                        'use_rate'          => round( $v['use']*100/$v['file_num'], 2) . '%',
-                        'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
-                    ];
-                    $flag++;
-                    $mark++;
-
-                    @$total['file_num'] += $v["file_num"];
-                    @$total["visit_num"] += $v["visit_num"];
-                    @$total["error_num"] += $v["error_num"];
-                    @$total["use_num"] += $v["use_num"];
-                    @$total["visit"] += $v["visit"];
-                    @$total["error"] += $v["error"];
-                    @$total["use"] += $v["use"];
+                        @$total['file_num'] += $v["file_num"];
+                        @$total["visit_num"] += $v["visit_num"];
+                        @$total["error_num"] += $v["error_num"];
+                        @$total["use_num"] += $v["use_num"];
+                        @$total["visit"] += $v["visit"];
+                        @$total["error"] += $v["error"];
+                        @$total["use"] += $v["use"];
+                    }
                 }
             }
+            if ($total) {
+                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
+                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
+                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
+            }
+            //dd($final_list);
+            return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
+                "total" => $total,
+                "type"  => $type,
+            ]);
+        }else if($type == 2){
+            dd(2);
         }
-        if ($total) {
-            @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
-            @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
-            @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
-        }
-        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
-            "total" => $total,
-        ]);
+        
     }
 
     public function resource_frame_new(){

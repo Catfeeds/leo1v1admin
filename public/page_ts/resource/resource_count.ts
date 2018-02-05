@@ -11,7 +11,9 @@ function load_data(){
         subject:    $('#id_subject').val(),
         resource_type: $('#id_resource_type').val(),
         start_time:	$('#id_start_time').val(),
-        end_time:	$('#id_end_time').val()
+        end_time:	$('#id_end_time').val(),
+        teacherid:  $('#id_teacherid').val(),
+        type:       $('#id_type').val(),
     });
 }
 $(function(){
@@ -33,6 +35,9 @@ $(function(){
     $('#id_subject').val(g_args.subject);
     $("#id_grade").val(g_args.grade);
     $("#id_resource_type").val(g_args.resource_type);
+    $('#id_teacherid').val(g_args.teacherid);
+    $('#id_type').val(g_args.type);
+    $.admin_select_user( $("#id_teacherid"), "research_teacher", load_data);
 
     $('.mark').each(function(i){
         if($(this).data('mark') != 1){

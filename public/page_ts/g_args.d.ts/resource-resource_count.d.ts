@@ -7,6 +7,8 @@ interface GargsStatic {
 	subject:	number;
 	grade:	number;
 	resource_type:	number;
+	teacherid:	number;
+	type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -16,6 +18,24 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	mark	:any;
+	subject	:any;
+	subject_str	:any;
+	adminid	:any;
+	nick	:any;
+	resource_type	:any;
+	resource_type_str	:any;
+	file_num	:any;
+	visit_num	:any;
+	error_num	:any;
+	use_num	:any;
+	visit	:any;
+	use	:any;
+	error	:any;
+	visit_rate	:any;
+	error_rate	:any;
+	use_rate	:any;
+	score	:any;
 }
 
 /*
@@ -37,7 +57,9 @@ function load_data(){
 		end_time:	$('#id_end_time').val(),
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
-		resource_type:	$('#id_resource_type').val()
+		resource_type:	$('#id_resource_type').val(),
+		teacherid:	$('#id_teacherid').val(),
+		type:	$('#id_type').val()
 		});
 }
 $(function(){
@@ -55,6 +77,15 @@ $(function(){
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
 	$('#id_resource_type').val(g_args.resource_type);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
+	$('#id_type').val(g_args.type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -93,4 +124,20 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["resource_type title", "resource_type", "th_resource_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacherid</span>
+                <input class="opt-change form-control" id="id_teacherid" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">type</span>
+                <input class="opt-change form-control" id="id_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
 */
