@@ -4,6 +4,7 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+        order_by_str : g_args.order_by_str,
         date_type_config:	$('#id_date_type_config').val(),
         date_type:	$('#id_date_type').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
@@ -38,6 +39,7 @@ $(function(){
     $('#id_teacherid').val(g_args.teacherid);
     $('#id_type').val(g_args.type);
     $.admin_select_user( $("#id_teacherid"), "research_teacher", load_data);
+    $('#id_order_by_str').val(g_args.order_by_str);
 
     $('.mark').each(function(i){
         if($(this).data('mark') != 1){

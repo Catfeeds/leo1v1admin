@@ -526,7 +526,7 @@ class resource extends Controller
             }
 
             if (!$order_in_db_flag) {
-                \App\Helper\Utils::order_list( $ret, $order_field_name, $order_type );
+                \App\Helper\Utils::order_list( $final_list, $order_field_name, $order_type );
             }
             $ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
             //dd($final_list);
