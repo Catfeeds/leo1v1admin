@@ -3573,7 +3573,7 @@ class teacher_info extends Controller
             $data['keyword3']   = date('Y-m-d H:i:s');
             $data['remark']     = "22";
 
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
 
         }
         return $this->output_succ();
