@@ -121,13 +121,13 @@
 
                         <td>{{@$var["file_num"]}} </td>
                         <td>{{@$var["visit"]}} </td>
-                        <td>{{@$var["visit_rate"]}} </td>
+                        <td>{{@$var["visit_rate"]}}% </td>
                         <td>{{@$var["visit_num"]}} </td>
                         <td>{{@$var["use"]}} </td>
-                        <td>{{@$var["use_rate"]}} </td>
+                        <td>{{@$var["use_rate"]}}%</td>
                         <td>{{@$var["use_num"]}} </td>
                         <td>{{@$var["error"]}} </td>
-                        <td>{{@$var["error_rate"]}} </td>
+                        <td>{{@$var["error_rate"]}}%</td>
                         <td>{{@$var["error_num"]}} </td>
                         <td>{{@$var["score"]}} </td>
                     </tr>

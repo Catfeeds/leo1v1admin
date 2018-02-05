@@ -509,9 +509,9 @@ class resource extends Controller
                             'visit'             => $v['visit'],
                             'use'               => $v['use'],
                             'error'             => $v['error'],
-                            'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) . '%',
-                            'error_rate'        => round( $v['error']*100/$v['file_num'], 2) . '%',
-                            'use_rate'          => round( $v['use']*100/$v['file_num'], 2) . '%',
+                            'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) ,
+                            'error_rate'        => round( $v['error']*100/$v['file_num'], 2) ,
+                            'use_rate'          => round( $v['use']*100/$v['file_num'], 2) ,
                             'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
                         ];
                         $flag++;
@@ -528,9 +528,9 @@ class resource extends Controller
                 }
             }
             if ($total) {
-                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
-                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
-                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
+                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) ;
+                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
+                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2);
             }
 
             if (!$order_in_db_flag) {
@@ -581,9 +581,9 @@ class resource extends Controller
                 @$total["use"] += $v["user"];
             }
             if ($total) {
-                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
-                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
-                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
+                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) ;
+                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
+                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) ;
             }
 
             if (!$order_in_db_flag) {
