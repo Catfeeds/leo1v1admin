@@ -615,6 +615,10 @@ $(function(){
             //console.log(file_url);
             var ret_func = function(ret){
                  if(ret.ret == 0){
+                     if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){
+                        newTab = window.open('about:blank');
+                        newTab.location.href = ret.url;
+                    }else{
                         var arr_url = ret.url.split("?");
                         var pdf = GetUrlRelativePath(ret.url);
                         var app = arr_url[1];
@@ -632,6 +636,7 @@ $(function(){
                         }
                         $.wopen("/teacher_info/look?"+app+"&url="+pdf_name+"&type="+type);
                         return false;
+                    }
                  } else {
                     BootstrapDialog.alert(ret.info);
                 }
