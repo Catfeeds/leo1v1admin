@@ -3570,7 +3570,7 @@ class teacher_info extends Controller
             $teacher_url = ''; //待定
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
 
-            $data['first']      = " 您好，$nick老师，您负责的讲义\“$file_name\”被老师报错，请及时查看详情并处理。";
+            $data['first']      = " 您好，$teacher_nick老师，您负责的讲义\“$file_name\”被老师报错，请及时查看详情并处理。";
             $data['keyword1']   = " 讲义报错通知";
             $data['keyword2']   = " 请及时检查并处理讲义的报错内容";
             $data['keyword3']   = date('Y-m-d');
