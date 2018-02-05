@@ -64,7 +64,12 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    @if($type == 2)
+                    @if($type == 1)
+                        <td>学科</td>
+                        <td>教研员</td>
+                        <td>资料类型</td>
+                    @endif
+                    @if($type == 2 )
                     <td>教研员</td>
                     @endif
                     @if($type == 3)
@@ -97,6 +102,11 @@
                         <!-- <td class="key1" data-key1="{{@$var["subject"]}}">{{@$var["subject_str"]}}</td>
                         <td class="key2" data-key2="{{@$var["subject"]}}_{{@$var["adminid"]}}">{{@$var["nick"]}} </td> -->
                     <tr>
+                        @if($type == 1)
+                        <td  data-key2="{{@$var["subject"]}}_{{@$var["adminid"]}}">{{@$var["nick"]}} </td>
+                        <td>{{@$var["resource_type_str"]}} </td>
+                        <td>{{@$var["file_num"]}} </td>
+                        @endif
                         @if($type == 2)
                         <td>{{@$var['adminid']}}</td>
                         @endif
