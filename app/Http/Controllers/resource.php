@@ -451,11 +451,18 @@ class resource extends Controller
         $subject = $this->get_in_int_val("subject", -1);
         $grade = $this->get_in_int_val("grade", -1);
         $resource_type = $this->get_in_int_val("resource_type", -1);
-        $teacherid     = $this->get_in_int_val("teacherid",-1);
+        $teacherid     = $this->get_in_int_val("teacherid",-1); //
         $type          = $this->get_in_int_val("type",1);
         if($type == 1){
             $page_num      = $this->get_in_page_num();
-            $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type,$teacherid);
+            if($teacherid > 1){
+                $phone = $this->t_teacher_info->get_phone($teacherid);
+                $adminid = $this->t_manager_info->get_id_by_phone($phone);  
+            }else{
+                $adminid = -1;
+            }
+            
+            $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type,$adminid);
             $list = [];
             $total = [];
             foreach($ret_info as &$item){
