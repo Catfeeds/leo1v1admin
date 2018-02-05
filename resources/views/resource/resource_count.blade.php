@@ -67,17 +67,19 @@
                     <td>学科</td>
                     <td>教研员</td>
                     <td>资料类型</td>
-                    <td>上传文件数</td>
-                    <td>浏览量</td>
-                    <td>浏览率</td>
-                    <td>浏览次数</td>
-                    <td>使用量</td>
-                    <td>使用率</td>
-                    <td>使用次数</td>
-                    <td>收藏量</td>
-                    <td>收藏率</td>
-                    <td>收藏次数</td>
-                    <td>个人分值</td>
+                      {!!\App\Helper\Utils::th_order_gen([
+                        ["上传文件数","file_num" ],
+                        ["浏览量","visit" ],
+                        ["浏览率","visit_rate" ],
+                        ["浏览次数","visit_num"],
+                        ["使用量","use"],
+                        ["使用率","use_rate"],
+                        ["使用次数","use_num"],
+                        ["收藏量","error"],
+                        ["收藏率","error_rate"],
+                        ["收藏次数","error_num"],
+                        ["个人分值","score"],
+                       ])  !!}
                 </tr>
             </thead>
             <tbody>
@@ -89,6 +91,9 @@
                         <td>{{@$var["subject_str"]}}</td>
                         <td>{{@$var["nick"]}}</td>
                         <td>{{@$var["resource_type_str"]}} </td>
+
+                       
+
                         <td>{{@$var["file_num"]}} </td>
                         <td>{{@$var["visit"]}} </td>
                         <td>{{@$var["visit_rate"]}} </td>

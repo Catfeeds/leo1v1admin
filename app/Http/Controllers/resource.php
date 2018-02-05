@@ -430,6 +430,23 @@ class resource extends Controller
     }
 
     public function resource_count(){
+        $sum_field_list=[
+            "file_num",
+            "visit",
+            "visit_rate",
+            "visit_num",
+            "use",
+            "use_rate",
+            "use_num",
+            "error",
+            "error_rate",
+            "error_num",
+            "score",
+        ];
+        $order_field_arr=  $sum_field_list ;
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"");
+
         list($start_time,$end_time) = $this->get_in_date_range(-30, 0 );
         $subject = $this->get_in_int_val("subject", -1);
         $grade = $this->get_in_int_val("grade", -1);
@@ -437,6 +454,7 @@ class resource extends Controller
         $teacherid     = $this->get_in_int_val("teacherid",-1);
         $type          = $this->get_in_int_val("type",1);
         if($type == 1){
+            $page_num      = $this->get_in_page_num();
             $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type,$teacherid);
             $list = [];
             $total = [];
@@ -506,8 +524,13 @@ class resource extends Controller
                 @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
                 @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
             }
+
+            if (!$order_in_db_flag) {
+                \App\Helper\Utils::order_list( $ret, $order_field_name, $order_type );
+            }
+            $ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
             //dd($final_list);
-            return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
+            return $this->pageView( __METHOD__,$ret_arr, [
                 "total" => $total,
                 "type"  => $type,
             ]);
