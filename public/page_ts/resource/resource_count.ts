@@ -71,5 +71,15 @@ $(function(){
             });
        });
     });
+
+    $('#id_type').change(function(){
+        var type = $('#id_type').val();
+        //alert(type);
+        if(type > 1){
+            $(".hide_class").hide();
+        }else{
+            $(".hide_class").show();
+        }
+    }).change();;
     $('.opt-change').set_input_change_event(load_data);
 });
