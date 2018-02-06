@@ -10,7 +10,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
 
     public function get_all(
         $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $file_title, $page_info,
-        $is_del = 0,$status = 0,$has_comment = -1
+        $is_del = 0,$status = 0,$has_comment = -1,$has_error = -1,$id_order = 1
+
     ){
         $where_arr = [
             ['r.use_type=%u', $use_type, -1],
@@ -29,9 +30,34 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         if( $has_comment == 1 ){
             $where_arr[] = ['com.id > %u',0];
         }
+
+        if( $has_error == 1 ){
+            $where_arr[] = ['error.id > %u',0];
+        }
+
         $not = '';
+
         if( $has_comment == 0 ){
-            $not = "and not exists ( select id from db_weiyi.t_resource_file_evalutation com where com.file_id=f.file_id) ";
+            $not .= " and not exists ( select com.id from db_weiyi.t_resource_file_evalutation com where com.file_id=f.file_id) ";
+        }
+
+        if( $has_error == 0 ){
+            $not .= " and not exists ( select error.id from db_weiyi.t_resource_file_error_info error where error.file_id=f.file_id) ";
+        }
+
+        $order = "";
+        if($id_order == 1){
+            $order = " order by r.resource_id desc,v.file_id desc";
+        }else if($id_order == 2){
+            if($has_comment != 1){
+                $where_arr[] = ['com.id > %u',0];
+            }
+            $order = " order by com.id desc,r.resource_id desc,v.file_id desc";
+        }else if($id_order == 3){
+            if($has_error != 1){
+                $where_arr[] = ['error.id > %u',0];
+            }
+            $order = " order by error.id desc,r.resource_id desc,v.file_id desc";
         }
 
         if( in_array($resource_type, [1,2,3,4,5,9]) ){
@@ -50,22 +76,24 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         $sql = $this->gen_sql_new(
             "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
             ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
-            ." t.tag as tag_four_str,v.create_time,v.visitor_id"
+            ." t.tag as tag_four_str,v.create_time,v.visitor_id,com.id as comment_id,error.id as error_id"
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
             ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "
             ." left join %s t on t.id=r.tag_four"
             ." left join %s com on com.file_id=f.file_id"
+            ." left join %s error on error.file_id=f.file_id"
             ." where %s"
             ." and not exists ( select 1 from %s where file_id=v.file_id and v.create_time<create_time and visitor_type=0) "
             .$not
-            //." order by r.resource_id desc,f.file_use_type"
-            ."group by v.file_id order by r.resource_id desc,v.file_id desc"
+            ." group by v.file_id"
+            ." order by r.resource_id desc,v.file_id desc"
             ,self::DB_TABLE_NAME
             ,t_resource_file::DB_TABLE_NAME
             ,t_resource_file_visit_info::DB_TABLE_NAME
             ,t_sub_grade_book_tag::DB_TABLE_NAME
             ,t_resource_file_evalutation::DB_TABLE_NAME
+            ,t_resource_file_error_info::DB_TABLE_NAME
             ,$where_arr
             ,t_resource_file_visit_info::DB_TABLE_NAME
         );

@@ -29,6 +29,8 @@ class resource extends Controller
         $tag_five      = $this->get_in_int_val('tag_five', -1);
         $file_title    = trim( $this->get_in_str_val('file_title', '') );
         $has_comment   = $this->get_in_int_val('has_comment', -1);
+        $has_error     = $this->get_in_int_val('has_error', -1);
+        $id_order      = $this->get_in_int_val('id_order', 1);
         $page_info     = $this->get_in_page_info();
 
         if($use_type == 1){
@@ -40,7 +42,8 @@ class resource extends Controller
             $resource_type = 8;
         }
         $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,0,0,$has_comment
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,0,0,$has_comment,
+            $has_error,$id_order
         );
         $r_mark = 0;
         $index  = 1;
@@ -91,7 +94,17 @@ class resource extends Controller
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
 
-            $item['comment'] = $this->t_resource_file_evalutation->get_count($item['file_id']);
+
+            $item['comment'] = null;
+            if(!empty($item['comment_id'])){
+                $item['comment'] = $this->t_resource_file_evalutation->get_count($item['file_id']);
+            }
+
+            $item['error'] = null;
+            if(!empty($item['error_id'])){
+                $item['error'] = $this->t_resource_file_error_info->get_count($item['file_id']);
+            }
+
         }
         //dd($ret_info['list']);
 

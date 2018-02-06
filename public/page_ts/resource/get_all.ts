@@ -29,6 +29,8 @@ function load_data(){
         tag_five      :	$('#id_tag_five').val(),
         file_title    :	$('#id_file_title').val(),
         has_comment   : $('#id_has_comment').val(),
+        has_error     : $('#id_has_error').val(),
+        id_order      : $('#id_order').val()
     });
 }
 $(function(){
@@ -119,8 +121,13 @@ $(function(){
 
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
     Enum_map.append_option_list("boolean", $("#id_has_comment"));
-    $("#id_has_comment").val(g_args.has_comment);
+    Enum_map.append_option_list("boolean", $("#id_has_error"));
+
     $('#id_use_type').val(g_args.use_type);
+    $("#id_has_comment").val(g_args.has_comment);
+    $("#id_has_error").val(g_args.has_error);
+    $("#id_order").val(g_args.id_order);
+
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
         $('#id_resource_type').val(g_args.resource_type);

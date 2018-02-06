@@ -136,6 +136,24 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否有报错</span>
+                        <select class="form-control opt-change" id="id_has_error"> </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">排序原则</span>
+                        <select class="form-control opt-change" id="id_order">
+                            <option value="1">上传时间倒排序</option>
+                            <option value="2">最新评价</option>
+                            <option value="3">最新报错</option>
+                        </select>
+                    </div>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-xs-2 col-md-1 ">
@@ -248,7 +266,14 @@
                                     评价(0)
                                 @endif
                             </a>
-                            <a class="opt-error btn color-blue" data-file_id="{{$var["file_id"]}}" data-resource_type="{{$var["resource_type"]}}"  title="报错">报错</a>
+                            <a class="opt-error btn color-blue" data-file_id="{{$var["file_id"]}}" data-resource_type="{{$var["resource_type"]}}"  title="报错">
+                                @if($var['error'] > 0 )
+                                    报错({{$var['error']}})
+                                @else
+                                    报错(0)
+                                @endif
+
+                            </a>
                         </td>
                     </tr>
                 @endforeach
