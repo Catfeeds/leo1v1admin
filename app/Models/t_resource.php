@@ -110,7 +110,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
             ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
             ." t.tag as tag_four_str,v.create_time,v.visitor_id,r.create_time as c_time, "
-            ." e.id,e.teacherid, e.add_time, e.error_type, e.sub_error_type,e.detail_error,e.error_picture, "
+            ." e.id as eid,e.teacherid, e.add_time, e.error_type, e.sub_error_type,e.detail_error,e.error_picture, "
             ." e.detail_question, e.train_error_type ,e.phone ,e.nick as error_nick,e.resource_type as etype,e.status as estatus "
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
@@ -133,7 +133,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
-    public function get_count($start_time, $end_time, $subject=-1, $grade=-1, $resource_type=-1){
+    public function get_count($start_time, $end_time, $subject=-1, $grade=-1, $resource_type=-1,$adminid=-1){
         $where_arr = [
             'r.is_del=0',
             'f.status=0',
@@ -142,6 +142,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ["subject=%u", $subject, -1],
             ["grade=%u", $grade, -1],
             ["resource_type=%u", $resource_type, -1],
+            ["adminid=%u",$adminid,-1],
         ];
         $sql = $this->gen_sql_new("select resource_type,adminid,subject,f.file_id,f.visit_num,f.use_num,f.error_num"
                                   ." from %s f"
@@ -152,7 +153,41 @@ class t_resource extends \App\Models\Zgen\z_t_resource
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
+        //dd($sql);
+        return $this->main_get_list($sql);
+    }
 
+    public function get_count_new($start_time, $end_time, $type){
+        $where_arr = [
+            'r.is_del=0',
+            'f.status=0',
+            ['r.create_time>%u', $start_time, -1],
+            ['r.create_time<=%u', $end_time, -1],
+        ];
+        if($type == 2){
+            $group = "adminid";
+        }else if($type == 3){
+            $group = "subject";
+        }else if($type == 4){
+            $group = "grade";
+        }else if($type == 5){
+            $group = "resource_type";
+        }
+        $sql = $this->gen_sql_new("select %s,  count(f.file_id) as file_num ,sum(f.visit_num) as visit_num, "
+                                ." sum(f.use_num) as use_num ,sum(f.error_num) as error_num, "
+                                ." sum(if(f.visit_num>0,1,0)) as visit ,sum(if(f.use_num>0,1,0)) as user, "
+                                ." sum(if(f.error_num>0,1,0))  as error "
+                                  ." from %s f"
+                                  ." left join %s r on r.resource_id=f.resource_id"
+                                  ." where %s"
+                                  ." group by %s"
+                                  ,$group
+                                  ,t_resource_file::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$group
+        );
+        //dd($sql);
         return $this->main_get_list($sql);
     }
 

@@ -53,6 +53,7 @@ class seller_student_system_assign extends cmd_base
             $adminid=$item["uid"];
             $seller_level=$item["seller_level"];
             $def_new_count=@$config[$seller_level]; //每日抢新配额
+            $no_return_call_num = $item['no_return_call_num'];//试听成功未回访数量
             if (!$def_new_count){
                 $def_new_count=0;
             }
@@ -101,7 +102,7 @@ class seller_student_system_assign extends cmd_base
                 $add_flag=($item["max_hold_count"] >$item["hold_count"]);
             }
 
-            if ($add_flag)  {
+            if ($add_flag && $no_return_call_num <=0 )  {
                 $admin_list[]=$item;
             }
         }
@@ -155,8 +156,6 @@ class seller_student_system_assign extends cmd_base
         $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
             E\Etq_called_flag::V_1
         );
-        //获取未拨打过的例子
-        // $no_call_list=$this->task->t_seller_student_new_b2->get_no_call_list(E\Etq_called_flag::V_1);
         $need_deal_count= count( $need_deal_list);
         $old_need_deal_count=$need_deal_count;
         $assigned_count=0;

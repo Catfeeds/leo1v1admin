@@ -625,10 +625,15 @@ class seller_student_new extends Controller
         $seller_master_list[] = "448";
         $is_seller_master= 1;
         //添加测试标识[前端用]
-        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
             $this->set_filed_for_js("env_is_test",1);
-        else
+            $env_is_test = 1;
+        }else{
             $this->set_filed_for_js("env_is_test",0);
+            $env_is_test = 0;
+        }
+        //获取用户身份[是否系统分配用户]
+        $seller_student_assign_type = $this->t_manager_info->field_get_value($adminid, 'seller_student_assign_type');
 
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("account_role",$account_role);
@@ -641,6 +646,8 @@ class seller_student_new extends Controller
             "account_role"     => $account_role,
             "account"          => $account,
             "show_son_flag"    => $ret_info['show_son_flag'],
+            'seller_student_assign_type' => $seller_student_assign_type,
+            'env_is_test' => $env_is_test
         ]);
     }
 
@@ -1862,6 +1869,13 @@ class seller_student_new extends Controller
     public function system_free(){
         $system_free = new \App\Console\Commands\seller_student_system_free();
         $system_free->handle();
+        return $this->output_succ();
+    }
+    //@desn:调用更新未回访状态command
+    public function reset_cc_no_return_call(){
+        $uid = $this->get_account_id();
+        $cc_no_return_call = new \App\Console\Commands\cc_no_return_call();
+        $cc_no_return_call->update_no_return_call($uid);
         return $this->output_succ();
     }
 

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use \App\Enums as E;
 
-class cr_info_month extends Command
+class cr_info_month extends cmd_base
 {
     /**
      * The name and signature of the console command.
@@ -42,10 +42,10 @@ class cr_info_month extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
-        $timestamp = time(); 
+        $timestamp = time();
 
 
-        $end_time   = strtotime(date('Y-m', $timestamp));  
+        $end_time   = strtotime(date('Y-m', $timestamp));
         //        $end_time = strtotime(date('Y-m-d'),time()); //
         $start_time = strtotime(date('Y-m',$end_time-86400));
 
@@ -66,7 +66,7 @@ class cr_info_month extends Command
             $type = 3;
             $create_time = $end_time;
             $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
-        } 
+        }
         //节点
         //概况
         $ret_total         = $task->t_order_info->get_total_price($start_time,$end_time);
@@ -91,7 +91,7 @@ class cr_info_month extends Command
         if(($arr['target']-$arr['total_price']) > 0){
             $arr['gap_money'] = $arr['target'] - $arr['total_price'];        //4-缺口金额
         }else{
-            $arr['gap_money'] = 0;  
+            $arr['gap_money'] = 0;
         }
         if($arr['target']){
             $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2);//3-完成率
@@ -146,7 +146,7 @@ class cr_info_month extends Command
 
         $arr['tranfer_num']   = $ret_total['tranfer_num']/1;                          //D5-转介绍成单数量
         $arr['total_tranfer'] = $ret_total['total_tranfer']/100;                      //D6-转介绍总金额
-        
+
         if($arr['tranfer_num'] > 0){
             $arr['tranfer_num_per'] = round($arr['total_tranfer']/$arr['tranfer_num'],2);//D7- 转介绍平均单笔
         }else{
@@ -161,12 +161,12 @@ class cr_info_month extends Command
         $arr['fail_num'] = $kk['fail_num'];                                           //E3-扩科待跟进数量
         $arr['wait_num'] = $kk['wait_num'];                                           //E4-扩科未成单数量
         //存档------------------------------------------------
-        //概况 
+        //概况
         //$finish_num = $task->t_student_info->get_finish_num($start_time,$end_time);//A9-结课学员数
         $finish_num = $task->t_student_info->get_finish_num_new_list($start_time,$end_time);//A9-结课学员数
         $arr['finish_num'] = $finish_num;
         //课时消耗
-        $read_num   = $task->t_student_info->get_read_num($start_time,$end_time);//在读学员数量
+        $read_num       = $task->t_student_info->get_read_num($start_time,$end_time);//在读学员数量
         $lesson_plan    = $task->t_lesson_info->get_total_lesson($start_time,$end_time); //实际有效课时/排课量
         $lesson_income  = $task->t_lesson_info->get_total_income($start_time,$end_time);//课时有效收入
         $arr['read_num']       = $read_num;                                                       //B2-在读学生数量
@@ -188,7 +188,7 @@ class cr_info_month extends Command
         $userlist = trim($userlist,',');
 
 
-        //转介绍 
+        //转介绍
         /*
         $tranfer_cr = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
         $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$end_time); //月初至今

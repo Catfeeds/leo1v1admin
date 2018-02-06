@@ -484,7 +484,7 @@ $(function(){
         },null,false,600);
     };
 
-    var re_upload = function(resource_id,file_id, file_use_type, ex_num){
+    var re_upload = function(resource_id,file_id, file_use_type, ex_num,eid){
 
         if(file_use_type == 3){
             var allow_str = 'mp4,pdf,mp3,MP3,MP4,PDF';
@@ -511,6 +511,8 @@ $(function(){
                         'file_link'     : res.key,
                         'file_use_type' : file_use_type,
                         'ex_num'        : ex_num,
+                        "is_wx"         : 1,
+                        "id"            : eid,
                     } ,
                     success   : function(result){
                         if(result.ret == 0){
@@ -615,7 +617,8 @@ $(function(){
         var file_id       = $(this).attr('file_id');
         var ex_num        = $(this).attr('ex_num');
         var file_use_type = $(this).attr('file_use_type');
-        re_upload(resource_id, file_id, file_use_type, ex_num);
+        var eid           = $(this).attr('eid');
+        re_upload(resource_id, file_id, file_use_type, ex_num,eid);
         //选中标记
         $(".opt-select-item").each(function(){
             var $item=$(this);

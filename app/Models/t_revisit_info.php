@@ -7,7 +7,6 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         parent::__construct();
     }
 
-
     public function get_yuedu_time($userid)
     {
         $sql=$this->gen_sql("select max(a.revisit_time) from %s a left join %s b on a.userid = b.userid where a.userid = %u and revisit_type = 2 and b.type=0",
@@ -33,6 +32,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
                        self::DB_TABLE_NAME,$userid);
         return $this->main_get_value($sql);
     }
+
     public function get_max_revisit_time_list($userid)
     {
         $where_arr= [
@@ -89,8 +89,14 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->add_revisit_record($userid, time(NULL),"", 0, $account ,  $msg, 10 ) ;
     }
 
-    public function add_revisit_record($userid, $revisit_time, $stu_nick, $revisit_person, $sys_operator, $operator_note,$revisit_type, $call_phone_id  =NULL,$operation_satisfy_flag=0,$operation_satisfy_type=0,$record_tea_class_flag=0,$tea_content_satisfy_flag=0,$tea_content_satisfy_type=0,$operation_satisfy_info="",$child_performance="",$tea_content_satisfy_info="",$other_parent_info="",$other_warning_info="",$child_class_performance_flag=0,$child_class_performance_info="",$child_class_performance_type=0,$school_work_change_flag=0,$school_score_change_flag=0,$school_work_change_info="",$school_work_change_type=0,$school_score_change_info="",$is_warning_flag=0)
-    {
+    public function add_revisit_record(
+        $userid,$revisit_time,$stu_nick,$revisit_person,$sys_operator,
+        $operator_note,$revisit_type, $call_phone_id=NULL,$operation_satisfy_flag=0,$operation_satisfy_type=0,
+        $record_tea_class_flag=0,$tea_content_satisfy_flag=0,$tea_content_satisfy_type=0,$operation_satisfy_info="",$child_performance="",
+        $tea_content_satisfy_info="",$other_parent_info="",$other_warning_info="",$child_class_performance_flag=0,$child_class_performance_info="",
+        $child_class_performance_type=0,$school_work_change_flag=0,$school_score_change_flag=0,$school_work_change_info="",$school_work_change_type=0,
+        $school_score_change_info="",$is_warning_flag=0
+    ){
         return  $ret= $this->row_insert([
             "userid"         => $userid,
             "revisit_time"   => $revisit_time,
@@ -121,14 +127,17 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             "is_warning_flag"         =>$is_warning_flag
 
         ],false, true, true);
-
     }
+
     public function check_add_existed($userid,$revisit_time) {
-        $sql=$this->gen_sql_new(
-            "select 1 from %s where userid=%u and revisit_time=%u",
-            self::DB_TABLE_NAME, $userid,$revisit_time);
+        $sql=$this->gen_sql_new("select 1 from %s where userid=%u and revisit_time=%u"
+                                ,self::DB_TABLE_NAME
+                                ,$userid
+                                ,$revisit_time
+        );
         return $this->main_get_row($sql);
     }
+
     public function get_revisit_list($page_num,$userid,$is_warning_flag=-1){
         $where_arr=[
             ["userid=%u",$userid, -1] ,
