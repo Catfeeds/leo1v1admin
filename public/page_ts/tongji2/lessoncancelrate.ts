@@ -24,46 +24,41 @@ $(function(){
         }
     });
 
-    // $(window).on("load",function(){
-
-        console.log('cc'+dateArr);
-        console.log(rateArr);
-        var chart = Highcharts.chart('container', {
-            chart: {
-                type: 'line'
-            },
+    var chart = Highcharts.chart('container', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '课次取消率'
+        },
+        xAxis: {
+            categories: dateArr
+        },
+        yAxis: {
             title: {
-                text: '课次取消率'
-            },
-            xAxis: {
-                categories: dateArr
-            },
-            yAxis: {
-                title: {
-                    text: '取消率(%)'
-                }
-            },
-            plotOptions: {
-                line: {
-                    dataLabels: {
-                        enabled: true,// 开启数据标签
-                        format : '{y:.2f}%'
-                    },
-                    enableMouseTracking: true // 关闭鼠标跟踪，对应的提示框、点击事件会失效
-                }
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:11px">{point.key}</span><br>',
-                pointFormat: '<span >取消率</span>: <b>{point.y:.2f}%</b><br/>'
-            },
+                text: '取消率(%)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,// 开启数据标签
+                    format : '{y:.2f}%'
+                },
+                enableMouseTracking: true // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{point.key}</span><br>',
+            pointFormat: '<span >取消率</span>: <b>{point.y:.2f}%</b><br/>'
+        },
 
-            series: [{
-                name: '取消率',
-                data: rateArr
-            }]
-        });
+        series: [{
+            name: '取消率',
+            data: rateArr
+        }]
+    });
 
-    // });
 
 
   $('.opt-change').set_input_change_event(load_data);

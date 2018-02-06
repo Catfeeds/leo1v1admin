@@ -47,9 +47,9 @@ class send_refund_warning extends Command
         // ]);
 
         $account = "ricky";
-        $from_user = "你好";
-        $header_msg = "退费预警";
-        $msg = "内容";
+        $from_user = "退费预警";
+        $header_msg = "";
+        $msg = "三级预警：100".PHP_EOL."二级预警：10".PHP_EOL."一级预警：1";
 
         $task->t_manager_info->send_wx_todo_msg($account, $from_user, $header_msg, $msg);
     }
