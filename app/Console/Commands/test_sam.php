@@ -386,7 +386,7 @@ where s.is_test_user = 0 and q.is_called_phone =1
         $ret = $task->t_student_score_info->reflash_info();
         foreach ($ret as $key => $value) {
             $teacherid = $value['teacherid'];
-            $task->t_teacher_info_info->field_update_list($teacherid,[
+            $task->t_teacher_info->field_update_list($teacherid,[
                 "teaching_achievement" =>$value['achievement'],
             ]);
             echo $teacherid.'<br/>';
