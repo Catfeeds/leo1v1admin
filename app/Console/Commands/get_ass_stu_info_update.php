@@ -63,7 +63,7 @@ class get_ass_stu_info_update extends Command
             $arr[] = $first_lesson_stu_list;
         }
         $task->t_teacher_info->field_update_list(240314,[
-            "prize" => json_decode($arr)
+            "prize" => json_encode($arr)
         ]);
         dd(111);
 
