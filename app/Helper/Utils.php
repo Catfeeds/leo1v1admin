@@ -2848,7 +2848,7 @@ class Utils  {
      * 检测老师工资核算时间
      * 涉及到老师工资信息的添加，更改，删除，需要检测其操作时间
      * @param int time 检测的时间
-     * @return boolean
+     * @return boolean 是否可执行相关操作 true 可以 false 不可以
      */
     static public function check_teacher_salary_time($time){
         $check_time = strtotime("+1 month",strtotime(date("Y-m-06",$time)));
