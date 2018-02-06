@@ -1507,11 +1507,11 @@ class seller_student_new extends Controller
            "unallot_info" => $unallot_info
         ]);
     }
-    public function deal_new_user_tmk( ) {
+    public function deal_new_user_tmk(){
         return $this->deal_new_user();
     }
 
-    public function deal_new_user( ) {
+    public function deal_new_user(){
         $adminid = $this->get_account_id();
 
         if ($this->t_manager_info->get_seller_student_assign_type($adminid) ==  E\Eseller_student_assign_type::V_1  ) {

@@ -189,6 +189,8 @@ function init_today_new()  {
                 if (user_item["show_left_time_flag"]) {
                     if (opt_data.tq_called_flag==2) {
                         $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span> 请设置用户信息" );
+                    }else if(opt_data.tq_called_flag == 1){
+                        $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span>");
                     }else{
                         var msg="会被系统分走,请尽快联系";
                         $item.find(".box-footer").html("剩余:<span style=\"color:red; font-weight:bolder;font-size:18px; \">"+ user_item.left_time_str+"</span><br> <span style=\"color:red; \" >"+ opt_data.tq_called_flag_str +" </span> " +msg);
