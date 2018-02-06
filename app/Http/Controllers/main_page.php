@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use Illuminate\Support\Facades\Redis ;
 
 class main_page extends Controller
 {
@@ -45,6 +46,9 @@ class main_page extends Controller
             E\Esms_type::set_item_value_str($item, "type");
         }
         $sys_assign=$this->t_seller_student_system_assign_count_log->get_last_item();
+        $day_system_assign_count = 0;
+        if(Redis::get('day_system_assign_count'))
+            $day_system_assign_count = Redis::get('day_system_assign_count');
 
 
         $sys_info=[
@@ -55,6 +59,7 @@ class main_page extends Controller
             ["系统分配例子时间", \App\Helper\Utils::unixtime2date( $sys_assign["logtime"])],
             ["新例子剩余", $sys_assign["new_count"]],
             ["新例子需要", $sys_assign["need_new_count"]],
+            ["新例子配置", $day_system_assign_count],
             ["新例子已分配", $sys_assign["new_count_assigned"]],
 
             ["未联系剩余", $sys_assign["no_connected_count"]],
@@ -2902,5 +2907,13 @@ class main_page extends Controller
             $info[$key]['adopt_sum'] = 0;
         }
         return $info;
+    }
+    //@desn:修改新例子需要配额
+    public function edit_system_allocates_num(){
+        $system_allocates_num = $this->get_in_int_val('system_allocates_num');
+        Redis::set('day_system_assign_count',$system_allocates_num);
+        $aa = Redis::get('day_system_assign_count');
+        \App\Helper\Utils::logger("aa $aa");
+        return $this->output_succ();
     }
 }
