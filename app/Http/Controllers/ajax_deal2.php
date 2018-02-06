@@ -277,7 +277,6 @@ class ajax_deal2 extends Controller
         $this->t_order_info->field_update_list($orderid,[
             "pdf_url" =>$pdf_file_url
         ]);
-        return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
 
         # 增加发送给家长 [暂停发布]
         $parentid = $this->t_parent_child->get_parentid_by_userid($userid);
@@ -297,6 +296,7 @@ class ajax_deal2 extends Controller
                 \App\Helper\Utils::send_wx_to_parent($parentOpenid,$template_id,$data,$pdf_url);
             }
         }
+        return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
     }
 
     /**
