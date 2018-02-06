@@ -3545,7 +3545,7 @@ class teacher_info extends Controller
         $error_picture       = $this->get_in_str_val("error_url",'');
         $teacherid           = $this->get_login_teacher();
 
-        $this->t_resource_file_error_info->row_insert([
+        $ret = $this->t_resource_file_error_info->row_insert([
             "file_id"          => $file_id,
             "teacherid"        => $teacherid,
             "add_time"         => time(NULL),
@@ -3559,6 +3559,27 @@ class teacher_info extends Controller
             "detail_error"     => $detail_error,
             "error_picture"    => $error_picture,
         ]);
+        //send wx_message
+        if($ret){   
+            //search 
+            
+            $info = $this->t_resource_file->get_teacherinfo($file_id);
+            $wx_openid    = $info['wx_openid'];
+            $file_name    = $info['file_title'];
+            $teacher_nick = $info['nick'];
+            //dd($teacher_nick);
+            $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+
+            $data['first']      = " 您好, $teacher_nick 老师，您负责的讲义“$file_name ”被老师报错，请及时查看详情并处理。";
+            $data['keyword1']   = " 讲义报错通知";
+            $data['keyword2']   = " 请及时检查并处理讲义的报错内容";
+            $data['keyword3']   = date('Y-m-d');
+            $data['remark']     = "处理报错位置：理优管理系统——教研备课后台";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
+
+        }
         return $this->output_succ();
     }
 

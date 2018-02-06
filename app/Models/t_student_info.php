@@ -3215,7 +3215,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_ass_openid($userid){
-        $sql = $this->gen_sql_new("  select wx_openid from %s s "
+        $sql = $this->gen_sql_new("  select m.wx_openid from %s s "
                                   ." left join %s a on a.assistantid=s.assistantid"
                                   ." left join %s m on m.phone=a.phone"
                                   ." where s.userid=%d "

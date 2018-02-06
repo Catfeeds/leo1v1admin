@@ -173,6 +173,8 @@ function init_today_new()  {
                 alert('例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count);
                 hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
             }
+            if(resp.no_call_test_succ > 0 && resp.env_is_test == 1)
+                alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访-所有未回访用户回访完成后,请点击【重置回访】按钮重置回访状态!');
 
             var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
             $id_today_new_list.find(".new_list_title").html ($title);
@@ -1762,6 +1764,13 @@ function init_edit() {
         var click_type=2;
         edit_user_info_new(opt_data,opt_obj,click_type);
     });
+
+    //@desn:重置试听成功未回访状态
+    $('#id_reset').on('click',function(){
+        $.do_ajax("/seller_student_new/reset_cc_no_return_call",{
+        });
+    });
+
 
     var edit_user_info_new=function(opt_data,opt_obj,click_type){
         $.do_ajax("/ss_deal/get_user_info",{
@@ -4266,5 +4275,5 @@ function init_edit() {
     if(g_adminid==540){
         window["download_show"]();
     }
-
 }
+    

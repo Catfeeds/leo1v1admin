@@ -6,6 +6,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use \App\Enums as E;
+use Illuminate\Support\Facades\Redis ;
 
 class new_seller_student extends Job implements ShouldQueue
 {
@@ -53,6 +54,9 @@ class new_seller_student extends Job implements ShouldQueue
         $t_origin_key = new \App\Models\t_origin_key();
 
         $need_count= \App\Helper\Config::get_day_system_assign_count();
+        if(Redis::get('day_system_assign_count'))
+            $need_count = Redis::get('day_system_assign_count');
+        \App\Helper\Utils::logger("need_count $need_count ");
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --begin--
         //特殊渠道不进入自动分配例子
         $special_origin = ['美团—1230','学校-180112'];
