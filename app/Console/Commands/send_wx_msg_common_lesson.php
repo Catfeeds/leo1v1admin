@@ -250,7 +250,7 @@ class send_wx_msg_common_lesson extends Command
         }
 
 
-        # 常规课结束 想家长发送信息
+        # 常规课结束 向家长发送信息
         /**
          * @ 家长您好, xx同学已完成1.5课时,请知晓。如有疑问,请联系班主任
          * @ 课程名称:数学
@@ -281,8 +281,10 @@ class send_wx_msg_common_lesson extends Command
             ];
 
             $urlLessonEnd = "";
-            $wx->send_template_msg($itemLessonEnd['wx_openid'],$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);
-            // $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
+            if($itemLessonEnd['wx_openid']!=''){
+                $wx->send_template_msg($itemLessonEnd['wx_openid'],$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);
+                // $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
+            }
         }
     }
 

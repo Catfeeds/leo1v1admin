@@ -54,6 +54,7 @@
                     <td>教务排课数</td>
                     <td>学生上课数</td>
                     <td>试听成功数</td>
+                    <td>试听成功人数</td>
                     <td>第一周试听成功数</td>
                     <td>第二周试听成功数</td>
                     <td>第三周试听成功数</td>
@@ -101,6 +102,7 @@
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
                         <td class="test_lesson_count"></td>
                         <td class="succ_all_count_for_month"></td>
+                        <td class="dis_succ_all_count_for_month"></td>
                         <td class="suc_lesson_count_one"></td>
                         <td class="suc_lesson_count_two"></td>
                         <td class="suc_lesson_count_three"></td>

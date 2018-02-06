@@ -68,6 +68,8 @@ class teacher_feedback extends Controller
                     $tea_val['lesson_deduct'] .= $lesson_deduct_info[$deduct_key]."|";
                 }
             }
+
+            $tea_val['show_flag']=\App\Helper\Utils::check_teacher_salary_time($tea_val['lesson_start']);
         }
 
         return $this->pageView(__METHOD__,$list,[
@@ -124,12 +126,6 @@ class teacher_feedback extends Controller
         if($check_status == 1){
             if(in_array($feedback_type,[201,202,203,204])){
                 $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
-                $next_flag   = 0;
-                $first_day   = strtotime(date("Y-m-01",time()));
-                if($lesson_info["lesson_start"]<$first_day){
-                    $check_day = strtotime(date("Y-m-05",time()));
-                    $next_flag = $check_day<time()?1:0;
-                }
 
                 switch($feedback_type){
                 case 201:
@@ -149,20 +145,36 @@ class teacher_feedback extends Controller
                     break;
                 }
 
-                if(!empty($lesson_arr) && $next_flag!=1){
-                    $this->t_lesson_info->field_update_list($lessonid,$lesson_arr);
-                }elseif($next_flag==1){
-                    $remark_str .= "处理方式：本节课扣款会补偿到下次工资发放里。";
-                    $lesson_cost_reward = \App\Helper\Config::get_config_2("teacher_money","lesson_cost");
-                    $ret = $this->t_teacher_money_list->row_insert([
-                        "teacherid"  => $lesson_info['teacherid'],
-                        "type"       => 4,
-                        "add_time"   => time(),
-                        "money"      => $lesson_cost_reward,
-                        "money_info" => "上月课程在5日后反馈处理补偿,lessonid".$lessonid,
-                        "acc"        => $this->get_account(),
-                    ]);
+                $check_teacher_salary_flag = \App\Helper\Utils::check_teacher_salary_time($lesson_info['lesson_start']);
+                $error_info = "";
+                if(!empty($lesson_arr) && $check_teacher_salary_flag){
+                    $ret = $this->t_lesson_info->field_update_list($lessonid,$lesson_arr);
+                    if(!$ret){
+                        $error_info = "更新课程扣款失败,请刷新后重试!";
+                    }
+                }else{
+                    if(empty($lesson_arr)){
+                        $error_info = "无要更改的扣款信息,请刷新后重试!";
+                    }else{
+                        $error_info = "课程操作超过处理时间!";
+                    }
                 }
+
+                if($error_info!=""){
+                    return $this->output_err($error_info);
+                }
+                // if($next_flag==1){
+                //     $remark_str .= "处理方式：本节课扣款会补偿到下次工资发放里。";
+                //     $lesson_cost_reward = \App\Helper\Config::get_config_2("teacher_money","lesson_cost");
+                //     $ret = $this->t_teacher_money_list->row_insert([
+                //         "teacherid"  => $lesson_info['teacherid'],
+                //         "type"       => 4,
+                //         "add_time"   => time(),
+                //         "money"      => $lesson_cost_reward,
+                //         "money_info" => "上月课程在6日后反馈处理补偿,lessonid".$lessonid,
+                //         "acc"        => $this->get_account(),
+                //     ]);
+                // }
             }
         }elseif($back_reason==""){
             return $this->output_err("反馈原因不能为空!");

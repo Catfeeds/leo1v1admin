@@ -683,6 +683,8 @@ $(function(){
         var id_grade_confirm        = $("<div class=\"check_flag\"><input type=\"checkbox\" id=\"grade\"></div>");
         var id_textbook_confirm     = $("<div class=\"check_flag\"><input type=\"checkbox\" id=\"textbook\"></div>");
 
+        var id_is_over = $("<select name='is_over'><option value=0>是</option><option value=1>否</option></select>"); // 退费预警是否解除
+
         Enum_map.append_option_list( "set_boolean",  $operation_satisfy_flag,true);
         Enum_map.append_option_list( "set_boolean",  $school_work_change_flag,true);
         Enum_map.append_option_list( "child_class_performance_type",  $child_class_performance_type,true);
@@ -692,7 +694,8 @@ $(function(){
         Enum_map.append_option_list( "school_work_change_type", $school_work_change_type,true);
         Enum_map.append_option_list( "tea_content_satisfy_type", $tea_content_satisfy_type,true);
         Enum_map.append_option_list( "tea_content_satisfy_flag", $tea_content_satisfy_flag,true);
-        Enum_map.append_option_list("revisit_type",id_return_record_type,true,[0,3,4,5,6]);
+        // 18-2-6 添加 11 退费预警回访
+        Enum_map.append_option_list("revisit_type",id_return_record_type,true,[0,3,4,5,6,11]);
         Enum_map.append_option_list("revisit_person",id_return_record_person,true,[0,1,2,3]);
         Enum_map.append_option_list("revisit_path",id_revisit_path,true);
 
@@ -745,6 +748,7 @@ $(function(){
             ["家长辅导预期",id_parent_guidance_except],
             ["辅导科目情况",id_tutorial_subject_info],
             ["其他科目情况",id_other_subject_info],
+                        ["退费预警是否解除", id_is_over]
         ];
 
         var show_field=function (jobj,show_flag) {
@@ -797,6 +801,7 @@ $(function(){
             show_field( id_return_record_person ,false );
             show_field( id_return_record_record ,false);
 
+            show_field( id_is_over, false)
         }
         var reset_ui=function() {
             var var0=id_return_record_type.val();
@@ -857,6 +862,13 @@ $(function(){
                 show_field( id_revisit_path ,true );
                 show_field( id_return_record_person ,true );
                 show_field( id_return_record_record ,true );
+            } else if (var0 == 11) { // 退费预警回访
+                hidden_field();
+                show_field( id_return_record_type, true);
+                show_field( id_return_record_person, true);
+                show_field( id_revisit_path, true);
+                show_field( id_return_record_record, true);
+                show_field( id_is_over, true);
             }
             if (val1==1 || val1==0) {
                 show_field( $operation_satisfy_type ,false );
@@ -997,37 +1009,77 @@ $(function(){
                         return;
                     }
                 }
+                if (id_return_record_type.val()==='11') {
+                    $.do_ajax("/company_wx/add_warn_revisit_record", {
+                        "userid" : userid,
+                        "revisit_type" : id_return_record_type.val(),
+                        "revisit_person" : id_return_record_person.val(),
+                        "revisit_path" : id_revisit_path.val(),
+                        "operator_note" : id_return_record_record.val(),
+                        "is_over" : id_is_over.val()
+                    });
+                } else {
+                    $.do_ajax("/revisit/add_revisit_record_b2", {
+                        "userid":userid,
+                        "operator_note":id_return_record_record.val(),
+                        "revisit_person":id_return_record_person.find("option:selected").text(),
+                        "revisit_type":id_return_record_type.val(),
+                        "operation_satisfy_flag": $operation_satisfy_flag.val(),
+                        "operation_satisfy_type": $operation_satisfy_type.val(),
+                        "operation_satisfy_info": $operation_satisfy_info.val(),
+                        "child_class_performance_flag": $child_class_performance_flag.val(),
+                        "child_class_performance_type": $child_class_performance_type.val(),
+                        "child_class_performance_info": $child_class_performance_info.val(),
+                        "tea_content_satisfy_flag": $tea_content_satisfy_flag.val(),
+                        "tea_content_satisfy_type": $tea_content_satisfy_type.val(),
+                        "tea_content_satisfy_info": $tea_content_satisfy_info.val(),
+                        "other_parent_info": $other_parent_info.val(),
+                        "other_warning_info": $other_warning_info.val(),
+                        "school_score_change_flag": $school_score_change_flag.val(),
+                        "school_score_change_info": $school_score_change_info.val(),
+                        "school_work_change_flag": $school_work_change_flag.val(),
+                        "school_work_change_type": $school_work_change_type.val(),
+                        "school_work_change_info": $school_work_change_info.val(),
+                        "information_confirm"    : information_confirm,
+                        "id_parent_guidance_except": id_parent_guidance_except.val(),
+                        "id_other_subject_info"  : id_other_subject_info.val(),
+                        "id_tutorial_subject_info" : id_tutorial_subject_info.val(),
+                        "id_recover_time"        : id_recover_time.val(),
+                        "id_revisit_path"        : id_revisit_path.val(),
+                        "id_recent_learn_info"   : id_recent_learn_info.val(),
+                    });
+                }
 
                 //alert(information_confirm);
-                $.do_ajax("/revisit/add_revisit_record_b2", {
-                    "userid":userid,
-                    "operator_note":id_return_record_record.val(),
-                    "revisit_person":id_return_record_person.find("option:selected").text(),
-                    "revisit_type":id_return_record_type.val(),
-                    "operation_satisfy_flag": $operation_satisfy_flag.val(),
-                    "operation_satisfy_type": $operation_satisfy_type.val(),
-                    "operation_satisfy_info": $operation_satisfy_info.val(),
-                    "child_class_performance_flag": $child_class_performance_flag.val(),
-                    "child_class_performance_type": $child_class_performance_type.val(),
-                    "child_class_performance_info": $child_class_performance_info.val(),
-                    "tea_content_satisfy_flag": $tea_content_satisfy_flag.val(),
-                    "tea_content_satisfy_type": $tea_content_satisfy_type.val(),
-                    "tea_content_satisfy_info": $tea_content_satisfy_info.val(),
-                    "other_parent_info": $other_parent_info.val(),
-                    "other_warning_info": $other_warning_info.val(),
-                    "school_score_change_flag": $school_score_change_flag.val(),
-                    "school_score_change_info": $school_score_change_info.val(),
-                    "school_work_change_flag": $school_work_change_flag.val(),
-                    "school_work_change_type": $school_work_change_type.val(),
-                    "school_work_change_info": $school_work_change_info.val(),
-                    "information_confirm"    : information_confirm,
-                    "id_parent_guidance_except": id_parent_guidance_except.val(),
-                    "id_other_subject_info"  : id_other_subject_info.val(),
-                    "id_tutorial_subject_info" : id_tutorial_subject_info.val(),
-                    "id_recover_time"        : id_recover_time.val(),
-                    "id_revisit_path"        : id_revisit_path.val(),
-                    "id_recent_learn_info"   : id_recent_learn_info.val(),
-                });
+                // $.do_ajax("/revisit/add_revisit_record_b2", {
+                //     "userid":userid,
+                //     "operator_note":id_return_record_record.val(),
+                //     "revisit_person":id_return_record_person.find("option:selected").text(),
+                //     "revisit_type":id_return_record_type.val(),
+                //     "operation_satisfy_flag": $operation_satisfy_flag.val(),
+                //     "operation_satisfy_type": $operation_satisfy_type.val(),
+                //     "operation_satisfy_info": $operation_satisfy_info.val(),
+                //     "child_class_performance_flag": $child_class_performance_flag.val(),
+                //     "child_class_performance_type": $child_class_performance_type.val(),
+                //     "child_class_performance_info": $child_class_performance_info.val(),
+                //     "tea_content_satisfy_flag": $tea_content_satisfy_flag.val(),
+                //     "tea_content_satisfy_type": $tea_content_satisfy_type.val(),
+                //     "tea_content_satisfy_info": $tea_content_satisfy_info.val(),
+                //     "other_parent_info": $other_parent_info.val(),
+                //     "other_warning_info": $other_warning_info.val(),
+                //     "school_score_change_flag": $school_score_change_flag.val(),
+                //     "school_score_change_info": $school_score_change_info.val(),
+                //     "school_work_change_flag": $school_work_change_flag.val(),
+                //     "school_work_change_type": $school_work_change_type.val(),
+                //     "school_work_change_info": $school_work_change_info.val(),
+                //     "information_confirm"    : information_confirm,
+                //     "id_parent_guidance_except": id_parent_guidance_except.val(),
+                //     "id_other_subject_info"  : id_other_subject_info.val(),
+                //     "id_tutorial_subject_info" : id_tutorial_subject_info.val(),
+                //     "id_recover_time"        : id_recover_time.val(),
+                //     "id_revisit_path"        : id_revisit_path.val(),
+                //     "id_recent_learn_info"   : id_recent_learn_info.val(),
+                // });
             }
         },function(){
             reset_ui();
