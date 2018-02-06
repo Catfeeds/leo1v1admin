@@ -2529,4 +2529,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_ass_info ($role) {
+        $sql = $this->gen_sql_new("select account from %s where account_role = $role and del_flag = 0 ", self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }
