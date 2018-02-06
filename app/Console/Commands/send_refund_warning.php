@@ -41,6 +41,7 @@ class send_refund_warning extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         $info = $task->t_manager_info->get_ass_info(E\Eaccount_role::V_1);
+        echo "总数 ".count($info);
         foreach($info as $val) {
             $assistantid = $task->t_assistant_info->get_assistantid( $val["account"] );
             $refund_warning = $task->t_student_info->get_refund_warning($assistantid);
