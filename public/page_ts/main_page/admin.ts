@@ -27,6 +27,24 @@ $(function(){
 
 
 	$('.opt-change').set_input_change_event(load_data);
+    //@desn:修改系统分配例子配额
+    $('#id_edit_system_allocates_num').on('click',function(){
+        var system_allocates_num = $("<input/>");
+        system_allocates_num.val($(this).parent().find("span").text() );
+        var arr=[
+            ["新例子需要" , system_allocates_num ],
+        ];
+        $.show_key_value_table("配额编辑", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/main_page/edit_system_allocates_num",{
+                    "system_allocates_num" : system_allocates_num.val()
+                });
+            }
+        });
+
+    })
 });
 
 

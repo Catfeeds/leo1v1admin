@@ -4115,11 +4115,13 @@ ORDER BY require_time ASC";
             'si.is_test_user'=>0,
             'li.lesson_del_flag'=>0,
             'li.lesson_type'=>2,
-            '(li.lesson_user_online_status in (0,1) or f.flow_status = 2)',
-            'tlssl.success_flag in (0,1 )'
+            '(li.lesson_user_online_status = 1 or f.flow_status = 2)',
+            // '(li.lesson_user_online_status in(0,1) or f.flow_status = 2)',
+            'tlssl.success_flag = 1',
+            // 'tlssl.success_flag in (0,1)'
         ];
         $sql = $this->gen_sql_new(
-            'select si.phone,tlsr.require_time from %s tlsr '.
+            'select tlsr.cur_require_adminid,si.phone,tlsr.require_time from %s tlsr '.
             'join %s tlssl on tlsr.current_lessonid=tlssl.lessonid '.
             'left join %s li on tlsr.current_lessonid = li.lessonid '.
             'join %s si  on li.userid=si.userid '.
