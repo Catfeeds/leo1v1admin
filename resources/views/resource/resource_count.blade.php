@@ -145,7 +145,23 @@
                         <td>{{@$var["score"]}} </td>
                     </tr>
                 @endforeach
-                @if ($type > 1 && $type < 6 && $display == 1)
+                @if ($type ==1 && $display == 1)
+                    <td>合计</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{@$total["file_num"]}}</td>
+                    <td>{{@$total["visit"]}}</td>
+                    <td>{{@$total["visit_rate"]}}%</td>
+                    <td>{{@$total["visit_num"]}}</td>
+                    <td>{{@$total["use"]}}</td>
+                    <td>{{@$total["use_rate"]}}%</td>
+                    <td>{{@$total["use_num"]}}</td>
+                    <td>{{@$total["error"]}}</td>
+                    <td>{{@$total["error_rate"]}}%</td>
+                    <td>{{@$total["error_num"]}}</td>
+                    <td></td>
+                @elseif ($type > 1 && $type < 6 && $display == 1)
                 <tr>
                     <td>合计</td>
                     <td>{{@$total["file_num"]}}</td>

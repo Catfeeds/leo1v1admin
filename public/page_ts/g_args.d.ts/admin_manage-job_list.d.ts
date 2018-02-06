@@ -11,6 +11,14 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	queue	:any;
+	payload	:any;
+	attempts	:any;
+	reserved	:any;
+	reserved_at	:any;
+	available_at	:any;
+	created_at	:any;
 }
 
 /*

@@ -190,8 +190,19 @@ class admin_manage extends Controller
         $query_text=$this->get_in_query_text();
 
         $ret_info=$this->t_jobs->get_list($page_info,$query_text);
+        foreach( $ret_info["list"] as &$item ) {
+            \App\Helper\Utils::unixtime2date_for_item($item, "created_at");
+            \App\Helper\Utils::unixtime2date_for_item($item, "available_at");
+        }
         return $this->pageView(__METHOD__,$ret_info);
         // return $this->pageOutJson(__METHOD__, $ret_info);
+    }
+    public function job_del_list() {
+        $id_list=$this->get_in_int_list("id_list");
+        foreach ($id_list as $id) {
+            $this->t_jobs->row_delete($id);
+        }
+        return $this->output_succ() ;
     }
 
 

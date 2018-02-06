@@ -10,6 +10,8 @@ interface GargsStatic {
 	tag_five:	number;
 	file_title:	string;
 	has_comment:	number;
+	has_error:	number;
+	id_order:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -42,6 +44,9 @@ interface RowData {
 	tag_four_str	:any;
 	create_time	:any;
 	visitor_id	:any;
+	comment_id	:any;
+	error_id	:any;
+	error_status	:any;
 	file_use_type_str	:any;
 	nick	:any;
 	tag_one_name	:any;
@@ -58,6 +63,7 @@ interface RowData {
 	tag_two_str	:any;
 	tag_five_str	:any;
 	comment	:any;
+	error	:any;
 }
 
 /*
@@ -82,7 +88,9 @@ function load_data(){
 		tag_four:	$('#id_tag_four').val(),
 		tag_five:	$('#id_tag_five').val(),
 		file_title:	$('#id_file_title').val(),
-		has_comment:	$('#id_has_comment').val()
+		has_comment:	$('#id_has_comment').val(),
+		has_error:	$('#id_has_error').val(),
+		id_order:	$('#id_id_order').val()
 		});
 }
 $(function(){
@@ -99,6 +107,8 @@ $(function(){
 	$('#id_tag_five').val(g_args.tag_five);
 	$('#id_file_title').val(g_args.file_title);
 	$('#id_has_comment').val(g_args.has_comment);
+	$('#id_has_error').val(g_args.has_error);
+	$('#id_id_order').val(g_args.id_order);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -196,6 +206,22 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["has_comment title", "has_comment", "th_has_comment" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">has_error</span>
+                <input class="opt-change form-control" id="id_has_error" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["has_error title", "has_error", "th_has_error" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id_order</span>
+                <input class="opt-change form-control" id="id_id_order" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["id_order title", "id_order", "th_id_order" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
