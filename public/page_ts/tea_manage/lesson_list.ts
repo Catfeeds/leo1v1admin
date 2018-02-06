@@ -622,6 +622,10 @@ $(function(){
         var html_node   = $('<div></div>').html($.dlg_get_html_by_class('dlg_upload'));
         var lesson_info = new Object();
 
+        var opt_data=$(this).get_opt_data();
+        console.log(opt_data);
+
+
         lesson_info["lessonid"]= $(this).parent().data("lessonid");
         lesson_info["lesson_status"]= $(this).parents('td').siblings('.lesson_status').find('.status').val();
         lesson_info["work_status"]= $(this).parents('td').siblings('.homework_url').find('.status').val();
@@ -704,6 +708,7 @@ $(function(){
 
         var html_node = $('<div></div>').html($.dlg_get_html_by_class('dlg_download'));
 
+        console.log(html_node);
         var lesson_info           = new Object();
         lesson_info["lesson_status"] = $(this).parents('td').siblings('.lesson_status').find('.status').val();
         lesson_info["work_status"]   = $(this).parents('td').siblings('.homework_url').find('.status').val();
