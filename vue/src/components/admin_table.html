@@ -45,7 +45,7 @@
         <td class="remove-for-xs"  >
           <div>
             <a href="javascript:;" class="btn  fa fa-cog td-info " title="竖向显示" @click="show_as_list($event, item,index)"></a>
-            <a v-for="opt_info in real_table_config.row_opt_list " v-if="check_need_power(opt_info.need_power)"  class="fa btn " v-bind:class="[opt_info.face_icon]"  @click="opt_info.on_click($event,item)" v-bind:title="opt_info.title"  > {{opt_info.text}} </a>
+            <a v-for="opt_info in real_table_config.row_opt_list " v-if="check_show_row_opt(opt_info,item )"  class="fa btn " v-bind:class="[opt_info.face_icon]"  @click="opt_info.on_click($event,item)" v-bind:title="opt_info.title"  > {{opt_info.text}} </a>
           </div>
         </td>
       </tr>

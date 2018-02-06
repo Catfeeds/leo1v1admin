@@ -78,6 +78,9 @@ export default class extends vtable {
       "title": "拨打记录",
     },{
       face_icon: "fa-comments",
+      display: function(row_data:self_RowData){
+        return row_data.origin_level>2;
+      },
       on_click: me.opt_user_return_back_list,
       "title": "拨打记录",
     }];

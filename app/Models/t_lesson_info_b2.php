@@ -4394,7 +4394,35 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
-
+    //@desn:获取销售成功试听未回访用户数量
+    public function get_call_end_time_num_by_adminid($adminid){
+        $time = time()-24*3600;
+        $where_arr = [
+            ' l.tea_attend <> 0 ',
+            ' l.stu_attend <> 0 ',
+            ' l.lesson_type = 2 ',
+            ' l.lesson_del_flag = 0 ',
+            ' l.confirm_flag <2 ',
+            ' l.lesson_user_online_status = 1 ',
+            ' l.lesson_end > 1503244800 ',
+            ' l.lesson_end <  '.$time,
+            ' lss.call_end_time = 0 ',
+            ' lss.success_flag in (0,1) ',
+            [' lsr.cur_require_adminid = %d ',$adminid],
+        ];
+        $sql = $this->gen_sql_new(
+            " select count(*) "
+            ." from %s l "
+            ." left join %s lss on lss.lessonid = l.lessonid "
+            ." left join %s lsr on lsr.require_id = lss.require_id "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 
 }
