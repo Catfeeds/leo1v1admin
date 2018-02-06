@@ -52,7 +52,7 @@ class get_ass_stu_info_update extends Command
         $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
         $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
         $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time);//生成助教学生第一次课信息(按科目)
-
+        $arr=[];
         foreach($ass_month as $k=>$tt){
             $first_lesson_stu_arr = @$first_subject_list[$k]?$first_subject_list[$k]:[];//生成助教学生第一次课信息(按科目)
             $first_lesson_stu_list="";
@@ -60,8 +60,12 @@ class get_ass_stu_info_update extends Command
                 $first_lesson_stu_list = json_encode($first_lesson_stu_arr);
             }
             echo $first_lesson_stu_list."<br>";
+            $arr[] = $first_lesson_stu_list;
         }
-        dd($ass_month);
+        $task->t_teacher_info->field_update_list(240314,[
+            "prize" => json_encode($arr)
+        ]);
+        dd(111);
 
         // $time = strtotime("2017-12-01");    
         // $list = $task->t_month_ass_student_info->get_ass_month_info($time);

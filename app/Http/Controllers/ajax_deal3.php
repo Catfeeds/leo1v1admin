@@ -31,6 +31,8 @@ class ajax_deal3 extends Controller
         else
             $env_is_test = 0;
 
+        $new_count = $this->t_seller_student_new_b2->get_today_new_count($adminid);
+
         if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
 
         }else{
@@ -41,7 +43,6 @@ class ajax_deal3 extends Controller
             }
 
             $user_list=$this->t_seller_student_system_assign_log->get_seller_student_assign_from_type_list($adminid, $userid_list);
-            $new_count = $this->t_seller_student_new_b2->get_today_new_count($adminid);
             foreach ($user_list as &$item) {
                 $userid=&$item["userid"];
                 $admin_assign_time=strtotime( @$user_admin_assign_time_map[$userid] );

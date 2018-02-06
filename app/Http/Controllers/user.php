@@ -144,7 +144,7 @@ class user extends TeaWxController
         $ret_arr = json_decode($ret_str,true);
         if(!empty($ret_arr)){
             foreach($ret_arr as $i=>$item_ret){
-                $timestamp = strtotime($item_ret['0']);
+                $timestamp = @strtotime(@$item_ret['0']);
                 if($timestamp<time()){
                     unset($ret_arr[$i]);
                 }else{

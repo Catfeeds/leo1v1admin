@@ -69,7 +69,7 @@ class teacher_feedback extends Controller
                 }
             }
 
-            $tea_val['show_flag']=\App\Helper\Utils::check_teacher_salary_time($tea_val['add_time']);
+            $tea_val['show_flag']=\App\Helper\Utils::check_teacher_salary_time($tea_val['lesson_start']);
         }
 
         return $this->pageView(__METHOD__,$list,[
