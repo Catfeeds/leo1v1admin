@@ -1509,44 +1509,52 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             );
 
 
-            //获取销售校区
-            $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
-            if($user_info["origin_assistantid"]>0){
-                $account_role = $this->task->get_account_role($user_info["origin_assistantid"]);
-                if($account_role==1){
-                    $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+            //区分已有助教,但原有组长离职的情况
+            $adminid_ass_old = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+            $del_flag = $this->t_manager_info->get_del_flag($adminid_ass_old);
+            if($adminid_ass_old>0 &&  $del_flag!=1){
+                $master_adminid_arr = $this->t_admin_group_user->get_group_master_adminid($adminid_ass_old);
+                $master_adminid = @$master_adminid_arr["group_adminid"];
+            }else{                
+                //获取销售校区
+                $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
+                if($user_info["origin_assistantid"]>0){
+                    $account_role = $this->task->get_account_role($user_info["origin_assistantid"]);
+                    if($account_role==1){
+                        $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+                    }
                 }
-            }
-            $master_adminid_list = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
-            $master_list=[];
-            foreach($master_adminid_list as $tt){
-                $master_list[$tt["master_adminid"]]=$tt["master_adminid"];
-            }
-            $num_all_new = count($master_list);
-            $j=0;
-            foreach($master_list as $val){
-                $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_NEW_$val");
-                if (!$json_ret) {
-                    $json_ret=0;
+                $master_adminid_list = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
+                $master_list=[];
+                foreach($master_adminid_list as $tt){
+                    $master_list[$tt["master_adminid"]]=$tt["master_adminid"];
                 }
-                \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", $json_ret);
-                if($json_ret==1){
-                    $j++;
-                }
-            }
-            if($j==$num_all_new){
-                foreach($master_list as $val){
-                    \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 0);
-                }
-            }
-
-            if($userid>0){
+                $num_all_new = count($master_list);
+                $j=0;
                 foreach($master_list as $val){
                     $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_NEW_$val");
-                    if($json_ret==0){
-                        $master_adminid= $val;
-                        \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 1);
-                        break;
+                    if (!$json_ret) {
+                        $json_ret=0;
+                    }
+                    \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", $json_ret);
+                    if($json_ret==1){
+                        $j++;
+                    }
+                }
+                if($j==$num_all_new){
+                    foreach($master_list as $val){
+                        \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 0);
+                    }
+                }
+
+                if($userid>0){
+                    foreach($master_list as $val){
+                        $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_NEW_$val");
+                        if($json_ret==0){
+                            $master_adminid= $val;
+                            \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 1);
+                            break;
+                        }
                     }
                 }
             }
