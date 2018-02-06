@@ -449,7 +449,7 @@ class resource extends Controller
 
         list($start_time,$end_time) = $this->get_in_date_range(-30, 0 );
         $subject = $this->get_in_int_val("subject", -1);
-        $grade = $this->get_in_int_val("grade", -1);
+        $grade   = $this->get_in_int_val("grade", -1);
         $resource_type = $this->get_in_int_val("resource_type", -1);
         $teacherid     = $this->get_in_int_val("teacherid",-1); //
         $type          = $this->get_in_int_val("type",1);
@@ -500,6 +500,7 @@ class resource extends Controller
                             'subject_str'       => $subject,
                             'adminid'           => $a,
                             'nick'              => $nick,
+                            'grade_str'         => $grade == -1? "全部" : E\Egrade::get_desc($grade),
                             'resource_type'     => $r,
                             'resource_type_str' => E\Eresource_type::get_desc($r),
                             'file_num'          => $v['file_num'],

@@ -21,11 +21,12 @@ tofile:
 /// <reference path="../g_args.d.ts/common_new-test_web_page.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		web_page_id:	$('#id_web_page_id').val(),
 		from_adminid:	$('#id_from_adminid').val()
-    });
+		});
 }
 $(function(){
 
@@ -48,6 +49,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_web_page_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["web_page_id title", "web_page_id", "th_web_page_id" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -55,4 +57,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_from_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["from_adminid title", "from_adminid", "th_from_adminid" ]])!!}
 */
