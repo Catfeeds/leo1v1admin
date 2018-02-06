@@ -24,38 +24,44 @@ class resource_new extends Controller
         $data = [
             'subject' => [1,2,3,4,5,6,7,8,9,10],
             'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+            'identity'  => 'other'
         ];
 
         //判断是不是总监
-        // $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-        // if ($is_master) {
-        //     $data = [
-        //         'subject' => [1,2,3,4,5,6,7,8,9,10],
-        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-        //     ];
-        //     return $data;
-        // }
-
-        //判断是不是主管
-        // $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
-        // if ($is_zhuguan) {
-        //     $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-        //     $data = [
-        //         'subject' => $info['subject'],
-        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-        //     ];
-
-        //     return $data;
-        // }
+        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        if ($is_master) {
+            $data = [
+                'subject' => [1,2,3,4,5,6,7,8,9,10],
+                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+                'identity'  => 'major'
+            ];
+            return $data;
+        }
 
         //教研老师只能看他所教的科目和年级
         $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
         if( $info && $role == 4){
-            if( $info['grade_start'] > 0 && $info['grade_end'] > 0 && $info['subject'] > 0 ){                          
+            if( $info['grade_start'] > 0 && $info['grade_end'] > 0 && $info['subject'] > 0 ){
+
+                //判断是不是主管
+                $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
+                if ($is_zhuguan) {
+                    $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+                    $data = [
+                        'subject' => [(int)$info['subject']],
+                        'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+                        'identity'  => 'director'
+                    ];
+
+                    return $data;
+                }
+
+                //普通组员
                 $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
                 $grade = [];
                 $data = [
                     'subject' => [(int)$info['subject']],
+                    'identity'  => 'member'
                 ];
 
                 if($adminid == 793){
@@ -94,6 +100,9 @@ class resource_new extends Controller
         $file_id       = intval($this->get_in_str_val("file_id",-1));
         $page_info     = $this->get_in_page_info();
 
+        if( $error_type == -1){
+            $sub_error_type = -1;
+        }
         if($use_type == 1){
             $resource_type = ($resource_type<1)?1:$resource_type;
             $resource_type = ($resource_type>7)?7:$resource_type;
@@ -199,10 +208,11 @@ class resource_new extends Controller
         $is_teacher = 0;
         //dd($ret_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180203161439,
+            '_publish_version'    => 20180204111439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
+            'identity'      => $sub_grade_info['identity'],
             'book'          => json_encode($book_arr),
             'resource_type' => $resource_type,
             'is_teacher'   => $is_teacher,
@@ -244,8 +254,67 @@ class resource_new extends Controller
             }
  
         }
-
+        if(count($err_sub)>1){
+            $new = ['-1'=>"全部"];
+            $err_sub = array_merge($new,$err_sub);
+        }
         return $err_sub;
     }
 
+    public function get_error_by_file_id(){
+        $file_id    = $this->get_in_int_val("file_id",-1);
+        $result = ['status'=>201];
+        $data = $this->t_resource_file_error_info->get_error_by_file_id($file_id);
+        if($data){
+            foreach($data as &$item){
+                $item['error_type_str'] = E\Eresource_error::get_desc($item['error_type']);
+                $item['sub_error_type_str'] = \App\Helper\Utils::get_sub_error_type($item['error_type'],$item['sub_error_type']);
+                \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+                \App\Helper\Utils::unixtime2date_for_item($item,"first_check_time");
+                \App\Helper\Utils::unixtime2date_for_item($item,"second_check_time");
+                $item['first_check_name'] = "";
+                $item['second_check_name'] = "";
+                if($item['first_check_adminid'] > 0){
+                    $item['first_check_name'] = $this->t_teacher_info->get_nick($item['first_check_adminid']);
+                }
+                if($item['sec_check_adminid'] > 0){
+                    $item['second_check_name'] = $this->t_teacher_info->get_nick($item['sec_check_adminid']);
+                }
+
+            }
+            $result = ['status'=>200,'list'=>$data];
+        }
+        return $this->output_succ($result);
+
+    }
+
+    public function file_err_agree(){
+        $error_id    = $this->get_in_int_val("id",-1);
+        $file_id    = $this->get_in_int_val("file_id",-1);
+        $result = ['status'=>201];
+
+        $data = ['status'=>1];
+        $modify = $this->t_resource_file_error_info->field_update_list($error_id,$data);
+        if($modify){
+            $result['status'] = 200;
+        }
+        return $this->output_succ($result);
+    }
+
+    public function file_err_refuse(){
+        $error_id    = $this->get_in_int_val("id",-1);
+        $file_id    = $this->get_in_int_val("file_id",-1);
+        $status    = $this->get_in_int_val("status",3);
+        $result = ['status'=>201];
+
+        $data = ['status' => $status];
+
+        $modify = $this->t_resource_file_error_info->field_update_list($error_id,$data);
+        if($modify){
+            $result['status'] = 200;
+
+        }
+        return $this->output_succ($result);
+
+    }
 }

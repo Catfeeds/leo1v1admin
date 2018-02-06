@@ -84,9 +84,9 @@ class seller_student_system_free extends cmd_base
             }
         }else { //  free -1 day
             $check_free_list= $this->task->t_seller_student_new_b2->get_need_check_free_list();
-            $free_flag=false;
 
             foreach( $check_free_list as $item ) {
+                $free_flag=false;
                 $admin_revisiterid = $item["admin_revisiterid"];
                 $userid = $item["userid"];
                 $phone = $item["phone"];

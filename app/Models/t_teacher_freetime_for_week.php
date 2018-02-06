@@ -99,7 +99,6 @@ class t_teacher_freetime_for_week extends \App\Models\Zgen\z_t_teacher_freetime_
                                   self::DB_TABLE_NAME,
                                   $teacherid);
         return $this->main_get_value($sql);
-        // return $this->main_get_list($sql);
     }
 
 }

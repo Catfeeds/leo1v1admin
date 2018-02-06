@@ -32,7 +32,7 @@ $(function(){
         var opt_data=$(this).get_opt_data();
 
         var $main_type_name = $("<select/>");
-        var $follow_activ_type = $("<select/>");
+        var $follow_activity_type = $('<select><option value="0">微信群</option><option value="1">微信个人</option></select>');
         var $title = $("<textarea style='width:100%' />");
         var $describe = $("<textarea style='width:100%'/>");
         var $img = $("<div/>");
@@ -48,6 +48,7 @@ $(function(){
 
         var arr = [
             ["礼品类型", $main_type_name],
+            ["关注类型", $follow_activity_type],
             ["标题", $title],
             ["活动描述", $describe],
             ["活动图片", $img],
@@ -80,7 +81,7 @@ $(function(){
                     'coverImgUrl' : $img_src1.val(),
                     'followImgUrl' : img_list_str,
                     'activityImgUrl' : $img_src2.val(),
-                    // 'img_list_str'   : img_list_str
+                    "use_flag" : $follow_activity_type.val()
                 });
             }
         },function(){
@@ -178,6 +179,7 @@ $(function(){
     $('.opt-edit').on("click", function (g_adminid_right) {
         var opt_data=$(this).get_opt_data();
         var $main_type_name = $("<select/>");
+        var $follow_activity_type = $('<select><option value="0">微信群</option><option value="1">微信个人</option></select>');
         var $title = $("<textarea style='width:100%' />");
         var $describe = $("<textarea style='width:100%'/>");
         var $img = $("<div/>");
@@ -191,8 +193,10 @@ $(function(){
 
         Enum_map.append_option_list("market_gift_type", $main_type_name,true);
 
+
         var arr = [
             ["礼品类型", $main_type_name],
+            ["关注类型", $follow_activity_type],
             ["标题", $title],
             ["活动描述", $describe],
             ["活动图片", $img],
@@ -230,10 +234,13 @@ $(function(){
                     'coverImgUrl' : $img_src1.val(),
                     'followImgUrl': img_list_str,
                     'activityImgUrl' : $img_src2.val(),
+                    'use_flag'    : $follow_activity_type.val(),
                     'id' : opt_data.id
                 });
             }
         },function(){
+
+            $follow_activity_type.val(opt_data.use_flag);
             $img_src1.parent().parent().css('display','none');
             $img_src2.parent().parent().css('display','none');
             $img_src3.parent().parent().css('display','none');

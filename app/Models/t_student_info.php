@@ -3215,7 +3215,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_ass_openid($userid){
-        $sql = $this->gen_sql_new("  select wx_openid from %s s "
+        $sql = $this->gen_sql_new("  select m.wx_openid from %s s "
                                   ." left join %s a on a.assistantid=s.assistantid"
                                   ." left join %s m on m.phone=a.phone"
                                   ." where s.userid=%d "
@@ -3423,9 +3423,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_all_stu() {
-        $sql = $this->gen_sql_new("select userid,type from %s where is_test_user=0", //and refund_warning_level != 3",
+        $sql = $this->gen_sql_new("select userid,type from %s where is_test_user=0 and type != 1", //and refund_warning_level != 3",
                                   self::DB_TABLE_NAME
         );
+        return $this->main_get_list($sql);
+    }
+
+    public function gen_all_stu_1() {
+        $sql = "select userid from t_student_info where type = 1";
         return $this->main_get_list($sql);
     }
 

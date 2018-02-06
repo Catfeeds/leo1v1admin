@@ -101,4 +101,14 @@ message order_detail {
   string package_give_money=10 ;  //套餐折扣价格
   string package_name=11 ;  //套餐名称
   string package_desc=12 ;  //套餐描述
+  string poster=13 ;  //海报
+  string package_lesson_num=14;//套餐总课时数
 }
+
+message get_stu_info {
+  string nickname=1 ;  //昵称
+  uint32 gender=2 ;  //性别
+  string birth=3 ;  //生日
+  uint32 age=4 ;  //年龄
+}
+

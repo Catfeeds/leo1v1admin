@@ -159,6 +159,7 @@ $(function(){
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
     $('#id_tag_one').val(g_args.tag_one);
+    $('#id_tag_two').val(g_args.tag_two);
     $('#id_tag_four').val(g_args.tag_four);
     $('#id_tag_five').val(g_args.tag_five);
 
@@ -474,7 +475,7 @@ $(function(){
     $('.opt-error').on('click',function(){
         var file_id = $(this).data('file_id');
         var resource_type  = $(this).data('resource_type');
-
+        var resource_id = $(this).parents('tr').data('resource_id');
         var error = $('.error').clone();
         error.removeClass('hide');  
         var arr = [
@@ -523,16 +524,15 @@ $(function(){
                 var data = {
                     "error_type_01" : error_type_01,
                     "error_type_02" : error_type_02,
+                    "resource_id"   : resource_id,
                     "error_detail"  : error_detail,
                     "img_arr" : JSON.stringify(img_arr)
                 };
-
-                console.log(data);
-
+            
                 $.do_ajax( "/teacher_info/add_leo_resource_error", {
                     "file_id"           :file_id,
                     "resource_type"     :resource_type,
-
+                    "resource_id"       :resource_id,
                     "error_type"        :error_type_01,       //错误类型(资料库)
                     "sub_error_type"    :error_type_02,       //错误子类型(资料库)
                     "detail_error"      :error_detail,        //错误描述(资料库)
