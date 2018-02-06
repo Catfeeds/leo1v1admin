@@ -1039,6 +1039,9 @@ class Utils  {
         ]);
     }
 
+    /**
+     * 阿里大于发送短信
+     */
     static public function sms_common($phone,$type,$data,$user_ip=0,$sign_name="理优教育")
     {
         $phone = (string)$phone;
@@ -1095,6 +1098,52 @@ class Utils  {
             "is_success"      => $is_success,
             "type"            => $type,
             "user_ip"         => $user_ip,
+        ]);
+        return $is_success;
+    }
+
+    /**
+     * 阿里大于发送文本转语音
+     */
+    static public function tts_common($phone,$type,$data)
+    {
+        $phone = (string)$phone;
+        $receive_content = "";
+        $is_success = 0;
+
+        if( \App\Helper\Utils::check_env_is_release() ) {
+            $ret = \App\Helper\Common::send_tts_single_call_with_taobao($phone,"TTS_".$type,$data);
+            $receive_content = json_encode($ret,true);
+            if(property_exists($ret,"result") && $ret->result->err_code==="0") {
+                $is_success = 1;
+            }else{
+                $send_email = false;
+                if ( $ret->code=="15" ) {
+                    $sub_code = $ret->sub_code;
+                    if ( $sub_code=="isv.BUSINESS_LIMIT_CONTROL" || $sub_code=="isv.MOBILE_NUMBER_ILLEGAL" ) {
+
+                    }else{
+                        $send_email=true;
+                    }
+                }else{
+                    $send_email=true;
+                }
+
+                if ($send_email) {
+                    \App\Helper\Common::send_mail("xcwenn@qq.com","发语音通知出问题",
+                                                  E\Esms_type::v2s($type).":".$phone .":".$receive_content."|||");
+                }
+            }
+        }
+
+        $task = new \App\Console\Tasks\TaskController();
+        $task->t_sms_msg->row_insert([
+            "phone"           => $phone,
+            "message"         => json_encode($data),
+            "send_time"       => time(),
+            "receive_content" => $receive_content,
+            "is_success"      => $is_success,
+            "type"            => $type,
         ]);
         return $is_success;
     }

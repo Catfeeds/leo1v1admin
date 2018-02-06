@@ -333,13 +333,17 @@ $(function(){
         var id_user_join_time_end = $("<input/>");
         var id_last_test_lesson_start = $("<input/>");
         var id_last_test_lesson_end = $("<input/>");
+        var id_success_test_lesson_start = $("<input/>");
+        var id_success_test_lesson_end = $("<input/>");
 
         id_user_join_time_start.val(opt_data["user_join_time_start"]);
         id_user_join_time_end.val(opt_data["user_join_time_end"]);
         id_last_test_lesson_start.val(opt_data["last_test_lesson_start"]);
         id_last_test_lesson_end.val(opt_data["last_test_lesson_end"]);
+        id_success_test_lesson_start.val(opt_data["success_test_lesson_start"]);
+        id_success_test_lesson_end.val(opt_data["success_test_lesson_end"]);
 
-        var timeItem = [id_user_join_time_start,id_user_join_time_end,id_last_test_lesson_start,id_last_test_lesson_end];
+        var timeItem = [id_user_join_time_start,id_user_join_time_end,id_last_test_lesson_start,id_last_test_lesson_end,id_success_test_lesson_start,id_success_test_lesson_end];
 
         bindTime(timeItem);
 
@@ -349,6 +353,9 @@ $(function(){
 
             ["最近一次试听开始时间", id_last_test_lesson_start ],
             ["最近一次试听结束时间", id_last_test_lesson_end ],
+
+            ["试听成功开始时间", id_success_test_lesson_start ],
+            ["试听成功结束时间", id_success_test_lesson_end ],
 
         ];
 
@@ -360,11 +367,13 @@ $(function(){
                 var user_join_time_end = id_user_join_time_end.val();
                 var last_test_lesson_start = id_last_test_lesson_start.val();
                 var last_test_lesson_end = id_last_test_lesson_end.val();
-
+                var success_test_lesson_start = id_success_test_lesson_start.val();
+                var success_test_lesson_end = id_success_test_lesson_end.val();
                 //时间检查
                 var timeInput = [
                     [user_join_time_start,user_join_time_end,'用户加入'],
-                    [last_test_lesson_start,last_test_lesson_end,'最近一次试听']
+                    [last_test_lesson_start,last_test_lesson_end,'最近一次试听'],
+                    [success_test_lesson_start,success_test_lesson_end,'试听成功']
                 ];
 
                 var checkTimeInfo = checkTime(timeInput);
@@ -381,6 +390,8 @@ $(function(){
                     'user_join_time_end':user_join_time_end,
                     'last_test_lesson_start':last_test_lesson_start,
                     'last_test_lesson_end':last_test_lesson_end,
+                    'success_test_lesson_start':success_test_lesson_start,
+                    'success_test_lesson_end':success_test_lesson_end,
                 }
 
                 $.ajax({

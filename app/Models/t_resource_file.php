@@ -293,7 +293,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
                               ,t_resource_file_error_info::DB_TABLE_NAME
                               ,t_teacher_info::DB_TABLE_NAME
                               ,t_resource_file::DB_TABLE_NAME
-                              ,$file_id
+                              ,$id
                             );
       return $this->main_get_row($sql);
     }

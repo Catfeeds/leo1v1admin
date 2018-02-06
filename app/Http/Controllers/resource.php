@@ -1342,11 +1342,6 @@ class resource extends Controller
             $file_id = $this->add_file();
         }
 
-        //提交报错后的文件
-        if( $reupload == 3 ){
-            $this->t_resource_file_error_info->upload_new_file($file_id);
-        }
-
         $this->t_resource_file_visit_info->row_insert([
             'file_id'     => $file_id,
             'visit_type'  => $visit_type,
@@ -1372,7 +1367,26 @@ class resource extends Controller
             $data['remark']     = "让我们共同努力，让理优明天更美好";
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
         }
-        return $this->output_succ();
+
+        if( $reupload == 3 ){
+            $data = $this->t_resource_file_error_info->get_error_by_file_id($file_id);
+            $return = [];
+            if($data){
+                foreach($data as $var){
+                    $this->t_resource_file_error_info->field_update_list($var['id'],[
+                        "status" => 2,
+                        "reupload_adminid" => $adminid,
+                        "reupload_time"  => $time,
+                    ]);
+
+                }
+                $return['reupload_time'] = date("Y-m-d h:i:s", $time);
+                $return['reupload_name'] = $this->t_manager_info->get_name($adminid);
+            }
+            return $this->output_succ($return);
+        }else{
+            return $this->output_succ();
+        }
     }
 
     public function str_to_arr($str) {

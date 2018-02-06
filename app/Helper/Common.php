@@ -202,63 +202,29 @@ class Common {
     }
 
     /**
-     * 阿里大于语音通知
-     */
-    public static function send_voice_with_taobao($phone,$template_code,$data){
-        include_once( app_path("Libs/taobao_sms/TopSdk.php") );
-
-        $c = new \TopClient();
-
-        $template_value = substr($template_code,4);
-        $c->appkey ="23388285" ;
-        $c->secretKey = "cf52133f47748ac2330e9a22fa423d8e";
-
-        $c->format="json";
-        $req = new AlibabaAliqinFcVoiceNumSinglecallRequest;
-
-        //公共回传参数，在“消息返回”中会透传回该参数；举例：用户可以传入自己下级的会员ID
-        //在消息返回时，该会员ID会包含在内，用户可以根据该会员ID识别是哪位会员使用了你的应用
-        // $req->setExtend("12345");
-        //被叫号码，支持国内手机号与固话号码,格式如下057188773344,13911112222,4001112222,95500 
-        $req->setCalledNum($phone);
-        // 被叫号显，传入的显示号码必须是阿里大于“管理中心-号码管理”中申请通过的号码
-        // $req->setCalledShowNum("4001112222");
-        // 语音文件ID，传入的语音文件必须是在阿里大于“管理中心-语音文件管理”中的可用语音文件
-        // $req->setVoiceCode("c2e99ebc-2d4c-4e78-8d2a-afbb06cf6216.wav");
-
-        try {
-            $resp = $c->execute($req);
-        }catch(\Exception $e ) {
-
-        }
-        return $resp;
-    }
-
-    /**
      * 阿里大于文本转语音通知
+     * https://api.alidayu.com/docs/api.htm?spm=a3142.7395905.4.4.gSJeUr&apiId=25444
+     * alibaba.aliqin.fc.tts.num.singlecall (文本转语音通知)
+     * @param string phone 被叫号码
+     * @param string tts_code 文本转语音的模板id
+     * @param array  data     文本转语音的模板变量
      */
-    public static function send_single_call_with_taobao($phone,$template_code,$data){
+    public static function send_tts_single_call_with_taobao($phone,$tts_code,$data){
         include_once( app_path("Libs/taobao_sms/TopSdk.php") );
 
         $c = new \TopClient();
-
-        $template_value = substr($template_code,4);
         $c->appkey ="23388285" ;
         $c->secretKey = "cf52133f47748ac2330e9a22fa423d8e";
-
         $c->format="json";
-        $req = new AlibabaAliqinFcTtsNumSinglecallRequest;
+        $req = new \AlibabaAliqinFcTtsNumSinglecallRequest;
 
-        //公共回传参数，在“消息返回”中会透传回该参数；举例：用户可以传入自己下级的会员ID
-        //在消息返回时，该会员ID会包含在内，用户可以根据该会员ID识别是哪位会员使用了你的应用
-        // $req->setExtend("12345");
         //文本转语音（TTS）模板变量，传参规则{"key"："value"}，key的名字须和TTS模板中的变量名一致，多个变量之间以逗号隔开
         //示例：{"name":"xiaoming","code":"1234"}
-        $req->setTtsParam($data);
+        $req->setTtsParam(json_encode($data));
         //被叫号显，传入的显示号码必须是阿里大于“管理中心-号码管理”中申请或购买的号码
-        $req->setCalledShowNum("4001112222");
+        $req->setCalledShowNum("02160782409");
         //TTS模板ID，传入的模板必须是在阿里大于“管理中心-语音TTS模板管理”中的可用模板 例如TTS_10001
-        $req->setTtsCode($template_code);
+        $req->setTtsCode($tts_code);
         //被叫号码，支持国内手机号与固话号码,格式如下057188773344,13911112222,4001112222
         $req->setCalledNum($phone);
 
@@ -269,6 +235,8 @@ class Common {
         }
         return $resp;
     }
+
+
     static function output_html($str) {
         echo "<head> <meta charset=\"UTF-8\"> <head> <body>$str" ;
     }

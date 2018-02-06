@@ -348,6 +348,21 @@
                                     <span class="time_span" id="last_test_lesson_start">{{@$ret_info['last_test_lesson_start']}}</span>
                                     <b class="to">--</b>
                                     <span class="time_span" id="last_test_lesson_end">{{@$ret_info['last_test_lesson_end']}}</span>
+                                </div>                  
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-10 col-md-10"  >
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2 row-td-field-name"  >
+                                    <span>试听成功开始至结束日期:</span>
+                                </div>
+                                <div class="col-xs-5 col-md-5  row-td-field-value">
+                                    <span class="time_span" id="success_test_lesson_start">{{@$ret_info['success_test_lesson_start']}}</span>
+                                    <b class="to">--</b>
+                                    <span class="time_span" id="success_test_lesson_end">{{@$ret_info['success_test_lesson_end']}}</span>
                                 </div>
                                 <div class="col-xs-1 col-md-1  row-td-field-value">
                                     <button style="margin-left:10px"  id="opt_edit_06" type="button" class="btn btn-primary">编辑</button>
