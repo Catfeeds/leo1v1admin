@@ -12,7 +12,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">合同类型</span>
-                        <select class="c_sel form-control" id="id_contract_type">
+                        <select class="form-control opt-change" id="id_contract_type">
                             <option value="-2">正式1v1课程</option>
                         </select>
                     </div>
@@ -20,7 +20,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">付款渠道</span>
-                        <select class="c_sel form-control" id="id_channel_origin">
+                        <select class="form-control opt-change" id="id_channel_origin">
                             <option value="-1">全部</option>
                             <option value="1">支付宝</option>
                             <option value="2">微信</option>
@@ -34,7 +34,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">支付方式</span>
-                        <select class="c_sel form-control" id="id_channel">
+                        <select class="form-control opt-change" id="id_channel">
                             <option value="-1">全部</option>
                             <option value="1">支付宝扫码付款</option>
                             <option value="2">支付宝升学帮付款</option>

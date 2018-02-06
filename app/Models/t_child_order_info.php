@@ -286,13 +286,13 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         $this->where_arr_add_time_range($where_arr,$opt_date_type,$start_time,$end_time);
 
         if ($contract_type==-2) {
-            $where_arr[]="contract_type in(0,1,3)" ;
+            $where_arr[]="o.contract_type in(0,1,3)" ;
             \App\Helper\Utils::logger("stu");
 
         }else if ( $contract_type==-3){
-            $where_arr[]="contract_type in(0,3)" ;
+            $where_arr[]="o.contract_type in(0,3)" ;
         }else {
-            $where_arr[]=["contract_type=%u" , $contract_type, -1];
+            $where_arr[]=["o.contract_type=%u" , $contract_type, -1];
         }
         if($channel_origin==1){
             $where_arr[]="c.channel like '%alipay%%'";
