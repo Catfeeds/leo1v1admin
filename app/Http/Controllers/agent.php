@@ -441,6 +441,14 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $domain = config('admin')['qiniu']['public']['url'];
+        dd($domain);
+        list($start_time,$end_time) = [1514736000,1517414400];
+        //月度报表
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time);
+        dd($test_leeson_list);
+        //渠道统计
+        $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin='origin', $field_name='',$start_time,$end_time);
         list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,1517500800,[],[]];
         $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
         return $this->pageView(__METHOD__,null);

@@ -15,6 +15,7 @@ interface GargsStatic {
 	warning_stu:	number;
 	revisit_warn_flag:	number;
 	refund_warn:	number;
+	qiniu_url:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -93,7 +94,8 @@ function load_data(){
 		revisit_flag:	$('#id_revisit_flag').val(),
 		warning_stu:	$('#id_warning_stu').val(),
 		revisit_warn_flag:	$('#id_revisit_warn_flag').val(),
-		refund_warn:	$('#id_refund_warn').val()
+		refund_warn:	$('#id_refund_warn').val(),
+		qiniu_url:	$('#id_qiniu_url').val()
 		});
 }
 $(function(){
@@ -143,6 +145,7 @@ $(function(){
 	$('#id_warning_stu').val(g_args.warning_stu);
 	$('#id_revisit_warn_flag').val(g_args.revisit_warn_flag);
 	$('#id_refund_warn').val(g_args.refund_warn);
+	$('#id_qiniu_url').val(g_args.qiniu_url);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -266,4 +269,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["refund_warn title", "refund_warn", "th_refund_warn" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">qiniu_url</span>
+                <input class="opt-change form-control" id="id_qiniu_url" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["qiniu_url title", "qiniu_url", "th_qiniu_url" ]])!!}
 */
