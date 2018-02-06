@@ -392,7 +392,6 @@ class user_manage extends Controller
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
-
         $account_id = $this->get_account_id();
         $main_type = 1;
         $is_master = $this->t_admin_group_name->check_is_master($main_type,$account_id);
@@ -401,6 +400,8 @@ class user_manage extends Controller
         }else{
             $master_adminid=0;
         }
+        $domain = config('admin')['qiniu']['public']['url'];
+        $this->set_filed_for_js("qiniu_url",$domain.'/');
         // dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc"),"account_role"=>$this->get_account_role()]);
     }
