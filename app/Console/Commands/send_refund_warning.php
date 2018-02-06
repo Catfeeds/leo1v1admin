@@ -50,7 +50,8 @@ class send_refund_warning extends Command
         $from_user = "退费预警";
         $header_msg = "";
         $msg = "三级预警：100".PHP_EOL."二级预警：10".PHP_EOL."一级预警：1";
+        $url = "http://admin.leo1v1.com/user_manage/ass_archive_ass";
 
-        $task->t_manager_info->send_wx_todo_msg($account, $from_user, $header_msg, $msg);
+        $task->t_manager_info->send_wx_todo_msg($account, $from_user, $header_msg, $msg, $url);
     }
 }
