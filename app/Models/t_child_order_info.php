@@ -277,6 +277,79 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_order_channel_info($page_info,$start_time,$end_time,$opt_date_type,$contract_type, $channel_origin,$channel,$user_name){
+        $where_arr=[
+            "c.pay_status=1",
+            "s.is_test_user=0",
+            "c.price>0"
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_type,$start_time,$end_time);
+
+        if ($contract_type==-2) {
+            $where_arr[]="contract_type in(0,1,3)" ;
+            \App\Helper\Utils::logger("stu");
+
+        }else if ( $contract_type==-3){
+            $where_arr[]="contract_type in(0,3)" ;
+        }else {
+            $where_arr[]=["contract_type=%u" , $contract_type, -1];
+        }
+        if($channel_origin==1){
+            $where_arr[]="c.channel like '%alipay%%'";
+        }elseif($channel_origin==2){
+            $where_arr[]="c.channel like '%wx%%'";
+        }elseif($channel_origin==3){
+            $where_arr[]="c.channel like '%建行%%'";
+        }elseif($channel_origin==4){
+            $where_arr[]="c.channel='baidu'";
+        }elseif($channel_origin==100){
+            $where_arr[]="c.channel=''";
+        }
+        if($channel==1){
+            $where_arr[]="c.channel='alipay_pc_direct'";
+        }elseif($channel==2){
+            $where_arr[]="c.channel='alipay'";
+        }elseif($channel==3){
+            $where_arr[]="c.channel='wx_pub_qr'";
+        }elseif($channel==4){
+            $where_arr[]="c.channel='wx'";
+        }elseif($channel==5){
+            $where_arr[]="c.channel='建行分期'";
+        }elseif($channel==6){
+            $where_arr[]="c.channel='建行网关支付'";
+        }elseif($channel==7){
+            $where_arr[]="c.channel='baidu'";
+        }elseif($channel==100){
+            $where_arr[]="c.channel=''";
+        }
+
+                                    
+        if ($user_name) {
+            $where_arr[]= " (s.nick like '" . $this->ensql( $user_name)  . "%' "
+                ." or s.parent_name like '" . $this->ensql(  $user_name) . "%' "
+                ." or c.parent_name like '" . $this->ensql(  $user_name) . "%' "
+                ." or s.phone like '" . $this->ensql(  $user_name) . "%' "
+                ." or o.userid like '" . $this->ensql( $user_name) . "%') ";
+        }
+
+        $sql = $this->gen_sql_new("select s.nick,o.userid,o.grade,o.subject,o.contract_type,"
+                                  ." o.default_lesson_count,o.lesson_total ,c.channel,c.price,"
+                                  ." o.price,c.from_orderno ,c.pay_time,o.order_time, "
+                                  ." if(c.parent_name <> '',c.parent_name,s.parent_name) parent_name "
+                                  ." from %s c left join %s o on c.parent_orderid = o.orderid"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s order by c.pay_time desc",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_info);
+
+
+    }
+
 
 }
 
