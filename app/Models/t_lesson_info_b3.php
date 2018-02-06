@@ -3734,4 +3734,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_lesson_list_by_time($start_time,$end_time){
+        $where_arr = $this->lesson_start_common_sql($start_time, $end_time);
+        $where_arr[] = "lesson_type<1000";
+        $sql = $this->gen_sql_new("select lessonid,lesson_start,lesson_end"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
