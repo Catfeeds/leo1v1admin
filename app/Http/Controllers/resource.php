@@ -468,6 +468,8 @@ class resource extends Controller
         $type          = $this->get_in_int_val("type",1);
         if($type == 1){
             $page_num      = $this->get_in_page_num();
+            $page_count    = $page_num['page_count'];
+            //dd($page_num);
             if($teacherid > 1){
                 $phone = $this->t_teacher_info->get_phone($teacherid);
                 $adminid = $this->t_manager_info->get_id_by_phone($phone);  
@@ -493,6 +495,7 @@ class resource extends Controller
             }
             $final_list = [];
             // dd($list);
+            
             foreach($list as $s=>$item){
                 //subject
                 //标记,这科目的第一个
@@ -501,6 +504,7 @@ class resource extends Controller
                     //adminid
                     //标记,这个人的第一个
                     $mark = 1;
+
                     foreach($val as $r=>$v){
                         //resource_type
                         $mark = 1;
@@ -530,31 +534,57 @@ class resource extends Controller
                         ];
                         $flag++;
                         $mark++;
-
-                        @$total['file_num'] += $v["file_num"];
-                        @$total["visit_num"] += $v["visit_num"];
-                        @$total["error_num"] += $v["error_num"];
-                        @$total["use_num"] += $v["use_num"];
-                        @$total["visit"] += $v["visit"];
-                        @$total["error"] += $v["error"];
-                        @$total["use"] += $v["use"];
+                        // if($count < $page_count){
+                        //     @$total['file_num'] += $v["file_num"];
+                        //     @$total["visit_num"] += $v["visit_num"];
+                        //     @$total["error_num"] += $v["error_num"];
+                        //     @$total["use_num"] += $v["use_num"];
+                        //     @$total["visit"] += $v["visit"];
+                        //     @$total["error"] += $v["error"];
+                        //     @$total["use"] += $v["use"];
+                        // }
+                        // ++$count;
+                        
                     }
                 }
             }
-            if ($total) {
-                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) ;
-                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
-                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2);
-            }
+            
 
             if (!$order_in_db_flag) {
                 \App\Helper\Utils::order_list( $final_list, $order_field_name, $order_type );
             }
+            $count = 0;
+            $start_num = ($page_num['page_num'] - 1) * $page_num['page_count'];
+            $end_num   = ($page_num['page_num'] ) * $page_num['page_count'];
+            foreach ($final_list as $key => $v) {
+
+                if($start_num <= $key && $key < $end_num){
+                    @$total['file_num'] += $v["file_num"];
+                    @$total["visit_num"] += $v["visit_num"];
+                    @$total["error_num"] += $v["error_num"];
+                    @$total["use_num"] += $v["use_num"];
+                    @$total["visit"] += $v["visit"];
+                    @$total["error"] += $v["error"];
+                    @$total["use"] += $v["use"];
+                }
+                ++$count;
+            }
+            $display = 0;
+            if (@$total) {
+                $display = 1;
+                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) ;
+                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
+                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) ;
+            }
+            //dd($final_list)
             $ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
             //dd($final_list);
+
+
             return $this->pageView( __METHOD__,$ret_arr, [
-                "total" => $total,
+                "total" => @$total,
                 "type"  => $type,
+                "display" => $display,
             ]);
         }else if($type >= 2){
             $ret_info = $this->t_resource->get_count_new($start_time, $end_time,$type);
@@ -1312,11 +1342,6 @@ class resource extends Controller
             $file_id = $this->add_file();
         }
 
-        //提交报错后的文件
-        if( $reupload == 3 ){
-            $this->t_resource_file_error_info->upload_new_file($file_id);
-        }
-
         $this->t_resource_file_visit_info->row_insert([
             'file_id'     => $file_id,
             'visit_type'  => $visit_type,
@@ -1342,7 +1367,26 @@ class resource extends Controller
             $data['remark']     = "让我们共同努力，让理优明天更美好";
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
         }
-        return $this->output_succ();
+
+        if( $reupload == 3 ){
+            $data = $this->t_resource_file_error_info->get_error_by_file_id($file_id);
+            $return = [];
+            if($data){
+                foreach($data as $var){
+                    $this->t_resource_file_error_info->field_update_list($var['id'],[
+                        "status" => 2,
+                        "reupload_adminid" => $adminid,
+                        "reupload_time"  => $time,
+                    ]);
+
+                }
+                $return['reupload_time'] = date("Y-m-d h:i:s", $time);
+                $return['reupload_name'] = $this->t_manager_info->get_name($adminid);
+            }
+            return $this->output_succ($return);
+        }else{
+            return $this->output_succ();
+        }
     }
 
     public function str_to_arr($str) {

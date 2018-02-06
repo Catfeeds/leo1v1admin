@@ -507,6 +507,7 @@ class NewRouteConfig {
         "/news_info/add_stu_message_content" => true,
         "/news_info/push_news_info"          => true,
 
+        "/human_resource/reset_teacher_trans_info" => true,
         "/human_resource/update_tea_realname" => true,
         "/human_resource/get_lesson_modify_list" => true,
         "/human_resource/get_input_score_list" => true,

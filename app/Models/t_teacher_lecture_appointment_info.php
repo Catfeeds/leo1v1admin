@@ -60,7 +60,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         );
         return $this->main_update($sql);
     }
-     public function get_lecture_count_info($start_time,$end_time,$phone){
+    public function get_lecture_count_info($start_time,$end_time,$phone){
         $where_arr = [
             ["answer_begin_time>=%u", $start_time, -1 ],
             ["answer_begin_time<=%u", $end_time, -1 ],
@@ -1415,7 +1415,20 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql, function($item) {
             return $item['name'];
         });
-
-
     }
+
+    public function get_teacher_trans_info($id){
+        $where_arr = [
+            ["id=%u",$id,0]
+        ];
+        $sql = $this->gen_sql_new("select grade_ex,subject_ex,trans_grade_ex,trans_subject_ex "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
 }

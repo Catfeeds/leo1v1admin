@@ -211,26 +211,26 @@ class test_sam extends Command
         dd("finish");                                                                        
 
         */  
-        $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
+        // $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
 
-        foreach ($ret_info as $key => $value) {
-            $userid = $value['userid'];
-            $phone  = intval(trim($value['phone']));
-            $num = substr($phone, 0,7);
-            $ret = $task->t_student_score_info->get_province_info($num);
-            if($ret){
-                $province = $ret['province'];
-                $city     = $ret['city'];
-            }else{
-                $province = "其它";
-                $city     = "其它";
-            }
-            $task->t_student_info->field_update_list($userid,[
-                "phone_province" =>$province,
-                "phone_city" =>$city,
-            ]);
-            echo "$userid $province  $city.fin\n";
-        }   
+        // foreach ($ret_info as $key => $value) {
+        //     $userid = $value['userid'];
+        //     $phone  = intval(trim($value['phone']));
+        //     $num = substr($phone, 0,7);
+        //     $ret = $task->t_student_score_info->get_province_info($num);
+        //     if($ret){
+        //         $province = $ret['province'];
+        //         $city     = $ret['city'];
+        //     }else{
+        //         $province = "其它";
+        //         $city     = "其它";
+        //     }
+        //     $task->t_student_info->field_update_list($userid,[
+        //         "phone_province" =>$province,
+        //         "phone_city" =>$city,
+        //     ]);
+        //     echo "$userid $province  $city.fin\n";
+        // }   
         /*
         $ret_info = $task->t_student_score_info->get_grade_by_info_1();
         foreach ($ret_info as $key => &$value) {
@@ -383,5 +383,14 @@ where s.is_test_user = 0 and q.is_called_phone =1
             
         }
         */ 
+        $ret = $task->t_student_score_info->reflash_info();
+        foreach ($ret as $key => $value) {
+            $teacherid = $value['teacherid'];
+            $task->t_teacher_info->field_update_list($teacherid,[
+                "teaching_achievement" =>$value['achievement'],
+            ]);
+            echo $teacherid.'<br/>';
+        }
+
     }     
 }
