@@ -1133,7 +1133,8 @@ class wx_parent_gift extends Controller
         $type = $this->get_in_int_val('type');
 
         $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteToThinkUrl");
+        $redirect_url=urlencode("http://p.admin.leo1v1.com/wx_parent_gift/rewriteToThinkUrl");
+        // $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteToThinkUrl");
         $wx->goto_wx_login( $redirect_url );
     }
 
