@@ -495,7 +495,7 @@ class resource extends Controller
             }
             $final_list = [];
             // dd($list);
-            $count = 0;
+            
             foreach($list as $s=>$item){
                 //subject
                 //标记,这科目的第一个
@@ -534,19 +534,40 @@ class resource extends Controller
                         ];
                         $flag++;
                         $mark++;
-                        if($count < $page_count){
-                            @$total['file_num'] += $v["file_num"];
-                            @$total["visit_num"] += $v["visit_num"];
-                            @$total["error_num"] += $v["error_num"];
-                            @$total["use_num"] += $v["use_num"];
-                            @$total["visit"] += $v["visit"];
-                            @$total["error"] += $v["error"];
-                            @$total["use"] += $v["use"];
-                        }
-                        ++$count;
+                        // if($count < $page_count){
+                        //     @$total['file_num'] += $v["file_num"];
+                        //     @$total["visit_num"] += $v["visit_num"];
+                        //     @$total["error_num"] += $v["error_num"];
+                        //     @$total["use_num"] += $v["use_num"];
+                        //     @$total["visit"] += $v["visit"];
+                        //     @$total["error"] += $v["error"];
+                        //     @$total["use"] += $v["use"];
+                        // }
+                        // ++$count;
                         
                     }
                 }
+            }
+            
+
+            if (!$order_in_db_flag) {
+                \App\Helper\Utils::order_list( $final_list, $order_field_name, $order_type );
+            }
+            $count = 0;
+            $start_num = ($page_num['page_num'] - 1) * $page_num['page_count'];
+            $end_num   = ($page_num['page_num'] ) * $page_num['page_count'];
+            foreach ($final_list as $key => $v) {
+
+                if($start_num <= $key && $key < $end_num){
+                    @$total['file_num'] += $v["file_num"];
+                    @$total["visit_num"] += $v["visit_num"];
+                    @$total["error_num"] += $v["error_num"];
+                    @$total["use_num"] += $v["use_num"];
+                    @$total["visit"] += $v["visit"];
+                    @$total["error"] += $v["error"];
+                    @$total["use"] += $v["use"];
+                }
+                ++$count;
             }
             $display = 0;
             if (@$total) {
@@ -555,12 +576,11 @@ class resource extends Controller
                 @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
                 @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) ;
             }
-
-            if (!$order_in_db_flag) {
-                \App\Helper\Utils::order_list( $final_list, $order_field_name, $order_type );
-            }
+            //dd($final_list)
             $ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
             //dd($final_list);
+
+
             return $this->pageView( __METHOD__,$ret_arr, [
                 "total" => @$total,
                 "type"  => $type,
