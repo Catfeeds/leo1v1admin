@@ -1871,12 +1871,5 @@ class seller_student_new extends Controller
         $system_free->handle();
         return $this->output_succ();
     }
-    //@desn:调用更新未回访状态command
-    public function reset_cc_no_return_call(){
-        $uid = $this->get_account_id();
-        $cc_no_return_call = new \App\Console\Commands\cc_no_return_call();
-        $cc_no_return_call->update_no_return_call($uid);
-        return $this->output_succ();
-    }
 
 }

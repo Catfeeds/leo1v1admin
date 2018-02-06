@@ -209,7 +209,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         if($parentid>0){
             return $parentid;
         }
-        $parentid= $this->t_user_info->user_reg($passwd,$reg_channel,ip2long($ip));
+        $parentid = $this->t_user_info->user_reg($passwd,$reg_channel,ip2long($ip));
         if(!$parentid){
             return false;
         }
