@@ -148,6 +148,20 @@ class test_james extends Controller
         }
     }
 
+    private function gen_pdf_url()
+    {
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+        $file_url = $this->get_in_str_val('url');
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
 
     private function gen_download_url($file_url)
     {
