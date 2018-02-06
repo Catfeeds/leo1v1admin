@@ -234,9 +234,9 @@
                             @if(@$var['estatus'] == 0)
                                 <a class="opt-upload btn color-blue hide" title="上传">上传</a>
                             @elseif(@$var['estatus'] == 1)
-                                <a class="opt-upload btn color-blue" title="上传">上传</a>
+                                <a class="opt-upload btn color-blue" data-id="{{$var['eid']}}" title="上传">上传</a>
                             @else
-                                <a class="opt-upload btn color-blue" title="重传">重传</a>
+                                <a class="opt-upload btn color-blue" data-id="{{$var['eid']}}" title="重传">重传</a>
                             @endif
 
                             @if($var['estatus'] == 3 && $var['estatus'] != 4)

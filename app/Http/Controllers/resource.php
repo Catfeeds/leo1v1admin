@@ -1268,7 +1268,7 @@ class resource extends Controller
         $adminid       = $this->get_account_id();
         $time          = time();
         $is_wx         = $this->get_in_int_val("is_wx",0);
-
+        $id            = $this->get_in_int_val("id",-1);
         if($file_id != 0){
             $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
             $visit_type = 2;
@@ -1286,8 +1286,9 @@ class resource extends Controller
             'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
-        if($is_wx > 0){
-            $info = $this->t_resource_file->get_teacherinfo_new($file_id);
+        if($is_wx > 0 && $id > 0){
+
+            $info = $this->t_resource_file->get_teacherinfo_new($id);
             $wx_openid    = $info['wx_openid'];
             $file_name    = $info['file_title'];
             $teacher_nick = $info['nick'];
@@ -1301,8 +1302,6 @@ class resource extends Controller
             $data['keyword3']   = date('Y-m-d');
             $data['remark']     = "让我们共同努力，让理优明天更美好";
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
-
-
         }
         return $this->output_succ();
     }
