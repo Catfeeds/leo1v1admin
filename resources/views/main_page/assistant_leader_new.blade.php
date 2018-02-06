@@ -96,39 +96,39 @@
                                     </tr>
                                 </thead>
                                 <tbody >
-                                        <tr>
-                                            <td>在册学员</td>
-                                            <td>{{$stu_info["all_student"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>有效学员(截止上月底)</td>
-                                            <td>{{$stu_info["read_student_last"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>在读学员</td>
-                                            <td>{{$stu_info["read_student"]}} </td>
-                                        </tr>
+                                    <tr>
+                                        <td>在册学员</td>
+                                        <td>{{$stu_info["all_student"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>有效学员(截止上月底)</td>
+                                        <td>{{$stu_info["read_student_last"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>在读学员</td>
+                                        <td>{{$stu_info["read_student"]}} </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td>停课学员(本月)</td>
-                                            <td>{{$stu_info["month_stop_student"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>停课学员(累积)</td>
-                                            <td>{{$stu_info["stop_student"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>退费</td>
-                                            <td>{{@$stu_info["refund_student"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>扩课成功数</td>
-                                            <td>{{@$stu_info["kk_suc"]}} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>扩课申请数</td>
-                                            <td>{{@$stu_info["kk_require"]}} </td>
-                                        </tr>
+                                    <tr>
+                                        <td>停课学员(本月)</td>
+                                        <td>{{$stu_info["month_stop_student"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>停课学员(累积)</td>
+                                        <td>{{$stu_info["stop_student"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>退费</td>
+                                        <td>{{@$stu_info["refund_student"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>扩课成功数</td>
+                                        <td>{{@$stu_info["kk_suc"]}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>扩课申请数</td>
+                                        <td>{{@$stu_info["kk_require"]}} </td>
+                                    </tr>
 
 
 
@@ -204,6 +204,117 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            退费预警
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>退费预警级别</td>
+                                        <td>学生数量</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr style="color:#FF0000">
+                                        <td>三级</td>
+                                        <td><a href="/user_manage/ass_archive?refund_warn=3"><span style="color:#FF0000">{{$refund_warning["three"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#FFCC33">
+                                        <td>二级</td>
+                                        <td><a href="/user_manage/ass_archive?refund_warn=2"><span style="color:#FFCC33">{{$refund_warning["two"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#0099FF">
+                                        <td>一级</td>
+                                        <td><a href="/user_manage/ass_archive?refund_warn=1"><span style="color:#0099FF">{{$refund_warning["one"]}}</span></a></td>
+                                    </tr>
+                                    <tr style="color:#0000FF">
+                                        <td>总计</td>
+                                        <td>{{$refund_warning["total"]}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            本组汇总
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>在册学员</td>
+                                        <td>有效学员</td>
+                                        <td>停课学员(本月)</td>
+                                        <td>退费人数</td>
+                                        <td>预警学员</td>
+                                        <td>有效学员课耗</td>
+                                        <td>本月总课耗</td>
+                                        <td>本月课耗收入</td>
+                                        <td>完成系数</td>
+                                        <td>系数完成率</td>
+                                        <td>续费人数</td>
+                                        <td>续费金额</td>
+                                        <td>新签金额</td>
+                                        <td>转介绍金额(CC)</td>
+                                        <td>扩课成功数</td>
+                                        <td>扩课申请数</td>
+                                        <td>新签退费金额</td>
+                                        <td>续费退费金额</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr>
+                                        <td>{{@$stu_info["all_student"]}} </td>
+                                        <td>{{@$stu_info["read_student_last"]}} </td>
+                                        <td>{{@$stu_info["month_stop_student"]}} </td>
+                                        <td>{{@$stu_info["refund_student"]}} </td>
+                                        <td>{{@$stu_info["warning_student"]}} </td>
+                                        <td>{{@$stu_info["lesson_total_old"]}} </td>
+                                        <td>{{@$stu_info["lesson_total"]}} </td>
+                                        <td>{{@$stu_info["lesson_money"]}} </td>
+                                        <td  class="per" data-per="{{@$stu_info["lesson_per"]}}" >
+                                            <a href="javascript:;" >{{@$stu_info["lesson_ratio"]}}</a>
+                                        </td>
+                                        <td  class="per" data-per="{{@$stu_info["lesson_per"]}}" >
+                                            <a href="javascript:;" >{{@$stu_info["lesson_per"]}}%</a>
+                                        </td>
+
+                                        <td  class="per" data-per="{{@$stu_info["return_stu_per"]}}" >
+                                            <a href="javascript:;" >{{@$stu_info["renw_student"]}}</a>
+                                        </td>
+                                        <td  class="per" data-per="{{@$stu_info["renw_per"]}}" >
+                                            <a href="javascript:;" >{{@$stu_info["renw_price"]}}</a>
+                                        </td>
+
+                                        <td>{{@$stu_info["tran_price"]}}</td>
+                                        <td>{{@$stu_info["cc_tran_money"]}}</td>
+
+                                        <td>{{@$stu_info["kk_suc"]}}</td>
+                                        <td>{{@$stu_info["kk_require"]}}</td>
+                                        <td>{{@$stu_info["new_refund_money"]}} </td>
+                                        <td>{{@$stu_info["renw_refund_money"]}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
@@ -379,13 +490,13 @@
                             </thead>
                             <tbody>
                                 @foreach ( $month_info as $var )
-                                <tr>
-                                    <td>{{@$var['name']}}</td>
-                                    <td>{{@$var["revisit_num"]/1}} </td>
-                                    <td>{{@$var["stu_num"]*2}} </td>
-                                    <td>{{@$var["call_num"]}}</td>
-                                    <td>{{@$var["stu_num"]*6}}:00 </td>
-                                </tr>
+                                    <tr>
+                                        <td>{{@$var['name']}}</td>
+                                        <td>{{@$var["revisit_num"]/1}} </td>
+                                        <td>{{@$var["stu_num"]*2}} </td>
+                                        <td>{{@$var["call_num"]}}</td>
+                                        <td>{{@$var["stu_num"]*6}}:00 </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

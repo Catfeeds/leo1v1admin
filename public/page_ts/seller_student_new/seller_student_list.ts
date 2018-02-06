@@ -16,7 +16,7 @@ function init_today_new()  {
         else
             var call_button ='<button class=" call-opt-call-phone btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>';
 
-            
+
         $(".opt-user").each( function(){
             var opt_data=$(this).get_opt_data();
             //alert (opt_data.nick);
@@ -97,7 +97,7 @@ function init_today_new()  {
                         '</div>');
                 $seller_item.find(".call-opt-edit").on("click" ,function() {
                     $p_div.find(".opt-edit-new_new").click();
-                    
+
                     $.do_ajax("/ss_deal/sync_tq",{
                         "phone" : opt_data.phone,
                         "userid" : opt_data.userid,
@@ -2711,6 +2711,8 @@ function init_edit() {
                 note_msg="已有试听课:"+data.test_lesson_count +"次" ;
             }
 
+
+
             if (!show_noti_info_flag) {
                 $note_info.hide();
             }else{
@@ -3810,6 +3812,8 @@ function init_edit() {
                             return;
                         }
 
+
+
                         var region = html_node.find("#province_new_two").find("option:selected").text();
                         var province = html_node.find("#province_new_two").val();
                         var city = html_node.find("#city_new_two").find("option:selected").text();
@@ -4029,6 +4033,9 @@ function init_edit() {
                         }else{
                             html_node.find("#id_intention_level_new_two").parent().attr('style','');
                         }
+
+
+
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
                             var min_time = Date.parse(
                                 (new Date(id_stu_request_test_lesson_time.val())).toString()
@@ -4136,6 +4143,7 @@ function init_edit() {
                             stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
                             user_desc     : id_user_desc.val(),
                         },function(){
+
                             if(!opt_data.parent_wx_openid && g_args.account_role != 12 && g_args.jack_flag !=349 && g_args.jack_flag !=99
                                && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186
                                && g_args.jack_flag!=944

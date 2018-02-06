@@ -437,48 +437,36 @@ class test_code extends Controller
         return $this->output_succ();
     }
 
-    public function set_lesson_end(){
-        $lesson_list = $this->t_lesson_info->get_need_set_lesson_end_list();
-        $now         = time();
-        foreach ($lesson_list as $item) {
-            $teacherid   = $item["teacherid"];
-            $userid      = $item["userid"];
-            $lessonid    = $item["lessonid"];
-            $courseid    = $item["courseid"];
-            $lesson_type = $item["lesson_type"];
-            $lesson_num  = $item["lesson_num"];
-            $lesson_end  = $item["lesson_end"];
-            if ($lesson_end < $now-1800) {
-                echo $lessonid;
-                echo "<br>";
-                $this->t_lesson_info->field_update_list($lessonid,[
-                    "lesson_status" => E\Elesson_status::V_END
-                ]);
+    public function test_free_time(){ // 协议编号 :1010
+        $teacherid = 60024;
+        $ret_str = $this->t_teacher_freetime_for_week->get_vacant_arr($teacherid);
+        $ret_arr = json_decode($ret_str,true);
+        if(!empty($ret_arr)){
+            foreach($ret_arr as $i=>$item_ret){
+                foreach($format_arr as &$item_format){
+                    if($item_ret==' '){
+                        unset($ret_arr[$i]);
+                    }else{
+                        if($item_format == @$item_ret['0']){
+                            unset($ret_arr[$i]);
+                        }
+                    }
+                }
             }
         }
     }
 
-
-    public function add_feedback_info(){
-        $lessonid = $this->get_in_int_val("lessonid");
-        if($lessonid==0){
-            return $this->output_err("lessonid 错误");
-        }
-
-        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
-        $this->t_teacher_feedback_list->row_insert([
-            "lessonid"      => $lessonid,
-            "teacherid"     => $lesson_info['teacherid'],
-            "feedback_type" => E\Efeedback_type::V_102,
-            "lesson_count"  => $lesson_info['lesson_count'],
-            "tea_lesson"    => "90分钟补偿",
-            "add_time"      => time(),
+    public function add_train_lesson(){
+        $this->t_teacher_record_list->row_insert([
+            "teacherid"      => 510403,
+            "type"           => E\Erecord_type::V_1,
+            "add_time"       => time()+1000,
+            "train_lessonid" => 537758,
+            "lesson_style"   => E\Elesson_style::V_5
         ]);
-        echo "succ";
     }
 
-    public function test_a(){
-        var_dump($a);
-    }
+
+
 
 }

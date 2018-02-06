@@ -1,8 +1,13 @@
 @extends('layouts.app')
 @section('content')
-
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <section class="content ">
-        
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -16,6 +21,7 @@
                         <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
                     </div>
                 </div>
+                <button class="btn btn-primary" id="id_upload_xls" > 上传xls </button>
             </div>
         </div>
         <hr/>

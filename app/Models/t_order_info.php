@@ -2539,7 +2539,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         }
 
         $sql = $this->gen_sql_new(
-            "select  order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
+            "select  o.first_check_time, order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
             ." from_parent_order_type,s.lesson_count_all,o.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,l.lesson_start,l.lesson_end,tmk_adminid,s.user_agent,"
             ." o.orderid,order_time,o.stu_from_type, is_new_stu,contractid,"
@@ -5062,7 +5062,52 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_student_info::DB_TABLE_NAME,
             $where_arr
         );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_item_list($start_time,$end_time){
+        $where_arr=[
+            'o.contract_type=0',
+            'o.price>0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'o.order_time', $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            " select o.*,m.create_time become_time "
+            ." from %s o "
+            ." left join %s m on m.account=o.sys_operator "
+            ." where %s",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_item_list_new($start_time, $end_time){
+        $where_arr = [
+            ['oi.contract_type = %u',0],
+            ['si.is_test_user = %u',0],
+            "oi.contract_status >0 ",
+        ];
+        $this->where_arr_add_time_range($where_arr, 'oi.order_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select si.origin as channel_name,count(oi.orderid) as order_count,'.
+            'count(distinct oi.userid) as user_count,'.
+            'round(sum(oi.price)/100) as order_all_money '.
+            'from %s oi '.
+            'left join %s si on oi.userid = si.userid '.
+            'where %s group by si.origin',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_first_check_time_by_orderid($orderid){
+        $sql = $this->gen_sql_new("  select  first_check_time from %s o where orderid=$orderid",self::DB_TABLE_NAME);
         return $this->main_get_value($sql);
     }
+
 }
 

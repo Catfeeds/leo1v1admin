@@ -5297,4 +5297,26 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
+    public function get_refund_warn_info() {
+        $userid = $this->get_in_str_val("userid");
+        $info = $this->t_student_info->get_refund_warn_info($userid);
+        $data = [];
+        if ($info) {
+            $data["学员类型"] = E\Estudent_stu_type::get_desc($info["type"]);
+            $warn = "无";
+            if ($info["refund_warning_level"] == 3) {
+                $warn = "三级";
+            } elseif ($info["refund_warning_level"] == 2) {
+                $warn = "二级";
+            } elseif ($info["refund_warning_level"] == 1) {
+                $warn = "一级";
+            }
+            $data["退费预警级别"] = $warn;
+            $warn = json_decode($info["refund_warning_reason"], true);
+            if ($warn) $data = array_merge($data, $warn);
+        }
+        
+        return $this->output_succ(['data' => $data]);
+    }
+
 }

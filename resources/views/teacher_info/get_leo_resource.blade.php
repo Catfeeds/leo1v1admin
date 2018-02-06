@@ -45,7 +45,7 @@
      .error_pic_change{ padding-top: 10px; position: relative; height: 30px;width: 100px;}
      .error_pic_change a{ position: absolute;z-index: 9999; }
      .error_pic_change a:first-child{ left: 5px;}
-     .error_pic_change a:last-child{ right: 5px;}
+     .error_pic_change a.pic_dele{ right: 5px;}
     </style>
     <section class="content li-section">
         <div>
@@ -161,9 +161,7 @@
                             @endif
                         </td>
                         <td>
-                            <a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览</a>
-
-                            <a class="opt-look_new btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览(test)</a>
+                            <a class="opt-look_new btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}" data-file_type="{{@$var['file_type']}}">预览</a>
 
                             <a class="opt-error btn color-blue"  title="报错" data-file_id="{{@$var['file_id']}}" data-resource_type="{{@$var['resource_type']}}">报错</a>
                             @if(@$var['is_eval'] > 0)
@@ -379,35 +377,35 @@
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_01" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
             <div class="error_pic_box hide fl">
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_02" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
             <div class="error_pic_box hide fl">
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_03" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
             <div class="error_pic_box hide fl">
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_04" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
             <div class="error_pic_box hide fl">
                 <img width="100">
                 <div class="error_pic_change">
                     <a class="pic_change_05" href="javascript:;">更改</a>
-                    <a onclick="dele_upload(this,event)" href="javascript:;">删除</a>
+                    <a class="pic_dele" onclick="dele_upload(this,event)" href="javascript:;">删除</a>
                 </div>
             </div>
 
@@ -424,7 +422,7 @@
         </div>
     </div>
 
-    <select class="err_choose">
+    <select class="err_choose hide">
         <option value="-1">请选择二级错误</option>
         <option value="-2">请先选择一级错误</option>
     </select>
@@ -461,6 +459,18 @@
 
     <select class="err_pic hide">
         @foreach($err_pic as $k => $type)
+            <option value="{{$k}}">{{$type}}</option>
+        @endforeach
+    </select>
+
+    <select class="err_font hide">
+        @foreach($err_font as $k => $type)
+            <option value="{{$k}}">{{$type}}</option>
+        @endforeach
+    </select>
+
+    <select class="err_difficult hide">
+        @foreach($err_difficult as $k => $type)
             <option value="{{$k}}">{{$type}}</option>
         @endforeach
     </select>

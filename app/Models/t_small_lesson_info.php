@@ -51,7 +51,7 @@ class t_small_lesson_info extends \App\Models\Zgen\z_t_small_lesson_info
             ["t1.lessonid=%d",$lessonid, -2 ],
         ];
 
-        $sql=$this->gen_sql_new("select t1.lessonid, t1.userid as studentid, t2.lesson_num,s.nick"
+        $sql=$this->gen_sql_new("select t1.lessonid, t1.userid as studentid, t2.lesson_num,s.nick,"
                                 ." from_unixtime( t2.lesson_start) as lesson_start, t1.issue_url,t1.issue_time ,t1.finish_url, "
                                 ." t1.finish_time, t1.check_url, t1.check_time, t1.tea_research_url,t1.tea_research_time, "
                                 ." t1.ass_research_url, t1.ass_research_time ,t1.work_status "

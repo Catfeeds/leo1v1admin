@@ -109,10 +109,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         //通知
         $admin_revisiterid    = 0;
         $seller_resource_type = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type" );
+        $tmk_student_status   = 0;
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status" );
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
+            $tmk_student_status   = $data_item['tmk_student_status'];
         }
         if ($admin_revisiterid  ) {
             $subject_desc=E\Esubject::get_desc($subject);
@@ -435,9 +437,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ($userid >0 || $phone || $nick) {
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
-                ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ];
+            if ( $admin_revisiterid >0 ) {
+                $where_arr[]= ["ss.phone like '%%%s%%'", $this->ensql($phone) , ""];
+                $where_arr[]= ["s.nick like '%%%s%%'",$this->ensql($nick), ""];
+            }else{
+                $where_arr[]= ["ss.phone like '%s%%'", $this->ensql($phone) , ""];
+                $where_arr[]= ["s.nick like '%s%%'",$this->ensql($nick), ""];
+            }
+
         } else if ( $current_require_id_flag != -1 ) {
             $this->where_arr_add_boolean_for_value($where_arr,"current_require_id",$current_require_id_flag,true);
         }else{
@@ -1783,7 +1791,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0 ,$is_called_phone = 0 ) {
+    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0 ,$is_called_phone = 0,$duration=0){
         $userid=$this->get_userid_by_phone($phone);
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {
@@ -2325,7 +2333,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
         $where_arr[] =  "last_contact_time <  $last_contact_time " ;
-        $where_arr[]='((s.origin_level in (1,2,3) and n.cc_no_called_count>3) or (s.origin_level=4 and n.cc_no_called_count>2))';
+        $where_arr[]= 's.origin_level in (1,2,3,4)';
+        $where_arr[] = 'n.cc_no_called_count>2';
         //E\Eseller_student_status
         //if ( $seller_student_status ==2 ) {
         //$where_arr[] =  'n.call_admin_count>0 ';

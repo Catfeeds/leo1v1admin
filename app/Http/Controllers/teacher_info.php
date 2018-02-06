@@ -2707,6 +2707,8 @@ class teacher_info extends Controller
         $err_question_answer = E\Eresource_question_answer::$desc_map;
         $err_whole = E\Eresource_whole::$desc_map;
         $err_content = E\Eresource_content::$desc_map;
+        $err_font = E\Eresource_font::$desc_map;
+        $err_difficult = E\Eresource_difficult::$desc_map;
 
         if($is_js != 0){
             // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
@@ -2724,7 +2726,8 @@ class teacher_info extends Controller
                 'err_content'  => $err_content,
                 'err_whole'  => $err_whole,
                 'err_pic'  => $err_pic,
-
+                'err_font'  => $err_font,
+                'err_difficult'  => $err_difficult,
             ]);
 
         }
@@ -2735,7 +2738,7 @@ class teacher_info extends Controller
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info'  => $tag_arr,
-            'tea_sub'   => json_encode( $tea_sub),
+            'tea_sub'   => json_encode($tea_sub),
             'tea_gra'   => json_encode($tea_gra),
             'book'      => json_encode($book_arr),
             'type_list' => json_encode($type_list),
@@ -2747,6 +2750,9 @@ class teacher_info extends Controller
             'err_content'  => $err_content,
             'err_whole'  => $err_whole,
             'err_pic'  => $err_pic,
+            'err_font'  => $err_font,
+            'err_difficult'  => $err_difficult,
+
         ]);
     }
 
@@ -3532,27 +3538,70 @@ class teacher_info extends Controller
     public function add_leo_resource_error(){
         $file_id             = $this->get_in_int_val('file_id', -1);
         $resource_type       = $this->get_in_int_val('resource_type', -1);
-
+        $resource_id       = $this->get_in_int_val('resource_id', -1);
         $error_type          = $this->get_in_int_val("error_type",-1);
         $sub_error_type      = $this->get_in_int_val("sub_error_type",-1);
         $detail_error        = $this->get_in_str_val("detail_error",'');
-        $error_url           = $this->get_in_str_val("error_url",'');
+        $error_picture       = $this->get_in_str_val("error_url",'');
         $teacherid           = $this->get_login_teacher();
 
-        $this->t_resource_file_error_info->row_insert([
+        $ret = $this->t_resource_file_error_info->row_insert([
             "file_id"          => $file_id,
             "teacherid"        => $teacherid,
             "add_time"         => time(NULL),
             "resource_type"    => $resource_type,
+            "resource_id"      => $resource_id,
             "phone"            => $this->t_teacher_info->get_phone($teacherid),
             "nick"             => $this->t_teacher_info->get_nick($teacherid),
 
             "error_type"       => $error_type,
             "sub_error_type"   => $sub_error_type,
             "detail_error"     => $detail_error,
-            "error_url"        => $error_url,
+            "error_picture"    => $error_picture,
         ]);
+        //send wx_message
+        if($ret){   
+            //search 
+            
+            $info = $this->t_resource_file->get_teacherinfo($file_id);
+            $wx_openid    = $info['wx_openid'];
+            $file_name    = $info['file_title'];
+            $teacher_nick = $info['nick'];
+            //dd($teacher_nick);
+            $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+
+            $data['first']      = " 您好,$teacher_nick老师，您负责的讲义“$file_name ”被老师报错，请及时查看详情并处理。";
+            $data['keyword1']   = " 讲义报错通知";
+            $data['keyword2']   = " 请及时检查并处理讲义的报错内容";
+            $data['keyword3']   = date('Y-m-d');
+            $data['remark']     = "处理报错位置：理优管理系统——教研备课后台";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
+
+        }
         return $this->output_succ();
+    }
+
+    public function look(){
+        $e = $this->get_in_str_val("e","");
+        $token = $this->get_in_str_val("token","");
+        $pdf = $this->get_in_str_val("url","");
+        $type = $this->get_in_int_val("type",1);
+        $url = '';
+        if($type == 2){
+            $url = "http://teacher-doc.leo1v1.com".$pdf.".pdf?e=".$e."&token=".$token;
+        }else if($type == 3){
+            $url = "http://ebtest.qiniudn.com".$pdf.".pdf?e=".$e."&token=".$token;
+        }else if($type == 4){
+            $url = "http://7tszue.com2.z0.glb.qiniucdn.com".$pdf.".pdf?e=".$e."&token=".$token;
+        }
+        
+        //dd($url);
+        $ret_info['url'] = $url;
+        return $this->view(__METHOD__,$ret_info,[
+            'url' => $url,
+        ]);
     }
 
 }

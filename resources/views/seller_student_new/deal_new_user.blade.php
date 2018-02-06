@@ -46,6 +46,12 @@
                 </div>
 
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group " >
+                        <a class="btn btn-warning"  id="id_tip_no_call" > 未拨通电话标注 </a>
+                    </div>
+                </div>
+
 
 
 
@@ -138,7 +144,7 @@
 
             </tbody>
         </table>
-        <font size="3" color="#FF3030" style="display:none;">拨通未满60S主动挂断电话:{{$count_new}}次,剩余:{{$left_count_new}}次</font>
+        <font size="3" color="#FF3030" >拨通未满60S主动挂断电话:{{$count_new}}次,剩余:{{$left_count_new}}次</font>
         @elseif( is_array( @$errors) )
         <div class="alert alert-danger" style="margin:20px;">
             <strong>未开放</strong>

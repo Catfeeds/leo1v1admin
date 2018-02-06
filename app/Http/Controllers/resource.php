@@ -28,6 +28,7 @@ class resource extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $tag_five      = $this->get_in_int_val('tag_five', -1);
         $file_title    = trim( $this->get_in_str_val('file_title', '') );
+        $has_comment   = $this->get_in_int_val('has_comment', -1);
         $page_info     = $this->get_in_page_info();
 
         if($use_type == 1){
@@ -39,7 +40,7 @@ class resource extends Controller
             $resource_type = 8;
         }
         $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,0,0,$has_comment
         );
         $r_mark = 0;
         $index  = 1;
@@ -89,12 +90,12 @@ class resource extends Controller
             if($item['resource_type'] == 3 ) {
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
-         
+
+            $item['comment'] = $this->t_resource_file_evalutation->get_count($item['file_id']);
         }
         //dd($ret_info['list']);
 
         //获取所有开放的教材版本
-        //$book = $this->t_resource_agree_info->get_all_resource_type();
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
         $book_arr = [];
         if($book){
@@ -145,7 +146,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180131161439,
+            '_publish_version'    => 20180204141439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -429,82 +430,173 @@ class resource extends Controller
     }
 
     public function resource_count(){
+        $sum_field_list=[
+            "file_num",
+            "visit",
+            "visit_rate",
+            "visit_num",
+            "use",
+            "use_rate",
+            "use_num",
+            "error",
+            "error_rate",
+            "error_num",
+            "score",
+        ];
+        $order_field_arr=  $sum_field_list ;
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"");
+
         list($start_time,$end_time) = $this->get_in_date_range(-30, 0 );
         $subject = $this->get_in_int_val("subject", -1);
         $grade = $this->get_in_int_val("grade", -1);
         $resource_type = $this->get_in_int_val("resource_type", -1);
-        $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type);
+        $teacherid     = $this->get_in_int_val("teacherid",-1); //
+        $type          = $this->get_in_int_val("type",1);
+        if($type == 1){
+            $page_num      = $this->get_in_page_num();
+            if($teacherid > 1){
+                $phone = $this->t_teacher_info->get_phone($teacherid);
+                $adminid = $this->t_manager_info->get_id_by_phone($phone);  
+            }else{
+                $adminid = -1;
+            }
+            
+            $ret_info = $this->t_resource->get_count($start_time, $end_time, $subject, $grade, $resource_type,$adminid);
+            $list = [];
+            $total = [];
 
-        $list = [];
-        $total = [];
-        foreach($ret_info as &$item){
-            $visit = ($item['visit_num'] > 0)?1:0;
-            $error = ($item['error_num'] > 0)?1:0;
-            $use   = ($item['use_num'] > 0)?1:0;
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['file_num']++;//上传文件数
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit_num'] += $item['visit_num'];//浏览次数
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error_num'] += $item['error_num'];//收藏次数
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use_num'] += $item['use_num'];//使用次数
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit'] += $visit;//浏览量
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
-        }
+            foreach($ret_info as &$item){
+                $visit = ($item['visit_num'] > 0)?1:0;
+                $error = ($item['error_num'] > 0)?1:0;
+                $use   = ($item['use_num'] > 0)?1:0;
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['file_num']++;//上传文件数
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit_num'] += $item['visit_num'];//浏览次数
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error_num'] += $item['error_num'];//收藏次数
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use_num'] += $item['use_num'];//使用次数
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit'] += $visit;//浏览量
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
+                @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
+            }
+            $final_list = [];
+            // dd($list);
+            foreach($list as $s=>$item){
+                //subject
+                //标记,这科目的第一个
+                $flag = 1;
+               foreach($item as $a=>$val){
+                    //adminid
+                    //标记,这个人的第一个
+                    $mark = 1;
+                    foreach($val as $r=>$v){
+                        //resource_type
+                        $mark = 1;
+                        $flag = 1;
+                        $subject = ($flag == 1) ? E\Esubject::get_desc($s): '';
+                        $nick = ($mark == 1) ? $this->cache_get_account_nick($a): '';
+                        $final_list[] = [
+                            'mark'              => $mark,
+                            'subject'           => $s,
+                            'subject_str'       => $subject,
+                            'adminid'           => $a,
+                            'nick'              => $nick,
+                            'resource_type'     => $r,
+                            'resource_type_str' => E\Eresource_type::get_desc($r),
+                            'file_num'          => $v['file_num'],
+                            'visit_num'         => $v['visit_num'],
+                            'error_num'         => $v['error_num'],
+                            'use_num'           => $v['use_num'],
+                            'visit'             => $v['visit'],
+                            'use'               => $v['use'],
+                            'error'             => $v['error'],
+                            'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) ,
+                            'error_rate'        => round( $v['error']*100/$v['file_num'], 2) ,
+                            'use_rate'          => round( $v['use']*100/$v['file_num'], 2) ,
+                            'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
+                        ];
+                        $flag++;
+                        $mark++;
 
-        $final_list = [];
-        // dd($list);
-        foreach($list as $s=>$item){
-            //subject
-            //标记,这科目的第一个
-            $flag = 1;
-           foreach($item as $a=>$val){
-                //adminid
-                //标记,这个人的第一个
-                $mark = 1;
-                foreach($val as $r=>$v){
-                    //resource_type
-                    $subject = ($flag == 1) ? E\Esubject::get_desc($s): '';
-                    $nick = ($mark == 1) ? $this->cache_get_account_nick($a): '';
-                    $final_list[] = [
-                        'mark'              => $mark,
-                        'subject'           => $s,
-                        'subject_str'       => $subject,
-                        'adminid'           => $a,
-                        'nick'              => $nick,
-                        'resource_type'     => $r,
-                        'resource_type_str' => E\Eresource_type::get_desc($r),
-                        'file_num'          => $v['file_num'],
-                        'visit_num'         => $v['visit_num'],
-                        'error_num'         => $v['error_num'],
-                        'use_num'           => $v['use_num'],
-                        'visit'             => $v['visit'],
-                        'use'               => $v['use'],
-                        'error'             => $v['error'],
-                        'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) . '%',
-                        'error_rate'        => round( $v['error']*100/$v['file_num'], 2) . '%',
-                        'use_rate'          => round( $v['use']*100/$v['file_num'], 2) . '%',
-                        'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
-                    ];
-                    $flag++;
-                    $mark++;
-
-                    @$total['file_num'] += $v["file_num"];
-                    @$total["visit_num"] += $v["visit_num"];
-                    @$total["error_num"] += $v["error_num"];
-                    @$total["use_num"] += $v["use_num"];
-                    @$total["visit"] += $v["visit"];
-                    @$total["error"] += $v["error"];
-                    @$total["use"] += $v["use"];
+                        @$total['file_num'] += $v["file_num"];
+                        @$total["visit_num"] += $v["visit_num"];
+                        @$total["error_num"] += $v["error_num"];
+                        @$total["use_num"] += $v["use_num"];
+                        @$total["visit"] += $v["visit"];
+                        @$total["error"] += $v["error"];
+                        @$total["use"] += $v["use"];
+                    }
                 }
             }
+            if ($total) {
+                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) ;
+                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
+                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2);
+            }
+
+            if (!$order_in_db_flag) {
+                \App\Helper\Utils::order_list( $final_list, $order_field_name, $order_type );
+            }
+            $ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
+            //dd($final_list);
+            return $this->pageView( __METHOD__,$ret_arr, [
+                "total" => $total,
+                "type"  => $type,
+            ]);
+        }else if($type >= 2){
+            $ret_info = $this->t_resource->get_count_new($start_time, $end_time,$type);
+
+            $final_list = [];
+            // dd($list);
+            foreach($ret_info as $s=>$v){
+                $arr = [
+                    'mark'              => 1,
+                    'file_num'          => $v['file_num'],
+                    'visit_num'         => $v['visit_num'],
+                    'error_num'         => $v['error_num'],
+                    'use_num'           => $v['use_num'],
+                    'visit'             => $v['visit'],
+                    'use'               => $v['user'],
+                    'error'             => $v['error'],
+                    'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) ,
+                    'error_rate'        => round( $v['error']*100/$v['file_num'], 2) ,
+                    'use_rate'          => round( $v['user']*100/$v['file_num'], 2) ,
+                    'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
+                ];
+                if($type == 2){
+                    $arr['adminid'] = $this->cache_get_account_nick($v["adminid"]);
+                }else if($type == 3){
+                    $arr['subject'] = E\Esubject::get_desc($v["subject"]);
+                }else if($type == 4){
+                    $arr['grade']   = E\Egrade::get_desc($v["grade"]);
+                }else if($type == 5){
+                    $arr['resource_type'] = E\Eresource_type::get_desc($v["resource_type"]);
+                }
+                $final_list[] = $arr;
+                @$total['file_num'] += $v["file_num"];
+                @$total["visit_num"] += $v["visit_num"];
+                @$total["error_num"] += $v["error_num"];
+                @$total["use_num"] += $v["use_num"];
+                @$total["visit"] += $v["visit"];
+                @$total["error"] += $v["error"];
+                @$total["use"] += $v["user"];
+            }
+            if ($total) {
+                @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) ;
+                @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
+                @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) ;
+            }
+
+            if (!$order_in_db_flag) {
+                \App\Helper\Utils::order_list( $final_list, $order_field_name, $order_type );
+            }
+            //$ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
+            //dd($final_list);
+            return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
+                "total" => $total,
+                "type"  => $type,
+            ]);
         }
-        if ($total) {
-            @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) . '%';
-            @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) . '%';
-            @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) . '%';
-        }
-        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
-            "total" => $total,
-        ]);
+        
     }
 
     public function resource_frame_new(){
@@ -1175,6 +1267,7 @@ class resource extends Controller
         $ex_num        = $this->get_in_int_val('ex_num', 0);
         $adminid       = $this->get_account_id();
         $time          = time();
+        $is_wx         = $this->get_in_int_val("is_wx",0);
 
         if($file_id != 0){
             $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
@@ -1192,6 +1285,25 @@ class resource extends Controller
             'visitor_id'  => $adminid,
             'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
+
+        if($is_wx > 0){
+            $info = $this->t_resource_file->get_teacherinfo_new($file_id);
+            $wx_openid    = $info['wx_openid'];
+            $file_name    = $info['file_title'];
+            $teacher_nick = $info['nick'];
+            $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+
+            $data['first']      = " 您好，$teacher_nick 老师，您报错的讲义“ $file_name ”已被理优更改，感谢您对理优的监督与支持。";
+            $data['keyword1']   = " 讲义重传通知";
+            $data['keyword2']   = " 请随时查看理优新的讲义资料";
+            $data['keyword3']   = date('Y-m-d');
+            $data['remark']     = "让我们共同努力，让理优明天更美好";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher, $data,$teacher_url);
+
+
+        }
         return $this->output_succ();
     }
 
@@ -1496,6 +1608,221 @@ class resource extends Controller
         return $this->output_succ($result);
  
     }
+
+    public function get_comment(){
+        $file_id = $this->get_in_int_val("file_id");
+
+        $result = ['status'=>201];
+
+        $data = $this->t_resource_file_evalutation->get_list($file_id);
+
+        if($data){
+            $comment_num = count($data); //评价人数
+            $comment = [
+                'status'=>200,'comment_num' => $comment_num,
+                "quality_score_1" => 0,"quality_score_2" => 0,"quality_score_3" => 0,"quality_score_4" => 0,"quality_score_5" => 0,
+                "quality_score_rate_1" => 0,"quality_score_rate_2" => 0,"quality_score_rate_3" => 0,"quality_score_rate_4" => 0,"quality_score_rate_5" => 0,
+                "quality_score_average" => 0,
+
+                "help_score_1" => 0,"help_score_2" => 0,"help_score_3" => 0,"help_score_4" => 0,"help_score_5" => 0,
+                "help_score_rate_1" => 0,"help_score_rate_2" => 0,"help_score_rate_3" => 0,"help_score_rate_4" => 0,"help_score_rate_5" => 0,
+                "help_score_average" => 0,
+
+                "overall_score_1" => 0,"overall_score_2" => 0,"overall_score_3" => 0,"overall_score_4" => 0,"overall_score_5" => 0,
+                "overall_score_rate_1" => 0,"overall_score_rate_2" => 0,"overall_score_rate_3" => 0,"overall_score_rate_4" => 0,"overall_score_rate_5" => 0,
+                "overall_score_average" => 0,
+
+                "detail_score_1" => 0,"detail_score_2" => 0,"detail_score_3" => 0,"detail_score_4" => 0,"detail_score_5" => 0,
+                "detail_score_rate_1" => 0,"detail_score_rate_2" => 0,"detail_score_rate_3" => 0,"detail_score_rate_4" => 0,"detail_score_rate_5" => 0,
+                "detail_score_average" => 0,
+ 
+                "size_score_1" => 0,"size_score_2" => 0,"size_score_3" => 0,
+                "size_score_rate_1" => 0,"size_score_rate_2" => 0,"size_score_rate_3" => 0,
+
+                "gap_score_1" => 0,"gap_score_2" => 0,"gap_score_3" => 0,
+                "gap_score_rate_1" => 0,"gap_score_rate_2" => 0,"gap_score_rate_3" => 0,
+
+                "bg_score_1" => 0,"bg_score_2" => 0,"bg_score_3" => 0,
+                "bg_score_rate_1" => 0,"bg_score_rate_2" => 0,"bg_score_rate_3" => 0,
+
+                "type_score_1" => 0,"type_score_2" => 0,"type_score_3" => 0,
+                "type_score_rate_1" => 0,"type_score_rate_2" => 0,"type_score_rate_3" => 0,
+
+                "answer_score_1" => 0,"answer_score_2" => 0,"answer_score_3" => 0,
+                "answer_score_rate_1" => 0,"answer_score_rate_2" => 0,"answer_score_rate_3" => 0,
+
+                "suit_score_1" => 0,"suit_score_2" => 0,"suit_score_3" => 0,
+                "suit_score_rate_1" => 0,"suit_score_rate_2" => 0,"suit_score_rate_3" => 0,
+            ];
+
+            $time = [
+                "time_1"=>0,"time_2"=>0,"time_3"=>0,"time_4"=>0,"time_5"=>0,"time_6"=>0,"time_7"=>0,"time_8"=>0,"time_9"=>0,"time_10"=>0,"time_11"=>0,
+                "time_rate_1"=>0,"time_rate_2"=>0,"time_rate_3"=>0,"time_rate_4"=>0,"time_rate_5"=>0,"time_rate_6"=>0,
+                "time_rate_7"=>0,"time_rate_8"=>0,"time_rate_9"=>0,"time_rate_10"=>0,"time_rate_11"=>0,
+            ];
+            foreach($data as $var){
+                $this->get_comment_num($var['quality_score'],$comment['quality_score_1'],$comment['quality_score_2'],
+                                       $comment['quality_score_3'],$comment['quality_score_4'],$comment['quality_score_5']);
+
+                $this->get_comment_num($var['help_score'],$comment['help_score_1'],$comment['help_score_2'],
+                                       $comment['help_score_3'],$comment['help_score_4'],$comment['help_score_5']);
+
+                $this->get_comment_num($var['overall_score'],$comment['overall_score_1'],$comment['overall_score_2'],
+                                       $comment['overall_score_3'],$comment['overall_score_4'],$comment['overall_score_5']);
+
+                $this->get_comment_num($var['detail_score'],$comment['detail_score_1'],$comment['detail_score_2'],
+                                       $comment['detail_score_3'],$comment['detail_score_4'],$comment['detail_score_5']);
+
+                $this->get_comment_num($var['size'],$comment['size_score_1'],$comment['size_score_2'],$comment['size_score_3']);
+
+                $this->get_comment_num($var['gap'],$comment['gap_score_1'],$comment['gap_score_2'],$comment['gap_score_3']);
+
+                $this->get_comment_num($var['bg_picture'],$comment['bg_score_1'],$comment['bg_score_2'],$comment['bg_score_3']);
+
+                $this->get_comment_num($var['text_type'],$comment['type_score_1'],$comment['type_score_2'],$comment['type_score_3']);
+
+                $this->get_comment_num($var['answer'],$comment['answer_score_1'],$comment['answer_score_2'],$comment['answer_score_3']);
+
+                $this->get_comment_num($var['suit_student'],$comment['suit_score_1'],$comment['suit_score_2'],$comment['suit_score_3']);
+
+                $this->get_time_length($time,$var['time_length'],$var['resource_type']);
+             
+            }
+
+            $this->get_comment_average_score($comment_num,$comment['quality_score_average'],$comment['quality_score_1'],$comment['quality_score_2'],
+                                   $comment['quality_score_3'],$comment['quality_score_4'],$comment['quality_score_5']);
+
+            $this->get_comment_average_score($comment_num,$comment['help_score_average'],$comment['help_score_1'],$comment['help_score_2'],
+                                   $comment['help_score_3'],$comment['help_score_4'],$comment['help_score_5']);
+
+            $this->get_comment_average_score($comment_num,$comment['overall_score_average'],$comment['overall_score_1'],$comment['overall_score_2'],
+                                   $comment['overall_score_3'],$comment['overall_score_4'],$comment['overall_score_5']);
+
+            $this->get_comment_average_score($comment_num,$comment['detail_score_average'],$comment['detail_score_1'],$comment['detail_score_2'],
+                                   $comment['detail_score_3'],$comment['detail_score_4'],$comment['detail_score_5']);
+
+            $comment = array_merge($comment,$time);
+
+            $comment = $this->get_comment_average_num($comment);
+
+            return $this->output_succ($comment);
+        }
+
+        return $this->output_succ($result);
+    }
+
+    private function get_comment_num($score,&$val_1,&$val_2,&$val_3,&$val_4 = null,&$val_5 = null){
+        switch($score){
+            case 1:
+                $val_1 += 1;
+                break;
+            case 2:
+                $val_2 += 1;
+                break;
+            case 3:
+                $val_3 += 1;
+                break;
+            case 4:
+                $val_4 += 1;
+                break;
+            case 5:
+                $val_5 += 1;
+                break;
+                
+            default:
+                break;
+            }
+    }
+
+    private function get_time_length(&$time,$time_length,$resource_type){
+        if($resource_type == 3){
+            switch(trim($time_length)){
+            case "30分钟":
+                $time['time_1'] += 1;
+                break;
+            case "40分钟":
+                $time['time_2'] += 1;
+                break;
+            case "50分钟":
+                $time['time_3'] += 1;
+                break;
+            case "60分钟":
+                $time['time_4'] += 1;
+                break;
+            case "70分钟":
+                $time['time_5'] += 1;
+                break;
+            case "80分钟":
+                $time['time_6'] += 1;
+                break;
+            case "其他":
+                $time['time_7'] += 1;
+                break;  
+            default:
+                $time['time_8'] += 1;
+                break;
+            }
+
+        }else{
+            switch(trim($time_length)){
+            case "90分钟":
+                $time['time_1'] += 1;
+                break;
+            case "100分钟":
+                $time['time_2'] += 1;
+                break;
+            case "110分钟":
+                $time['time_3'] += 1;
+                break;
+            case "120分钟":
+                $time['time_4'] += 1;
+                break;
+            case "130分钟":
+                $time['time_5'] += 1;
+                break;
+            case "140分钟":
+                $time['time_6'] += 1;
+                break;
+            case "150分钟":
+                $time['time_7'] += 1;
+                break;
+            case "160分钟":
+                $time['time_8'] += 1;
+                break;
+            case "170分钟":
+                $time['time_9'] += 1;
+                break;
+            case "180分钟":
+                $time['time_10'] += 1;
+                break;
+            case "其他":
+                $time['time_11'] += 1;
+                break;
+            default:
+                $time['time_11'] += 1;
+                break;
+            }
+
+        }
+    }
+
+    private function get_comment_average_score($num,&$score,&$val_1,&$val_2,&$val_3,&$val_4 = 0,&$val_5 = 0){
+        $score = round ( ($val_1*1 + $val_2*2 + $val_3*3 + $val_4*4 + $val_5*5 )/$num ,1 );
+    }
+
+    private function get_comment_average_num($comment){
+        $comment_num = $comment['comment_num'];
+        foreach( $comment as $k => $v){
+            $pos = strpos($k,'rate');
+            if($pos > 0){
+                $score = substr($k,0,$pos).substr($k,$pos+5);
+                $ave = round ( ($comment[$score] / $comment_num),4)*100;
+                $comment[$k] = $ave."%";
+            }
+        }
+        return $comment;
+    }
+
     //预览
     public function tea_look_resource() {
         $tea_res_id = $this->get_in_int_val("tea_res_id");

@@ -159,6 +159,7 @@ $(function(){
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
     $('#id_tag_one').val(g_args.tag_one);
+    $('#id_tag_two').val(g_args.tag_two);
     $('#id_tag_four').val(g_args.tag_four);
     $('#id_tag_five').val(g_args.tag_five);
 
@@ -278,27 +279,49 @@ $(function(){
             newTab = window.open('about:blank');
         }
 
+
         do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
             if(ret.ret == 0){ 
                 if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){
                     newTab.location.href = ret.url;
                 }else{
-                    //newTab.close();
-                    $('.look-pdf').show();
-                    $('.look-pdf-son').mousedown(function(e){
-                        if(e.which == 3){
-                            return false;
-                        }
-                    });
-                    PDFObject.embed(ret.url).css({'width':'120%','height':'120%','margin':'-10%'});
-                    //PDFObject.embed(ret.url, ".look-pdf-son");
-                    //$('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
+                    console.log(ret.url);
+                    var arr_url = ret.url.split("?");
+                    var pdf = GetUrlRelativePath(ret.url);
+                    var app = arr_url[1];
+                    var pdf_name = pdf.split(".");
+                    pdf_name = pdf_name[0];
+                    var type = 0;
+                    if(ret.url.indexOf("7tszue.com2.z0.glb.qiniucdn.com")!=-1){
+                        type = 4;
+                    }
+                    if(ret.url.indexOf("ebtest.qiniudn.com")!=-1){
+                        type = 3;
+                    }
+                    if(ret.url.indexOf("teacher-doc.leo1v1.com")!=-1){
+                        type = 2;
+                    }
+
+                    $.wopen("/teacher_info/look?"+app+"&url="+pdf_name+"&type="+type);
+                    return false;
                 }
             } else {
                 BootstrapDialog.alert(ret.info);
             }
         });
     });
+
+    function GetUrlRelativePath(url){
+　　　　var arrUrl = url.split("//");
+
+　　　　var start = arrUrl[1].indexOf("/");
+　　　　var relUrl = arrUrl[1].substring(start);
+
+　　　　if(relUrl.indexOf("?") != -1){
+　　　　　　relUrl = relUrl.split("?")[0];
+　　　　}
+　　　　return relUrl;
+　　 }
 
     $('body').on('click', function(){
         // $('.look-pdf').hide().empty();
@@ -452,7 +475,7 @@ $(function(){
     $('.opt-error').on('click',function(){
         var file_id = $(this).data('file_id');
         var resource_type  = $(this).data('resource_type');
-
+        var resource_id = $(this).parents('tr').data('resource_id');
         var error = $('.error').clone();
         error.removeClass('hide');  
         var arr = [
@@ -501,16 +524,15 @@ $(function(){
                 var data = {
                     "error_type_01" : error_type_01,
                     "error_type_02" : error_type_02,
+                    "resource_id"   : resource_id,
                     "error_detail"  : error_detail,
                     "img_arr" : JSON.stringify(img_arr)
                 };
-
-                console.log(data);
-
+            
                 $.do_ajax( "/teacher_info/add_leo_resource_error", {
                     "file_id"           :file_id,
                     "resource_type"     :resource_type,
-
+                    "resource_id"       :resource_id,
                     "error_type"        :error_type_01,       //错误类型(资料库)
                     "sub_error_type"    :error_type_02,       //错误子类型(资料库)
                     "detail_error"      :error_detail,        //错误描述(资料库)
@@ -528,12 +550,19 @@ $(function(){
                 });
             }
         },function(){
-            custom_upload(timestamp,"error_button_id","error_upload_id",1);
-            custom_upload(timestamp,"pic_modify_01","error_pic_box_01",2);
-            custom_upload(timestamp,"pic_modify_02","error_pic_box_02",2);
-            custom_upload(timestamp,"pic_modify_03","error_pic_box_03",2);
-            custom_upload(timestamp,"pic_modify_04","error_pic_box_04",2);
-            custom_upload(timestamp,"pic_modify_05","error_pic_box_05",2);
+            // custom_upload(timestamp,"error_button_id","error_upload_id",1);
+            // custom_upload(timestamp,"pic_modify_01","error_pic_box_01",2);
+            // custom_upload(timestamp,"pic_modify_02","error_pic_box_02",2);
+            // custom_upload(timestamp,"pic_modify_03","error_pic_box_03",2);
+            // custom_upload(timestamp,"pic_modify_04","error_pic_box_04",2);
+            // custom_upload(timestamp,"pic_modify_05","error_pic_box_05",2);
+
+            custom_upload_new("error_button_id","error_upload_id",1);
+            custom_upload_new("pic_modify_01","error_pic_box_01",2);
+            custom_upload_new("pic_modify_02","error_pic_box_02",2);
+            custom_upload_new("pic_modify_03","error_pic_box_03",2);
+            custom_upload_new("pic_modify_04","error_pic_box_04",2);
+            custom_upload_new("pic_modify_05","error_pic_box_05",2);
 
         },false,700,'padding-right:10px;');
 
@@ -633,12 +662,10 @@ function dele_upload(obj,oEvent){
     $(target).parents('.error_pic_box').addClass('hide');
     var cur_obj = $(target).parents('.error_pic_box').clone();
     var button = $(target).parents('.error_upload').find('.error_button');
+    button.removeClass('hide');
     $(target).parents('.error_pic_box').remove();
     button.before(cur_obj);
-    if( $(target).parents('.error_upload').find('.error_pic_box:hidden').length > 0){
-        $(target).parents('.error_upload').find('.error_button').removeClass('hide'); 
-    }
-
+    
 }
 
 function get_err_sec(val){
@@ -666,6 +693,12 @@ function get_err_sec(val){
         break;
     case 5:
         $options  = $.trim($(".err_pic").clone().html());
+        break;
+    case 6:
+        $options  = $.trim($(".err_font").clone().html());
+        break;
+    case 7:
+        $options  = $.trim($(".err_difficult").clone().html());
         break;
 
     default:
@@ -760,3 +793,36 @@ function custom_upload(new_flag,btn_id,containerid,obj){
     });
 }
 
+function custom_upload_new(btn_id,containerid,obj){
+
+    if( obj == 1 && $("#"+containerid).find('.error_pic_box:hidden').length == 0 ){
+        BootstrapDialog.alert("最多只能传5张图片！");
+        return false;
+    }
+    console.log('before upload the file');
+
+    $.custom_upload_file(
+        btn_id ,
+        true,function( up, info, file ){
+            var res = $.parseJSON(info);
+            var url=res.key;
+            $.do_ajax("/common_new/get_qiniu_download",{
+                "file_url" :res.key ,
+                "public_flag" :1,
+            }, function(resp){
+                var imgSrc = resp.url;
+                if(obj == 1){
+                    var $img_box = $("#"+containerid).find('.error_pic_box:hidden:eq(0)');                   
+                    $img_box.find("img").attr("src", imgSrc);
+                    $img_box.removeClass("hide");
+                    if( $("#"+containerid).find('.error_pic_box:hidden').length == 0){
+                        $("#"+containerid).find('.error_button').addClass('hide'); 
+                    }
+                }else{
+                    $('#'+containerid).find('img').attr("src", imgSrc);
+                }
+
+            })
+        },null,
+        ["png","jpg","gif","jpeg"] );
+} 

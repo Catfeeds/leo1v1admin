@@ -78,10 +78,12 @@ class seller_student_system_assign extends cmd_base
 
             //未拨通例子重新分配的个数
             $def_no_connected_count= 5;
-            $item["def_no_connected_count"] = $def_no_connected_count ;//配置未拨通数量
-            $item["assigned_no_connected_count"] = $assigned_no_connected_count ;//已获取未拨通数量
+            if($item['is_top']){
+                $item["def_no_connected_count"] = $def_no_connected_count ;//配置未拨通数量
 
-            $need_no_connected_count_all+=$def_no_connected_count;//配置未拨通数量之和
+                $need_no_connected_count_all+=$def_no_connected_count;//配置未拨通数量之和
+            }
+            $item["assigned_no_connected_count"] = $assigned_no_connected_count ;//已获取未拨通数量
             //已获取未拨通数量之和
             $assigned_no_connected_count_all+= min([ $assigned_no_connected_count, $def_no_connected_count  ]);
             //得到每个人上限
@@ -153,6 +155,8 @@ class seller_student_system_assign extends cmd_base
         $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
             E\Etq_called_flag::V_1
         );
+        //获取未拨打过的例子
+        // $no_call_list=$this->task->t_seller_student_new_b2->get_no_call_list(E\Etq_called_flag::V_1);
         $need_deal_count= count( $need_deal_list);
         $old_need_deal_count=$need_deal_count;
         $assigned_count=0;
@@ -161,27 +165,31 @@ class seller_student_system_assign extends cmd_base
             shuffle ($need_deal_list);
             $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
             foreach( $admin_list as &$item ) {
-                $assigned_no_connected_count=$item["assigned_no_connected_count"];//已获取奖励数量
-                $def_no_connected_count=$item["def_no_connected_count"];//分配奖励数量
-                $opt_adminid= $item["uid"];
-                for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
-                    for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
-                        $find_userid= @$need_deal_list[$j]["userid"];
-                        if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
+                //销售在奖励名单内
+                if($item['is_top']){
+                    $assigned_no_connected_count=$item["assigned_no_connected_count"];//已获取奖励数量
+                    $def_no_connected_count=$item["def_no_connected_count"];//分配奖励数量
+                    $opt_adminid= $item["uid"];
+                    for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
+                        for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
+                            $find_userid= @$need_deal_list[$j]["userid"];
+                            //判断之前没有分配给此用户过
+                            if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
 
-                            $assigned_count++;
-                            $userid_list=[$find_userid];
-                            $opt_type ="" ;
-                            $opt_type=0;
-                            $account="系统分配-未拨通例子";
-                            $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
-                            $check_hold_flag = false;
-                            $this->task->t_seller_student_system_assign_log->add(
-                                E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
-                            );
-                            unset($need_deal_list[$j]);
-                            $start_deal_index=$j+1;
-                            break;
+                                $assigned_count++;
+                                $userid_list=[$find_userid];
+                                $opt_type ="" ;
+                                $opt_type=0;
+                                $account="系统分配-未拨通例子";
+                                $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                                $check_hold_flag = false;
+                                $this->task->t_seller_student_system_assign_log->add(
+                                    E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
+                                );
+                                unset($need_deal_list[$j]);
+                                $start_deal_index=$j+1;
+                                break;
+                            }
                         }
                     }
                 }
@@ -215,6 +223,9 @@ class seller_student_system_assign extends cmd_base
             foreach ($need_deal_list as $user_info)  {
                 $userid=$user_info["userid"];
                 $origin_level=$user_info["origin_level"];
+                //y类渠道[优学优享]按s类分配
+                if($origin_level == 99)
+                    $origin_level = 1;
                 if (!isset($seller_student_level_map[$origin_level]) ) {
                     $seller_student_level_map[$origin_level]=[];
                 }

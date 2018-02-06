@@ -286,5 +286,23 @@ class common_ex extends Controller
         return $this->tianrun_notify_call_end();
     }
 
+    /**
+     * 添加小班课的报错日志
+     * @param int report_error_type 报错类型
+     * @param string error_msg      报错内容
+     */
+    public function add_admin_class_err(){
+        $report_error_type = $this->get_in_int_val("report_error_type");
+        $error_msg         = $this->get_in_str_val("error_msg");
+
+        $id = $this->t_sys_error_info->add(E\Ereport_error_from_type::V_3,$report_error_type,$error_msg);
+        if($id>0){
+            return $this->output_succ(['id'=>$id]);
+        }else{
+            return $this->output_err();
+        }
+    }
+
+
 
 }

@@ -185,18 +185,13 @@ class admin_manage extends Controller
 
 
     public function  job_list() {
-        #分页信息
         $page_info= $this->get_in_page_info();
-        #排序信息
-        list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str([],"id desc");
 
         $query_text=$this->get_in_query_text();
 
-        $ret_info=$this->t_jobs->get_list($page_info, $order_by_str,  $query_text );
-
-
-        return $this->pageOutJson(__METHOD__, $ret_info);
+        $ret_info=$this->t_jobs->get_list($page_info,$query_text);
+        return $this->pageView(__METHOD__,$ret_info);
+        // return $this->pageOutJson(__METHOD__, $ret_info);
     }
 
 

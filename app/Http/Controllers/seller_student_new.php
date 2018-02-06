@@ -1520,11 +1520,12 @@ class seller_student_new extends Controller
             $count=$cmd->load_data($last_get_time,time());
         }
         $count = $this->t_seller_get_new_log->get_cc_end_count($adminid,strtotime(date('Y-m-d',time())),time());
-        // if($count>=6 && ($this->t_manager_info->field_get_value($adminid, 'get_new_flag') == 0)){
-        //     return  $this->error_view([
-        //         "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
-        //     ]);
-        // }
+        if($count>=6 && ($this->t_manager_info->field_get_value($adminid, 'get_new_flag') == 0)){
+            return  $this->error_view([
+                "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
+            ]);
+        }
+
 
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
@@ -1545,7 +1546,7 @@ class seller_student_new extends Controller
         $cur_hm=date("H",$now)*60+date("i",$now);
         $cur_week=date("w",$now);
         if (in_array( $cur_week*1,[6,0])) {//周六,周日00:00~11:00
-            $limit_arr=array( [0,11*60] );
+            $limit_arr=array ([0,11*60] );
         }elseif(in_array( $cur_week*1,[1,3,4,5] )){//周一,周三,周四,周五 0:00-13:30
             $limit_arr=array( [0, 13*60+30]);
         }else{//周二 00:00~06:00
@@ -1601,6 +1602,12 @@ class seller_student_new extends Controller
                 ["user_info"=>null, "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count ]
             );
         }
+
+
+        # 处理该学生的通话状态 [james]
+        $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
+        $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
+
 
 
 
