@@ -5245,7 +5245,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $channel = "微信扫码付款";
             $channel_origin = "微信";
         }elseif($channel=="alipay"){
-            $channel = "支付宝扫码付款";
+            $channel = "支付宝升学帮付款";
             $channel_origin = "支付宝";
         }elseif($channel=="alipay_pc_direct"){
             $channel = "支付宝扫码付款";
