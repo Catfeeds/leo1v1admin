@@ -437,9 +437,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ($userid >0 || $phone || $nick) {
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
-                ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ];
+            if ( $admin_revisiterid >0 ) {
+                $where_arr[]= ["ss.phone like '%%%s%%'", $this->ensql($phone) , ""];
+                $where_arr[]= ["s.nick like '%%%s%%'",$this->ensql($nick), ""];
+            }else{
+                $where_arr[]= ["ss.phone like '%s%%'", $this->ensql($phone) , ""];
+                $where_arr[]= ["s.nick like '%s%%'",$this->ensql($nick), ""];
+            }
+
         } else if ( $current_require_id_flag != -1 ) {
             $this->where_arr_add_boolean_for_value($where_arr,"current_require_id",$current_require_id_flag,true);
         }else{

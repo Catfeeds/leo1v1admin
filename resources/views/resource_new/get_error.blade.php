@@ -164,7 +164,6 @@
                         @if( @$var['etype'] == 9)
 
                         @else
-
                             <td style="max-width:200px">
                                 {{@$var['detail_error']}}<br/>
                                 @if(@$var['picture_one'] != '')
@@ -179,11 +178,10 @@
                                 @if(@$var['picture_four'] != '')
                                     <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
                                 @endif
-                                @if(@$var['picture_five'] != '')
+                                    @if(@$var['picture_five'] != '')
                                     <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
                                 @endif
                             </td>
-
                         @endif
 
                         <td>资源类型:{{@$var['resource_type_str']}}<br/>

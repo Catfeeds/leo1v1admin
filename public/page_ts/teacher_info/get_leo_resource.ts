@@ -159,6 +159,7 @@ $(function(){
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
     $('#id_tag_one').val(g_args.tag_one);
+    $('#id_tag_two').val(g_args.tag_two);
     $('#id_tag_four').val(g_args.tag_four);
     $('#id_tag_five').val(g_args.tag_five);
 
