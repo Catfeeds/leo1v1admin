@@ -24,9 +24,9 @@ $(function(){
         }
     });
 
-    $(window).on("load",function(){
+    // $(window).on("load",function(){
 
-        console.log(dateArr);
+        console.log('cc'+dateArr);
         console.log(rateArr);
         var chart = Highcharts.chart('container', {
             chart: {
@@ -63,7 +63,7 @@ $(function(){
             }]
         });
 
-    });
+    // });
 
 
   $('.opt-change').set_input_change_event(load_data);
