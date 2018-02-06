@@ -46,7 +46,7 @@ class  parent_wx_server extends Controller
             array('id'=>'1', 'pid'=>'0', 'name'=>'0元试听', 'type'=>'view', 'code'=>'http://www.leo1v1.com/market/index.html?服务号—菜单栏'),
 
             array('id'=>'2', 'pid'=>'0', 'name'=>'活动专区', 'type'=>'', 'code'=>''),
-            array('id'=>'7', 'pid'=>'2', 'name'=>'思维测试', 'type'=>'view', 'code'=>"http://wx-parent.leo1v1.com/wx_parent_gift/thinkingTest"),
+            // array('id'=>'7', 'pid'=>'2', 'name'=>'思维测试', 'type'=>'view', 'code'=>"http://wx-parent.leo1v1.com/wx_parent_gift/thinkingTest"),
             array('id'=>'4', 'pid'=>'2', 'name'=>'活动反馈', 'type'=>'click', 'code'=>'activity'),
             array('id'=>'5', 'pid'=>'2', 'name'=>'精品讲座', 'type'=>'view', 'code'=>'https://m.qlchat.com/live/840000124177916.htm'),
             array('id'=>'6', 'pid'=>'2', 'name'=>'精品内容', 'type'=>'click', 'code'=>'content'),
