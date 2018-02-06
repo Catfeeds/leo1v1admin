@@ -56,13 +56,16 @@ class GetData extends cmd_base
         $end_time   = strtotime("2018-2-6");
         $lesson_list = $this->task->t_lesson_info_b3->get_lesson_list_by_time($start_time,$end_time);
         $count = 0;
+        $stu_list = [];
         foreach($lesson_list as $lesson_val){
             $lesson_hour = date("H",$lesson_val['lesson_end']);
-            $lesson_minute = date("m",$lesson_val['lesson_end']);
-            if($lesson_hour>23 && $lesson_minute>=30){
-                $count++;
-                echo $lesson_val['lessonid'];
-                echo PHP_EOL;
+            $lesson_minute = date("i",$lesson_val['lesson_end']);
+            if($lesson_hour>=23 && $lesson_minute>=30){
+                if(!isset($stu_list[$lesson_val['userid']])){
+                    $count++;
+                    echo $lesson_val['lessonid'];
+                    echo PHP_EOL;
+                }
             }
 
         }
