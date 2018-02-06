@@ -291,6 +291,8 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    h.tea_research_time,"
                      ."    h.ass_research_time,     "
 
+                     ."    l.tea_cw_origin,"
+                     ."    l.stu_cw_origin,"
                      ."    l.enable_video,"
                      ."    l.lesson_status,"
                      ."    l.stu_score,"
@@ -449,6 +451,8 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
         $sql=sprintf(" select"
                      ."    m.account cc_account,"
+                     ."    l.stu_cw_origin,"
+                     ."    l.tea_cw_origin,"
                      ."    l.lessonid,"
                      ."    l.lesson_del_flag,"
                      ."    l.courseid,"

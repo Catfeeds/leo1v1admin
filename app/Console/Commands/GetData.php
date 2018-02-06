@@ -65,6 +65,7 @@ class GetData extends cmd_base
                     $count++;
                     echo $lesson_val['lessonid'];
                     echo PHP_EOL;
+                    $stu_list[$lesson_val['userid']]=1;
                 }
             }
 

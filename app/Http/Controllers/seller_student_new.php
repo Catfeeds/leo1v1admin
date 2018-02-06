@@ -1507,11 +1507,11 @@ class seller_student_new extends Controller
            "unallot_info" => $unallot_info
         ]);
     }
-    public function deal_new_user_tmk( ) {
+    public function deal_new_user_tmk(){
         return $this->deal_new_user();
     }
 
-    public function deal_new_user( ) {
+    public function deal_new_user(){
         $adminid = $this->get_account_id();
 
         if ($this->t_manager_info->get_seller_student_assign_type($adminid) ==  E\Eseller_student_assign_type::V_1  ) {
@@ -1871,11 +1871,11 @@ class seller_student_new extends Controller
         $system_free->handle();
         return $this->output_succ();
     }
-    //@desn:调用更新未回访状态command
-    public function reset_cc_no_return_call(){
-        $uid = $this->get_account_id();
-        $cc_no_return_call = new \App\Console\Commands\cc_no_return_call();
-        $cc_no_return_call->update_no_return_call($uid);
+    public function call_back(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $this->t_test_lesson_subject_sub_list->field_update_list($lessonid, [
+            'call_end_time' => time(NULL)
+        ]);
         return $this->output_succ();
     }
 

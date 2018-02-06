@@ -296,10 +296,6 @@
                         <button  class="btn  " id="id_require_count" ></button>
                         <button class="btn  " id="id_return_back_count"></button>
                         <button class="btn  " id="id_favorite_count"></button>
-                        @if($seller_student_assign_type == 1 && $env_is_test == 1)
-                            <button class="btn btn-primary" id="id_reset">重置未回访</button>
-                        @endif
-
                     </div>
                 </div>
 
@@ -588,6 +584,9 @@
                                 <a title="收藏" class=" fa-star-o opt-favorite"></a>
                             @else
                                 <a title="取消收藏" class=" fa-star  opt-favorite"></a>
+                            @endif
+                            @if($env_is_test == 1)
+                                <a title="模拟回访" class=" fa-star  opt-call_back"></a>
                             @endif
                         </div>
 

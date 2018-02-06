@@ -1642,7 +1642,7 @@ jQuery.extend({
                 });
                 if( XMLHttpRequest.readyState ==4 ) {
                     var call_url= window.location.origin +  this.url+"?"+ args_str   ;
-                    BootstrapDialog.alert("<a href=\""+call_url+"\" target=\"_blank\">系统错误- 操作失败, 已发邮件 通知开发人员 </a>");
+                    BootstrapDialog.alert("<a href=\""+call_url+"\" target=\"_blank\">系统错误- 操作失败, 已发邮件 通知开发人员 </a>"+  errorThrown);
                 }
             },
         });

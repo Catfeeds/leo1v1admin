@@ -1429,6 +1429,7 @@ class tongji2 extends Controller
             $arr['teacher_leave'] = 0;
             $arr['student_leave'] = 0;
             $arr['other_leave'] = 0;
+            $arr['total_student'] = $lesson_consume["total_student"];
             foreach($leave_num as $key => $value){
                 if($value['lesson_cancel_reason_type'] == 11){ //学生请假11
                     $arr['student_leave'] = round($value['num']/100,2);
