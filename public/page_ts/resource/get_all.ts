@@ -29,6 +29,8 @@ function load_data(){
         tag_five      :	$('#id_tag_five').val(),
         file_title    :	$('#id_file_title').val(),
         has_comment   : $('#id_has_comment').val(),
+        has_error     : $('#id_has_error').val(),
+        id_order      : $('#id_order').val()
     });
 }
 $(function(){
@@ -119,8 +121,13 @@ $(function(){
 
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
     Enum_map.append_option_list("boolean", $("#id_has_comment"));
-    $("#id_has_comment").val(g_args.has_comment);
+    Enum_map.append_option_list("boolean", $("#id_has_error"));
+
     $('#id_use_type').val(g_args.use_type);
+    $("#id_has_comment").val(g_args.has_comment);
+    $("#id_has_error").val(g_args.has_error);
+    $("#id_order").val(g_args.id_order);
+
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
         $('#id_resource_type').val(g_args.resource_type);
@@ -1257,7 +1264,7 @@ $(function(){
             var allow_str = 'pdf,PDF';
         }
         //重新上传
-        multi_upload_file('',false,true,'upload_flag',1,'',function(up,file) {
+        multi_upload_file('',false,true,'upload_flag',1,function(){},function(up,file) {
             $('.opt_process').show();
         },function(up, file, info) {
             var res = $.parseJSON(info.response);
@@ -1276,6 +1283,7 @@ $(function(){
                         'file_link'     : res.key,
                         'file_use_type' : file_use_type,
                         'ex_num'        : ex_num,
+                        'reupload'      : 1,   //重新传
                     } ,
                     success   : function(result){
                         if(result.ret == 0){
@@ -1289,7 +1297,7 @@ $(function(){
         }, allow_str,'fsUploadProgress');
 
         //上传额外讲义
-        multi_upload_file('',true,true,'ex_upload_flag',1,'',function(up,file) {
+        multi_upload_file('',true,true,'ex_upload_flag',1,function(){},function(up,file) {
             $('.opt_process').show();
         },function(up, file, info) {
             var res = $.parseJSON(info.response);
@@ -1307,6 +1315,7 @@ $(function(){
                         'file_link'     : res.key,
                         'file_use_type' : 3,
                         'ex_num'        : 0,
+                        'reupload'      : 0,  //额外传
                     } ,
                     success   : function(result){
                         if(result.ret == 0){
@@ -1442,11 +1451,16 @@ $(function(){
 
     //报错
     $('.opt-error').click(function(){
-         var file_id = $(this).data('file_id');
-         var resource_type = $(this).data('resource_type');
+        var file_data = $(this).parents("tr").get_self_opt_data();
+        var file_id = file_data.file_id;
+        var resource_id = file_data.resource_id;
+        var resource_type = file_data.resource_type;
+        var file_use_type = file_data.file_use_type;
+        var eid = file_data.error_id;
+        var upload_status = file_data.error_status;
         //$.wopen("/resource_new/get_error?file_id="+file_id+"&resource_type="+resource_type);
         var error = $('.error').clone();
-
+        var timestamp = Date.parse(new Date());
         error.removeClass("hide");
         $.ajax({
             type     : "post",
@@ -1458,6 +1472,8 @@ $(function(){
             success   : function(result){
                 console.log(result);
                 if(result.ret == 0 && result.status == 200){
+                    error.find('.error_no').text(result.count);
+
                     for(var x in result.list){
                         //最左侧
                         var error_item = error.find('tbody tr:eq(0)').clone();
@@ -1480,31 +1496,31 @@ $(function(){
                         //处理状态
                         var error_status;
                         if(result.list[x]['status'] == 0){
-                            error_status = "<span class='error_status error_status_0'>未处理</span>";
+                            error_status = "<p class='error_status error_status_1'>未处理</p>";
                             error_item.find('.error_agree').text("同意修改");
+                             error_item.find('.error_agree').attr({"error_id":result.list[x]['id'],"status":result.list[x]['status']});
                         }else if(result.list[x]['status'] == 1){
-                            error_status = "<span class='error_status error_status_1'>已同意修改</span>";
+                            error_status = "<p class='error_status error_status_1'>已同意修改</p>";
                             error_item.find('.error_agree').text("已同意");
                         }else if(result.list[x]['status'] == 2){
-                            error_status = "<span class='eror_status_pass'>已经上传</span>";
+                            error_status = "<p class='error_status error_status_1 error_status_pass'>已经上传</p>";
                         }
-
-                        error_item.find('.error_agree').attr({"error_id":result.list[x]['id'],"status":result.list[x]['status']});
+            
                         error_item.find('.err_first_check').attr({"error_id":result.list[x]['id']});
-                        error_item.find('.err_first_check').attr({"error_id":result.list[x]['id']});
+                        error_item.find('.err_sec_check').attr({"error_id":result.list[x]['id']});
 
                         //初审未通过
                         if(result.list[x]['first_check'] == 1 && result.list[x]['first_check_adminid'] > 0){
-                            error_status += "<span class='error_status'>初审拒绝</span>";
-                            error_status += "<span class='error_status'>拒绝人："+result.list[x]['first_check_name']+"</span>";
-                            error_status += "<span class='error_status'>拒绝时间："+result.list[x]['first_check_time']+"</span>";
+                            error_status += "<p class='error_status error_status_first'>初审拒绝</p>";
+                            error_status += "<p class='error_status error_status_first'>拒绝人："+result.list[x]['first_check_name']+"</p>";
+                            error_status += "<p class='error_status error_status_first'>拒绝时间："+result.list[x]['first_check_time']+"</p>";
                         }
 
                         //复审未通过
-                        if(result.list[x]['second_check'] == 1 && result.list[x]['second_check_adminid'] > 0){
-                            error_status += "<span class='error_status'>复审拒绝</span>";
-                            error_status += "<span class='error_status'>拒绝人："+result.list[x]['second_check_name']+"</span>";
-                            error_status += "<span class='error_status'>拒绝时间："+result.list[x]['second_check_time']+"</span>";
+                        if(result.list[x]['second_check'] == 1 && result.list[x]['sec_check_adminid'] > 0){
+                            error_status += "<p class='error_status error_status_second'>复审拒绝</p>";
+                            error_status += "<p class='error_status error_status_second'>拒绝人："+result.list[x]['second_check_name']+"</p>";
+                            error_status += "<p class='error_status error_status_second'>拒绝时间："+result.list[x]['second_check_time']+"</p>";
                         }
 
                         error_item.find('.error_deal_box').html(error_status);
@@ -1517,30 +1533,112 @@ $(function(){
                         message : error,
                         buttons: [{
                             label: '预览',
-                            cssClass: 'btn-primary',
+                            cssClass: 'btn-primary btn-upload-look-error hide',
                             action: function(dialog) {
-                                dialog.close();
+                                var newTab=window.open('about:blank');
+                                do_ajax('/resource/tea_look_resource',{'tea_res_id':file_id,'tea_flag':0},function(ret){
+                                    console.log(ret);
+                                    if(ret.ret == 0){
+                                        $('.look-pdf').show();
+                                        $('.look-pdf-son').mousedown(function(e){
+                                            if(e.which == 3){
+                                                return false;
+                                            }
+                                        });
+                                        console.log(ret.url);
+                                        newTab.location.href = ret.url;
+                                    } else {
+                                        BootstrapDialog.alert(ret.info);
+                                    }
+                                });
+
                             }
-                        },
-                                  {
+                        },{
                             label: '重传',
                             cssClass: 'btn-primary',
                             action: function(dialog) {
-                                dialog.close();
+                                var perimit_upload = 1;
+                                error.find('.error_agree').each(function(){
+                                    if($(this).attr("error_id")>0){
+                                        perimit_upload = 0;
+                                    }
+                                });
+                                if( perimit_upload == 0 ){
+                                        BootstrapDialog.alert("请确认每个错误修正后，同意修改！");
+                                        return false;
+                                }else{
+                                    $(this).addClass("hide").next().removeClass("hide");
+                                    $('.btn-upload-error').click();//开始上传
+                                }
                             }
-                        },
-                                  {
+                        },{
+                            label: '重传',
+                            cssClass: 'btn-primary btn-upload-error hide',
+                            action: function(dialog) {
+
+                            }
+                        },{
                             label: '返回',
                             cssClass: 'btn-warning',
                             action: function(dialog) {
                                 dialog.close();
                             }
-                        }
+                        }],
+                        onshown:function(){
+                            console.log(upload_status);
+                            if( upload_status == 2 ){
+                                $('.btn-upload-look-error').removeClass("hide");
+                            }
+                            var btn_id = $('.btn-upload-error').attr("id");
 
-                                 ]
+                            if(file_use_type == 3){
+                                var allow_str = 'mp4,pdf,mp3,MP3,MP4,PDF';
+                            } else {
+                                var allow_str = 'pdf,PDF';
+                            }
+
+                            //重新上传
+                            multi_upload_file(timestamp,false,true,btn_id,1,function(){},function(up,file) {
+                                $('.opt_process').show();
+                            },function(up, file, info) {
+                                var res = $.parseJSON(info.response);
+                                if( info.status == 200){
+                                    $.ajax({
+                                        type     : "post",
+                                        url      : "/resource/reupload_resource",
+                                        dataType : "json",
+                                        data : {
+                                            'resource_id'   : resource_id,
+                                            'file_id'       : file_id,
+                                            'file_title'    : file.name,
+                                            'file_type'     : file.type,
+                                            'file_size'     : file.size,
+                                            'file_hash'     : res.hash,
+                                            'file_link'     : res.key,
+                                            'file_use_type' : file_use_type,
+                                            'reupload'      : 3,   //重新传
+                                            "is_wx"         : 1,
+                                            "id"            : eid,
+
+                                        } ,
+                                        success   : function(result){
+                                            if(result.ret == 0){
+                                                $('.btn-upload-look-error').attr({"file_id":file_id}).removeClass("hide");
+                                                error.find('.error_deal_box').each(function(){
+                                                    $(this).find('.error_status_1').addClass("error_status_pass").text("已修改");
+                                                });
+                                            } else {
+                                                alert(result.info);
+                                            }
+                                        }
+                                    });
+                                }
+                            }, allow_str,'fsUploadProgress');
+
+                        }
                     });
 
-                    dlg.getModalDialog().css("width", "850px");
+                    dlg.getModalDialog().css("width", "900px");
 
                 } else {
                     BootstrapDialog.alert("暂无报错");
@@ -1812,7 +1910,7 @@ function error_agree(obj,oEvent){
             console.log(result)
             if(result.ret == 0 && result.status == 200){
                 $this.text('已同意');
-                $this.parents('td').prev().find('.error_status_0').text("已同意修改");
+                $this.parents('td').prev().find('.error_status_1').text("已同意修改");
                 $this.removeAttr('error_id');
             }else{
                 BootstrapDialog.alert('网络错误！');
@@ -1828,7 +1926,10 @@ function err_first_check(obj,oEvent){
     var target = e.target || e.srcElement; 
 
     var error_id = $(target).attr('error_id');
-    
+    if(!error_id){
+        return false;
+    }
+
     var $this = $(target);
     
     var change = {
@@ -1836,7 +1937,6 @@ function err_first_check(obj,oEvent){
         "status"  : 3,
     };
 
-    return false;
     $.ajax({
         type    : "post",
         url     : "/resource_new/file_err_refuse",
@@ -1845,9 +1945,19 @@ function err_first_check(obj,oEvent){
         success : function(result){
             console.log(result)
             if(result.ret == 0 && result.status == 200){
-                
+                if( $this.parents('td').prev().find('.error_status_first').length>0 ){
+                    $this.parents('td').prev().find('.error_status_first:eq(1)').text("拒绝人：" + result.first_check_name);
+                    $this.parents('td').prev().find('.error_status_first:eq(2)').text("拒绝时间：" + result.first_check_time); 
+                }else{
+                    var error_status = "<p class='error_status error_status_first'>初审拒绝</p>";
+                    error_status += "<p class='error_status error_status_first'>拒绝人："+result.first_check_name+"</p>";
+                    error_status += "<p class='error_status error_status_first'>拒绝时间："+result.first_check_time+"</p>";
+                    $this.parents('td').prev().append(error_status);
+                    //$this.removeAttr('error_id');
+                }
+
             }else{
-                BootstrapDialog.alert(result.info);
+                BootstrapDialog.alert(result.msg);
             }
         }
     });
@@ -1860,14 +1970,17 @@ function err_sec_check(obj,oEvent){
     var target = e.target || e.srcElement; 
 
     var error_id = $(target).attr('error_id');
-    
+    if(!error_id){
+        return false;
+    }
+
     var $this = $(target);
     
     var change = {
         "id"  : error_id,
         "status"  : 4,
     };
-    return false;
+  
     $.ajax({
         type    : "post",
         url     : "/resource_new/file_err_refuse",
@@ -1876,9 +1989,20 @@ function err_sec_check(obj,oEvent){
         success : function(result){
             console.log(result)
             if(result.ret == 0 && result.status == 200){
-                
+                if( $this.parents('td').prev().find('.error_status_second').length>0 ){
+                    $this.parents('td').prev().find('.error_status_second:eq(1)').text("拒绝人：" + result.second_check_name);
+                    $this.parents('td').prev().find('.error_status_second:eq(2)').text("拒绝时间：" + result.second_check_time); 
+                }else{
+                    var error_status = "<p class='error_status error_status_second'>复审拒绝</p>";
+                    error_status += "<p class='error_status error_status_second'>拒绝人：" + result.second_check_name+"</p>";
+                    error_status += "<p class='error_status error_status_second'>拒绝时间："+result.second_check_time+"</p>";
+                    $this.parents('td').prev().append(error_status);
+                    //$this.removeAttr('error_id');
+
+                }  
+ 
             }else{
-                BootstrapDialog.alert(result.info);
+                BootstrapDialog.alert(result.msg);
             }
         }
     });

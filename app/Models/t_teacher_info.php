@@ -908,7 +908,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag!=2",
         ];
         $sql = $this->gen_sql_new(
-            "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,t.achievement,t.wx_name,t.is_prove, t.qq_info, "
+            "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,t.teaching_achievement,t.wx_name,t.is_prove, t.qq_info, "
             ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,t.address,"
             ." t.realname,t.work_year,t.teacher_textbook,t.dialect_notes,t.level,t.face,"
             ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"

@@ -126,7 +126,7 @@ $(function(){
         var id_idcard        = $("<input/>");
         var id_school        = $("<input/>");
         var id_teacher_textbook        = $("<input >");
-        var id_achievement   = $("<textarea  placeholder='您可以输入：1、您获得的奖励荣誉；2、您的教学经验；3、您的教育特色与教学理念；4、您的优秀学生案例' />");
+        var id_teaching_achievement   = $("<textarea  placeholder='您可以输入：1、您获得的奖励荣誉；2、您的教学经验；3、您的教育特色与教学理念；4、您的优秀学生案例' />");
 
         var tea_name = $('#teacher-name').text();
 
@@ -154,7 +154,7 @@ $(function(){
         id_qq_info.val(able_edit.qq_info);
         id_wx_name.val(able_edit.wx_name);
         id_is_prove.val(able_edit.is_prove);
-        id_achievement.val(able_edit.achievement);
+        id_teaching_achievement.val(able_edit.teaching_achievement);
         id_idcard.val(able_edit.idcard);
         
         id_school.val(able_edit.school);
@@ -169,7 +169,7 @@ $(function(){
         Enum_map.append_option_list("education",id_education,true);
         Enum_map.append_option_list("boolean",id_is_prove,true);
         id_education.val(able_edit.education);
-        id_achievement.val(able_edit.achievement);
+        id_teaching_achievement.val(able_edit.teaching_achievement);
         var required = '<span style="color:ff3451;">* </span>';
         if (title_type == 'user-info') {
             var modal_title = '可编辑信息';
@@ -193,7 +193,7 @@ $(function(){
                 ["微信",id_wx_name],
                 [required+"有无教师资格证",id_is_prove],
                 ["merge",  "教学成果"],
-                ["merge", id_achievement],
+                ["merge", id_teaching_achievement],
             ];
         } else {
             var modal_title = '银行卡信息';
@@ -285,7 +285,7 @@ $(function(){
                                 "qq_info"       : id_qq_info.val(),
                                 "wx_name"       : id_wx_name.val(),
                                 "is_prove"      : id_is_prove.val(),
-                                "achievement"   : id_achievement.val(),
+                                "teaching_achievement"   : id_teaching_achievement.val(),
                                 'teacher_textbook' : able_edit.teacher_textbook,
                             } ,
                             success : function(result){

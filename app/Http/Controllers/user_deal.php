@@ -4290,7 +4290,7 @@ class user_deal extends Controller
             break;
         }
         //试听成功数
-        list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0];
+        list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['suc_all_count'],$res[$adminid]['dis_suc_all_count'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0,0,0];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         if($end_time_new >= time()){
             $end_time_new = time();
@@ -4334,7 +4334,8 @@ class user_deal extends Controller
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['succ_all_count']=$item['succ_all_count'];
+            $res[$adminid]['suc_all_count']=$item['succ_all_count'];
+            $res[$adminid]['dis_suc_all_count']=$item['dis_succ_all_count'];
             $res[$adminid]['fail_all_count'] = $item['fail_all_count'];
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
         }
@@ -4359,6 +4360,8 @@ class user_deal extends Controller
         if($manager_info["del_flag"] == 1 && $manager_info["leave_member_time"]<$end_time_new){
             $arr['cur_del_flag_str'] = '是';
         }
+        $arr['suc_all_count'] = $res[$adminid]['suc_all_count'];
+        $arr['dis_suc_all_count'] = $res[$adminid]['dis_suc_all_count'];
         $arr['fail_all_count'] = $res[$adminid]['fail_all_count'];
         $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         //月末定级

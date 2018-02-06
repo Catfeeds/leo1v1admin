@@ -16,7 +16,7 @@ interface RowData {
 	email	:any;
 	prove	:any;
 	seniority	:any;
-	achievement	:any;
+	teaching_achievement	:any;
 	wx_name	:any;
 	is_prove	:any;
 	qq_info	:any;
@@ -73,7 +73,7 @@ interface RowData {
 	grade_str	:any;
 	teacher_tags_arr	:any;
 	tags_flag	:any;
-	achievement_code	:any;
+	teaching_achievement_code	:any;
 	wx_name_code	:any;
 	is_prove_code	:any;
 	qq_info_code	:any;
