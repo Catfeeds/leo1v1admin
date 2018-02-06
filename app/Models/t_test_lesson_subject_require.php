@@ -1065,7 +1065,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $sql=$this->gen_sql_new(
             "select cur_require_adminid as admin_revisiterid, count(*) test_lesson_count,"
-            ."sum(tss.success_flag IN (0,1) and (lesson_user_online_status in (0,1) or f.flow_status = 2)) succ_all_count,"
+            // ."sum(tss.success_flag IN (0,1) and (lesson_user_online_status in (0,1) or f.flow_status = 2)) succ_all_count,"
+            ."sum(lesson_user_online_status in (0,1) or f.flow_status = 2) succ_all_count,"
+            ."count(distinct if(lesson_user_online_status in (0,1) or f.flow_status = 2,l.userid,null)) dis_succ_all_count,"
             ."sum(lesson_user_online_status =2 and (f.flow_status is null or f.flow_status <>2)) fail_all_count "
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
@@ -3956,12 +3958,13 @@ ORDER BY require_time ASC";
         $sql = $this->gen_sql_new(
             'select '.$field_name.' as check_value,count(tr.require_id) as require_count,'.
             'count(tr.accept_flag = 1) test_lesson_count,'.
-            'sum(tss.success_flag in (0,1 ) and ((l.lesson_user_online_status in (0,1) or f.flow_status = 2)) '.
-            'and tr.accept_flag=1) as succ_test_lesson_count,'.
+            // 'sum(tss.success_flag in (0,1 ) and ((l.lesson_user_online_status in (0,1) or f.flow_status = 2)) '.
+            // 'and tr.accept_flag=1) as succ_test_lesson_count,'.
+            'sum(l.lesson_user_online_status in (0,1) or f.flow_status = 2) succ_test_lesson_count,'.
             'count(distinct if(tr.accept_flag = 1,t.userid,null)) as distinct_test_count,'.
-            'count(distinct if((tss.success_flag in (0,1 ) and (l.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
-            'and tr.accept_flag=1),t.userid,null)) as distinct_succ_count '.
-
+            // 'count(distinct if((tss.success_flag in (0,1 ) and (l.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
+            // 'and tr.accept_flag=1),t.userid,null)) as distinct_succ_count '.
+            'count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,t.userid,null)) distinct_succ_count'.
             " from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "

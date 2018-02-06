@@ -3497,32 +3497,35 @@ class human_resource extends Controller
             ];
             $ret = \App\Helper\Utils::sms_common($phone,$sms_id,$arr);
 
-            if($ret){
-                $teacher_re_submit_num++;
-                $this->t_teacher_lecture_info->field_update_list($id,[
-                    "teacher_re_submit_num" => $teacher_re_submit_num,
-                    "status"                => 4,
-                ]);
-                $teacher_info = $this->t_teacher_lecture_info->field_get_list($id,"phone,subject,nick");
-                $admin_arr = [
-                    492 => "zoe",
-                    513 => "abby",
-                    790 => "ivy",
-                ];
-                $header_msg  = "老师视频录制失败,重审通知";
-                $from_user   = "理优面试组";
-                $admin_url   = "http://admin.leo1v1.com/human_resource/teacher_lecture_list/?phone=".$teacher_info["phone"];
-                $subject_str = E\Esubject::get_desc($teacher_info['subject']);
+            $teacher_re_submit_num++;
+            $this->t_teacher_lecture_info->field_update_list($id,[
+                "teacher_re_submit_num" => $teacher_re_submit_num,
+                "status"                => 4,
+            ]);
+            $teacher_info = $this->t_teacher_lecture_info->field_get_list($id,"phone,subject,nick");
+            $admin_arr = [
+                492 => "zoe",
+                513 => "abby",
+                790 => "ivy",
+            ];
+            $header_msg  = "老师视频录制失败,重审通知";
+            $from_user   = "理优面试组";
+            $admin_url   = "http://admin.leo1v1.com/human_resource/teacher_lecture_list/?phone=".$teacher_info["phone"];
+            $subject_str = E\Esubject::get_desc($teacher_info['subject']);
 
-                foreach($admin_arr as $id=>$name){
-                    $msg_info = $name."老师你好,".$subject_str."学科老师".$teacher_info['nick'].",因视频录制失败,需要重审";
-                    $this->t_manager_info->send_wx_todo_msg_by_adminid($id,$from_user,$header_msg,$msg_info,$admin_url);
-                }
-
-                return $this->output_succ();
-            }else{
-                return $this->output_err("短信发送失败！");
+            foreach($admin_arr as $id=>$name){
+                $msg_info = $name."老师你好,".$subject_str."学科老师".$teacher_info['nick'].",因视频录制失败,需要重审";
+                $this->t_manager_info->send_wx_todo_msg_by_adminid($id,$from_user,$header_msg,$msg_info,$admin_url);
             }
+            return $this->output_succ();
+
+
+            // if($ret){
+               
+            //     return $this->output_succ();
+            // }else{
+            //     return $this->output_err("短信发送失败！");
+            // }
         }else{
             return $this->output_err("已经通知过老师，请勿重复点击！");
         }

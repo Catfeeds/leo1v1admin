@@ -62,6 +62,7 @@ $(function(){
     function pushData(obj,data){
         obj.find(".test_lesson_count").text(data["test_lesson_count"]);
         obj.find(".succ_all_count_for_month").text(data["succ_all_count_for_month"]);
+        obj.find(".dis_succ_all_count_for_month").text(data["dis_succ_all_count_for_month"]);
         obj.find(".suc_lesson_count_one").text(data["suc_lesson_count_one"]);
         obj.find(".suc_lesson_count_two").text(data["suc_lesson_count_two"]);
         obj.find(".suc_lesson_count_three").text(data["suc_lesson_count_three"]);

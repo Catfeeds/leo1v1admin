@@ -118,7 +118,7 @@
                                         <a class="opt-reset_lesson_money" title="重置课程金额">重置课金额</a>
                                     @endif
                                 @endif
-                                @if(in_array($account,["adrian","jim"]))
+                                @if(in_array($account,["adrian","jim","jack"]))
                                     <a class="fa-trash-o opt-delete" title="删除本条记录"></a>
                                 @endif
                             </div>
