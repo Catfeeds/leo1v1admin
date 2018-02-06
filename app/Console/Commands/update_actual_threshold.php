@@ -134,7 +134,7 @@ class update_actual_threshold extends Command
               .$threshold_desc.$threshold."%"."\n"
               ."拨打量：".$count_call."\n"
               ."拨不通：".$count_no_called;
-        $account_arr = ['tom','应怡莉','alan'];
+        $account_arr = ['tom','应怡莉','michael'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
                 $account,
@@ -167,7 +167,7 @@ class update_actual_threshold extends Command
               ."总拨通率：".$rate."%"."\n"
               ."总拨打量：".$count_call."\n"
               ."总拨不通：".$count_no_called;
-        $account_arr = ['tom','应怡莉','alan'];
+        $account_arr = ['tom','应怡莉','michael'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
                 $account,
