@@ -449,7 +449,7 @@ class resource extends Controller
 
         list($start_time,$end_time) = $this->get_in_date_range(-30, 0 );
         $subject = $this->get_in_int_val("subject", -1);
-        $grade = $this->get_in_int_val("grade", -1);
+        $grade   = $this->get_in_int_val("grade", -1);
         $resource_type = $this->get_in_int_val("resource_type", -1);
         $teacherid     = $this->get_in_int_val("teacherid",-1); //
         $type          = $this->get_in_int_val("type",1);
@@ -500,6 +500,7 @@ class resource extends Controller
                             'subject_str'       => $subject,
                             'adminid'           => $a,
                             'nick'              => $nick,
+                            'grade_str'         => $grade == -1? "全部" : E\Egrade::get_desc($grade),
                             'resource_type'     => $r,
                             'resource_type_str' => E\Eresource_type::get_desc($r),
                             'file_num'          => $v['file_num'],
@@ -570,6 +571,9 @@ class resource extends Controller
                     $arr['grade']   = E\Egrade::get_desc($v["grade"]);
                 }else if($type == 5){
                     $arr['resource_type'] = E\Eresource_type::get_desc($v["resource_type"]);
+                }else if($type == 6){
+                    $arr['subject'] = E\Esubject::get_desc($v["subject"]); 
+                    $arr['grade']   = E\Egrade::get_desc($v["grade"]);
                 }
                 $final_list[] = $arr;
                 @$total['file_num'] += $v["file_num"];
@@ -580,7 +584,9 @@ class resource extends Controller
                 @$total["error"] += $v["error"];
                 @$total["use"] += $v["user"];
             }
-            if ($total) {
+            $display = 0;
+            if (@$total) {
+                $display = 1;
                 @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) ;
                 @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
                 @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) ;
@@ -592,8 +598,9 @@ class resource extends Controller
             //$ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
             //dd($final_list);
             return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
-                "total" => $total,
+                "total" => @$total,
                 "type"  => $type,
+                "display" => $display,
             ]);
         }
         

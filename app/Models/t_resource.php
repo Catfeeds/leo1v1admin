@@ -172,6 +172,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             $group = "grade";
         }else if($type == 5){
             $group = "resource_type";
+        }else if($type == 6){
+            $group = "subject, grade";
         }
         $sql = $this->gen_sql_new("select %s,  count(f.file_id) as file_num ,sum(f.visit_num) as visit_num, "
                                 ." sum(f.use_num) as use_num ,sum(f.error_num) as error_num, "
