@@ -272,13 +272,17 @@ class resource_new extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
                 \App\Helper\Utils::unixtime2date_for_item($item,"first_check_time");
                 \App\Helper\Utils::unixtime2date_for_item($item,"second_check_time");
+                \App\Helper\Utils::unixtime2date_for_item($item,"reupload_time");
                 $item['first_check_name'] = "";
                 $item['second_check_name'] = "";
                 if($item['first_check_adminid'] > 0){
                     $item['first_check_name'] = $this->t_manager_info->get_name($item['first_check_adminid']);
                 }
-                if($item['sec_check_adminid'] > 0){
-                    $item['second_check_name'] = $this->t_manager_info->get_name($item['sec_check_adminid']);
+                if($item['second_check_adminid'] > 0){
+                    $item['second_check_name'] = $this->t_manager_info->get_name($item['second_check_adminid']);
+                }
+                if($item['reupload_adminid'] > 0){
+                    $item['reupload_name'] = $this->t_manager_info->get_name($item['reupload_adminid']);
                 }
 
             }
@@ -342,11 +346,20 @@ class resource_new extends Controller
                 $result['msg'] = '文件尚未上传，你无法初审驳回';
                 return $this->output_succ($result);
             };
+            if( $file['status'] == 3 && $status == 3 ){
+                $result['msg'] = '初审已经驳回，无法重复驳回';
+                return $this->output_succ($result);
+            };
+            if( $file['status'] == 4 ){
+                $result['msg'] = '复审已经驳回，无法再次驳回';
+                return $this->output_succ($result);
+            };
+
         }
 
         if( $status == 3 ){
             $data = [
-                'first_check' => 1,
+                'status' => 3,
                 'first_check_adminid' =>  $adminid,
                 'first_check_time' => time(),
             ];
@@ -357,8 +370,8 @@ class resource_new extends Controller
 
         if( $status == 4 ){
             $data = [
-                'second_check' => 1,
-                'sec_check_adminid' =>  $adminid,
+                'status' => 4,
+                'second_check_adminid' =>  $adminid,
                 'second_check_time' => time(),
             ];
             $result['second_check_time'] = $data['second_check_time'];
