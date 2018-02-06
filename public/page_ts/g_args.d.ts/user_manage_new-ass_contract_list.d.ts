@@ -93,8 +93,9 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage_new-ass_contract_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -107,26 +108,39 @@ function load_data(){
 		assistantid:	$('#id_assistantid').val(),
 		contract_type:	$('#id_contract_type').val(),
 		sys_operator_uid:	$('#id_sys_operator_uid').val()
-    });
+		});
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
-	$('#id_studentid').val(g_args.studentid);
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
+	$('#id_studentid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.studentid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_studentid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_check_money_flag').val(g_args.check_money_flag);
 	$('#id_have_init').val(g_args.have_init);
 	$('#id_have_master').val(g_args.have_master);
-	$('#id_assistantid').val(g_args.assistantid);
+	$('#id_assistantid').admin_select_user_new({
+		"user_type"    : "assistant",
+		"select_value" : g_args.assistantid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_assistantid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_sys_operator_uid').val(g_args.sys_operator_uid);
 
@@ -138,6 +152,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -145,6 +164,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_studentid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["studentid title", "studentid", "th_studentid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -152,6 +172,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_check_money_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["check_money_flag title", "check_money_flag", "th_check_money_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -159,6 +180,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_have_init" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["have_init title", "have_init", "th_have_init" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -166,6 +188,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_have_master" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["have_master title", "have_master", "th_have_master" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -173,6 +196,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_assistantid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["assistantid title", "assistantid", "th_assistantid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -180,6 +206,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_contract_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["contract_type title", "contract_type", "th_contract_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -187,4 +214,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_sys_operator_uid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["sys_operator_uid title", "sys_operator_uid", "th_sys_operator_uid" ]])!!}
 */
