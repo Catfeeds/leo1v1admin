@@ -1065,7 +1065,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $sql=$this->gen_sql_new(
             "select cur_require_adminid as admin_revisiterid, count(*) test_lesson_count,"
-            ."sum(tss.success_flag IN (0,1) and (lesson_user_online_status in (0,1) or f.flow_status = 2)) succ_all_count,"
+            // ."sum(tss.success_flag IN (0,1) and (lesson_user_online_status in (0,1) or f.flow_status = 2)) succ_all_count,"
+            ."sum(lesson_user_online_status in (0,1) or f.flow_status = 2) succ_all_count,"
             ."sum(lesson_user_online_status =2 and (f.flow_status is null or f.flow_status <>2)) fail_all_count "
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
