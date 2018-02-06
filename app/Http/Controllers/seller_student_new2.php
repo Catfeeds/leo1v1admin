@@ -1363,7 +1363,7 @@ class seller_student_new2 extends Controller
         $adminid = $this->get_in_int_val('adminid');
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $res = [];
-        list($res[$adminid]['test_lesson_count'],$res[$adminid]['succ_all_count_for_month'],$res[$adminid]['dis_succ_all_count_for_month'],$res[$adminid]['fail_all_count_for_month'],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['all_new_contract_for_month'],$res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4]) = [0,0,0,0,0,0,0,[],[],[],[]];
+        list($res[$adminid]['test_lesson_count'],$res[$adminid]['succ_all_count_for_month'],$res[$adminid]['dis_succ_all_count_for_month'],$res[$adminid]['fail_all_count_for_month'],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['all_new_contract_for_month'],$res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$dis_userid) = [0,0,0,0,0,0,0,[],[],[],[],[]];
         $this->t_test_lesson_subject_require->switch_tongji_database();
         \App\Helper\Utils::logger("111");
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
@@ -1374,10 +1374,13 @@ class seller_student_new2 extends Controller
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['dis_succ_all_count_for_month']=$item['dis_succ_all_count'];
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+            if(in_array($item['status'],[0,1]) || $item['flow_status']=2){
+                $dis_userid[$item['userid']] = $item['userid'];
+            }
         }
         $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         $arr['succ_all_count_for_month'] = $res[$adminid]['succ_all_count_for_month'];
-        $arr['dis_succ_all_count_for_month'] = $res[$adminid]['dis_succ_all_count_for_month'];
+        $arr['dis_succ_all_count_for_month'] = count($dis_userid);
         $arr['fail_all_count_for_month'] = $res[$adminid]['fail_all_count_for_month'];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         if($end_time_new >= time()){
