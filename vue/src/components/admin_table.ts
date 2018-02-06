@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { timingSafeEqual } from 'crypto';
 import { Stream } from 'stream';
+import { isFunction, isBoolean } from 'util';
 
 // @Component 修饰符注明了此类为一个 Vue 组件
 @Component({
@@ -215,6 +216,19 @@ export default class admin_table extends Vue {
       return this.$props.table_config.html_power_list ;
     }else{
       return {} ;
+    }
+  }
+  check_show_row_opt( opt_info,  row_data ) {
+    var display=true;
+    if (isFunction(opt_info.display) ) {
+      display= opt_info.display( row_data );
+    }else if ( isBoolean(opt_info.display) ) {
+      display= opt_info.display;
+    }
+    if (display) {
+      return this.check_need_power(opt_info.need_power);
+    }else{
+      return false;
     }
   }
 
