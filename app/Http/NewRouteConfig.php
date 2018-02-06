@@ -91,6 +91,7 @@ class NewRouteConfig {
         "/rule_txt/del_rule_detail"               => true,
         "/rule_txt/add_or_update_rule_detail"     => true,
         "/test_lesson_opt/test_opt_list"          => true,
+        "/tea_manage/get_pdf_download_url_new"       => true,
         "/tea_manage/train_is_through_list"       => true,
         "/main_page/recruit_division"             => true,
         "/warning_overtime/add_overtime"          => true,

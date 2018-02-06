@@ -306,13 +306,18 @@ class user_deal extends Controller
             $realname = $this->t_teacher_info->get_realname($teacherid);
             $lesson_time = date("Y-m-d H:i:s",$lesson_info["lesson_start"]);
             $record_info = "上课完成:".E\Econfirm_flag::get_desc($confirm_flag)."<br>无效类型:".E\Elesson_cancel_reason_type::get_desc($lesson_cancel_reason_type)."<br>课堂确认情况:".E\Elesson_cancel_time_type::get_desc($lesson_cancel_time_type)."<br>无效说明:".$confirm_reason."<br>老师:".$realname."<br>上课时间:".$lesson_time;
-            $this->t_revisit_info->row_insert([
-                "userid"        => $lesson_info["userid"],
-                "revisit_time"  => time(),
-                "sys_operator"  => $this->get_account(),
-                "operator_note" => $record_info,
-                "revisit_type"  => 3
-            ]);
+            $revisit_time = time();
+
+            $check_revisit_flag = $this->t_revisit_info->check_add_existed($lesson_info['userid'], $revisit_time);
+            if(!$check_revisit_flag){
+                $this->t_revisit_info->row_insert([
+                    "userid"        => $lesson_info["userid"],
+                    "revisit_time"  => $revisit_time,
+                    "sys_operator"  => $this->get_account(),
+                    "operator_note" => $record_info,
+                    "revisit_type"  => 3
+                ]);
+            }
         }
 
         if($lesson_cancel_reason_type<10 && $lesson_cancel_reason_type>0){
@@ -4285,7 +4290,7 @@ class user_deal extends Controller
             break;
         }
         //试听成功数
-        list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0];
+        list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['suc_all_count'],$res[$adminid]['dis_suc_all_count'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0,0,0];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         if($end_time_new >= time()){
             $end_time_new = time();
@@ -4329,7 +4334,8 @@ class user_deal extends Controller
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['succ_all_count']=$item['succ_all_count'];
+            $res[$adminid]['suc_all_count']=$item['suc_all_count'];
+            $res[$adminid]['dis_suc_all_count']=$item['dis_suc_all_count'];
             $res[$adminid]['fail_all_count'] = $item['fail_all_count'];
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
         }
@@ -4354,6 +4360,8 @@ class user_deal extends Controller
         if($manager_info["del_flag"] == 1 && $manager_info["leave_member_time"]<$end_time_new){
             $arr['cur_del_flag_str'] = '是';
         }
+        $arr['suc_all_count'] = $res[$adminid]['suc_all_count'];
+        $arr['dis_suc_all_count'] = $res[$adminid]['dis_suc_all_count'];
         $arr['fail_all_count'] = $res[$adminid]['fail_all_count'];
         $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         //月末定级

@@ -783,4 +783,12 @@ class tongji_ex extends Controller
         echo '</table>';
     }
 
+    public function get_no_order_stu_list(){
+        $start_time = strtotime("2017-11-1");
+        $end_time   = strtotime("2018-2-1");
+
+        $list = $this->t_student_info->get_no_order_stu_list($start_time,$end_time);
+
+    }
+
 }

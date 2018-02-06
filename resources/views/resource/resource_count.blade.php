@@ -19,6 +19,7 @@
                             <option value="3">按科目统计</option>
                             <option value="4">按年级统计</option>
                             <option value="5">按资源类型统计</option>
+                            <option value="6">按科目年级类型统计</option>
                         </select>
                     </div>
                 </div>
@@ -32,6 +33,7 @@
                     <div class="input-group ">
                         <span class="input-group-addon">年级</span>
                         <select class="opt-change form-control" id="id_grade" >
+                             <option value="-1">全部</option>
                         </select>
                     </div>
                 </div>
@@ -40,6 +42,7 @@
                     <div class="input-group ">
                         <span class="input-group-addon">科目</span>
                         <select class="opt-change form-control" id="id_subject" >
+
                         </select>
                     </div>
                 </div>
@@ -68,6 +71,7 @@
                         <td>学科</td>
                         <td>教研员</td>
                         <td>资料类型</td>
+                        <td>年级</td>
                     @endif
                     @if($type == 2 )
                     <td>教研员</td>
@@ -80,6 +84,10 @@
                     @endif
                     @if($type == 5)
                     <td>资料类型</td>
+                    @endif
+                    @if($type == 6)
+                    <td>学科</td>
+                    <td>年级</td>
                     @endif
                       {!!\App\Helper\Utils::th_order_gen([
                         ["上传文件数","file_num" ],
@@ -103,6 +111,7 @@
                         <td>{{@$var["subject_str"]}}</td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["resource_type_str"]}} </td>
+                        <td>{{@$var['grade_str']}}</td>
                         @endif
                         @if($type == 2)
                         <td>{{@$var['adminid']}}</td>
@@ -115,6 +124,10 @@
                         @endif
                         @if($type == 5)
                         <td>{{@$var['resource_type']}}</td>
+                        @endif
+                        @if($type == 6)
+                        <td>{{@$var['subject']}}</td>
+                        <td>{{@$var['grade']}}</td>
                         @endif
                        
                        
@@ -132,7 +145,7 @@
                         <td>{{@$var["score"]}} </td>
                     </tr>
                 @endforeach
-                @if ($type > 1)
+                @if ($type > 1 && $type < 6 && $display == 1)
                 <tr>
                     <td>合计</td>
                     <td>{{@$total["file_num"]}}</td>
@@ -147,6 +160,21 @@
                     <td>{{@$total["error_num"]}}</td>
                     <td></td>
                 </tr>
+                @elseif($type == 6 && $display == 1)
+                    <td>合计</td>
+                    <td></td>
+                    <td>{{@$total["file_num"]}}</td>
+                    <td>{{@$total["visit"]}}</td>
+                    <td>{{@$total["visit_rate"]}}%</td>
+                    <td>{{@$total["visit_num"]}}</td>
+                    <td>{{@$total["use"]}}</td>
+                    <td>{{@$total["use_rate"]}}%</td>
+                    <td>{{@$total["use_num"]}}</td>
+                    <td>{{@$total["error"]}}</td>
+                    <td>{{@$total["error_rate"]}}%</td>
+                    <td>{{@$total["error_num"]}}</td>
+                    <td></td>
+
                 @endif
             </tbody>
         </table>

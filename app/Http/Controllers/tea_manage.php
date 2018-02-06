@@ -3377,4 +3377,46 @@ class tea_manage extends Controller
         ]);
     }
 
+    public function get_pdf_download_url_new()
+    {
+        $file_url = trim($this->get_in_str_val('file_url'));
+        $qiniu_type = $this->get_in_str_val('qiniu_type');
+
+        if (strlen($file_url) == 0) {
+            return outputJson(array('ret' => -1, 'info' => '文件名为空', 'file' => $file_url));
+        }
+
+        if($qiniu_type ==0){ // 老师自己上传
+            if (preg_match("/http/", $file_url)) {
+                return $this->output_succ(['file'=>$file_url]);
+            } else {
+                return $this->output_succ(['file'=>urlencode($this->gen_download_url($file_url)),'file_ex'=> $this->gen_download_url($file_url)]);
+            }
+        }else{ // 使用理优讲义
+            return $this->output_succ(['file'=>urlencode($this->get_teacher_note($file_url)),'file_ex'=> $this->get_teacher_note($file_url)]);
+        }
+    }
+
+    public function gen_download_url($file_url)
+    {
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
+    public function get_teacher_note($file_link){
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+        return $authUrl;
+    }
+
+
+
 }

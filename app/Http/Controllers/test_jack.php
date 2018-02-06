@@ -14,12 +14,14 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
-        $season     = ceil((date('n',time()-60*86400))/3);//上季度是第几季度
-        dd($season);
+      
 
 
         $teacher_money_type=6;
-        $start_time = strtotime("2017-10-01");
+        $start_time = strtotime("2018-01-01");
+        $ret_info = $this->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type,351371);
+        dd($ret_info);
+
         $list = $this->t_teacher_advance_list->get_no_deal_withhold_info($start_time,$teacher_money_type);
         dd($list);
 

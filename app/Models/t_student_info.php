@@ -1497,8 +1497,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $seller_adminid = $this->task->t_manager_info->get_id_by_account($account);
         $origin_assistantid = $this->get_assistantid($user_info["origin_userid"]);
         $adminid = $this->t_assistant_info->get_adminid_by_assistand($origin_assistantid);
+        $check_master = $this->t_admin_group_name->check_is_master(1,$user_info["ass_master_adminid"]);
 
-        if($user_info["ass_master_adminid"]==0  && !empty($user_info["init_info_pdf_url"])){
+        if(($user_info["ass_master_adminid"]==0 || $check_master!=1)  && !empty($user_info["init_info_pdf_url"])){
             //记录一条数据
             $phone = $this->get_phone($userid);
             $this->task->t_book_revisit->add_book_revisit(
@@ -1508,44 +1509,52 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             );
 
 
-            //获取销售校区
-            $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
-            if($user_info["origin_assistantid"]>0){
-                $account_role = $this->task->get_account_role($user_info["origin_assistantid"]);
-                if($account_role==1){
-                    $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+            //区分已有助教,但原有组长离职的情况
+            $adminid_ass_old = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+            $del_flag = $this->t_manager_info->get_del_flag($adminid_ass_old);
+            if($adminid_ass_old>0 &&  $del_flag!=1){
+                $master_adminid_arr = $this->t_admin_group_user->get_group_master_adminid($adminid_ass_old);
+                $master_adminid = @$master_adminid_arr["group_adminid"];
+            }else{                
+                //获取销售校区
+                $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
+                if($user_info["origin_assistantid"]>0){
+                    $account_role = $this->task->get_account_role($user_info["origin_assistantid"]);
+                    if($account_role==1){
+                        $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+                    }
                 }
-            }
-            $master_adminid_list = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
-            $master_list=[];
-            foreach($master_adminid_list as $tt){
-                $master_list[$tt["master_adminid"]]=$tt["master_adminid"];
-            }
-            $num_all_new = count($master_list);
-            $j=0;
-            foreach($master_list as $val){
-                $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_NEW_$val");
-                if (!$json_ret) {
-                    $json_ret=0;
+                $master_adminid_list = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
+                $master_list=[];
+                foreach($master_adminid_list as $tt){
+                    $master_list[$tt["master_adminid"]]=$tt["master_adminid"];
                 }
-                \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", $json_ret);
-                if($json_ret==1){
-                    $j++;
-                }
-            }
-            if($j==$num_all_new){
-                foreach($master_list as $val){
-                    \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 0);
-                }
-            }
-
-            if($userid>0){
+                $num_all_new = count($master_list);
+                $j=0;
                 foreach($master_list as $val){
                     $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_NEW_$val");
-                    if($json_ret==0){
-                        $master_adminid= $val;
-                        \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 1);
-                        break;
+                    if (!$json_ret) {
+                        $json_ret=0;
+                    }
+                    \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", $json_ret);
+                    if($json_ret==1){
+                        $j++;
+                    }
+                }
+                if($j==$num_all_new){
+                    foreach($master_list as $val){
+                        \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 0);
+                    }
+                }
+
+                if($userid>0){
+                    foreach($master_list as $val){
+                        $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_NEW_$val");
+                        if($json_ret==0){
+                            $master_adminid= $val;
+                            \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 1);
+                            break;
+                        }
                     }
                 }
             }
@@ -1713,7 +1722,19 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             }else{
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"学生未分配助教组长","学生未分配助教组长通知","您好,学员".$nick."未找到对应助教助长","");
             }
-        }elseif($user_info["ass_master_adminid"]>0  && !empty($user_info["init_info_pdf_url"])){
+        }elseif($user_info["ass_master_adminid"]>0 && $check_master==1 && !empty($user_info["init_info_pdf_url"])){
+            $adminid_ass = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+            $del_flag = $this->t_manager_info->get_del_flag($adminid_ass);
+            if($adminid_ass ==0 || ($adminid_ass>0 && $del_flag==1)){
+                $ass_account = $this->t_manager_info->get_account($user_info["ass_master_adminid"]);
+                $this->t_manager_info->send_wx_todo_msg  (
+                    $ass_account,
+                    "销售-".$account,
+                    "交接单 更新 || 合同生效",
+                    "学生".$nick.",原助教已离职或无助教,请重新分配助教",
+                    "http://admin.leo1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
+
+            }
             $r = $this->field_update_list($userid,[
                 "type"=>0
             ]);
@@ -3474,4 +3495,55 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select type,refund_warning_level,refund_warning_reason from %s where userid=$userid", self::DB_TABLE_NAME);
         return $this->main_get_row($sql);
     }
+
+    public function get_no_order_stu_list($start_time,$end_time){
+        $where_arr = [
+            ["s.reg_time>%u",$start_time,0],
+            ["s.reg_time<%u",$end_time,0],
+            "s.origin_userid>1000",
+            "s.is_test_user=0"
+        ];
+        $trial_lesson_arr = [
+            "s.userid=l.userid",
+            "lesson_type=2",
+            "lesson_status=2",
+            "lesson_del_flag=0",
+        ];
+        $order_arr = [
+            "s.userid=o.userid",
+            "contract_type in (0,1,3)",
+            "contract_status>0",
+        ];
+        $manager_arr = [
+            "ss.last_contact_cc=m.uid"
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.nick,FROM_UNIXTIME(ss.last_revisit_time,'%%Y年%%m月%%d %%h:%%i:%%s') as revisit_time,"
+                                  ." rs.userid,rs.nick as rs_nick,"
+                                  ." ss.last_contact_cc,m.account,"
+                                  ." s.assistantid,a.nick as ass_nick,"
+                                  ." (select 1 from %s t where s.userid=t.userid limit 1) as has_require,"
+                                  ." (select 1 from %s l where %s limit 1) as has_trial"
+                                  ." from %s s force index(reg_time) "
+                                  ." left join %s rs on s.origin_userid=rs.userid"
+                                  ." left join %s ss on s.userid=ss.userid"
+                                  ." left join %s a on s.assistantid=a.assistantid"
+                                  ." left join %s m on ss.last_contact_cc=m.uid"
+                                  ." where %s"
+                                  ." and not exists (select 1 from %s o where %s limit 1)"
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$trial_lesson_arr
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$order_arr
+        );
+        echo $sql;exit;
+        return $this->main_get_list($sql);
+    }
+
 }

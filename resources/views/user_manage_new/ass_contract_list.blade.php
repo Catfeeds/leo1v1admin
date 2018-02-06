@@ -120,7 +120,7 @@
                                 <a class="fa-user opt-user " title="个人信息" ></a>
                                 <a class="fa-list opt-init_info " title="销售交接单" ></a>
                                 <a class="fa-user-md  opt-set_ass " title="分配助教" ></a>
-                                @if($account_id==349)
+                                @if($account_id==349 || $account_id==60)
                                     <a class=" opt-set_ass_master " title="分配助教组长" >分配组长</a>
                                 @endif
                                 @if($var["init_info_pdf_url_str"]=="有")

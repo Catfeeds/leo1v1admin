@@ -52,6 +52,8 @@ $(function(){
                     $tr.find(".suc_second_week").text(data["suc_second_week"]);
                     $tr.find(".suc_third_week").text(data["suc_third_week"]);
                     $tr.find(".suc_fourth_week").text(data["suc_fourth_week"]);
+                    $tr.find(".suc_all_count").text(data["suc_all_count"]);
+                    $tr.find(".dis_suc_all_count").text(data["dis_suc_all_count"]);
                     $tr.find(".fail_all_count").text(data["fail_all_count"]);
                     $tr.find(".test_lesson_count").text(data["test_lesson_count"]);
                     $tr.find(".lesson_per").text(data["lesson_per"]);

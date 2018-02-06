@@ -174,7 +174,7 @@ function init_today_new()  {
                 hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
             }
             if(resp.no_call_test_succ > 0 && resp.env_is_test == 1)
-                alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访-所有未回访用户回访完成后,请点击【重置回访】按钮重置回访状态!');
+                alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访');
 
             var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
             $id_today_new_list.find(".new_list_title").html ($title);
@@ -189,6 +189,8 @@ function init_today_new()  {
                 if (user_item["show_left_time_flag"]) {
                     if (opt_data.tq_called_flag==2) {
                         $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span> 请设置用户信息" );
+                    }else if(opt_data.tq_called_flag == 1){
+                        $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span>");
                     }else{
                         var msg="会被系统分走,请尽快联系";
                         $item.find(".box-footer").html("剩余:<span style=\"color:red; font-weight:bolder;font-size:18px; \">"+ user_item.left_time_str+"</span><br> <span style=\"color:red; \" >"+ opt_data.tq_called_flag_str +" </span> " +msg);
@@ -1756,6 +1758,14 @@ function init_edit() {
             });
         }
     });
+
+    $(".opt-call_back").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        $.do_ajax("/seller_student_new/call_back",{
+            'lessonid':opt_data.lessonid,
+        });
+    });
+
 
 
     $(".opt-edit-new_new").on("click",function(){

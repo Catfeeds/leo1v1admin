@@ -745,7 +745,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_seller_list( $seller_student_assign_type=-1) {
-        $time_now = time(NULL);
+        $time_now = strtotime(date('Y-m-d'));
         $where_arr=[
             ["mi.seller_student_assign_type=%u", $seller_student_assign_type, -1],
             "mi.seller_level<700",
@@ -757,15 +757,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
 
         $sql=$this->gen_sql_new(
-            "select mi.uid,mi.seller_level,mi.account,if(cdt.score>0,1,0) is_top,cnrc.no_return_call_num ".
+            "select mi.uid,mi.seller_level,mi.account,if(cdt.score>0,1,0) is_top ".
             "from %s mi " .
             'left join %s cdt on mi.uid = cdt.uid and add_time = %u '.
-            'left join %s cnrc on mi.uid = cnrc.uid '.
             "where %s order by  seller_level asc ",
             self::DB_TABLE_NAME,
             t_cc_day_top::DB_TABLE_NAME,
             $time_now,
-            t_cc_no_return_call::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
@@ -2527,6 +2525,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   t_teacher_info::DB_TABLE_NAME
         );
 
+        return $this->main_get_list($sql);
+    }
+
+    public function get_ass_info ($role) {
+        $sql = $this->gen_sql_new("select account from %s where account_role = $role and del_flag = 0 ", self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
 }
