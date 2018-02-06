@@ -38,6 +38,8 @@ interface RowData {
 	need_spec_require_flag	:any;
 	diff_max_count	:any;
 	is_need_share_wechat	:any;
+	success_test_lesson_start	:any;
+	success_test_lesson_end	:any;
 	period_flag_list_str	:any;
 	contract_type_list_str	:any;
 	is_need_share_wechat_str	:any;
