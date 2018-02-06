@@ -722,6 +722,7 @@
             var ret={};
             var field_name= this.field_name;
             ret[field_name ]=this.$input.val() ;
+            return ret;
 
         },
         get_query_info:function() {

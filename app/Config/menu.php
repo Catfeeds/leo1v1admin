@@ -41,7 +41,7 @@ class menu{
 
                 ["power_id"=>13, "name"=>"录音xmpp分布",   "url"=>"/tea_manage_new/lesson_record_server_list"],
                 ["power_id"=>72, "name"=>"ssh 登录记录",   "url"=>"/login_log/login_list"],
-                ["power_id"=>2, "name"=>"job统计",   "url"=>"/admin_manage/job_list"],
+                ["power_id"=>2, "name"=>"job统计",   "url"=>"/admin_manage/job_list", "domain_type" =>100],
             ]],
 
             ["power_id"=>1, "name"=>"服务管理",  "list"=> [
