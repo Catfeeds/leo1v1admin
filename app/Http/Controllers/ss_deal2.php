@@ -189,9 +189,13 @@ class ss_deal2 extends Controller
 
         if ( $item["seller_student_assign_type"]==E\Eseller_student_assign_type::V_1 //系统分配
              && $item["seller_resource_type"] == E\Eseller_resource_type::V_0 ) { //新例子
-            if ($item["tq_called_flag" ] != 2 ) {
-                return $this->output_err("新例子,未拨通不能 回流公海 ");
+            if ($item["tq_called_flag" ] == 0) {
+                return $this->output_err("尚未拨打新例子,不能丢弃,请立即拨打!");
             }
+            if ($item["tq_called_flag" ] == 1) {
+                return $this->output_err("尚未拨打新例子,不能丢弃,请立即拨打!");
+            }
+
         }
 
         //公海领取例子,拨打回流限制

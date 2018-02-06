@@ -32,6 +32,7 @@
                     <div class="input-group ">
                         <span class="input-group-addon">年级</span>
                         <select class="opt-change form-control" id="id_grade" >
+                             <option value="-1">全部</option>
                         </select>
                     </div>
                 </div>
@@ -40,6 +41,7 @@
                     <div class="input-group ">
                         <span class="input-group-addon">科目</span>
                         <select class="opt-change form-control" id="id_subject" >
+
                         </select>
                     </div>
                 </div>
@@ -68,6 +70,7 @@
                         <td>学科</td>
                         <td>教研员</td>
                         <td>资料类型</td>
+                        <td>年级</td>
                     @endif
                     @if($type == 2 )
                     <td>教研员</td>
@@ -103,6 +106,7 @@
                         <td>{{@$var["subject_str"]}}</td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["resource_type_str"]}} </td>
+                        <td>{{@$var['grade_str']}}</td>
                         @endif
                         @if($type == 2)
                         <td>{{@$var['adminid']}}</td>
