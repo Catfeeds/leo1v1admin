@@ -404,5 +404,10 @@ from t_student_info s left join t_order_info o on o.userid = s.userid where reg_
       return $this->main_get_list($sql);
     }
 
+    public function reflash_info(){
+      $sql = "select teacherid, achievement , teaching_achievement from db_weiyi.t_teacher_info where achievement != '' and teaching_achievement = '' ";
+      return $this->main_get_list($sql);
+    }
+
 
 }

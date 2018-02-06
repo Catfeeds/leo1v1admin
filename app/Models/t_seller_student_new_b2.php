@@ -104,7 +104,7 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
         ];
         if($global_tq_called_flag == 0)
             $where_arr[] = ["n.global_tq_called_flag=%u",  $global_tq_called_flag , -1 ];
-        elseif($global_tq_called_flag == 0)
+        elseif($global_tq_called_flag == 1)
             $where_arr[] = 'n.global_tq_called_flag in (0,1)';
 
 
