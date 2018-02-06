@@ -50,9 +50,9 @@
      .error_author{ margin: 0px 20px;color: #6f6a6a;}
      .error_time{color: #6f6a6a; }
      .error .color-blue{ padding:0px 10px}
-     .error .error_status{ color:red }
+     .error .error_status{ color:#616561 }
+     .error .error_file_status{ color:red}
      .error .error_status_pass{ color:#04a704 }
-
     </style>
     <section class="content">
 
@@ -753,7 +753,11 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="error_deal_box"></td>
+                        <td class="error_deal_box">
+                            <p><span class="error_status error_file_status"></span></p>
+                            <p><span class="error_status error_file_person"></span></p>
+                            <p><span class="error_status error_file_time"></span></p>
+                        </td>
                         <td>
                             <p><a class="error_agree btn color-blue" onclick="error_agree(this,event)" >同意修改</a></p>
                             <p><a class="err_first_check btn color-blue" onclick="err_first_check(this,event)" >初审驳回</a></p>
