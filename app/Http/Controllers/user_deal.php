@@ -306,13 +306,18 @@ class user_deal extends Controller
             $realname = $this->t_teacher_info->get_realname($teacherid);
             $lesson_time = date("Y-m-d H:i:s",$lesson_info["lesson_start"]);
             $record_info = "上课完成:".E\Econfirm_flag::get_desc($confirm_flag)."<br>无效类型:".E\Elesson_cancel_reason_type::get_desc($lesson_cancel_reason_type)."<br>课堂确认情况:".E\Elesson_cancel_time_type::get_desc($lesson_cancel_time_type)."<br>无效说明:".$confirm_reason."<br>老师:".$realname."<br>上课时间:".$lesson_time;
-            $this->t_revisit_info->row_insert([
-                "userid"        => $lesson_info["userid"],
-                "revisit_time"  => time(),
-                "sys_operator"  => $this->get_account(),
-                "operator_note" => $record_info,
-                "revisit_type"  => 3
-            ]);
+            $revisit_time = time();
+
+            $check_revisit_flag = $this->t_revisit_info->check_add_existed($lesson_info['userid'], $revisit_time);
+            if(!$check_revisit_flag){
+                $this->t_revisit_info->row_insert([
+                    "userid"        => $lesson_info["userid"],
+                    "revisit_time"  => $revisit_time,
+                    "sys_operator"  => $this->get_account(),
+                    "operator_note" => $record_info,
+                    "revisit_type"  => 3
+                ]);
+            }
         }
 
         if($lesson_cancel_reason_type<10 && $lesson_cancel_reason_type>0){
