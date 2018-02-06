@@ -757,15 +757,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
 
         $sql=$this->gen_sql_new(
-            "select mi.uid,mi.seller_level,mi.account,if(cdt.score>0,1,0) is_top,cnrc.no_return_call_num ".
+            "select mi.uid,mi.seller_level,mi.account,if(cdt.score>0,1,0) is_top ".
             "from %s mi " .
             'left join %s cdt on mi.uid = cdt.uid and add_time = %u '.
-            'left join %s cnrc on mi.uid = cnrc.uid '.
             "where %s order by  seller_level asc ",
             self::DB_TABLE_NAME,
             t_cc_day_top::DB_TABLE_NAME,
             $time_now,
-            t_cc_no_return_call::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
