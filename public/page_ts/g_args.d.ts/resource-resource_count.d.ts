@@ -26,6 +26,7 @@ interface RowData {
 	subject_str	:any;
 	adminid	:any;
 	nick	:any;
+	grade_str	:any;
 	resource_type	:any;
 	resource_type_str	:any;
 	file_num	:any;

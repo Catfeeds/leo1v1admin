@@ -31,7 +31,7 @@ $(function(){
     });
 
     Enum_map.append_option_list("subject",$("#id_subject"));
-    Enum_map.append_option_list("grade",$("#id_grade"));
+    Enum_map.append_option_list("grade",$("#id_grade"),true,[101,102,103,104,105,106,201,202,203,301,302,303]);
     Enum_map.append_option_list("resource_type",$("#id_resource_type"));
     $('#id_subject').val(g_args.subject);
     $("#id_grade").val(g_args.grade);
