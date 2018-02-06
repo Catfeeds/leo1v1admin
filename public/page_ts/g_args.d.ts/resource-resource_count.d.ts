@@ -20,13 +20,6 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	mark	:any;
-	subject	:any;
-	subject_str	:any;
-	adminid	:any;
-	nick	:any;
-	grade_str	:any;
-	resource_type	:any;
-	resource_type_str	:any;
 	file_num	:any;
 	visit_num	:any;
 	error_num	:any;
@@ -38,6 +31,8 @@ interface RowData {
 	error_rate	:any;
 	use_rate	:any;
 	score	:any;
+	subject	:any;
+	grade	:any;
 }
 
 /*
