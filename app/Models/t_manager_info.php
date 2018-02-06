@@ -764,8 +764,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "where %s order by  seller_level asc ",
             self::DB_TABLE_NAME,
             t_cc_day_top::DB_TABLE_NAME,
-            t_cc_no_return_call::DB_TABLE_NAME,
             $time_now,
+            t_cc_no_return_call::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
