@@ -3379,14 +3379,14 @@ class tea_manage extends Controller
 
     public function get_pdf_download_url_new()
     {
-        $file_url = trim($this->get_in_str_val['file_url']);
-        $tea_cw_origin = $this->get_in_str_val('tea_cw_origin');
+        $file_url = trim($this->get_in_str_val('file_url'));
+        $qiniu_type = $this->get_in_str_val('qiniu_type');
 
         if (strlen($file_url) == 0) {
-            outputJson(array('ret' => -1, 'info' => '文件名为空', 'file' => $file_url));
+            return outputJson(array('ret' => -1, 'info' => '文件名为空', 'file' => $file_url));
         }
 
-        if($tea_cw_origin ==0){ // 老师自己上传
+        if($qiniu_type ==0){ // 老师自己上传
             if (preg_match("/http/", $file_url)) {
                 return $this->output_succ(['file'=>$file_url]);
             } else {
@@ -3397,7 +3397,7 @@ class tea_manage extends Controller
         }
     }
 
-    private function gen_download_url($file_url)
+    public function gen_download_url($file_url)
     {
         $auth = new \Qiniu\Auth(
             \App\Helper\Config::get_qiniu_access_key(),
