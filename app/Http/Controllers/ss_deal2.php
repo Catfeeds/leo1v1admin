@@ -1046,7 +1046,6 @@ class ss_deal2 extends Controller
         }else{
             $change_reason_url = '';
         }
-
         if(!$stu_request_test_lesson_time){ return $this->output_err("请选择试听时间"); }
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
