@@ -114,12 +114,12 @@ class group_master_kpi_base {
 
         $test_per = ($full_count>0 && round($test_lesson_count/$full_count,2)>=50.00)?10:0;//平均课数
         $fail_per = ($test_lesson_count>0 && round($fail_all_count/$test_lesson_count,4)*100<=18.00)?10:0;//取消率
-        $order_per = ($succ_all_count>0 && round($all_new_contract/$succ_all_count,4)*100>=10.00)?40:0;//转化率
+        $order_per = ($dis_succ_all_count>0 && round($all_new_contract/$dis_succ_all_count,4)*100>=10.00)?40:0;//转化率
         $leave_per = ($person_count>0 && round($leave_count/$person_count,4)*100<=20.00)?40:0;//离职率
 
         $test_per_desc = ($full_count>0)?$test_lesson_count.'÷'.$full_count:0;
         $fail_per_desc = ($test_lesson_count>0)?$fail_all_count.'÷'.$test_lesson_count:0;
-        $order_per_desc = ($succ_all_count>0)?$all_new_contract.'÷'.$succ_all_count:0;
+        $order_per_desc = ($dis_succ_all_count>0)?$all_new_contract.'÷'.$dis_succ_all_count:0;
         $leave_per_desc = ($person_count>0)?$leave_count.'÷'.$person_count:0;
 
         $kpi = $test_per+$fail_per+$order_per+$leave_per;
