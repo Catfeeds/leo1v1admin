@@ -42,7 +42,7 @@ class send_refund_warning extends Command
 
         $info = $task->t_manager_info->get_ass_info(E\Eaccount_role::V_1);
         echo "总数 ".count($info);
-        foreach($info as $val) {
+        foreach($info as $key=>$val) {
             $assistantid = $task->t_assistant_info->get_assistantid( $val["account"] );
             $refund_warning = $task->t_student_info->get_refund_warning($assistantid);
             $account = $val["account"];
@@ -55,7 +55,7 @@ class send_refund_warning extends Command
             $msg = "三级预警：$three".PHP_EOL."二级预警：$two".PHP_EOL."一级预警：$one";
             $url = "http://admin.leo1v1.com/user_manage/ass_archive_ass";
 
-            echo "助教:".$account."待办主题:".$from_user." 待办内容:".$msg;
+            echo "助教 $key:".$account."待办主题:".$from_user." 待办内容:".$three."-".$two."-".$one;
         }
 
         // $account = "ricky";
