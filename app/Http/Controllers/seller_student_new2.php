@@ -1439,7 +1439,7 @@ class seller_student_new2 extends Controller
         foreach($order_new as $k=>$v){
             $res[$adminid]['all_new_contract_for_month'] = $v['all_new_contract'];
         }
-        $arr['order_per'] = $res[$adminid]['succ_all_count_for_month']!=0?(round($res[$adminid]['all_new_contract_for_month']/$res[$adminid]['succ_all_count_for_month'],3)*100)."%":0;
+        $arr['order_per'] = $res[$adminid]['dis_succ_all_count_for_month']!=0?(round($res[$adminid]['all_new_contract_for_month']/$res[$adminid]['dis_succ_all_count_for_month'],3)*100)."%":0;
 
         return $this->output_succ($arr);
     }

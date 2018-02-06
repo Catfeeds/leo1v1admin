@@ -157,14 +157,11 @@ $(function(){
         $('#id_tbody tr[class!="l-5"]').each(function(){
             var fail_all_count_for_month = $(this).find('.fail_all_count_for_month').text() == '' ? '0' : $(this).find('.fail_all_count_for_month').text();
             var test_lesson_count = $(this).find('.test_lesson_count').text() == '' ? '0' : $(this).find('.test_lesson_count').text();
-
             var fail_all_count = parseInt(fail_all_count_for_month);
             var test_count = parseInt(test_lesson_count);
-
             var success_all_count_for_month = $(this).find('.success_all_count_for_month').text() == '' ? '0' : $(this).find('.success_all_count_for_month').text();
             var succ_all_count_for_month = $(this).find('.succ_all_count_for_month').text() == '' ? '0' : $(this).find('.succ_all_count_for_month').text();
             var dis_succ_all_count_for_month = $(this).find('.dis_succ_all_count_for_month').text() == '' ? '0' : $(this).find('.dis_succ_all_count_for_month').text();
-
             var success_count = parseInt(success_all_count_for_month);
             var succ_count = parseInt(succ_all_count_for_month);
             var dis_succ_count = parseInt(dis_succ_all_count_for_month);

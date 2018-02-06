@@ -705,6 +705,7 @@ $(function(){
 
     $('.opt-download').on('click', function(){
         var lessonid  = $(this).parent().data("lessonid");
+        var opt_data=$(this).get_opt_data();
 
         var html_node = $('<div></div>').html($.dlg_get_html_by_class('dlg_download'));
 
@@ -729,7 +730,7 @@ $(function(){
                         BootstrapDialog.alert("老师版课件未上传");
                         return;
                     }
-                    custom_download(lesson_info["tea_cw_url"]);
+                    custom_download(lesson_info["tea_cw_url"],opt_data.tea_cw_origin);
                 });
 
                 html_node.find(".opt-student-url").on('click', function(){
@@ -737,7 +738,7 @@ $(function(){
                         BootstrapDialog.alert("学生版课件未上传");
                         return;
                     }
-                    custom_download(lesson_info["stu_cw_url"]);
+                    custom_download(lesson_info["stu_cw_url"],opt_data.stu_cw_origin);
                 });
 
                 html_node.find(".opt-homework-url").on('click', function(){
@@ -745,7 +746,7 @@ $(function(){
                         BootstrapDialog.alert("课后作业未上传");
                         return;
                     }
-                    custom_download(lesson_info["homework_url"]);
+                    custom_download(lesson_info["homework_url"],0);
                 });
 
                 html_node.find(".opt-quiz-url").on('click', function(){
@@ -753,7 +754,7 @@ $(function(){
                         BootstrapDialog.alert("课堂测验未上传");
                         return;
                     }
-                    custom_download(lesson_info["lesson_quiz"]);
+                    custom_download(lesson_info["lesson_quiz"],0);
                 });
 
                 return html_node;
@@ -829,12 +830,12 @@ $(function(){
 
     });
 
-    var custom_download = function(file_url) {
+    var custom_download = function(file_url,qiniu_type) {
         $.ajax({
-            url: '/tea_manage/get_pdf_download_url',
+            url: '/tea_manage/get_pdf_download_url_new',
             type     : 'GET',
             dataType : 'json',
-            data     : {'file_url': file_url},
+            data     : {'file_url': file_url,'qiniu_type':qiniu_type },
             success  : function(ret) {
                 if (ret.ret != 0) {
                     BootstrapDialog.alert(ret.info);
