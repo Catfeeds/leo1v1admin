@@ -1137,9 +1137,10 @@ $(function(){
                 console.log(item);
                 if (item) {
                     var data_item=item.series.data[item.dataIndex];
+                    var date_fm = new Date(data_item[0]*1000).format("yyyy-MM-dd");
                     var title_funcion=function( date_item) {
                         console.log(date_item);
-                        return "日期:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
+                        return "日期:"+date_fm+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
                     }
                     $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
                         .fadeIn(200);
@@ -1152,7 +1153,29 @@ $(function(){
 
     }
 
-    
+       Date.prototype.format = function(fmt) { 
+        var o = { 
+            "M+" : this.getMonth()+1,                 //月份 
+            "d+" : this.getDate(),                    //日 
+            "h+" : this.getHours(),                   //小时 
+            "m+" : this.getMinutes(),                 //分 
+            "s+" : this.getSeconds(),                 //秒 
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+            "S"  : this.getMilliseconds()             //毫秒 
+        }; 
+        if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+        }
+        for(var k in o) {
+            if(new RegExp("("+ k +")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+            }
+        }
+        return fmt; 
+    }        
+
+  
+ 
    
 
 
