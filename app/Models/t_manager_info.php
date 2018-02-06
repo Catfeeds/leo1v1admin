@@ -745,7 +745,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_seller_list( $seller_student_assign_type=-1) {
-        $time_now = time(NULL);
+        $time_now = strtotime(date('Y-m-d'));
         $where_arr=[
             ["mi.seller_student_assign_type=%u", $seller_student_assign_type, -1],
             "mi.seller_level<700",
@@ -766,6 +766,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $time_now,
             $where_arr
         );
+        dd($sql);
         return $this->main_get_list($sql);
     }
 
