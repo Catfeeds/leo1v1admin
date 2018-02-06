@@ -24,8 +24,9 @@ class ajax_deal3 extends Controller
         $new_count=0;
         $no_connected_count=0;
         //试听成功,未回访用户数量
-        $no_call_test_succ =$this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
-        
+        $no_call_test_succ = $this->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
+        // $no_call_test_succ =$this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
+
         if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
             $env_is_test = 1;
         else
