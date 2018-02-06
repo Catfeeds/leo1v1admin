@@ -77,7 +77,6 @@ $(function(){
         $("#id_tbody ."+className).each(function(){
             var thisItem = $(this).index();
             var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
-            
             if(nextItem < 0){
                 nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
@@ -105,7 +104,6 @@ $(function(){
         $("#id_tbody ."+className).each(function(){
             var thisItem = $(this).index();
             var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
-            
             if(nextItem < 0){
                 nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
@@ -121,7 +119,6 @@ $(function(){
 
             if( nextItem >= thisItem ){
                 $('#id_tbody tr:lt('+nextItem+'):gt('+thisItem+').'+nextName).each(function(){
-                   
                     var field_1 = $(this).find('.test_lesson_count').text() == '' ? 0 : parseInt($(this).find('.test_lesson_count').text());
                     var field_2 = $(this).find('.succ_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.succ_all_count_for_month').text());
                     var field_2_1 = $(this).find('.dis_succ_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.dis_succ_all_count_for_month').text());
@@ -130,7 +127,6 @@ $(function(){
                     var field_5 = $(this).find('.suc_lesson_count_three').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_three').text());
                     var field_6 = $(this).find('.suc_lesson_count_four').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_four').text());
                     var field_7 = $(this).find('.fail_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.fail_all_count_for_month').text());
-                   
                     test_lesson_count += field_1;
                     succ_all_count_for_month += field_2;
                     dis_succ_all_count_for_month += field_2_1;
