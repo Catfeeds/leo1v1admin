@@ -4334,8 +4334,8 @@ class user_deal extends Controller
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['suc_all_count']=$item['suc_all_count'];
-            $res[$adminid]['dis_suc_all_count']=$item['dis_suc_all_count'];
+            $res[$adminid]['suc_all_count']=$item['succ_all_count'];
+            $res[$adminid]['dis_suc_all_count']=$item['dis_succ_all_count'];
             $res[$adminid]['fail_all_count'] = $item['fail_all_count'];
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
         }
