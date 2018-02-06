@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\send_refund_warning::class,
         Commands\sendRefundToCr::class,
         Commands\GetData::class,
         Commands\update_refund_warning::class,
