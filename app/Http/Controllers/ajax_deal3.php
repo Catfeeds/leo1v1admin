@@ -23,6 +23,13 @@ class ajax_deal3 extends Controller
         $user_list=[];
         $new_count=0;
         $no_connected_count=0;
+        //试听成功,未回访用户数量
+        $no_call_test_succ =$this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
+        
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+            $env_is_test = 1;
+        else
+            $env_is_test = 0;
 
         if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
 
@@ -77,6 +84,8 @@ class ajax_deal3 extends Controller
             "no_connected_count" => $no_connected_count,
             "max_hold_count" =>$max_hold_count,
             "hold_count" =>$hold_count,
+            'no_call_test_succ' => $no_call_test_succ,
+            'env_is_test' => $env_is_test
         ]);
     }
 
