@@ -43,6 +43,11 @@ message stu_study_progress {
   uint32 lessoned_num=2 ;  //已上课程数
   uint32 week_lesson_num=3 ;  //本周课程总数
   uint32 week_lessoned_num=4 ;  //本周已上课程数
+  string nickname=5 ;  //昵称
+  uint32 gender=6 ;  //性别
+  string birth=7 ;  //生日
+  uint32 age=8 ;  //年龄
+
 }
 
 message stu_lesson_info {
