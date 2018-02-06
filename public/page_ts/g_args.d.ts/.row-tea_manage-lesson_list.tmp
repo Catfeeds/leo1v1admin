@@ -39,6 +39,8 @@
 	check_time	:any;
 	tea_research_time	:any;
 	ass_research_time	:any;
+	tea_cw_origin	:any;
+	stu_cw_origin	:any;
 	enable_video	:any;
 	lesson_status	:any;
 	stu_score	:any;
