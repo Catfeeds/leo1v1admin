@@ -10,8 +10,6 @@ interface GargsStatic {
 	resource_type:	number;
 	teacherid:	number;
 	type:	number;
-	page_num:	number;
-	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -154,6 +152,4 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

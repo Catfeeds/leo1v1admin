@@ -581,7 +581,7 @@ class resource extends Controller
                 @$total["error"] += $v["error"];
                 @$total["use"] += $v["user"];
             }
-            if ($total) {
+            if (@$total) {
                 @$total["visit_rate"] = round( $total['visit']*100/$total['file_num'], 2) ;
                 @$total["error_rate"] = round( $total['error']*100/$total['file_num'], 2) ;
                 @$total["use_rate"] = round( $total['use']*100/$total['file_num'], 2) ;
@@ -593,7 +593,7 @@ class resource extends Controller
             //$ret_arr = \App\Helper\Utils::array_to_page($page_num,$final_list);
             //dd($final_list);
             return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list), [
-                "total" => $total,
+                "total" => @$total,
                 "type"  => $type,
             ]);
         }
