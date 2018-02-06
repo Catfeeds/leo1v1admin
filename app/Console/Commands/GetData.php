@@ -37,6 +37,7 @@ class GetData extends cmd_base
      */
     public function handle()
     {
+        //停课学员数据，将合同过期的数据标红
         $ret_list = $this->task->t_student_info->get_student_for_stop_study();
         foreach($ret_list as &$val){
             $order_start = \App\Helper\Utils::unixtime2date($val['contract_starttime']);
@@ -50,6 +51,7 @@ class GetData extends cmd_base
                                ."|".$order_start."|".$order_end;
             echo PHP_EOL;
         }
+        //
 
 
     }
