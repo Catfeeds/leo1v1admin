@@ -1640,8 +1640,6 @@ class wx_teacher_api extends Controller
         }
 
         return $this->output_succ(["list"=>$data,"show_flag"=>$show_flag]);
-
-
     }
 
 

@@ -148,7 +148,7 @@ class test_james extends Controller
         }
     }
 
-    private function gen_pdf_url()
+    public function getPdfUrl()
     {
         $auth = new \Qiniu\Auth(
             \App\Helper\Config::get_qiniu_access_key(),
