@@ -1887,10 +1887,10 @@ class teacher_info extends Controller
             $item['tags_flag']        = count($item['teacher_tags_arr']);
 
             //添加able_edit
-            $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','qq_info', 'wx_name','is_prove_str','is_prove','teacher_textbook_str','teacher_textbook','achievement','wx_name','is_prove',
+            $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','qq_info', 'wx_name','is_prove_str','is_prove','teacher_textbook_str','teacher_textbook','teaching_achievement','wx_name','is_prove',
                        'bank_account','idcard','bankcard','bank_address','bank_type', 'bank_phone','bank_province','bank_city'];
             //判断完整度
-            $msgarr_new = ['birth','gender','work_year','address','dialect_notes','school','education','qq_info', 'wx_name','is_prove','achievement','teacher_textbook',
+            $msgarr_new = ['birth','gender','work_year','address','dialect_notes','school','education','qq_info', 'wx_name','is_prove','teaching_achievement','teacher_textbook',
                        'bank_account','idcard','bankcard','bank_address','bank_type', 'bank_phone','bank_province','bank_city'];
             $integrity = 0;
             $able_edit = [];
@@ -1953,7 +1953,7 @@ class teacher_info extends Controller
         $qq_info       = trim( $this->get_in_str_val('qq_info','') );
         $wx_name       = trim( $this->get_in_str_val('wx_name','') );
         $is_prove      = $this->get_in_int_val('is_prove');
-        $achievement   = trim( $this->get_in_str_val('achievement','') );
+        $teaching_achievement   = trim( $this->get_in_str_val('teaching_achievement','') );
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
@@ -1996,7 +1996,7 @@ class teacher_info extends Controller
             "qq_info"       => $qq_info,
             "wx_name"       => $wx_name,
             "is_prove"      => $is_prove,
-            "achievement"   => $achievement,
+            "teaching_achievement"=> $teaching_achievement,
         ]);
 
         return outputjson_success();

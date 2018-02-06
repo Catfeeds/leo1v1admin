@@ -1759,6 +1759,14 @@ function init_edit() {
         }
     });
 
+    $(".opt-call_back").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        $.do_ajax("/seller_student_new/call_back",{
+            'lessonid':opt_data.lessonid,
+        });
+    });
+
+
 
     $(".opt-edit-new_new").on("click",function(){
         var opt_data=$(this).get_opt_data();

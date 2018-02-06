@@ -585,6 +585,9 @@
                             @else
                                 <a title="取消收藏" class=" fa-star  opt-favorite"></a>
                             @endif
+                            @if($env_is_test == 1)
+                                <a title="模拟回访" class=" fa-star  opt-call_back"></a>
+                            @endif
                         </div>
 
                     </td>

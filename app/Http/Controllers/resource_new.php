@@ -275,14 +275,14 @@ class resource_new extends Controller
                 $item['first_check_name'] = "";
                 $item['second_check_name'] = "";
                 if($item['first_check_adminid'] > 0){
-                    $item['first_check_name'] = $this->t_teacher_info->get_nick($item['first_check_adminid']);
+                    $item['first_check_name'] = $this->t_manager_info->get_name($item['first_check_adminid']);
                 }
                 if($item['sec_check_adminid'] > 0){
-                    $item['second_check_name'] = $this->t_teacher_info->get_nick($item['sec_check_adminid']);
+                    $item['second_check_name'] = $this->t_manager_info->get_name($item['sec_check_adminid']);
                 }
 
             }
-            $result = ['status'=>200,'list'=>$data];
+            $result = ['status'=>200,'count'=>count($data),'list'=>$data];
         }
         return $this->output_succ($result);
 
@@ -306,14 +306,73 @@ class resource_new extends Controller
         $file_id    = $this->get_in_int_val("file_id",-1);
         $status    = $this->get_in_int_val("status",3);
         $result = ['status'=>201];
+        $adminid =  $this->get_account_id();
+        $role = $this->get_account_role();
+        \App\Helper\Utils::logger($role."当前角色: ".E\Eaccount_role::get_desc($role));
+        if($role != 4){
+            $result['msg'] = '你不是教研,无权初审或者复审';
+            return $this->output_succ($result);
+        }
 
-        $data = ['status' => $status];
+        //判断是不是主管
+        $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
+        \App\Helper\Utils::logger("主管: ".$is_zhuguan);
+        if (!$is_zhuguan && $status == 3 ) {
+            $result['msg'] = '你不是教研组长无权初审';
+            return $this->output_succ($result);
+        }
+
+        //判断是不是总监
+        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        \App\Helper\Utils::logger("总监: ".$is_master);
+        if (!$is_master && $status == 4 ) {
+            $result['msg'] = '你不是教研总监无权复审';
+            return $this->output_succ($result);
+
+        }
+
+        $file = $this->t_resource_file_error_info->get_error_by_error_id($error_id);
+        \App\Helper\Utils::logger("文件: ".json_encode($file));
+        if($file){
+            if( $file['status'] == 0 ){
+                $result['msg'] = '文件尚未同意修改，你无法初审驳回';
+                return $this->output_succ($result);
+            };
+            if( $file['status'] == 1 ){
+                $result['msg'] = '文件尚未上传，你无法初审驳回';
+                return $this->output_succ($result);
+            };
+        }
+
+        if( $status == 3 ){
+            $data = [
+                'first_check' => 1,
+                'first_check_adminid' =>  $adminid,
+                'first_check_time' => time(),
+            ];
+            $result['first_check_time'] = $data['first_check_time'];
+            \App\Helper\Utils::unixtime2date_for_item($result,"first_check_time");
+            $result['first_check_name'] = $this->t_manager_info->get_name($adminid);
+        }
+
+        if( $status == 4 ){
+            $data = [
+                'second_check' => 1,
+                'sec_check_adminid' =>  $adminid,
+                'second_check_time' => time(),
+            ];
+            $result['second_check_time'] = $data['second_check_time'];
+            \App\Helper\Utils::unixtime2date_for_item($result,"second_check_time");
+            $result['second_check_name'] = $this->t_manager_info->get_name($adminid);
+        }
 
         $modify = $this->t_resource_file_error_info->field_update_list($error_id,$data);
         if($modify){
             $result['status'] = 200;
-
+        }else{
+            $result['msg'] = '审查失败';
         }
+
         return $this->output_succ($result);
 
     }

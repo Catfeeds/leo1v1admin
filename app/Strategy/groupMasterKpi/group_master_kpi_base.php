@@ -93,6 +93,7 @@ class group_master_kpi_base {
         foreach($test_lesson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['succ_all_count']=$item['succ_all_count'];
+            $res[$adminid]['dis_succ_all_count']=$item['dis_succ_all_count'];
             $res[$adminid]['fail_all_count'] = $item['fail_all_count'];
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
             $res[$adminid]['all_new_contract'] = 0;
@@ -108,16 +109,17 @@ class group_master_kpi_base {
         $test_lesson_count = array_sum(array_column($res,'test_lesson_count'));//学生上课数
         $fail_all_count = array_sum(array_column($res,'fail_all_count'));//取消数
         $succ_all_count = array_sum(array_column($res,'succ_all_count'));//试听成功数
+        $dis_succ_all_count = array_sum(array_column($res,'dis_succ_all_count'));//试听成功数
         $all_new_contract = array_sum(array_column($res,'all_new_contract'));//签约数
 
         $test_per = ($full_count>0 && round($test_lesson_count/$full_count,2)>=50.00)?10:0;//平均课数
         $fail_per = ($test_lesson_count>0 && round($fail_all_count/$test_lesson_count,4)*100<=18.00)?10:0;//取消率
-        $order_per = ($succ_all_count>0 && round($all_new_contract/$succ_all_count,4)*100>=10.00)?40:0;//转化率
+        $order_per = ($dis_succ_all_count>0 && round($all_new_contract/$dis_succ_all_count,4)*100>=10.00)?40:0;//转化率
         $leave_per = ($person_count>0 && round($leave_count/$person_count,4)*100<=20.00)?40:0;//离职率
 
         $test_per_desc = ($full_count>0)?$test_lesson_count.'÷'.$full_count:0;
         $fail_per_desc = ($test_lesson_count>0)?$fail_all_count.'÷'.$test_lesson_count:0;
-        $order_per_desc = ($succ_all_count>0)?$all_new_contract.'÷'.$succ_all_count:0;
+        $order_per_desc = ($dis_succ_all_count>0)?$all_new_contract.'÷'.$dis_succ_all_count:0;
         $leave_per_desc = ($person_count>0)?$leave_count.'÷'.$person_count:0;
 
         $kpi = $test_per+$fail_per+$order_per+$leave_per;
@@ -127,7 +129,7 @@ class group_master_kpi_base {
 
         $group_month_avg_lesson = $full_count>0?round($test_lesson_count/$full_count,2):0;
         $group_month_avg_lesson_per = $test_lesson_count>0?round($fail_all_count/$test_lesson_count,4):0;
-        $group_month_avg_order_per = $succ_all_count>0?round($all_new_contract/$succ_all_count,4):0;
+        $group_month_avg_order_per = $dis_succ_all_count>0?round($all_new_contract/$dis_succ_all_count,4):0;
         $group_month_avg_leave_per = $person_count>0?round($leave_count/$person_count,4):0;
         $arr['group_month_avg_lesson'] = $group_month_avg_lesson;
         $arr['group_month_avg_lesson_per'] = $group_month_avg_lesson_per;

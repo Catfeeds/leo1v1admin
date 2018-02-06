@@ -1871,5 +1871,12 @@ class seller_student_new extends Controller
         $system_free->handle();
         return $this->output_succ();
     }
+    public function call_back(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $this->t_test_lesson_subject_sub_list->field_update_list($lessonid, [
+            'call_end_time' => time(NULL)
+        ]);
+        return $this->output_succ();
+    }
 
 }
