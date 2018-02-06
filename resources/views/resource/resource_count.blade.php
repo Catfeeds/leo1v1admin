@@ -19,6 +19,7 @@
                             <option value="3">按科目统计</option>
                             <option value="4">按年级统计</option>
                             <option value="5">按资源类型统计</option>
+                            <option value="6">按科目年级类型统计</option>
                         </select>
                     </div>
                 </div>
@@ -84,6 +85,10 @@
                     @if($type == 5)
                     <td>资料类型</td>
                     @endif
+                    @if($type == 6)
+                    <td>学科</td>
+                    <td>年级</td>
+                    @endif
                       {!!\App\Helper\Utils::th_order_gen([
                         ["上传文件数","file_num" ],
                         ["浏览量","visit" ],
@@ -120,6 +125,10 @@
                         @if($type == 5)
                         <td>{{@$var['resource_type']}}</td>
                         @endif
+                        @if($type == 6)
+                        <td>{{@$var['subject']}}</td>
+                        <td>{{@$var['grade']}}</td>
+                        @endif
                        
                        
 
@@ -136,7 +145,7 @@
                         <td>{{@$var["score"]}} </td>
                     </tr>
                 @endforeach
-                @if ($type > 1)
+                @if ($type > 1 && $type < 6 && $display == 1)
                 <tr>
                     <td>合计</td>
                     <td>{{@$total["file_num"]}}</td>
@@ -151,6 +160,21 @@
                     <td>{{@$total["error_num"]}}</td>
                     <td></td>
                 </tr>
+                @elseif($type == 6 && $display == 1)
+                    <td>合计</td>
+                    <td></td>
+                    <td>{{@$total["file_num"]}}</td>
+                    <td>{{@$total["visit"]}}</td>
+                    <td>{{@$total["visit_rate"]}}%</td>
+                    <td>{{@$total["visit_num"]}}</td>
+                    <td>{{@$total["use"]}}</td>
+                    <td>{{@$total["use_rate"]}}%</td>
+                    <td>{{@$total["use_num"]}}</td>
+                    <td>{{@$total["error"]}}</td>
+                    <td>{{@$total["error_rate"]}}%</td>
+                    <td>{{@$total["error_num"]}}</td>
+                    <td></td>
+
                 @endif
             </tbody>
         </table>

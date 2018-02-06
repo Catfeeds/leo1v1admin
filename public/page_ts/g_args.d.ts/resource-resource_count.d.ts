@@ -10,8 +10,6 @@ interface GargsStatic {
 	resource_type:	number;
 	teacherid:	number;
 	type:	number;
-	page_num:	number;
-	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -22,13 +20,6 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	mark	:any;
-	subject	:any;
-	subject_str	:any;
-	adminid	:any;
-	nick	:any;
-	grade_str	:any;
-	resource_type	:any;
-	resource_type_str	:any;
 	file_num	:any;
 	visit_num	:any;
 	error_num	:any;
@@ -40,6 +31,8 @@ interface RowData {
 	error_rate	:any;
 	use_rate	:any;
 	score	:any;
+	subject	:any;
+	grade	:any;
 }
 
 /*
@@ -154,6 +147,4 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
