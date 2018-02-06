@@ -63,6 +63,7 @@ $(function(){
                     $tr.find(".group_kpi").text(data["group_kpi"]);
                     $tr.find(".group_kpi_desc").text(data["group_kpi_desc"]);
 
+                    $tr.find(".order_num").text(data["order_num"]);
                     $tr.find(".all_price").text(data["all_price"]);
                     $tr.find(".base_salary").text(data["base_salary"]);
                     $tr.find(".sup_salary").text(data["sup_salary"]);

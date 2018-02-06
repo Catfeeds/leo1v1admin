@@ -46,6 +46,7 @@
                     <td>学生上课数</td>
                     <td>取消率</td>
                     <td>绩效对应系数<br/>(取消率<=18%(40%)+周试听成功>=12节(15%))</td>
+                    <td >签约人数 </td>
                     <td >签约总金额 </td>
                     <td>上月签单 </td>
                     <td>月末定级 </td>
@@ -112,6 +113,7 @@
                         <td class="test_lesson_count"></td>
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
+                        <td class="order_num" ></td>
                         <td class="all_price" ></td>
                         <td class="last_all_price" ></td>
                         <td class="last_seller_level"></td>
