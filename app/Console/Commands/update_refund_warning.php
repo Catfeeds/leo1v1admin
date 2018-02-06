@@ -65,10 +65,10 @@ class update_refund_warning extends Command
             if ($key % 5000 == 0) sleep(5);
             $userid = $item["userid"];
             // 清除以前数据
-            $task->t_student_info->field_update_list($userid, [
-                "refund_warning_level" => 0,
-                "refund_warning_reason" => ''
-            ]);
+            // $task->t_student_info->field_update_list($userid, [
+            //     "refund_warning_level" => 0,
+            //     "refund_warning_reason" => ''
+            // ]);
 
             // 换老师次数 $tea["count"]
             $tea = $task->t_student_info->get_teacher_count($userid);
