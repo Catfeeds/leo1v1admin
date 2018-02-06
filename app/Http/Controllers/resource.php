@@ -29,6 +29,8 @@ class resource extends Controller
         $tag_five      = $this->get_in_int_val('tag_five', -1);
         $file_title    = trim( $this->get_in_str_val('file_title', '') );
         $has_comment   = $this->get_in_int_val('has_comment', -1);
+        $has_error     = $this->get_in_int_val('has_error', -1);
+        $id_order      = $this->get_in_int_val('id_order', 1);
         $page_info     = $this->get_in_page_info();
 
         if($use_type == 1){
@@ -40,7 +42,8 @@ class resource extends Controller
             $resource_type = 8;
         }
         $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,0,0,$has_comment
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,0,0,$has_comment,
+            $has_error,$id_order
         );
         $r_mark = 0;
         $index  = 1;
@@ -91,7 +94,17 @@ class resource extends Controller
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
 
-            $item['comment'] = $this->t_resource_file_evalutation->get_count($item['file_id']);
+
+            $item['comment'] = null;
+            if(!empty($item['comment_id'])){
+                $item['comment'] = $this->t_resource_file_evalutation->get_count($item['file_id']);
+            }
+
+            $item['error'] = null;
+            if(!empty($item['error_id'])){
+                $item['error'] = $this->t_resource_file_error_info->get_count($item['file_id']);
+            }
+
         }
         //dd($ret_info['list']);
 
@@ -1279,21 +1292,40 @@ class resource extends Controller
 
     public function reupload_resource() {
         $resource_id   = $this->get_in_int_val('resource_id','');
-        $file_id       = $this->get_in_int_val('file_id','');
-        $file_use_type = $this->get_in_int_val('file_use_type', 0);
+        $file_id       = $this->get_in_int_val('file_id',0);
+        $file_title    = trim($this->get_in_str_val('file_title'));
+        $file_hash     = $this->get_in_str_val('file_hash');
+        $file_size     = round( $this->get_in_int_val('file_size')/1024, 2);
+        $file_type     = $this->get_in_str_val('file_type');
+        $file_link     = $this->get_in_str_val('file_link');
+        $file_use_type = $this->get_in_int_val('file_use_type');
+
         $ex_num        = $this->get_in_int_val('ex_num', 0);
+        $reupload      = $this->get_in_int_val('reupload', 0);
         $adminid       = $this->get_account_id();
         $time          = time();
         $is_wx         = $this->get_in_int_val("is_wx",0);
         $id            = $this->get_in_int_val("id",-1);
         if($file_id != 0){
-            $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
+            $this->t_resource_file->field_update_list($file_id, [
+                'file_title' => $file_title,
+                'file_hash'  => $file_hash,
+                'file_size'  => $file_size,
+                'file_type'  => $file_type,
+                'file_link'  => $file_link,
+                'file_use_type'  => $file_use_type,
+            ]);
             $visit_type = 2;
         } else {//添加额外文件
             $visit_type = 9;
+            $this->set_in_value('is_reupload', 1);
+            $file_id = $this->add_file();
         }
-        $this->set_in_value('is_reupload', 1);
-        $file_id = $this->add_file();
+
+        //提交报错后的文件
+        if( $reupload == 3 ){
+            $this->t_resource_file_error_info->upload_new_file($file_id);
+        }
 
         $this->t_resource_file_visit_info->row_insert([
             'file_id'     => $file_id,
