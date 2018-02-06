@@ -376,10 +376,10 @@
                                     <table class="table table-bordered" style="border-collapse: separate;">
                                         <tr>
                                             <td rowspan="4" style="text-align: left">
-                                            @if ($my_info['achievement'] == '')
+                                            @if ($my_info['teaching_achievement'] == '')
                                             您暂未填写教学成果，请及时更新，谢谢。
                                             @else
-                                            {!! $my_info['achievement'] !!}
+                                            {!! $my_info['teaching_achievement'] !!}
                                             @endif
                                             </td>
                                         </tr>
