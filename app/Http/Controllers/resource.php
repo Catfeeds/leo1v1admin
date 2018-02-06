@@ -1275,21 +1275,40 @@ class resource extends Controller
 
     public function reupload_resource() {
         $resource_id   = $this->get_in_int_val('resource_id','');
-        $file_id       = $this->get_in_int_val('file_id','');
-        $file_use_type = $this->get_in_int_val('file_use_type', 0);
+        $file_id       = $this->get_in_int_val('file_id',0);
+        $file_title    = trim($this->get_in_str_val('file_title'));
+        $file_hash     = $this->get_in_str_val('file_hash');
+        $file_size     = round( $this->get_in_int_val('file_size')/1024, 2);
+        $file_type     = $this->get_in_str_val('file_type');
+        $file_link     = $this->get_in_str_val('file_link');
+        $file_use_type = $this->get_in_int_val('file_use_type');
+
         $ex_num        = $this->get_in_int_val('ex_num', 0);
+        $reupload      = $this->get_in_int_val('reupload', 0);
         $adminid       = $this->get_account_id();
         $time          = time();
         $is_wx         = $this->get_in_int_val("is_wx",0);
         $id            = $this->get_in_int_val("id",-1);
         if($file_id != 0){
-            $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
+            $this->t_resource_file->field_update_list($file_id, [
+                'file_title' => $file_title,
+                'file_hash'  => $file_hash,
+                'file_size'  => $file_size,
+                'file_type'  => $file_type,
+                'file_link'  => $file_link,
+                'file_use_type'  => $file_use_type,
+            ]);
             $visit_type = 2;
         } else {//添加额外文件
             $visit_type = 9;
+            $this->set_in_value('is_reupload', 1);
+            $file_id = $this->add_file();
         }
-        $this->set_in_value('is_reupload', 1);
-        $file_id = $this->add_file();
+
+        //提交报错后的文件
+        if( $reupload == 3 ){
+            $this->t_resource_file_error_info->upload_new_file($file_id);
+        }
 
         $this->t_resource_file_visit_info->row_insert([
             'file_id'     => $file_id,

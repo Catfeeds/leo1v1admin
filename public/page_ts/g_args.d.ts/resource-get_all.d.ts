@@ -46,6 +46,7 @@ interface RowData {
 	visitor_id	:any;
 	comment_id	:any;
 	error_id	:any;
+	error_status	:any;
 	file_use_type_str	:any;
 	nick	:any;
 	tag_one_name	:any;

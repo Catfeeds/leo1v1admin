@@ -38,14 +38,14 @@
      .comment .comment_item .comment_info span{ margin-right:10px }
      .comment .comment_eject tr td{ padding:7px 10px; text-align: center; border: 1px solid #42474a; }
 
-     .error{ width:800px}
+     .error{ width:850px}
      .error .error_info .error_title{ font-size: 17px;font-weight: bold;}
      .error .error_info .error_status_choose{ float:right;margin-right:10px }
      .error .error_info .error_choose{ width: 120px;margin-left: 10px;display: inline-block; }
      .error .error_upload_info{ text-align: right;margin: 10px;font-size: 14px;color: #828181;}
      .error .error_content{ padding: 10px 5px;background: #fbfbfb;}
      .error .error_detail tr th,.error .error_detail tr td{border: 1px solid #aab2b7;padding:7px 10px;  }
-     .error .error_detail .look_err_pic{ background: #d2cfcf;padding: 0px 20px;color: #3290a7;margin-right: 10px;}
+     .error .error_detail .look_err_pic{ background: #d2cfcf;padding: 0px 12px;color: #3290a7;margin-right: 10px;}
      .error_type_1,.error_type_2{font-size: 16px;font-weight: bold;color:#029dc3;margin-right: 10px;}
      .error_author{ margin: 0px 20px;color: #6f6a6a;}
      .error_time{color: #6f6a6a; }
@@ -182,7 +182,7 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td>文件名</td>
+                    <td style="max-width:200px">文件名</td>
                     <td>修改日期</td>
                     <td>操作人</td>
                     <td>文件格式</td>
@@ -222,7 +222,7 @@
                         <td>
                             <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
-                        <td>{{@$var["file_title"]}} </td>
+                        <td style="max-width:200px">{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
@@ -266,7 +266,7 @@
                                     评价(0)
                                 @endif
                             </a>
-                            <a class="opt-error btn color-blue" data-file_id="{{$var["file_id"]}}" data-resource_type="{{$var["resource_type"]}}"  title="报错">
+                            <a class="opt-error btn color-blue" title="报错">
                                 @if($var['error'] > 0 )
                                     报错({{$var['error']}})
                                 @else
@@ -731,9 +731,9 @@
             <table class="error_detail">
                 <thead>
                     <tr>
-                        <th width="70%">报错内容</th>
-                        <th width="15%">状态</th>
-                        <th width="15%">操作</th>
+                        <th width="68%">报错内容</th>
+                        <th width="22%">状态</th>
+                        <th width="10%">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -756,8 +756,8 @@
                         <td class="error_deal_box"></td>
                         <td>
                             <p><a class="error_agree btn color-blue" onclick="error_agree(this,event)" >同意修改</a></p>
-                            <p><a class="err_first_check btn color-blue" onclick="error_first_check(this,event)" >初审驳回</a></p>
-                            <p><a class="err_sec_check btn color-blue" onclick="error_second_check(this,event)" >复审驳回</a></p>
+                            <p><a class="err_first_check btn color-blue" onclick="err_first_check(this,event)" >初审驳回</a></p>
+                            <p><a class="err_sec_check btn color-blue" onclick="err_sec_check(this,event)" >复审驳回</a></p>
                         </td>
                       
                     </tr>
