@@ -3957,7 +3957,8 @@ ORDER BY require_time ASC";
         $sql = $this->gen_sql_new(
             'select '.$field_name.' as check_value,count(tr.require_id) as require_count,'.
             'count(tr.accept_flag = 1) test_lesson_count,'.
-            'sum(tss.success_flag in (0,1 ) and ((l.lesson_user_online_status in (0,1) or f.flow_status = 2)) '.
+            // 'sum(tss.success_flag in (0,1 ) and ((l.lesson_user_online_status in (0,1) or f.flow_status = 2)) '.
+            'sum(l.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
             'and tr.accept_flag=1) as succ_test_lesson_count,'.
             'count(distinct if(tr.accept_flag = 1,t.userid,null)) as distinct_test_count,'.
             'count(distinct if((tss.success_flag in (0,1 ) and (l.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
