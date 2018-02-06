@@ -107,7 +107,7 @@
                                     @endif
                                     <a class="opt-log-list" title="登录日志">登陆日志</a>
                                     <a class="opt-lesson_info">课堂详情</a>
-                                    @if(in_array($account,["adrian","jim","sunny","孙瞿","郭东"]))
+                                    @if(in_array($account,["adrian","jim","sunny","孙瞿","郭东"]) && $var['show_flag'] )
                                         <a class="opt-change_type" title="更改反馈类型">改</a>
                                         <a class="opt-full_lesson" title="本月所有课程">全</a>
                                         <a class="opt-trial_reward" title="老师的额外奖励">奖</a>

@@ -1896,7 +1896,7 @@ class stu_manage extends Controller
 
 
                 $subject = $value["subject"];
-                $score = round(10*$value['score']/$value['total_score']);
+                $score = $value['total_score']>0?round(10*$value['score']/$value['total_score']):0;
                 //  $month = date("Y-m-d H:i",$value["create_time"]);
                 $month = $value["create_time"];
                 $arr=[
@@ -1964,7 +1964,7 @@ class stu_manage extends Controller
 
             }
 
-            $n = round(($max_month-$month)/86400/2);
+            $n = round(($max_month-$min_month)/86400/2);
             $middle_month = intval($min_month+$n*86400);
             
             \App\Helper\Utils::date_list_set_value($date_list,$subject_1,"month","subject_1","count");

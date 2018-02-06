@@ -164,7 +164,6 @@
                         @if( @$var['etype'] == 9)
 
                         @else
-
                             <td style="max-width:200px">
                                 {{@$var['detail_error']}}<br/>
                                 @if(@$var['picture_one'] != '')
@@ -179,11 +178,10 @@
                                 @if(@$var['picture_four'] != '')
                                     <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
                                 @endif
-                                @if(@$var['picture_five'] != '')
+                                    @if(@$var['picture_five'] != '')
                                     <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
                                 @endif
                             </td>
-
                         @endif
 
                         <td>资源类型:{{@$var['resource_type_str']}}<br/>
@@ -236,9 +234,9 @@
                             @if(@$var['estatus'] == 0)
                                 <a class="opt-upload btn color-blue hide" title="上传">上传</a>
                             @elseif(@$var['estatus'] == 1)
-                                <a class="opt-upload btn color-blue" title="上传">上传</a>
+                                <a class="opt-upload btn color-blue" data-id="{{$var['eid']}}" title="上传">上传</a>
                             @else
-                                <a class="opt-upload btn color-blue" title="重传">重传</a>
+                                <a class="opt-upload btn color-blue" data-id="{{$var['eid']}}" title="重传">重传</a>
                             @endif
 
                             @if($var['estatus'] == 3 && $var['estatus'] != 4)

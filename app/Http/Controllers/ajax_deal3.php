@@ -23,6 +23,15 @@ class ajax_deal3 extends Controller
         $user_list=[];
         $new_count=0;
         $no_connected_count=0;
+        //试听成功,未回访用户数量
+        $no_call_test_succ =$this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
+        
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+            $env_is_test = 1;
+        else
+            $env_is_test = 0;
+
+        $new_count = $this->t_seller_student_new_b2->get_today_new_count($adminid);
 
         if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
 
@@ -34,7 +43,6 @@ class ajax_deal3 extends Controller
             }
 
             $user_list=$this->t_seller_student_system_assign_log->get_seller_student_assign_from_type_list($adminid, $userid_list);
-            $new_count = $this->t_seller_student_new_b2->get_today_new_count($adminid);
             foreach ($user_list as &$item) {
                 $userid=&$item["userid"];
                 $admin_assign_time=strtotime( @$user_admin_assign_time_map[$userid] );
@@ -77,6 +85,8 @@ class ajax_deal3 extends Controller
             "no_connected_count" => $no_connected_count,
             "max_hold_count" =>$max_hold_count,
             "hold_count" =>$hold_count,
+            'no_call_test_succ' => $no_call_test_succ,
+            'env_is_test' => $env_is_test
         ]);
     }
 
