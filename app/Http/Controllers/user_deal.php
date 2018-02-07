@@ -4032,22 +4032,44 @@ class user_deal extends Controller
         $all_renew_target   = $this->get_in_str_val("all_renew_target");
 
         $res = $this->t_ass_group_target->field_get_list($month,"month");
+        $old_arr = $this->t_ass_group_target->field_get_list($month,"rate_target,renew_target,group_renew_target,all_renew_target,change_log");
+        $new_arr =[
+            "rate_target"=>$lesson_target,
+            "renew_target"=>$renew_target,
+            "group_renew_target"=>$group_renew_target,
+            "all_renew_target"=>$all_renew_target,
+        ];
+        $change_log = json_decode($old_arr["change_log"],true);
+        $change_log[] =[
+            "time" =>time(),
+            "acc"  =>$this->get_account(),
+            "old"  =>$old_arr,
+            "new"  =>$new_arr
+        ];
+        $log_new = json_encode($change_log);
+
         if($res){
-            $this->t_ass_group_target->field_update_list($month,[
+            $ret = $this->t_ass_group_target->field_update_list($month,[
                 "rate_target"=>$lesson_target,
                 "renew_target"=>$renew_target,
                 "group_renew_target"=>$group_renew_target,
-                "all_renew_target"=>$all_renew_target,
+                "all_renew_target"=>$all_renew_target
             ]);
 
         }else{
-            $this->t_ass_group_target->row_insert([
+           $ret= $this->t_ass_group_target->row_insert([
                 "rate_target"=>$lesson_target,
                 "month"=>$month,
                 "renew_target"=>$renew_target,
                 "group_renew_target"=>$group_renew_target,
-                "all_renew_target"=>$all_renew_target,
+                "all_renew_target"=>$all_renew_target
             ]);
+        }
+        if($ret){
+            $ret= $this->t_ass_group_target->row_insert([
+                "change_log"      =>$log_new
+            ]);
+
         }
         return $this->output_succ();
 
