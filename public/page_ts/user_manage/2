@@ -2269,6 +2269,13 @@ $(function(){
                     id_courseware.val(value);
                 }
             });
+            id_ass_test_lesson_type.change(function(){
+                if(id_ass_test_lesson_type.val()!=2){
+                    html_node.find("required fields").attr('style','display:block;');
+                }else{
+                    html_node.find("required fields").attr('style','display:none;');
+                }
+            })
             var reset_seller_student_status_options=function()  {
                 var opt_list=[0];
                 var desc_map=g_enum_map["seller_student_sub_status"]["desc_map"];
@@ -2388,7 +2395,6 @@ $(function(){
                     id_change_teacher_reason_type.parent().parent().css('display','table-row');
                     id_change_reason.parent().parent().css('display','table-row');
                     id_change_reason_url.parent().parent().css('display','table-row');
-                    $("font[class='required fields']").hide();
                 }else{
                     id_change_teacher_reason_type.parent().parent().css('display','none');
                     id_change_reason.parent().parent().css('display','none');
@@ -2397,7 +2403,6 @@ $(function(){
                     id_change_teacher_reason_type.val(0);
                     id_change_reason.val('');
                     id_change_reason_url.val('');
-                    $("font[class='required fields']").show();
                 }
             });
             html_node.find(".upload_change_reason_url").attr("id","id_upload_change_reason_url");
@@ -2517,6 +2522,7 @@ $(function(){
                         }
 
                         if(html_node.find('#id_ass_test_lesson_type_new_two').val()!=2){
+                            html_node.find("required fields").attr('style','display:block;');
                             var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
                             if(html_node.find("#id_main_subject_score_one_new_two").val() == ''){
                                 html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
@@ -2577,6 +2583,8 @@ $(function(){
                             }else{
                                 html_node.find("#id_intention_level_new_two").parent().attr('style','');
                             }
+                        }else{
+                            html_node.find("required fields").attr('style','display:none;');
                         }
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
                             var min_time = Date.parse(
