@@ -1356,7 +1356,7 @@ class resource extends Controller
             $wx_openid    = $info['wx_openid'];
             $file_name    = $info['file_title'];
             $teacher_nick = $info['nick'];
-            $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
+            //$wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
             $teacher_url = ''; //待定
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
 
