@@ -1636,7 +1636,7 @@ class seller_student_new2 extends Controller
                 $tea_val['is_identity'] = $identity==$tea_val['identity'] && $identity!=0?1:0;
                 $tea_val['is_gender']   = $gender==$tea_val['gender'] && $gender!=0?1:0;
                 $tea_val['is_age']      = $tea_age==$tea_val['age_flag'] && $tea_age!=0?1:0;
-                if($teacher_info!="" && (strstr($tea_val['realname'],$teacher_info) || strstr($tea_val['phone'],$teacher_info))){
+                if($teacher_info!="" && (strstr($tea_val['realname'],$teacher_info) || strstr($tea_val['phone'],$teacher_info) || strstr($tea_val['nick'],$teacher_info))){
                     $tea_val['is_search'] = 1;
                 }else{
                     $tea_val['is_search'] = 0;
