@@ -13,6 +13,8 @@ class SellerStudentSystemAssign extends TestCase
      */
     public function testExample()
     {
-        echo "test";
+        echo "login test_index\n";
+        $this->visit('/');
+        $this->see("后台登录");
     }
 }
