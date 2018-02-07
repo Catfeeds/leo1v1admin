@@ -41,11 +41,11 @@ class phone_city extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        
+
         $end_time = time();
         $start_time = $end_time - 86400 * 10;
 
-        //update t_studend_info 
+        //update t_studend_info
         $ret_info = $task->t_student_info->get_all_student_phone_and_id($start_time,$end_time);
         foreach ($ret_info as $key => $value) {
             $userid = $value['userid'];
@@ -85,6 +85,6 @@ class phone_city extends Command
                 "phone_city" =>$city,
             ]);
             echo "teacher $userid $province  $city.fin\n";
-        }      
-    }     
+        }
+    }
 }

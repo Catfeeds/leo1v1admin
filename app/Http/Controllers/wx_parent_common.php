@@ -113,16 +113,15 @@ class wx_parent_common extends Controller
         }
 
         if($market_activity_type >= 1 ){
-            $passwd = 111111;
+            $passwd      = 111111;
             $reg_channel = '';
-            $ip = 0;
-            $nick = "";
-            $parentid = $this->t_parent_info->register($phone, $passwd, $reg_channel , $ip,$nick);
+            $ip          = 0;
+            $nick        = "";
+            $parentid    = $this->t_parent_info->register($phone, $passwd, $reg_channel , $ip,$nick);
 
             $this->t_parent_info->field_update_list($parentid,[
                 "wx_openid" => $wx_openid
             ]);
-
             session(["parentid" => $parentid]);
 
             return $this->output_succ(["type"=>$market_activity_type,"parentid"=> $parentid]);

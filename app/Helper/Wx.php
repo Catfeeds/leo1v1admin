@@ -56,7 +56,7 @@ class Wx{
         $appid     = $this->appid;
         $appsecret = $this->appsecret;
         //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
-        $json_data=file_get_contents( "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&code=$code&appid=$appid&secret=$appsecret"  );
+        $json_data=file_get_contents("https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&code=$code&appid=$appid&secret=$appsecret"  );
         $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
 
         return $ret_arr;
@@ -220,7 +220,6 @@ class Wx{
         }
     }
 
-
     public function get_user_info_from_token($openid,$token) {
         $appid=$this->appid;
         $appsecret=$this->appsecret;
@@ -252,10 +251,4 @@ class Wx{
         $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
         return $ret_arr;
     }
-
-
-
-
-
-
 };
