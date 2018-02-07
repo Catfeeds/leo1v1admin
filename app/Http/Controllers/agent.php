@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $last_refund_list = $this->t_order_info->get_refund_month_money($account='李丹',$start_time=1512057600,$end_time=1514736000);
+        dd($last_refund_list);
         $domain = config('admin')['qiniu']['public']['url'];
         dd($domain);
         list($start_time,$end_time) = [1514736000,1517414400];

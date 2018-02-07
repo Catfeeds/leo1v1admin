@@ -946,6 +946,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_refund_month_money($account,$start_time,$end_time) {
+        $where_arr = [
+            ["o1.order_time>=%u" , $start_time, -1],
+            ["o1.order_time<=%u" , $end_time, -1],
+            ["is_test_user=%u" , 0, -1],
+            "o1.contract_type =0 ",
+            ["o1.sys_operator='%s'" ,$account,""],
+            'contract_status=3',
+        ];
+        $sql = $this->gen_sql_new(
+            " select o1.price,r.real_refund "
+            ." from %s o1 "
+            ." left join %s s2 on o1.userid = s2.userid "
+            ." left join %s r on r.orderid = o1.orderid "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_order_refund::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 15" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
         $where_arr = [
             "is_test_user=0",
