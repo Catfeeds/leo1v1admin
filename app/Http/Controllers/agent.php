@@ -449,9 +449,11 @@ class agent extends Controller
                 if($item['uid'] == $uid){
                     $ret[$uid]['list'][$item['orderid']]['price'] = $item['price'];
                     $ret[$uid]['account'] = $item['account'];
-                    $ret[$uid]['price'] += $item['price'];
                 }
             }
+        }
+        foreach($ret as $uid=>$item){
+            $ret[$uid]['price'] = array_sum(array_column($item['list'], 'price'));
         }
         dd($ret);
         $group_all_price=0;
