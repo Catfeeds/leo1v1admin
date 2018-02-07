@@ -41,8 +41,8 @@ class cr_info_week extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        //$timestamp = time(); 
-        $timestamp = 1517846400;
+        $timestamp = time(); 
+        // $timestamp = 1517846400;
 
 
         $end_time   = strtotime(date('Y-m-d', strtotime("this week Tuesday", $timestamp)));  

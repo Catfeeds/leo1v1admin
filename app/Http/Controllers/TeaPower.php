@@ -5236,6 +5236,37 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
 
+    //支付渠道/方式归类
+    public function get_pay_channel_origin($channel){
+        if($channel=="wx"){
+            $channel = "微信升学帮付款";
+            $channel_origin = "微信";
+        }elseif($channel=="wx_pub_qr"){
+            $channel = "微信扫码付款";
+            $channel_origin = "微信";
+        }elseif($channel=="alipay"){
+            $channel = "支付宝升学帮付款";
+            $channel_origin = "支付宝";
+        }elseif($channel=="alipay_pc_direct"){
+            $channel = "支付宝扫码付款";
+            $channel_origin = "支付宝";
+        }elseif($channel=="建行分期"){
+            $channel_origin = "建行";
+            $channel = "建行分期付款";
+        }elseif($channel=="建行网关支付"){
+            $channel_origin = "建行";
+            $channel = "建行全款";
+
+        }elseif($channel=="baidu"){
+            $channel_origin = "百度";
+            $channel = "百度分期";
+
+        }else{
+            $channel_origin = $channel;
+        }     
+
+        return [$channel,$channel_origin];
+    }
 
 
 }

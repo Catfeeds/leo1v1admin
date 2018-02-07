@@ -294,6 +294,7 @@ class url_power_map {
 			'/admin_manage/web_page_info'	=>1071800,
 			'/user_manage_new/money_contract_list'	=>1080100,
 			'/user_manage_new/money_contract_list_stu'	=>1081100,
+			'/user_manage_new/get_order_channel_from_orderno_info'	=>1081800,
 			'/lesson_manage/stu_status_count'	=>1080200,
 			'/user_manage/pay_money_stu_list'	=>1080500,
 			'/tongji/all_info'	=>1080800,
