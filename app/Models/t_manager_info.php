@@ -789,7 +789,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql=$this->gen_sql_new(
             "select uid,account,account_role,m.create_time,m.seller_level,"
-            ."m.face_pic,m.level_face_pic,no_update_seller_level_flag,"
+            ."m.face_pic,m.level_face_pic,no_update_seller_level_flag,m.become_member_time,"
             ."g.level_face,g.level_goal,g.seller_level_goal,g.num "
             ." from %s m "
             ." left join %s g on g.seller_level=m.seller_level "
