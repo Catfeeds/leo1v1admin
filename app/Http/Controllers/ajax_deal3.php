@@ -33,6 +33,9 @@ class ajax_deal3 extends Controller
             $env_is_test = 0;
 
         $new_count = $this->t_seller_student_new_b2->get_today_new_count($adminid);
+        //获取用户身份[是否系统分配用户]
+        $seller_student_assign_type = $this->t_manager_info->field_get_value($adminid, 'seller_student_assign_type');
+
 
         if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
 
@@ -87,6 +90,7 @@ class ajax_deal3 extends Controller
             "max_hold_count" =>$max_hold_count,
             "hold_count" =>$hold_count,
             'no_call_test_succ' => $no_call_test_succ,
+            'seller_student_assign_type' => $seller_student_assign_type,
             'env_is_test' => $env_is_test
         ]);
     }

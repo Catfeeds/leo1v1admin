@@ -441,6 +441,30 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = [];
+        $group_list= $this->t_order_info->get_item_month_list();
+        $uid_list = array_unique(array_column($group_list, 'uid'));
+        foreach($uid_list as $uid){
+            foreach($group_list as $item){
+                if($item['uid'] == $uid){
+                    $ret[$uid]['list'][$item['orderid']]['price'] = $item['price'];
+                    $ret[$uid]['account'] = $item['account'];
+                }
+            }
+        }
+        foreach($ret as $uid=>$item){
+            $ret[$uid]['price'] = array_sum(array_column($item['list'], 'price'));
+        }
+        dd($ret);
+        $group_all_price=0;
+        $group_all_stage_price = 0;
+        $group_all_no_stage_price = 0;
+        if ( count ( $group_list) ==1 ) {
+            $group_all_price          = $group_list[0]["all_price"];
+            $group_all_stage_price    = $group_list[0]["all_stage_price"];
+            $group_all_no_stage_price = $group_list[0]["all_no_stage_price"];
+        }
+        dd($group_all_price);
         $last_refund_list = $this->t_order_info->get_refund_month_money($account='李丹',$start_time=1512057600,$end_time=1514736000);
         dd($last_refund_list);
         $domain = config('admin')['qiniu']['public']['url'];
