@@ -4378,10 +4378,7 @@ class user_deal extends Controller
         $manager_info = $this->t_manager_info->field_get_list($adminid,'become_member_time,del_flag,leave_member_time');
         // if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
         if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60){
-            $item['kpi'] = "100%";
-        }
-        if($adminid == 962){
-            dd($item['kpi']);
+            $res[$adminid]['kpi'] = "100%";
         }
         $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
