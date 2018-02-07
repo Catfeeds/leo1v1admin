@@ -165,6 +165,7 @@ function init_today_new()  {
             "userid_list" : userid_list.join(","),
             "user_admin_assign_time_map" : JSON.stringify( user_admin_assign_time_map),
         },function(resp){
+            console.log(resp);
             var hold_msg="";
             if ( resp.max_hold_count <= resp.hold_count ) {
                 alert('新例子分配失败,例子库空间已满，请尽快清理');
@@ -173,7 +174,7 @@ function init_today_new()  {
                 alert('例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count);
                 hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
             }
-            if(resp.no_call_test_succ > 0 && resp.env_is_test == 1)
+            if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type)
                 alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访');
 
             var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
