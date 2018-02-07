@@ -110,11 +110,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $admin_revisiterid    = 0;
         $seller_resource_type = 0;
         $tmk_student_status   = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status" );
+        $orderid              = 0;
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid" );
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
             $tmk_student_status   = $data_item['tmk_student_status'];
+            $orderid              = $data_item['orderid'];
         }
         if ($admin_revisiterid  ) {
             $subject_desc=E\Esubject::get_desc($subject);
@@ -163,9 +165,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $ret_row = $this->field_get_list($userid,"userid");
         if ($ret_row) {
-            if($seller_resource_type==1 && $admin_revisiterid==0  )  { //在公海里
+            if($seller_resource_type==1 && $admin_revisiterid==0)  { //在公海里
                 \App\Helper\Utils::logger("SET NEW FROM PUBLISH");
-
                 $this->field_update_list($userid,[
                     "seller_resource_type" => 0,
                     "first_revisit_time"   => 0,
@@ -204,7 +205,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $origin_level = $this->t_origin_key->get_origin_level($origin);
         if (!$origin_level){ //默认B
-            $origin_level = E\Eorigin_level::V_3 ;
+            $origin_level = E\Eorigin_level::V_3;
         }
         $set_stu_arr["origin_level"] =$origin_level;
 
@@ -310,8 +311,24 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             );
             $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
         }
-
+        if($data_item && ($tmk_student_status<3 || $orderid>0)){
+            $this->refresh_seller_student($userid,$tmk_student_status,$orderid);
+        }
         return $userid;
+    }
+
+    public function refresh_seller_student($userid,$tmk_student_status,$orderid){
+        if(in_array($tmk_student_status,[0,2])){
+        }else{
+            if($orderid>0){
+                $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
+                if($contract_status>1){
+                }else{
+                    
+                }
+            }else{
+            }
+        }
     }
 
     public function get_meituan_count_by_adminid(){

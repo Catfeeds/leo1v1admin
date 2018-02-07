@@ -288,7 +288,6 @@ class login extends Controller
         //收藏列表
         $self_menu_config=$this->t_admin_self_menu->get_menu_config($uid);
 
-
         $tmp_arr=$arr;
         $tmp_url_power_map= $url_power_map ;
         $menu_html.=$this->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );

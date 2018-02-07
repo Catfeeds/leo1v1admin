@@ -4032,22 +4032,44 @@ class user_deal extends Controller
         $all_renew_target   = $this->get_in_str_val("all_renew_target");
 
         $res = $this->t_ass_group_target->field_get_list($month,"month");
+        $old_arr = $this->t_ass_group_target->field_get_list($month,"rate_target,renew_target,group_renew_target,all_renew_target,change_log");
+        $new_arr =[
+            "rate_target"=>$lesson_target,
+            "renew_target"=>$renew_target,
+            "group_renew_target"=>$group_renew_target,
+            "all_renew_target"=>$all_renew_target,
+        ];
+        $change_log = json_decode($old_arr["change_log"],true);
+        $change_log[] =[
+            "time" =>time(),
+            "acc"  =>$this->get_account(),
+            "old"  =>$old_arr,
+            "new"  =>$new_arr
+        ];
+        $log_new = json_encode($change_log);
+
         if($res){
-            $this->t_ass_group_target->field_update_list($month,[
+            $ret = $this->t_ass_group_target->field_update_list($month,[
                 "rate_target"=>$lesson_target,
                 "renew_target"=>$renew_target,
                 "group_renew_target"=>$group_renew_target,
-                "all_renew_target"=>$all_renew_target,
+                "all_renew_target"=>$all_renew_target
             ]);
 
         }else{
-            $this->t_ass_group_target->row_insert([
+           $ret= $this->t_ass_group_target->row_insert([
                 "rate_target"=>$lesson_target,
                 "month"=>$month,
                 "renew_target"=>$renew_target,
                 "group_renew_target"=>$group_renew_target,
-                "all_renew_target"=>$all_renew_target,
+                "all_renew_target"=>$all_renew_target
             ]);
+        }
+        if($ret){
+            $this->t_ass_group_target->field_update_list($month,[
+                "change_log"      =>$log_new
+            ]);
+
         }
         return $this->output_succ();
 
@@ -4355,7 +4377,7 @@ class user_deal extends Controller
         $res[$adminid]['kpi'] = ($kpi && $res[$adminid]['test_lesson_count']>0)>0?$kpi."%":0;
         $manager_info = $this->t_manager_info->field_get_list($adminid,'become_member_time,del_flag,leave_member_time');
         if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
-            $item['kpi'] = "100%";
+            $res[$adminid]['kpi'] = "100%";
         }
         $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];

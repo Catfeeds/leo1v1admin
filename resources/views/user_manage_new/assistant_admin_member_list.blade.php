@@ -76,9 +76,9 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 
-                                @if(in_array($account,["jack","jim","郑璞","孙佳旭","孙瞿","michael"]))
+                                @if(in_array($account,["jack","jim","郑璞","孙佳旭","孙瞿","michael"]) && $var["main_type"]==1 && $var["level"]=="l-1")
                                     <a  title="编辑当月目标系数" class="fa fa-edit opt-ass-month-target"></a>
-                                    <a  title="查看更改记录" class=" opt-show-change-list">查看更改记录</a>
+                                    <a  title="查看更改记录" class="opt-show-change-list">查看更改记录</a>
                                 @endif
                             </div>
                         </td>

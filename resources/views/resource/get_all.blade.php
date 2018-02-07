@@ -46,13 +46,13 @@
      .error .error_content{ padding: 10px 5px;background: #fbfbfb;}
      .error .error_detail tr th,.error .error_detail tr td{border: 1px solid #aab2b7;padding:7px 10px;  }
      .error .error_detail .look_err_pic{ background: #d2cfcf;padding: 0px 12px;color: #3290a7;margin-right: 10px;}
-     .error_type_1,.error_type_2{font-size: 16px;font-weight: bold;color:#029dc3;margin-right: 10px;}
+     .error_type_1,.error_type_2{color:#029dc3;margin-right: 10px;}
      .error_author{ margin: 0px 20px;color: #6f6a6a;}
      .error_time{color: #6f6a6a; }
      .error .color-blue{ padding:0px 10px}
      .error .error_status{ color:#616561 }
      .error .error_file_status{ color:red}
-     .error .error_status_pass{ color:#04a704 }
+     .error .error_status_pass{  }
     </style>
     <section class="content">
 
@@ -182,7 +182,7 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="max-width:200px;word-wrap: break-word;">文件名</td>
+                    <td style="max-width:200px;">文件名</td>
                     <td>修改日期</td>
                     <td>操作人</td>
                     <td>文件格式</td>
@@ -222,7 +222,7 @@
                         <td>
                             <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
-                        <td style="max-width:200px">{{@$var["file_title"]}} </td>
+                        <td style="max-width:200px;word-wrap: break-word;">{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
@@ -726,7 +726,7 @@
             </div>
             <div style="clear:both"></div>
         </div>
-        <p class="error_upload_info">提示：该文件如果还没有未处理的报错，请处理完再重传</p>
+        <p class="error_upload_info">提示：该文件如果还存在未处理的报错，请处理完再重传</p>
         <div class="error_content">
             <table class="error_detail">
                 <thead>
