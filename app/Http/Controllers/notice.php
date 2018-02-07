@@ -7,12 +7,10 @@ use \App\Enums as E;
 
 class notice extends Controller
 {
-    var $check_login_flag =false;
+    var $check_login_flag = false;
 
-
-    public function sms_common($phone , $user_ip , $type, $data  )
-    {
-        if( in_array( $phone, [
+    public function sms_common($phone,$user_ip,$type,$data){
+        if( in_array( $phone,[
             "13545096512",
             "13264833258",
             "13617133016",
@@ -66,10 +64,8 @@ class notice extends Controller
                 $send_flag_code=3;
             }
         }
-        $receive_content="";
-
-        //$test_flag=true;
-        $test_flag=false;
+        $receive_content = "";
+        $test_flag       = false;
 
         if ($is_success==0) {
             if ( \App\Helper\Utils::check_env_is_release()  || $test_flag) {
@@ -296,8 +292,5 @@ class notice extends Controller
         ]);
         return $is_success;
     }
-
-
-   
 
 }

@@ -271,7 +271,6 @@ class WxSendMsg{
         }
 
         self::wx_send_to_teacher($wx_openid,$template_id,$data,$url);
-
     }
 
     //老师　模拟试听提醒
@@ -302,7 +301,6 @@ class WxSendMsg{
         $data['remark'] = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
         $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?id=".$info['id'];
         self::wx_send_to_teacher($wx_openid,$template_id,$data,$url);
-
     }
 
     //老师　入职通知
@@ -674,7 +672,6 @@ class WxSendMsg{
 
     //后台　家长投诉待处理通知
     static public function template_par_complaint($wx_openid, $nick, $content, $time){
-
         $template_id = WxSendMsg::$wait_deal;
         $data = [
             "first"     => "家长投诉通知",
@@ -684,12 +681,10 @@ class WxSendMsg{
         ];
         $url = "http://admin.leo1v1.com/user_manage/complaint_department_deal_parent";
         self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
-
     }
 
     //后台　学生上传成绩提醒
     static public function template_upload_score($wx_openid, $nick, $userid){
-
         $template_id = WxSendMsg::$wait_deal;
         $data = [
             "first"     => "$nick 同学的家长上传了学生成绩",
@@ -699,7 +694,6 @@ class WxSendMsg{
         ];
         $url = 'http://admin.leo1v1.com/stu_manage/score_list?sid='.$userid;
         self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
-
     }
 
     //QC及上级领导　投诉处理
@@ -721,7 +715,6 @@ class WxSendMsg{
 
     //家长,老师　调课申请
     static public function template_par_change_lesson($par_openid,$tea_openid,$stu_nick,$lessonid,$start,$end,$time,$result){
-
         $template_id = WxSendMsg::$complaint_res;
         $url ="http://wx-parent.leo1v1.com/wx_parent/adjust_progress?lessonid=".$lessonid;
         $data = [
@@ -746,7 +739,6 @@ class WxSendMsg{
 
     //家长　调课进程通知
     static public function template_par_change_lesson_time($wx_openid,$old_start,$new_start,$result,$time){
-
         $template_id      = WxSendMsg::$wait_deal;
         $data = [
             "first"     => " 调课申请受理中",
@@ -759,10 +751,10 @@ class WxSendMsg{
     }
 
     //助教,教务,家长　学生上课时间调整通知
-    static public function template_change_lesson_time($wx_openid, $stu_nick, $old_start,$old_end,$new_start,$new_end, $account,$phone,$type=1){
-
+    static public function template_change_lesson_time(
+        $wx_openid, $stu_nick, $old_start,$old_end,$new_start,$new_end, $account,$phone,$type=1
+    ){
         $template_id      = WxSendMsg::$wait_deal;
-
         $data = [
             "first"     => "上课时间调整通知",
             "keyword1"  => "上课时间调整",
@@ -775,12 +767,10 @@ class WxSendMsg{
             $data['keyword2'] = "您 从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end";
             self::send_wx_to_par($wx_openid,$template_id,$data);
         }
-
     }
 
     //老师　调课时间结果等待同意 通知
     static public function template_tea_change_lesson_wait_pass($wx_openid,$stu_nick,$lesson_old_date,$result,$data_date){
-
         $template_id      = WxSendMsg::$tea_todo_reminder;
         $data['first']      = "您申请修改学生{ $stu_nick } 的家长发起的申请修改{ $lesson_old_date } 的上课时间 ";
         $data['keyword1']   = " 调换{ $stu_nick } 的家长发起的换时间申请";
@@ -815,11 +805,9 @@ class WxSendMsg{
 
                 $data_leo['first'] = "{ $tea_nick } 老师申请调整{ $stu_nick }的家长发起的调课申请,已获得{ $stu_nick }家长的同意,原课程时间{ $lesson_old_time },最终时间调整至{ $lesson_new_time }";
             }elseif($is_teacher_agree == 2){ //老师同意
-                $data['first']      = " $tea_nick 老师您好,您于{".$lesson_old_time."的".$lesson_name."},已调整至{".$lesson_new_time."} ";
-
+                $data['first'] = " $tea_nick 老师您好,您于{".$lesson_old_time."的".$lesson_name."},已调整至{".$lesson_new_time."} ";
                 $data_parent['first'] = "$stu_nick 的家长您好,您的调课申请已经得到 $tea_nick 老师的同意,{ $lesson_old_time }已调整至{ $lesson_new_time }";
-
-                $data_leo['first']    = "$stu_nick 的家长的调课申请,已经得到{ $tea_nick }老师的同意,{ $lesson_old_time }已经调整至{ $lesson_new_time }";
+                $data_leo['first'] = "$stu_nick 的家长的调课申请,已经得到{ $tea_nick }老师的同意,{ $lesson_old_time }已经调整至{ $lesson_new_time }";
 
 
             }
