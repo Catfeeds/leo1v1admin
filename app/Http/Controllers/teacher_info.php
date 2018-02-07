@@ -643,11 +643,29 @@ class teacher_info extends Controller
         $use_ppt_stu = 0;
         $use_ppt     = 0;
         $tea_cw_url_arr = explode('.', $tea_cw_url);
-        if($tea_cw_url_arr[1] == 'ppt' || $tea_cw_url_arr[1] == 'pptx'){$use_ppt = 1;}
         $stu_cw_url_arr = explode('.', $stu_cw_url);
-        if($stu_cw_url_arr[1] == 'ppt' || $stu_cw_url_arr[1] == 'pptx'){$use_ppt_stu = 1;}
-
         # 增加到待处理列表中[james]
+
+        if($tea_cw_url_arr[1] == 'ppt' || $tea_cw_url_arr[1] == 'pptx'){
+            $use_ppt = 1;
+            $this->t_deal_ppt_to_h5->row_insert([
+                "add_time" => time(),
+                "lessonid" => $lessonid,
+                "is_tea"   => 1,
+                "ppt_url"  => $tea_cw_url
+            ]);
+
+        }
+        if($stu_cw_url_arr[1] == 'ppt' || $stu_cw_url_arr[1] == 'pptx'){
+            $use_ppt_stu = 1;
+            $this->t_deal_ppt_to_h5->row_insert([
+                "add_time" => time(),
+                "lessonid" => $lessonid,
+                "is_tea"   => 0,
+                "ppt_url"  => $stu_cw_url
+            ]);
+        }
+
 
 
 

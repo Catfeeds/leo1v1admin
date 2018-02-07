@@ -3366,7 +3366,7 @@ ORDER BY require_time ASC";
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , "
-            ." sum(lesson_user_online_status = 1 or flow_status=1  ) as succ_test_lesson_count  "
+            ." sum(lesson_user_online_status = 1 or flow_status=2  ) as succ_test_lesson_count  "
             ." from %s tr "
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid "
