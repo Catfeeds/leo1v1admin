@@ -182,7 +182,7 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="max-width:200px;word-wrap: break-word;">文件名</td>
+                    <td style="max-width:200px;">文件名</td>
                     <td>修改日期</td>
                     <td>操作人</td>
                     <td>文件格式</td>
@@ -222,7 +222,7 @@
                         <td>
                             <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
-                        <td style="max-width:200px">{{@$var["file_title"]}} </td>
+                        <td style="max-width:200px;word-wrap: break-word;">{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
