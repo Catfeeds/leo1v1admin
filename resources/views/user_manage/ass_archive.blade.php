@@ -39,7 +39,7 @@
             <div class="input-group ">
                 <span class="input-group-addon">回访</span>
                 <select class="stu_sel form-control" id="id_revisit_flag" >
-                    <option value="-1">全部 </option>
+                    <option value="-1">[全部]</option>
                     <option value="1">学情未回访</option>
                     <option value="2">月度未回访</option>
                     <option value="3">当月退费预警未回访</option>
@@ -51,7 +51,7 @@
             <div class="input-group ">
                 <span class="input-group-addon">预警学员</span>
                 <select class="stu_sel form-control" id="id_warning_stu" >
-                    <option value="-1">全部学员 </option>
+                    <option value="-1">[全部学员]</option>
                     <option value="1">一周</option>
                     <option value="2">二周</option>
                     <option value="3">三周</option>
@@ -68,10 +68,11 @@
             <div class="input-group ">
                 <span class="input-group-addon">退费预警级别</span>
                 <select class="stu_sel form-control" id="id_refund_warn">
-                    <option value="-1">全部退费预警</option>
+                    <option value="-1">[全部]</option>
                     <option value="3">三级</option>
                     <option value="2">二级</option>
                     <option value="1">一级</option>
+                    <option value="4">全部退费预警</option>
                 </select>
             </div>
         </div>
