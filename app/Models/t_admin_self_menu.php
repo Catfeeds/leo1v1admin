@@ -126,7 +126,7 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
                 $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境
                 preg_match($pattern, $burl, $pdomain);
                 if (isset($pdomain[0])) {
-                    $url = str_replace("http://", "http://p.", $burl);
+                    $url = "http://".substr($burl, 9);
                 } else {
                     return $burl;
                 }
