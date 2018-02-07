@@ -3581,5 +3581,23 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
+    public function get_stu_all_lesson($stuid_list){
+        $where_arr = [
+            ["l.userid in (%s)",$stuid_list,""],
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
+        ];
+        $sql = $this->gen_sql_new("select l.userid,l.teacherid,l.subject,t.nick as tea_nick"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." group by l.userid,l.teacherid,l.subject"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
 
+    }
 }
