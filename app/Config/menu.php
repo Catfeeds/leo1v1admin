@@ -413,6 +413,7 @@ class menu{
             ["power_id"=>8, "name"=>"财务管理", "list"=>[
                 ["power_id"=>1, "name"=>"合同管理-财务",   "url"=>"/user_manage_new/money_contract_list"],
                 ["power_id"=>11, "name"=>"合同管理-new",   "url"=>"/user_manage_new/money_contract_list_stu"],
+                ["power_id"=>18, "name"=>"财务管理-支付信息",   "url"=>"/user_manage_new/get_order_channel_from_orderno_info"],
                 ["power_id"=>2, "name"=>"统计",   "url"=>"/lesson_manage/stu_status_count"],
                 ["power_id"=>5, "name"=>"学员档案-付费",   "url"=>"/user_manage/pay_money_stu_list"],
                 ["power_id"=>8, "name"=>"总体收入",   "url"=>"/tongji/all_info"],

@@ -335,7 +335,8 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         $sql = $this->gen_sql_new("select s.nick,o.userid,o.grade,o.subject,o.contract_type,"
                                   ." o.default_lesson_count,o.lesson_total ,c.channel,c.price,"
                                   ." o.price,c.from_orderno ,c.pay_time,o.order_time, "
-                                  ." if(c.parent_name <> '',c.parent_name,s.parent_name) parent_name "
+                                  ." if(c.parent_name <> '',c.parent_name,s.parent_name) parent_name, "
+                                  ." o.orderid,c.child_orderid "
                                   ." from %s c left join %s o on c.parent_orderid = o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." where %s order by c.pay_time desc",
