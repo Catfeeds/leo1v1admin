@@ -9,11 +9,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     public static $files = array (
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '4ab23f771f87cea31b61de77d474100f' => __DIR__ . '/../..' . '/app/Libs/Qiniu/functions.php',
@@ -25,18 +24,17 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
-        'X' => 
-        array (
-            'XdgBaseDir\\' => 11,
-        ),
         'W' => 
         array (
             'Webmozart\\Assert\\' => 17,
         ),
+        'T' => 
+        array (
+            'TijsVerkoyen\\CssToInlineStyles\\' => 31,
+        ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Util\\' => 22,
-            'Symfony\\Polyfill\\Php56\\' => 23,
+            'Symfony\\Polyfill\\Php70\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
@@ -51,7 +49,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
-            'SuperClosure\\' => 13,
+        ),
+        'R' => 
+        array (
+            'Ramsey\\Uuid\\' => 12,
         ),
         'Q' => 
         array (
@@ -59,11 +60,11 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         ),
         'P' => 
         array (
-            'Psy\\' => 4,
+            'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
+            'Psr\\Container\\' => 14,
             'Proto\\agent_api\\' => 16,
             'Predis\\' => 7,
-            'PhpParser\\' => 10,
         ),
         'M' => 
         array (
@@ -77,21 +78,30 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             'Illuminate\\' => 11,
         ),
+        'G' => 
+        array (
+            'Gregwar\\' => 8,
+        ),
         'F' => 
         array (
             'Faker\\' => 6,
+        ),
+        'E' => 
+        array (
+            'Egulias\\EmailValidator\\' => 23,
         ),
         'D' => 
         array (
             'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Common\\Inflector\\' => 26,
             'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
         ),
         'C' => 
         array (
             'Cron\\' => 5,
-            'ClassPreloader\\' => 15,
             'Carbon\\' => 7,
         ),
         'A' => 
@@ -107,21 +117,17 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
-        'XdgBaseDir\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
-        ),
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
-        'Symfony\\Polyfill\\Util\\' => 
+        'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
+            0 => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src',
         ),
-        'Symfony\\Polyfill\\Php56\\' => 
+        'Symfony\\Polyfill\\Php70\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php70',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -179,21 +185,25 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
-        'SuperClosure\\' => 
+        'Ramsey\\Uuid\\' => 
         array (
-            0 => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src',
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
         'Qiniu\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Libs/Qiniu',
         ),
-        'Psy\\' => 
+        'Psr\\SimpleCache\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
         ),
         'Proto\\agent_api\\' => 
         array (
@@ -202,10 +212,6 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'Predis\\' => 
         array (
             0 => __DIR__ . '/..' . '/predis/predis/src',
-        ),
-        'PhpParser\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
         'Monolog\\' => 
         array (
@@ -219,9 +225,17 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
         ),
+        'Gregwar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gregwar/captcha/src/Gregwar',
+        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
+        ),
+        'Egulias\\EmailValidator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
         ),
         'Dotenv\\' => 
         array (
@@ -231,9 +245,17 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Doctrine\\Common\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+        ),
         'Doctrine\\Common\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
         ),
         'Doctrine\\Common\\' => 
         array (
@@ -242,10 +264,6 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
-        ),
-        'ClassPreloader\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/classpreloader/classpreloader/src',
         ),
         'Carbon\\' => 
         array (
@@ -271,6 +289,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
             ),
+            'Parsedown' => 
+            array (
+                0 => __DIR__ . '/..' . '/erusev/parsedown',
+            ),
             'PHPExcel' => 
             array (
                 0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
@@ -283,17 +305,6 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
                 0 => __DIR__ . '/..' . '/mockery/mockery/library',
             ),
         ),
-        'J' => 
-        array (
-            'JakubOnderka\\PhpConsoleHighlighter' => 
-            array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
-            ),
-            'JakubOnderka\\PhpConsoleColor' => 
-            array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
-            ),
-        ),
         'D' => 
         array (
             'Doctrine\\DBAL\\' => 
@@ -304,17 +315,9 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
             ),
-            'Doctrine\\Common\\Inflector\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
-            ),
             'Doctrine\\Common\\Collections\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/collections/lib',
-            ),
-            'Doctrine\\Common\\Annotations\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
             ),
         ),
     );
@@ -327,6 +330,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'AddLeaderPowerForCompanyWxTag' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_144910_add_leader_power_for_company_wx_tag.php',
         'AddPermissionForCompanyWxUsers' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_173608_add_permission_for_company_wx_users.php',
         'AddPowerForManager' => __DIR__ . '/../..' . '/database/migrations/2017_11_30_182706_add_power_for_manager.php',
+        'AddRefundWarningCountForStudentInfo' => __DIR__ . '/../..' . '/database/migrations/2018_02_03_114325_add_refund_warning_count_for_student_info.php',
         'AddRefundWarningForStudentInfo' => __DIR__ . '/../..' . '/database/migrations/2018_02_02_112939_add_refund_warning_for_student_info.php',
         'AddRidForCompanyWxUsers' => __DIR__ . '/../..' . '/database/migrations/2017_11_24_103609_add_rid_for_company_wx_users.php',
         'AddTTeacherApproveReferToData' => __DIR__ . '/../..' . '/database/migrations/2018_01_04_143621_add_t_teacher_approve_refer_to_data.php',
@@ -335,6 +339,9 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'AddVotesToTAgentDailyLottery' => __DIR__ . '/../..' . '/database/migrations/2017_11_18_163011_add_votes_to_t_agent_daily_lottery.php',
         'AddVotesToTAgentIncomeLog' => __DIR__ . '/../..' . '/database/migrations/2017_11_22_104231_add_votes_to_t_agent_income_log.php',
         'AddVotesToTAgentIncomeLog_2' => __DIR__ . '/../..' . '/database/migrations/2017_11_23_094700_add_votes_to_t_agent_income_log.php',
+        'AddVotesToTSellerStudentSystemReleaseLog' => __DIR__ . '/../..' . '/database/migrations/2018_02_03_152550_add_votes_to_t_seller_student_system_release_log.php',
+        'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
+        'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'CompanyWxApprovalDataAddPageUrl' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_113512_company_wx_approval_data_add_page_url.php',
         'CreateAdminSubjectGrdaeTypeConfigList' => __DIR__ . '/../..' . '/database/migrations/2018_01_18_160411_create_admin_subject_grdae_type_config_list.php',
         'CreateCompanyWxApprovalNotify' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_144334_create_company_wx_approval_notify.php',
@@ -355,6 +362,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'CreateTArea' => __DIR__ . '/../..' . '/database/migrations/2017_12_07_175834_create_t_area.php',
         'CreateTAssStuChangeList' => __DIR__ . '/../..' . '/database/migrations/2017_11_10_101911_create_t_ass_stu_change_list.php',
         'CreateTCcDayTop' => __DIR__ . '/../..' . '/database/migrations/2018_01_27_132253_create_t_cc_day_top.php',
+        'CreateTCcNoReturnCall' => __DIR__ . '/../..' . '/database/migrations/2018_02_05_110501_create_t_cc_no_return_call.php',
         'CreateTChannelFunnelArchiveData' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_100747_create_t_channel_funnel_archive_data.php',
         'CreateTChannelNodeTypeStatistics' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_175333_create_t_channel_node_type_statistics.php',
         'CreateTFunnelChannelStatistics' => __DIR__ . '/../..' . '/database/migrations/2017_12_05_164434_create_t_funnel_channel_statistics.php',
@@ -403,7 +411,9 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'DeleteCycleCloumnFromTAgetn' => __DIR__ . '/../..' . '/database/migrations/2017_11_13_171716_delete_cycle_cloumn_from_t_agetn.php',
         'DeleteUniqueKeyForTeacherSalaryList' => __DIR__ . '/../..' . '/database/migrations/2017_11_14_134920_delete_unique_key_for_teacher_salary_list.php',
+        'DivisionByZeroError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
         'DropTableTPeriodOrderRepaymentList' => __DIR__ . '/../..' . '/database/migrations/2017_10_13_161932_drop_table_t_period_order_repayment_list.php',
+        'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
@@ -475,7 +485,6 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
-        'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
         'MarkerPosterReset' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_135328_marker_poster_reset.php',
         'MarketPosterLastest' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_153102_market_poster_lastest.php',
         'ModifyIndexToTOriginKey' => __DIR__ . '/../..' . '/database/migrations/2017_12_01_094720_modify_index_to_t_origin_key.php',
@@ -887,6 +896,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PageTrack' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_164418_page_track.php',
+        'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
         'Qiniu\\Auth' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Auth.php',
         'Qiniu\\Cdn\\CdnManager' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Cdn/CdnManager.php',
         'Qiniu\\Config' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Config.php',
@@ -941,8 +951,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'SebastianBergmann\\RecursionContext\\Exception' => __DIR__ . '/..' . '/sebastian/recursion-context/src/Exception.php',
         'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => __DIR__ . '/..' . '/sebastian/recursion-context/src/InvalidArgumentException.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
         'TActivityUsuallyAdd' => __DIR__ . '/../..' . '/database/migrations/2017_12_24_142104_t_activity_usually_add.php',
         'TActivityUsuallyAddNum' => __DIR__ . '/../..' . '/database/migrations/2018_01_26_161331_t_activity_usually_add_num.php',
+        'TActivityUsuallyAddUseFlag' => __DIR__ . '/../..' . '/database/migrations/2018_02_02_205759_t_activity_usually_add_use_flag.php',
         'TActivityUsuallyReset' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_113554_t_activity_usually_reset.php',
         'TActivityUsuallyResetName' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_151538_t_activity_usually_reset_name.php',
         'TAdminWorkStartTime' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_170053_t_admin_work_start_time.php',
@@ -1029,6 +1041,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TOrderActivityInfoAddChangeValue' => __DIR__ . '/../..' . '/database/migrations/2017_11_18_180834_t_order_activity_info_add_change_value.php',
         'TOrderActivityInfoCanPeriodFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_163754_t_order_activity_info_can_period_flag.php',
         'TOrderInfoAddCanPeriodFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_115944_t_order_info_add_can_period_flag.php',
+        'TOrderInfoAddFirstCheckTime' => __DIR__ . '/../..' . '/database/migrations/2018_02_03_153947_t_order_info_add_first_check_time.php',
         'TOrderRefundAddShouldRefundMoney' => __DIR__ . '/../..' . '/database/migrations/2018_01_27_153309_t_order_refund_add_should_refund_money.php',
         'TOrderRefundAddSubjectTeacher' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_141618_t_order_refund_add_subject_teacher.php',
         'TOrderidOrdernoListAddCourseid' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_155007_t_orderid_orderno_list_add_courseid.php',
@@ -1065,8 +1078,8 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TResourceFileAddFilePoster' => __DIR__ . '/../..' . '/database/migrations/2017_12_21_103316_t_resource_file_add_file_poster.php',
         'TResourceFileAddWxIndex' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_144649_t_resource_file_add_wx_index.php',
         'TResourceFileErrorInfo' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_181758_t_resource_file_error_info.php',
-        'TResourceFileErrorInfoAddStatus' => __DIR__ . '/../..' . '/database/migrations/2018_02_02_171505_t_resource_file_error_info_add_status.php',
         'TResourceFileErrorInfoAddTrainType' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_110644_t_resource_file_error_info_add_train_type.php',
+        'TResourceFileErrorInfoChangeStatus' => __DIR__ . '/../..' . '/database/migrations/2018_02_05_151001_t_resource_file_error_info_change_status.php',
         'TResourceFileEvalutation' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_172419_t_resource_file_evalutation.php',
         'TResourceFileReset' => __DIR__ . '/../..' . '/database/migrations/2017_12_30_111310_t_resource_file_reset.php',
         'TRevisitAssessInfoDropRevisitNumCallCount' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_114323_t_revisit_assess_info_drop_revisit_num_call_count.php',
@@ -1208,6 +1221,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TWxGiveBookModifyColumon' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_172130_t_wx_give_book_modify_columon.php',
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
+        'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
         'UpdateThroughNewTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_194743_update_through_new_time.php',
         'XMPPHP_BOSH' => __DIR__ . '/../..' . '/app/Libs/xmpp/BOSH.php',
         'XMPPHP_Exception' => __DIR__ . '/../..' . '/app/Libs/xmpp/Exception.php',
