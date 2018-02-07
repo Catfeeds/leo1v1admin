@@ -454,7 +454,7 @@ class Controller extends ControllerEx
         if ($role==2 &&  $teacherid ) {
             return $teacherid;
         }else{
-            return $this->output_err("未登录");
+            return 0;
         }
     }
 
