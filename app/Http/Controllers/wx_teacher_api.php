@@ -1436,19 +1436,19 @@ class wx_teacher_api extends Controller
         }else{
             $status = 1;
         }
-        $stu_lessonid = $this->t_lesson_info_b3->checkIsStu($uuid);
-        $tea_lessonid = $this->t_lesson_info_b3->checkIsTea($uuid);
-        if($stu_lessonid){
-            $this->t_lesson_info_b3->field_update_list($stu_lessonid, [
-                "ppt_status_stu" => $status
-            ]);
-        }elseif($tea_lessonid){
-            $this->t_lesson_info_b3->field_update_list($tea_lessonid, [
-                "ppt_status" => $status
-            ]);
-        }
+        // $stu_lessonid = $this->t_lesson_info_b3->checkIsStu($uuid);
+        // $tea_lessonid = $this->t_lesson_info_b3->checkIsTea($uuid);
+        // if($stu_lessonid){
+        //     $this->t_lesson_info_b3->field_update_list($stu_lessonid, [
+        //         "ppt_status_stu" => $status
+        //     ]);
+        // }elseif($tea_lessonid){
+        //     $this->t_lesson_info_b3->field_update_list($tea_lessonid, [
+        //         "ppt_status" => $status
+        //     ]);
+        // }
 
-        // $this->t_lesson_info_b3->updateStatusByUuid($uuid,$status);
+        $this->t_lesson_info_b3->updateStatusByUuid($uuid,$status);
         return $this->output_succ();
     }
 
