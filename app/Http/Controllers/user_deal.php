@@ -4404,6 +4404,9 @@ class user_deal extends Controller
         foreach($last_refund_list as $item){
             if($item['real_refund']>0){
                 $last_all_price += ($item['price']-$item['real_refund'])/100;
+                if($account == '李丹'){
+                    dd($last_all_price);
+                }
             }
         }
         $arr['last_all_price'] = $last_all_price;
