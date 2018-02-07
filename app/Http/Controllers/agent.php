@@ -441,6 +441,13 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $manager_info = $this->t_manager_info->field_get_list($adminid=962,'become_member_time,del_flag,leave_member_time');
+        // if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
+        $kpi = 0;
+        if($manager_info["become_member_time"]>0 && ($end_time=1517414400-$manager_info["become_member_time"])<3600*24*60){
+            $kpi = "100%";
+        }
+        dd($kpi);
         $ret = [];
         $group_list= $this->t_order_info->get_item_month_list();
         $uid_list = array_unique(array_column($group_list, 'uid'));
@@ -452,6 +459,7 @@ class agent extends Controller
                 }
             }
         }
+        E\Econtract_from_type::V_11;
         foreach($ret as $uid=>$item){
             $ret[$uid]['price'] = array_sum(array_column($item['list'], 'price'));
         }
