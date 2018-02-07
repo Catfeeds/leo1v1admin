@@ -484,6 +484,7 @@ class menu{
                 ["power_id"=>83, "name"=>"销售2", "list"=>[
                     ["power_id"=>1, "name"=>"系统分配例子信息",   "url"=>"/tongji2/tongji_sys_assign_call_info", "domain_type" =>100],
                     ["power_id"=>2, "name"=>"系统释放例子日志",   "url"=>"/tongji2/tongji_sys_free_log", "domain_type" =>100],
+                    ["power_id"=>3, "name"=>"未回访记录",   "url"=>"/tongji2/no_return_call_list"],
                 ]],
                 ["power_id"=>1, "name"=>"销售", "list"=>[
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],

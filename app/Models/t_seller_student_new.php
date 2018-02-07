@@ -312,23 +312,52 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
         }
         if($data_item && ($tmk_student_status<3 || $orderid>0)){
-            $this->refresh_seller_student($userid,$tmk_student_status,$orderid);
+            $this->check_seller_student($userid,$tmk_student_status,$orderid);
         }
         return $userid;
     }
 
-    public function refresh_seller_student($userid,$tmk_student_status,$orderid){
-        if(in_array($tmk_student_status,[0,2])){
+    public function check_seller_student($userid,$tmk_student_status,$orderid){
+        if(in_array($tmk_student_status,[0,2])){//释放
+            $this->set_seller_student_new($userid);
         }else{
             if($orderid>0){
                 $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
-                if($contract_status>1){
+                if($contract_status>1){//释放
+                    $this->set_seller_student_new($userid);
                 }else{
-                    
+                    if($contract_status == 1){//推送助教
+                    }else{//推送cc
+                    }
                 }
             }else{
+                if($tmk_student_status == 1){//推送tmk
+                }
             }
         }
+    }
+
+    public function set_seller_student_new($userid,$account='系统'){
+        $this->field_update_list($userid,[
+            "seller_resource_type"       => 0,
+            "sub_assign_adminid_1"       => 0,
+            "sub_assign_time_1"          => 0,
+            "sub_assign_adminid_2"       => 0,
+            "sub_assign_time_2"          => 0,
+            "admin_revisiterid"          => 0,
+            "admin_assign_time"          => 0,
+            "competition_call_adminid"   => 0,
+            "competition_call_time"      => 0,
+            "tmk_adminid"                => 0,
+            "seller_student_assign_type" => 0,
+            "sys_invaild_flag"           => 0,
+        ]);
+        $phone= $this->task->t_seller_student_new->get_phone($userid);
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者:$account 状态: 重进例子激活 ",
+            "system"
+        );
     }
 
     public function get_meituan_count_by_adminid(){
