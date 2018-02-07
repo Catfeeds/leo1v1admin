@@ -2870,22 +2870,73 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         });
     }
 
-    public function getNeedTranLessonUid(){
+
+
+    // public function getNeedTranLessonUidTea(){
+    //     $where_arr = [
+    //         "l.lesson_del_flag=0",
+    //         "l.lesson_cancel_time_type=0",
+    //         "(l.zip_url='' or l.zip_url_stu='') ",
+    //         "(l.ppt_status=1 or l.ppt_status_stu=1) ",
+    //         "(l.use_ppt=1 or l.use_ppt_stu=1)",
+    //         "(l.uuid!='' or l.uuid_stu!='')"
+    //     ];
+
+    //     $end = time();
+    //     $start = time()-5*86400;
+    //     $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
+
+
+    //     $sql = $this->gen_sql_new("  select zip_url, zip_url_stu, use_ppt_stu, use_ppt, uuid, uuid_stu, ppt_status_stu,ppt_status, lessonid from %s l "
+    //                               ." where %s limit 3"
+    //                               ,self::DB_TABLE_NAME
+    //                               ,$where_arr
+    //     );
+
+    //     return $this->main_get_list($sql);
+    // }
+
+
+    # 获取需要转化的老师讲义
+    public function getNeedTranLessonUidTea(){
         $where_arr = [
             "l.lesson_del_flag=0",
             "l.lesson_cancel_time_type=0",
-            "(l.zip_url='' or l.zip_url_stu='') ",
-            "(l.ppt_status=1 or l.ppt_status_stu=1) ",
-            "(l.use_ppt=1 or l.use_ppt_stu=1)",
-            "(l.uuid!='' or l.uuid_stu!='')"
+            "l.zip_url='' ",
+            "l.ppt_status=1 ",
+            "l.use_ppt=1 ",
+            "l.uuid!='' "
+        ];
+
+        $end   = time();
+        $start = time()-5*86400;
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
+
+        $sql = $this->gen_sql_new("  select zip_url,  use_ppt, uuid, ppt_status, lessonid as lessonid_tea from %s l "
+                                  ." where %s limit 3"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    # 获取需要转化的学生讲义
+    public function getNeedTranLessonUidStu(){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "l.lesson_cancel_time_type=0",
+            "l.zip_url_stu='' ",
+            "l.ppt_status_stu=1 ",
+            "l.use_ppt_stu=1",
+            "l.uuid_stu!=''"
         ];
 
         $end = time();
         $start = time()-5*86400;
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
 
-
-        $sql = $this->gen_sql_new("  select zip_url, zip_url_stu, use_ppt_stu, use_ppt, uuid, uuid_stu, ppt_status_stu,ppt_status, lessonid from %s l "
+        $sql = $this->gen_sql_new("  select zip_url_stu, use_ppt_stu, uuid_stu, ppt_status_stu, lessonid as lessonid_stu from %s l "
                                   ." where %s limit 3"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -2894,20 +2945,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
-    public function getTeaUploadPPTLink(){
+
+    # 获取需要上传的老师讲义
+    public function getTeaUploadPPTLinkTea(){
         $where_arr = [
             "l.lesson_del_flag=0",
             "l.lesson_cancel_time_type=0",
-            "(l.use_ppt=1 or l.use_ppt_stu=1)",
-            "(l.zip_url='' or l.zip_url_stu='') ",
-            "(l.tea_cw_url!='' or l.stu_cw_url!='')",
+            "l.use_ppt=1 ",
+            "l.zip_url='' ",
+            "l.tea_cw_url!=''",
         ];
 
         $end = time();
         $start = time()-5*60;
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
 
-        $sql = $this->gen_sql_new("  select stu_cw_name, use_ppt, use_ppt_stu, tea_cw_name, tea_cw_url , stu_cw_url, zip_url, zip_url_stu, lessonid from %s l "
+        $sql = $this->gen_sql_new("  select use_ppt, tea_cw_name, tea_cw_url, zip_url,  lessonid as lesson_tea from %s l "
                                   ." where %s limit 3"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -2915,6 +2968,56 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         return $this->main_get_list($sql);
     }
+
+
+    # 获取需要上传的学生讲义
+    public function getTeaUploadPPTLinkStu(){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "l.lesson_cancel_time_type=0",
+            "l.use_ppt_stu=1",
+            "l.zip_url_stu=''",
+            "l.stu_cw_url!=''",
+        ];
+
+        $end = time();
+        $start = time()-5*60;
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
+
+        $sql = $this->gen_sql_new("  select stu_cw_name, use_ppt_stu,   stu_cw_url,  zip_url_stu, lessonid as lesson_stu from %s l "
+                                  ." where %s limit 3"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
+
+
+
+    // public function getTeaUploadPPTLink(){
+    //     $where_arr = [
+    //         "l.lesson_del_flag=0",
+    //         "l.lesson_cancel_time_type=0",
+    //         "(l.use_ppt=1 or l.use_ppt_stu=1)",
+    //         "(l.zip_url='' or l.zip_url_stu='') ",
+    //         "(l.tea_cw_url!='' or l.stu_cw_url!='')",
+    //     ];
+
+    //     $end = time();
+    //     $start = time()-5*60;
+    //     $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
+
+    //     $sql = $this->gen_sql_new("  select stu_cw_name, use_ppt, use_ppt_stu, tea_cw_name, tea_cw_url , stu_cw_url, zip_url, zip_url_stu, lessonid from %s l "
+    //                               ." where %s limit 3"
+    //                               ,self::DB_TABLE_NAME
+    //                               ,$where_arr
+    //     );
+
+    //     return $this->main_get_list($sql);
+    // }
 
     public function updateStatusByUuid($uuid,$status){
         $sql = $this->gen_sql_new("  update %s set ppt_status=$status where uuid='$uuid'"
@@ -3085,7 +3188,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                       $where_arr
             );
 
-            return $this->main_get_list_by_page($sql,$page_info,10,true); 
+            return $this->main_get_list_by_page($sql,$page_info,10,true);
         }elseif($page_flag==2){
             $sql = $this->gen_sql_new("select l.subject,l.grade,l.teacherid,l.lessonid,"
                                       ." l.confirm_flag,l.lesson_cancel_reason_type ,"
@@ -3113,10 +3216,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
             return $this->main_get_list($sql,function($item){
                 return $item["lessonid"];
-            }); 
+            });
         }
 
- 
+
     }
 
     //所有课信息
@@ -3124,8 +3227,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
-            ["l.userid=%u",$userid,-1],         
-            ["l.lessonid=%u",$lessonid,-1],         
+            ["l.userid=%u",$userid,-1],
+            ["l.lessonid=%u",$lessonid,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)",
@@ -3146,7 +3249,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql); 
+        return $this->main_get_list($sql);
 
     }
 
@@ -3155,7 +3258,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             ["lesson_start>=%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
-            ["userid=%u",$userid,-1],         
+            ["userid=%u",$userid,-1],
             "lesson_del_flag=0",
             "confirm_flag<2",
             "lesson_type in (0,1,3)",
@@ -3170,7 +3273,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_row($sql); 
+        return $this->main_get_row($sql);
 
     }
 
@@ -3200,9 +3303,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         if($page_flag==1){
-            return $this->main_get_list_by_page($sql,$page_info); 
+            return $this->main_get_list_by_page($sql,$page_info);
         }elseif($page_flag==2){
-            return $this->main_get_list($sql); 
+            return $this->main_get_list($sql);
         }
     }
     //@desn:获取第四季度在读学生信息
@@ -3374,9 +3477,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         if($page_flag==1){
-            return $this->main_get_list_by_page($sql,$page_info); 
+            return $this->main_get_list_by_page($sql,$page_info);
         }elseif($page_flag==2){
-            return $this->main_get_list($sql); 
+            return $this->main_get_list($sql);
         }
     }
 
@@ -3414,7 +3517,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             ["lesson_start>=%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
-            ["userid=%u",$userid,-1],          
+            ["userid=%u",$userid,-1],
             "lesson_del_flag=0",
             "confirm_flag<2",
             "lesson_type in (0,1,3)"
@@ -3486,10 +3589,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_user_subject_tea_num($userid,$subject){
-        
+
         $where_arr = [
             ["userid=%u",$userid,-1],
-            ["subject=%u",$subject,-1],          
+            ["subject=%u",$subject,-1],
             "lesson_del_flag=0",
             "confirm_flag<2",
             "lesson_type in (0,1,3)",
@@ -3501,10 +3604,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_first_user_subject_tea($userid,$subject){
-        
+
         $where_arr = [
             ["l.userid=%u",$userid,-1],
-            ["l.subject=%u",$subject,-1],          
+            ["l.subject=%u",$subject,-1],
             "l.lesson_del_flag=0",
             "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)",
