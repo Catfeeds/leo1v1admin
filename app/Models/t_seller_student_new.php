@@ -3687,12 +3687,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_new_thousand_stu(){
-        $sql = $this->gen_sql_new("select n.userid,s.grade,n.phone,n.add_time "
+        $sql = $this->gen_sql_new("select distinct n.userid,s.grade,n.phone,n.add_time "
                                   ." from %s n left join %s s on n.userid = s.userid"
-                                  ." where s.grade in (101,102,103) and s.is_test_user=0"
-                                  . " order by n.add_time desc limit 1000",
+                                  ." left join %s o on n.userid = o.userid and o.price>0 and o.contract_type=0"
+                                  ." where s.grade in (101,102,103) and s.is_test_user=0 and o.orderid is null"
+                                  . " group by n.userid order by n.add_time desc limit 1000",
                                   self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
