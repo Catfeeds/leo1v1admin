@@ -1077,8 +1077,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["gu.month=%u" , $month, -1],
             "contract_type in(0,3)",
             "contract_status in(1,2)",
-            // "stu_from_type=0 or stu_from_type=11",
-            "stu_from_type=0",
+            "stu_from_type=0 or stu_from_type=11",
+            // "stu_from_type=0",
             "m.account_role=2",
         ];
         $sql = $this->gen_sql_new(" select g.groupid, group_name , sum(price) all_price,"
