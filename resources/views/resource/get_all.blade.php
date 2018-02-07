@@ -52,7 +52,7 @@
      .error .color-blue{ padding:0px 10px}
      .error .error_status{ color:#616561 }
      .error .error_file_status{ color:red}
-     .error .error_status_pass{ color:#04a704 }
+     .error .error_status_pass{  }
     </style>
     <section class="content">
 

@@ -50,33 +50,13 @@ class pdfConversionH5 extends Command
 
         $handoutArray = $this->getNeedTranLessonUid();
 
-        // $handoutArray = [
-        //     [
-        //         "uuid_stu"=>'cf0a4f0b1ff72ea9b9844466aa043c94',
-        //         "ppt_status_stu" => '1',
-        //         "zip_url_stu" => '',
-        //         "uuid" => 'dd3befdb8076ee124d4626dcd40f4c32',
-        //         "ppt_status" => '',
-        //         "zip_url" => ''
-        //     ]
-
-        // ];
         foreach($handoutArray as $item){
-            if($item['uuid_stu'] && $item['ppt_status_stu'] == 1 && $item['zip_url_stu'] == ''){
-                $this->deal_change($item,2,$email,$pwd); # 处理学生讲义
-            }
-            if($item['uuid'] && $item['ppt_status'] == 1 && $item['zip_url'] == ''){
-                $this->deal_change($item,1,$email,$pwd); # 处理教师讲义
-            }
+            $this->deal_change($item,$email,$pwd); # 处理学生讲义
         }
     }
 
-    public function deal_change($item,$is_tea,$email,$pwd){
-        if($is_tea == 1){
-            $uuid = $item['uuid'];
-        }else{
-            $uuid = $item['uuid_stu'];
-        }
+    public function deal_change($item,$email,$pwd){
+        $uuid = $item['uuid'];
         # 从未达下载
         $h5DownloadUrl  = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
         $saveH5FilePath = public_path('ppt').'/'.$uuid.".zip";
@@ -145,17 +125,18 @@ class pdfConversionH5 extends Command
             shell_exec($rmResourceCmd);
 
             # 在42服务器端执行此段程序
-            $this->updateTranResult($item['lessonid'],$saveH5Upload,$is_tea);
+            $this->updateTranResult($item['lessonid'],$saveH5Upload,$item['is_tea'],$item['id']);
         }
 
     }
 
-    public function updateTranResult($lessonid,$saveH5Upload,$is_tea){
-        $url = "http://test.admin.leo1v1.com/common_new/updateTranResult";
+    public function updateTranResult($lessonid,$saveH5Upload,$is_tea,$id){
+        $url = "http://admin.leo1v1.com/common_new/updateTranResult";
         $post_data = array(
             "lessonid" => $lessonid,
             "zip_url"  => $saveH5Upload,
-            "is_tea"   => $is_tea
+            "is_tea"   => $is_tea,
+            "id"       => $id
         );
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
@@ -168,7 +149,7 @@ class pdfConversionH5 extends Command
     }
 
     public function getNeedTranLessonUid(){
-        $url = "http://test.admin.leo1v1.com/common_new/getNeedTranLessonUid";
+        $url = "http://admin.leo1v1.com/common_new/getNeedTranLessonUid";
         $post_data = [];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
