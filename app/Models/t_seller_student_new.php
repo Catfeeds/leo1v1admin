@@ -3686,4 +3686,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_new_thousand_stu(){
+        $sql = $this->gen_sql_new("select n.userid,s.grade,n.phone,n.add_time "
+                                  ." from %s n left join %s s on n.userid = s.userid"
+                                  ." where s.grade in (101,102,103) and s.is_test_user=0"
+                                  . " order by n.add_time desc limit 1000",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 }
