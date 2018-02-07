@@ -1480,12 +1480,12 @@ class user_manage_new extends Controller
         $account_id = $this->get_account_id();
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
-        if($is_master>0 || $account_id==349 || $account_id==188){
-            $up_master_adminid=-1;
-        }else{
-            $up_master_adminid=0;
-        }
-
+        // if($is_master>0 || $account_id==349 || $account_id==188 || $account_id){
+        //     $up_master_adminid=-1;
+        // }else{
+        //     $up_master_adminid=0;
+        // }
+        $up_master_adminid=-1;
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target,group_renew_target,all_renew_target");
         $ret_info = $this->t_manager_info->get_assistant_month_target_info($start_time,$up_master_adminid,$account_id);
         $ret_info['list']=\App\Helper\Common::gen_admin_member_data($ret_info['list']);

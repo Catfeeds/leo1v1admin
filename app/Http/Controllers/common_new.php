@@ -735,7 +735,7 @@ class common_new extends Controller
         $pdf_url  = $this->t_lesson_info->get_tea_cw_url($lessonid);
 
         $arr = explode('.', $pdf_url);
-        if($pdf_url ){
+        if($pdf_url && strtolower($arr['1']) == 'pdf'){
             $this->t_pdf_to_png_info->row_insert([
                 'lessonid'    => $lessonid,
                 'pdf_url'     => $pdf_url,
@@ -1968,7 +1968,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $lessonid = $this->get_in_int_val('lessonid');
         $zip_url  = $this->get_in_str_val('zip_url');
         $is_tea   = $this->get_in_int_val('is_tea');
-        \App\Helper\Utils::logger("2_1zip_url: $zip_url; is_tea:$is_tea");
+        $id       = $this->get_in_int_val('id');
 
         if($is_tea == 1 ){ # 老师
             $this->t_lesson_info_b3->field_update_list($lessonid,[
@@ -1979,36 +1979,33 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 "zip_url_stu" => $zip_url
             ]);
         }
+        $this->t_deal_ppt_to_h5->field_update_list($id, [
+            "is_succ" => 1
+        ]);
         return $this->output_succ();
     }
 
     # 42服务器端请求此接口 获取数据
     public function getNeedTranLessonUid(){
-        $ret_info = $this->t_lesson_info_b3->getNeedTranLessonUid();
+        $ret_info = $this->t_deal_ppt_to_h5->getNeedTranLessonUid();
         return $this->output_succ(['data'=>$ret_info]);
     }
 
     # 42服务器获取老师上传ppt文件
     public function getTeaUploadPPTLink(){
-        $ret_info = $this->t_lesson_info_b3->getTeaUploadPPTLink();
+        $ret_info = $this->t_deal_ppt_to_h5->getTeaUploadPPTLink();
         return $this->output_succ(['data'=>$ret_info]);
     }
 
     # 42服务器更新 lesson_info uuid
     public function updateLessonUUid(){
-        $lessonid = $this->get_in_int_val('lessonid');
+        $id = $this->get_in_int_val('id');
         $uuid     = $this->get_in_str_val('uuid');
         $is_tea   = $this->get_in_int_val('is_tea');
-
-        if($is_tea == 1){
-            $this->t_lesson_info->field_update_list($lessonid, [
-                "uuid"=>$uuid
-            ]);
-        }else{
-            $this->t_lesson_info->field_update_list($lessonid, [
-                "uuid_stu"=>$uuid
-            ]);
-        }
+        $this->t_deal_ppt_to_h5->field_update_list($id, [
+            "uuid" => $uuid,
+            "id_deal_falg" => 1
+        ]);
         return $this->output_succ();
     }
 
@@ -2033,7 +2030,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             ]);
         }
         header("Location: http://wx-parent-web.leo1v1.com/constract/index.html?url=$url");
-        // header("Location: $url");
         return;
     }
 

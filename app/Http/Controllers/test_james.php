@@ -419,10 +419,20 @@ class test_james extends Controller
             $table->index('uuid_stu', 'uuid_stu_ppt');
         });
 
-        Schema::dropIfExists('t_poster_share_log');
-        Schema::table('db_weiyi.t_order_info', function(Blueprint $table) {
-            t_field($table->integer("first_check_time"), "家长首次查看时间");
+        Schema::create('db_weiyi.t_deal_ppt_to_h5', function(Blueprint $table) {
+            t_comment($table, "ppt转h5日志表");
+            t_field($table->increments("id"), "");
+            t_field($table->integer("add_time"), "添加时间");
+            t_field($table->integer("lessonid"), "课程ID");
+            t_field($table->tinyInteger("is_tea"), "0:学生 1:老师");
+            t_field($table->string("ppt_url"), "标记类别");
+            t_field($table->tinyInteger("id_deal_falg"), "0:未设置 1:已成功 2:转化中");
+
+            $table->index('lessonid');
+            $table->index('add_time');
+            $table->index('ppt_url');
         });
+
 
     }
 
@@ -1812,5 +1822,20 @@ class test_james extends Controller
         $ret_arr = Redis::keys($key);
         dd($ret_arr);
     }
+
+    public function checkTime(){
+        $arrp = ['PDf'];
+        if(strtolower($arrp[0]) == 'pdf'){
+            dd(1);
+        }
+        dd($arrp[0]);
+    }
+
+    # 记录点击次数
+    // $key = "thinking_openid_".@$user_info['openid']."_test";
+    // $key_num = 'thinking_record_test';
+    // Redis::INCR($key_num);
+    // Redis::set($key,1);
+
 
 }

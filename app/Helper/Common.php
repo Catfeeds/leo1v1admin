@@ -444,7 +444,6 @@ class Common {
         return $ret;
     }
 
-
     static function send_mail_leo_com ( $address ,$title ,$message ,$is_html=true) {
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));

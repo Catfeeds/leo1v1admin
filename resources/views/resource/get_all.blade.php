@@ -46,13 +46,13 @@
      .error .error_content{ padding: 10px 5px;background: #fbfbfb;}
      .error .error_detail tr th,.error .error_detail tr td{border: 1px solid #aab2b7;padding:7px 10px;  }
      .error .error_detail .look_err_pic{ background: #d2cfcf;padding: 0px 12px;color: #3290a7;margin-right: 10px;}
-     .error_type_1,.error_type_2{font-size: 16px;font-weight: bold;color:#029dc3;margin-right: 10px;}
+     .error_type_1,.error_type_2{color:#029dc3;margin-right: 10px;}
      .error_author{ margin: 0px 20px;color: #6f6a6a;}
      .error_time{color: #6f6a6a; }
      .error .color-blue{ padding:0px 10px}
      .error .error_status{ color:#616561 }
      .error .error_file_status{ color:red}
-     .error .error_status_pass{ color:#04a704 }
+     .error .error_status_pass{  }
     </style>
     <section class="content">
 
@@ -182,7 +182,7 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="max-width:200px">文件名</td>
+                    <td style="max-width:200px;word-wrap: break-word;">文件名</td>
                     <td>修改日期</td>
                     <td>操作人</td>
                     <td>文件格式</td>
@@ -714,7 +714,7 @@
     <div class="error hide">
         <div class="error_info">
             <span class="error_title">全部报错（<b class="error_no">0</b>）</span>
-            <div class="error_status_choose">
+            <div class="error_status_choose hide">
                 <span>状态选择</span>
                 <select class="form-control error_choose">
                     <option value="-1">全部</option>

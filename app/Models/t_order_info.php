@@ -946,6 +946,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_refund_month_money($account,$start_time,$end_time) {
+        $where_arr = [
+            ["o1.order_time>=%u" , $start_time, -1],
+            ["o1.order_time<=%u" , $end_time, -1],
+            ["is_test_user=%u" , 0, -1],
+            "o1.contract_type =0 ",
+            ["o1.sys_operator='%s'" ,$account,""],
+            'contract_status=3',
+        ];
+        $sql = $this->gen_sql_new(
+            " select o1.price,r.real_refund "
+            ." from %s o1 "
+            ." left join %s s2 on o1.userid = s2.userid "
+            ." left join %s r on r.orderid = o1.orderid "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_order_refund::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 15" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
         $where_arr = [
             "is_test_user=0",
@@ -1054,8 +1077,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["gu.month=%u" , $month, -1],
             "contract_type in(0,3)",
             "contract_status in(1,2)",
-            // "stu_from_type=0 or stu_from_type=11",
-            "stu_from_type=0",
+            "stu_from_type=0 or stu_from_type=11",
+            // "stu_from_type=0",
             "m.account_role=2",
         ];
         $sql = $this->gen_sql_new(" select g.groupid, group_name , sum(price) all_price,"
@@ -5112,5 +5135,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_item_month_list(){
+        $sql = "select m.uid,m.account,o.sys_operator,o.orderid,o.price/100 price  from db_weiyi.t_order_info o , db_weiyi.t_student_info s , db_weiyi_admin.t_manager_info m,  db_weiyi_admin.t_group_user_month gu,   db_weiyi_admin.t_group_name_month g   where  o.userid = s.userid   and    o.sys_operator =m.account   and    m.uid=gu.adminid  and    gu.groupid =g.groupid and     order_time>=1514736000 and order_time<=1517414400 and is_test_user=0 and g.groupid=111 and g.month=1514736000 and gu.month=1514736000 and contract_type in(0,3) and contract_status in(1,2) and stu_from_type=0 and m.account_role=2 order by sys_operator,price desc";
+        return $this->main_get_list($sql);
+    }
 }
 

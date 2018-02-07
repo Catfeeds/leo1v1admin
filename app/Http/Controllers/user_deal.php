@@ -4032,22 +4032,44 @@ class user_deal extends Controller
         $all_renew_target   = $this->get_in_str_val("all_renew_target");
 
         $res = $this->t_ass_group_target->field_get_list($month,"month");
+        $old_arr = $this->t_ass_group_target->field_get_list($month,"rate_target,renew_target,group_renew_target,all_renew_target,change_log");
+        $new_arr =[
+            "rate_target"=>$lesson_target,
+            "renew_target"=>$renew_target,
+            "group_renew_target"=>$group_renew_target,
+            "all_renew_target"=>$all_renew_target,
+        ];
+        $change_log = json_decode($old_arr["change_log"],true);
+        $change_log[] =[
+            "time" =>time(),
+            "acc"  =>$this->get_account(),
+            "old"  =>$old_arr,
+            "new"  =>$new_arr
+        ];
+        $log_new = json_encode($change_log);
+
         if($res){
-            $this->t_ass_group_target->field_update_list($month,[
+            $ret = $this->t_ass_group_target->field_update_list($month,[
                 "rate_target"=>$lesson_target,
                 "renew_target"=>$renew_target,
                 "group_renew_target"=>$group_renew_target,
-                "all_renew_target"=>$all_renew_target,
+                "all_renew_target"=>$all_renew_target
             ]);
 
         }else{
-            $this->t_ass_group_target->row_insert([
+           $ret= $this->t_ass_group_target->row_insert([
                 "rate_target"=>$lesson_target,
                 "month"=>$month,
                 "renew_target"=>$renew_target,
                 "group_renew_target"=>$group_renew_target,
-                "all_renew_target"=>$all_renew_target,
+                "all_renew_target"=>$all_renew_target
             ]);
+        }
+        if($ret){
+            $ret= $this->t_ass_group_target->row_insert([
+                "change_log"      =>$log_new
+            ]);
+
         }
         return $this->output_succ();
 
@@ -4400,6 +4422,12 @@ class user_deal extends Controller
         }
         $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
         $last_all_price = isset($last_all_price)?$last_all_price/100:0;
+        $last_refund_list = $this->t_order_info->get_refund_month_money($account,$start_time_last,$end_time_last);
+        foreach($last_refund_list as $item){
+            if($item['real_refund']>0){
+                $last_all_price += ($item['price']-$item['real_refund'])/100;
+            }
+        }
         $arr['last_all_price'] = $last_all_price;
         //上月团队金额
         $last_group_list = $this->t_order_info->month_get_1v1_order_seller_list_group($start_time_last,$end_time_last,$adminid);

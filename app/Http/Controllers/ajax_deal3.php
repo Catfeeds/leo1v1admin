@@ -33,6 +33,9 @@ class ajax_deal3 extends Controller
             $env_is_test = 0;
 
         $new_count = $this->t_seller_student_new_b2->get_today_new_count($adminid);
+        //获取用户身份[是否系统分配用户]
+        $seller_student_assign_type = $this->t_manager_info->field_get_value($adminid, 'seller_student_assign_type');
+
 
         if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
 
@@ -87,6 +90,7 @@ class ajax_deal3 extends Controller
             "max_hold_count" =>$max_hold_count,
             "hold_count" =>$hold_count,
             'no_call_test_succ' => $no_call_test_succ,
+            'seller_student_assign_type' => $seller_student_assign_type,
             'env_is_test' => $env_is_test
         ]);
     }
@@ -951,6 +955,22 @@ class ajax_deal3 extends Controller
 
         }
         return $this->output_succ();
+
+    }
+
+
+    //查询助教目标值更改记录
+    public function get_assistant_target_change_list(){
+        $month   = strtotime($this->get_in_str_val("month"));
+        $log = $this->t_ass_group_target->get_change_log($month);
+        $list = json_decode($log,true);
+        \App\Helper\Utils::order_list( $list,"time", 0);
+        foreach($list as &$item){
+            $item["time_str"] = date("Y-m-d H:i:s",$item["time"]);
+            $item["old_str"] = "系数:".$item["old"]["rate_target"]."\n助教月续费目标:".($item["old"]["renew_target"]/100)."\n团队月续费目标".($item["old"]["group_renew_target"]/100)."\n总体月续费目标:".($item["old"]["all_renew_target"]/100);
+            $item["new_str"] = "系数:".$item["new"]["rate_target"]."\n助教月续费目标:".($item["new"]["renew_target"]/100)."\n团队月续费目标".($item["new"]["group_renew_target"]/100)."\n总体月续费目标:".($item["new"]["all_renew_target"]/100);
+        }
+        return $this->output_succ(["data" => $list]);
 
     }
 
