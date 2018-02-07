@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_deal_ppt_to_h5","id"],
     ["db_weiyi","t_cc_no_return_call","uid"],
     ["db_weiyi","t_seller_student_do_tag_log","id"],
     ["db_weiyi_admin","t_seller_student_system_release_log","id"],

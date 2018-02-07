@@ -46,7 +46,7 @@
      .error .error_content{ padding: 10px 5px;background: #fbfbfb;}
      .error .error_detail tr th,.error .error_detail tr td{border: 1px solid #aab2b7;padding:7px 10px;  }
      .error .error_detail .look_err_pic{ background: #d2cfcf;padding: 0px 12px;color: #3290a7;margin-right: 10px;}
-     .error_type_1,.error_type_2{font-size: 16px;font-weight: bold;color:#029dc3;margin-right: 10px;}
+     .error_type_1,.error_type_2{color:#029dc3;margin-right: 10px;}
      .error_author{ margin: 0px 20px;color: #6f6a6a;}
      .error_time{color: #6f6a6a; }
      .error .color-blue{ padding:0px 10px}
