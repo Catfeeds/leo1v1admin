@@ -19,15 +19,24 @@ class tea_manage_new extends Controller
 
     }
 
+    /**
+     * 更改老师的工资类型
+     * @param int teacherid
+     * @param int teacher_money_type 更改后的老师工资类型
+     * @param int level 更改后的老师等级
+     * @param int start_time 更改后的老师等级
+     */
     public function update_teacher_level() {
         $teacherid                 = $this->get_in_teacherid();
         $account                   = $this->get_account();
         $level                     = $this->get_in_int_val("level");
         $start_time                = $this->get_in_start_time_from_str();
-        $lesson_confirm_start_time = strtotime( \App\Helper\Config::get_lesson_confirm_start_time());
 
-        if ($start_time<$lesson_confirm_start_time && $start_time>0) {
-            $start_time = $lesson_confirm_start_time;
+        if($start_time>0){
+            $check_start_time_flag = \App\Helper\Utils::check_teacher_salary_time($start_time);
+            if(!$check_start_time_flag){
+                return $this->output_err("重置课程开始时间过早，只能重置未结算工资的课程");
+            }
         }
 
         $teacher_money_type = $this->get_in_int_val("teacher_money_type");

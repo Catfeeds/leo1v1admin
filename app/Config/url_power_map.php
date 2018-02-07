@@ -452,7 +452,6 @@ class url_power_map {
 			'/seller_student/no_called_list'	=>1119012,
 			'/seller_student/ass_add_student_list_seller'	=>1119007,
 			'/seller_student/student_sub_list'	=>1119003,
-			'/main_page/assistant_leader'	=>1140000,
 			'/main_page/assistant_leader_new'	=>1138000,
 			'/tongji2/ass_month_kpi_tongji_master'	=>1138800,
 			'/main_page/assistant_main_leader_new'	=>1138200,
