@@ -4403,7 +4403,7 @@ class user_deal extends Controller
         $last_refund_list = $this->t_order_info->get_refund_month_money($account,$start_time,$end_time);
         foreach($last_refund_list as $item){
             if($item['real_refund']>0){
-                $last_refund_list += ($item['price']-$item['real_refund'])/100;
+                $last_all_price += ($item['price']-$item['real_refund'])/100;
             }
         }
         $arr['last_all_price'] = $last_all_price;
