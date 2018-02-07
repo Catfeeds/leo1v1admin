@@ -5,6 +5,9 @@
  */
 //定义一个区域图类：
 function GooFlow(bgDiv,property){
+
+
+  // ============================ 初始化 ===================================
 	if (navigator.userAgent.indexOf("MSIE 8.0")>0||navigator.userAgent.indexOf("MSIE 7.0")>0||navigator.userAgent.indexOf("MSIE 6.0")>0)
 		GooFlow.prototype.useSVG="";
 	else	GooFlow.prototype.useSVG="1";
@@ -45,6 +48,9 @@ function GooFlow(bgDiv,property){
 	var headHeight=0;
 	var tmp="";
 
+
+
+    // ======================================== 处理头部工具栏 =======================================================
 	if(property.haveHead){
 		tmp="<div class='GooFlow_head' "+(GooFlow.prototype.color.main? "style='border-bottom-color:"+GooFlow.prototype.color.main+"'" : "")
 		+">";
@@ -81,10 +87,13 @@ function GooFlow(bgDiv,property){
 				case "ico_undo":	This.undo();break;
 				case "ico_redo":	This.redo();break;
 				case "ico_reload":  if(This.onFreshClick!=null)	This.onFreshClick();break;
-                case "ico_print":   if(This.onPrintClick!=null)	This.onPrintClick();break;
+      case "ico_print":   if(This.onPrintClick!=null)	This.onPrintClick();break;
 			}
 		});
 	}
+
+
+    // =============================================== 处理侧边栏 =============================================
 	var toolWidth=0;
 	if(property.haveTool){
 		this.$bgDiv.append("<div class='GooFlow_tool'"+(property.haveHead? "":" style='margin-top:3px'")+"><div style='height:"+(height-headHeight-(property.haveHead? 5:8))+"px' class='GooFlow_tool_div'></div></div>");
@@ -158,7 +167,7 @@ function GooFlow(bgDiv,property){
 		if(!e)e=window.event;
 		var This=e.data.inthis;
 		if(!This.$editable)return;
-		var type=This.$nowType;
+		    var type=This.$nowType;
 		if(type=="cursor"){
 			var t=$(e.target);
 			var n=t.prop("tagName");
@@ -176,7 +185,17 @@ function GooFlow(bgDiv,property){
 		var X,Y;
 		var ev=mousePosition(e),t=getElCoordinate(this);
 		X=ev.x-t.left+this.parentNode.scrollLeft;
-		Y=ev.y-t.top+this.parentNode.scrollTop;
+		    Y=ev.y-t.top+this.parentNode.scrollTop;
+        // 自定义组件修改
+        // if (type==="test") {
+        //     $names = ["", "曹朋", "翟国涛", "薛朝文", "黄志文"];
+        //     if ($names[This.$max]===undefined) {
+        //         This.$max = 1;
+        //     }
+        //     This.addNode(new Date().getTime(),{name:"审批人:"+$names[This.$max],left:X,top:Y,type:This.$nowType});
+        // } else {
+        //     This.addNode(new Date().getTime(),{name:"node_"+This.$max,left:X,top:Y,type:This.$nowType});
+        // }
 		This.addNode(new Date().getTime(),{name:"node_"+This.$max,left:X,top:Y,type:This.$nowType});
 		This.$max++;
 	  });
@@ -848,7 +867,8 @@ GooFlow.prototype={
 			}
         });
 		//绑定用鼠标移动事件
-		this.$workArea.delegate(".ico","mousedown",{inthis:this},function(e){
+		  this.$workArea.delegate(".ico","mousedown",{inthis:this},function(e){
+          alert(This.$nowType);
 			if(!e)e=window.event;
 			if(e.button==2)return false;
 			var This=e.data.inthis;
@@ -1008,7 +1028,9 @@ GooFlow.prototype={
 			});
 		});
 		//绑定结点的删除功能
-		this.$workArea.delegate(".rs_close","click",{inthis:this},function(e){
+		  this.$workArea.delegate(".rs_close","click",{inthis:this},function(e){
+          //alert("调用删除");
+          e.data.inthis.$max--;
 			if(!e)e=window.event;
 			e.data.inthis.delNode(e.data.inthis.$focus);
 			return false;
@@ -1643,10 +1665,12 @@ GooFlow.prototype={
 			text.setAttribute("fill",GooFlow.prototype.color.lineFont||"#333");
 			poly.appendChild(text);
 			var x=(m2[0]+m1[0])/2;
-			var y=(m2[1]+m1[1])/2;
+			  var y=(m2[1]+m1[1])/2;
+        console.log(m2[0],m1[0]);
 			text.setAttribute("text-anchor","middle");
 			text.setAttribute("x",x);
-			text.setAttribute("y",y);
+			  text.setAttribute("y",y);
+
 			text.style.cursor="text";
 			poly.style.cursor="pointer";
             text.style.fontSize=14*$scale+"px";
