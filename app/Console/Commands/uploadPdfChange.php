@@ -94,7 +94,8 @@ class uploadPdfChange extends Command
     }
 
     public function getTeaUploadPPTLink(){
-        $url = "http://test.admin.leo1v1.com/common_new/getTeaUploadPPTLink";
+        // $url = "http://test.admin.leo1v1.com/common_new/getTeaUploadPPTLink";
+        $url = "http://admin.leo1v1.com/common_new/getTeaUploadPPTLink";
         $post_data = [];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
