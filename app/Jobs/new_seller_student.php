@@ -110,6 +110,8 @@ class new_seller_student extends Job implements ShouldQueue
         # 获取分享链接打开次数 [市场部活动-分享个性海报]
         $checkHas = $t_personality_poster->checkHas($this->uid);
         $hasAdminRevisiterid = $t_seller_student_new->hasAdminRevisiterid($this->userid);
+        \App\Helper\Utils::logger("lizi_james_02_07: $hasAdminRevisiterid");
+
         if($this->posterTag>0){
             if($checkHas>0){
                 $t_personality_poster->updateStuNum($this->uid);
@@ -125,9 +127,12 @@ class new_seller_student extends Job implements ShouldQueue
                 "studentid" => $this->userid,
                 "add_time"  => time()
             ]);
+            \App\Helper\Utils::logger("lizi_james_02_07_has_zuyuan: $hasAdminRevisiterid");
 
             # 将市场海报分享进来的学生 放入到对应的CC\CR的私库中
             if(!$hasAdminRevisiterid){
+                \App\Helper\Utils::logger("lizi_james_02_07_siku");
+
                 $opt_adminid  = $this->uid;
                 $opt_account  = $t_manager_info->get_account($opt_adminid);
                 $self_adminid = 684;
