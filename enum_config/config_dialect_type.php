@@ -1,6 +1,6 @@
 <?php
 return array (
-    array(0,"","无"),
+    // array(0,"","无"),
     array(100,"","河南"),
     array(200,"","四川"),
     array(300,"","上海"),

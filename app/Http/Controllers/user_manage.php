@@ -400,9 +400,7 @@ class user_manage extends Controller
         }else{
             $master_adminid=0;
         }
-        $domain = config('admin')['qiniu']['public']['url'];
-        $this->set_filed_for_js("qiniu_url",$domain.'/');
-        // dd($ret_info);
+        $this->set_filed_for_js("qiniu_url",'http://7u2f5q.com2.z0.glb.qiniucdn.com/');
         return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc"),"account_role"=>$this->get_account_role()]);
     }
 

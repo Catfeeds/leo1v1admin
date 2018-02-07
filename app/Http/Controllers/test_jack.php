@@ -1868,6 +1868,14 @@ class test_jack  extends Controller
     public function ajax_deal_jack(){
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();
+        $userid           = $this->get_in_int_val("userid");
+        $num = $this->t_test_lesson_subject_require->check_user_have_require($userid);
+        $list=[];
+        $list["num"] = $num==1?"是":"否";
+        return $this->output_succ($list);
+
+
+
 
         // $teacherid             = $this->get_in_int_val("teacherid");
         $start_time            = $this->get_in_int_val("start_time");
@@ -1974,6 +1982,14 @@ class test_jack  extends Controller
     public function get_reference_teacher_money_info(){
         //拉数据
         $this->check_and_switch_tongji_domain();
+        $ret= $this->t_seller_student_new->get_new_thousand_stu();
+        foreach($ret as &$val){          
+            E\Egrade::set_item_value_str($val);
+        }
+
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$ret
+        ]);
         //学员停课预警
         // $list = $this->t_lesson_info_b3->get_stop_stu_lesson_info();
         // $data=[];

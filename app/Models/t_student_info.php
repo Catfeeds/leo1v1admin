@@ -3543,8 +3543,61 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$order_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
+    public function get_stu_textbook_list(){
+        $where_arr = [
+            "s.type!=1",
+            "s.is_test_user=0"
+        ];
+        $lesson_arr = [
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag=0",
+            "confirm_flag!=2",
+            "s.userid=userid",
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.nick as stu_nick,s.grade,s.editionid,"
+                                  ." a.nick as ass_nick,gn.group_name,group_concat(distinct(tl.textbook)) as stu_textbook"
+                                  ." from %s s"
+                                  ." left join %s a on s.assistantid=a.assistantid"
+                                  ." left join %s m on a.phone=m.phone"
+                                  ." left join %s gu on m.uid=gu.adminid"
+                                  ." left join %s gn on gu.groupid=gn.groupid"
+                                  ." left join %s tl on s.userid=tl.userid "
+                                  ." where %s and "
+                                  ." exists (select 1 from %s where %s)"
+                                  ." group by s.userid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$lesson_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_stu_all_lesson($stuid_list){
+        $where_arr = [
+            ["l.userid in (%s)",$stuid_list,""],
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
+        ];
+        $sql = $this->gen_sql_new("select l.userid,l.teacherid,l.subject,t.nick as tea_nick"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." group by l.userid,l.teacherid,l.subject"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 }

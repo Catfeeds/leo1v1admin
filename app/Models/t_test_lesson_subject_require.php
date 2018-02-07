@@ -4139,4 +4139,16 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_list($sql);
     }
+
+    //确认学生是否有试听申请
+    public function check_user_have_require($userid){
+        $sql = $this->gen_sql_new("select 1 from %s tr"
+                                  ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  ." where t.userid = %u",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  $userid
+        );
+        return $this->main_get_value($sql);
+    }
 }

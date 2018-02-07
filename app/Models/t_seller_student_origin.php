@@ -38,6 +38,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             return true;
         }
     }
+
     public function get_user_revisit_count_info($start_time,$end_time){
         $where_arr=[
             ["o.add_time >= %u",$start_time,-1],

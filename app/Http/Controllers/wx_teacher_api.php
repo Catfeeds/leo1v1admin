@@ -1441,6 +1441,7 @@ class wx_teacher_api extends Controller
         return $this->output_succ();
     }
 
+    # ppt 配置文档更新时发送通知提示
     public function getUpdateState(){
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU"; //[待办事项]
 
@@ -1655,7 +1656,7 @@ class wx_teacher_api extends Controller
 
 
     public function get_teacher_lesson_count(){
-        $teacherid  = $this->get_teacherid();
+        $teacherid  = $this->get_teacherid_new();
         if(!$teacherid){
             return $this->output_err("老师id缺失!");
         }
@@ -1675,7 +1676,7 @@ class wx_teacher_api extends Controller
     }
 
     public function draw_lottery(){
-        $teacherid  = $this->get_teacherid();
+        $teacherid  = $this->get_teacherid_new();
         if(!$teacherid){
             return $this->output_err("老师id缺失!");
         }
