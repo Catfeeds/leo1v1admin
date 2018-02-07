@@ -59,12 +59,11 @@ class get_ass_stu_info_update extends Command
             if($first_lesson_stu_arr){
                 $first_lesson_stu_list = json_encode($first_lesson_stu_arr);
             }
-            echo $first_lesson_stu_list."<br>";
-            $arr[] = $first_lesson_stu_list;
+            if(empty($first_lesson_stu_arr)){
+                
+                echo $first_lesson_stu_list."<br>";
+            }
         }
-        $task->t_teacher_info->field_update_list(240314,[
-            "prize" => json_encode($arr)
-        ]);
         dd(111);
 
         // $time = strtotime("2017-12-01");    
