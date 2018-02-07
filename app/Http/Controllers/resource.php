@@ -100,11 +100,6 @@ class resource extends Controller
                 $item['comment'] = $this->t_resource_file_evalutation->get_count($item['file_id']);
             }
 
-            $item['error'] = null;
-            if(!empty($item['error_id'])){
-                $item['error'] = $this->t_resource_file_error_info->get_count($item['file_id']);
-            }
-
         }
         //dd($ret_info['list']);
 

@@ -1654,7 +1654,7 @@ class wx_teacher_api extends Controller
 
 
     public function get_teacher_lesson_count(){
-        $teacherid  = $this->get_teacherid();
+        $teacherid  = $this->get_teacherid_new();
         if(!$teacherid){
             return $this->output_err("老师id缺失!");
         }
@@ -1674,7 +1674,7 @@ class wx_teacher_api extends Controller
     }
 
     public function draw_lottery(){
-        $teacherid  = $this->get_teacherid();
+        $teacherid  = $this->get_teacherid_new();
         if(!$teacherid){
             return $this->output_err("老师id缺失!");
         }

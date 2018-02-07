@@ -1,22 +1,15 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/resource_new-get_error.d.ts" />
+/// <reference path="../g_args.d.ts/resource_new-admin_manage.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
-	var res_type = 0;
-    if($('#id_use_type').val() == 1){
-        if( $('#id_resource_type').val() >7) {
-            res_type = 1;
-        } else {
-            res_type = $('#id_resource_type').val();
-        }
-    } else if ($('#id_use_type').val() == 2){
-        res_type = 9;
-    } else {
-        res_type = 8;
-    }
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
 		use_type:	$('#id_use_type').val(),
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
@@ -25,16 +18,7 @@ function load_data(){
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
-		tag_five:	$('#id_tag_five').val(),
-		file_title:	$('#id_file_title').val(),
-		date_type_config:   $('#id_date_type_config').val(),
-        date_type:  $('#id_date_type').val(),
-        opt_date_type:  $('#id_opt_date_type').val(),
-        start_time: $('#id_start_time').val(),
-        end_time:   $('#id_end_time').val(),
-        error_type: $('#id_error_type').val(),
-		sub_error_type: $('#id_sub_error_type').val(),
-		file_id:    $('#id_file_id').val(),
+		tag_five:	$('#id_tag_five').val()
 		});
 }
 $(function(){
@@ -674,109 +658,9 @@ $(function(){
                     "&bookid="+bookid+"&resource_type="+resource_type+"&season_id="+season_id);
     })
 
-    //同意修改
-    $('.opt-agree').click(function(){
-        var data = $(this).parents('tr').get_self_opt_data();
-        
-        var change = {
-            "id"  : data.id,
-            "file_id" : data.file_id,
-        };
-        var $this = $(this);
-        console.log($this);
-        //return false;
-        var obj = "<span style='color:#2d2828'>已同意</span>";
-        var info = "<span style='color:#e81616'>待修改</span>";
+  
+   
 
-        $.ajax({
-            type    : "post",
-            url     : "/resource_new/file_err_agree",
-            dataType: "json",
-            data    : change,
-            success : function(result){
-                console.log(result)
-                if(result.ret == 0 && result.status == 200){
-                    $this.next().removeClass('hide');
-                    $this.after(obj);
-                    $this.parent().prev().html(info);
-                    $this.remove();
-                }else{
-                    BootstrapDialog.alert('网络错误！');
-                }
-            }
-        });
-
-    })
-
-    //初审驳回
-    $(".opt-first-look").click(function(){
-        var data = $(this).parents('tr').get_self_opt_data();
-        
-        var change = {
-            "id"  : data.id,
-            "file_id" : data.file_id,
-            "status"  : 3,
-        };
-
-        var $this = $(this);
-
-        var obj = "<span style='color:#e81616'>初审已驳回</span>";
-        var info = "<span style='color:#e81616'>初审驳回</span>";
-
-        $.ajax({
-            type    : "post",
-            url     : "/resource_new/file_err_refuse",
-            dataType: "json",
-            data    : change,
-            success : function(result){
-                console.log(result)
-                if(result.ret == 0 && result.status == 200){
-                    $this.parent().find('.opt-upload').text('重传');
-                    $this.after(obj);
-                    $this.parent().prev().html(info);
-                    $this.remove();
-                }else{
-                    BootstrapDialog.alert(result.info);
-                }
-            }
-        });
-
-    })
-
-    //复审驳回
-    $(".opt-sec-look").click(function(){
-        var data = $(this).parents('tr').get_self_opt_data();
-        
-        var change = {
-            "id"  : data.id,
-            "file_id" : data.file_id,
-            "status"  : 4,
-        };
-
-        var $this = $(this);
-
-        var obj = "<span style='color:#e81616'>复审已驳回</span>";
-        var info = "<span style='color:#e81616'>复审驳回</span>";
-
-        $.ajax({
-            type    : "post",
-            url     : "/resource_new/file_err_refuse",
-            dataType: "json",
-            data    : change,
-            success : function(result){
-                console.log(result)
-                if(result.ret == 0 && result.status == 200){
-                    $this.parent().find('.opt-upload').text('重传');
-                    $this.after(obj);
-                    $this.parent().prev().html(info);
-                    $this.remove();
-                }else{
-                    BootstrapDialog.alert(result.info);
-                }
-            }
-        });
-
-    })
-
+   
 });
 
