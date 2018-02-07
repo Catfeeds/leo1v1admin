@@ -16,7 +16,7 @@ class t_deal_ppt_to_h5 extends \App\Models\Zgen\z_t_deal_ppt_to_h5
     }
 
     public function getTeaUploadPPTLink(){
-        $sql = $this->gen_sql_new("  select id, lessonid, is_tea, title from %s dp"
+        $sql = $this->gen_sql_new("  select id, lessonid, ppt_url, is_tea, title from %s dp"
                                   ." where id_deal_falg=0 limit 3"
                                   ,self::DB_TABLE_NAME
         );
