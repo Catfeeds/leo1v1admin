@@ -73,7 +73,7 @@ class update_seller_level extends cmd_base
             $num = isset($item['num'])?$item['num']:0;
             $level_goal = isset($item['level_goal'])?$item['level_goal']:0;
             $seller_level_goal = isset($item['seller_level_goal'])?$item['seller_level_goal']:0;
-            $become_member_time = $item['create_time'];
+            $become_member_time = $item['become_member_time']>$item['create_time']?$item['become_member_time']:$item['create_time'];
             $no_update_seller_level_flag = $item['no_update_seller_level_flag'];
             $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($num+1);
             $next_goal = isset($ret_next['level_goal'])?$ret_next['level_goal']:$level_goal;
