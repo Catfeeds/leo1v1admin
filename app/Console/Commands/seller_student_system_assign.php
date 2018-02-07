@@ -167,7 +167,7 @@ class seller_student_system_assign extends cmd_base
         );
         shuffle ($need_deal_list);
         if($new_deal_list)
-            shuffle($new_deal_lisst);
+            shuffle($new_deal_list);
         $need_deal_list = array_merge($need_deal_list,$new_deal_list);
         $need_deal_count= count( $need_deal_list);
         $old_need_deal_count=$need_deal_count;
