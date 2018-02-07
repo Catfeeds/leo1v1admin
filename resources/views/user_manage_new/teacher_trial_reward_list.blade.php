@@ -37,16 +37,9 @@
                 </div>
                 <div class="col-xs-12 col-md-2">
                     <div class="input-group ">
-                        <button class="btn btn-primary" id="id_add_teacher_money">添加</button>
+                        <button class="btn btn-primary" id="id_add_teacher_money_2018_01">添加</button>
                     </div>
                 </div>
-                @if($_account_role==12)
-                <div class="col-xs-12 col-md-2">
-                    <div class="input-group ">
-                        <button class="btn btn-primary" id="id_add_teacher_money_2018_01">添加_2018_1</button>
-                    </div>
-                </div>
-                @endif
             </div>
         </div>
         <hr/>

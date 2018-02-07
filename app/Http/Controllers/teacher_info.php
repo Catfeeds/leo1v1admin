@@ -631,7 +631,8 @@ class teacher_info extends Controller
             $origin_id =1;
         }
         //转换pdf,可以平铺
-        if($tea_cw_url!=false){
+        $arr = explode('.', $tea_cw_url);
+        if($tea_cw_url && strtolower($arr['1']) == 'pdf'){
             $this->t_pdf_to_png_info->row_insert([
                 'lessonid'    => $lessonid,
                 'pdf_url'     => $tea_cw_url,
@@ -643,11 +644,29 @@ class teacher_info extends Controller
         $use_ppt_stu = 0;
         $use_ppt     = 0;
         $tea_cw_url_arr = explode('.', $tea_cw_url);
-        if($tea_cw_url_arr[1] == 'ppt' || $tea_cw_url_arr[1] == 'pptx'){$use_ppt = 1;}
         $stu_cw_url_arr = explode('.', $stu_cw_url);
-        if($stu_cw_url_arr[1] == 'ppt' || $stu_cw_url_arr[1] == 'pptx'){$use_ppt_stu = 1;}
-
         # 增加到待处理列表中[james]
+
+        if($tea_cw_url_arr[1] == 'ppt' || $tea_cw_url_arr[1] == 'pptx'){
+            $use_ppt = 1;
+            $this->t_deal_ppt_to_h5->row_insert([
+                "add_time" => time(),
+                "lessonid" => $lessonid,
+                "is_tea"   => 1,
+                "ppt_url"  => $tea_cw_url
+            ]);
+
+        }
+        if($stu_cw_url_arr[1] == 'ppt' || $stu_cw_url_arr[1] == 'pptx'){
+            $use_ppt_stu = 1;
+            $this->t_deal_ppt_to_h5->row_insert([
+                "add_time" => time(),
+                "lessonid" => $lessonid,
+                "is_tea"   => 0,
+                "ppt_url"  => $stu_cw_url
+            ]);
+        }
+
 
 
 
@@ -3565,9 +3584,9 @@ class teacher_info extends Controller
             "error_picture"    => $error_picture,
         ]);
         //send wx_message
-        if($ret){   
-            //search 
-            
+        if($ret){
+            //search
+
             $info = $this->t_resource_file->get_teacherinfo($file_id);
             $wx_openid    = $info['wx_openid'];
             $file_name    = $info['file_title'];
@@ -3601,7 +3620,7 @@ class teacher_info extends Controller
         }else if($type == 4){
             $url = "http://7tszue.com2.z0.glb.qiniucdn.com".$pdf.".pdf?e=".$e."&token=".$token;
         }
-        
+
         //dd($url);
         $ret_info['url'] = $url;
         return $this->view(__METHOD__,$ret_info,[

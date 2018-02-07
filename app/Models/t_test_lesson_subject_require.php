@@ -1062,7 +1062,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
-
         $sql=$this->gen_sql_new(
             "select cur_require_adminid as admin_revisiterid, count(*) test_lesson_count,"
             // ."sum(tss.success_flag IN (0,1) and (lesson_user_online_status in (0,1) or f.flow_status = 2)) succ_all_count,"
@@ -3367,7 +3366,7 @@ ORDER BY require_time ASC";
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , "
-            ." sum(lesson_user_online_status = 1 or flow_status=1  ) as succ_test_lesson_count  "
+            ." sum(lesson_user_online_status = 1 or flow_status=2  ) as succ_test_lesson_count  "
             ." from %s tr "
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid "

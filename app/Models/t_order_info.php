@@ -1077,8 +1077,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["gu.month=%u" , $month, -1],
             "contract_type in(0,3)",
             "contract_status in(1,2)",
-            // "stu_from_type=0 or stu_from_type=11",
-            "stu_from_type=0",
+            "stu_from_type=0 or stu_from_type=11",
+            // "stu_from_type=0",
             "m.account_role=2",
         ];
         $sql = $this->gen_sql_new(" select g.groupid, group_name , sum(price) all_price,"
@@ -5135,5 +5135,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_item_month_list(){
+        $sql = "select m.uid,m.account,o.sys_operator,o.orderid,o.price/100 price  from db_weiyi.t_order_info o , db_weiyi.t_student_info s , db_weiyi_admin.t_manager_info m,  db_weiyi_admin.t_group_user_month gu,   db_weiyi_admin.t_group_name_month g   where  o.userid = s.userid   and    o.sys_operator =m.account   and    m.uid=gu.adminid  and    gu.groupid =g.groupid and     order_time>=1514736000 and order_time<=1517414400 and is_test_user=0 and g.groupid=111 and g.month=1514736000 and gu.month=1514736000 and contract_type in(0,3) and contract_status in(1,2) and stu_from_type=0 and m.account_role=2 order by sys_operator,price desc";
+        return $this->main_get_list($sql);
+    }
 }
 
