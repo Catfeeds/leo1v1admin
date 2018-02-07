@@ -38,33 +38,7 @@ class get_ass_stu_info_update extends Command
     public function handle()
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
-        $task=new \App\Console\Tasks\TaskController();
-        $start_time = strtotime("2018-01-01");
-        $end_time = strtotime("2018-02-01");
-        $last_month = strtotime("2017-12-01");
-        $ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        $last_ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
-
-        list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);//新版薪资 助教续费新签合同/销售转介绍合同 金额/个数计算
-        list($first_week,$last_week,$n) = $task->get_seller_week_info($start_time, $end_time);//销售月拆解       
-          
-
-        $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
-        $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
-        $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time);//生成助教学生第一次课信息(按科目)
-        $arr=[];
-        foreach($ass_month as $k=>$tt){
-            $first_lesson_stu_arr = @$first_subject_list[$k]?$first_subject_list[$k]:[];//生成助教学生第一次课信息(按科目)
-            $first_lesson_stu_list="";
-            if($first_lesson_stu_arr){
-                $first_lesson_stu_list = json_encode($first_lesson_stu_arr);
-            }
-            if(empty($first_lesson_stu_arr)){
-                
-                echo $first_lesson_stu_list."<br>";
-            }
-        }
-        dd(111);
+        $task=new \App\Console\Tasks\TaskController();      
 
         // $time = strtotime("2017-12-01");    
         // $list = $task->t_month_ass_student_info->get_ass_month_info($time);

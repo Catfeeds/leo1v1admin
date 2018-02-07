@@ -4423,6 +4423,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
-
+    public function get_teacher_lesson_total($teacherid,$start_time,$end_time){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,-1],
+            ["lesson_end>%u",$start_time,-1],
+            ["lesson_end<%u",$end_time,-1],
+        ];
+        $sql = $this->gen_sql_new(" select count(*) as total "
+                                ." from %s "
+                                ." where %s "
+                                ,self::DB_TABLE_NAME
+                                ,$where_arr);
+        return $this->main_get_value($sql);
+    }
 
 }

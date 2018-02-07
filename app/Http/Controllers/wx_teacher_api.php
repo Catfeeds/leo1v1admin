@@ -1643,8 +1643,65 @@ class wx_teacher_api extends Controller
     }
 
 
+    public function get_teacher_lesson_count(){
+        $teacherid  = $this->get_teacherid();
+        if(!$teacherid){
+            return $this->output_err("老师id缺失!");
+        }
+        $start_time = strtotime(date("Y-m-d",time()));
+        //$end_time   = $start_time + 86400;
+        $end_time   = time();
+        //$teacherid  = 202149;
 
+        $total_count = $this->t_lesson_info_b2->get_teacher_lesson_total($teacherid,$start_time,$end_time);
+        $consume_count = $this->t_teacher_spring->get_total($teacherid,$start_time,$end_time);
 
+        $count = $total_count + 1 - $consume_count;
+        if($count < 0 ){
+            $count = 0;
+        }
+        return $this->output_succ(['count'=>$count]);
+    }
 
+    public function draw_lottery(){
+        $teacherid  = $this->get_teacherid();
+        if(!$teacherid){
+            return $this->output_err("老师id缺失!");
+        }
 
+        $start_time = strtotime(date("Y-m-d",time()));
+        //$end_time   = $start_time + 86400;
+        $end_time   = time();
+        //$teacherid  = 202149;
+
+        $total_count = $this->t_lesson_info_b2->get_teacher_lesson_total($teacherid,$start_time,$end_time);
+        $consume_count = $this->t_teacher_spring->get_total($teacherid,$start_time,$end_time);
+
+        $count = $total_count + 1 - $consume_count;
+        if($count < 1 ){
+            return $this->output_err("抽奖次数已用完!");
+        }
+
+        $rank = $this->t_teacher_spring->get_last_rank($start_time);
+        if(!$rank){
+            $rank = 0;
+        }
+        $result = 0;
+        if($rank >= 0){
+            $rank = $rank + 1;
+            if($rank == 10 || $rank == 30 || $rank == 50
+            || $rank == 70 || $rank == 90 || $rank == 110){
+                $result = 1;
+            }
+        }
+        
+        $ret = $this->t_teacher_spring->row_insert([
+            'teacherid' => $teacherid,
+            'add_time'  => time(),
+            'rank'      => $rank,
+            'result'    => $result,
+        ]);
+
+        return $this->output_succ(['result'=>$result,'rank'=>$rank]);
+    }
 }
