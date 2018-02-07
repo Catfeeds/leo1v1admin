@@ -219,51 +219,51 @@
 
 
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-md-12">
-                    <div class="panel panel-warning"  >
-                        <div class="panel-heading center-title ">
-                            薪资提成
-                        </div>
-                        <div class="panel-body">
+            <!-- <div class="row">
+                 <div class="col-xs-12 col-md-12">
+                 <div class="panel panel-warning"  >
+                 <div class="panel-heading center-title ">
+                 薪资提成
+                 </div>
+                 <div class="panel-body">
 
-                            <table   class="table table-bordered "   >
-                                <thead>
-                                    <tr>
-                                        <td>排名</td>
-                                        <td>中文名</td>
-                                        <td>课耗收入提成</td>
-                                        <td>扩课奖励</td>
-                                        <td>续费提成</td>
-                                        <td>转介绍人头奖励</td>
-                                        <td>CC签单转介绍提成</td>
-                                        <td>总提成</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($ass_month as $var)
-                                        <tr>
-                                            <td>{{@$var["num_range"]}}</td>
-                                            <td>{{$var["name"]}}</td>
-                                            <td>{{$var["lesson_price_money"]}}</td>
-                                            <td>{{$var["kk_money"]}}</td>
-                                            <td>{{$var["renw_money"]}}</td>
-                                            <td>{{$var["tran_num_money"]}}</td>
-                                            <td>{{$var["cc_tran_price"]}}</td>
-                                            <td>{{$var["all_money"]}}</td>
-                                            
-                                        </tr>
- 
-                                    @endforeach
+                 <table   class="table table-bordered "   >
+                 <thead>
+                 <tr>
+                 <td>排名</td>
+                 <td>中文名</td>
+                 <td>课耗收入提成</td>
+                 <td>扩课奖励</td>
+                 <td>续费提成</td>
+                 <td>转介绍人头奖励</td>
+                 <td>CC签单转介绍提成</td>
+                 <td>总提成</td>
+                 </tr>
+                 </thead>
+                 <tbody>
+                 @foreach($ass_month as $var)
+                 <tr>
+                 <td>{{@$var["num_range"]}}</td>
+                 <td>{{$var["name"]}}</td>
+                 <td>{{$var["lesson_price_money"]}}</td>
+                 <td>{{$var["kk_money"]}}</td>
+                 <td>{{$var["renw_money"]}}</td>
+                 <td>{{$var["tran_num_money"]}}</td>
+                 <td>{{$var["cc_tran_price"]}}</td>
+                 <td>{{$var["all_money"]}}</td>
+                 
+                 </tr>
+                 
+                 @endforeach
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                 </tbody>
+                 </table>
+                 </div>
+                 </div>
+                 </div>
 
-            </div>
-
+                 </div>
+            -->
 
             <div class="row">
 

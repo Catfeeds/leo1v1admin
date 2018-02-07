@@ -165,9 +165,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $ret_row = $this->field_get_list($userid,"userid");
         if ($ret_row) {
-            if($seller_resource_type==1 && $admin_revisiterid==0  )  { //在公海里
+            if($seller_resource_type==1 && $admin_revisiterid==0)  { //在公海里
                 \App\Helper\Utils::logger("SET NEW FROM PUBLISH");
-
                 $this->field_update_list($userid,[
                     "seller_resource_type" => 0,
                     "first_revisit_time"   => 0,
@@ -206,7 +205,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $origin_level = $this->t_origin_key->get_origin_level($origin);
         if (!$origin_level){ //默认B
-            $origin_level = E\Eorigin_level::V_3 ;
+            $origin_level = E\Eorigin_level::V_3;
         }
         $set_stu_arr["origin_level"] =$origin_level;
 
@@ -3661,7 +3660,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [
             "userid" => $userid
         ];
-        $sql = $this->gen_sql_new("  select 1 from %s where %s"
+        $sql = $this->gen_sql_new("  select admin_revisiterid from %s where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

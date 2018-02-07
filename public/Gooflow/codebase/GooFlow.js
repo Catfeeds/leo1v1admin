@@ -187,16 +187,17 @@ function GooFlow(bgDiv,property){
 		X=ev.x-t.left+this.parentNode.scrollLeft;
 		    Y=ev.y-t.top+this.parentNode.scrollTop;
         // 自定义组件修改
-        // if (type==="test") {
-        //     $names = ["", "曹朋", "翟国涛", "薛朝文", "黄志文"];
-        //     if ($names[This.$max]===undefined) {
-        //         This.$max = 1;
-        //     }
-        //     This.addNode(new Date().getTime(),{name:"审批人:"+$names[This.$max],left:X,top:Y,type:This.$nowType});
-        // } else {
-        //     This.addNode(new Date().getTime(),{name:"node_"+This.$max,left:X,top:Y,type:This.$nowType});
-        // }
-		This.addNode(new Date().getTime(),{name:"node_"+This.$max,left:X,top:Y,type:This.$nowType});
+        if (type==="test") {
+            // 处理数据
+            $names = ["", "曹朋", "翟国涛", "薛朝文", "黄志文"];
+            if ($names[This.$max]===undefined) {
+                This.$max = 1;
+            }
+            This.addNode(new Date().getTime(),{name:"审批人:"+$names[This.$max],left:X,top:Y,type:This.$nowType});
+        } else {
+            This.addNode(new Date().getTime(),{name:"node_"+This.$max,left:X,top:Y,type:This.$nowType});
+        }
+		//This.addNode(new Date().getTime(),{name:"node_"+This.$max,left:X,top:Y,type:This.$nowType});
 		This.$max++;
 	  });
 	  //划线或改线时用的绑定

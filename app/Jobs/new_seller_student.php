@@ -83,6 +83,10 @@ class new_seller_student extends Job implements ShouldQueue
             $is_reading = $t_student_info->field_get_value($this->userid, 'type');
             if($is_reading == 1)
                 $is_public = 3;//用户是在读学员
+
+            $origin_userid = $t_student_info->field_get_value($this->userid, 'origin_userid');
+            if($origin_userid)
+                $is_public = 4;//转介绍用户
             \App\Helper\Utils::logger("is_public:$is_public"); 
 
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --end--
@@ -106,6 +110,8 @@ class new_seller_student extends Job implements ShouldQueue
         # 获取分享链接打开次数 [市场部活动-分享个性海报]
         $checkHas = $t_personality_poster->checkHas($this->uid);
         $hasAdminRevisiterid = $t_seller_student_new->hasAdminRevisiterid($this->userid);
+        \App\Helper\Utils::logger("lizi_james_02_07: $hasAdminRevisiterid");
+
         if($this->posterTag>0){
             if($checkHas>0){
                 $t_personality_poster->updateStuNum($this->uid);
@@ -121,9 +127,12 @@ class new_seller_student extends Job implements ShouldQueue
                 "studentid" => $this->userid,
                 "add_time"  => time()
             ]);
+            \App\Helper\Utils::logger("lizi_james_02_07_has_zuyuan: $hasAdminRevisiterid");
 
             # 将市场海报分享进来的学生 放入到对应的CC\CR的私库中
             if(!$hasAdminRevisiterid){
+                \App\Helper\Utils::logger("lizi_james_02_07_siku");
+
                 $opt_adminid  = $this->uid;
                 $opt_account  = $t_manager_info->get_account($opt_adminid);
                 $self_adminid = 684;

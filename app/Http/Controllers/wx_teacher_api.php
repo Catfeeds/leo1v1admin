@@ -1439,17 +1439,19 @@ class wx_teacher_api extends Controller
 
         $this->t_deal_ppt_to_h5->updateStatusByUuid($uuid,$status);
         return $this->output_succ();
-        // $stu_lessonid = $this->t_lesson_info_b3->checkIsStu($uuid);
-        // $tea_lessonid = $this->t_lesson_info_b3->checkIsTea($uuid);
-        // if($stu_lessonid){
-        //     $this->t_lesson_info_b3->field_update_list($stu_lessonid, [
-        //         "ppt_status_stu" => $status
-        //     ]);
-        // }elseif($tea_lessonid){
-        //     $this->t_lesson_info_b3->field_update_list($tea_lessonid, [
-        //         "ppt_status" => $status
-        //     ]);
-        // }
+    }
+
+    # ppt 配置文档更新时发送通知提示
+    public function getUpdateState(){
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU"; //[待办事项]
+
+        $data= [
+            "first"     => "微演示",
+            "keyword1"  => "微演示:",
+            "keyword2"  => "微演示 ",
+            "keyword3"  => date("Y年m月d日 H:i:s "),
+        ];
+        \App\Helper\Utils::send_wx_to_parent('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data);
 
     }
 
@@ -1704,7 +1706,7 @@ class wx_teacher_api extends Controller
                 $result = 1;
             }
         }
-        
+
         $ret = $this->t_teacher_spring->row_insert([
             'teacherid' => $teacherid,
             'add_time'  => time(),
