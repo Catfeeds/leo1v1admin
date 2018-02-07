@@ -86,7 +86,7 @@ class update_seller_level extends cmd_base
                     //统计上个月
                     $price = $this->task->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
                     $price = $price/100;
-                    $last_refund_list = $this->task->t_order_info->get_refund_month_money($account,$start_time,$end_time);
+                    $last_refund_list = $this->task->t_order_info->get_refund_month_money($account,$start_time_last,$end_time_last);
                     foreach($last_refund_list as $item){
                         if($item['real_refund']>0){
                             $price += ($item['price']-$item['real_refund'])/100;

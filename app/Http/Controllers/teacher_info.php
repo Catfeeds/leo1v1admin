@@ -647,6 +647,11 @@ class teacher_info extends Controller
         $stu_cw_url_arr = explode('.', $stu_cw_url);
         if($stu_cw_url_arr[1] == 'ppt' || $stu_cw_url_arr[1] == 'pptx'){$use_ppt_stu = 1;}
 
+        # 增加到待处理列表中[james]
+
+
+
+
 
         $this->t_lesson_info_b2->field_update_list($lessonid,[
             "tea_cw_status"      => $tea_cw_status ,
@@ -3560,15 +3565,15 @@ class teacher_info extends Controller
             "error_picture"    => $error_picture,
         ]);
         //send wx_message
-        if($ret){   
-            //search 
-            
+        if($ret){
+            //search
+
             $info = $this->t_resource_file->get_teacherinfo($file_id);
             $wx_openid    = $info['wx_openid'];
             $file_name    = $info['file_title'];
             $teacher_nick = $info['nick'];
             //dd($teacher_nick);
-            $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
+            //$wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
             $teacher_url = ''; //待定
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
 
@@ -3596,7 +3601,7 @@ class teacher_info extends Controller
         }else if($type == 4){
             $url = "http://7tszue.com2.z0.glb.qiniucdn.com".$pdf.".pdf?e=".$e."&token=".$token;
         }
-        
+
         //dd($url);
         $ret_info['url'] = $url;
         return $this->view(__METHOD__,$ret_info,[

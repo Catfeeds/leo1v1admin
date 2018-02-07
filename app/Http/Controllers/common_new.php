@@ -735,7 +735,7 @@ class common_new extends Controller
         $pdf_url  = $this->t_lesson_info->get_tea_cw_url($lessonid);
 
         $arr = explode('.', $pdf_url);
-        if($pdf_url ){
+        if($pdf_url && strtolower($arr['1']) == 'pdf'){
             $this->t_pdf_to_png_info->row_insert([
                 'lessonid'    => $lessonid,
                 'pdf_url'     => $pdf_url,
@@ -2033,7 +2033,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             ]);
         }
         header("Location: http://wx-parent-web.leo1v1.com/constract/index.html?url=$url");
-        // header("Location: $url");
         return;
     }
 
