@@ -726,7 +726,7 @@
             </div>
             <div style="clear:both"></div>
         </div>
-        <p class="error_upload_info">提示：该文件如果还没有未处理的报错，请处理完再重传</p>
+        <p class="error_upload_info">提示：该文件如果还存在未处理的报错，请处理完再重传</p>
         <div class="error_content">
             <table class="error_detail">
                 <thead>

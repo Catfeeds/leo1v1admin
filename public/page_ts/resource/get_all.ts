@@ -1062,9 +1062,8 @@ $(function(){
                                       var down_file = "<button class='down_file btn btn-primary' onclick='down_move($(this))'>下移</button>";
                                       var dele_file = "<button class='dele_file btn btn-danger' onclick='dele_file($(this))'>删除</button>";
                                       $(files).each(function(i){
-                                          var file_type_arr = files[0].type.split('/');
+                                          var file_type_arr = files[i].type.split('/');
                                           var file_type = file_type_arr[1];
-          
                                           if($.inArray(file_type,allow_type) >= 0 ){
                                               name_str = name_str+'<div><span data-id='+files[i].id+' data-index='+i+' class='
                                                   +add_class+' >'+files[i].name+'</span>' + up_file + down_file + dele_file + '</div>';
