@@ -87,6 +87,11 @@ class wx_teacher_web extends Controller
 
     
 
+    public function redPacket(){
+        $url = "http://wx-teacher-web.leo1v1.com/redPacket/index.html";
+        header("Location: $url");
+    }
+
 
 
 }
