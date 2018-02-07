@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use \App\Enums as E;
 class GetData extends cmd_base
 {
     /**
@@ -39,7 +39,16 @@ class GetData extends cmd_base
     {
         //学员的教材版本情况
         $ret_list = $this->task->t_student_info->get_stu_textbook_list();
+        echo "userid|学生姓名|助教姓名|教材版本|年级|助教组别|试听申请教材版本";
+        echo PHP_EOL;
+        foreach($ret_list as $ret_val){
+            $edition_str = E\Eregion_version::get_desc($ret_val['editionid']);
+            $grade_str   = E\Egrade::get_desc($ret_val['grade']);
 
+            echo $ret_val['userid']."|".$ret_val['stu_nick']."|".$ret_val['ass_nick']."|".$edition_str."|".$grade_str
+                                   ."|".$ret_val['group_name']."|".$ret_val['stu_textbook'];
+            echo PHP_EOL;
+        }
 
 
 
@@ -62,6 +71,7 @@ class GetData extends cmd_base
         //     echo PHP_EOL;
         // }
         //
+
         //拉取1月和2月，23点半下课的学生量
         // $start_time = strtotime("2018-1-1");
         // $end_time   = strtotime("2018-2-6");
@@ -79,7 +89,6 @@ class GetData extends cmd_base
         //             $stu_list[$lesson_val['userid']]=1;
         //         }
         //     }
-
         // }
         // echo $count;
         // echo PHP_EOL;
