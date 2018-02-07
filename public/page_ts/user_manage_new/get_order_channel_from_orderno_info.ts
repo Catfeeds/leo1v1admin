@@ -35,5 +35,9 @@ $(function(){
 	  $('#id_name_str').val(g_args.name_str);
 
 
+    if(g_account=="zero"  ){
+        download_show();
+    }
+
 	  $('.opt-change').set_input_change_event(load_data);
 });
