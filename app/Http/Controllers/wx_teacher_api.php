@@ -1438,6 +1438,7 @@ class wx_teacher_api extends Controller
         }
 
         $this->t_deal_ppt_to_h5->updateStatusByUuid($uuid,$status);
+        return $this->output_succ();
         // $stu_lessonid = $this->t_lesson_info_b3->checkIsStu($uuid);
         // $tea_lessonid = $this->t_lesson_info_b3->checkIsTea($uuid);
         // if($stu_lessonid){
@@ -1450,8 +1451,6 @@ class wx_teacher_api extends Controller
         //     ]);
         // }
 
-        $this->t_lesson_info_b3->updateStatusByUuid($uuid,$status);
-        return $this->output_succ();
     }
 
 
