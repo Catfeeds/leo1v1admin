@@ -4066,7 +4066,7 @@ class user_deal extends Controller
             ]);
         }
         if($ret){
-            $ret= $this->t_ass_group_target->row_insert([
+            $this->t_ass_group_target->field_update_list($month,[
                 "change_log"      =>$log_new
             ]);
 
