@@ -1,44 +1,28 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/resource_new-get_error.d.ts" />
+/// <reference path="../g_args.d.ts/resource_new-admin_manage.d.ts" />
 
 function load_data(){
-  if ( window["g_load_data_flag"]) {return;}
-  var res_type = 0;
-    if($('#id_use_type').val() == 1){
-        if( $('#id_resource_type').val() >7) {
-            res_type = 1;
-        } else {
-            res_type = $('#id_resource_type').val();
-        }
-    } else if ($('#id_use_type').val() == 2){
-        res_type = 9;
-    } else {
-        res_type = 8;
-    }
-    $.reload_self_page ( {
-    order_by_str : g_args.order_by_str,
-    use_type:	$('#id_use_type').val(),
-    resource_type:	$('#id_resource_type').val(),
-    subject:	$('#id_subject').val(),
-    grade:	$('#id_grade').val(),
-    tag_one:	$('#id_tag_one').val(),
-    tag_two:	$('#id_tag_two').val(),
-    tag_three:	$('#id_tag_three').val(),
-    tag_four:	$('#id_tag_four').val(),
-    tag_five:	$('#id_tag_five').val(),
-    file_title:	$('#id_file_title').val(),
-    date_type_config:   $('#id_date_type_config').val(),
-        date_type:  $('#id_date_type').val(),
-        opt_date_type:  $('#id_opt_date_type').val(),
-        start_time: $('#id_start_time').val(),
-        end_time:   $('#id_end_time').val(),
-        error_type: $('#id_error_type').val(),
-    sub_error_type: $('#id_sub_error_type').val(),
-    file_id:    $('#id_file_id').val(),
-    });
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		use_type:	$('#id_use_type').val(),
+		resource_type:	$('#id_resource_type').val(),
+		subject:	$('#id_subject').val(),
+		grade:	$('#id_grade').val(),
+		tag_one:	$('#id_tag_one').val(),
+		tag_two:	$('#id_tag_two').val(),
+		tag_three:	$('#id_tag_three').val(),
+		tag_four:	$('#id_tag_four').val(),
+		tag_five:	$('#id_tag_five').val()
+		});
 }
 $(function(){
-	  $('#id_date_range').select_date_range({
+	$('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
         'start_time'    : g_args.start_time,
@@ -70,7 +54,7 @@ $(function(){
                     obj.parent().find('span.tag_warn').remove();
                     //console.log(result);
                     var tag_info = result.tag;
-
+             
                     if($(tag_info).length == 0) {
                         if(opt_type == 1){
                             if( subject > 0 && grade > 0){
@@ -84,12 +68,12 @@ $(function(){
                         }
                     } else {
                         if(opt_type == 1){
-                           var tag_str = '<option value="-1">全部</option>';
+                           var tag_str = '<option value="-1">全部</option>';                          
                         }else{
                             var tag_str = '';
                         }
 
-                        $.each($(tag_info),function(i,item){
+                        $.each($(tag_info),function(i,item){                        
                             tag_str = tag_str + '<option value='+item.id+'>'+item.tag+'</option>';
                         });
                         obj.append(tag_str);
@@ -217,7 +201,7 @@ $(function(){
         get_province($('#id_tag_three'));
         if($('.right-menu').length>0){
             $('.right-menu').each(function(){
-
+              
                 var province_id = parseInt($(this).find('.province').text());
                 if( parseInt(province_id) != 0 ){
                     var province = ChineseDistricts['86'][province_id];
@@ -412,7 +396,7 @@ $(function(){
                     //console.log(other_id);
                     $(this).find('.opt-select-item').iCheck("uncheck");
                 }
-            });
+            }); 
         }
     });
 
@@ -599,7 +583,7 @@ $(function(){
 
         {text: '上传新版本',onclick: function() {
             menu_hide();
-        }, id:'upload_flag'},
+        }, id:'upload_flag'},  
         {text: '操作记录', onclick: function() {
             var data_obj = menu_hide();
             get_edit_list(data_obj);
@@ -674,109 +658,9 @@ $(function(){
                     "&bookid="+bookid+"&resource_type="+resource_type+"&season_id="+season_id);
     })
 
-    //同意修改
-    $('.opt-agree').click(function(){
-        var data = $(this).parents('tr').get_self_opt_data();
+  
+   
 
-        var change = {
-            "id"  : data.id,
-            "file_id" : data.file_id,
-        };
-        var $this = $(this);
-        console.log($this);
-        //return false;
-        var obj = "<span style='color:#2d2828'>已同意</span>";
-        var info = "<span style='color:#e81616'>待修改</span>";
-
-        $.ajax({
-            type    : "post",
-            url     : "/resource_new/file_err_agree",
-            dataType: "json",
-            data    : change,
-            success : function(result){
-                console.log(result)
-                if(result.ret == 0 && result.status == 200){
-                    $this.next().removeClass('hide');
-                    $this.after(obj);
-                    $this.parent().prev().html(info);
-                    $this.remove();
-                }else{
-                    BootstrapDialog.alert('网络错误！');
-                }
-            }
-        });
-
-    })
-
-    //初审驳回
-    $(".opt-first-look").click(function(){
-        var data = $(this).parents('tr').get_self_opt_data();
-
-        var change = {
-            "id"  : data.id,
-            "file_id" : data.file_id,
-            "status"  : 3,
-        };
-
-        var $this = $(this);
-
-        var obj = "<span style='color:#e81616'>初审已驳回</span>";
-        var info = "<span style='color:#e81616'>初审驳回</span>";
-
-        $.ajax({
-            type    : "post",
-            url     : "/resource_new/file_err_refuse",
-            dataType: "json",
-            data    : change,
-            success : function(result){
-                console.log(result)
-                if(result.ret == 0 && result.status == 200){
-                    $this.parent().find('.opt-upload').text('重传');
-                    $this.after(obj);
-                    $this.parent().prev().html(info);
-                    $this.remove();
-                }else{
-                    BootstrapDialog.alert(result.info);
-                }
-            }
-        });
-
-    })
-
-    //复审驳回
-    $(".opt-sec-look").click(function(){
-        var data = $(this).parents('tr').get_self_opt_data();
-
-        var change = {
-            "id"  : data.id,
-            "file_id" : data.file_id,
-            "status"  : 4,
-        };
-
-        var $this = $(this);
-
-        var obj = "<span style='color:#e81616'>复审已驳回</span>";
-        var info = "<span style='color:#e81616'>复审驳回</span>";
-
-
-        $.ajax({
-            type    : "post",
-            url     : "/resource_new/file_err_refuse",
-            dataType: "json",
-            data    : change,
-            success : function(result){
-                console.log(result)
-                if(result.ret == 0 && result.status == 200){
-                    $this.parent().find('.opt-upload').text('重传');
-                    $this.after(obj);
-                    $this.parent().prev().html(info);
-                    $this.remove();
-                }else{
-                    BootstrapDialog.alert(result.info);
-                }
-            }
-        });
-
-    })
-
+   
 });
+

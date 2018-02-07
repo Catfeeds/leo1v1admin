@@ -158,10 +158,8 @@ class seller_student_system_assign extends cmd_base
 
         $seller_max_new_count = $ret_info["seller_max_new_count"];//最大新例子配额
         $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
-        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
-            $no_connnected_ret_info=$this->assign_no_connected_new( $left_no_connected_count_all,$admin_list  );
-        else
-            $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
+        $no_connnected_ret_info=$this->assign_no_connected_new( $left_no_connected_count_all,$admin_list  );
+        // $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
 
         $this->task->t_seller_student_system_assign_count_log->row_insert([
             "logtime" => time(),

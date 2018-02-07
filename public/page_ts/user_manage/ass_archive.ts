@@ -2513,68 +2513,71 @@ $(function(){
                         }else{
                             html_node.find("#city_new_two").parent().attr('style','');
                         }
-                        if(html_node.find('#id_ass_test_lesson_type_new_two').val()!=2){
 
-                        var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
-                        if(html_node.find("#id_main_subject_score_one_new_two").val() == ''){
-                            html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        if(html_node.find('#id_ass_test_lesson_type_new_two').val()!=2){
+                            html_node.find("required fields").attr('style','display:block;');
+                            var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
+                            if(html_node.find("#id_main_subject_score_one_new_two").val() == ''){
+                                html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            }else{
+                                html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_cultivation_new_two").val() == ''){
+                                html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_cultivation_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_stu_request_test_lesson_demand_new_two").val() == ''){
+                                html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_stu_request_test_lesson_time_new_two").val() == ''){
+                                html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_teacher_nature_new_two").val() == ''){
+                                html_node.find("#id_teacher_nature_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_teacher_nature_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_pro_ability_new_two").val() == ''){
+                                html_node.find("#id_pro_ability_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_pro_ability_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_class_env_new_two").val() == ''){
+                                html_node.find("#id_class_env_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_class_env_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_courseware_new_two").val() == ''){
+                                html_node.find("#id_courseware_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_courseware_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_quotation_reaction_new_two").val() <= 0){
+                                html_node.find("#id_quotation_reaction_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_quotation_reaction_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_intention_level_new_two").val() <= 0){
+                                html_node.find("#id_intention_level_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_intention_level_new_two").parent().attr('style','');
+                            }
                         }else{
-                            html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_cultivation_new_two").val() == ''){
-                            html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_cultivation_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_stu_request_test_lesson_demand_new_two").val() == ''){
-                            html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_stu_request_test_lesson_time_new_two").val() == ''){
-                            html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_teacher_nature_new_two").val() == ''){
-                            html_node.find("#id_teacher_nature_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_teacher_nature_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_pro_ability_new_two").val() == ''){
-                            html_node.find("#id_pro_ability_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_pro_ability_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_class_env_new_two").val() == ''){
-                            html_node.find("#id_class_env_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_class_env_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_courseware_new_two").val() == ''){
-                            html_node.find("#id_courseware_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_courseware_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_quotation_reaction_new_two").val() <= 0){
-                            html_node.find("#id_quotation_reaction_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_quotation_reaction_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_intention_level_new_two").val() <= 0){
-                            html_node.find("#id_intention_level_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_intention_level_new_two").parent().attr('style','');
-                        }
+                            html_node.find("required fields").attr('style','display:none;');
                         }
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
                             var min_time = Date.parse(
