@@ -125,24 +125,13 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
             } else { // 生产环境
                 $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境
                 preg_match($pattern, $burl, $pdomain);
-                if ($isset($pdomain[0])) {
+                if (isset($pdomain[0])) {
                     $url = str_replace("http://", "http://p.", $burl);
                 } else {
                     return $burl;
                 }
 
             }
-
-            // $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境
-            // preg_match($pattern, $burl, $pdomain);
-            // $http_curr_host = "http://p.admin";
-
-            // $pattern = '/^http:\/\/p\.[\w+]/'; // 匹配冒烟环境
-            // preg_match($pattern, $http_curr_host, $domain);
-
-            // if (isset($pdomain[0]) && isset($domain[0])) {
-            //     return $burl;
-            // }
 
             // $pattern = '/^http:\/\/[\w\.]+/'; // 匹配域名
             // preg_match($pattern, $burl, $domain);
