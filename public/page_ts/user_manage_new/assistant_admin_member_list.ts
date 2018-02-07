@@ -127,7 +127,7 @@ $(function(){
     });
 
 
-    $(".opt-show-change-list").on("opt-show-change-list",function(){
+    $(".opt-show-change-list").on("click",function(){
         var title = "更改记录";
         var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>时间</td><td>操作人</td><td>更改前</td><td>更改后</td><tr></table></div>");
 
