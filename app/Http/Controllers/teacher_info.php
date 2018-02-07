@@ -3573,7 +3573,7 @@ class teacher_info extends Controller
             $file_name    = $info['file_title'];
             $teacher_nick = $info['nick'];
             //dd($teacher_nick);
-            $wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
+            //$wx_openid = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
             $teacher_url = ''; //待定
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
 
