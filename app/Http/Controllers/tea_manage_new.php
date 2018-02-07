@@ -333,9 +333,15 @@ class tea_manage_new extends Controller
         foreach($ret_info["list"] as $key=> &$item ) {
             $item["index"] =  $start_index+$key;
             $item["lesson_time"]=\App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
+            E\Econtract_type::set_item_value_str($item, "lesson_type");
+            if (in_array($item["lesson_type"], [0,1,3])) {
+                $item["lesson_type_str"] = "常规课";
+            }
+            E\Esubject::set_item_value_str($item);
             //\App\Helper\Utils::fmt_lesson_name($grade,$subject,$lesson_num)
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_teacher_nick($item);
+            
         }
         if ( count( $ret_info["list"]) ==0 ) {
             $ret_info["list"][] =[];
