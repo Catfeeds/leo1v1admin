@@ -36,16 +36,16 @@ class SplCaster
         $b = array(
             $prefix.'flag::STD_PROP_LIST' => (bool) ($flags & \ArrayObject::STD_PROP_LIST),
             $prefix.'flag::ARRAY_AS_PROPS' => (bool) ($flags & \ArrayObject::ARRAY_AS_PROPS),
-            $prefix.'iteratorClass' => new ClassStub($c->getIteratorClass()),
+            $prefix.'iteratorClass' => $c->getIteratorClass(),
             $prefix.'storage' => $c->getArrayCopy(),
         );
 
-        if ('ArrayObject' === $class) {
+        if ($class === 'ArrayObject') {
             $a = $b;
         } else {
             if (!($flags & \ArrayObject::STD_PROP_LIST)) {
                 $c->setFlags(\ArrayObject::STD_PROP_LIST);
-                $a = Caster::castObject($c, $class);
+                $a = Caster::castObject($c, new \ReflectionClass($class));
                 $c->setFlags($flags);
             }
 
@@ -71,7 +71,7 @@ class SplCaster
         $c->setIteratorMode(\SplDoublyLinkedList::IT_MODE_KEEP | $mode & ~\SplDoublyLinkedList::IT_MODE_DELETE);
 
         $a += array(
-            $prefix.'mode' => new ConstStub((($mode & \SplDoublyLinkedList::IT_MODE_LIFO) ? 'IT_MODE_LIFO' : 'IT_MODE_FIFO').' | '.(($mode & \SplDoublyLinkedList::IT_MODE_DELETE) ? 'IT_MODE_DELETE' : 'IT_MODE_KEEP'), $mode),
+            $prefix.'mode' => new ConstStub((($mode & \SplDoublyLinkedList::IT_MODE_LIFO) ? 'IT_MODE_LIFO' : 'IT_MODE_FIFO').' | '.(($mode & \SplDoublyLinkedList::IT_MODE_KEEP) ? 'IT_MODE_KEEP' : 'IT_MODE_DELETE'), $mode),
             $prefix.'dllist' => iterator_to_array($c),
         );
         $c->setIteratorMode($mode);
@@ -113,10 +113,6 @@ class SplCaster
                 $a[$prefix.$key] = $c->$accessor();
             } catch (\Exception $e) {
             }
-        }
-
-        if (isset($a[$prefix.'realPath'])) {
-            $a[$prefix.'realPath'] = new LinkStub($a[$prefix.'realPath']);
         }
 
         if (isset($a[$prefix.'perms'])) {
@@ -184,7 +180,7 @@ class SplCaster
         $storage = array();
         unset($a[Caster::PREFIX_DYNAMIC."\0gcdata"]); // Don't hit https://bugs.php.net/65967
 
-        foreach (clone $c as $obj) {
+        foreach ($c as $obj) {
             $storage[spl_object_hash($obj)] = array(
                 'object' => $obj,
                 'info' => $c->getInfo(),

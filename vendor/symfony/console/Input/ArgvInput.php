@@ -44,6 +44,8 @@ class ArgvInput extends Input
     private $parsed;
 
     /**
+     * Constructor.
+     *
      * @param array|null           $argv       An array of parameters from the CLI (in the argv format)
      * @param InputDefinition|null $definition A InputDefinition instance
      */
@@ -145,15 +147,7 @@ class ArgvInput extends Input
         $name = substr($token, 2);
 
         if (false !== $pos = strpos($name, '=')) {
-            if (0 === strlen($value = substr($name, $pos + 1))) {
-                // if no value after "=" then substr() returns "" since php7 only, false before
-                // see http://php.net/manual/fr/migration70.incompatible.php#119151
-                if (\PHP_VERSION_ID < 70000 && false === $value) {
-                    $value = '';
-                }
-                array_unshift($this->parsed, $value);
-            }
-            $this->addLongOption(substr($name, 0, $pos), $value);
+            $this->addLongOption(substr($name, 0, $pos), substr($name, $pos + 1));
         } else {
             $this->addLongOption($name, null);
         }
@@ -224,16 +218,23 @@ class ArgvInput extends Input
 
         $option = $this->definition->getOption($name);
 
+        // Convert empty values to null
+        if (!isset($value[0])) {
+            $value = null;
+        }
+
         if (null !== $value && !$option->acceptValue()) {
             throw new RuntimeException(sprintf('The "--%s" option does not accept a value.', $name));
         }
 
-        if (in_array($value, array('', null), true) && $option->acceptValue() && count($this->parsed)) {
+        if (null === $value && $option->acceptValue() && count($this->parsed)) {
             // if option accepts an optional or mandatory argument
             // let's see if there is one provided
             $next = array_shift($this->parsed);
-            if ((isset($next[0]) && '-' !== $next[0]) || in_array($next, array('', null), true)) {
+            if (isset($next[0]) && '-' !== $next[0]) {
                 $value = $next;
+            } elseif (empty($next)) {
+                $value = '';
             } else {
                 array_unshift($this->parsed, $next);
             }
@@ -244,8 +245,8 @@ class ArgvInput extends Input
                 throw new RuntimeException(sprintf('The "--%s" option requires a value.', $name));
             }
 
-            if (!$option->isArray() && !$option->isValueOptional()) {
-                $value = true;
+            if (!$option->isArray()) {
+                $value = $option->isValueOptional() ? $option->getDefault() : true;
             }
         }
 
@@ -278,7 +279,7 @@ class ArgvInput extends Input
         $values = (array) $values;
 
         foreach ($this->tokens as $token) {
-            if ($onlyParams && '--' === $token) {
+            if ($onlyParams && $token === '--') {
                 return false;
             }
             foreach ($values as $value) {
@@ -301,7 +302,7 @@ class ArgvInput extends Input
 
         while (0 < count($tokens)) {
             $token = array_shift($tokens);
-            if ($onlyParams && '--' === $token) {
+            if ($onlyParams && $token === '--') {
                 return false;
             }
 
@@ -331,7 +332,7 @@ class ArgvInput extends Input
                 return $match[1].$this->escapeToken($match[2]);
             }
 
-            if ($token && '-' !== $token[0]) {
+            if ($token && $token[0] !== '-') {
                 return $this->escapeToken($token);
             }
 

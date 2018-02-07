@@ -13,17 +13,13 @@ namespace Symfony\Component\Translation;
 
 use Symfony\Component\Translation\Loader\LoaderInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
-use Symfony\Component\Translation\Exception\InvalidArgumentException;
-use Symfony\Component\Translation\Exception\LogicException;
-use Symfony\Component\Translation\Exception\RuntimeException;
 use Symfony\Component\Config\ConfigCacheInterface;
 use Symfony\Component\Config\ConfigCacheFactoryInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
-use Symfony\Component\Translation\Formatter\MessageFormatterInterface;
-use Symfony\Component\Translation\Formatter\ChoiceMessageFormatterInterface;
-use Symfony\Component\Translation\Formatter\MessageFormatter;
 
 /**
+ * Translator.
+ *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class Translator implements TranslatorInterface, TranslatorBagInterface
@@ -54,9 +50,9 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
     private $resources = array();
 
     /**
-     * @var MessageFormatterInterface
+     * @var MessageSelector
      */
-    private $formatter;
+    private $selector;
 
     /**
      * @var string
@@ -74,29 +70,28 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
     private $configCacheFactory;
 
     /**
-     * @param string                         $locale    The locale
-     * @param MessageFormatterInterface|null $formatter The message formatter
-     * @param string|null                    $cacheDir  The directory to use for the cache
-     * @param bool                           $debug     Use cache in debug mode ?
+     * Constructor.
      *
-     * @throws InvalidArgumentException If a locale contains invalid characters
+     * @param string               $locale   The locale
+     * @param MessageSelector|null $selector The message selector for pluralization
+     * @param string|null          $cacheDir The directory to use for the cache
+     * @param bool                 $debug    Use cache in debug mode ?
+     *
+     * @throws \InvalidArgumentException If a locale contains invalid characters
      */
-    public function __construct($locale, $formatter = null, $cacheDir = null, $debug = false)
+    public function __construct($locale, MessageSelector $selector = null, $cacheDir = null, $debug = false)
     {
         $this->setLocale($locale);
-
-        if ($formatter instanceof MessageSelector) {
-            $formatter = new MessageFormatter($formatter);
-            @trigger_error(sprintf('Passing a "%s" instance into the "%s" as a second argument is deprecated since Symfony 3.4 and will be removed in 4.0. Inject a "%s" implementation instead.', MessageSelector::class, __METHOD__, MessageFormatterInterface::class), E_USER_DEPRECATED);
-        } elseif (null === $formatter) {
-            $formatter = new MessageFormatter();
-        }
-
-        $this->formatter = $formatter;
+        $this->selector = $selector ?: new MessageSelector();
         $this->cacheDir = $cacheDir;
         $this->debug = $debug;
     }
 
+    /**
+     * Sets the ConfigCache factory to use.
+     *
+     * @param ConfigCacheFactoryInterface $configCacheFactory
+     */
     public function setConfigCacheFactory(ConfigCacheFactoryInterface $configCacheFactory)
     {
         $this->configCacheFactory = $configCacheFactory;
@@ -121,7 +116,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
      * @param string $locale   The locale
      * @param string $domain   The domain
      *
-     * @throws InvalidArgumentException If the locale contains invalid characters
+     * @throws \InvalidArgumentException If the locale contains invalid characters
      */
     public function addResource($format, $resource, $locale, $domain = null)
     {
@@ -162,7 +157,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
      *
      * @param array $locales The fallback locales
      *
-     * @throws InvalidArgumentException If a locale contains invalid characters
+     * @throws \InvalidArgumentException If a locale contains invalid characters
      */
     public function setFallbackLocales(array $locales)
     {
@@ -195,7 +190,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
             $domain = 'messages';
         }
 
-        return $this->formatter->format($this->getCatalogue($locale)->get((string) $id, $domain), $locale, $parameters);
+        return strtr($this->getCatalogue($locale)->get((string) $id, $domain), $parameters);
     }
 
     /**
@@ -203,10 +198,6 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
      */
     public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
     {
-        if (!$this->formatter instanceof ChoiceMessageFormatterInterface) {
-            throw new LogicException(sprintf('The formatter "%s" does not support plural translations.', get_class($this->formatter)));
-        }
-
         if (null === $domain) {
             $domain = 'messages';
         }
@@ -223,7 +214,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
             }
         }
 
-        return $this->formatter->choiceFormat($catalogue->get($id, $domain), $number, $locale, $parameters);
+        return strtr($this->selector->choose($catalogue->get($id, $domain), (int) $number, $locale), $parameters);
     }
 
     /**
@@ -345,9 +336,9 @@ EOF
             $fallbackSuffix = ucfirst(preg_replace($replacementPattern, '_', $fallback));
             $currentSuffix = ucfirst(preg_replace($replacementPattern, '_', $current));
 
-            $fallbackContent .= sprintf(<<<'EOF'
-$catalogue%s = new MessageCatalogue('%s', %s);
-$catalogue%s->addFallbackCatalogue($catalogue%s);
+            $fallbackContent .= sprintf(<<<EOF
+\$catalogue%s = new MessageCatalogue('%s', %s);
+\$catalogue%s->addFallbackCatalogue(\$catalogue%s);
 
 EOF
                 ,
@@ -366,7 +357,7 @@ EOF
 
     private function getCatalogueCachePath($locale)
     {
-        return $this->cacheDir.'/catalogue.'.$locale.'.'.strtr(substr(base64_encode(hash('sha256', serialize($this->fallbackLocales), true)), 0, 7), '/', '_').'.php';
+        return $this->cacheDir.'/catalogue.'.$locale.'.'.sha1(serialize($this->fallbackLocales)).'.php';
     }
 
     private function doLoadCatalogue($locale)
@@ -376,7 +367,7 @@ EOF
         if (isset($this->resources[$locale])) {
             foreach ($this->resources[$locale] as $resource) {
                 if (!isset($this->loaders[$resource[0]])) {
-                    throw new RuntimeException(sprintf('The "%s" translation loader is not registered.', $resource[0]));
+                    throw new \RuntimeException(sprintf('The "%s" translation loader is not registered.', $resource[0]));
                 }
                 $this->catalogues[$locale]->addCatalogue($this->loaders[$resource[0]]->load($resource[1], $locale, $resource[2]));
             }
@@ -389,7 +380,7 @@ EOF
 
         foreach ($this->computeFallbackLocales($locale) as $fallback) {
             if (!isset($this->catalogues[$fallback])) {
-                $this->initializeCatalogue($fallback);
+                $this->doLoadCatalogue($fallback);
             }
 
             $fallbackCatalogue = new MessageCatalogue($fallback, $this->catalogues[$fallback]->all());
@@ -412,7 +403,7 @@ EOF
             $locales[] = $fallback;
         }
 
-        if (false !== strrchr($locale, '_')) {
+        if (strrchr($locale, '_') !== false) {
             array_unshift($locales, substr($locale, 0, -strlen(strrchr($locale, '_'))));
         }
 
@@ -424,12 +415,12 @@ EOF
      *
      * @param string $locale Locale to tests
      *
-     * @throws InvalidArgumentException If the locale contains invalid characters
+     * @throws \InvalidArgumentException If the locale contains invalid characters
      */
     protected function assertValidLocale($locale)
     {
         if (1 !== preg_match('/^[a-z0-9@_\\.\\-]*$/i', $locale)) {
-            throw new InvalidArgumentException(sprintf('Invalid "%s" locale.', $locale));
+            throw new \InvalidArgumentException(sprintf('Invalid "%s" locale.', $locale));
         }
     }
 

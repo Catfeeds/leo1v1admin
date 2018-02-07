@@ -11,13 +11,12 @@
 
 namespace Symfony\Component\Console\Tests\Input;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class ArgvInputTest extends TestCase
+class ArgvInputTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
@@ -48,7 +47,7 @@ class ArgvInputTest extends TestCase
         $input = new ArgvInput($input);
         $input->bind(new InputDefinition($options));
 
-        $this->assertSame($expectedOptions, $input->getOptions(), $message);
+        $this->assertEquals($expectedOptions, $input->getOptions(), $message);
     }
 
     public function provideOptions()
@@ -71,36 +70,6 @@ class ArgvInputTest extends TestCase
                 array(new InputOption('foo', 'f', InputOption::VALUE_REQUIRED)),
                 array('foo' => 'bar'),
                 '->parse() parses long options with a required value (with a space separator)',
-            ),
-            array(
-                array('cli.php', '--foo='),
-                array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL)),
-                array('foo' => ''),
-                '->parse() parses long options with optional value which is empty (with a = separator) as empty string',
-            ),
-            array(
-                array('cli.php', '--foo=', 'bar'),
-                array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL), new InputArgument('name', InputArgument::REQUIRED)),
-                array('foo' => ''),
-                '->parse() parses long options with optional value without value specified or an empty string (with a = separator) followed by an argument as empty string',
-            ),
-            array(
-                array('cli.php', 'bar', '--foo'),
-                array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL), new InputArgument('name', InputArgument::REQUIRED)),
-                array('foo' => null),
-                '->parse() parses long options with optional value which is empty (with a = separator) preceded by an argument',
-            ),
-            array(
-                array('cli.php', '--foo', '', 'bar'),
-                array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL), new InputArgument('name', InputArgument::REQUIRED)),
-                array('foo' => ''),
-                '->parse() parses long options with optional value which is empty as empty string even followed by an argument',
-            ),
-            array(
-                array('cli.php', '--foo'),
-                array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL)),
-                array('foo' => null),
-                '->parse() parses long options with optional value specified with no separator and no value as null',
             ),
             array(
                 array('cli.php', '-f'),
@@ -182,12 +151,7 @@ class ArgvInputTest extends TestCase
      */
     public function testInvalidInput($argv, $definition, $expectedExceptionMessage)
     {
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('RuntimeException');
-            $this->expectExceptionMessage($expectedExceptionMessage);
-        } else {
-            $this->setExpectedException('RuntimeException', $expectedExceptionMessage);
-        }
+        $this->setExpectedException('RuntimeException', $expectedExceptionMessage);
 
         $input = new ArgvInput($argv);
         $input->bind($definition);
@@ -270,14 +234,14 @@ class ArgvInputTest extends TestCase
 
         $input = new ArgvInput(array('cli.php', '--name=foo', '--name=bar', '--name='));
         $input->bind(new InputDefinition(array(new InputOption('name', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY))));
-        $this->assertSame(array('name' => array('foo', 'bar', '')), $input->getOptions(), '->parse() parses empty array options as null ("--option=value" syntax)');
+        $this->assertSame(array('name' => array('foo', 'bar', null)), $input->getOptions(), '->parse() parses empty array options as null ("--option=value" syntax)');
 
         $input = new ArgvInput(array('cli.php', '--name', 'foo', '--name', 'bar', '--name', '--anotherOption'));
         $input->bind(new InputDefinition(array(
             new InputOption('name', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY),
             new InputOption('anotherOption', null, InputOption::VALUE_NONE),
         )));
-        $this->assertSame(array('name' => array('foo', 'bar', null), 'anotherOption' => true), $input->getOptions(), '->parse() parses empty array options ("--option value" syntax)');
+        $this->assertSame(array('name' => array('foo', 'bar', null), 'anotherOption' => true), $input->getOptions(), '->parse() parses empty array options as null ("--option value" syntax)');
     }
 
     public function testParseNegativeNumberAfterDoubleDash()
@@ -378,31 +342,5 @@ class ArgvInputTest extends TestCase
         $input = new ArgvInput(array('cli.php', '-'));
         $input->bind(new InputDefinition(array(new InputArgument('file'))));
         $this->assertEquals(array('file' => '-'), $input->getArguments(), '->parse() parses single dash as an argument');
-    }
-
-    public function testParseOptionWithValueOptionalGivenEmptyAndRequiredArgument()
-    {
-        $input = new ArgvInput(array('cli.php', '--foo=', 'bar'));
-        $input->bind(new InputDefinition(array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL), new InputArgument('name', InputArgument::REQUIRED))));
-        $this->assertEquals(array('foo' => null), $input->getOptions(), '->parse() parses optional options with empty value as null');
-        $this->assertEquals(array('name' => 'bar'), $input->getArguments(), '->parse() parses required arguments');
-
-        $input = new ArgvInput(array('cli.php', '--foo=0', 'bar'));
-        $input->bind(new InputDefinition(array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL), new InputArgument('name', InputArgument::REQUIRED))));
-        $this->assertEquals(array('foo' => '0'), $input->getOptions(), '->parse() parses optional options with empty value as null');
-        $this->assertEquals(array('name' => 'bar'), $input->getArguments(), '->parse() parses required arguments');
-    }
-
-    public function testParseOptionWithValueOptionalGivenEmptyAndOptionalArgument()
-    {
-        $input = new ArgvInput(array('cli.php', '--foo=', 'bar'));
-        $input->bind(new InputDefinition(array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL), new InputArgument('name', InputArgument::OPTIONAL))));
-        $this->assertEquals(array('foo' => null), $input->getOptions(), '->parse() parses optional options with empty value as null');
-        $this->assertEquals(array('name' => 'bar'), $input->getArguments(), '->parse() parses optional arguments');
-
-        $input = new ArgvInput(array('cli.php', '--foo=0', 'bar'));
-        $input->bind(new InputDefinition(array(new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL), new InputArgument('name', InputArgument::OPTIONAL))));
-        $this->assertEquals(array('foo' => '0'), $input->getOptions(), '->parse() parses optional options with empty value as null');
-        $this->assertEquals(array('name' => 'bar'), $input->getArguments(), '->parse() parses optional arguments');
     }
 }

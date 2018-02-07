@@ -2,14 +2,17 @@
 
 namespace Illuminate\Queue;
 
-use DateTimeInterface;
+use Closure;
+use DateTime;
+use Exception;
+use Illuminate\Support\Arr;
+use SuperClosure\Serializer;
 use Illuminate\Container\Container;
-use Illuminate\Support\InteractsWithTime;
+use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Contracts\Queue\QueueableEntity;
 
 abstract class Queue
 {
-    use InteractsWithTime;
-
     /**
      * The IoC container instance.
      *
@@ -23,13 +26,6 @@ abstract class Queue
      * @var \Illuminate\Contracts\Encryption\Encrypter
      */
     protected $encrypter;
-
-    /**
-     * The connection name for the queue.
-     *
-     * @var string
-     */
-    protected $connectionName;
 
     /**
      * Push a new job onto the queue.
@@ -48,7 +44,7 @@ abstract class Queue
      * Push a new job onto the queue after a delay.
      *
      * @param  string  $queue
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  \DateTime|int  $delay
      * @param  string  $job
      * @param  mixed   $data
      * @return mixed
@@ -78,125 +74,129 @@ abstract class Queue
      *
      * @param  string  $job
      * @param  mixed   $data
-     * @return string
-     *
-     * @throws \Illuminate\Queue\InvalidPayloadException
-     */
-    protected function createPayload($job, $data = '')
-    {
-        $payload = json_encode($this->createPayloadArray($job, $data));
-
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new InvalidPayloadException(
-                'Unable to JSON encode payload. Error code: '.json_last_error()
-            );
-        }
-
-        return $payload;
-    }
-
-    /**
-     * Create a payload array from the given job and data.
-     *
-     * @param  string  $job
-     * @param  mixed   $data
-     * @return array
-     */
-    protected function createPayloadArray($job, $data = '')
-    {
-        return is_object($job)
-                    ? $this->createObjectPayload($job)
-                    : $this->createStringPayload($job, $data);
-    }
-
-    /**
-     * Create a payload for an object-based queue handler.
-     *
-     * @param  mixed  $job
-     * @return array
-     */
-    protected function createObjectPayload($job)
-    {
-        return [
-            'displayName' => $this->getDisplayName($job),
-            'job' => 'Illuminate\Queue\CallQueuedHandler@call',
-            'maxTries' => $job->tries ?? null,
-            'timeout' => $job->timeout ?? null,
-            'timeoutAt' => $this->getJobExpiration($job),
-            'data' => [
-                'commandName' => get_class($job),
-                'command' => serialize(clone $job),
-            ],
-        ];
-    }
-
-    /**
-     * Get the display name for the given job.
-     *
-     * @param  mixed  $job
+     * @param  string  $queue
      * @return string
      */
-    protected function getDisplayName($job)
+    protected function createPayload($job, $data = '', $queue = null)
     {
-        return method_exists($job, 'displayName')
-                        ? $job->displayName() : get_class($job);
-    }
-
-    /**
-     * Get the expiration timestamp for an object-based queue handler.
-     *
-     * @param  mixed  $job
-     * @return mixed
-     */
-    public function getJobExpiration($job)
-    {
-        if (! method_exists($job, 'retryUntil') && ! isset($job->timeoutAt)) {
-            return;
+        if ($job instanceof Closure) {
+            return json_encode($this->createClosurePayload($job, $data));
         }
 
-        $expiration = $job->timeoutAt ?? $job->retryUntil();
+        if (is_object($job)) {
+            return json_encode([
+                'job' => 'Illuminate\Queue\CallQueuedHandler@call',
+                'data' => ['commandName' => get_class($job), 'command' => serialize(clone $job)],
+            ]);
+        }
 
-        return $expiration instanceof DateTimeInterface
-                        ? $expiration->getTimestamp() : $expiration;
+        return json_encode($this->createPlainPayload($job, $data));
     }
 
     /**
-     * Create a typical, string based queue payload array.
+     * Create a typical, "plain" queue payload array.
      *
      * @param  string  $job
      * @param  mixed  $data
      * @return array
      */
-    protected function createStringPayload($job, $data)
+    protected function createPlainPayload($job, $data)
     {
-        return [
-            'displayName' => is_string($job) ? explode('@', $job)[0] : null,
-            'job' => $job, 'maxTries' => null,
-            'timeout' => null, 'data' => $data,
-        ];
+        return ['job' => $job, 'data' => $this->prepareQueueableEntities($data)];
     }
 
     /**
-     * Get the connection name for the queue.
+     * Prepare any queueable entities for storage in the queue.
      *
+     * @param  mixed  $data
+     * @return mixed
+     */
+    protected function prepareQueueableEntities($data)
+    {
+        if ($data instanceof QueueableEntity) {
+            return $this->prepareQueueableEntity($data);
+        }
+
+        if (is_array($data)) {
+            $data = array_map(function ($d) {
+                if (is_array($d)) {
+                    return $this->prepareQueueableEntities($d);
+                }
+
+                return $this->prepareQueueableEntity($d);
+            }, $data);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Prepare a single queueable entity for storage on the queue.
+     *
+     * @param  mixed  $value
+     * @return mixed
+     */
+    protected function prepareQueueableEntity($value)
+    {
+        if ($value instanceof QueueableEntity) {
+            return '::entity::|'.get_class($value).'|'.$value->getQueueableId();
+        }
+
+        return $value;
+    }
+
+    /**
+     * Create a payload string for the given Closure job.
+     *
+     * @param  \Closure  $job
+     * @param  mixed     $data
+     * @return array
+     */
+    protected function createClosurePayload($job, $data)
+    {
+        $closure = $this->getEncrypter()->encrypt((new Serializer)->serialize($job));
+
+        return ['job' => 'IlluminateQueueClosure', 'data' => compact('closure')];
+    }
+
+    /**
+     * Set additional meta on a payload string.
+     *
+     * @param  string  $payload
+     * @param  string  $key
+     * @param  string  $value
      * @return string
      */
-    public function getConnectionName()
+    protected function setMeta($payload, $key, $value)
     {
-        return $this->connectionName;
+        $payload = json_decode($payload, true);
+
+        return json_encode(Arr::set($payload, $key, $value));
     }
 
     /**
-     * Set the connection name for the queue.
+     * Calculate the number of seconds with the given delay.
      *
-     * @param  string  $name
-     * @return $this
+     * @param  \DateTime|int  $delay
+     * @return int
      */
-    public function setConnectionName($name)
+    protected function getSeconds($delay)
     {
-        $this->connectionName = $name;
+        if ($delay instanceof DateTime) {
+            return max(0, $delay->getTimestamp() - $this->getTime());
+        }
 
-        return $this;
+        return (int) $delay;
+    }
+
+    /**
+     * Get the current UNIX timestamp.
+     *
+     * @return int
+     */
+    protected function getTime()
+    {
+        return time();
     }
 
     /**
@@ -208,5 +208,32 @@ abstract class Queue
     public function setContainer(Container $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * Get the encrypter implementation.
+     *
+     * @return  \Illuminate\Contracts\Encryption\Encrypter
+     *
+     * @throws \Exception
+     */
+    protected function getEncrypter()
+    {
+        if (is_null($this->encrypter)) {
+            throw new Exception('No encrypter has been set on the Queue.');
+        }
+
+        return $this->encrypter;
+    }
+
+    /**
+     * Set the encrypter implementation.
+     *
+     * @param  \Illuminate\Contracts\Encryption\Encrypter  $encrypter
+     * @return void
+     */
+    public function setEncrypter(Encrypter $encrypter)
+    {
+        $this->encrypter = $encrypter;
     }
 }

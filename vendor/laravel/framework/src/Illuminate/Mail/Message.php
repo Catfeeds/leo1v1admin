@@ -5,9 +5,6 @@ namespace Illuminate\Mail;
 use Swift_Image;
 use Swift_Attachment;
 
-/**
- * @mixin \Swift_Message
- */
 class Message
 {
     /**
@@ -16,13 +13,6 @@ class Message
      * @var \Swift_Message
      */
     protected $swift;
-
-    /**
-     * CIDs of files embedded in the message.
-     *
-     * @var array
-     */
-    protected $embeddedFiles = [];
 
     /**
      * Create a new message instance.
@@ -100,17 +90,10 @@ class Message
      *
      * @param  string|array  $address
      * @param  string|null  $name
-     * @param  bool  $override
      * @return $this
      */
-    public function cc($address, $name = null, $override = false)
+    public function cc($address, $name = null)
     {
-        if ($override) {
-            $this->swift->setCc($address, $name);
-
-            return $this;
-        }
-
         return $this->addAddresses($address, $name, 'Cc');
     }
 
@@ -119,17 +102,10 @@ class Message
      *
      * @param  string|array  $address
      * @param  string|null  $name
-     * @param  bool  $override
      * @return $this
      */
-    public function bcc($address, $name = null, $override = false)
+    public function bcc($address, $name = null)
     {
-        if ($override) {
-            $this->swift->setBcc($address, $name);
-
-            return $this;
-        }
-
         return $this->addAddresses($address, $name, 'Bcc');
     }
 
@@ -208,7 +184,7 @@ class Message
      * Create a Swift Attachment instance.
      *
      * @param  string  $file
-     * @return \Swift_Mime_Attachment
+     * @return \Swift_Attachment
      */
     protected function createAttachmentFromPath($file)
     {
@@ -239,7 +215,7 @@ class Message
      */
     protected function createAttachmentFromData($data, $name)
     {
-        return new Swift_Attachment($data, $name);
+        return Swift_Attachment::newInstance($data, $name);
     }
 
     /**
@@ -250,13 +226,7 @@ class Message
      */
     public function embed($file)
     {
-        if (isset($this->embeddedFiles[$file])) {
-            return $this->embeddedFiles[$file];
-        }
-
-        return $this->embeddedFiles[$file] = $this->swift->embed(
-            Swift_Image::fromPath($file)
-        );
+        return $this->swift->embed(Swift_Image::fromPath($file));
     }
 
     /**
@@ -269,7 +239,7 @@ class Message
      */
     public function embedData($data, $name, $contentType = null)
     {
-        $image = new Swift_Image($data, $name, $contentType);
+        $image = Swift_Image::newInstance($data, $name, $contentType);
 
         return $this->swift->embed($image);
     }

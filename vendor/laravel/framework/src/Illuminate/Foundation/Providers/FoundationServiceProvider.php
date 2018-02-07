@@ -2,20 +2,14 @@
 
 namespace Illuminate\Foundation\Providers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\AggregateServiceProvider;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Contracts\Validation\ValidatesWhenResolved;
 
-class FoundationServiceProvider extends AggregateServiceProvider
+class FoundationServiceProvider extends ServiceProvider
 {
-    /**
-     * The provider class names.
-     *
-     * @var array
-     */
-    protected $providers = [
-        FormRequestServiceProvider::class,
-    ];
-
     /**
      * Register the service provider.
      *
@@ -23,24 +17,61 @@ class FoundationServiceProvider extends AggregateServiceProvider
      */
     public function register()
     {
-        parent::register();
-
-        $this->registerRequestValidate();
+        //
     }
 
     /**
-     * Register the "validate" macro on the request.
+     * Bootstrap the application services.
      *
      * @return void
      */
-    public function registerRequestValidate()
+    public function boot()
     {
-        Request::macro('validate', function (array $rules, ...$params) {
-            validator()->validate($this->all(), $rules, ...$params);
+        $this->configureFormRequests();
+    }
 
-            return $this->only(collect($rules)->keys()->map(function ($rule) {
-                return str_contains($rule, '.') ? explode('.', $rule)[0] : $rule;
-            })->unique()->toArray());
+    /**
+     * Configure the form request related services.
+     *
+     * @return void
+     */
+    protected function configureFormRequests()
+    {
+        $this->app->afterResolving(function (ValidatesWhenResolved $resolved) {
+            $resolved->validate();
         });
+
+        $this->app->resolving(function (FormRequest $request, $app) {
+            $this->initializeRequest($request, $app['request']);
+
+            $request->setContainer($app)->setRedirector($app->make(Redirector::class));
+        });
+    }
+
+    /**
+     * Initialize the form request with data from the given request.
+     *
+     * @param  \Illuminate\Foundation\Http\FormRequest  $form
+     * @param  \Symfony\Component\HttpFoundation\Request  $current
+     * @return void
+     */
+    protected function initializeRequest(FormRequest $form, Request $current)
+    {
+        $files = $current->files->all();
+
+        $files = is_array($files) ? array_filter($files) : $files;
+
+        $form->initialize(
+            $current->query->all(), $current->request->all(), $current->attributes->all(),
+            $current->cookies->all(), $files, $current->server->all(), $current->getContent()
+        );
+
+        if ($session = $current->getSession()) {
+            $form->setSession($session);
+        }
+
+        $form->setUserResolver($current->getUserResolver());
+
+        $form->setRouteResolver($current->getRouteResolver());
     }
 }

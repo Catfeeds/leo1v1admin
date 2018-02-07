@@ -28,8 +28,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class LintCommand extends Command
 {
-    protected static $defaultName = 'lint:yaml';
-
     private $parser;
     private $format;
     private $displayCorrectFiles;
@@ -50,6 +48,7 @@ class LintCommand extends Command
     protected function configure()
     {
         $this
+            ->setName('lint:yaml')
             ->setDescription('Lints a file and outputs encountered errors')
             ->addArgument('filename', null, 'A file or a directory or STDIN')
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format', 'txt')
@@ -108,7 +107,7 @@ EOF
     {
         $prevErrorHandler = set_error_handler(function ($level, $message, $file, $line) use (&$prevErrorHandler) {
             if (E_USER_DEPRECATED === $level) {
-                throw new ParseException($message, $this->getParser()->getRealCurrentLineNb() + 1);
+                throw new ParseException($message);
             }
 
             return $prevErrorHandler ? $prevErrorHandler($level, $message, $file, $line) : false;
@@ -117,7 +116,7 @@ EOF
         try {
             $this->getParser()->parse($content, Yaml::PARSE_CONSTANT | $flags);
         } catch (ParseException $e) {
-            return array('file' => $file, 'line' => $e->getParsedLine(), 'valid' => false, 'message' => $e->getMessage());
+            return array('file' => $file, 'valid' => false, 'message' => $e->getMessage());
         } finally {
             restore_error_handler();
         }

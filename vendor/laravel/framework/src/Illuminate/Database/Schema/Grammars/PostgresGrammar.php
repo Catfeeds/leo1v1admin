@@ -2,19 +2,11 @@
 
 namespace Illuminate\Database\Schema\Grammars;
 
-use RuntimeException;
 use Illuminate\Support\Fluent;
 use Illuminate\Database\Schema\Blueprint;
 
 class PostgresGrammar extends Grammar
 {
-    /**
-     * If this Grammar supports schema changes wrapped in a transaction.
-     *
-     * @var bool
-     */
-    protected $transactions = true;
-
     /**
      * The possible column modifiers.
      *
@@ -42,11 +34,12 @@ class PostgresGrammar extends Grammar
     /**
      * Compile the query to determine the list of columns.
      *
+     * @param  string  $table
      * @return string
      */
-    public function compileColumnListing()
+    public function compileColumnExists($table)
     {
-        return 'select column_name from information_schema.columns where table_schema = ? and table_name = ?';
+        return "select column_name from information_schema.columns where table_name = '$table'";
     }
 
     /**
@@ -58,11 +51,13 @@ class PostgresGrammar extends Grammar
      */
     public function compileCreate(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('%s table %s (%s)',
-            $blueprint->temporary ? 'create temporary' : 'create',
-            $this->wrapTable($blueprint),
-            implode(', ', $this->getColumns($blueprint))
-        );
+        $columns = implode(', ', $this->getColumns($blueprint));
+
+        $sql = $blueprint->temporary ? 'create temporary' : 'create';
+
+        $sql .= ' table '.$this->wrapTable($blueprint)." ($columns)";
+
+        return $sql;
     }
 
     /**
@@ -74,10 +69,11 @@ class PostgresGrammar extends Grammar
      */
     public function compileAdd(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('alter table %s %s',
-            $this->wrapTable($blueprint),
-            implode(', ', $this->prefixArray('add column', $this->getColumns($blueprint)))
-        );
+        $table = $this->wrapTable($blueprint);
+
+        $columns = $this->prefixArray('add column', $this->getColumns($blueprint));
+
+        return 'alter table '.$table.' '.implode(', ', $columns);
     }
 
     /**
@@ -103,11 +99,13 @@ class PostgresGrammar extends Grammar
      */
     public function compileUnique(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('alter table %s add constraint %s unique (%s)',
-            $this->wrapTable($blueprint),
-            $this->wrap($command->index),
-            $this->columnize($command->columns)
-        );
+        $table = $this->wrapTable($blueprint);
+
+        $index = $this->wrap($command->index);
+
+        $columns = $this->columnize($command->columns);
+
+        return "alter table $table add constraint {$index} unique ($columns)";
     }
 
     /**
@@ -119,48 +117,11 @@ class PostgresGrammar extends Grammar
      */
     public function compileIndex(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('create index %s on %s%s (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($blueprint),
-            $command->algorithm ? ' using '.$command->algorithm : '',
-            $this->columnize($command->columns)
-        );
-    }
+        $columns = $this->columnize($command->columns);
 
-    /**
-     * Compile a spatial index key command.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
-     * @return string
-     */
-    public function compileSpatialIndex(Blueprint $blueprint, Fluent $command)
-    {
-        $command->algorithm = 'gist';
+        $index = $this->wrap($command->index);
 
-        return $this->compileIndex($blueprint, $command);
-    }
-
-    /**
-     * Compile a foreign key command.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
-     * @return string
-     */
-    public function compileForeign(Blueprint $blueprint, Fluent $command)
-    {
-        $sql = parent::compileForeign($blueprint, $command);
-
-        if (! is_null($command->deferrable)) {
-            $sql .= $command->deferrable ? ' deferrable' : ' not deferrable';
-        }
-
-        if ($command->deferrable && ! is_null($command->initiallyImmediate)) {
-            $sql .= $command->initiallyImmediate ? ' initially immediate' : ' initially deferred';
-        }
-
-        return $sql;
+        return "create index {$index} on ".$this->wrapTable($blueprint)." ({$columns})";
     }
 
     /**
@@ -188,28 +149,6 @@ class PostgresGrammar extends Grammar
     }
 
     /**
-     * Compile the SQL needed to drop all tables.
-     *
-     * @param  string  $tables
-     * @return string
-     */
-    public function compileDropAllTables($tables)
-    {
-        return 'drop table "'.implode('","', $tables).'" cascade';
-    }
-
-    /**
-     * Compile the SQL needed to retrieve all table names.
-     *
-     * @param  string  $schema
-     * @return string
-     */
-    public function compileGetAllTables($schema)
-    {
-        return "select tablename from pg_catalog.pg_tables where schemaname = '{$schema}'";
-    }
-
-    /**
      * Compile a drop column command.
      *
      * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
@@ -220,7 +159,9 @@ class PostgresGrammar extends Grammar
     {
         $columns = $this->prefixArray('drop column', $this->wrapArray($command->columns));
 
-        return 'alter table '.$this->wrapTable($blueprint).' '.implode(', ', $columns);
+        $table = $this->wrapTable($blueprint);
+
+        return 'alter table '.$table.' '.implode(', ', $columns);
     }
 
     /**
@@ -232,7 +173,9 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropPrimary(Blueprint $blueprint, Fluent $command)
     {
-        $index = $this->wrap("{$blueprint->getTable()}_pkey");
+        $table = $blueprint->getTable();
+
+        $index = $this->wrap("{$table}_pkey");
 
         return 'alter table '.$this->wrapTable($blueprint)." drop constraint {$index}";
     }
@@ -246,9 +189,11 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropUnique(Blueprint $blueprint, Fluent $command)
     {
+        $table = $this->wrapTable($blueprint);
+
         $index = $this->wrap($command->index);
 
-        return "alter table {$this->wrapTable($blueprint)} drop constraint {$index}";
+        return "alter table {$table} drop constraint {$index}";
     }
 
     /**
@@ -260,19 +205,9 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropIndex(Blueprint $blueprint, Fluent $command)
     {
-        return "drop index {$this->wrap($command->index)}";
-    }
+        $index = $this->wrap($command->index);
 
-    /**
-     * Compile a drop spatial index command.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
-     * @return string
-     */
-    public function compileDropSpatialIndex(Blueprint $blueprint, Fluent $command)
-    {
-        return $this->compileDropIndex($blueprint, $command);
+        return "drop index {$index}";
     }
 
     /**
@@ -284,23 +219,11 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropForeign(Blueprint $blueprint, Fluent $command)
     {
+        $table = $this->wrapTable($blueprint);
+
         $index = $this->wrap($command->index);
 
-        return "alter table {$this->wrapTable($blueprint)} drop constraint {$index}";
-    }
-
-    /**
-     * Compile a rename table command.
-     *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
-     * @return string
-     */
-    public function compileRename(Blueprint $blueprint, Fluent $command)
-    {
-        $from = $this->wrapTable($blueprint);
-
-        return "alter table {$from} rename to ".$this->wrapTable($command->to);
+        return "alter table {$table} drop constraint {$index}";
     }
 
     /**
@@ -321,6 +244,20 @@ class PostgresGrammar extends Grammar
     public function compileDisableForeignKeyConstraints()
     {
         return 'SET CONSTRAINTS ALL DEFERRED;';
+    }
+
+    /**
+     * Compile a rename table command.
+     *
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $command
+     * @return string
+     */
+    public function compileRename(Blueprint $blueprint, Fluent $command)
+    {
+        $from = $this->wrapTable($blueprint);
+
+        return "alter table {$from} rename to ".$this->wrapTable($command->to);
     }
 
     /**
@@ -379,7 +316,7 @@ class PostgresGrammar extends Grammar
     }
 
     /**
-     * Create the column definition for an integer type.
+     * Create the column definition for a integer type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
@@ -456,17 +393,6 @@ class PostgresGrammar extends Grammar
     }
 
     /**
-     * Create the column definition for a real type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeReal(Fluent $column)
-    {
-        return 'real';
-    }
-
-    /**
      * Create the column definition for a decimal type.
      *
      * @param  \Illuminate\Support\Fluent  $column
@@ -497,7 +423,7 @@ class PostgresGrammar extends Grammar
     protected function typeEnum(Fluent $column)
     {
         $allowed = array_map(function ($a) {
-            return "'{$a}'";
+            return "'".$a."'";
         }, $column->allowed);
 
         return "varchar(255) check (\"{$column->name}\" in (".implode(', ', $allowed).'))';
@@ -544,18 +470,18 @@ class PostgresGrammar extends Grammar
      */
     protected function typeDateTime(Fluent $column)
     {
-        return "timestamp($column->precision) without time zone";
+        return 'timestamp(0) without time zone';
     }
 
     /**
-     * Create the column definition for a date-time (with time zone) type.
+     * Create the column definition for a date-time type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
     protected function typeDateTimeTz(Fluent $column)
     {
-        return "timestamp($column->precision) with time zone";
+        return 'timestamp(0) with time zone';
     }
 
     /**
@@ -566,18 +492,18 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTime(Fluent $column)
     {
-        return "time($column->precision) without time zone";
+        return 'time(0) without time zone';
     }
 
     /**
-     * Create the column definition for a time (with time zone) type.
+     * Create the column definition for a time type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
     protected function typeTimeTz(Fluent $column)
     {
-        return "time($column->precision) with time zone";
+        return 'time(0) with time zone';
     }
 
     /**
@@ -588,33 +514,26 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTimestamp(Fluent $column)
     {
-        $columnType = "timestamp($column->precision) without time zone";
+        if ($column->useCurrent) {
+            return 'timestamp(0) without time zone default CURRENT_TIMESTAMP(0)';
+        }
 
-        return $column->useCurrent ? "$columnType default CURRENT_TIMESTAMP" : $columnType;
+        return 'timestamp(0) without time zone';
     }
 
     /**
-     * Create the column definition for a timestamp (with time zone) type.
+     * Create the column definition for a timestamp type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
     protected function typeTimestampTz(Fluent $column)
     {
-        $columnType = "timestamp($column->precision) with time zone";
+        if ($column->useCurrent) {
+            return 'timestamp(0) with time zone default CURRENT_TIMESTAMP(0)';
+        }
 
-        return $column->useCurrent ? "$columnType default CURRENT_TIMESTAMP" : $columnType;
-    }
-
-    /**
-     * Create the column definition for a year type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeYear(Fluent $column)
-    {
-        return $this->typeInteger($column);
+        return 'timestamp(0) with time zone';
     }
 
     /**
@@ -659,105 +578,6 @@ class PostgresGrammar extends Grammar
     protected function typeMacAddress(Fluent $column)
     {
         return 'macaddr';
-    }
-
-    /**
-     * Create the column definition for a spatial Geometry type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @throws \RuntimeException
-     */
-    protected function typeGeometry(Fluent $column)
-    {
-        throw new RuntimeException('The database driver in use does not support the Geometry spatial column type.');
-    }
-
-    /**
-     * Create the column definition for a spatial Point type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typePoint(Fluent $column)
-    {
-        return $this->formatPostGisType('point');
-    }
-
-    /**
-     * Create the column definition for a spatial LineString type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeLineString(Fluent $column)
-    {
-        return $this->formatPostGisType('linestring');
-    }
-
-    /**
-     * Create the column definition for a spatial Polygon type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typePolygon(Fluent $column)
-    {
-        return $this->formatPostGisType('polygon');
-    }
-
-    /**
-     * Create the column definition for a spatial GeometryCollection type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeGeometryCollection(Fluent $column)
-    {
-        return $this->formatPostGisType('geometrycollection');
-    }
-
-    /**
-     * Create the column definition for a spatial MultiPoint type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeMultiPoint(Fluent $column)
-    {
-        return $this->formatPostGisType('multipoint');
-    }
-
-    /**
-     * Create the column definition for a spatial MultiLineString type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    public function typeMultiLineString(Fluent $column)
-    {
-        return $this->formatPostGisType('multilinestring');
-    }
-
-    /**
-     * Create the column definition for a spatial MultiPolygon type.
-     *
-     * @param  \Illuminate\Support\Fluent  $column
-     * @return string
-     */
-    protected function typeMultiPolygon(Fluent $column)
-    {
-        return $this->formatPostGisType('multipolygon');
-    }
-
-    /**
-     * Format the column definition for a PostGIS spatial type.
-     *
-     * @param  string  $type
-     * @return string
-     */
-    private function formatPostGisType(string $type)
-    {
-        return "geography($type, 4326)";
     }
 
     /**

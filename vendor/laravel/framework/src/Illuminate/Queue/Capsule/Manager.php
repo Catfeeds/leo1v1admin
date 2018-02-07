@@ -7,10 +7,6 @@ use Illuminate\Container\Container;
 use Illuminate\Queue\QueueServiceProvider;
 use Illuminate\Support\Traits\CapsuleManagerTrait;
 
-/**
- * @mixin \Illuminate\Queue\QueueManager
- * @mixin \Illuminate\Contracts\Queue\Queue
- */
 class Manager
 {
     use CapsuleManagerTrait;
@@ -116,7 +112,7 @@ class Manager
     /**
      * Push a new job onto the queue after a delay.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  \DateTime|int  $delay
      * @param  string  $job
      * @param  mixed   $data
      * @param  string  $queue
@@ -170,7 +166,7 @@ class Manager
      */
     public function __call($method, $parameters)
     {
-        return $this->manager->$method(...$parameters);
+        return call_user_func_array([$this->manager, $method], $parameters);
     }
 
     /**
@@ -182,6 +178,6 @@ class Manager
      */
     public static function __callStatic($method, $parameters)
     {
-        return static::connection()->$method(...$parameters);
+        return call_user_func_array([static::connection(), $method], $parameters);
     }
 }

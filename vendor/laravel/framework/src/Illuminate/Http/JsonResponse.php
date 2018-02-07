@@ -4,16 +4,13 @@ namespace Illuminate\Http;
 
 use JsonSerializable;
 use InvalidArgumentException;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
 
 class JsonResponse extends BaseJsonResponse
 {
-    use ResponseTrait, Macroable {
-        Macroable::__call as macroCall;
-    }
+    use ResponseTrait;
 
     /**
      * Constructor.
@@ -22,7 +19,6 @@ class JsonResponse extends BaseJsonResponse
      * @param  int    $status
      * @param  array  $headers
      * @param  int    $options
-     * @return void
      */
     public function __construct($data = null, $status = 200, $headers = [], $options = 0)
     {
@@ -32,21 +28,10 @@ class JsonResponse extends BaseJsonResponse
     }
 
     /**
-     * Sets the JSONP callback.
-     *
-     * @param  string|null  $callback
-     * @return $this
-     */
-    public function withCallback($callback = null)
-    {
-        return $this->setCallback($callback);
-    }
-
-    /**
      * Get the json_decoded data from the response.
      *
      * @param  bool  $assoc
-     * @param  int  $depth
+     * @param  int   $depth
      * @return mixed
      */
     public function getData($assoc = false, $depth = 512)
@@ -59,19 +44,17 @@ class JsonResponse extends BaseJsonResponse
      */
     public function setData($data = [])
     {
-        $this->original = $data;
-
-        if ($data instanceof Jsonable) {
+        if ($data instanceof Arrayable) {
+            $this->data = json_encode($data->toArray(), $this->encodingOptions);
+        } elseif ($data instanceof Jsonable) {
             $this->data = $data->toJson($this->encodingOptions);
         } elseif ($data instanceof JsonSerializable) {
             $this->data = json_encode($data->jsonSerialize(), $this->encodingOptions);
-        } elseif ($data instanceof Arrayable) {
-            $this->data = json_encode($data->toArray(), $this->encodingOptions);
         } else {
             $this->data = json_encode($data, $this->encodingOptions);
         }
 
-        if (! $this->hasValidJson(json_last_error())) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new InvalidArgumentException(json_last_error_msg());
         }
 
@@ -79,36 +62,33 @@ class JsonResponse extends BaseJsonResponse
     }
 
     /**
-     * Determine if an error occurred during JSON encoding.
+     * Get the JSON encoding options.
      *
-     * @param  int  $jsonError
-     * @return bool
+     * @return int
      */
-    protected function hasValidJson($jsonError)
+    public function getJsonOptions()
     {
-        return $jsonError === JSON_ERROR_NONE ||
-                ($jsonError === JSON_ERROR_UNSUPPORTED_TYPE &&
-                $this->hasEncodingOption(JSON_PARTIAL_OUTPUT_ON_ERROR));
+        return $this->getEncodingOptions();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setEncodingOptions($options)
+    public function setEncodingOptions($encodingOptions)
+    {
+        return $this->setJsonOptions($encodingOptions);
+    }
+
+    /**
+     * Set the JSON encoding options.
+     *
+     * @param  int  $options
+     * @return mixed
+     */
+    public function setJsonOptions($options)
     {
         $this->encodingOptions = (int) $options;
 
         return $this->setData($this->getData());
-    }
-
-    /**
-     * Determine if a JSON encoding option is set.
-     *
-     * @param  int  $option
-     * @return bool
-     */
-    public function hasEncodingOption($option)
-    {
-        return (bool) ($this->encodingOptions & $option);
     }
 }

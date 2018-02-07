@@ -2,7 +2,6 @@
 
 namespace Illuminate\Validation;
 
-use Closure;
 use Illuminate\Support\Str;
 use Illuminate\Database\ConnectionResolverInterface;
 
@@ -20,7 +19,7 @@ class DatabasePresenceVerifier implements PresenceVerifierInterface
      *
      * @var string
      */
-    protected $connection;
+    protected $connection = null;
 
     /**
      * Create a new database presence verifier.
@@ -39,20 +38,24 @@ class DatabasePresenceVerifier implements PresenceVerifierInterface
      * @param  string  $collection
      * @param  string  $column
      * @param  string  $value
-     * @param  int|null  $excludeId
-     * @param  string|null  $idColumn
-     * @param  array  $extra
+     * @param  int     $excludeId
+     * @param  string  $idColumn
+     * @param  array   $extra
      * @return int
      */
     public function getCount($collection, $column, $value, $excludeId = null, $idColumn = null, array $extra = [])
     {
         $query = $this->table($collection)->where($column, '=', $value);
 
-        if (! is_null($excludeId) && $excludeId !== 'NULL') {
+        if (! is_null($excludeId) && $excludeId != 'NULL') {
             $query->where($idColumn ?: 'id', '<>', $excludeId);
         }
 
-        return $this->addConditions($query, $extra)->count();
+        foreach ($extra as $key => $extraValue) {
+            $this->addWhere($query, $key, $extraValue);
+        }
+
+        return $query->count();
     }
 
     /**
@@ -68,29 +71,11 @@ class DatabasePresenceVerifier implements PresenceVerifierInterface
     {
         $query = $this->table($collection)->whereIn($column, $values);
 
-        return $this->addConditions($query, $extra)->count();
-    }
-
-    /**
-     * Add the given conditions to the query.
-     *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $conditions
-     * @return \Illuminate\Database\Query\Builder
-     */
-    protected function addConditions($query, $conditions)
-    {
-        foreach ($conditions as $key => $value) {
-            if ($value instanceof Closure) {
-                $query->where(function ($query) use ($value) {
-                    $value($query);
-                });
-            } else {
-                $this->addWhere($query, $key, $value);
-            }
+        foreach ($extra as $key => $extraValue) {
+            $this->addWhere($query, $key, $extraValue);
         }
 
-        return $query;
+        return $query->count();
     }
 
     /**

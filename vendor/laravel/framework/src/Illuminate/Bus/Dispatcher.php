@@ -34,13 +34,6 @@ class Dispatcher implements QueueingDispatcher
     protected $pipes = [];
 
     /**
-     * The command to handler mapping for non-self-handling events.
-     *
-     * @var array
-     */
-    protected $handlers = [];
-
-    /**
      * The queue resolver callback.
      *
      * @var \Closure|null
@@ -71,57 +64,22 @@ class Dispatcher implements QueueingDispatcher
     {
         if ($this->queueResolver && $this->commandShouldBeQueued($command)) {
             return $this->dispatchToQueue($command);
+        } else {
+            return $this->dispatchNow($command);
         }
-
-        return $this->dispatchNow($command);
     }
 
     /**
      * Dispatch a command to its appropriate handler in the current process.
      *
      * @param  mixed  $command
-     * @param  mixed  $handler
      * @return mixed
      */
-    public function dispatchNow($command, $handler = null)
+    public function dispatchNow($command)
     {
-        if ($handler || $handler = $this->getCommandHandler($command)) {
-            $callback = function ($command) use ($handler) {
-                return $handler->handle($command);
-            };
-        } else {
-            $callback = function ($command) {
-                return $this->container->call([$command, 'handle']);
-            };
-        }
-
-        return $this->pipeline->send($command)->through($this->pipes)->then($callback);
-    }
-
-    /**
-     * Determine if the given command has a handler.
-     *
-     * @param  mixed  $command
-     * @return bool
-     */
-    public function hasCommandHandler($command)
-    {
-        return array_key_exists(get_class($command), $this->handlers);
-    }
-
-    /**
-     * Retrieve the handler for a command.
-     *
-     * @param  mixed  $command
-     * @return bool|mixed
-     */
-    public function getCommandHandler($command)
-    {
-        if ($this->hasCommandHandler($command)) {
-            return $this->container->make($this->handlers[get_class($command)]);
-        }
-
-        return false;
+        return $this->pipeline->send($command)->through($this->pipes)->then(function ($command) {
+            return $this->container->call([$command, 'handle']);
+        });
     }
 
     /**
@@ -145,7 +103,7 @@ class Dispatcher implements QueueingDispatcher
      */
     public function dispatchToQueue($command)
     {
-        $connection = $command->connection ?? null;
+        $connection = isset($command->connection) ? $command->connection : null;
 
         $queue = call_user_func($this->queueResolver, $connection);
 
@@ -155,9 +113,9 @@ class Dispatcher implements QueueingDispatcher
 
         if (method_exists($command, 'queue')) {
             return $command->queue($queue, $command);
+        } else {
+            return $this->pushCommandToQueue($queue, $command);
         }
-
-        return $this->pushCommandToQueue($queue, $command);
     }
 
     /**
@@ -193,19 +151,6 @@ class Dispatcher implements QueueingDispatcher
     public function pipeThrough(array $pipes)
     {
         $this->pipes = $pipes;
-
-        return $this;
-    }
-
-    /**
-     * Map a command to a handler.
-     *
-     * @param  array  $map
-     * @return $this
-     */
-    public function map(array $map)
-    {
-        $this->handlers = array_merge($this->handlers, $map);
 
         return $this;
     }

@@ -33,6 +33,8 @@ class StreamOutput extends Output
     private $stream;
 
     /**
+     * Constructor.
+     *
      * @param resource                      $stream    A stream resource
      * @param int                           $verbosity The verbosity level (one of the VERBOSITY constants in OutputInterface)
      * @param bool|null                     $decorated Whether to decorate messages (null for auto-guessing)
@@ -83,7 +85,7 @@ class StreamOutput extends Output
      *
      * Colorization is disabled if not supported by the stream:
      *
-     *  -  Windows != 10.0.10586 without Ansicon, ConEmu or Mintty
+     *  -  Windows before 10.0.10586 without Ansicon, ConEmu or Mintty
      *  -  non tty consoles
      *
      * @return bool true if the stream supports colorization, false otherwise
@@ -92,7 +94,7 @@ class StreamOutput extends Output
     {
         if (DIRECTORY_SEPARATOR === '\\') {
             return
-                '10.0.10586' === PHP_WINDOWS_VERSION_MAJOR.'.'.PHP_WINDOWS_VERSION_MINOR.'.'.PHP_WINDOWS_VERSION_BUILD
+                0 >= version_compare('10.0.10586', PHP_WINDOWS_VERSION_MAJOR.'.'.PHP_WINDOWS_VERSION_MINOR.'.'.PHP_WINDOWS_VERSION_BUILD)
                 || false !== getenv('ANSICON')
                 || 'ON' === getenv('ConEmuANSI')
                 || 'xterm' === getenv('TERM');
