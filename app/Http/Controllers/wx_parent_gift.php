@@ -1126,4 +1126,43 @@ class wx_parent_gift extends Controller
     }
 
 
+    # 思维测试 二维码扫码跳转
+    public function thinkingTest () {
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+
+        $wx = new \App\Helper\Wx($p_appid,$p_appsecret);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteToThinkUrl");
+        $wx->goto_wx_login( $redirect_url );
+    }
+
+    public function rewriteToThinkUrl(){
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+
+        $code = $this->get_in_str_val('code');
+        $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
+        $token_info = $wx->get_token_from_code($code);
+        $openid     = @$token_info["openid"];
+        $token      = $wx->get_wx_token($p_appid,$p_appsecret);
+        $user_info  = $wx->get_user_info($openid,$token);
+
+        $isSub = $user_info['subscribe'];
+        # 记录点击次数
+        $key = "thinking_openid_".@$user_info['openid']."_test";
+        $key_num = 'thinking_record_test';
+        Redis::INCR($key_num);
+        Redis::set($key,1);
+
+        if($isSub == 1){ # 已关注
+            header("location: http://wx-parent-web.leo1v1.com/quiz/index.html?follow=1");
+        }else{ # 未关注
+            header("location: http://wx-parent-web.leo1v1.com/quiz/index.html?follow=0");
+        }
+        return ;
+    }
+
+
+
+
 }

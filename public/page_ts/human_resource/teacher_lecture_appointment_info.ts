@@ -1232,6 +1232,35 @@ $(function(){
 
             }
         });
+    });
+
+    $(".opt-set-teacher-subject-info").on("click",function(){
+        var data = $(this).get_opt_data();
+
+        BootstrapDialog.show({
+	          title   : "重置老师扩课信息",
+	          message : "重置老师扩课信息",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/human_resource/reset_teacher_trans_info",{
+                        "id":data.id
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+		            }
+	          }]
+        });
 
 
     });

@@ -277,9 +277,10 @@ class ajax_deal2 extends Controller
         $this->t_order_info->field_update_list($orderid,[
             "pdf_url" =>$pdf_file_url
         ]);
+
         return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
 
-        # 增加发送给家长 [暂停发布]
+        # 增加发送给家长 [暂停发布] -->安卓,ios 微信已可直接查看 功能ok
         $parentid = $this->t_parent_child->get_parentid_by_userid($userid);
         if($pdf_file_url ){
             $cc_row = $this->t_manager_info->get_phone_by_account($row['sys_operator']);

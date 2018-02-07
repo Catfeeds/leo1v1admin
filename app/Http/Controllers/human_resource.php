@@ -5038,5 +5038,33 @@ class human_resource extends Controller
         return $this->output_ret($ret);
     }
 
+    /**
+     * 重置老师试讲预约的扩课信息
+     */
+    public function reset_teacher_trans_info(){
+        $id = $this->get_in_int_val("id");
+
+        $trans_info = $this->t_teacher_lecture_appointment_info->get_teacher_trans_info($id);
+        if(empty($trans_info)){
+            return $this->output_err("老师试讲信息不存在，请刷新重试！");
+        }
+
+        $grade         = $trans_info["grade_ex"];
+        $subject       = $trans_info["subject_ex"];
+        $trans_grade   = $trans_info["trans_grade_ex"];
+        $trans_subject = $trans_info["trans_subject_ex"];
+        if($grade=="" && $subject=="" && $trans_grade!="" && $trans_subject!=0){
+            $update_arr = [
+                "grade_ex"         => $trans_grade,
+                "subject_ex"       => $trans_subject,
+                "trans_grade_ex"   => "",
+                "trans_subject_ex" => 0,
+            ];
+            $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id, $update_arr);
+            return $this->output_ret($ret);
+        }else{
+            return $this->output_err("老师扩课的试讲信息无法更换！");
+        }
+    }
 
 }

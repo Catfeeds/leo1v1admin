@@ -235,7 +235,7 @@
                                     </tr>
                                     <tr style="color:#0000FF">
                                         <td>总计</td>
-                                        <td>{{$refund_warning["total"]}}</td>
+                                        <td><a href="/user_manage/ass_archive?refund_warn=4"><span style="color:#0000FF">{{$refund_warning["total"]}}</span></a></td>
                                     </tr>
                                 </tbody>
                             </table>

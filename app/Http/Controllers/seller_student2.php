@@ -145,12 +145,23 @@ class seller_student2 extends Controller
                 $item['grade_list_str'] = '';
             }
             //时间
+            // \App\Helper\Utils::unixtime2date_for_item($item,"date_range_start","","Y-m-d");
+            // \App\Helper\Utils::unixtime2date_for_item($item,"date_range_end","","Y-m-d");
+            // \App\Helper\Utils::unixtime2date_for_item($item,"user_join_time_start","","Y-m-d");
+            // \App\Helper\Utils::unixtime2date_for_item($item,"user_join_time_end","","Y-m-d");
+            // \App\Helper\Utils::unixtime2date_for_item($item,"last_test_lesson_start","","Y-m-d");
+            // \App\Helper\Utils::unixtime2date_for_item($item,"last_test_lesson_end","","Y-m-d");
+            // \App\Helper\Utils::unixtime2date_for_item($item,"success_test_lesson_start","","Y-m-d");
+            // \App\Helper\Utils::unixtime2date_for_item($item,"success_test_lesson_end","","Y-m-d");
+
             $item["date_range_start"] = !empty($item["date_range_start"]) ? date('Y-m-d',$item["date_range_start"]) : '';
             $item["date_range_end"] = !empty($item["date_range_end"]) ? date('Y-m-d',$item["date_range_end"]) : '';
             $item["user_join_time_start"] = !empty($item["user_join_time_start"]) ? date('Y-m-d',$item["user_join_time_start"]) : '';
             $item["user_join_time_end"] = !empty($item["user_join_time_end"]) ? date('Y-m-d',$item["user_join_time_end"]) : '';
             $item["last_test_lesson_start"] = !empty($item["last_test_lesson_start"]) ? date('Y-m-d',$item["last_test_lesson_start"]) : '';
             $item["last_test_lesson_end"] = !empty($item["last_test_lesson_end"]) ? date('Y-m-d',$item["last_test_lesson_end"]) : '';
+            $item["success_test_lesson_start"] = !empty($item["success_test_lesson_start"]) ? date('Y-m-d',$item["success_test_lesson_start"]) : '';
+            $item["success_test_lesson_end"] = !empty($item["success_test_lesson_end"]) ? date('Y-m-d',$item["success_test_lesson_end"]) : '';
 
             //寻找配额组合
             $activity_type_list = $this->t_order_activity_config->get_activity_exits_list($item['max_count_activity_type_list']);
@@ -163,7 +174,7 @@ class seller_student2 extends Controller
         $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
                                [
-                                   "_publish_version"      => "201712271757",
+                                   "_publish_version"      => "201712281757",
                                    "ret_info" => $item,
                                    "gradeArr" => $gradeArr,
                                    "discount_list"=>$discount_list,
@@ -538,12 +549,17 @@ class seller_student2 extends Controller
         $user_join_time_end = trim($this->get_in_str_val('user_join_time_end',null));
         $last_test_lesson_start = trim($this->get_in_str_val('last_test_lesson_start',null));
         $last_test_lesson_end = trim($this->get_in_str_val('last_test_lesson_end',null));
+        $success_test_lesson_start = trim($this->get_in_str_val('success_test_lesson_start',null));
+        $success_test_lesson_end = trim($this->get_in_str_val('success_test_lesson_end',null));
+
         $updateArr = [];
 
         !empty($user_join_time_start) ? $updateArr['user_join_time_start'] = strtotime($user_join_time_start.' 00:00:00') : $updateArr['user_join_time_start'] = null;
         !empty($user_join_time_end) ? $updateArr['user_join_time_end'] = strtotime($user_join_time_end.' 23:59:59') : $updateArr['user_join_time_end'] = null;
         !empty($last_test_lesson_start) ? $updateArr['last_test_lesson_start'] = strtotime($last_test_lesson_start.' 00:00:00') : $updateArr['last_test_lesson_start'] = null;
         !empty($last_test_lesson_end) ? $updateArr['last_test_lesson_end'] = strtotime($last_test_lesson_end.' 23:59:59') : $updateArr['last_test_lesson_end'] = null;
+        !empty($success_test_lesson_start) ? $updateArr['success_test_lesson_start'] = strtotime($success_test_lesson_start.' 00:00:00') : $updateArr['success_test_lesson_start'] = null;
+        !empty($success_test_lesson_end) ? $updateArr['success_test_lesson_end'] = strtotime($success_test_lesson_end.' 23:59:59') : $updateArr['success_test_lesson_end'] = null;
 
 
         if($this->t_order_activity_config->field_update_list($id,$updateArr)){

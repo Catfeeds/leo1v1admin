@@ -2451,6 +2451,7 @@ $(function(){
                                 add_tag += $(this).attr('value')+',';
                             }
                         });
+                        
                         if(html_node.find("#id_stu_nick_new_two").val() == ''){
                             html_node.find("#id_stu_nick_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
@@ -2487,6 +2488,7 @@ $(function(){
                         }else{
                             html_node.find("#id_stu_subject_new_two").parent().attr('style','');
                         }
+                        
                         if(html_node.find("#id_stu_editionid_new_two").val() <= 0){
                             html_node.find("#id_stu_editionid_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
@@ -2511,6 +2513,8 @@ $(function(){
                         }else{
                             html_node.find("#city_new_two").parent().attr('style','');
                         }
+                        if(html_node.find('#id_ass_test_lesson_type_new_two').val()!=2){
+
                         var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
                         if(html_node.find("#id_main_subject_score_one_new_two").val() == ''){
                             html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
@@ -2570,6 +2574,7 @@ $(function(){
                             return false;
                         }else{
                             html_node.find("#id_intention_level_new_two").parent().attr('style','');
+                        }
                         }
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
                             var min_time = Date.parse(
@@ -2677,7 +2682,7 @@ $(function(){
                             user_desc                        : id_user_desc.val(),
                             ass_test_lesson_type             : id_ass_test_lesson_type.val(),
                             change_teacher_reason_type       : id_change_teacher_reason_type.val(),
-                            change_reason_url                : id_change_reason_url.val(),
+                            change_reason_url                : id_change_reason_url.attr('value'),
                             change_reason                    : id_change_reason.val(),
                             green_channel_teacherid          : id_green_channel_teacherid.val(),
                             learning_situation               : id_learning_situation.val(),
@@ -2696,7 +2701,10 @@ $(function(){
                 $.custom_upload_file('id_upload_change_reason_url',true,function (up, info, file) {
                     var res = $.parseJSON(info);
                     console.log(res);
-                    id_change_reason_url.val(res.key);
+                    // id_change_reason_url.val(res.key);
+                    id_change_reason_url.text(res.key);
+                    id_change_reason_url.attr('href',g_args.qiniu_url+res.key);
+                    id_change_reason_url.attr('value',res.key);
                 }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
                 $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
                     var res = $.parseJSON(info);

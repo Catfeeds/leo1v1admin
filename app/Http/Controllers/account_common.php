@@ -115,6 +115,7 @@ class account_common extends Controller
 
         $key = $phone."-".$role."time";
         $session_time_code = session($key);
+
         if($time_code != $session_time_code){
             return $this->output_err("请输入正确的手机号码");
         }
