@@ -71,7 +71,7 @@
                     <input id="id_teacherid"  type="text" value="{{ @$require_info['teacherid'] }}"
                            autocomplete="off" style="display:none" />
                     <input id="id_teacher_info" type="text" value="{{ @$require_info['teacher_info'] }}"
-                           autocomplete="off" placeholder="输入老师姓名/手机回车搜索" />
+                           autocomplete="off" placeholder="输入老师姓名/手机/昵称 回车搜索" />
                 </div>
             </div>
             <div class="col-md-1 col-xs-3 require_status_first">

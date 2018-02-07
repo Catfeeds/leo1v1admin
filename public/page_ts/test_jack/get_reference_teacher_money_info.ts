@@ -19,9 +19,9 @@ $(function(){
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".row-data");
                 // var teacherid = opt_data.data("teacherid");
-                var start_time = opt_data.data("start");
+                var userid = opt_data.data("userid");
                 // var end_time = opt_data.data("end");
-                if(start_time>0){
+                if(userid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
@@ -44,14 +44,14 @@ $(function(){
                         });*/
                     $.do_ajax("/test_jack/ajax_deal_jack",{
                         // "teacherid" : teacherid,
-                        "start_time": start_time,
+                        "userid": userid,
                         // "end_time"  : end_time
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".small_grade").text(data.small_grade);
-                        $tr.find(".middle_grade").text(data.middle_grade);
-                        $tr.find(".high_grade").text(data.high_grade);
+                        $tr.find(".num").text(data.num);
+                        // $tr.find(".middle_grade").text(data.middle_grade);
+                        // $tr.find(".high_grade").text(data.high_grade);
                         // $tr.find(".test_kk_num").text(data.test_kk_num);
                         // $tr.find(".reg_num").text(data.reg_num);
                         // $tr.find(".all_reg_num").text(data.all_reg_num);
