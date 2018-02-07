@@ -182,7 +182,7 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="max-width:200px">文件名</td>
+                    <td style="max-width:200px;word-wrap: break-word;">文件名</td>
                     <td>修改日期</td>
                     <td>操作人</td>
                     <td>文件格式</td>
@@ -714,7 +714,7 @@
     <div class="error hide">
         <div class="error_info">
             <span class="error_title">全部报错（<b class="error_no">0</b>）</span>
-            <div class="error_status_choose">
+            <div class="error_status_choose hide">
                 <span>状态选择</span>
                 <select class="form-control error_choose">
                     <option value="-1">全部</option>
