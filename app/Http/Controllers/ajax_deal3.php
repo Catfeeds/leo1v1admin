@@ -958,4 +958,22 @@ class ajax_deal3 extends Controller
 
     }
 
+
+    //查询助教目标值更改记录
+    public function get_assistant_target_change_list(){
+        $month   = strtotime($this->get_in_str_val("month"));
+        $log = $this->t_ass_group_target->get_change_log($month);
+        $list = json_decode($log,true);
+        if($list){
+            \App\Helper\Utils::order_list( $list,"time", 0); 
+            foreach($list as &$item){
+                $item["time_str"] = date("Y-m-d H:i:s",$item["time"]);
+                $item["old_str"] = "系数:".$item["old"]["rate_target"]."\n助教月续费目标:".($item["old"]["renew_target"]/100)."\n团队月续费目标".($item["old"]["group_renew_target"]/100)."\n总体月续费目标:".($item["old"]["all_renew_target"]/100);
+                $item["new_str"] = "系数:".$item["new"]["rate_target"]."\n助教月续费目标:".($item["new"]["renew_target"]/100)."\n团队月续费目标".($item["new"]["group_renew_target"]/100)."\n总体月续费目标:".($item["new"]["all_renew_target"]/100);
+            }
+        }
+        return $this->output_succ(["data" => $list]);
+
+    }
+
 }

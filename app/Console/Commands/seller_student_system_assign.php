@@ -174,6 +174,7 @@ class seller_student_system_assign extends cmd_base
 
         $assigned_count=0;
         if( $left_no_connected_count_all)  {
+            $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
             for ($i=0;$i< 5;$i++ ) { //第几轮
                 \App\Helper\Utils::logger(" DO count_reward :$i");
                 //遍历获奖用户
@@ -184,20 +185,25 @@ class seller_student_system_assign extends cmd_base
                         $opt_adminid= $item["uid"];
                         \App\Helper\Utils::logger(" --> adminid: $opt_adminid, $i,assigned_no_connected_count:$assigned_no_connected_count");
                         if ($assigned_no_connected_count <=$i ){//这一轮可以分配
-                            $find_userid= @$need_deal_list[$assigned_count]["userid"];
-                            //判断之前没有分配给此用户过
-                            if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
+                            for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {  //为了避免因已分配过少分
+                                $find_userid= @$need_deal_list[$j]["userid"];
+                                //判断之前没有分配给此用户过
+                                if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
 
-                                $assigned_count++;
-                                $userid_list=[$find_userid];
-                                $opt_type ="" ;
-                                $opt_type=0;
-                                $account="系统分配-未拨通例子";
-                                $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
-                                $check_hold_flag = false;
-                                $this->task->t_seller_student_system_assign_log->add(
-                                    E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
-                                );
+                                    $assigned_count++;
+                                    $userid_list=[$find_userid];
+                                    $opt_type ="" ;
+                                    $opt_type=0;
+                                    $account="系统分配-未拨通例子";
+                                    $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                                    $check_hold_flag = false;
+                                    $this->task->t_seller_student_system_assign_log->add(
+                                        E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
+                                    );
+                                    unset($need_deal_list[$j]);
+                                    $start_deal_index=$j+1;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -233,7 +239,7 @@ class seller_student_system_assign extends cmd_base
                     $assigned_no_connected_count=$item["assigned_no_connected_count"];//已获取奖励数量
                     $def_no_connected_count=$item["def_no_connected_count"];//分配奖励数量
                     $opt_adminid= $item["uid"];
-                    for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
+                    for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {  //差几次分几个
                         for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
                             $find_userid= @$need_deal_list[$j]["userid"];
                             //判断之前没有分配给此用户过

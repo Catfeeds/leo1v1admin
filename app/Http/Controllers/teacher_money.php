@@ -989,9 +989,7 @@ class teacher_money extends Controller
             $item["phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
             $item["bank_phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['bank_phone']);
         }
-        return $this->pageView(__METHOD__,$ret_info, [
-            'acc' => $acc
-        ]);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
     /**

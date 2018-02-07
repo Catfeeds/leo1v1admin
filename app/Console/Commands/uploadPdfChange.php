@@ -57,26 +57,19 @@ class uploadPdfChange extends Command
 
         foreach($handoutArray as $item){
             //七牛下载
-            if($item['stu_cw_url'] && $item['zip_url_stu']=='' && $item['use_ppt_stu'] ==1){
-                $this->deal($item,2); # 处理学生讲义
-            }
-            if($item['tea_cw_url'] && $item['zip_url']=='' && $item['use_ppt'] ==1){
-                $this->deal($item,1); # 处理老师讲义
-            }
+            $this->deal($item);
         }
     }
 
-    public function deal($item,$is_tea){
-        if($is_tea == 1){
-            $pdf_file_path = $this->gen_download_url($item['tea_cw_url']);
-            $ppt_key = $item['tea_cw_url'];
-            $title   = $item['tea_cw_name']."_tea";
-        }else{
-            $pdf_file_path = $this->gen_download_url($item['stu_cw_url']);
-            $ppt_key = $item['stu_cw_url'];
-            $title   = $item['stu_cw_name']."_stu";
-        }
+    public function deal($item){
+        $pdf_file_path = $this->gen_download_url($item['ppt_url']);
+        $ppt_key = $item['ppt_url'];
 
+        if($item['is_tea']){
+            $title   = $item['title']."_老师";
+        }else{
+            $title   = $item['title']."_学生";
+        }
 
         $savePathFile = public_path('wximg').'/'.$ppt_key;
         \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
@@ -90,11 +83,10 @@ class uploadPdfChange extends Command
         @unlink($savePathFile);
 
         # 42服务器端更新uuid
-        $this->updateLessonUUid($item['lessonid'],$uuid,$is_tea);
+        $this->updateLessonUUid($item['lessonid'],$uuid,$item['is_tea']);
     }
 
     public function getTeaUploadPPTLink(){
-        // $url = "http://test.admin.leo1v1.com/common_new/getTeaUploadPPTLink";
         $url = "http://admin.leo1v1.com/common_new/getTeaUploadPPTLink";
         $post_data = [];
         $ch = curl_init();

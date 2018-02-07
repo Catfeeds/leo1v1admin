@@ -16,7 +16,7 @@ $(function(){
     $('#id_is_bank').val(g_args.is_bank);
 
     $('#download_data').on("click", function(){
-        var list_data = [ 
+        var list_data = [
             ["老师id",'老师姓名','科目','手机号','持卡人','卡号','银行类型','开户省','开户市','支行','手机预留号','身份证','绑卡时间'],
         ];
 
@@ -48,5 +48,9 @@ $(function(){
 
 
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
+    if(g_account=="sunny"){
+        download_show();
+    }
+
 });

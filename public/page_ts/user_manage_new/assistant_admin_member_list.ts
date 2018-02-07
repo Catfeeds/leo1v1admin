@@ -127,6 +127,40 @@ $(function(){
     });
 
 
+    $(".opt-show-change-list").on("click",function(){
+        var title = "更改记录";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>时间</td><td>操作人</td><td>更改前</td><td>更改后</td><tr></table></div>");
+
+        $.do_ajax('/ajax_deal3/get_assistant_target_change_list',{
+            "month" : g_args.start_time
+        },function(resp) {
+            var list = resp.data;
+            $.each(list,function(i,item){               
+                html_node.find("table").append("<tr><td>"+item["time_str"]+"</td><td>"+item["acc"]+"</td><td>"+item["old_str"]+"</td><td>"+item["new_str"]+"</td></tr>");
+            });
+        });
+
+        var dlg=BootstrapDialog.show({
+            title:title, 
+            message :  html_node   ,
+            closable: true, 
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+
+                }
+            }],
+            onshown:function(){
+                
+            }
+
+        });
+
+        dlg.getModalDialog().css("width","1024px");
+ 
+    });
    
  
 	$('.opt-change').set_input_change_event(load_data);

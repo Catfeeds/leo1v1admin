@@ -631,7 +631,8 @@ class teacher_info extends Controller
             $origin_id =1;
         }
         //转换pdf,可以平铺
-        if($tea_cw_url!=false){
+        $tea_cw_url_arr = explode('.', $tea_cw_url);
+        if($tea_cw_url && strtolower($tea_cw_url_arr['1']) == 'pdf'){
             $this->t_pdf_to_png_info->row_insert([
                 'lessonid'    => $lessonid,
                 'pdf_url'     => $tea_cw_url,
@@ -642,7 +643,6 @@ class teacher_info extends Controller
 
         $use_ppt_stu = 0;
         $use_ppt     = 0;
-        $tea_cw_url_arr = explode('.', $tea_cw_url);
         $stu_cw_url_arr = explode('.', $stu_cw_url);
         # 增加到待处理列表中[james]
 
