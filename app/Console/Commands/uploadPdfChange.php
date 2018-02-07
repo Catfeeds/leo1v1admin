@@ -49,10 +49,9 @@ class uploadPdfChange extends Command
             \App\Helper\Config::get_qiniu_secret_key()
         );
 
-
         $email = "michael@leoedu.com";
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a'; //md5(021130)
-        $task=new \App\Console\Tasks\TaskController();
+        $task  = new \App\Console\Tasks\TaskController();
 
         $handoutArray = $this->getTeaUploadPPTLink();
 
@@ -65,7 +64,6 @@ class uploadPdfChange extends Command
                 $this->deal($item,1); # 处理老师讲义
             }
         }
-
     }
 
     public function deal($item,$is_tea){

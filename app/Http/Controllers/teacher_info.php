@@ -647,6 +647,11 @@ class teacher_info extends Controller
         $stu_cw_url_arr = explode('.', $stu_cw_url);
         if($stu_cw_url_arr[1] == 'ppt' || $stu_cw_url_arr[1] == 'pptx'){$use_ppt_stu = 1;}
 
+        # 增加到待处理列表中[james]
+
+
+
+
 
         $this->t_lesson_info_b2->field_update_list($lessonid,[
             "tea_cw_status"      => $tea_cw_status ,

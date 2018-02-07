@@ -4400,7 +4400,7 @@ class user_deal extends Controller
         }
         $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
         $last_all_price = isset($last_all_price)?$last_all_price/100:0;
-        $last_refund_list = $this->t_order_info->get_refund_month_money($account,$start_time,$end_time);
+        $last_refund_list = $this->t_order_info->get_refund_month_money($account,$start_time_last,$end_time_last);
         foreach($last_refund_list as $item){
             if($item['real_refund']>0){
                 $last_all_price += ($item['price']-$item['real_refund'])/100;
