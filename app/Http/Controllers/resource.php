@@ -1363,8 +1363,8 @@ class resource extends Controller
                     \App\Helper\Utils::logger("admin do sth:".json_encode($var));
                     if( $wx_openid != $var['wx_openid'] ){
                         $wx_openid = $var['wx_openid'];
-                        $file_name    = $info['file_title'];
-                        $teacher_nick = $info['nick'];
+                        $file_name    = $var['file_title'];
+                        $teacher_nick = $var['nick'];
                         $data['first']      = " 您好，$teacher_nick 老师，您报错的讲义“ $file_name ”已被理优更改，感谢您对理优的监督与支持。";
                         $data['keyword1']   = " 讲义重传通知";
                         $data['keyword2']   = " 请随时查看理优新的讲义资料";
