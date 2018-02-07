@@ -2033,7 +2033,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             ]);
         }
         header("Location: http://wx-parent-web.leo1v1.com/constract/index.html?url=$url");
-        // header("Location: $url");
         return;
     }
 
