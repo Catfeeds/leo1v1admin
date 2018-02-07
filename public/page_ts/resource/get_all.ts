@@ -1658,9 +1658,9 @@ $(function(){
 
                                                 $('.btn-upload-look-error').attr({"file_id":file_id}).removeClass("hide");
                                                 error.find('.error_deal_box').each(function(){
-                                                    $(this).find('.error_file_status').addClass("error_status_pass").text("已重传");
-                                                    $(this).find('.error_file_person').addClass("error_status_pass").text("重传人："+result.reupload_name);
-                                                    $(this).find('.error_file_time').addClass("error_status_pass").text("重传时间："+result.reupload_time);
+                                                    $(this).find('.error_file_status').text("已重传");
+                                                    $(this).find('.error_file_person').text("重传人："+result.reupload_name);
+                                                    $(this).find('.error_file_time').text("重传时间："+result.reupload_time);
                                                 });
                                             } else {
                                                 alert(result.info);
