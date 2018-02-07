@@ -1494,37 +1494,38 @@ $(function(){
                         error_item.find(".error_time").text(result.list[x]['add_time']);
                         
                         //处理状态
-                        var error_status;
-                        if(result.list[x]['status'] == 0){
-                            error_status = "<p class='error_status error_status_1'>未处理</p>";
+                        switch(parseInt(result.list[x]['status'])){
+                        case 0:
+                            error_item.find('.error_file_status').text("未处理");
                             error_item.find('.error_agree').text("同意修改");
-                             error_item.find('.error_agree').attr({"error_id":result.list[x]['id'],"status":result.list[x]['status']});
-                        }else if(result.list[x]['status'] == 1){
-                            error_status = "<p class='error_status error_status_1'>已同意修改</p>";
+                            error_item.find('.error_agree').attr({"error_id":result.list[x]['id'],"status":result.list[x]['status']});
+                            break;
+                        case 1:
+                            error_item.find('.error_file_status').text("已同意修改");
                             error_item.find('.error_agree').text("已同意");
-                        }else if(result.list[x]['status'] == 2){
-                            error_status = "<p class='error_status error_status_1 error_status_pass'>已经上传</p>";
+                            break;
+                        case 2:
+                            error_item.find('.error_file_status').addClass("error_status_pass").text("已重传");
+                            error_item.find('.error_file_person').addClass("error_status_pass").text("重传人："+result.list[x]['reupload_name']);
+                            error_item.find('.error_file_time').addClass("error_status_pass").text("重传时间："+result.list[x]['reupload_time']);
+                            error_item.find('.error_agree').text("已重传");
+                            break;
+                        case 3:
+                            error_item.find('.error_file_status').text("初审拒绝");
+                            error_item.find('.error_file_person').text("拒绝人："+result.list[x]['first_check_name']);
+                            error_item.find('.error_file_time').text("拒绝时间："+result.list[x]['first_check_time']);
+                            error_item.find('.error_agree').text("已重传");
+                            break;
+                        case 4:
+                            error_item.find('.error_file_status').text("复审拒绝");
+                            error_item.find('.error_file_person').text("拒绝人："+result.list[x]['second_check_name']);
+                            error_item.find('.error_file_time').text("拒绝时间："+result.list[x]['second_check_time']);
+                            error_item.find('.error_agree').text("已重传");
+                            break;
+
                         }
-            
                         error_item.find('.err_first_check').attr({"error_id":result.list[x]['id']});
                         error_item.find('.err_sec_check').attr({"error_id":result.list[x]['id']});
-
-                        //初审未通过
-                        if(result.list[x]['first_check'] == 1 && result.list[x]['first_check_adminid'] > 0){
-                            error_status += "<p class='error_status error_status_first'>初审拒绝</p>";
-                            error_status += "<p class='error_status error_status_first'>拒绝人："+result.list[x]['first_check_name']+"</p>";
-                            error_status += "<p class='error_status error_status_first'>拒绝时间："+result.list[x]['first_check_time']+"</p>";
-                        }
-
-                        //复审未通过
-                        if(result.list[x]['second_check'] == 1 && result.list[x]['sec_check_adminid'] > 0){
-                            error_status += "<p class='error_status error_status_second'>复审拒绝</p>";
-                            error_status += "<p class='error_status error_status_second'>拒绝人："+result.list[x]['second_check_name']+"</p>";
-                            error_status += "<p class='error_status error_status_second'>拒绝时间："+result.list[x]['second_check_time']+"</p>";
-                        }
-
-                        error_item.find('.error_deal_box').html(error_status);
-
                         error.find('tbody').append(error_item);
                     }
                     error.find('tbody tr:eq(0)').remove();
@@ -1533,7 +1534,7 @@ $(function(){
                         message : error,
                         buttons: [{
                             label: '预览',
-                            cssClass: 'btn-primary btn-upload-look-error hide',
+                            cssClass: 'btn-primary btn-upload-look-error',
                             action: function(dialog) {
                                 var newTab=window.open('about:blank');
                                 do_ajax('/resource/tea_look_resource',{'tea_res_id':file_id,'tea_flag':0},function(ret){
@@ -1623,9 +1624,25 @@ $(function(){
                                         } ,
                                         success   : function(result){
                                             if(result.ret == 0){
+                                                var dlg= BootstrapDialog.show({
+                                                    title: "提示",
+                                                    message : "上传成功",
+                                                    buttons: [
+                                                        {
+                                                        label: '返回',
+                                                        cssClass: 'btn-warning',
+                                                        action: function(dialog) {
+                                                            dialog.close();
+                                                        }
+                                                    }
+                                                    ]
+                                                });
+
                                                 $('.btn-upload-look-error').attr({"file_id":file_id}).removeClass("hide");
                                                 error.find('.error_deal_box').each(function(){
-                                                    $(this).find('.error_status_1').addClass("error_status_pass").text("已修改");
+                                                    $(this).find('.error_file_status').addClass("error_status_pass").text("已重传");
+                                                    $(this).find('.error_file_person').addClass("error_status_pass").text("重传人："+result.reupload_name);
+                                                    $(this).find('.error_file_time').addClass("error_status_pass").text("重传时间："+result.reupload_time);
                                                 });
                                             } else {
                                                 alert(result.info);
@@ -1896,10 +1913,6 @@ function error_agree(obj,oEvent){
         "id"  : error_id,
     };
     var $this = $(target);
-    console.log($this);
-    //return false;
-    var agree = "<span style='color:#2d2828'>已同意</span>";
-    var info = "<span style='color:#e81616'>待修改</span>";
 
     $.ajax({
         type    : "post",
@@ -1910,7 +1923,8 @@ function error_agree(obj,oEvent){
             console.log(result)
             if(result.ret == 0 && result.status == 200){
                 $this.text('已同意');
-                $this.parents('td').prev().find('.error_status_1').text("已同意修改");
+                var error_status = $this.parents('td').prev();
+                error_status.find('.error_file_status').text("已同意修改");
                 $this.removeAttr('error_id');
             }else{
                 BootstrapDialog.alert('网络错误！');
@@ -1945,17 +1959,10 @@ function err_first_check(obj,oEvent){
         success : function(result){
             console.log(result)
             if(result.ret == 0 && result.status == 200){
-                if( $this.parents('td').prev().find('.error_status_first').length>0 ){
-                    $this.parents('td').prev().find('.error_status_first:eq(1)').text("拒绝人：" + result.first_check_name);
-                    $this.parents('td').prev().find('.error_status_first:eq(2)').text("拒绝时间：" + result.first_check_time); 
-                }else{
-                    var error_status = "<p class='error_status error_status_first'>初审拒绝</p>";
-                    error_status += "<p class='error_status error_status_first'>拒绝人："+result.first_check_name+"</p>";
-                    error_status += "<p class='error_status error_status_first'>拒绝时间："+result.first_check_time+"</p>";
-                    $this.parents('td').prev().append(error_status);
-                    //$this.removeAttr('error_id');
-                }
-
+                var error_status = $this.parents('td').prev();
+                error_status.find('.error_file_status').removeClass("error_status_pass").text("初审拒绝");
+                error_status.find('.error_file_person').removeClass("error_status_pass").text("拒绝人："+result.first_check_name);
+                error_status.find('.error_file_time').removeClass("error_status_pass").text("拒绝时间："+result.first_check_time);                              
             }else{
                 BootstrapDialog.alert(result.msg);
             }
@@ -1989,18 +1996,10 @@ function err_sec_check(obj,oEvent){
         success : function(result){
             console.log(result)
             if(result.ret == 0 && result.status == 200){
-                if( $this.parents('td').prev().find('.error_status_second').length>0 ){
-                    $this.parents('td').prev().find('.error_status_second:eq(1)').text("拒绝人：" + result.second_check_name);
-                    $this.parents('td').prev().find('.error_status_second:eq(2)').text("拒绝时间：" + result.second_check_time); 
-                }else{
-                    var error_status = "<p class='error_status error_status_second'>复审拒绝</p>";
-                    error_status += "<p class='error_status error_status_second'>拒绝人：" + result.second_check_name+"</p>";
-                    error_status += "<p class='error_status error_status_second'>拒绝时间："+result.second_check_time+"</p>";
-                    $this.parents('td').prev().append(error_status);
-                    //$this.removeAttr('error_id');
-
-                }  
- 
+                var error_status = $this.parents('td').prev();
+                error_status.find('.error_file_status').removeClass("error_status_pass").text("复审拒绝");
+                error_status.find('.error_file_person').removeClass("error_status_pass").text("拒绝人："+result.second_check_name);
+                error_status.find('.error_file_time').removeClass("error_status_pass").text("拒绝时间："+result.second_check_time);                               
             }else{
                 BootstrapDialog.alert(result.msg);
             }

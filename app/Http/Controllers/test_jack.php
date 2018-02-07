@@ -15,6 +15,10 @@ class test_jack  extends Controller
 
     public function test_ass(){
       
+        $tt= $this->t_teacher_info->get_prize(240314);
+        dd(json_decode($tt,true));
+
+
 
 
         $teacher_money_type=6;

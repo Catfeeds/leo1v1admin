@@ -907,7 +907,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["o1.sys_operator='%s'" ,$account,""],
         ];
         $sql = $this->gen_sql_new(
-            " select  o1.order_time,o1.orderid ,o1.price ,flowid, o1.grade,"
+            " select  o1.order_time,o1.orderid,o1.price,flowid, o1.grade,"
             ." o1.default_lesson_count* o1.lesson_total/100 as lesson_count,lesson_start,o1.promotion_spec_is_not_spec_flag,"
             ." if(o1.price>0 and o1.can_period_flag=1,o1.price,0) stage_price,"
             ." if(o1.price>0 and o1.can_period_flag=0,o1.price,0) no_stage_price"
@@ -2185,12 +2185,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $all_price = 0;
         $all_stage_price = 0;
         $all_no_stage_price = 0;
+        $orderid_arr = [];
 
         $id_list=[];
         $require_all_price=0;
         $v_24_hour_all_price=0;
         $require_and_24_hour_price=0;
         foreach ($order_list as  $item ) {
+            $orderid_arr[$item['orderid']] = $item['orderid'];
             $require_flag=false;
             $v_24_hour_flag=false;
             $all_price+= $item["price"];
@@ -2217,6 +2219,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
         }
+        $ret_arr["order_num"]=count($orderid_arr);
         $ret_arr["all_price"]=$all_price/100;
         $ret_arr["stage_money"]=$all_stage_price/100;
         $ret_arr["no_stage_money"]=$all_no_stage_price/100;

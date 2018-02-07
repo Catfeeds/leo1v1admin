@@ -775,6 +775,37 @@ class user_manage_new extends Controller
         ]);
 
     }
+
+    //财务管理-支付信息
+    public function get_order_channel_from_orderno_info(){
+        $page_info = $this->get_in_page_info();
+        list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(0,0,2,[
+            1 => array("order_time","下单日期"),
+            2 => array("c.pay_time","支付日期")
+        ],3);
+
+        $contract_type     = $this->get_in_int_val('contract_type',-1);
+        $channel_origin    = $this->get_in_int_val('channel_origin',-1);
+        $channel           = $this->get_in_int_val('channel',-1);
+        $name_str           = $this->get_in_str_val('name_str',"");
+        $ret_info = $this->t_child_order_info->get_all_order_channel_info($page_info,$start_time,$end_time,$opt_date_type,$contract_type, $channel_origin,$channel,$name_str);
+        foreach($ret_info["list"] as &$item){
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Econtract_type::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"order_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"pay_time","_str");
+                   
+            list($item["channel"],$item["channel_origin"])=$this->get_pay_channel_origin($item["channel"]);
+            $item["lesson_total"]= $item["lesson_total"]*$item["default_lesson_count"]/100;
+           
+ 
+        }
+        return $this->Pageview(__METHOD__,$ret_info);
+
+ 
+        
+    }
     private function gen_class($level) {
         global $g_l_id;
         if(!$g_l_id) {

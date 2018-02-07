@@ -202,7 +202,7 @@
                                 <a class="fa-comment opt-return-back-new " title="回访" ></a>
                             @endif
                             <!-- <a class="refund_return_back_new" title="回访-new">退费预警回访</a> -->
-                            <a class="refund_warn_reason" title="退费预警级别详情">详情</a>
+                            <!-- <a class="refund_warn_reason" title="退费预警级别详情">详情</a> -->
 
                         </div>
                     </td>
@@ -256,6 +256,60 @@
     <div style="display:none;" id="id_dlg_post_user_info_new_two">
         <div class="alert alert-danger note-info" style="margin-bottom:0px" >
             <strong>重要提示:</strong> <span>  xx </span>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12  ">
+                <span>其他</span>
+            </div>
+            <div class="col-xs-12 col-md-12  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp分类：</span>
+                            <select id="id_ass_test_lesson_type_new_two" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">&nbsp绿色通道：</span>
+                            <input type="text" class=" form-control "  id="id_green_channel_teacherid_new_two"  />
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-xs-12 col-md-3 " style="display:none;">
+                        <div class="input-group ">
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp学情反馈：</span>
+                            <textarea class="form-control" style=";height:75px;" id="id_learning_situation_new_two" ></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-3  "  style="display:none;">
+                        <div class="input-group ">
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp换老师类型：</span>
+                            <select id="id_change_teacher_reason_type_new_two" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3  " style="display:none;" >
+                        <div class="input-group ">
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp申请原因：</span>
+                            <textarea class="form-control" style="height:75px;" id="id_change_reason_new_two" > </textarea>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3  "  style="display:none;margin:2% 0 0 -2%;">
+                        <div class="input-group ">
+                            <button class="btn  btn-primary upload_change_reason_url"  title="上传" >
+                                上传
+                            </button>
+                            <a id="id_change_reason_url_new_two" style="cursor:pointer;" target="_blank"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -595,59 +649,6 @@
                                     上传
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-md-12  ">
-                <span>其他</span>
-            </div>
-            <div class="col-xs-12 col-md-12  ">
-                <div class="row">
-                    <div class="col-xs-12 col-md-3  ">
-                        <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp分类：</span>
-                            <select id="id_ass_test_lesson_type_new_two" class=" form-control "   >
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-3  "  style="display:none;">
-                        <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp换老师类型：</span>
-                            <select id="id_change_teacher_reason_type_new_two" class=" form-control "   >
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-3  " style="display:none;" >
-                        <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp申请原因(图片)：</span>
-                            <input type="text" class=" form-control "  id="id_change_reason_url_new_two"   / >
-                            <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary upload_change_reason_url"  title="上传" >
-                                    上传
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-3  " style="display:none;" >
-                        <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp申请原因：</span>
-                            <textarea class="form-control" style="height:75px;" id="id_change_reason_new_two" > </textarea>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-3 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">&nbsp绿色通道：</span>
-                            <input type="text" class=" form-control "  id="id_green_channel_teacherid_new_two"  />
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-3 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp学情反馈：</span>
-                            <textarea class="form-control" style="height:75px;" id="id_learning_situation_new_two" ></textarea>
                         </div>
                     </div>
                 </div>
