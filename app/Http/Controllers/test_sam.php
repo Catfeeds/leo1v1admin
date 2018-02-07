@@ -50,8 +50,8 @@ class test_sam  extends Controller
 
     public function test(){
         $start_time = strtotime(date("Y-m-d",time()));
-        //$end_time   = $start_time + 86400;
-        $end_time   = time();
+        $end_time   = $start_time + 86400;
+        //$end_time   = time();
         $teacherid  = 202149;
 
         $total_count = $this->t_lesson_info_b2->get_teacher_lesson_total($teacherid,$start_time,$end_time);
@@ -70,7 +70,7 @@ class test_sam  extends Controller
         $start_time = strtotime(date("Y-m-d",time()));
         $end_time   = $start_time + 86400;
         //$end_time   = time();
-        //$teacherid  = 202149;
+        $teacherid  = 202149;
 
         $total_count = $this->t_lesson_info_b2->get_teacher_lesson_total($teacherid,$start_time,$end_time);
         $consume_count = $this->t_teacher_spring->get_total($teacherid,$start_time,$end_time);
