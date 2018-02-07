@@ -666,7 +666,7 @@ class menu{
             ]],
 
             ["power_id"=>13, "name"=>"角色-助教组长",  "list"=>[
-                ["power_id"=>100, "name"=>"首页",   "url"=>"/main_page/assistant_leader" ],
+                //["power_id"=>100, "name"=>"首页",   "url"=>"/main_page/assistant_leader" ],
                 ["power_id"=>80, "name"=>"首页-new",   "url"=>"/main_page/assistant_leader_new" ],
                 ["power_id"=>88, "name"=>"首页-new2.0",   "url"=>"/tongji2/ass_month_kpi_tongji_master" ],
                 ["power_id"=>82, "name"=>"首页-主管",   "url"=>"/main_page/assistant_main_leader_new" ],

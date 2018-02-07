@@ -3727,12 +3727,13 @@ ORDER BY require_time ASC";
         $where_arr = [
             ["tr.require_id=%u",$require_id,-1]
         ];
-        $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,t.textbook,t.stu_request_test_lesson_time_end,"
+        $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade stu_grade,t.subject,t.textbook,t.stu_request_test_lesson_time_end,"
                                   ." tr.curl_stu_request_test_lesson_time_end,tr.curl_stu_request_test_lesson_time,"
                                   ." t.teacher_type,tr.accept_status,tr.require_id,"
                                   ." tr.test_stu_request_test_lesson_demand,t.tea_identity,t.tea_gender,t.tea_age,"
                                   ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag,tr.current_lessonid,"
-                                  ." tr.test_lesson_student_status,tr.green_channel_teacherid"
+                                  ." tr.test_lesson_student_status,tr.green_channel_teacherid,"
+                                  ." if(tr.test_stu_grade >0,tr.test_stu_grade ,t.grade ) grade "
                                   ." from %s tr "
                                   ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
                                   ." left join %s s on t.userid = s.userid"

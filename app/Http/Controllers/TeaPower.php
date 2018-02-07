@@ -4642,8 +4642,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacher_type     = $teacher_info['teacher_type'];
         $teacher_ref_type = $teacher_info['teacher_ref_type'];
         //各类渠道不发伯乐奖,
-        //15333268257,420745;李桂荣 437138;青团社 320557;不发伯乐奖
-        if(in_array($teacher_type,[E\Eteacher_type::V_31]) || in_array($teacherid,[420745,437138,320557])){
+        //15333268257,420745;李桂荣 437138;青团社 320557;219562 勋厚; 不发伯乐奖
+        //271370,271383,271386,271389,271391 招师渠道 A,B,C,D,E
+        if(in_array($teacher_type,[E\Eteacher_type::V_31])
+           || in_array($teacherid,[420745,437138,320557,271370,271383,271386,271389,271391,219562])
+        ){
             return false;
         }elseif(in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22])){
             $notice_flag = false;
