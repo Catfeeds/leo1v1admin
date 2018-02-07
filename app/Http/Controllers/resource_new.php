@@ -389,4 +389,114 @@ class resource_new extends Controller
         return $this->output_succ($result);
 
     }
+
+
+    public function admin_manage() {
+        list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],3);
+        $use_type      = $this->get_in_int_val('use_type', 1);
+        $resource_type = $this->get_in_int_val('resource_type', 1);
+        $subject       = $this->get_in_int_val('subject', -1);
+        $grade         = $this->get_in_int_val('grade', -1);
+        $tag_one       = $this->get_in_int_val('tag_one', -1);
+        $tag_two       = $this->get_in_int_val('tag_two', -1);
+        $tag_three     = $this->get_in_int_val('tag_three', -1);
+        $tag_four      = $this->get_in_int_val('tag_four', -1);
+        $tag_five      = $this->get_in_int_val('tag_five', -1);
+        $page_info     = $this->get_in_page_info();
+
+        if($use_type == 1){
+            $resource_type = ($resource_type<1)?1:$resource_type;
+            $resource_type = ($resource_type>7)?7:$resource_type;
+        }else if($use_type == 2){
+            $resource_type = 9;
+        }else{
+            $resource_type = 8;
+        }
+        $ret_info = $this->t_resource->get_all_info($use_type ,$resource_type, $subject, $grade, 
+            $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $page_info
+        );
+        $r_mark = 0;
+        $index  = 1;
+        $tag_arr = \App\Helper\Utils::get_tag_arr( $resource_type );
+
+        foreach($ret_info['list'] as &$item){
+            if($r_mark == $item['resource_id']){
+                $index++;
+            } else {
+                $r_mark = $item['resource_id'];
+                $index = 1;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::get_file_use_type_str($item, $index);
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
+
+
+            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
+            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
+            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
+            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
+            // dd($item);
+            $item['file_size_str'] = $item['file_size'] > 1024 ? round( $item['file_size'] / 1024,2)."M" : $item['file_size']."kb";
+            $item['picture_one'] = '';
+            $item['picture_two'] = '';
+            $item['picture_three'] = '';
+            $item['picture_four'] = '';
+            $item['picture_five'] = '';
+            E\Egrade::set_item_field_list($item, [
+                "subject",
+                "grade",
+                "resource_type",
+                "use_type",
+                $tag_arr['tag_one']['menu'] => 'tag_one',
+                $tag_arr['tag_two']['menu'] => 'tag_two',
+                $tag_arr['tag_three']['menu'] => 'tag_three',
+                $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
+            ]);
+            $item['tag_one_str'] = E\Eregion_version::get_desc($item['tag_one']);
+            if( $item['resource_type'] == 1 ){
+                $item['tag_five_str'] = E\Eresource_diff_level::get_desc($item['tag_five']);
+            }else{
+                $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
+            }
+
+            if( in_array($item['resource_type'],[1,2,9])){
+                $item['tag_two_str'] = E\Eresource_season::get_desc($item['tag_two']);
+            }
+
+            if($item['resource_type'] == 3 ) {
+                $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
+            }
+         
+        }
+
+      
+
+        //获取所有开放的教材版本
+        //$book = $this->t_resource_agree_info->get_all_resource_type();
+        $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
+        $book_arr = [];
+        if($book){
+            foreach($book as $v) {
+                if( $v['tag_one'] != 0 ){
+                    array_push($book_arr, intval($v['tag_one']) );
+                }
+            }
+        }
+
+        $sub_grade_info = $this->get_rule_range();
+        $is_teacher = 0;
+        //dd($ret_info);
+        return $this->pageView( __METHOD__,$ret_info,[
+            '_publish_version'    => 20180204111439,
+            'tag_info'      => $tag_arr,
+            'subject'       => json_encode($sub_grade_info['subject']),
+            'grade'         => json_encode($sub_grade_info['grade']),
+            'identity'      => $sub_grade_info['identity'],
+            'book'          => json_encode($book_arr),
+            'resource_type' => $resource_type,
+            'is_teacher'   => $is_teacher,
+        ]);
+    }
 }

@@ -1621,6 +1621,11 @@ $(function(){
                             },function(up, file, info) {
                                 var res = $.parseJSON(info.response);
                                 if( info.status == 200){
+                                    var send_error_id = [];
+                                    error.find('.error_deal_box').each(function(){
+                                        send_error_id.push($(this).find('.error_file_status').attr("error_id"));                                        
+                                    });
+
                                     $.ajax({
                                         type     : "post",
                                         url      : "/resource/reupload_resource",
@@ -1636,7 +1641,7 @@ $(function(){
                                             'file_use_type' : file_use_type,
                                             'reupload'      : 3,   //重新传
                                             "is_wx"         : 1,
-                                            "id"            : eid,
+                                            "error_id_arr"  : send_error_id,
 
                                         } ,
                                         success   : function(result){
@@ -1936,6 +1941,7 @@ function error_agree(obj,oEvent){
             if(result.ret == 0 && result.status == 200){
                 $this.text('已同意');
                 var error_status = $this.parents('td').prev();
+                error_status.find('.error_file_status').attr({"error_id":error_id});
                 error_status.find('.error_file_status').text("已同意修改");
                 $this.removeAttr('error_id');
             }else{

@@ -29,6 +29,8 @@ class activity_config_new extends  activity_new_base {
 
     public  $last_test_lesson_range=[];//检查最近一次试听课时间,在什么时间之前
 
+    public  $success_test_lesson_range=[]; //试听时间范围
+
 
     public  $lesson_times_off_perent_list=[
     ]; //按课次数打折
@@ -61,10 +63,14 @@ class activity_config_new extends  activity_new_base {
         $user_join_time_end = !empty($item['user_join_time_end']) ? date('Y-m-d H:i:s',$item['user_join_time_end']) : null;
         $last_test_lesson_start = !empty($item['last_test_lesson_start']) ?  date('Y-m-d H:i:s',$item['last_test_lesson_start']) : null;
         $last_test_lesson_end = !empty($item['last_test_lesson_end']) ?  date('Y-m-d H:i:s',$item['last_test_lesson_end']) : null;
+
+        $success_test_lesson_start= !empty($item['success_test_lesson_start']) ?  date('Y-m-d H:i:s',$item['success_test_lesson_start']) : null;
+        $success_test_lesson_end= !empty($item['success_test_lesson_end']) ?  date('Y-m-d H:i:s',$item['success_test_lesson_end']) : null;
         $this->order_activity_type = $item['id'];
         $this->date_range = [];
         $this->user_join_time_range = [];
         $this->last_test_lesson_range = [];
+        $this->success_test_lesson_range = [];
         $this->lesson_times_range = [];
         $this->title = $item["title"] ;
 
@@ -78,6 +84,12 @@ class activity_config_new extends  activity_new_base {
         if( $last_test_lesson_start && $last_test_lesson_end){
             $this->last_test_lesson_range = [$last_test_lesson_start,$last_test_lesson_end];
         }
+
+        if( $success_test_lesson_start && $success_test_lesson_end){
+            $this->success_test_lesson_range = [$success_test_lesson_start,$success_test_lesson_end];
+        }
+
+
         if( $item['lesson_times_min'] && $item['lesson_times_max'] ){
             $this->lesson_times_range = [$item['lesson_times_min'],$item['lesson_times_max']];
         }
@@ -222,6 +234,34 @@ class activity_config_new extends  activity_new_base {
                        && $lesson_start < strtotime( $this->last_test_lesson_range[1]))
                 ) {
                     $desc_list[]=$this->gen_activity_item(0,  $activity_desc. "时间不匹配[{$this->last_test_lesson_range[0]}-{$this->last_test_lesson_range[1]}]" , $price,  $present_lesson_count, $can_period_flag );
+                    return false;
+                }
+
+            }else{
+                $desc_list[]=$this->gen_activity_item(0,  "没有试听课" , $price,  $present_lesson_count, $can_period_flag );
+                return false;
+            }
+
+        }
+
+        if (count($this->success_test_lesson_range)==2) {
+            $from_test_lesson_id=$this->from_test_lesson_id;
+            if($from_test_lesson_id ) {
+                $lesson_info= $this->task->t_lesson_info_b2->field_get_list(
+                    $this->from_test_lesson_id,
+                    "userid,grade");
+                $userid = $lesson_info["userid"];
+                $grade  = $lesson_info["grade"];
+
+                $success_lesson_info=$this->task->t_lesson_info_b3->get_success_test_lesson(
+                    $userid,
+                    strtotime($this->success_test_lesson_range[0]),
+                    strtotime($this->success_test_lesson_range[1])
+                );
+                if ($success_lesson_info ) {
+                }else{
+                    $activity_desc="";
+                    $desc_list[]=$this->gen_activity_item(0,  $activity_desc. "时间不匹配或试听未成功[{$this->success_test_lesson_range[0]}-{$this->success_test_lesson_range[1]}]" , $price,  $present_lesson_count, $can_period_flag );
                     return false;
                 }
 
@@ -395,6 +435,11 @@ class activity_config_new extends  activity_new_base {
         if (count($this->last_test_lesson_range)==2) {
             $arr[]=["最后一次试听时间区间", $this->last_test_lesson_range [0]. " 到 " . $this->last_test_lesson_range[1]  ];
         }
+
+        if (count($this->success_test_lesson_range)==2) {
+            $arr[]=["成功试听时间区间", $this->success_test_lesson_range [0]. " 到 " . $this->success_test_lesson_range[1]  ];
+        }
+
 
         if (count($this->max_count_activity_type_list)>0 ) {
             //年级
