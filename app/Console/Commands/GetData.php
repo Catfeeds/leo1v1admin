@@ -40,11 +40,11 @@ class GetData extends cmd_base
         $info = file_get_contents("/tmp/b.txt");
         $stuid_list = implode(",",array_filter(explode("\n",$info)));
         $ret_list = $this->task->t_student_info->get_stu_all_lesson($stuid_list);
-        echo "userid|老师姓名|科目";
+        echo "userid|teacherid|老师姓名|科目";
         echo PHP_EOL;
         foreach($ret_list as $l_val){
             $subject_str = E\Esubject::get_desc($l_val['subject']);
-            echo $l_val['userid']."|".$l_val['tea_nick']."|".$subject_str;
+            echo $l_val['userid']."|".$l_val['teacherid']."|".$l_val['tea_nick']."|".$subject_str;
             echo PHP_EOL;
         }
 
