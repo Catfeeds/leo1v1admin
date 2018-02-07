@@ -21,14 +21,9 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>学生姓名</td>
-                    <td>学生id</td>
-                    <td>近4周课数</td>
-                    <td>近2周课数</td>
-                    <td>近30天课数</td>
-                  
-                                                                     
-
+                    <td>手机号</td>
+                    <td>年级</td>
+                    <td>是否试听</td>                                                                                    
                     <td> 操作</td>
                 </tr>
             </thead>
@@ -36,17 +31,15 @@
                 @foreach ( $list as $k=>$var )
                     <tr>
                         
-                        <td>{{ @$var["nick"] }}</td>
-                        <td>{{ @$var["userid"] }}</td>
-                        <td>{{ @$var["four_week"] }}</td>
-                        <td>{{ @$var["two_week"] }}</td>
+                        <td>{{ @$var["phone"] }}</td>
+                        <td>{{ @$var["grade_str"] }}</td>                       
                         
-                        <td>{{ @$var["num"] }}</td>
+                        <td class="num"></td>
                        
 
                         <td>
-                            <div class="row-data"  data-start="{{ @$var["start"] }}" >
-                                <a class="fa fa-list course_plan" title="按课程包排课"> </a>
+                            <div class="row-data"  data-userid="{{ @$var["userid"] }}" >
+                                <a class="fa fa-list course_plan"> </a>
                             </div>
 
                         </td>
