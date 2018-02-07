@@ -447,7 +447,9 @@ class agent extends Controller
         foreach($uid_list as $uid){
             foreach($group_list as $item){
                 if($item['uid'] == $uid){
-                    $ret[$uid][$item['orderid']]['price'] = $item['price'];
+                    $ret[$uid]['list'][$item['orderid']]['price'] = $item['price'];
+                    $ret[$uid]['account'] = $item['account'];
+                    $ret[$uid]['price'] += $item['price'];
                 }
             }
         }
