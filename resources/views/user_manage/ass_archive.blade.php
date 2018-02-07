@@ -255,7 +255,7 @@
 
 
     <div style="display:none;" id="id_dlg_post_user_info_new_two">
-        <div class="alert alert-danger note-info" style="margin-bottom:0px" >
+        <div class="alert alert-danger note-info" style="margin-bottom:0px;display:none;" >
             <strong>重要提示:</strong> <span>  xx </span>
         </div>
 
