@@ -619,7 +619,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
-                            <span class="input-group-addon" >　<font style="color:red" class="required fields">*</font>&nbsp　试听要求：</span>
+                            <span class="input-group-addon" >　<font style="color:red;" class="required fields" >*</font>&nbsp　试听要求：</span>
                             <textarea class="form-control" style="height:115px;" class="class_stu_request_test_lesson_demand_new_two" id="id_stu_request_test_lesson_demand_new_two" ></textarea>
                         </div>
                     </div>
