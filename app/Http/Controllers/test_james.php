@@ -1824,8 +1824,11 @@ class test_james extends Controller
     }
 
     public function checkTime(){
-        $arrp = [];
-        dd(@$arrp['ss']);
+        $arrp = ['PDf'];
+        if(strtolower($arrp[0]) == 'pdf'){
+            dd(1);
+        }
+        dd($arrp[0]);
     }
 
     # 记录点击次数

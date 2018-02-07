@@ -3565,9 +3565,9 @@ class teacher_info extends Controller
             "error_picture"    => $error_picture,
         ]);
         //send wx_message
-        if($ret){   
-            //search 
-            
+        if($ret){
+            //search
+
             $info = $this->t_resource_file->get_teacherinfo($file_id);
             $wx_openid    = $info['wx_openid'];
             $file_name    = $info['file_title'];
@@ -3601,7 +3601,7 @@ class teacher_info extends Controller
         }else if($type == 4){
             $url = "http://7tszue.com2.z0.glb.qiniucdn.com".$pdf.".pdf?e=".$e."&token=".$token;
         }
-        
+
         //dd($url);
         $ret_info['url'] = $url;
         return $this->view(__METHOD__,$ret_info,[
