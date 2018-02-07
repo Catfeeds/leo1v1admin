@@ -165,6 +165,7 @@ function init_today_new()  {
             "userid_list" : userid_list.join(","),
             "user_admin_assign_time_map" : JSON.stringify( user_admin_assign_time_map),
         },function(resp){
+            console.log(resp);
             var hold_msg="";
             if ( resp.max_hold_count <= resp.hold_count ) {
                 alert('新例子分配失败,例子库空间已满，请尽快清理');
