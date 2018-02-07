@@ -102,7 +102,6 @@ class seller_student_system_assign extends cmd_base
                 //不超上限
                 $add_flag=($item["max_hold_count"] >$item["hold_count"]);
             }
-            $no_return_call_num = 0;
             if ($add_flag && $no_return_call_num <=0 )  {
                 $admin_list[]=$item;
             }

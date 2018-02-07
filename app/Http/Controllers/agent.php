@@ -441,7 +441,17 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $group_list= $this->t_order_info->month_get_1v1_order_seller_list_group($start_time=1514736000,$end_time=1517414400,$adminid=438);
+        $ret = [];
+        $group_list= $this->t_order_info->get_item_month_list();
+        $uid_list = array_unique(array_column($group_list, 'uid'));
+        foreach($uid_list as $uid){
+            foreach($group_list as $item){
+                if($item['uid'] == $uid){
+                    $ret[$uid][$item['orderid']]['price'] = $item['price'];
+                }
+            }
+        }
+        dd($ret);
         $group_all_price=0;
         $group_all_stage_price = 0;
         $group_all_no_stage_price = 0;
