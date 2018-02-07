@@ -1666,6 +1666,8 @@ trait TeaPower {
         if($phone==""){
             return "老师手机不能为空！";
         }
+
+
         $check_flag = $this->t_teacher_info->check_teacher_phone($phone);
         if($check_flag){
             return "该手机号已存在";

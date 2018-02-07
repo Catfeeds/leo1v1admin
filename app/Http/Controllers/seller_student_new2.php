@@ -145,6 +145,7 @@ class seller_student_new2 extends Controller
 
     public function test_lesson_plan_list()
     {
+        $this->check_and_switch_tongji_domain();
         $cur_page = $this->get_in_str_val("cur_page");
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,7,1,[
             1 => array("require_time","申请时间"),

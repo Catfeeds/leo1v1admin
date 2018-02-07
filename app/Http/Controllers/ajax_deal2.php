@@ -512,31 +512,19 @@ class ajax_deal2 extends Controller
         $phone   = $this->get_in_int_val("phone");
         $ret     = [];
 
-        $ret_student = $this->t_student_info->get_userid_by_phone($phone);
-        $ret_parent  = $this->t_parent_info->get_parentid_by_phone_b1($phone);
-
-        if($ret_student != 0 && $ret_parent != 0){
-            $ret['success'] =  "此手机号已经注册学生账号和家长账号";
-        }else if($ret_student == 0 && $ret_parent != 0){
-            $ret_student = $this->t_student_info->register($phone,md5("123456"),0,101,0,$account,"后台");
-            if($ret_student){
-                $ret['success'] =  "注册学生账号成功";
-                $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
-            }
-        }else if($ret_student != 0 && $ret_parent == 0){
-            $ret_parent    = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
-            if($ret_parent){
-                $ret['success'] = "注册家长账号成功";
-                $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
-            }
-        }else if($ret_student == 0 && $ret_parent == 0){
-            $ret_student = $this->t_student_info->register($phone,md5("123456"),0,101,0,$account,"后台");
-            $ret_parent  = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
-            if($ret_student && $ret_parent){
-                $ret['success'] =  "注册学生账号和家长账号成功";
-                $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
-            }
+        $userid   = $this->t_student_info->get_userid_by_phone($phone);
+        $parentid = $this->t_parent_info->get_parentid_by_phone_b1($phone);
+        if(!$userid){
+            $userid = $this->t_student_info->register($phone,md5("123456"),0,101,0,$account,"后台");
         }
+        if(!$parentid){
+            $parentid = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
+        }
+        $check_parent_child = $this->t_parent_child->check_has_parent($parentid,$studentid);
+        if(!$check_parent_child){
+            $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
+        }
+
 
         $ret_teacher = $this->t_teacher_info->check_teacher_phone($phone);
         if(!$ret_teacher){

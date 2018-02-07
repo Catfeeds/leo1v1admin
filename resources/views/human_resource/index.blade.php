@@ -534,7 +534,7 @@
                                 <a class=" opt-regular-lesson-detele-list div_show" >常规课表空闲记录</a>
                                 <a class=" opt-teacher-cancel-lesson-list div_show" >老师取消课程记录</a>
                                 <a class=" opt-jianli div_show" >简历</a>
-                                @if(in_array($acc, ['jim', 'ricky', '宫卫彬']) && $var['full_flag'])
+                                @if($var['full_flag'])
                                     <a class=" opt-full-to-part">全职转兼职</a>
                                 @endif
                                 @if(@$var["label_id"]==0)
