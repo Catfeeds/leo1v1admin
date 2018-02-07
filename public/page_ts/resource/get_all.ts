@@ -1036,11 +1036,17 @@ $(function(){
     }
 
     var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class,allow_str,max_size){
-
+        var allow_type = allow_str.split(",");
         multi_upload_file_new(flag, is_multi, is_auto_upload, btn_id, 0,
                               function(files){
                                   var name_str = '';
                                   if (!is_multi){
+                                      var file_type_arr = files[0].type.split('/');
+                                      var file_type = file_type_arr[1];
+                                      if($.inArray(file_type,allow_type) < 0 ){
+                                          BootstrapDialog.alert("文件格式不对，请重新传该文件");
+                                          return false;
+                                      }
                                       //单文件上传
                                       remove_id.push($('.'+add_class).data('id'));
                                       $('.'+add_class).prev().remove();
@@ -1051,14 +1057,26 @@ $(function(){
 
                                   }else{
                                       //多文件上传
-
+                                      var has_all_permit = 1;
                                       var up_file = "<button class='up_file btn btn-info' onclick='up_move($(this))'>上移</button>";                          
                                       var down_file = "<button class='down_file btn btn-primary' onclick='down_move($(this))'>下移</button>";
                                       var dele_file = "<button class='dele_file btn btn-danger' onclick='dele_file($(this))'>删除</button>";
                                       $(files).each(function(i){
-                                          name_str = name_str+'<div><span data-id='+files[i].id+' data-index='+i+' class='
-                                              +add_class+' >'+files[i].name+'</span>' + up_file + down_file + dele_file + '</div>';
+                                          var file_type_arr = files[0].type.split('/');
+                                          var file_type = file_type_arr[1];
+          
+                                          if($.inArray(file_type,allow_type) >= 0 ){
+                                              name_str = name_str+'<div><span data-id='+files[i].id+' data-index='+i+' class='
+                                                  +add_class+' >'+files[i].name+'</span>' + up_file + down_file + dele_file + '</div>';
+                                          }else{
+                                              has_all_permit = 0;
+                                          }
                                       });
+                                      if( has_all_permit == 0 ){
+                                          BootstrapDialog.alert("有文件格式不对，请重新传文件");
+                                          return false;
+                                      }
+
                                   }
                                
                                   $('#'+btn_id).after(name_str);
@@ -1727,11 +1745,6 @@ function multi_upload_file_new(new_flag,is_multi,is_auto_start,btn_id, is_public
             // container: 'container',
             // drop_element: 'container',
             max_file_size: max_size,
-            filters: {
-                mime_types: [
-                    {title: "", extensions: ext_file}
-                ]
-            },
             flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
             // dragdrop: true,
             chunk_size: '4mb',

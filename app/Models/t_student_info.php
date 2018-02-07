@@ -1345,9 +1345,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_userid_by_phone($phone){
-        $sql=$this->gen_sql_new("select userid from %s where phone='%s'"
-                                ,self::DB_TABLE_NAME
-                                ,$phone
+        $sql = $this->gen_sql_new("select userid from %s where phone='%s'"
+                                  ,self::DB_TABLE_NAME
+                                  ,$phone
         );
         return $this->main_get_value($sql);
     }
@@ -3401,11 +3401,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_row($sql);
     }
 
-
-    /**
-     *
-     *
-     */
     public function get_all_student_phone_and_id($start_time,$end_time){
         $sql = "select userid, phone from db_weiyi.t_student_info 
         where is_test_user = 0 and reg_time > $start_time and reg_time < $end_time order by userid asc";
@@ -3419,7 +3414,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_list_count_left() {
-        //select userid,nick,lesson_count_left,type from t_student_info where lesson_count_left  > 0 and is_test_user=0
         $sql = "select assistantid,userid,nick,lesson_count_left,type from t_student_info where is_test_user=0";
         return $this->main_get_list($sql);
     }
@@ -3488,7 +3482,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_refund_warning($assistantid=-1) {
         $where_arr = [
             ["assistantid=%u", $assistantid, -1],
-            "assistantid>0"
+            "assistantid>0",
+            "is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select sum(if(refund_warning_level=1,1,0)) one, sum(if(refund_warning_level=2,1,0)) two, sum(if(refund_warning_level=3,1,0)) three from %s where %s",
                                   self::DB_TABLE_NAME,
