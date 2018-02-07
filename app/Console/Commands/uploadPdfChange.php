@@ -101,7 +101,7 @@ class uploadPdfChange extends Command
     }
 
     public function updateLessonUUid($lessonid,$uuid,$is_tea){
-        $url = "http://test.admin.leo1v1.com/common_new/updateLessonUUid";
+        $url = "http://admin.leo1v1.com/common_new/updateLessonUUid";
         $post_data = [
             "lessonid" => $lessonid,
             "uuid"     => $uuid,
