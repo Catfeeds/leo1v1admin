@@ -51,8 +51,8 @@ class reset_lesson_online_user_status extends Command
             $day=date("Y-m-d");
         }
 
-        $start_time= strtotime( $day) ;
-        $end_time= $start_time+86400;
+        $start_time = strtotime($day) ;
+        $end_time   = $start_time+86400;
 
         if ($end_time > time(NULL)) {
             $end_time=time(NULL);
