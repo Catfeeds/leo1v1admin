@@ -1148,13 +1148,16 @@ class wx_parent_gift extends Controller
         $user_info  = $wx->get_user_info($openid,$token);
 
         $isSub = $user_info['subscribe'];
+        # 记录点击次数
+        $key = "thinking_openid_".@$user_info['openid']."_test";
+        $key_num = 'thinking_record_test';
+        Redis::INCR($key_num);
+        Redis::set($key,1);
 
         if($isSub == 1){ # 已关注
-            dd('已关注');
-            // header("location: ");
+            header("location: http://wx-parent-web.leo1v1.com/quiz/index.html?follow=1");
         }else{ # 未关注
-            dd('未关注');
-            // header("location: ");
+            header("location: http://wx-parent-web.leo1v1.com/quiz/index.html?follow=0");
         }
         return ;
     }
