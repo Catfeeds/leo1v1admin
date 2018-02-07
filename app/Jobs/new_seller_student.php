@@ -83,6 +83,10 @@ class new_seller_student extends Job implements ShouldQueue
             $is_reading = $t_student_info->field_get_value($this->userid, 'type');
             if($is_reading == 1)
                 $is_public = 3;//用户是在读学员
+
+            $origin_userid = $t_student_info->field_get_value($this->userid, 'origin_userid');
+            if($origin_userid)
+                $is_public = 4;//转介绍用户
             \App\Helper\Utils::logger("is_public:$is_public"); 
 
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --end--
