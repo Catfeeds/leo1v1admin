@@ -1809,7 +1809,7 @@ class test_james extends Controller
 
     public function getKeys(){
         $key = $this->get_in_str_val('k');
-        $ret_arr = Redis::key($key);
+        $ret_arr = Redis::keys($key);
         dd($ret_arr);
     }
 
