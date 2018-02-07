@@ -37,6 +37,16 @@ class GetData extends cmd_base
      */
     public function handle()
     {
+        //学员的教材版本情况
+        $ret_list = $this->task->t_student_info->get_stu_textbook_list();
+
+
+
+
+
+
+
+
         //停课学员数据，将合同过期的数据标红
         // $ret_list = $this->task->t_student_info->get_student_for_stop_study();
         // foreach($ret_list as &$val){
@@ -52,26 +62,27 @@ class GetData extends cmd_base
         //     echo PHP_EOL;
         // }
         //
-        $start_time = strtotime("2018-1-1");
-        $end_time   = strtotime("2018-2-6");
-        $lesson_list = $this->task->t_lesson_info_b3->get_lesson_list_by_time($start_time,$end_time);
-        $count = 0;
-        $stu_list = [];
-        foreach($lesson_list as $lesson_val){
-            $lesson_hour = date("H",$lesson_val['lesson_end']);
-            $lesson_minute = date("i",$lesson_val['lesson_end']);
-            if($lesson_hour>=23 && $lesson_minute>=30){
-                if(!isset($stu_list[$lesson_val['userid']])){
-                    $count++;
-                    echo $lesson_val['lessonid'];
-                    echo PHP_EOL;
-                    $stu_list[$lesson_val['userid']]=1;
-                }
-            }
+        //拉取1月和2月，23点半下课的学生量
+        // $start_time = strtotime("2018-1-1");
+        // $end_time   = strtotime("2018-2-6");
+        // $lesson_list = $this->task->t_lesson_info_b3->get_lesson_list_by_time($start_time,$end_time);
+        // $count = 0;
+        // $stu_list = [];
+        // foreach($lesson_list as $lesson_val){
+        //     $lesson_hour = date("H",$lesson_val['lesson_end']);
+        //     $lesson_minute = date("i",$lesson_val['lesson_end']);
+        //     if($lesson_hour>=23 && $lesson_minute>=30){
+        //         if(!isset($stu_list[$lesson_val['userid']])){
+        //             $count++;
+        //             echo $lesson_val['lessonid'];
+        //             echo PHP_EOL;
+        //             $stu_list[$lesson_val['userid']]=1;
+        //         }
+        //     }
 
-        }
-        echo $count;
-        echo PHP_EOL;
+        // }
+        // echo $count;
+        // echo PHP_EOL;
     }
 
 
