@@ -3660,7 +3660,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [
             "userid" => $userid
         ];
-        $sql = $this->gen_sql_new("  select 1 from %s where %s"
+        $sql = $this->gen_sql_new("  select admin_revisiterid from %s where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
