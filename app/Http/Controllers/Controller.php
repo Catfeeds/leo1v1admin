@@ -439,6 +439,25 @@ class Controller extends ControllerEx
         }
     }
 
+    public function get_teacherid_new(){
+        $role      = $this->get_in_int_val("_role",0);
+        $teacherid = $this->get_in_int_val("_userid",0);
+
+        if (!$role) {
+            $role = session("login_user_role" );
+        }
+
+        if (!$teacherid) {
+            $teacherid = session("login_userid" );
+        }
+
+        if ($role==2 &&  $teacherid ) {
+            return $teacherid;
+        }else{
+            return 0;
+        }
+    }
+
 
 
 }

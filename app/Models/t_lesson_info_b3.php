@@ -16,7 +16,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql=$this->gen_sql_new(
-            "select lessonid, record_audio_server1, xmpp_server_name, lesson_start, lesson_end, userid,teacherid"
+            "select lessonid, subject,record_audio_server1, lesson_type, xmpp_server_name, lesson_start, lesson_end, userid,teacherid"
             ." from %s   where  lesson_del_flag=0 and  %s " ,
             self::DB_TABLE_NAME,
             $where_arr );

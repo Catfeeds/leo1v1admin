@@ -39,7 +39,7 @@ class node_type_channel_statistics extends cmd_base
     public function handle($job=1)
     {
         //处理上个月
-        $start_time = strtotime(date('Y-m-01', strtotime('-1 month ')))  ;
+        $start_time = strtotime(date('Y-m-01'))  ;
         $end_time = strtotime('+1 month -1 second',$start_time);
         $origin_ex = '';
 

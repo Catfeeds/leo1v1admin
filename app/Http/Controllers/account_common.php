@@ -43,9 +43,10 @@ class account_common extends Controller
         $time = time()-45000;
         $value = md5("leo".$time.$phone.$role."1v1");//生成验证信息给前端
         $key = $phone."-".$role."time";
-        session([
-            $key  => $value,
-        ]);
+        \App\Helper\Common::redis_set_expire_value($key,$value,43200);
+        // session([
+        //     $key  => $value,
+        // ]);
         \App\Helper\Utils::logger("value:".$value);
 
         return $this->output_succ(["time"=>$time]);
@@ -114,7 +115,8 @@ class account_common extends Controller
 
 
         $key = $phone."-".$role."time";
-        $session_time_code = session($key);
+        //  $session_time_code = session($key);
+        $session_time_code =  \App\Helper\Common::redis_get($key);
 
         if($time_code != $session_time_code){
             return $this->output_err("请输入正确的手机号码");
@@ -123,11 +125,11 @@ class account_common extends Controller
         $phone_code=\App\Helper\Common::gen_rand_code(6);
         $code_key = $phone."-".$role."-code";
 
-        // \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,1200);
+        \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,43200);
 
-        session([
-            $code_key  => $phone_code,
-        ]);
+        // session([
+        //     $code_key  => $phone_code,
+        // ]);
         
 
         $phone_index = $this->get_current_verify_num($phone,$role);
@@ -180,7 +182,9 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
-        $check_verify_code = session($code_key);
+        // $check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
+
 
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         if(!$check_flag){
@@ -237,8 +241,8 @@ class account_common extends Controller
             return $this->output_err("角色值不能为空!");
         }
 
-        $check_verify_code = session($code_key);
-        // $check_verify_code = \App\Helper\Common::redis_get($code_key);
+        // $check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
         // return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         
@@ -277,7 +281,9 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
-        $check_verify_code = session($code_key);
+        // $check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
+
 
         // return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code]);
 
@@ -481,9 +487,11 @@ class account_common extends Controller
         $builder->build($width = 200, $height = 80, $font = null);
         //获取验证码的内容
         $phrase = $builder->getPhrase();
-        session([
-            $key  =>  $phrase,
-        ]);
+        \App\Helper\Common::redis_set_expire_value($key,$phrase,43200);
+
+        // session([
+        //     $key  =>  $phrase,
+        // ]);
 
         // echo $phrase;
         // dd($phrase);
@@ -508,7 +516,8 @@ class account_common extends Controller
         $role = $this->get_in_int_val("role");
         $pic_verify_code = $this->get_in_str_val("pic_verify_code");
         $key = $phone."-".$role."pic_verify_code";
-        $pic_verify_code_admin = session($key);
+        // $pic_verify_code_admin = session($key);
+        $pic_verify_code_admin =  \App\Helper\Common::redis_get($key);
         if( $pic_verify_code !=  $pic_verify_code_admin){
             return $this->output_err("图片验证码输入错误");
         }

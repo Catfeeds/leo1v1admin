@@ -83,7 +83,7 @@ class uploadPdfChange extends Command
         @unlink($savePathFile);
 
         # 42服务器端更新uuid
-        $this->updateLessonUUid($item['lessonid'],$uuid,$item['is_tea']);
+        $this->updateLessonUUid($item['lessonid'],$uuid,$item['is_tea'],$item['id']);
     }
 
     public function getTeaUploadPPTLink(){
@@ -100,12 +100,13 @@ class uploadPdfChange extends Command
         return $ret_arr['data'];
     }
 
-    public function updateLessonUUid($lessonid,$uuid,$is_tea){
+    public function updateLessonUUid($lessonid,$uuid,$is_tea,$id){
         $url = "http://admin.leo1v1.com/common_new/updateLessonUUid";
         $post_data = [
             "lessonid" => $lessonid,
             "uuid"     => $uuid,
-            "is_tea"   => $is_tea
+            "is_tea"   => $is_tea,
+            "id"       => $id
         ];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
