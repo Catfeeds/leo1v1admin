@@ -4411,17 +4411,19 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
         $sql = $this->gen_sql_new(
-            " select count(*) "
+            " select l.userid,si.phone "
             ." from %s l "
             ." left join %s lss on lss.lessonid = l.lessonid "
             ." left join %s lsr on lsr.require_id = lss.require_id "
+            .' join %s si on l.userid = si.userid '
             ." where %s "
             ,self::DB_TABLE_NAME
             ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
             ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
     public function get_teacher_lesson_total($teacherid,$start_time,$end_time){
         $where_arr = [

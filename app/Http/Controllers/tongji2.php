@@ -2130,7 +2130,17 @@ class tongji2 extends Controller
         }else
             return $this->output_err('为传入id');
     }
+    //@desn:展示试听未回访记录表
+    public function no_return_call_list(){
+        $page_info = $this->get_in_page_info();
+        $adminid = $this->get_in_int_val('adminid',-1);
+        $ret_info = $this->t_cc_no_return_call->get_no_return_call_list($adminid,$page_info);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
+        }
 
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 
 
 }

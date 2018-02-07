@@ -1980,7 +1980,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             ]);
         }
         $this->t_deal_ppt_to_h5->field_update_list($id, [
-            "is_succ" => 1
+            "is_succ" => 1,
+            "deal_time" => time()
         ]);
         return $this->output_succ();
     }
