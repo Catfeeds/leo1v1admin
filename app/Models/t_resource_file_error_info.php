@@ -39,10 +39,12 @@ class t_resource_file_error_info extends \App\Models\Zgen\z_t_resource_file_erro
 
     }
 
-    public function upload_new_file($file_id){
-        $sql=$this->gen_sql("update %s set status=2"
+    public function upload_new_file($file_id,$adminid){
+        $sql=$this->gen_sql("update %s set status=2 and reupload_adminid = %u and reupload_time = %u"
                             ." where file_id=%u",
                             self::DB_TABLE_NAME,
+                            $adminid,
+                            time(),
                             $file_id
         );
         return $this->main_update($sql); 

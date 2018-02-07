@@ -102,11 +102,11 @@ class seller_student_system_assign extends cmd_base
                 //不超上限
                 $add_flag=($item["max_hold_count"] >$item["hold_count"]);
             }
-
             if ($add_flag && $no_return_call_num <=0 )  {
                 $admin_list[]=$item;
             }
         }
+
 
         return [
             "admin_list"                      => $admin_list,
@@ -134,7 +134,10 @@ class seller_student_system_assign extends cmd_base
 
         $seller_max_new_count = $ret_info["seller_max_new_count"];//最大新例子配额
         $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
-        $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+            $no_connnected_ret_info=$this->assign_no_connected_new( $left_no_connected_count_all,$admin_list  );
+        else
+            $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
 
         $this->task->t_seller_student_system_assign_count_log->row_insert([
             "logtime" => time(),
@@ -148,6 +151,66 @@ class seller_student_system_assign extends cmd_base
             "no_connected_count_assigned" => $ret_info["assigned_no_connected_count_all"] + $no_connnected_ret_info["assigned_count"],
 
         ]);
+
+    }
+
+    //@desn:分配奖励例子
+    public function assign_no_connected_new($left_no_connected_count_all,$admin_list){
+        $new_deal_list = [];
+        //30天内未拨通电话
+        $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
+            E\Etq_called_flag::V_1
+        );
+        $need_deal_list_count = count( $need_deal_list);
+        $new_deal_list = $this->task->t_seller_student_new_b2->get_need_new_assign_list(
+            E\Etq_called_flag::V_0
+        );
+        shuffle ($need_deal_list);
+        if($new_deal_list)
+            shuffle($new_deal_lisst);
+        $need_deal_list = array_merge($need_deal_list,$new_deal_list);
+        $need_deal_count= count( $need_deal_list);
+        $old_need_deal_count=$need_deal_count;
+
+        $assigned_count=0;
+        if( $left_no_connected_count_all)  {
+            for ($i=0;$i< 5;$i++ ) { //第几轮
+                \App\Helper\Utils::logger(" DO count_reward :$i");
+                //遍历获奖用户
+                foreach( $admin_list as $item ) {
+                    if($item['is_top']){//获奖
+                        $assigned_no_connected_count=$item["assigned_no_connected_count"];//已获取奖励数量
+                        $def_no_connected_count=$item["def_no_connected_count"];//分配奖励数量
+                        $opt_adminid= $item["uid"];
+                        \App\Helper\Utils::logger(" --> adminid: $opt_adminid, $i,assigned_no_connected_count:$assigned_no_connected_count");
+                        if ($assigned_no_connected_count <=$i ){//这一轮可以分配
+                            $find_userid= @$need_deal_list[$assigned_count]["userid"];
+                            //判断之前没有分配给此用户过
+                            if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
+
+                                $assigned_count++;
+                                $userid_list=[$find_userid];
+                                $opt_type ="" ;
+                                $opt_type=0;
+                                $account="系统分配-未拨通例子";
+                                $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                                $check_hold_flag = false;
+                                $this->task->t_seller_student_system_assign_log->add(
+                                    E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return [
+            "need_deal_count" =>$old_need_deal_count,
+            "assigned_count" =>$assigned_count,
+        ];
+
 
     }
 

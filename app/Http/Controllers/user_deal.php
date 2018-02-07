@@ -4261,6 +4261,7 @@ class user_deal extends Controller
         case "201702" :
         case "201703" :
         case "201704" :
+            $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                  $month, $adminid, $start_time, $end_time ) ;
             break;
@@ -4268,14 +4269,17 @@ class user_deal extends Controller
         case "201706" :
         case "201707" :
         case "201708" :
+            $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                 "201705", $adminid, $start_time, $end_time ) ;
             break;
         case "201709" :
+            $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                 "201709", $adminid, $start_time, $end_time );
             break;
         case "201710" :
+            $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                 "201710", $adminid, $start_time, $end_time );
             break;
