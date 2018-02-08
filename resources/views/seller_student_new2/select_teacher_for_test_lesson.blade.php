@@ -1,5 +1,19 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/jquery.base64.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript" src="/js/svg.js"></script>
+    <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
+    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+    <link href="/css/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" />
+
     <style>
      .red-border{border:2px solid red;}
      .require-table td{
@@ -131,14 +145,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6 col-md-3" >
+            <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
                     <span class="input-group-addon">&nbsp;老师地区</span>
-                    <select class="opt-change form-control" id="id_city">
-                        <option value="0">无要求</option>
-                    </select>
+                    <input  placeholder="老师地区" id="id_dialect_type" />
                 </div>
             </div>
+
 
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
@@ -151,8 +164,15 @@
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
                     <span class="input-group-addon">&nbsp;精排筛选</span>
-                    <select class="opt-change form-control" id="id_jingpai">
-                        <option value="0">无要求</option>
+                    <select id="id_plan_level" class ="opt-change form-control" >
+                        <option value="-1">无要求</option>
+                        <option value="1">维度A</option>
+                        <option value="2">维度B</option>
+                        <option value="3">维度C</option>
+                        <option value="4">维度C候选</option>
+                        <option value="5">维度D</option>
+                        <option value="6">维度D候选</option>
+                        <option value="7">其他</option>
                     </select>
                 </div>
             </div>
@@ -205,6 +225,9 @@
                     <td >性别</td>
                     <td >年龄</td>
                     <td >老师类型</td>
+                    <td >老师地区</td>
+                    <td >精排筛选</td>
+                    <td >教务备注</td>
                     <td width="300px">教材版本</td>
                     <td >手机号</td>
                     <td >可上课时间</td>
@@ -222,6 +245,9 @@
                         <td>{{$var["gender_str"]}}</td>
                         <td>{{$var["age"]}}</td>
                         <td>{{$var["teacher_type_str"]}}</td>
+                        <td>{{$var["phone_province"]}} </td>
+                        <td>{{@$var["fine_dimension"]}}</td>
+                        <td>{{$var["tea_note"]}} </td>
                         <td>{{$var["teacher_textbook_str"]}}</td>
                         <td>
                             <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
@@ -238,6 +264,8 @@
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
                                 <a class="opt-set-teacher btn fa" title="选中老师">选中老师</a>
+                                <a class=" opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息">教师档案 </a>
+
                             </div>
                         </td>
                     </tr>

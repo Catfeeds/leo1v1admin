@@ -17,6 +17,8 @@ function load_data(){
 		    refresh_flag  : refresh_flag,
 		    region_version: $('#id_region_version').val(),
         userid        : $('#id_userid').val(),
+        dialect_type:	$('#id_dialect_type').val(),
+		    plan_level:	$('#id_plan_level').val(),
     });
 }
 
@@ -32,6 +34,7 @@ $(function(){
     Enum_map.append_option_list("tea_age",$("#id_tea_age"),true,[1,2,3,4]);
     Enum_map.append_option_list("teacher_type",$("#id_teacher_type"),true,[1,3]);
     Enum_map.append_option_list_by_not_id("region_version",$("#id_region_version"),true,[0]);
+  //  Enum_map.append_option_list_by_not_id("dialect_type",$("#id_phone_province"),true);
     $("#id_teacher_info").val(g_args.teacher_info);
     $("#id_teacherid").val();
     $("#id_identity").val(g_args.identity);
@@ -44,6 +47,20 @@ $(function(){
     $('#id_region_version').val(g_args.region_version);
     $('#id_refresh_flag').val(g_args.refresh_flag);
     $('#id_userid').val(g_args.userid);
+  //  $('#id_phone_province').val(g_args.phone_province);
+	  $('#id_plan_level').val(g_args.plan_level);
+    $('#id_dialect_type').admin_set_select_field({
+        "enum_type"    : "dialect_type",
+        "field_name" : "dialect_type",
+        "select_value" : g_args.dialect_type,
+        "multi_select_flag"     : true,
+        "onChange"     : load_data,
+        "th_input_id"  : "th_dialect_type",
+        "only_show_in_th_input"     : false,
+        "btn_id_config"     : {},
+    });
+
+
 
     $('.opt-change').set_input_change_event(load_data);
     $("#id_lesson_time").datetimepicker();

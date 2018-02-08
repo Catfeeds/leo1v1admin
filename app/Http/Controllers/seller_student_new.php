@@ -70,7 +70,7 @@ class seller_student_new extends Controller
     public function assign_member_list_master ( ) {
         $adminid=$this->get_account_id();
 
-        $main_master_flag = $this->t_admin_main_group_name->check_is_master(2,$adminid);
+        $main_master_flag = $this->t_admin_majordomo_group_name->check_is_master(2,$adminid);
         if($adminid==349){
             $main_master_flag=1;
         }
@@ -79,8 +79,8 @@ class seller_student_new extends Controller
         }
 
         $this->set_in_value("main_master_flag", $main_master_flag);
-        $this->set_in_value("admin_revisiterid", 0);
-        $this->set_in_value("sub_assign_adminid_2", 0);
+        // $this->set_in_value("admin_revisiterid", 0);
+        // $this->set_in_value("sub_assign_adminid_2", 0);
 
         return $this->assign_sub_adminid_list();
     }
@@ -117,7 +117,6 @@ class seller_student_new extends Controller
         $page_num                  = $this->get_in_page_num();
         $page_count                = $this->get_in_page_count();
         $has_pad                   = $this->get_in_int_val("has_pad", -1, E\Epad_type::class);
-        $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0);
         $origin_assistantid        = $this->get_in_int_val("origin_assistantid",-1  );
         $tmk_adminid               = $this->get_in_int_val("tmk_adminid",-1, "");
         $account_role              = $this->get_in_enum_list(E\Eaccount_role::class, -1 );
@@ -148,6 +147,14 @@ class seller_student_new extends Controller
         }
         $this->switch_tongji_database();
 
+        //总监查看所有转介绍
+        if($main_master_flag==1){
+            $majordomo_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($self_adminid);
+            $button_show_flag = 0;
+            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", -1); 
+        }else{
+            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0); 
+        }
 
         //主管查看下级例子
         $admin_revisiterid_list = [];
@@ -319,6 +326,8 @@ class seller_student_new extends Controller
     }
 
     public function seller_student_list_data(){
+        $is_test_no_return = $this->get_in_int_val('is_test_no_return');
+        \App\Helper\Utils::logger("is_test_no_return:$is_test_no_return");
         $status_list_str = $this->get_in_str_val("status_list_str");
         $no_jump         = $this->get_in_int_val("no_jump",0);
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
@@ -415,6 +424,12 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
+        //判断用户是否要获取试听未回访用户
+        $phone_list = [];
+        if($is_test_no_return == 1){
+            $phone_str = $this->t_cc_no_return_call->field_get_value($admin_revisiterid, 'no_call_str');
+            $phone_list = explode(',', $phone_str);
+        }
 
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
@@ -423,7 +438,7 @@ class seller_student_new extends Controller
             $tq_called_flag , $phone, $nick ,$origin_assistant_role ,$success_flag,
             $seller_require_change_flag,$adminid_list, $group_seller_student_status ,$tmk_student_status,$require_adminid_list,
             $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level ,
-            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new) ;
+            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new,$phone_list) ;
         $now=time(null);
         $notify_lesson_check_end_time=strtotime(date("Y-m-d", $now+86400*2));
         $next_day=$notify_lesson_check_end_time-86400;

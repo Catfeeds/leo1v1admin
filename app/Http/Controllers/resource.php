@@ -791,7 +791,7 @@ class resource extends Controller
             $book_arr = [];
             if($book){
                 foreach($book as $v) {
-                    if( $v['tag_one'] != 0 ){
+                    if( $v['tag_one'] != 0 && $v['tag_one'] != 2016 && $v['tag_one'] != 2015){
                         array_push($book_arr, intval($v['tag_one']) );
                     }
                 }
@@ -1031,6 +1031,70 @@ class resource extends Controller
 
     }
 
+    //添加教材
+    public function add_book_resource(){
+        $info_str = $this->get_in_str_val('info_str','');
+        $arr      = explode('-', $info_str);
+        $region   = $this->get_in_str_val('book','');
+        $resource = $this->get_in_str_val('resource','');
+
+        $adminid  = $this->get_account_id();
+        $time     = time();
+        $ban_level = count($arr);
+
+        $s_g = [
+            1 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            2 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            3 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            4 => [ [203], [301,302,303] ],
+            5 => [ [202,203], [301,302,303] ],
+            6 => [ [201,202,203], [301,302,303] ],
+            7 => [ [201,202,203], [301,302,303] ],
+            8 => [ [201,202,203], [301,302,303] ],
+            9 => [ [201,202,203], [301,302,303] ],
+            10 => [ [201,202,203], [301,302,303] ],
+            11 => [ [201,202,203], [301,302,303] ],
+        ];
+
+        $resource = explode(',', $resource);
+        $text_book = explode(',', $region);
+        $modify_grade = [];
+
+        if( in_array($arr[0],$resource) ) {
+            $grade = @$arr[2];
+            if($grade){                    
+                foreach( $s_g[ $arr[1] ] as $k => $g_arr){
+                    if(in_array($grade, $g_arr)){
+                        $modify_grade = $g_arr;
+                    }
+                }           
+            }
+        }
+
+        if( in_array($arr[0],$resource) ) {
+            foreach( $resource as $type){                      
+                foreach($modify_grade as $grade){
+                    foreach($text_book as $book){                                            
+                        $data = [
+                            'resource_type' => $type,
+                            'subject'       => $arr[1],
+                            'grade'         => $grade,
+                            'tag_one'       => $book,
+                            'agree_adminid' => $adminid,
+                            'agree_time'    => $time,
+                        ];
+
+                        $is_exit = $this->t_resource_agree_info->get_exit($data);
+                        if(!$is_exit){
+                            $this->t_resource_agree_info->row_insert($data);
+                        }
+                    }
+                }
+            }
+        }
+        return $this->output_succ();
+    }
+
     public function get_resource_type(){
         $ret  = \App\Helper\Utils::list_to_page_info([]);
         $data = [];
@@ -1239,7 +1303,7 @@ class resource extends Controller
             foreach( $multi_data as $data){
                 $ex_num        = 0;
                 //处理文件名
-                $file_title = $data['file_title'];
+                $file_title = &$data['file_title'];
                 $dot_pos = strrpos($file_title,'.');
                 $file_title = substr($file_title,0,$dot_pos);
                 //处理文件类型

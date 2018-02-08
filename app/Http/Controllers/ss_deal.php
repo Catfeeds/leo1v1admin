@@ -3762,46 +3762,51 @@ class ss_deal extends Controller
 
 
         }elseif($origin_flag==2){
-            $sub_assign_adminid_1=0;
+            $groupid=0;
             $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($origin_assistantid);
             $master_adminid_arr = $this->t_admin_main_group_name->get_seller_master_adminid_by_campus_id($campus_id);
             $list=[];
             foreach($master_adminid_arr as $item){
-                $list[] = $item["master_adminid"];
+                $list[$item["groupid"]] = $item["master_adminid"];
             }
             $num_all = count($list);
             $i=0;
-            foreach($list as $val){
-                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$val");
+            \App\Helper\Utils::logger(111);
+
+            foreach($list as $k=>$val){
+                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$k");
                 if (!$json_ret) {
                     $json_ret=0;
                 }
-                \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", $json_ret);
+                \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$k", $json_ret);
                 if($json_ret==1){
                     $i++;
                 }
             }
             if($i==$num_all){
-                foreach($list as $val){
-                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", 0);
+                foreach($list as $k=>$val){
+                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$k", 0);
                 }
             }
-
-            foreach($list as $val){
-                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$val");
+            \App\Helper\Utils::logger(222);
+            foreach($list as $k=>$val){
+                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$k");
                 if($json_ret==0){
-                    $sub_assign_adminid_1= $val;
-                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", 1);
+                    $groupid= $k;
+                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$k", 1);
                     break;
                 }
             }
             //根据经理id再获得总监id
-            $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid($sub_assign_adminid_1);
+            $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid(-1,$groupid);
             if($sub_assign_adminid_1==0){
                 $sub_assign_adminid_1= 287;
             }
             $this->t_seller_student_new->field_update_list($userid,[
-                "sub_assign_adminid_1"  =>$sub_assign_adminid_1
+                "sub_assign_adminid_1"  =>$sub_assign_adminid_1,
+                "sub_assign_adminid_2"  =>$sub_assign_adminid_1,
+                "admin_revisiterid"     =>$sub_assign_adminid_1,
+                "admin_assign_time"     =>time()
             ]);
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
@@ -3810,7 +3815,7 @@ class ss_deal extends Controller
             $name = $this->t_manager_info->get_account($sub_assign_adminid_1);
             $this->t_book_revisit->add_book_revisit(
                 $phone,
-                "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ,分配给销售经理".$name,
+                "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ,分配给销售总监".$name,
                 "system"
             );
 
@@ -4569,6 +4574,7 @@ class ss_deal extends Controller
         $end_class_stu_num = $this->t_seller_student_new->get_end_class_stu_num($adminid);
         $favorite_count = $this->t_seller_student_new->get_favorite_num($adminid);
         $today_new_count= $this->t_seller_student_new_b2->get_today_new_count($adminid);
+        $test_no_return = $this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
 
 
         return $this->output_succ(
@@ -4579,6 +4585,7 @@ class ss_deal extends Controller
                 "today_free_count"  => $today_free_count,
                 "favorite_count"  => $favorite_count,
                 "today_new_count" =>$today_new_count,
+                "test_no_return" =>$test_no_return
             ] )
         );
 

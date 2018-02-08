@@ -186,7 +186,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
 
         $sql = $this->gen_sql_new(
             "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
-            ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
+            ." r.use_type,r.adminid,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
             ." t.tag as tag_four_str,v.create_time,v.visitor_id,r.create_time as c_time "
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
@@ -567,4 +567,17 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         $sql = $this->gen_sql_new("select resource_id from %s order by resource_id desc limit 0,".$limit,self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+
+    public function get_file_subject($error_id){
+        $sql=$this->gen_sql("select r.subject,r.grade from %s r
+                             join %s f on r.resource_id = f.resource_id
+                             join %s e on e.file_id = f.file_id
+                             where e.id=%u",
+                            self::DB_TABLE_NAME,
+                            t_resource_file::DB_TABLE_NAME,
+                            t_resource_file_error_info::DB_TABLE_NAME,
+                            $error_id);
+        return $this->main_get_row($sql); 
+    }
+
 }

@@ -312,31 +312,72 @@ class resource_new extends Controller
         $result = ['status'=>201];
         $adminid =  $this->get_account_id();
         $role = $this->get_account_role();
-        \App\Helper\Utils::logger($role."当前角色: ".E\Eaccount_role::get_desc($role));
-        if($role != 4){
-            $result['msg'] = '你不是教研,无权初审或者复审';
-            return $this->output_succ($result);
-        }
+        $name = $this->get_account();
 
-        //判断是不是主管
-        $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
-        \App\Helper\Utils::logger("主管: ".$is_zhuguan);
-        if (!$is_zhuguan && $status == 3 ) {
-            $result['msg'] = '你不是教研组长无权初审';
-            return $this->output_succ($result);
+        $file_subject = $this->t_resource->get_file_subject($error_id);
+        $subject = $file_subject['subject'];
+        $subject_str = E\Esubject::get_desc($subject);
+        \App\Helper\Utils::logger($role."当前角色: ".E\Eaccount_role::get_desc($role)." 操作人".$name." 当前科目".$subject." ".$subject_str);
+        // if($role != 4){
+        //     $result['msg'] = '你不是教研,无权初审或者复审';
+        //     return $this->output_succ($result);
+        // }
+
+        //判断是不是科目主管
+        $is_zhuguan = 0;
+        $check = "";
+        if($status == 3){
+            switch((int)$subject){
+            default:
+                $check = "李红涛";
+                break;
+            case 1:
+                $check = "张敏";
+                break;
+            case 2:
+                $check = "谢元浩";
+                break;
+            case 3:
+                $check = "许千千";
+                break;
+            }
+
+            if( strcmp($name,$check) > 0 || trim($name) == $check ){
+                $is_zhuguan = 1;
+                \App\Helper\Utils::logger("审查人".$name." 有权人".$check);
+
+            }
+
+            if ( $is_zhuguan  == 0 ) {
+                $result['msg'] = "科目$subject_str 只有 $check 有权初审驳回，你不是教研组长无权驳回";
+                return $this->output_succ($result);
+            }
         }
 
         //判断是不是总监
-        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-        \App\Helper\Utils::logger("总监: ".$is_master);
-        if (!$is_master && $status == 4 ) {
-            $result['msg'] = '你不是教研总监无权复审';
-            return $this->output_succ($result);
-
+        if($status == 4 && $name != "江敏" ){
+            $result['msg'] = '你不是教研总监无权复审驳回';
+            return $this->output_succ($result);            
         }
+        //判断是不是主管
+        // $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
+        // \App\Helper\Utils::logger("主管: ".$is_zhuguan);
+        // if (!$is_zhuguan && $status == 3 ) {
+        //     $result['msg'] = '你不是教研组长无权初审';
+        //     return $this->output_succ($result);
+        // }
+
+        //判断是不是总监
+        // $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        // \App\Helper\Utils::logger("总监: ".$is_master);
+        // if (!$is_master && $status == 4 ) {
+        //     $result['msg'] = '你不是教研总监无权复审';
+        //     return $this->output_succ($result);
+
+        // }
 
         $file = $this->t_resource_file_error_info->get_error_by_error_id($error_id);
-        \App\Helper\Utils::logger("文件: ".json_encode($file));
+        // \App\Helper\Utils::logger("文件: ".json_encode($file));
         if($file){
             if( $file['status'] == 0 ){
                 $result['msg'] = '文件尚未同意修改，你无法初审驳回';
@@ -365,7 +406,7 @@ class resource_new extends Controller
             ];
             $result['first_check_time'] = $data['first_check_time'];
             \App\Helper\Utils::unixtime2date_for_item($result,"first_check_time");
-            $result['first_check_name'] = $this->t_manager_info->get_name($adminid);
+            $result['first_check_name'] = $name;
         }
 
         if( $status == 4 ){
@@ -376,7 +417,7 @@ class resource_new extends Controller
             ];
             $result['second_check_time'] = $data['second_check_time'];
             \App\Helper\Utils::unixtime2date_for_item($result,"second_check_time");
-            $result['second_check_name'] = $this->t_manager_info->get_name($adminid);
+            $result['second_check_name'] = $name;
         }
 
         $modify = $this->t_resource_file_error_info->field_update_list($error_id,$data);
@@ -426,10 +467,11 @@ class resource_new extends Controller
                 $r_mark = $item['resource_id'];
                 $index = 1;
             }
+            \App\Helper\Utils::unixtime2date_for_item($item,"c_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
-
+            $item['admin_nick'] = $this->cache_get_account_nick($item['adminid']);
 
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
@@ -470,8 +512,6 @@ class resource_new extends Controller
             }
          
         }
-
-      
 
         //获取所有开放的教材版本
         //$book = $this->t_resource_agree_info->get_all_resource_type();

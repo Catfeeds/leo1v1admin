@@ -478,7 +478,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $subject=-1,$phone_location="", $has_pad=-1, $seller_resource_type=-1 ,$origin_assistantid=-1,
         $tq_called_flag=-1,$phone="", $nick="" ,$origin_assistant_role=-1,$success_flag=-1,
         $seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1, $tmk_student_status =-1,
-        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1,$show_son_flag=false,$require_adminid_list_new=[]
+        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,
+        $seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1,
+        $show_son_flag=false,$require_adminid_list_new=[],$phone_list=[]
     ) {
         if ($userid >0 || $phone || $nick) {
             $where_arr=[
@@ -583,13 +585,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if($favorite_flag){
             $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
         }
+        $this->where_arr_add_int_or_idlist($where_arr, 'ss.phone', $phone_list,[]);
 
 
         $sql=$this->gen_sql_new(
-            "select   ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,s.is_test_user,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
+            "select   ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,s.is_test_user,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status,sal.seller_student_assign_from_type "
             .",aga.nickname "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
+            .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid '
             ."  left join %s s on ss.userid=s.userid   "
             ." left join %s tr on   t.current_require_id = tr.require_id "
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "
@@ -605,6 +609,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." where  %s  order by  %s desc"
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
+            , t_seller_student_system_assign_log::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
             , t_test_lesson_subject_require::DB_TABLE_NAME
             , t_test_lesson_subject_sub_list::DB_TABLE_NAME
@@ -779,7 +784,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 if($admin_revisiterid>0 && in_array($admin_revisiterid,$admin_revisiterid_list)){
                     $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
                 }else{
-                    $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
+                    if($main_master_flag==1){
+                        $str_str = $this->where_get_in_str_query("ss.admin_revisiterid", $admin_revisiterid_list);
+                        $where_arr[] = "(".$str_str." or ss.sub_assign_adminid_1=".$self_adminid.")";
+                        $where_arr[] = "mm.account_role=1 and s.origin_userid>0";
+                    }else{
+                        $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list); 
+                    }
+
                 }
             }else{
                 $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
@@ -788,11 +800,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         }
 
-        if($main_master_flag==1){
-            $where_arr[] = ["sub_assign_adminid_1=%u",$self_adminid,-1];
-            $where_arr[] = "sub_assign_adminid_1>0";
-        }
-
+       
         if ( !$order_by_str ) {
             $order_by_str= " order by $opt_date_str desc";
         }
@@ -806,6 +814,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s m on  ss.admin_revisiterid =m.uid "
             ." left join %s a on  a.userid =ss.userid "
             ." left join %s aa on  aa.id =a.parentid "
+            ." left join %s mm on s.origin_assistantid = mm.uid"
             ." where  %s  $order_by_str  "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
@@ -813,6 +822,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , t_manager_info::DB_TABLE_NAME
             , t_agent::DB_TABLE_NAME
             , t_agent::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
         // dd($sql);
@@ -3724,6 +3734,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_stu_info_master_leader($adminid){
+        $sql = $this->gen_sql_new("select n.admin_revisiterid,n.sub_assign_adminid_2,n.sub_assign_adminid_1"
+                                  ." ,n.userid,n.phone,s.nick "
+                                  ." from %s n left join %s s on n.userid = s.userid"
+                                  ." left join %s m on s.origin_assistantid = m.uid"
+                                  ." where m.account_role=1 and s.origin_userid>0 and (n.admin_revisiterid = %u or (n.admin_revisiterid=0 and n.sub_assign_adminid_1=%u))",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $adminid,
+                                  $adminid
         );
         return $this->main_get_list($sql);
     }

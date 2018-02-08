@@ -14,6 +14,45 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $master_adminid_arr = $this->t_admin_main_group_name->get_seller_master_adminid_by_campus_id(-1);
+        //  $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid($sub_assign_adminid_1);
+        $ret=[];
+        foreach($master_adminid_arr as $val){
+            $adminid = $val["master_adminid"];
+            
+            if($adminid>0){
+                $list = $this->t_seller_student_new->get_stu_info_master_leader($adminid);
+                $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid($adminid);
+                // foreach($list as $item){
+                //     $nick = $item["nick"];
+                //     $phone = $item["phone"];
+                //     $userid = $item["userid"];
+                //     $this->t_seller_student_new->field_update_list($userid,[
+                //         "sub_assign_adminid_1"  =>$sub_assign_adminid_1,
+                //         "sub_assign_adminid_2"  =>$sub_assign_adminid_1,
+                //         "admin_revisiterid"     =>$sub_assign_adminid_1,
+                //         "admin_assign_time"     =>time()
+                //     ]);
+
+                //     $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
+                //     $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","总监:".$sub_assign_adminid_1."类型2","/seller_student_new/seller_student_list_all?userid=$userid");
+
+                //     $name = $this->t_manager_info->get_account($sub_assign_adminid_1);
+                //     $this->t_book_revisit->add_book_revisit(
+                //         $phone,
+                //         "操作者: $account ,分配给销售总监".$name,
+                //         "system"
+                //     );
+ 
+                // }
+                $ret[$adminid] = $list;
+                $s2 = $this->t_admin_main_group_name->get_major_master_adminid(-1,$val["groupid"]);
+                echo $s1."<br>";
+                echo $s2."<br>";
+
+            }
+        }
+        dd($ret);
         $su = $this->t_admin_main_group_name->get_major_master_adminid(416);
         dd($su);
 
