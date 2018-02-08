@@ -58,6 +58,15 @@ class t_admin_majordomo_group_name extends \App\Models\Zgen\z_t_admin_majordomo_
         return $this->main_get_value($sql);
     }
 
+    public function check_is_master($main_type,$account_id){
+        $sql = $this->gen_sql_new("select 1 from %s where main_type = %u and master_adminid=%u",
+                                  self::DB_TABLE_NAME,
+                                  $main_type,
+                                  $account_id
+        );
+        return $this->main_get_value($sql);
+    }
+
 }
 
 

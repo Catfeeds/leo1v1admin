@@ -3762,41 +3762,43 @@ class ss_deal extends Controller
 
 
         }elseif($origin_flag==2){
-            $sub_assign_adminid_1=0;
+            $groupid=0;
             $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($origin_assistantid);
             $master_adminid_arr = $this->t_admin_main_group_name->get_seller_master_adminid_by_campus_id($campus_id);
             $list=[];
             foreach($master_adminid_arr as $item){
-                $list[] = $item["master_adminid"];
+                $list[$item["groupid"]] = $item["master_adminid"];
             }
             $num_all = count($list);
             $i=0;
-            foreach($list as $val){
-                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$val");
+            \App\Helper\Utils::logger(111);
+
+            foreach($list as $k=>$val){
+                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$k");
                 if (!$json_ret) {
                     $json_ret=0;
                 }
-                \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", $json_ret);
+                \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$k", $json_ret);
                 if($json_ret==1){
                     $i++;
                 }
             }
             if($i==$num_all){
-                foreach($list as $val){
-                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", 0);
+                foreach($list as $k=>$val){
+                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$k", 0);
                 }
             }
-
-            foreach($list as $val){
-                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$val");
+            \App\Helper\Utils::logger(222);
+            foreach($list as $k=>$val){
+                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$k");
                 if($json_ret==0){
-                    $sub_assign_adminid_1= $val;
-                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", 1);
+                    $groupid= $k;
+                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$k", 1);
                     break;
                 }
             }
             //根据经理id再获得总监id
-            $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid($sub_assign_adminid_1);
+            $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid(-1,$groupid);
             if($sub_assign_adminid_1==0){
                 $sub_assign_adminid_1= 287;
             }

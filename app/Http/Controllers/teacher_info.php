@@ -253,6 +253,8 @@ class teacher_info extends Controller
             $question_type_str="是否重上";
         }elseif($question_type == 6){
             $question_type_str="其他问题";
+        }else{
+            $question_type_str="其他问题";
         }
 
         return $question_type_str;

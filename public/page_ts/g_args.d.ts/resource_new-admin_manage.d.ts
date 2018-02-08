@@ -33,6 +33,7 @@ interface RowData {
 	file_id	:any;
 	file_use_type	:any;
 	use_type	:any;
+	adminid	:any;
 	resource_id	:any;
 	resource_type	:any;
 	subject	:any;
@@ -48,6 +49,7 @@ interface RowData {
 	c_time	:any;
 	file_use_type_str	:any;
 	nick	:any;
+	admin_nick	:any;
 	tag_one_name	:any;
 	tag_two_name	:any;
 	tag_three_name	:any;

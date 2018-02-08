@@ -331,7 +331,7 @@
                                 <a class="opt-plan-train_lesson">1v1</a>
                                 <!-- <a class="opt-1v1-lesson-set-new">1v1-new</a> -->
                                 <a class="opt-set-teacher-pass-type" title="修改入职状态">入</a>
-                                @if($_account=="adrian" || !\App\Helper\Utils::check_env_is_release())
+                                @if($_account=="adrian" || !\App\Helper\Utils::check_env_is_release() || $_account=="jack" || $_account=="zoe")
                                     <a class="opt-set-teacher-subject-info" title="修改老师扩课信息">扩课</a>
                                 @endif
                                 @if($var['status_str']=="无试讲")
