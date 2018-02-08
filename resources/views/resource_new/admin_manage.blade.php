@@ -112,19 +112,41 @@
         <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
-                    <td style="width:10px">
+                    <th style="width:10px">
                             <a href="javascript:;" id="id_select_all" title="全选">全</a>
                             <a href="javascript:;" id="id_select_other" title="反选">反</a>
-                        </td>
-                    <td style="max-width:200px;word-wrap: break-word;">文件名</td>
-                    <td>科目</td>
-                    <td>年级</td>
-                    <th>报错详情</th>
-                    <th>错误类型</th>
-                    <th style="max-width:200px">报错内容</th>
-                    <th>讲义详情</th>
+                        </th>
+                    <th style="max-width:200px;word-wrap: break-word;">文件名</th>
+                    <th>科目</th>
+                    <th>年级</th>
+                    <th>资源类型</th>
 
-                    <th>上传详情</th>
+                    @if($resource_type <= 6)
+                        <th>教材</th>
+                    @endif
+
+                    @if( in_array($resource_type,[1,2,9]))
+                        <th>春暑秋寒</th>
+                    @endif
+
+                    @if( $resource_type == 1 || $resource_type == 3 )
+                        <th>学科化标签</th>
+                        <th>难度类型</th>
+                    @endif
+
+                    @if($resource_type < 7 && $resource_type > 3)
+                        <th>上下册</th>
+                    @endif
+
+                    @if($resource_type == 6)
+                        <th>年份</th>
+                        <th>省份</th>
+                        <th>城市</th>
+                    @endif
+
+                    <th>上传日期</th>
+                    <th>初版讲义上传人</th>
+                    <th>修改重传负责人</th>
                     <th>状态</th>
                     
                     <th>操作</th>
@@ -140,53 +162,40 @@
                         <td style="max-width:200px">{{@$var["file_title"]}} </td>
                         <td>{{@$var['subject_str']}}</td>
                         <td>{{@$var['grade_str']}}</td>
-                        <td>
-                        </td>
-                        @if( @$var['etype'] == 9)
-
-                        @else
-                            <td>一级:{{@$var['error_type_str']}}<br/>
-                                二级:{{@$var['sub_error_type_str']}}
-                            </td>
+                        <td>{{@$var['resource_type_str']}}</td>
+                        @if( $resource_type <= 6)
+                            <td>{{@$var["tag_one_str"]}} </td>
                         @endif
 
-                        @if( @$var['etype'] == 9)
-
-                        @else
-                            <td style="max-width:200px">
-                               
-                            </td>
+                        @if( in_array($resource_type,[1,2,9]))
+                            <td>{{@$var["tag_two_str"]}}</td>
                         @endif
 
-                        <td>资源类型:{{@$var['resource_type_str']}}<br/>
-                            科目:{{@$var['subject_str']}}<br/>
-                            年级:{{@$var['grade_str']}}<br/>
-                            @if ($var['tag_one_name'] != '')
-                                {{ @$var['tag_one_name']}}:{{@$var['tag_one_str']}}<br/>
+                        @if( $resource_type == 1 || $resource_type == 3)
+                            <td>{{@$var["tag_four_str"]}} </td>
+                            @if( $resource_type == 1)
+                                <td>{{@$var["tag_five_str"]}} </td>
+                            @else
+                                <td>{{@$var["tag_three_str"]}} </td>
                             @endif
+                        @endif
 
-                            @if ($var['tag_two_name'] != '')
-                                {{@$var['tag_two_name']}}:{{@$var['tag_two_str']}}<br/>
-                            @endif
-                            @if ($var['tag_three_name'] != '')
-                                {{@$var['tag_three_name']}}:{{@$var['tag_three_str']}}<br/>
-                            @endif
-                            @if ($var['tag_four_name'] != '')
-                                {{@$var['tag_four_name']}}:{{@$var['tag_four_str']}}<br/>
-                            @endif
-                            @if ($var['tag_five_name'] != '')
-                                {{@$var['tag_five_name']}}:{{@$var['tag_five_str']}}<br/>
-                            @endif
-                        </td>
+                        @if($resource_type < 7 && $resource_type > 3)
+                            <td>{{@$var["tag_five_str"]}}</td>
+                        @endif
 
-                        <td>上传者:{{@$var['nick']}}<br/>
-                            上传时间:{{@$var['c_time']}}<br/>
+                        @if($resource_type == 6)
+                            <td>{{@$var["tag_two"]}}</td>
+                            <td class="province">{{@$var["tag_three"]}}</td>
+                            <td class="city">{{@$var["tag_four"]}}</td>
+                        @endif
 
-                        </td>
-
-                        <td class="file_status">
-                          
-                        </td>
+                        
+                       <td>{{@$var['c_time']}}</td>
+                       <td>{{@$var['admin_nick']}}</td>
+                       <td></td>
+                       
+                       <td></td>
                         <td style="max-width:150px">
                             <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
                             @if(@$var['estatus'] == 0)
