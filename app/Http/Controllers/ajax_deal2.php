@@ -522,7 +522,7 @@ class ajax_deal2 extends Controller
         }
         $check_parent_child = $this->t_parent_child->check_has_parent($parentid,$userid);
         if(!$check_parent_child){
-            $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
+            $this->t_parent_child->set_student_parent($parentid,$userid);
         }
 
 
@@ -536,7 +536,7 @@ class ajax_deal2 extends Controller
             $this->add_teacher_common($teacher_info);
         }
 
-        return $this->output_succ($ret);
+        return $this->output_succ();
     }
 
     /**

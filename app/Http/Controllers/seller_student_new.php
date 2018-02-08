@@ -1614,6 +1614,8 @@ class seller_student_new extends Controller
         # 处理该学生的通话状态 [james]
         $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
         $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
+        // $this->t_tq_call_info->getNoCallNum($adminid);
+        # 处理该学生的通话状态 [james-end]
 
 
 
@@ -1626,13 +1628,10 @@ class seller_student_new extends Controller
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
         $user_info= @$ret_info["list"][0];
         if (!$user_info) {
-
             return $this->pageView(
                 __METHOD__ , null,
                 ["user_info"=>null , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
             );
-
-
         }
 
         $this->set_filed_for_js("phone", $user_info["phone"]);
@@ -1647,8 +1646,6 @@ class seller_student_new extends Controller
                 __METHOD__ , null,
                 ["user_info"=>null , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
             );
-
-
         }
 
         E\Etq_called_flag::set_item_value_str($user_info);
