@@ -62,13 +62,47 @@ trait  CacheNick {
         return $nick;
     }
 
+    public function cache_get_map_str_new( $type_str,$id ) {
+        if (($id<=0 && is_int($id)) || ($id=='' && is_string($id))) {
+            return "" ;
+        }
+        $redis= $this->get_redis();
+        /* use cache redis */
+        $key=$this->get_key($type_str,$id);
+        $nick=$redis->get($key);
+        if (trim($nick)) {
+            return $nick;
+        }
+
+        $config_item = $this->cache_map_config[$type_str];
+        $table_name  = $config_item[0];
+        $id_str      = $config_item[1];
+        $name_str    = $config_item[2];
+        $sql     = sprintf("select $name_str as name from $table_name where $id_str='%s'",
+                           $this->t_student_info->ensql( $id)
+        );
+        if($config_item){
+            $table_name = explode('.',$table_name)[1];
+            $ret_row = $this->$table_name->main_get_row($sql);
+        }else{
+            $ret_row = $this->t_student_info->main_get_row($sql);
+        }
+        if ($ret_row) {
+            $nick = $ret_row["name"];
+            $redis->set($key,$nick);
+        }else{
+            $nick="";
+        }
+        return $nick;
+    }
+
     public function cache_get_teacher_nick( $id ) {
         return $this->cache_get_map_str("teacher",$id);
     }
 
 
     public function cache_get_origin_key0 ( $id ) {
-        return $this->cache_get_map_str("origin",$id);
+        return $this->cache_get_map_str_new("origin",$id);
     }
 
     public function cache_get_assistant_nick( $id ) {
