@@ -1362,6 +1362,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "seller_student_assign_type =0 ",
             "sys_invaild_flag=0",
             "competition_call_time<$check_time",
+            "s.is_test_user=0",
         ];
 
         if ($t_flag==1) {
@@ -2386,7 +2387,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[] =  "last_contact_time <  $last_contact_time " ;
         $where_arr[]= 's.origin_level in (1,2,3,4)';
         $where_arr[] = 'n.cc_no_called_count>2';
-        //E\Eseller_student_status
+        // E\Eorigin_level::V_1;
         //if ( $seller_student_status ==2 ) {
         //$where_arr[] =  'n.call_admin_count>0 ';
         //}
@@ -2397,7 +2398,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
 
         $order_by_str= " order by s.origin_level,n.add_time desc ";
-
         $sql=$this->gen_sql_new(
             "select tmk_student_status, tmk_next_revisit_time, tmk_desc ,return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, n.add_time,  global_tq_called_flag, seller_student_status,  s.userid,s.nick, s.origin, s.origin_level,n.phone_location,n.phone,n.userid,n.sub_assign_adminid_2,n.admin_revisiterid, n.admin_assign_time, n.sub_assign_time_2 , s.origin_assistantid , s.origin_userid ,  t.subject, s.grade,n.user_desc, n.has_pad,n.tmk_last_revisit_time ".
             " from %s t "
