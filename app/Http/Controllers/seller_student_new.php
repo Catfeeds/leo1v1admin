@@ -117,7 +117,6 @@ class seller_student_new extends Controller
         $page_num                  = $this->get_in_page_num();
         $page_count                = $this->get_in_page_count();
         $has_pad                   = $this->get_in_int_val("has_pad", -1, E\Epad_type::class);
-        $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0);
         $origin_assistantid        = $this->get_in_int_val("origin_assistantid",-1  );
         $tmk_adminid               = $this->get_in_int_val("tmk_adminid",-1, "");
         $account_role              = $this->get_in_enum_list(E\Eaccount_role::class, -1 );
@@ -151,6 +150,10 @@ class seller_student_new extends Controller
         //总监查看所有转介绍
         if($main_master_flag==1){
             $majordomo_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($self_adminid);
+            $button_show_flag = 0;
+            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", -1); 
+        }else{
+            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0); 
         }
 
         //主管查看下级例子
