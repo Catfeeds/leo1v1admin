@@ -724,6 +724,15 @@ class Common {
         return $ret;
     }
 
+    static public function redis_set_expire_val($key,$data,$ttl){
+        $ret = self::redis_set($key,$data);
+        if($ret){
+            $ret = self::redis_expire($key,$ttl);
+        }
+        return $ret;
+    }
+
+
     static public function redis_day_add_with_max_limit( $key , $add_count ,$max_value) {
         $data = json_decode( Redis::get($key) ,true);
         $opt_date=date("Y-m-d" );

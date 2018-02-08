@@ -14,6 +14,7 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        dd(md5("leo15179518621580092561911v1"));
       
         $tt= $this->t_teacher_info->get_prize(240314);
         dd(json_decode($tt,true));
