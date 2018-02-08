@@ -51,8 +51,8 @@
                         <a class="btn btn-warning"  id="id_tip_no_call" > 未拨通电话标注 </a>
                     </div>
                 </div>
-
-
+                <!-- //t_tq_call_info
+                -->
 
 
                 <div class="col-xs-6 col-md-2">

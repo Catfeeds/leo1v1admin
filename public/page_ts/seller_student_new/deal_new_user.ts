@@ -12,7 +12,7 @@ $(function(){
     if(ccNoCallCount==3){
         $('#id_tip_no_call').addClass('btn-warning').removeClass('btn-default');
     }else{
-       
+
         $('#id_tip_no_call').addClass('btn-default').removeClass('btn-warning');
         $('#id_tip_no_call').addClass('btn-default').removeClass('btn-warning');
     }
