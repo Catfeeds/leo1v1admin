@@ -4711,12 +4711,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
                                   ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook,t.teacher_type,t.nick,"
+                                  ." t.test_transfor_per,t.month_stu_num,tr.record_score,t.phone_province,t.tea_note, "
                                   ." count(if(%s,true,null)) as day_num,"
                                   ." count(if(%s,true,null)) as week_num,"
                                   ." count(if(%s,true,null)) as month_num"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." left join %s tf on t.teacherid=tf.teacherid "
+                                  ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"
                                   ." where %s"
                                   ." and %s"
                                   ." group by t.teacherid"
@@ -4726,6 +4728,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_freetime_for_week::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$lesson_arr
                                   ,$teacher_arr
         );
@@ -4747,12 +4750,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.second_subject,t.second_grade_start,t.teacher_type,t.nick,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
-                                  ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook,t.tea_note,"
+                                  ." t.test_transfor_per,t.month_stu_num,tr.record_score,t.phone_province "
                                   ." from %s t"
                                   ." left join %s tf on t.teacherid=tf.teacherid"
+                                  ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_freetime_for_week::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$teacher_arr
         );
         return $this->main_get_list($sql,function($item){
