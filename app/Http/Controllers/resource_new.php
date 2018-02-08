@@ -342,8 +342,9 @@ class resource_new extends Controller
                 break;
             }
 
-            if(trim($name) == $check ){
+            if( substr_count($name,$check) == 1 || trim($name) == $check ){
                 $is_zhuguan = 1;
+                \App\Helper\Utils::logger("审查人".$name." 有权人".$check);
             }
 
             if ( $is_zhuguan  == 0 ) {
@@ -375,7 +376,7 @@ class resource_new extends Controller
         // }
 
         $file = $this->t_resource_file_error_info->get_error_by_error_id($error_id);
-        \App\Helper\Utils::logger("文件: ".json_encode($file));
+        // \App\Helper\Utils::logger("文件: ".json_encode($file));
         if($file){
             if( $file['status'] == 0 ){
                 $result['msg'] = '文件尚未同意修改，你无法初审驳回';
@@ -404,7 +405,7 @@ class resource_new extends Controller
             ];
             $result['first_check_time'] = $data['first_check_time'];
             \App\Helper\Utils::unixtime2date_for_item($result,"first_check_time");
-            $result['first_check_name'] = $this->t_manager_info->get_name($adminid);
+            $result['first_check_name'] = $name;
         }
 
         if( $status == 4 ){
@@ -415,7 +416,7 @@ class resource_new extends Controller
             ];
             $result['second_check_time'] = $data['second_check_time'];
             \App\Helper\Utils::unixtime2date_for_item($result,"second_check_time");
-            $result['second_check_name'] = $this->t_manager_info->get_name($adminid);
+            $result['second_check_name'] = $name;
         }
 
         $modify = $this->t_resource_file_error_info->field_update_list($error_id,$data);
