@@ -296,6 +296,7 @@
                         <button  class="btn  " id="id_require_count" ></button>
                         <button class="btn  " id="id_return_back_count"></button>
                         <button class="btn  " id="id_favorite_count"></button>
+                        <button class="btn  " id="id_test_no_return"></button>
                     </div>
                 </div>
 
@@ -352,6 +353,9 @@
                     <tr>
                         <td  class="td-phone">
                             <div class="phone-data">
+                                @if($var["seller_student_assign_from_type"])
+                                   (奖)
+                                @endif
                                 @if($account == 'jim' || $account_role == 12 || $account == 'tom')
                                     {{$var["phone"]}}
                                 @else
