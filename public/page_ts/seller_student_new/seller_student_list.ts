@@ -218,7 +218,7 @@ function init_today_new()  {
 }
 
 
-function load_data(){
+function load_data(is_test_no_return=0){
     if ($.trim($("#id_phone_name").val()) != g_args.phone_name ) {
         $.do_ajax("/user_deal/set_item_list_add",{
             "item_key" :show_name_key,
@@ -251,8 +251,12 @@ function load_data(){
        // end_class_flag:$("#id_end_class_flag").val(),
         seller_resource_type:   $('#id_seller_resource_type').val(),
         favorite_flag:  $('#id_favorite_flag').val(),
+        is_test_no_return :is_test_no_return,
     });
 }
+
+
+
 
 function add_subject_score(obj){
     $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'>科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 2.0%'><div class='input-group' style='width:90px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 3% 0 -0.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 2% 0 -1.5%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
@@ -1317,6 +1321,7 @@ function init_edit() {
         init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
         init_noit_btn("id_require_count",  resp.require_count,"预约未排","已预约未排数" );
         init_noit_btn("id_favorite_count", resp.favorite_count, "收藏夹","您收藏的例子个数" );
+        init_noit_btn("id_test_no_return", resp.test_no_return, "试听未回访","试听成功未回访例子个数" );
     });
 
     var init_and_reload=function(  set_func ) {
@@ -1425,6 +1430,13 @@ function init_edit() {
             $('#id_seller_student_status').val(200);
         });
     });
+
+    //@desn:点击试听未回访按钮
+    $("#id_test_no_return").on("click",function(){
+        var is_test_no_return = 1;
+        load_data(is_test_no_return);
+    });
+
 
   /*  $("#id_end_class_stu").on("click",function(){
         init_and_reload(function(now){
@@ -4294,4 +4306,4 @@ function init_edit() {
         window["download_show"]();
     }
 }
-    
+
