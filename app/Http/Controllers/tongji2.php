@@ -367,8 +367,10 @@ class tongji2 extends Controller
                 }
             }
         }
+        $common_new = new \App\Http\Controllers\common_ex;
+        $group_adminid_list = $common_new->get_group_adminid_list();
         // $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
-        $admin_list=\App\Helper\Common::gen_admin_member_data_new($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
+        $admin_list=\App\Helper\Common::gen_admin_member_data_new($admin_list, [],0, strtotime( date("Y-m-01",$start_time )),$group_adminid_list);
         foreach( $admin_list as &$item ) {
             $item["become_member_time"] = isset($item["become_member_time"])?(isset($item["create_time"])?($item["become_member_time"]>$item["create_time"]?$item["become_member_time"]:$item["create_time"]):0):0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;

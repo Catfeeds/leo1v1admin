@@ -176,7 +176,6 @@ class seller_student_new extends Controller
             array_unshift($son_adminid_arr,$this->get_account_id());
             $admin_revisiterid_list = array_unique($son_adminid_arr);
         }
-        $nick = '王彦奇';
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,
