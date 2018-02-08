@@ -15,7 +15,15 @@ class test_jack  extends Controller
 
     public function test_ass(){
         $master_adminid_arr = $this->t_admin_main_group_name->get_seller_master_adminid_by_campus_id(-1);
-        dd($master_adminid_arr);
+        $ret=[];
+        foreach($master_adminid_arr as $val){
+            $adminid = $val["master_adminid"];
+            if($adminid>0){
+                $list = $this->t_seller_student_new->get_stu_info_master_leader($adminid);
+                $ret[$adminid] = $list;
+            }
+        }
+        dd($ret);
         $su = $this->t_admin_main_group_name->get_major_master_adminid(416);
         dd($su);
 
