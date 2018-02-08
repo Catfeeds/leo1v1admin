@@ -341,7 +341,10 @@ class resource_new extends Controller
                 $check = "许千千";
                 break;
             }
-            $name == $check ? $is_zhuguan = 1 : "";
+
+            if(trim($name) == $check ){
+                $is_zhuguan = 1;
+            }
 
             if ( $is_zhuguan  == 0 ) {
                 $result['msg'] = "科目$subject_str 只有 $check 有权初审驳回，你不是教研组长无权驳回";
