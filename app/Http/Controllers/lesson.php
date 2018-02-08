@@ -578,7 +578,6 @@ class lesson extends TeaWxController
 
         if(!empty($stu_performance)) {
             $stu_performance_str = json_encode($stu_performance);
-            # $ret = $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
             $ret = $this->t_lesson_info_b2->set_stu_performance_tmp($lessonid, $teacherid, $stu_performance_str,3);
             $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$now);
             return $this->output_succ(['time'=>$com_state]);
