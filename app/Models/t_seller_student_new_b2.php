@@ -102,7 +102,7 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             "n.seller_resource_type=0", // 新例子
             "n.admin_revisiterid=0", // 未分配
             '(s.origin_level <= 4 or s.origin_level = 99)', //s a b c 类例子
-            'n.cc_no_called_count<=2'
+            'n.cc_no_called_count<=2' //未拨通3次以内
         ];
 
         // $where_arr[] = '(tls.seller_student_status in (1,2,101,102) and n.cc_no_called_count<=2)';

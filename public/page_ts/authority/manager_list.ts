@@ -788,7 +788,12 @@ $(function(){
                     'account' : account,
                     'phone'   : phone,
                 },function(resp){
-                    alert(resp['success']);
+                    if(resp.ret==0){
+                        BootstrapDialog.alert("帐号生成成功!");
+                    }else{
+                        BootstrapDialog.alert("系统异常!");
+                    }
+                   // alert(resp['success']);
                 });
             }
         });
