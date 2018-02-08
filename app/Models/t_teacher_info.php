@@ -4710,7 +4710,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
-                                  ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook,t.teacher_type,"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook,t.teacher_type,t.nick,"
                                   ." count(if(%s,true,null)) as day_num,"
                                   ." count(if(%s,true,null)) as week_num,"
                                   ." count(if(%s,true,null)) as month_num"
@@ -4744,7 +4744,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         //$teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
 
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,"
-                                  ." t.second_subject,t.second_grade_start,t.teacher_type,"
+                                  ." t.second_subject,t.second_grade_start,t.teacher_type,t.nick,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
                                   ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook"

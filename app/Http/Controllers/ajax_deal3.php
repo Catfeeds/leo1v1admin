@@ -24,7 +24,8 @@ class ajax_deal3 extends Controller
         $new_count=0;
         $no_connected_count=0;
         //试听成功,未回访用户数量
-        $no_call_test_succ = $this->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
+        $no_call_test_list = $this->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
+        $no_call_test_succ = count($no_call_test_list);
         // $no_call_test_succ =$this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
 
         if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
@@ -637,6 +638,13 @@ class ajax_deal3 extends Controller
     //回访绩效分值计算
     public function get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_lesson_stu_list,$read_student_list,$registered_student_list){
         $month_half = $start_time+15*86400;
+        //2月份回访只需一次
+        if($start_time==strtotime("2018-02-01")){
+            $revisit_max =1;
+        }else{
+            $revisit_max =2;
+        }
+
 
         /*回访*/
         $revisit_reword_per = 0.2;//初始值
@@ -675,8 +683,8 @@ class ajax_deal3 extends Controller
                     if($assign_time < $month_half){
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
-                            if($revisit_num <2){
-                                $revisit_reword_per -=0.05*(2-$revisit_num);
+                            if($revisit_num <$revisit_max){
+                                $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
                             }
 
                         }else{
@@ -724,8 +732,8 @@ class ajax_deal3 extends Controller
                     if($assign_time <$month_half){
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
-                            if($revisit_num <2){
-                                $revisit_reword_per -=0.05*(2-$revisit_num);
+                            if($revisit_num <$revisit_max){
+                                $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
                             }
 
                         }else{

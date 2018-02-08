@@ -284,18 +284,18 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
       return $this->main_get_row($sql);
     }
 
-    public function get_teacherinfo_new($id){
+    public function get_teacherinfo_new($errid_str){
       $sql = $this->gen_sql_new("select t.wx_openid,k.file_title, t.nick  "
                               ." from %s f "
-                              ." left join %s t on t.teacherid = f.phone"
+                              ." left join %s t on t.phone = f.phone"
                               ." left join %s k on k.file_id = f.file_id "
-                              ." where f.id = %s "
+                              ." where f.id in %s "
                               ,t_resource_file_error_info::DB_TABLE_NAME
                               ,t_teacher_info::DB_TABLE_NAME
                               ,t_resource_file::DB_TABLE_NAME
-                              ,$id
+                              ,$errid_str
                             );
-      return $this->main_get_row($sql);
+      return $this->main_get_list($sql);
     }
 
 }

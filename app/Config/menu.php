@@ -40,6 +40,7 @@ class menu{
                 ["power_id"=>71, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
 
                 ["power_id"=>13, "name"=>"录音xmpp分布",   "url"=>"/tea_manage_new/lesson_record_server_list"],
+                ["power_id"=>14, "name"=>"录音xmpp分布-vue", "url"=>"/tea_manage_new/lesson_record_server_list", "domain_type"=>100],
                 ["power_id"=>72, "name"=>"ssh 登录记录",   "url"=>"/login_log/login_list"],
                 ["power_id"=>2, "name"=>"job统计",   "url"=>"/admin_manage/job_list", "domain_type" =>100],
             ]],
@@ -485,6 +486,7 @@ class menu{
                     ["power_id"=>1, "name"=>"系统分配例子信息",   "url"=>"/tongji2/tongji_sys_assign_call_info", "domain_type" =>100],
                     ["power_id"=>2, "name"=>"系统释放例子日志",   "url"=>"/tongji2/tongji_sys_free_log", "domain_type" =>100],
                     ["power_id"=>3, "name"=>"未回访记录",   "url"=>"/tongji2/no_return_call_list"],
+                    ["power_id"=>4, "name"=>"每日排名记录",   "url"=>"/tongji2/cc_day_top_list"],
                 ]],
                 ["power_id"=>1, "name"=>"销售", "list"=>[
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],

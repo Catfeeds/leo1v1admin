@@ -891,6 +891,13 @@ class get_ass_stu_info_update extends Command
 
         $month_half = $start_time+15*86400;
 
+        //临时设置,2月份回访次数最多1次
+        if($start_time==strtotime("2018-02-01")){
+            $revisit_max =1;
+        }else{
+            $revisit_max =2;
+        }
+
         /*回访*/
         $revisit_reword_per = 0.2;//初始值
 
@@ -928,8 +935,8 @@ class get_ass_stu_info_update extends Command
                     if($assign_time < $month_half){
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
-                            if($revisit_num <2){
-                                $revisit_reword_per -=0.05*(2-$revisit_num);
+                            if($revisit_num <$revisit_max){
+                                $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
                             }
  
                         }else{
@@ -977,8 +984,8 @@ class get_ass_stu_info_update extends Command
                     if($assign_time <$month_half){
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
-                            if($revisit_num <2){
-                                $revisit_reword_per -=0.05*(2-$revisit_num);
+                            if($revisit_num <$revisit_max){
+                                $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
                             }
  
                         }else{
