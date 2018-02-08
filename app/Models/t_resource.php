@@ -567,4 +567,11 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         $sql = $this->gen_sql_new("select resource_id from %s order by resource_id desc limit 0,".$limit,self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+
+    public function get_file_subject($file_id){
+        $sql=$this->gen_sql("select subject,grade set status=2 from %s where file_id=%u",
+                            self::DB_TABLE_NAME,$file_id);
+        return $this->main_get_row($sql); 
+    }
+
 }

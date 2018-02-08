@@ -312,28 +312,57 @@ class resource_new extends Controller
         $result = ['status'=>201];
         $adminid =  $this->get_account_id();
         $role = $this->get_account_role();
-        \App\Helper\Utils::logger($role."当前角色: ".E\Eaccount_role::get_desc($role));
+        $name = $this->get_account();
+
+        \App\Helper\Utils::logger($role."当前角色: ".E\Eaccount_role::get_desc($role)."操作人".$name);
         if($role != 4){
             $result['msg'] = '你不是教研,无权初审或者复审';
             return $this->output_succ($result);
         }
 
-        //判断是不是主管
-        $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
-        \App\Helper\Utils::logger("主管: ".$is_zhuguan);
-        if (!$is_zhuguan && $status == 3 ) {
-            $result['msg'] = '你不是教研组长无权初审';
-            return $this->output_succ($result);
+        $file_subject = $this->t_resource->get_file_subject($file_id);
+        $subject = $file_subject['subject'];
+
+        //判断是不是科目主管
+        $is_zhuguan = 0;
+        if($status == 3){
+            switch($subject){
+            case 1:
+                $name == "张敏" ? $is_zhuguan = 1 : "";
+            case 2:
+                $name == "谢元浩" ? $is_zhuguan = 1 : "";
+            case 3:
+                $name == "许千千" ? $is_zhuguan = 1 : "";
+            default:
+                $name == "李红涛" ? $is_zhuguan = 1 : "";
+            }
+            if ( $is_zhuguan  == 0 ) {
+                $result['msg'] = '你不是该科目的教研组长无权初审';
+                return $this->output_succ($result);
+            }
         }
 
         //判断是不是总监
-        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-        \App\Helper\Utils::logger("总监: ".$is_master);
-        if (!$is_master && $status == 4 ) {
+        if($status == 4 && $name != "江敏" ){
             $result['msg'] = '你不是教研总监无权复审';
-            return $this->output_succ($result);
-
+            return $this->output_succ($result);            
         }
+        //判断是不是主管
+        // $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
+        // \App\Helper\Utils::logger("主管: ".$is_zhuguan);
+        // if (!$is_zhuguan && $status == 3 ) {
+        //     $result['msg'] = '你不是教研组长无权初审';
+        //     return $this->output_succ($result);
+        // }
+
+        //判断是不是总监
+        // $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        // \App\Helper\Utils::logger("总监: ".$is_master);
+        // if (!$is_master && $status == 4 ) {
+        //     $result['msg'] = '你不是教研总监无权复审';
+        //     return $this->output_succ($result);
+
+        // }
 
         $file = $this->t_resource_file_error_info->get_error_by_error_id($error_id);
         \App\Helper\Utils::logger("文件: ".json_encode($file));
