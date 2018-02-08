@@ -103,6 +103,7 @@ trait  ViewDeal {
                             .'		"enum_type"    : "'.$enum_type_str.'",' . "\n"
                             .'		"field_name" : "'.$key .'",'  . "\n"
                             .'"title" : "'.$key .'",'  . "\n"
+                            .'"select_value" : this.get_args().'.$key .','  . "\n"
                             .'		"multi_select_flag"     : false ,'  . "\n"
                             .'		"btn_id_config"     : {},' . "\n"
                             ."	});"  . "\n\n";

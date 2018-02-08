@@ -285,6 +285,7 @@ export default class vtable extends Vue {
         });
 
         window["g_args"] = resp.g_args;
+        console.log( "g_args", window["g_args"] );
         $(me.loading_selector).parent().find(".overlay").remove();
 
         me.$nextTick(function () {

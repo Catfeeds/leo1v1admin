@@ -450,6 +450,7 @@
             "only_show_in_th_input" :false , //是否只显示 表头
             "show_id_list" : null,
             "width"   :300,
+            "length_css" : "col-xs-6 col-md-2",
             "btn_id_config": [],
             "select_css" :  "danger",
             "title_length" : 7,
@@ -528,7 +529,7 @@
 
             });
         }else if ( me.list_type==0 ) { //紧凑模式
-            var $html_obj= $( '<div class="col-xs-6 col-md-2"> </div>' );
+            var $html_obj= $( '<div class="'+ me.options.length_css +'"> </div>' );
             var data_list={};
             $.each(desc_map, function(k,v){
                 if ($.isArray( me.options.id_list)) {
