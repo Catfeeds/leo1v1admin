@@ -43,10 +43,9 @@ class menu{
                 //     ["power_id"=>2, "name"=>"登录管理",   "url"=>"/class_stu_manage/db"],
                 //     ["power_id"=>3, "name"=>"消息管理",   "url"=>"/class_stu_manage/dc"],
                 //     ["power_id"=>4, "name"=>"获赞管理",   "url"=>"/class_stu_manage/dd"],
-                // ]],
-                // ["power_id"=>7, "name"=>"业绩",   "list"=>[
-                //     ["power_id"=>1, "name"=>"业绩",   "url"=>"/class_stu_manage/ea"],
-                //     ["power_id"=>2, "name"=>"报表",   "url"=>"/class_stu_manage/eb"],
+                ]],
+                ["power_id"=>7, "name"=>"后台信息",   "list"=>[
+                    ["power_id"=>1, "name"=>"报错",   "url"=>"/error/show_sys_error_info"],
                 ]],
 
             ]],

@@ -111,22 +111,20 @@ class seller_student_system_assign extends cmd_base
 
 
             //记录试听未回访信息
-            if($no_return_call_num>0){
-                $is_set = $this->task->t_cc_no_return_call->field_get_value($adminid, 'uid');
-                if(!$is_set){
-                    $this->task->t_cc_no_return_call->row_insert([
-                        'uid' => $adminid,
-                        'no_return_call_num' => $no_return_call_num,
-                        'no_call_str' => $no_return_call_str,
-                        'add_time' => strtotime(date('Y-m-d'))
-                    ]);
-                }else{
-                    $this->task->t_cc_no_return_call->field_update_list($adminid, [
-                        'no_return_call_num' => $no_return_call_num,
-                        'no_call_str' => $no_return_call_str,
-                        'add_time' => strtotime(date('Y-m-d'))
-                    ]);
-                }
+            $is_set = $this->task->t_cc_no_return_call->field_get_value($adminid, 'uid');
+            if(!$is_set){
+                $this->task->t_cc_no_return_call->row_insert([
+                    'uid' => $adminid,
+                    'no_return_call_num' => $no_return_call_num,
+                    'no_call_str' => $no_return_call_str,
+                    'add_time' => strtotime(date('Y-m-d'))
+                ]);
+            }else{
+                $this->task->t_cc_no_return_call->field_update_list($adminid, [
+                    'no_return_call_num' => $no_return_call_num,
+                    'no_call_str' => $no_return_call_str,
+                    'add_time' => strtotime(date('Y-m-d'))
+                ]);
             }
 
         }

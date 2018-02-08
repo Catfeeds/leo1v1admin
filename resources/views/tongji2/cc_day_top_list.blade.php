@@ -33,6 +33,7 @@
                     <td>cc名称</td>
                     <td>业绩值</td>
                     <td>排名</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>

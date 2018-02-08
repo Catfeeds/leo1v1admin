@@ -1519,6 +1519,7 @@ $(function(){
                             break;
                         case 1:
                             error_item.find('.error_file_status').text("已同意修改");
+                            error_item.find('.error_file_status').attr({"error_id":result.list[x]['id']});
                             error_item.find('.error_agree').text("已同意");
                             break;
                         case 2:

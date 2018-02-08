@@ -779,7 +779,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 if($admin_revisiterid>0 && in_array($admin_revisiterid,$admin_revisiterid_list)){
                     $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
                 }else{
-                    $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
+                    if($main_master_flag==1){
+                        $str_str = $this->where_get_in_str_query("ss.admin_revisiterid", $admin_revisiterid_list);
+                        $where_arr[] = "(".$str_str." or ss.sub_assign_adminid_1=".$self_adminid.")";
+                        $where_arr[] = "mm.account_role=1 and s.origin_userid>0";
+                    }else{
+                        $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list); 
+                    }
+
                 }
             }else{
                 $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
@@ -788,11 +795,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         }
 
-        if($main_master_flag==1){
-            $where_arr[] = ["sub_assign_adminid_1=%u",$self_adminid,-1];
-            $where_arr[] = "sub_assign_adminid_1>0";
-        }
-
+       
         if ( !$order_by_str ) {
             $order_by_str= " order by $opt_date_str desc";
         }
@@ -806,6 +809,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s m on  ss.admin_revisiterid =m.uid "
             ." left join %s a on  a.userid =ss.userid "
             ." left join %s aa on  aa.id =a.parentid "
+            ." left join %s mm on s.origin_assistantid = mm.uid"
             ." where  %s  $order_by_str  "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
@@ -813,6 +817,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , t_manager_info::DB_TABLE_NAME
             , t_agent::DB_TABLE_NAME
             , t_agent::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
         // dd($sql);
@@ -3724,6 +3729,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_stu_info_master_leader($adminid){
+        $sql = $this->gen_sql_new("select n.admin_revisiterid,n.sub_assign_adminid_2,n.sub_assign_adminid_1"
+                                  ." ,n.userid,n.phone,s.nick "
+                                  ." from %s n left join %s s on n.userid = s.userid"
+                                  ." left join %s m on s.origin_assistantid = m.uid"
+                                  ." where m.account_role=1 and s.origin_userid>0 and (n.admin_revisiterid = %u or (n.admin_revisiterid=0 and n.sub_assign_adminid_1=%u))",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $adminid,
+                                  $adminid
         );
         return $this->main_get_list($sql);
     }

@@ -43,7 +43,7 @@ class account_common extends Controller
         $time = time()-45000;
         $value = md5("leo".$time.$phone.$role."1v1");//生成验证信息给前端
         $key = $phone."-".$role."time";
-        \App\Helper\Common::redis_set_expire_value($key,$value,43200);
+        \App\Helper\Common::redis_set_expire_val($key,$value,43200);
         // session([
         //     $key  => $value,
         // ]);
@@ -125,7 +125,7 @@ class account_common extends Controller
         $phone_code=\App\Helper\Common::gen_rand_code(6);
         $code_key = $phone."-".$role."-code";
 
-        \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,43200);
+        \App\Helper\Common::redis_set_expire_val($code_key, $phone_code,43200);
 
         // session([
         //     $code_key  => $phone_code,
@@ -487,7 +487,7 @@ class account_common extends Controller
         $builder->build($width = 200, $height = 80, $font = null);
         //获取验证码的内容
         $phrase = $builder->getPhrase();
-        \App\Helper\Common::redis_set_expire_value($key,$phrase,43200);
+        \App\Helper\Common::redis_set_expire_val($key,$phrase,43200);
 
         // session([
         //     $key  =>  $phrase,

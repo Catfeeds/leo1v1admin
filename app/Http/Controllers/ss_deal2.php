@@ -193,7 +193,7 @@ class ss_deal2 extends Controller
                 return $this->output_err("尚未拨打新例子,不能丢弃,请立即拨打!");
             }
             if ($item["tq_called_flag" ] == 1) {
-                return $this->output_err("尚未拨打新例子,不能丢弃,请立即拨打!");
+                return $this->output_err("尚未拨通新例子,不能丢弃,请立即拨打!");
             }
 
         }
