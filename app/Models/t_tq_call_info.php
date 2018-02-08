@@ -979,7 +979,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         return $this->main_get_list($sql);
     }
 
-    
+
 
     public function get_item_cause($start_time,$end_time){
         $where_arr = [
@@ -1076,6 +1076,10 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             $where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+    public function getNoCallNum($adminid){
+        $where_arr = [];
     }
 
 }
