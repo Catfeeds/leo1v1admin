@@ -1973,7 +1973,7 @@ class tongji2 extends Controller
     # 市场部个性海报转发
     public function marketposterdata(){
         $page_num  = $this->get_in_page_num();
-        $uid = $this->get_in_int_val("adminid",-1);
+        $uid = $this->get_in_int_val("adminid",0);
         $ret_info = $this->t_personality_poster->getData($page_num,$uid);
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -2089,6 +2089,9 @@ class tongji2 extends Controller
     }
     //@desn:添加销售排名
     public function cc_day_top_add(){
+        if(!in_array($this->get_account(), ['abner','jim'])){
+            return $this->output_err('无权限');
+        }
         $score = $this->get_in_int_val('score');
         $rank = $this->get_in_int_val('rank');
         $uid = $this->get_in_int_val('uid');
@@ -2106,6 +2109,9 @@ class tongji2 extends Controller
     }
     //@desn:修改销售排名信息
     public function cc_day_top_update(){
+        if(!in_array($this->get_account(), ['abner','jim'])){
+            return $this->output_err('无权限');
+        }
         $id = $this->get_in_id();
         $score = $this->get_in_int_val('score');
         $rank = $this->get_in_int_val('rank');
@@ -2123,6 +2129,9 @@ class tongji2 extends Controller
     }
     //@desn:删除该条排名信息
     public function cc_day_top_del(){
+        if(!in_array($this->get_account(), ['abner','jim'])){
+            return $this->output_err('无权限');
+        }
         $id = $this->get_in_id();
         if($id){
             $this->t_cc_day_top->row_delete($id);

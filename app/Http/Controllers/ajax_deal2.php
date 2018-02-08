@@ -520,9 +520,9 @@ class ajax_deal2 extends Controller
         if(!$parentid){
             $parentid = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
         }
-        $check_parent_child = $this->t_parent_child->check_has_parent($parentid,$studentid);
+        $check_parent_child = $this->t_parent_child->check_has_parent($parentid,$userid);
         if(!$check_parent_child){
-            $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
+            $this->t_parent_child->set_student_parent($parentid,$userid);
         }
 
 
@@ -536,7 +536,7 @@ class ajax_deal2 extends Controller
             $this->add_teacher_common($teacher_info);
         }
 
-        return $this->output_succ($ret);
+        return $this->output_succ();
     }
 
     /**
@@ -2894,6 +2894,14 @@ class ajax_deal2 extends Controller
         $revisit_value=0;
         $deduct_list=[];
 
+        //2月份回访只需一次
+        if($start_time==strtotime("2018-02-01")){
+            $revisit_max =1;
+        }else{
+            $revisit_max =2;
+        }
+
+
         //检查本月是否上过课
         $month_lesson_flag = $this->t_lesson_info_b3->check_have_lesson_stu($userid,$start_time,$end_time);
 
@@ -2993,8 +3001,8 @@ class ajax_deal2 extends Controller
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
 
-                            if($revisit_num <2){
-                                $revisit_value +=1*(2-$revisit_num);
+                            if($revisit_num < $revisit_max){
+                                $revisit_value +=1*( $revisit_max-$revisit_num);
                                 $deduct_list[]=[
                                     "deduct_type"=>"常规回访扣分",
                                     "subject"    => "",
@@ -3044,8 +3052,8 @@ class ajax_deal2 extends Controller
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$start_time,$end_time,$account,-2);
                     if($type_flag==1 && $month_lesson_flag==1){
 
-                        if($revisit_num <2){
-                            $revisit_value +=1*(2-$revisit_num);
+                        if($revisit_num < $revisit_max){
+                            $revisit_value +=1*( $revisit_max-$revisit_num);
                             $deduct_list[]=[
                                 "deduct_type"=>"常规回访扣分",
                                 "subject"    => "",

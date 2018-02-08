@@ -67,6 +67,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
+    public function get_success_test_lesson($userid, $start_time, $end_time ) {
+        $where_arr=[
+            "userid" =>$userid,
+        ];
+        $this->where_arr_add_time_range($where_arr, "lesson_start", $start_time, $end_time);
+
+        $sql = $this->gen_sql_new(
+            "select lesson_start from %s"
+            . " where  %s "
+            . " and confirm_flag<>2  and lesson_del_flag =0  "
+            . " order by lesson_start desc limit 1  ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        ) ;
+
+        return $this->main_get_row($sql);
+    }
+
+
+
     public function get_next_day_lesson_info(){
         $next_day_begin = strtotime(date('Y-m-d',strtotime("+1 days")));
         $next_day_end   = strtotime(date('Y-m-d',strtotime("+2 days")));

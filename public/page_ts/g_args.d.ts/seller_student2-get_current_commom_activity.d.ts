@@ -11,42 +11,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	id	:any;
-	title	:any;
-	date_range_start	:any;
-	date_range_end	:any;
-	user_join_time_start	:any;
-	user_join_time_end	:any;
-	lesson_times_min	:any;
-	lesson_times_max	:any;
-	last_test_lesson_start	:any;
-	last_test_lesson_end	:any;
-	grade_list	:any;
-	open_flag	:any;
-	can_disable_flag	:any;
-	period_flag_list	:any;
-	contract_type_list	:any;
-	power_value	:any;
-	max_count	:any;
-	max_change_value	:any;
-	max_count_activity_type_list	:any;
-	order_activity_discount_type	:any;
-	discount_json	:any;
-	need_spec_require_flag	:any;
-	diff_max_count	:any;
-	period_flag_list_str	:any;
-	contract_type_list_str	:any;
-	need_spec_require_flag_str	:any;
-	can_disable_flag_str	:any;
-	open_flag_str	:any;
-	order_activity_discount_type_str	:any;
-	grade_list_str	:any;
-	date_range_time	:any;
-	lesson_times_range	:any;
-	user_join_time_range	:any;
-	last_test_lesson_range	:any;
-	discount_list	:any;
-	activity_type_list_str	:any;
 }
 
 /*

@@ -133,12 +133,30 @@
         <div class="row">
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
+                    <span class="input-group-addon">&nbsp;老师地区</span>
+                    <select class="opt-change form-control" id="id_city">
+                        <option value="0">无要求</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-md-3" >
+                <div class="input-group ">
                     <span class="input-group-addon">&nbsp;教材版本</span>
                     <select class="opt-change form-control" id="id_region_version">
                         <option value="0">无要求</option>
                     </select>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-3" >
+                <div class="input-group ">
+                    <span class="input-group-addon">&nbsp;精排筛选</span>
+                    <select class="opt-change form-control" id="id_jingpai">
+                        <option value="0">无要求</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
                     <span class="input-group-addon">&nbsp;教师相关</span>
@@ -150,6 +168,9 @@
                     </select>
                 </div>
             </div>
+           
+        </div>
+        <div class="row">           
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
                     <span class="input-group-addon">&nbsp;课堂相关</span>
@@ -173,6 +194,7 @@
                 </div>
             </div>
         </div>
+
         <hr>
         <table class="common-table">
             <thead>
