@@ -101,4 +101,21 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
         //dd($sql);
         return $this->main_get_list($sql);
     }
+
+    public function get_exit($data){
+        $where_arr = [
+            ['resource_type=%u', $data['resource_type']],
+            ['subject=%u',$data['subject']],
+            ['grade=%u', $data['grade']],
+            ['tag_one=%u', $data['tag_one']],
+        ];
+
+        $sql = $this->gen_sql_new("select resource_type from %s where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
 }
