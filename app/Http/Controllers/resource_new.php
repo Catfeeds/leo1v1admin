@@ -471,8 +471,6 @@ class resource_new extends Controller
          
         }
 
-      
-
         //获取所有开放的教材版本
         //$book = $this->t_resource_agree_info->get_all_resource_type();
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
