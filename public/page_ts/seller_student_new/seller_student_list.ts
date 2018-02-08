@@ -176,7 +176,7 @@ function init_today_new()  {
                     hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
                 }
                 if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type){
-                    alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访');
+                    alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
                     var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
                     window.location.href = url;
                 }
