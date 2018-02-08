@@ -327,15 +327,19 @@ class resource_new extends Controller
         $is_zhuguan = 0;
         $check = "";
         if($status == 3){
-            switch($subject){
-            case 1:
-                $check = "张敏";            
-            case 2:
-                $check = "谢元浩";
-            case 3:
-                $check = "许千千";
+            switch((int)$subject){
             default:
                 $check = "李红涛";
+                break;
+            case 1:
+                $check = "张敏";
+                break;
+            case 2:
+                $check = "谢元浩";
+                break;
+            case 3:
+                $check = "许千千";
+                break;
             }
             $name == $check ? $is_zhuguan = 1 : "";
 
