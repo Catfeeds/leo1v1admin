@@ -349,7 +349,7 @@ class tongji2 extends Controller
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $month = strtotime( date("Y-m-01", $start_time));
 
-        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
+        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid,$group_adminid_list);
         $admin_list=&$ret_info["list"];
         $account_role= E\Eaccount_role::V_2;
         $order_user_list=$this->t_order_info->get_admin_list($start_time,$end_time,$account_role,$group_adminid_list);
