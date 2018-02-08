@@ -343,6 +343,8 @@ class tongji2 extends Controller
 
     public function seller_month_money_list() {
         $adminid=$this->get_in_adminid(-1);
+        $common_new = new \App\Http\Controllers\common_ex;
+        $group_adminid_list = $common_new->get_group_adminid_list();
         //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $month = strtotime( date("Y-m-01", $start_time));
@@ -350,7 +352,7 @@ class tongji2 extends Controller
         $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
         $admin_list=&$ret_info["list"];
         $account_role= E\Eaccount_role::V_2;
-        $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
+        $order_user_list=$this->t_order_info->get_admin_list($start_time,$end_time,$account_role,$group_adminid_list);
         $map=[];
         foreach($ret_info["list"] as $item ) {
             $map[$item["adminid"] ]=true;
@@ -367,8 +369,6 @@ class tongji2 extends Controller
                 }
             }
         }
-        $common_new = new \App\Http\Controllers\common_ex;
-        $group_adminid_list = $common_new->get_group_adminid_list();
         // $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
         $admin_list=\App\Helper\Common::gen_admin_member_data_new($admin_list, [],0, strtotime( date("Y-m-01",$start_time )),$group_adminid_list);
         foreach( $admin_list as &$item ) {
