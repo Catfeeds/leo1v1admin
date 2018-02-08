@@ -218,7 +218,7 @@ function init_today_new()  {
 }
 
 
-function load_data(is_test_no_return=0){
+function load_data(){
     if ($.trim($("#id_phone_name").val()) != g_args.phone_name ) {
         $.do_ajax("/user_deal/set_item_list_add",{
             "item_key" :show_name_key,
@@ -251,7 +251,6 @@ function load_data(is_test_no_return=0){
        // end_class_flag:$("#id_end_class_flag").val(),
         seller_resource_type:   $('#id_seller_resource_type').val(),
         favorite_flag:  $('#id_favorite_flag').val(),
-        is_test_no_return :is_test_no_return,
     });
 }
 
@@ -1431,12 +1430,7 @@ function init_edit() {
         });
     });
 
-    //@desn:点击试听未回访按钮
-    $("#id_test_no_return").on("click",function(){
-        var is_test_no_return = 1;
-        load_data(is_test_no_return);
-    });
-
+    
 
   /*  $("#id_end_class_stu").on("click",function(){
         init_and_reload(function(now){
