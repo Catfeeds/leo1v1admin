@@ -426,10 +426,11 @@ class resource_new extends Controller
                 $r_mark = $item['resource_id'];
                 $index = 1;
             }
+            \App\Helper\Utils::unixtime2date_for_item($item,"c_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
-
+            $item['admin_nick'] = $this->cache_get_account_nick($item['adminid']);
 
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];

@@ -352,6 +352,9 @@
                     <tr>
                         <td  class="td-phone">
                             <div class="phone-data">
+                                @if($var["seller_student_assign_from_type"])
+                                   (奖)
+                                @endif
                                 @if($account == 'jim' || $account_role == 12 || $account == 'tom')
                                     {{$var["phone"]}}
                                 @else
