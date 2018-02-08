@@ -2071,13 +2071,13 @@ class human_resource extends Controller
             "work_year"               =>$work_year,
             "gender"                  =>$gender
         ]);
-        $this->t_teacher_info->field_update_list($teacherid,[
-            "gender"  =>$gender,
-            "teacher_textbook" =>$teacher_textbook,
-            "work_year"        =>$work_year,
-            "address"          =>$region,
-            "free_time"        =>$free_time
-        ]);
+        // $this->t_teacher_info->field_update_list($teacherid,[
+        //     "gender"  =>$gender,
+        //     "teacher_textbook" =>$teacher_textbook,
+        //     "work_year"        =>$work_year,
+        //     "address"          =>$region,
+        //     "free_time"        =>$free_time
+        // ]);
         return $this->output_succ();
     }
 
