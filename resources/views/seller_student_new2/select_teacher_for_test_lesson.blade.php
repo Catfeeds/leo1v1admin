@@ -245,8 +245,8 @@
                         <td>{{$var["gender_str"]}}</td>
                         <td>{{$var["age"]}}</td>
                         <td>{{$var["teacher_type_str"]}}</td>
-                        <td>{{@$var["fine_dimension"]}}</td>
                         <td>{{$var["phone_province"]}} </td>
+                        <td>{{@$var["fine_dimension"]}}</td>
                         <td>{{$var["tea_note"]}} </td>
                         <td>{{$var["teacher_textbook_str"]}}</td>
                         <td>
@@ -264,6 +264,8 @@
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
                                 <a class="opt-set-teacher btn fa" title="选中老师">选中老师</a>
+                                <a class=" opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息">教师档案 </a>
+
                             </div>
                         </td>
                     </tr>
