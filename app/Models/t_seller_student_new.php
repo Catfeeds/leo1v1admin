@@ -3730,7 +3730,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_stu_info_master_leader($adminid){
         $sql = $this->gen_sql_new("select n.admin_revisiterid,n.sub_assign_adminid_2,n.sub_assign_adminid_1"
-                                  ." ,n.userid "
+                                  ." ,n.userid,n.phone,s.nick "
                                   ." from %s n left join %s s on n.userid = s.userid"
                                   ." left join %s m on s.origin_assistantid = m.uid"
                                   ." where m.account_role=1 and s.origin_userid>0 and (n.admin_revisiterid = %u or (n.admin_revisiterid=0 and n.sub_assign_adminid_1=%u))",
