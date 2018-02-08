@@ -299,8 +299,8 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         $where_arr=[
             ["campus_id=%u",$campus_id,-1]  
         ];
-        $sql = $this->gen_sql_new("select master_adminid from %s "
-                                  ." where %s and main_type=2",
+        $sql = $this->gen_sql_new("select master_adminid,groupid from %s "
+                                  ." where %s and main_type=2 and campus_id>0",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -388,13 +388,17 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
     }
 
     //获得上一级主管id
-    public function get_major_master_adminid($adminid){
+    public function get_major_master_adminid($adminid=-1,$groupid=-1){
+        $where_arr=[
+            ["a.master_adminid=%u",$adminid,-1],  
+            ["a.groupid=%u",$groupid,-1],  
+        ];
         $sql = $this->gen_sql_new("select m.master_adminid"
                                   ." from %s a left join %s m on a.up_groupid = m.groupid"
-                                  ." where a.master_adminid = %u",
+                                  ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_admin_majordomo_group_name::DB_TABLE_NAME,
-                                  $adminid
+                                  $where_arr
         );
         return $this->main_get_value($sql);
 
