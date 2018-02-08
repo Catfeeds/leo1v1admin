@@ -91,7 +91,7 @@ function init_today_new()  {
                         '            <!-- /.direct-chat-pane -->'+
                         '        </div>'+
                         '        <!-- /.box-body -->'+
-                        '        <div class="box-footer" style="text-align:center;"  >'+
+                        '        <div class="box-footer" style="text-align:center;height:60px;"  >'+
                         '        </div>'+
                         '    </div>'+
                         '</div>');
@@ -161,53 +161,60 @@ function init_today_new()  {
             }
         });
 
-        $.do_ajax( "/ajax_deal3/get_new_seller_student_info",{
-            "userid_list" : userid_list.join(","),
-            "user_admin_assign_time_map" : JSON.stringify( user_admin_assign_time_map),
-        },function(resp){
-            console.log(resp);
-            var hold_msg="";
-            if ( resp.max_hold_count <= resp.hold_count ) {
-                alert('新例子分配失败,例子库空间已满，请尽快清理');
-                hold_msg=' <span  style="color:red;">请释放不要是例子回公海,不然无法得到新例子 </span> ';
-            }else if(resp.max_hold_count-resp.hold_count<=10){
-                alert('例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count);
-                hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
-            }
-            if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type)
-                alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访');
+        function update_left_time(){
 
-            var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
-            $id_today_new_list.find(".new_list_title").html ($title);
-
-            $.each(resp.user_list, function(i, user_item ){
-                var userid= user_item["userid"];
-                var opt_data=opt_data_map[userid];
-                var $item= $id_today_new_list.find(".item-"+userid);
-                if(user_item["seller_student_assign_from_type"]==1 ) {
-                    $item.find(".assign_type").show();
+            $.do_ajax( "/ajax_deal3/get_new_seller_student_info",{
+                "userid_list" : userid_list.join(","),
+                "user_admin_assign_time_map" : JSON.stringify( user_admin_assign_time_map),
+            },function(resp){
+                var hold_msg="";
+                if ( resp.max_hold_count <= resp.hold_count ) {
+                    alert('新例子分配失败,例子库空间已满，请尽快清理');
+                    hold_msg=' <span  style="color:red;">请释放不要是例子回公海,不然无法得到新例子 </span> ';
+                }else if(resp.max_hold_count-resp.hold_count<=10){
+                    alert('例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count);
+                    hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
                 }
-                if (user_item["show_left_time_flag"]) {
-                    if (opt_data.tq_called_flag==2) {
-                        $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span> 请设置用户信息" );
-                    }else if(opt_data.tq_called_flag == 1){
-                        $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span>");
+                if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type)
+                    alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访');
+
+                var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
+                $id_today_new_list.find(".new_list_title").html ($title);
+
+                $.each(resp.user_list, function(i, user_item ){
+                    console.log(user_item);
+                    var userid= user_item["userid"];
+                    var opt_data=opt_data_map[userid];
+                    var $item= $id_today_new_list.find(".item-"+userid);
+                    if(user_item["seller_student_assign_from_type"]==1 ) {
+                        $item.find(".assign_type").show();
+                    }
+                    if (user_item["show_left_time_flag"]) {
+                        if (opt_data.tq_called_flag==2) {
+                            $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span> ,请编辑资料" );
+                        }else if(opt_data.tq_called_flag == 1){
+                            $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span>");
+                        }else{
+                            var msg="会被系统分走,请尽快联系";
+                            $item.find(".box-footer").html("剩余:<span style=\"color:red; font-weight:bolder;font-size:18px; \">"+ user_item.left_time_str+"</span><br> <span style=\"color:red; \" >"+ opt_data.tq_called_flag_str +" </span> " +msg);
+                        }
+
                     }else{
-                        var msg="会被系统分走,请尽快联系";
-                        $item.find(".box-footer").html("剩余:<span style=\"color:red; font-weight:bolder;font-size:18px; \">"+ user_item.left_time_str+"</span><br> <span style=\"color:red; \" >"+ opt_data.tq_called_flag_str +" </span> " +msg);
+                        $item.find(".box-footer").html("<span style=\"color:red; font-weight:bolder; \">"+ opt_data.tq_called_flag_str +"</span>");
                     }
 
-                }else{
-                    $item.find(".box-footer").html("<span style=\"color:red; font-weight:bolder; \">"+ opt_data.tq_called_flag_str +"</span>");
-                }
-
-            });
+                });
 
 
-        }) ;
+            }) ;
+
+        }
+
+        update_left_time();
+        //一分钟请求一次剩余时间
+        setInterval(update_left_time,1000*60);
 
     }
-
 }
 
 
