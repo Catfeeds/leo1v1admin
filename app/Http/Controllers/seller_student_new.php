@@ -1631,6 +1631,7 @@ class seller_student_new extends Controller
         // $hasCalledNum = $this->t_tq_call_info->getAdminidCalledNum($adminid);
         // // $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
         // $this->set_filed_for_js("hasCalledNum", 3);
+        // $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
         # 处理该学生的通话状态 [james-end]
 
 
