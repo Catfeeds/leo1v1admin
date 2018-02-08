@@ -585,7 +585,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if($favorite_flag){
             $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
         }
-        $this->where_arr_add_int_or_idlist($where_arr, 'ss.phone', $phone_list,[]);
 
 
         $sql=$this->gen_sql_new(

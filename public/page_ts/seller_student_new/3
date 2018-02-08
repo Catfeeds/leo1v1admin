@@ -19,23 +19,10 @@ $(function(){
         $('.bs-example-modal-sm').modal('toggle');
     });
 
-
     $('.submit_tag').on("click",function(){
-        var invalid_type = $('.invalid_type').val();
-        var checkText=$(".invalid_type").find("option:selected").text();
-        $('.tip_text').text(checkText);
-        $('.confirm-sm').modal('toggle');
-        $('.confirm_tag').on("click",function(){
-            // $("#id_sync_tq").on("click",function(){
-            //     $.do_ajax("/ss_deal/sync_tq",{
-            //         "phone" : g_args.phone,
-            //     } );
-            // });
-
-            window.location.reload();
-        });
+        alert(1);
+        alert($('.invalid_type').val());
     });
-
     // 处理标记空号功能 [james-end]
 
 

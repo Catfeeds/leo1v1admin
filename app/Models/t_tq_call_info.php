@@ -1078,8 +1078,19 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         return $this->main_get_value($sql);
     }
 
-    public function getNoCallNum($adminid){
-        $where_arr = [];
+    public function getAdminidCalledNum($adminid){
+        $where_arr = [
+            "is_called_phone=0",
+            "adminid=$adminid"
+        ];
+
+        $sql = $this->gen_sql_new("  select count(1) from %s tq "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }
