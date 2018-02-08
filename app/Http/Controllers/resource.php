@@ -159,7 +159,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180206171439,
+            '_publish_version'    => 20180206171440,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -1352,6 +1352,11 @@ class resource extends Controller
         \App\Helper\Utils::logger("wrong id:".json_encode($error_id_str));
         if($is_wx > 0 && $error_id_str > 0){
             $error_id_arr = is_array($error_id_str) ? $error_id_str : json_decode($error_id_str,true);
+            foreach($error_id_arr as $k => $error){         
+                if( !$error ) {
+                    unset( $error_id_arr[$k] );
+                }                 
+            }
             $errid_str = join(',',$error_id_arr);
             $errid_str = "(".$errid_str.")";
             $info = $this->t_resource_file->get_teacherinfo_new($errid_str);
