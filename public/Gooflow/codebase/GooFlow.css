@@ -8,7 +8,7 @@ v\:group,v\:rect,v\:imagedata,v\:oval,v\:line,v\:polyline,v\:stroke,v\:textbox {
 	-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;
 	font-size:14px;line-height:1.42857143;
 	font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Hiragino Sans GB, WenQuanYi Micro Hei, Arial, sans-serif;
-c}
+}
 .GooFlow:before,.GooFlow:after,.GooFlow *:before,.GooFlow *:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
 .GooFlow i{
 	display:block;width:18px;height:18px;overflow:hidden;font-size:18px;color:#777;text-align:center;margin:0 auto;
@@ -97,7 +97,7 @@ c}
 	padding:0;cursor:default;word-wrap: break-word;word-break:break-all
 }
 
-.GooFlow .item_mix{background:#B6F700;color:#fff}
+.GooFlow .item_mix{background:#B6F700;color:black }
 .GooFlow div .rs_right{overflow:hidden;position:absolute;right:-1px;top:-1px;height:100%;width:6px;cursor:w-resize}
 .GooFlow div .rs_bottom{overflow:hidden;position:absolute;left:-1px;bottom:-1px;width:100%;height:6px;cursor:n-resize}
 .GooFlow div .rs_rb{
@@ -153,11 +153,15 @@ c}
   url('fonts/iconflow.svg?t=1494321407539#iconflow') format('svg'); /* iOS 4.1- */
 }
 
-/* 自定义组件 test css样式 .ico_组件 */
 .GooFlow_area i,.GooFlow .GooFlow_line_oper i,
 .ico_cursor,.ico_start,.ico_end,.ico_fork,.ico_join,.ico_direct,.ico_dashed,.ico_group,
 .ico_complex,.ico_node,.ico_task,.ico_chat,.ico_state,.ico_plug,.ico_menu,.ico_sound,
-.ico_open,.ico_new,.ico_reload,.ico_save,.ico_undo,.ico_redo,.ico_print,.ico_test {
+.ico_open,.ico_new,.ico_reload,.ico_save,.ico_undo,.ico_redo,.ico_print,
+.ico_uplevel_admin,
+.ico_admin,
+.ico_function,
+.ico_notify
+{
   font-family:"iconflow" !important;
   font-size:16px;line-height:19px;
   font-style:normal;
@@ -190,4 +194,8 @@ c}
 .GooFlow .ico_undo:before{ content:"\e673";color:#ff8800 }
 .GooFlow .ico_redo:before{ content:"\e672";color:#ff8800 }
 .GooFlow .ico_print:before{ content:"\e671"; }
-.GooFlow .ico_test:before{ content:"\e6af"; }
+
+.GooFlow .ico_uplevel_admin:before{ content: "\e62b" }
+.GooFlow .ico_function:before{ content:"\e60c"; }
+.GooFlow .ico_admin:before{ content:"\e6af"; }
+.GooFlow .ico_notify:before{ content:"\e61b";  }

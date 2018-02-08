@@ -421,7 +421,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-
+        
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -1618,9 +1618,11 @@ class seller_student_new extends Controller
 
 
         # 处理该学生的通话状态 [james]
-        $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
-        $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
-        // $this->t_tq_call_info->getNoCallNum($adminid);
+        // $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
+        // $hasCalledNum = $this->t_tq_call_info->getAdminidCalledNum($adminid);
+        // // $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
+        // $this->set_filed_for_js("hasCalledNum", 3);
+        // $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
         # 处理该学生的通话状态 [james-end]
 
 

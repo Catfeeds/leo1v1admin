@@ -1303,7 +1303,7 @@ class resource extends Controller
             foreach( $multi_data as $data){
                 $ex_num        = 0;
                 //处理文件名
-                $file_title = $data['file_title'];
+                $file_title = &$data['file_title'];
                 $dot_pos = strrpos($file_title,'.');
                 $file_title = substr($file_title,0,$dot_pos);
                 //处理文件类型

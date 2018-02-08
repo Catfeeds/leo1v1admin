@@ -33,7 +33,6 @@ interface RowData {
 	file_id	:any;
 	file_use_type	:any;
 	use_type	:any;
-	adminid	:any;
 	resource_id	:any;
 	resource_type	:any;
 	subject	:any;
@@ -46,21 +45,23 @@ interface RowData {
 	tag_four_str	:any;
 	create_time	:any;
 	visitor_id	:any;
+	adminid	:any;
 	c_time	:any;
+	reload_adminid	:any;
+	kpi_adminid	:any;
+	reload_status	:any;
+	kpi_status	:any;
 	file_use_type_str	:any;
 	nick	:any;
 	admin_nick	:any;
+	reload_adminid_str	:any;
+	kpi_adminid_str	:any;
 	tag_one_name	:any;
 	tag_two_name	:any;
 	tag_three_name	:any;
 	tag_four_name	:any;
 	tag_five_name	:any;
 	file_size_str	:any;
-	picture_one	:any;
-	picture_two	:any;
-	picture_three	:any;
-	picture_four	:any;
-	picture_five	:any;
 	subject_str	:any;
 	grade_str	:any;
 	resource_type_str	:any;
@@ -68,6 +69,10 @@ interface RowData {
 	tag_one_str	:any;
 	tag_two_str	:any;
 	tag_five_str	:any;
+	reload_status_str	:any;
+	reload_status_string	:any;
+	kpi_status_str	:any;
+	kpi_status_string	:any;
 }
 
 /*

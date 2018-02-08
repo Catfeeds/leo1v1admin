@@ -4574,6 +4574,7 @@ class ss_deal extends Controller
         $end_class_stu_num = $this->t_seller_student_new->get_end_class_stu_num($adminid);
         $favorite_count = $this->t_seller_student_new->get_favorite_num($adminid);
         $today_new_count= $this->t_seller_student_new_b2->get_today_new_count($adminid);
+        $test_no_return = $this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
 
 
         return $this->output_succ(
@@ -4584,6 +4585,7 @@ class ss_deal extends Controller
                 "today_free_count"  => $today_free_count,
                 "favorite_count"  => $favorite_count,
                 "today_new_count" =>$today_new_count,
+                "test_no_return" =>$test_no_return
             ] )
         );
 
