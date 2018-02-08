@@ -9,8 +9,12 @@
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
-	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
+	<script type="text/javascript" src="/js/area/distpicker.js"></script>
     <script type="text/javascript" src="/js/pdfobject.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript" src="/js/jquery.query.js"></script>
+    <script src="/page_js/enum_map.js" type="text/javascript"></script>
     <script>
      var tag_one = '{{@$tag_info['tag_one']['menu']}}';
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
@@ -40,9 +44,6 @@
             
             <div class="row">
                 <!-- <div class="row row-query-list"> -->
-                <div class="col-xs-12 col-md-4" data-title="时间段">
-                    <div id="id_date_range"> </div>
-                </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">分类</span>
@@ -112,44 +113,43 @@
         <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
-                    <th style="width:10px">
+                    <td style="width:10px">
                             <a href="javascript:;" id="id_select_all" title="全选">全</a>
                             <a href="javascript:;" id="id_select_other" title="反选">反</a>
-                        </th>
-                    <th style="max-width:200px;word-wrap: break-word;">文件名</th>
-                    <th>科目</th>
-                    <th>年级</th>
-                    <th>资源类型</th>
+                        </td>
+                    <td style="max-width:200px;word-wrap: break-word;">文件名</td>
+                    <td>科目</td>
+                    <td>年级</td>
+                    <td>资源类型</td>
 
                     @if($resource_type <= 6)
-                        <th>教材</th>
+                        <td>教材</td>
                     @endif
 
                     @if( in_array($resource_type,[1,2,9]))
-                        <th>春暑秋寒</th>
+                        <td>春暑秋寒</td>
                     @endif
 
                     @if( $resource_type == 1 || $resource_type == 3 )
-                        <th>学科化标签</th>
-                        <th>难度类型</th>
+                        <td>学科化标签</td>
+                        <td>难度类型</td>
                     @endif
 
                     @if($resource_type < 7 && $resource_type > 3)
-                        <th>上下册</th>
+                        <td>上下册</td>
                     @endif
 
                     @if($resource_type == 6)
-                        <th>年份</th>
-                        <th>省份</th>
-                        <th>城市</th>
+                        <td>年份</td>
+                        <td>省份</td>
+                        <td>城市</td>
                     @endif
 
-                    <th>上传日期</th>
-                    <th>初版讲义上传人</th>
-                    <th>修改重传负责人</th>
-                    <th>状态</th>
-                    
-                    <th>操作</th>
+                    <td>上传日期</td>
+                    <td>初版讲义上传人</td>
+                    <td>修改重传负责人</td>
+                    <td>kpi讲义负责人</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -193,28 +193,29 @@
                         
                        <td>{{@$var['c_time']}}</td>
                        <td>{{@$var['admin_nick']}}</td>
-                       <td></td>
-                       
-                       <td></td>
-                        <td style="max-width:150px">
-                            <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
-                            @if(@$var['estatus'] == 0)
-                                <a class="opt-agree btn color-blue" title="预览">同意修改</a>
-                            @else
-                                <span style="color:#2d2828">已同意</span>
-                            @endif
-
-                            @if(@$var['estatus'] == 0)
-                                <a class="opt-upload btn color-blue hide" title="上传">上传</a>
-                            @elseif(@$var['estatus'] == 1)
-                                <a class="opt-upload btn color-blue" data-id="{{$var['eid']}}" title="上传">上传</a>
-                            @else
-                                <a class="opt-upload btn color-blue" data-id="{{$var['eid']}}" title="重传">重传</a>
-                            @endif
-
-                            
-
-                            <a class="opt-error"></a>
+                       <td>
+                       @if(@$var['reload_adminid_str'] != "")
+                       {{@$var['reload_adminid_str']}}
+                       @else
+                       无
+                       @endif
+                       <a class="fa  opt-re-status" data-type="1" data-file_id="{{@$var['file_id']}}" data-resource_id="{{@$var['resource_id']}}"title="{{@$var['reload_status_string']}}">{{@$var['reload_status_str']}}</a>
+                       <a class="fa  opt-re-edit"  data-type="1" title="审批">审批</a>
+                        </td>
+                        <td>
+                       @if(@$var['kpi_adminid_str'] != "")
+                       {{@$var['kpi_adminid_str']}}
+                       @else
+                       无
+                       @endif
+                       <a class="fa  opt-re-status" data-type="2" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}">{{@$var['kpi_status_str']}}</a>
+                       <a class="fa  opt-re-edit" data-type="2" title="审批">审批</a>
+                        </td>
+                        <td>
+                            <div
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -222,20 +223,4 @@
         </table>
         @include("layouts.page")
     </section>
-
-    <div class="col-md-12 opt_process"  style="width:600px;position:fixed;right:0;top:200px;border-radius:5px;background:#eee;opacity:0.8;display:none;">
-        <div class="hide" id="up_load"> </div>
-        <table class="table table-striped table-hover text-left" >
-            <thead>
-                <tr>
-                    <th class="col-md-4">文件名</th>
-                    <th class="col-md-2">文件大小</th>
-                    <th class="col-md-6">上传进度</th>
-                </tr>
-            </thead>
-            <tbody id="fsUploadProgress">
-            </tbody>
-        </table>
-    </div>
-
 @endsection

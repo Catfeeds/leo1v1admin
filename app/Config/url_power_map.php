@@ -213,6 +213,7 @@ class url_power_map {
 			'/company_wx/show_department_users'	=>1064500,
 			'/company_wx/all_users'	=>1064600,
 			'/authority/jurisdiction'	=>1060400,
+			'/admin_manage/flow_edit'	=>1064700,
 			'/authority/get_acc_power_list'	=>1060600,
 			'/authority/get_login_list'	=>1060700,
 			'/seller_student_new/seller_student_ws'	=>1067100,

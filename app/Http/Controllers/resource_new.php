@@ -471,6 +471,8 @@ class resource_new extends Controller
             \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['admin_nick'] = $this->cache_get_account_nick($item['adminid']);
+            $item['reload_adminid_str'] = $this->cache_get_account_nick($item['reload_adminid']);
+            $item['kpi_adminid_str'] = $this->cache_get_account_nick($item['kpi_adminid']);
 
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
@@ -479,11 +481,6 @@ class resource_new extends Controller
             $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             // dd($item);
             $item['file_size_str'] = $item['file_size'] > 1024 ? round( $item['file_size'] / 1024,2)."M" : $item['file_size']."kb";
-            $item['picture_one'] = '';
-            $item['picture_two'] = '';
-            $item['picture_three'] = '';
-            $item['picture_four'] = '';
-            $item['picture_five'] = '';
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",
@@ -508,6 +505,23 @@ class resource_new extends Controller
 
             if($item['resource_type'] == 3 ) {
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
+            }
+
+            if($item['reload_status'] == 0){
+                $item['reload_status_str'] = "申请更换";
+                $item['reload_status_string'] = "申请更换";
+            }elseif($item['reload_status'] == 1){
+                $item['reload_status_str'] = "待审批";
+                $item['reload_status_string'] = "取消更换";
+            }
+
+
+            if($item['kpi_status'] == 0){
+                $item['kpi_status_str'] = "申请更换";
+                $item['kpi_status_string'] = "申请更换";
+            }elseif($item['reload_status'] == 1){
+                $item['kpi_status_str'] = "待审批";
+                $item['kpi_status_string'] = "取消更换";
             }
          
         }
@@ -537,5 +551,16 @@ class resource_new extends Controller
             'resource_type' => $resource_type,
             'is_teacher'   => $is_teacher,
         ]);
+    }
+
+
+    public function apply_change_adminid(){
+        $type    = $this->get_in_int_val("type",-1);
+        $file_id = $this->get_in_int_val("file_id",-1);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $resource_id = $this->get_in_int_val("resource_id",-1);
+        
+
+        // $ret = $this->t_resource->
     }
 }

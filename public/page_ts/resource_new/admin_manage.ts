@@ -5,11 +5,7 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
-		date_type_config:	$('#id_date_type_config').val(),
-		date_type:	$('#id_date_type').val(),
-		opt_date_type:	$('#id_opt_date_type').val(),
-		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
+
 		use_type:	$('#id_use_type').val(),
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
@@ -22,17 +18,6 @@ function load_data(){
 		});
 }
 $(function(){
-	$('#id_date_range').select_date_range({
-        'date_type'     : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
-
     //获取学科化标签
     var get_sub_grade_tag = function(subject,grade,booid,resource_type,season_id,obj,opt_type){
         obj.empty();
@@ -578,43 +563,7 @@ $(function(){
         },false,600);
     };
 
-    //右键自定义
-    var options = {items:[
 
-        {text: '上传新版本',onclick: function() {
-            menu_hide();
-        }, id:'upload_flag'},  
-        {text: '操作记录', onclick: function() {
-            var data_obj = menu_hide();
-            get_edit_list(data_obj);
-        }},
-        {text: '文件详情', onclick: function() {
-            var data_obj = menu_hide();
-            resource_detail(data_obj);
-        }},
-        {text: '预览讲义', onclick: function() {
-            var data_obj = menu_hide();
-            opt_look(data_obj);
-        }},
-    ],before:function(){
-        var resource_id   = $(this).attr('resource_id');
-        var file_id       = $(this).attr('file_id');
-        var ex_num        = $(this).attr('ex_num');
-        var file_use_type = $(this).attr('file_use_type');
-        var eid           = $(this).attr('eid');
-        re_upload(resource_id, file_id, file_use_type, ex_num,eid);
-        //选中标记
-        $(".opt-select-item").each(function(){
-            var $item=$(this);
-            if ( file_id == $(this).data('file_id') ) {
-                $item.iCheck("check");
-            }else{
-                $item.iCheck("uncheck");
-            }
-        } );
-
-    },onshow:function(){}};
-    $('.right-menu').contextify(options);
 
     $('body').click(function(){
         menu_hide();
@@ -656,7 +605,28 @@ $(function(){
         }
         window.open("/resource/sub_grade_book_tag?subject="+subject+"&grade="+grade+
                     "&bookid="+bookid+"&resource_type="+resource_type+"&season_id="+season_id);
-    })
+    });
+
+
+    $(".opt-re-status").click(function(){
+    	var type = $(this).data('type');
+    	var file_id = $(this).data('file_id');
+    	var resource_id = $(this).data('resource_id');
+        $(this).admin_select_user({
+            "show_select_flag":true,
+            "type":"research_teacher",
+            "onChange":function(val){
+            	var id = val;
+                $.do_ajax( '/resource_new/apply_change_adminid',{
+                   "type"           : type,
+                   "file_id"        : file_id,
+                   "resource_id"    : resource_id,
+                   "teacherid"      : id,
+                });
+            }
+        });
+    });
+
 
   
    

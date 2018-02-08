@@ -419,18 +419,28 @@ class test_james extends Controller
             $table->index('uuid_stu', 'uuid_stu_ppt');
         });
 
-        Schema::create('db_weiyi.t_deal_ppt_to_h5', function(Blueprint $table) {
-            t_comment($table, "ppt转h5日志表");
+        Schema::create('db_weiyi.t_invalid_num_confirm', function(Blueprint $table) {
+            t_comment($table, "无效号码确认表");
             t_field($table->increments("id"), "");
-            t_field($table->integer("add_time"), "添加时间");
-            t_field($table->integer("lessonid"), "课程ID");
-            t_field($table->tinyInteger("is_tea"), "0:学生 1:老师");
-            t_field($table->string("ppt_url"), "标记类别");
-            t_field($table->tinyInteger("id_deal_falg"), "0:未设置 1:已成功 2:转化中");
+            t_field($table->integer("cc_confirm_time"), "CC确认时间");
+            t_field($table->integer("userid"), "学生ID");
+            t_field($table->integer("cc_adminid"), "确认人id");
+            t_field($table->integer("cc_confirm_type"), "cc标注类型  枚举seller_student_sub_status");
+            t_field($table->integer("tmk_confirm_time"), "tmk确认时间");
+            t_field($table->integer("tmk_adminid"), "确认人id");
+            t_field($table->tinyInteger("tmk_confirm_type"), "0:未设置 1:无效");
+            t_field($table->integer("qc_confirm_time"), "QC确认时间");
+            t_field($table->integer("qc_adminid"), "确认人id");
+            t_field($table->tinyInteger("qc_confirm_type"), "qc标注类型");
+            t_field($table->string("qc_mark",2048), "qc备注");
 
-            $table->index('lessonid');
-            $table->index('add_time');
-            $table->index('ppt_url');
+            $table->index('userid','userid');
+            $table->index('qc_adminid','qc_adminid');
+            $table->index('tmk_adminid','tmk_adminid');
+            $table->index('cc_adminid','cc_adminid');
+            $table->index('cc_confirm_time','cc_confirm_time');
+            $table->index('tmk_confirm_time','tmk_confirm_time');
+            $table->index('qc_confirm_time','qc_confirm_time');
         });
 
 
