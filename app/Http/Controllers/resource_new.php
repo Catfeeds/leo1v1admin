@@ -342,7 +342,7 @@ class resource_new extends Controller
                 break;
             }
 
-            if( strpos($name,$check) >= 0 ||  trim($name) == $check ){
+            if( strcmp($name,$check) > 0 ||  trim($name) == $check ){
                 $is_zhuguan = 1;
             }
 
