@@ -76,6 +76,26 @@ class flow_base{
         return $ret;
     }
 
+    static function get_next_node_info_new($node_type, $flowid, $adminid ) {
+        $node_def_item=static::$node_data[$node_type];
+        $next_node_process_fun="next_node_process_$node_type";
+        $ret=static::$next_node_process_fun( $flowid,  $adminid );
+        if(!is_array($ret) ) { //next_adminid
+            $ret=[ $node_def_item[0], $ret ];
+        }
+        if (count($ret)==2) {
+            $ret[]=0; //audo pass
+        }
+        if (!( $ret[1] >0) )  { // account
+            $ret[1]= static::get_adminid_by_account( $ret[1]);
+        }
+        \App\Helper\Utils::logger( "get_next_node_info: ". json_encode($ret)  );
+
+        return $ret;
+    }
+
+
+
 
     static function call_do_succ_end($flowid) {
         $flow_info = static::get_flow_info($flowid);
