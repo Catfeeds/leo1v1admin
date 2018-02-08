@@ -182,7 +182,31 @@ class admin_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
 
     }
+    public function flow_edit() {
+        $flow_type= $this->get_in_e_flow_type();
+        $json_data=@json_decode( $this->t_flow_config->get_json_data($flow_type),true);
+        if (!$json_data) {
+            $json_data=[];
+        }
 
+        return $this->pageOutJson(__METHOD__, null , [
+            "json_data"=>$json_data
+        ]);
+
+    }
+
+    public function flow_save() {
+        $flow_type= $this->get_in_e_flow_type();
+        $json_data= $this->get_in_str_val("json_data");
+        if ($flow_type >0) {
+            $this->t_flow_config->row_insert([
+                "flow_type" => $flow_type,
+                "json_data" =>$json_data,
+            ], true);
+
+        }
+        return $this->output_succ();
+    }
 
     public function  job_list() {
         $page_info= $this->get_in_page_info();

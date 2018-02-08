@@ -15,6 +15,7 @@ class ajax_deal3 extends Controller
     use LessonPower;
 
     public function get_new_seller_student_info() {
+        $adminid = $this->get_account_id();
         $work_start_time="";
         $adminid= $this->get_account_id();
         $userid_list= $this->get_in_int_list("userid_list");
@@ -92,7 +93,8 @@ class ajax_deal3 extends Controller
             "hold_count" =>$hold_count,
             'no_call_test_succ' => $no_call_test_succ,
             'seller_student_assign_type' => $seller_student_assign_type,
-            'env_is_test' => $env_is_test
+            'env_is_test' => $env_is_test,
+            'adminid' => $adminid
         ]);
     }
 

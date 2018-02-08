@@ -342,10 +342,9 @@ class resource_new extends Controller
                 break;
             }
 
-            if( strcmp($name,$check) > 0 || trim($name) == $check ){
+            if( substr_count($name,$check) == 1 || trim($name) == $check ){
                 $is_zhuguan = 1;
                 \App\Helper\Utils::logger("审查人".$name." 有权人".$check);
-
             }
 
             if ( $is_zhuguan  == 0 ) {
