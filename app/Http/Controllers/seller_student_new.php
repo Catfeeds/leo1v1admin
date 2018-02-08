@@ -427,7 +427,7 @@ class seller_student_new extends Controller
         //判断用户是否要获取试听未回访用户
         $phone_list = [];
         if($is_test_no_return == 1){
-            $phone_str = $this->t_cc_no_return_call->field_get_value($admin_revisiterid, 'phone');
+            $phone_str = $this->t_cc_no_return_call->field_get_value($admin_revisiterid, 'no_call_str');
             $phone_list = explode(',', $phone_str);
         }
 
