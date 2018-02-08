@@ -4,18 +4,6 @@ use \App\Enums as E;
 class flow_qingjia extends flow_base{
 
     static $type= E\Eflow_type::V_QINGJIA;
-    static $node_data=[
-        //nodeid => next_nodeid(s) name  ,next_node_process
-        0=>[ 1 , "申请"  ],
-        1=>[ [3,5],"申请->主管审批"  ],
-        3=>[ -1 ,"主管->财务审批" ],
-        5=>[ 6,"主管->校长审批"  ],
-        6=>[ -1,"校长->财务审批"  ],
-    ];
-
-    static function get_check_node_function_list() {
-
-    }
 
     static function get_self_info( $from_key_int,  $from_key_str ) {
         $t_qingjia = new \App\Models\t_qingjia();
@@ -54,31 +42,5 @@ class flow_qingjia extends flow_base{
     }
 
 
-    static function next_node_process_0 ($flowid ,$adminid){ //
-        $t_manager_info=  new \App\Models\t_manager_info();
-        return $t_manager_info->get_up_adminid($adminid);
-    }
-
-    static function next_node_process_1 ($flowid ,$adminid){ //
-        list($flow_info,$self_info)=static::get_info($flowid);
-        if ($self_info["hour_count"]>=24) {
-            //Cofing
-            return [5,99];
-        }else{
-            return [3,99];
-        }
-    }
-
-    static function next_node_process_3 ($flowid ,$adminid){ //
-        return 0;
-    }
-
-    static function next_node_process_5 ($flowid, $adminid){ //
-        //Config
-        return 99;
-    }
-    static function next_node_process_6 ($flowid, $adminid){ //
-        return 0;
-    }
 
 }
