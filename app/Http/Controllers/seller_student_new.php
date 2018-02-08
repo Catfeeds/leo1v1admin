@@ -70,7 +70,7 @@ class seller_student_new extends Controller
     public function assign_member_list_master ( ) {
         $adminid=$this->get_account_id();
 
-        $main_master_flag = $this->t_admin_main_group_name->check_is_master(2,$adminid);
+        $main_master_flag = $this->t_admin_majordomo_group_name->check_is_master(2,$adminid);
         if($adminid==349){
             $main_master_flag=1;
         }
@@ -79,8 +79,8 @@ class seller_student_new extends Controller
         }
 
         $this->set_in_value("main_master_flag", $main_master_flag);
-        $this->set_in_value("admin_revisiterid", 0);
-        $this->set_in_value("sub_assign_adminid_2", 0);
+        // $this->set_in_value("admin_revisiterid", 0);
+        // $this->set_in_value("sub_assign_adminid_2", 0);
 
         return $this->assign_sub_adminid_list();
     }
@@ -148,6 +148,10 @@ class seller_student_new extends Controller
         }
         $this->switch_tongji_database();
 
+        //总监查看所有转介绍
+        if($main_master_flag==1){
+            $majordomo_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($self_adminid);
+        }
 
         //主管查看下级例子
         $admin_revisiterid_list = [];
