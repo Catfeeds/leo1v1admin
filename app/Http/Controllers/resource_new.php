@@ -314,37 +314,40 @@ class resource_new extends Controller
         $role = $this->get_account_role();
         $name = $this->get_account();
 
-        \App\Helper\Utils::logger($role."当前角色: ".E\Eaccount_role::get_desc($role)."操作人".$name);
-        if($role != 4){
-            $result['msg'] = '你不是教研,无权初审或者复审';
-            return $this->output_succ($result);
-        }
-
-        $file_subject = $this->t_resource->get_file_subject($file_id);
+        $file_subject = $this->t_resource->get_file_subject($error_id);
         $subject = $file_subject['subject'];
+        $subject_str = E\Esubject::get_desc($subject);
+        \App\Helper\Utils::logger($role."当前角色: ".E\Eaccount_role::get_desc($role)." 操作人".$name." 当前科目".$subject." ".$subject_str);
+        // if($role != 4){
+        //     $result['msg'] = '你不是教研,无权初审或者复审';
+        //     return $this->output_succ($result);
+        // }
 
         //判断是不是科目主管
         $is_zhuguan = 0;
+        $check = "";
         if($status == 3){
             switch($subject){
             case 1:
-                $name == "张敏" ? $is_zhuguan = 1 : "";
+                $check = "张敏";            
             case 2:
-                $name == "谢元浩" ? $is_zhuguan = 1 : "";
+                $check = "谢元浩";
             case 3:
-                $name == "许千千" ? $is_zhuguan = 1 : "";
+                $check = "许千千";
             default:
-                $name == "李红涛" ? $is_zhuguan = 1 : "";
+                $check = "李红涛";
             }
+            $name == $check ? $is_zhuguan = 1 : "";
+
             if ( $is_zhuguan  == 0 ) {
-                $result['msg'] = '你不是该科目的教研组长无权初审';
+                $result['msg'] = "科目$subject_str 只有 $check 有权初审驳回，你不是教研组长无权驳回";
                 return $this->output_succ($result);
             }
         }
 
         //判断是不是总监
         if($status == 4 && $name != "江敏" ){
-            $result['msg'] = '你不是教研总监无权复审';
+            $result['msg'] = '你不是教研总监无权复审驳回';
             return $this->output_succ($result);            
         }
         //判断是不是主管
