@@ -536,7 +536,7 @@ class ajax_deal2 extends Controller
             $this->add_teacher_common($teacher_info);
         }
 
-        return $this->output_succ($ret);
+        return $this->output_succ();
     }
 
     /**
