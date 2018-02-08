@@ -14,7 +14,7 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
-        $su = $this->t_admin_main_group_name->get_major_master_adminid(287);
+        $su = $this->t_admin_main_group_name->get_major_master_adminid(416);
         dd($su);
 
         dd(md5("leo15179518621580092561911v1"));

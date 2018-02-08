@@ -390,7 +390,7 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
                                   ." from %s a left join %s m on a.up_groupid = m.groupid"
                                   ." where a.master_adminid = %u",
                                   self::DB_TABLE_NAME,
-                                  t_admin_majordomo_group_name,
+                                  t_admin_majordomo_group_name::DB_TABLE_NAME,
                                   $adminid
         );
         return $this->main_get_value($sql);
