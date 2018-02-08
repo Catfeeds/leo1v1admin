@@ -1824,6 +1824,7 @@ class test_james extends Controller
     }
 
     public function checkTime(){
+
         $arrp = ['PDf'];
         if(strtolower($arrp[0]) == 'pdf'){
             dd(1);
@@ -1836,6 +1837,7 @@ class test_james extends Controller
     // $key_num = 'thinking_record_test';
     // Redis::INCR($key_num);
     // Redis::set($key,1);
+
 
 
 }
