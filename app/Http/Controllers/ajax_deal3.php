@@ -637,6 +637,13 @@ class ajax_deal3 extends Controller
     //回访绩效分值计算
     public function get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_lesson_stu_list,$read_student_list,$registered_student_list){
         $month_half = $start_time+15*86400;
+        //2月份回访只需一次
+        if($start_time==strtotime("2018-02-01")){
+            $revisit_max =1;
+        }else{
+            $revisit_max =2;
+        }
+
 
         /*回访*/
         $revisit_reword_per = 0.2;//初始值
@@ -675,8 +682,8 @@ class ajax_deal3 extends Controller
                     if($assign_time < $month_half){
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
-                            if($revisit_num <2){
-                                $revisit_reword_per -=0.05*(2-$revisit_num);
+                            if($revisit_num <$revisit_max){
+                                $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
                             }
 
                         }else{
@@ -724,8 +731,8 @@ class ajax_deal3 extends Controller
                     if($assign_time <$month_half){
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
-                            if($revisit_num <2){
-                                $revisit_reword_per -=0.05*(2-$revisit_num);
+                            if($revisit_num <$revisit_max){
+                                $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
                             }
 
                         }else{
