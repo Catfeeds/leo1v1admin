@@ -39,7 +39,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                             </div>
-                            <a class="showDetail">详情</a>
+                            <!-- <a class="showDetail">详情</a> -->
                         </td>
                     </tr>
                 @endforeach
