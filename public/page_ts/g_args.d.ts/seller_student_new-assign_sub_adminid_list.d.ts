@@ -23,7 +23,6 @@ interface GargsStatic {
  	page_num:	number;
 	page_count:	number;
 	has_pad:	number;//枚举: App\Enums\Epad_type
-	sub_assign_adminid_2:	number;
 	origin_assistantid:	number;
 	tmk_adminid:	number;
 	account_role:	string;//枚举列表: App\Enums\Eaccount_role
@@ -44,6 +43,7 @@ interface GargsStatic {
 	suc_test_count:	string;
 	main_master_flag:	number;
 	origin_count:	string;
+	sub_assign_adminid_2:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -164,7 +164,6 @@ function load_data(){
 		global_tq_called_flag:	$('#id_global_tq_called_flag').val(),
 		seller_student_status:	$('#id_seller_student_status').val(),
 		has_pad:	$('#id_has_pad').val(),
-		sub_assign_adminid_2:	$('#id_sub_assign_adminid_2').val(),
 		origin_assistantid:	$('#id_origin_assistantid').val(),
 		tmk_adminid:	$('#id_tmk_adminid').val(),
 		account_role:	$('#id_account_role').val(),
@@ -184,7 +183,8 @@ function load_data(){
 		call_count:	$('#id_call_count').val(),
 		suc_test_count:	$('#id_suc_test_count').val(),
 		main_master_flag:	$('#id_main_master_flag').val(),
-		origin_count:	$('#id_origin_count').val()
+		origin_count:	$('#id_origin_count').val(),
+		sub_assign_adminid_2:	$('#id_sub_assign_adminid_2').val()
 		});
 }
 $(function(){
@@ -286,7 +286,6 @@ $(function(){
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
 	});
-	$('#id_sub_assign_adminid_2').val(g_args.sub_assign_adminid_2);
 	$('#id_origin_assistantid').val(g_args.origin_assistantid);
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
 	$('#id_account_role').admin_set_select_field({
@@ -406,6 +405,7 @@ $(function(){
 	$('#id_suc_test_count').val(g_args.suc_test_count);
 	$('#id_main_master_flag').val(g_args.main_master_flag);
 	$('#id_origin_count').val(g_args.origin_count);
+	$('#id_sub_assign_adminid_2').val(g_args.sub_assign_adminid_2);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -562,14 +562,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["has_pad title", "has_pad", "th_has_pad" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">sub_assign_adminid_2</span>
-                <input class="opt-change form-control" id="id_sub_assign_adminid_2" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["sub_assign_adminid_2 title", "sub_assign_adminid_2", "th_sub_assign_adminid_2" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -738,4 +730,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["origin_count title", "origin_count", "th_origin_count" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">sub_assign_adminid_2</span>
+                <input class="opt-change form-control" id="id_sub_assign_adminid_2" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["sub_assign_adminid_2 title", "sub_assign_adminid_2", "th_sub_assign_adminid_2" ]])!!}
 */

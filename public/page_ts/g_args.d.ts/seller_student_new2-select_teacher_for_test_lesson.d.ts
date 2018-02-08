@@ -5,6 +5,8 @@ interface GargsStatic {
 	lesson_tags:	string;
 	refresh_flag:	number;
 	userid:	string;
+	dialect_type:	string;//枚举列表: App\Enums\Edialect_type
+ 	plan_level:	number;
 	identity:	number;
 	gender:	number;
 	tea_age:	number;
@@ -40,6 +42,8 @@ function load_data(){
 		lesson_tags:	$('#id_lesson_tags').val(),
 		refresh_flag:	$('#id_refresh_flag').val(),
 		userid:	$('#id_userid').val(),
+		dialect_type:	$('#id_dialect_type').val(),
+		plan_level:	$('#id_plan_level').val(),
 		identity:	$('#id_identity').val(),
 		gender:	$('#id_gender').val(),
 		tea_age:	$('#id_tea_age').val(),
@@ -64,6 +68,17 @@ $(function(){
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
 	});
+	$('#id_dialect_type').admin_set_select_field({
+		"enum_type"    : "dialect_type",
+		"field_name" : "dialect_type",
+		"select_value" : g_args.dialect_type,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_dialect_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_plan_level').val(g_args.plan_level);
 	$('#id_identity').val(g_args.identity);
 	$('#id_gender').val(g_args.gender);
 	$('#id_tea_age').val(g_args.tea_age);
@@ -127,6 +142,22 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">dialect_type</span>
+                <input class="opt-change form-control" id="id_dialect_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["dialect_type title", "dialect_type", "th_dialect_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">plan_level</span>
+                <input class="opt-change form-control" id="id_plan_level" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["plan_level title", "plan_level", "th_plan_level" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

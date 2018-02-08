@@ -293,6 +293,7 @@ class menu{
                 ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
                 ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
+                ["power_id"=>47, "name"=>"审批配置",   "url"=>"/admin_manage/flow_edit","domain_type"=>100 ],
                 ["power_id"=>6, "name"=>"权限查询",   "url"=>"/authority/get_acc_power_list"],
                 ["power_id"=>7, "name"=>"登录日志",   "url"=>"/authority/get_login_list"],
                 ["power_id"=>71, "name"=>"websocket测试",   "url"=>"/seller_student_new/seller_student_ws"],
