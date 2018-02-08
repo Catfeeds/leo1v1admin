@@ -384,4 +384,17 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $this->main_get_value($sql);
     }
 
+    //获得上一级主管id
+    public function get_major_master_adminid($adminid){
+        $sql = $this->gen_sql_new("select m.master_adminid"
+                                  ." from %s a left join %s m on a.up_groupid = m.groupid"
+                                  ." where a.master_adminid = %u",
+                                  self::DB_TABLE_NAME,
+                                  t_admin_majordomo_group_name,
+                                  $adminid
+        );
+        return $this->main_get_value($sql);
+
+    }
+
 }

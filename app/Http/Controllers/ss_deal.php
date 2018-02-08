@@ -3795,6 +3795,8 @@ class ss_deal extends Controller
                     break;
                 }
             }
+            //根据经理id再获得总监id
+            $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid($sub_assign_adminid_1);
             if($sub_assign_adminid_1==0){
                 $sub_assign_adminid_1= 287;
             }
