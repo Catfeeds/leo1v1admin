@@ -1365,8 +1365,8 @@ class resource extends Controller
                 $teacher_url = ''; //待定
                 $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
                 foreach( $info as $var ){
-                    \App\Helper\Utils::logger("admin do sth:".json_encode($var));
                     if( $wx_openid != $var['wx_openid'] ){
+                        \App\Helper\Utils::logger("admin do sth:".json_encode($var));
                         $wx_openid = $var['wx_openid'];
                         $file_name    = $var['file_title'];
                         $teacher_nick = $var['nick'];
