@@ -52,11 +52,21 @@ class new_seller_student extends Job implements ShouldQueue
         $t_seller_student_origin = new \App\Models\t_seller_student_origin();
         $t_student_info = new \App\Models\t_student_info();
         $t_origin_key = new \App\Models\t_origin_key();
+        $t_seller_student_new_b2 = new \App\Models\t_seller_student_new_b2();
+        $system_assign_count_log = new \App\Models\t_seller_student_system_assign_count_log();
 
-        $need_count= \App\Helper\Config::get_day_system_assign_count();
-        if(Redis::get('day_system_assign_count'))
-            $need_count = Redis::get('day_system_assign_count');
-        \App\Helper\Utils::logger("need_count $need_count ");
+        $system_assign_log_arr = $system_assign_count_log->get_last_item();
+        $had_assign = $system_assign_log_arr['new_count_assigned'];//已分配
+        $need_assign = $system_assign_log_arr['need_new_count'];//需要分配个数
+        // $need_count= \App\Helper\Config::get_day_system_assign_count();
+        $need_deal_list=$t_seller_student_new_b2->get_need_new_assign_list(
+            E\Etq_called_flag::V_0
+        );
+        $need_deal_count = count($need_deal_list);//库存
+        $obtain_count = $had_assign+$need_deal_count;
+        // if(Redis::get('day_system_assign_count'))
+        //     $need_count = Redis::get('day_system_assign_count');
+        \App\Helper\Utils::logger("--系统分配入口--has_count:$obtain_count   need_count:$need_assign ");
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --begin--
         //特殊渠道不进入自动分配例子
         $special_origin = ['美团—1230','学校-180112'];
@@ -87,12 +97,10 @@ class new_seller_student extends Job implements ShouldQueue
             $origin_userid = $t_student_info->field_get_value($this->userid, 'origin_userid');
             if($origin_userid)
                 $is_public = 4;//转介绍用户
-            \App\Helper\Utils::logger("is_public:$is_public"); 
 
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --end--
 
-            \App\Helper\Utils::logger("添加到自动抢单测试need_count:$need_count is_public:$is_public");
-            if( $n->get_today_can_system_assign_count() < $need_count && in_array($is_public, [0,1])) {
+            if( $obtain_count < $need_assign  && in_array($is_public, [0,1])) {
                 //分配模式 调整
                 $n->field_update_list( $this->userid, [
                     "seller_student_assign_type"=> E\Eseller_student_assign_type::V_1,
