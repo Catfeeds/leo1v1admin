@@ -3795,11 +3795,16 @@ class ss_deal extends Controller
                     break;
                 }
             }
+            //根据经理id再获得总监id
+            $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid($sub_assign_adminid_1);
             if($sub_assign_adminid_1==0){
                 $sub_assign_adminid_1= 287;
             }
             $this->t_seller_student_new->field_update_list($userid,[
-                "sub_assign_adminid_1"  =>$sub_assign_adminid_1
+                "sub_assign_adminid_1"  =>$sub_assign_adminid_1,
+                "sub_assign_adminid_2"  =>$sub_assign_adminid_1,
+                "admin_revisiterid"     =>$sub_assign_adminid_1,
+                "admin_assign_time"     =>time()
             ]);
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
@@ -3808,7 +3813,7 @@ class ss_deal extends Controller
             $name = $this->t_manager_info->get_account($sub_assign_adminid_1);
             $this->t_book_revisit->add_book_revisit(
                 $phone,
-                "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ,分配给销售经理".$name,
+                "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ,分配给销售总监".$name,
                 "system"
             );
 

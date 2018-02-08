@@ -296,10 +296,13 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
     }
 
     public function get_seller_master_adminid_by_campus_id($campus_id){
+        $where_arr=[
+            ["campus_id=%u",$campus_id,-1]  
+        ];
         $sql = $this->gen_sql_new("select master_adminid from %s "
-                                  ." where campus_id = %u and main_type=2",
+                                  ." where %s and main_type=2",
                                   self::DB_TABLE_NAME,
-                                  $campus_id
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
@@ -382,6 +385,19 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
             ,$where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+    //获得上一级主管id
+    public function get_major_master_adminid($adminid){
+        $sql = $this->gen_sql_new("select m.master_adminid"
+                                  ." from %s a left join %s m on a.up_groupid = m.groupid"
+                                  ." where a.master_adminid = %u",
+                                  self::DB_TABLE_NAME,
+                                  t_admin_majordomo_group_name::DB_TABLE_NAME,
+                                  $adminid
+        );
+        return $this->main_get_value($sql);
+
     }
 
 }
