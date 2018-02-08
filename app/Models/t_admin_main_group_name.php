@@ -296,10 +296,13 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
     }
 
     public function get_seller_master_adminid_by_campus_id($campus_id){
+        $where_arr=[
+            ["campus_id=%u",$campus_id,-1]  
+        ];
         $sql = $this->gen_sql_new("select master_adminid from %s "
-                                  ." where campus_id = %u and main_type=2",
+                                  ." where %s and main_type=2",
                                   self::DB_TABLE_NAME,
-                                  $campus_id
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
