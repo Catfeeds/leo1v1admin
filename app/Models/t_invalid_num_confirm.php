@@ -32,8 +32,11 @@ class t_invalid_num_confirm extends \App\Models\Zgen\z_t_invalid_num_confirm
     }
 
     public function getHasSignNum($userid){
-        $where_arr = [];
-        $sql = $this->gen_sql_new("  select ");
+        $sql = $this->gen_sql_new("  select count(1) from %s i"
+                                  ." where userid=$userid"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
     }
 
 }
