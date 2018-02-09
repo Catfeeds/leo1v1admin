@@ -627,6 +627,60 @@ $(function(){
         });
     });
 
+    $(".opt-redo").click(function(){
+        var type = $(this).data('type');
+        var file_id = $(this).data('file_id');
+        var resource_id = $(this).data('resource_id');
+        BootstrapDialog.confirm("确定取消此申请吗?",function(val){
+            if(val){
+                $.do_ajax( '/resource_new/cancel_change_adminid',{
+                   "type"           : type,
+                   "file_id"        : file_id,
+                   "resource_id"    : resource_id,
+                });
+            }
+        });
+        
+    });
+
+
+    $(".opt-re-edit").on("click", function(){
+        var type = $(this).data('type');
+        var file_id = $(this).data('file_id');
+        var resource_id = $(this).data('resource_id');
+        alert(2);
+        $.do_ajax( '/resource_new/get_record_info',{
+           "type"           : type,
+           "file_id"        : file_id,
+           "resource_id"    : resource_id,
+        },function(){
+            var arr=[
+                ["姓名",  opt_data.realname ],
+                ["电话",  opt_data.phone ],
+                ["临时密码", id_tmp_passwd ],
+            ];
+            $.show_key_value_table("临时密码", arr ,{
+                label: '确认',
+                cssClass: 'btn-warning',
+                action : function(dialog) {
+                $.ajax({
+                  type     :"post",
+                  url      :"/user_manage/set_dynamic_passwd",
+                  dataType :"json",
+                  data     :{
+                            "phone"  : opt_data.phone,
+                            "passwd" : id_tmp_passwd.val(),
+                            "role"   : 2
+                        },
+                        success : function(result){
+                            BootstrapDialog.alert(result['info']);
+                            window.location.reload();
+                  }
+                    });
+                }
+            });
+        });
+    });
 
   
    
