@@ -8,35 +8,58 @@ $(function(){
     }
 
     // 处理标记空号功能 [james]
-    // var hasCalledNum = g_args.hasCalledNum;
-    // if(hasCalledNum>3 && g_args.ccNoCalledNum>0){
-    //     $('#id_tip_no_call').addClass('btn-warning').removeAttr('disabled');
-    // }else{
-    //     // $('#id_tip_no_call').attr('disabled','disabled').removeClass('btn-warning');
+    var hasCalledNum = g_args.hasCalledNum;
+    if(hasCalledNum>3 && g_args.ccNoCalledNum>0){
+        $('#id_tip_no_call').addClass('btn-warning').removeAttr('disabled');
+    }else{
+        // $('#id_tip_no_call').attr('disabled','disabled').removeClass('btn-warning');
+    }
+
+    $('#id_tip_no_call').on('click',function(){
+        $('.bs-example-modal-sm').modal('toggle');
+        do_submit();
+    });
+
+
+    $('.submit_tag').on("click",function(){
+        sign_func();
+    });
+
+    $('.invalid_type').on("change",function(){
+        do_submit();
+    });
+
+    var do_submit = function(){
+        var invalid_type = $('.invalid_type').val();
+        if(invalid_type == 0){
+            $('.submit_tag').attr('disabled','disabled');
+        }else{
+            $('.submit_tag').removeAttr('disabled');
+        }
+    }
+
+    var sign_func = function(){
+        var opt_data=$(this).get_opt_data();
+        var invalid_type = $('.invalid_type').val();
+        var checkText=$(".invalid_type").find("option:selected").text();
+
+
+        $('.tip_text').text(checkText);
+        $('.confirm-sm').modal('toggle');
+        $('.confirm_tag').on("click",function(){
+            $.do_ajax("/ajax_deal3/sign_phone",{
+                "adminid" : g_adminid,
+                "cc_confirm_type" : invalid_type,
+                "userid"  : opt_data.userid
+            } );
+
+            window.location.reload();
+        });
+    }
+
+    // var get_new_stu = function(){
+
     // }
-
-    // $('#id_tip_no_call').on('click',function(){
-    //     $('.bs-example-modal-sm').modal('toggle');
-    // });
-
-
-    // $('.submit_tag').on("click",function(){
-    //     var opt_data=$(this).get_opt_data();
-
-    //     var invalid_type = $('.invalid_type').val();
-    //     var checkText=$(".invalid_type").find("option:selected").text();
-    //     $('.tip_text').text(checkText);
-    //     $('.confirm-sm').modal('toggle');
-    //     $('.confirm_tag').on("click",function(){
-    //         $.do_ajax("/ajax_deal3/sign_phone",{
-    //             "adminid" : g_adminid,
-    //             "cc_confirm_type" : invalid_type,
-    //             "userid"  : opt_data.userid
-    //         } );
-
-    //         window.location.reload();
-    //     });
-    // });
 
     // 处理标记空号功能 [james-end]
 
@@ -574,42 +597,86 @@ $(function(){
         $("#id_get_new").show();
     }
 
+    // james
     $("#id_get_new").on("click",function(){
-        // console.log(g_args.hasCalledNum);
-        // james-start
-        // if(g_args.hasCalledNum < 3 && g_args.ccNoCalledNum>0){
-        //     alert("请先提交未拨通电话标注后才能继续抢新");
-        //     return ;
-        // }
+        var opt_data=$(this).get_opt_data();
+        if(g_args.hasCalledNum < 3 && g_args.ccNoCalledNum>0){
+            alert("请先提交未拨通电话标注后才能继续抢新");
+            return ;
+        }
+        $.do_ajax_t("/ajax_deal3/checkHasSign", {
+            "userid"  : opt_data.userid,
+            "adminid" : g_adminid
+        },function(ret){
+            var is_sign = ret.is_sign;
 
-
-        // james-end
-
-        $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
-            if (resp.ret==0 ) {
-                var phone=resp.phone;
-
-                try{
-                    window.navigate(
-                        "app:1234567@"+phone+"");
-                } catch(e){
-
-                };
-                $.do_ajax_t("/ss_deal/call_ytx_phone", {
-                    "phone": phone
-                } );
-                $.reload();
-
+            if(!is_sign && g_args.hasCalledNum>3 && g_args.ccNoCalledNum>0){
+                $('.bs-example-modal-sm').modal('toggle');
+                return;
             }else{
-                alert(resp.info);
-                if(resp.userid){
-                    var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
-                    window.location.href = url;
-                }
+                $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
+                    if (resp.ret==0 ) {
+                        var phone=resp.phone;
+
+                        try{
+                            window.navigate(
+                                "app:1234567@"+phone+"");
+                        } catch(e){
+
+                        };
+                        $.do_ajax_t("/ss_deal/call_ytx_phone", {
+                            "phone": phone
+                        } );
+                        $.reload();
+
+                    }else{
+                        alert(resp.info);
+                        if(resp.userid){
+                            var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
+                            window.location.href = url;
+                        }
+                    }
+                });
             }
-        });
+
+        } );
+
 
     });
+
+
+    // 备份
+    // $("#id_get_new").on("click",function(){
+
+    //     $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
+    //         if (resp.ret==0 ) {
+    //             var phone=resp.phone;
+
+    //             try{
+    //                 window.navigate(
+    //                     "app:1234567@"+phone+"");
+    //             } catch(e){
+
+    //             };
+    //             $.do_ajax_t("/ss_deal/call_ytx_phone", {
+    //                 "phone": phone
+    //             } );
+    //             $.reload();
+
+    //         }else{
+    //             alert(resp.info);
+    //             if(resp.userid){
+    //                 var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
+    //                 window.location.href = url;
+    //             }
+    //         }
+    //     });
+
+    // });
+
+
+
+
     if (!g_args.open_flag) {
         $("#id_get_new").hide();
         $("#id_edit").hide();
