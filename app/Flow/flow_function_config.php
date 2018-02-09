@@ -9,14 +9,13 @@ class flow_function_config{
         ],
 
         E\Eflow_function::S_CHECK_ADMIN_ROLE   => [
-            "1" => "销售",
-            "2" => "助教",
+            "1" => "助教",
+            "2" => "销售",
         ],
     ];
-    static function check_qingjia_day (  $flowid, $adminid ) {
-        //list($flow_info,$self_info)=static::get_info($flowid);
 
-        //1, 2
-    }
+    static  $func_config=[
+        E\Eflow_function::S_CHECK_QINGJIA_DAY =>""   ,
+    ];
 
 }
