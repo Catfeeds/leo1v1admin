@@ -2499,7 +2499,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function checkIsRole($userOpenid){
         $where_arr = [
             // "m.account_role in (1,2)",
-            "m.account_role = 2",
+            "m.account_role in (2,12)",
             "m.wx_openid='$userOpenid'"
         ];
         $sql = $this->gen_sql_new("  select uid from %s m where %s"
