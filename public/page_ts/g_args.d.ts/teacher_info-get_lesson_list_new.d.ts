@@ -65,6 +65,7 @@ interface RowData {
 	extra_improvement	:any;
 	habit_remodel	:any;
 	study_habit	:any;
+	nick	:any;
 	lesson_type_str	:any;
 	grade_str	:any;
 	extra_improvement_str	:any;

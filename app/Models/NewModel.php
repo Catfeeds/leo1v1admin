@@ -284,6 +284,11 @@ abstract class NewModel
         return \App\Helper\Utils::list_to_page_info($ret_list);
     }
 
+    //@desn:按分页获取列表
+    //@param:$sql 组合好的查询
+    //@param:$page_info 分页信息
+    //@param:$page_count 默认一页数量
+    //@param:$use_group_by_flag 是否使用分组
     public function main_get_list_by_page($sql,$page_info,$page_count=10,$use_group_by_flag=false,$order_str="",$list_key_func=null )
     {
         if(is_array($page_info)){
