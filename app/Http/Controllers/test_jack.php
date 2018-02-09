@@ -23,7 +23,6 @@ class test_jack  extends Controller
         $ret = $this->t_lesson_info_b2->get_lesson_stu_performance($lessonid);
         if($ret['stu_performance']!=''){
             $ret_info = json_decode($ret['stu_performance'],true);
-            dd($ret_info);
             $ret_info['homework_situation'] = $homework_situation[$ret_info['homework_situation']];
             $ret_info['content_grasp']      = $content_grasp[$ret_info['content_grasp']];
             $ret_info['lesson_interact']    = $lesson_interact[$ret_info['lesson_interact']];
@@ -39,6 +38,8 @@ class test_jack  extends Controller
         }else{
             $ret_info=explode("|",$ret['lesson_intro']);
         }
+        dd($ret_info);
+
         dd(111);
 
 
