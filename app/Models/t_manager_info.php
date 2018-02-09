@@ -580,7 +580,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             // "(am.leave_member_time>$month or am.leave_member_time =0)"
             "((am.leave_member_time>$month and am.del_flag=1) or am.del_flag =0)",
         ];
-        if(count($group_adminid_list)>0){
+        if(count($group_adminid_list)>1){
             $this->where_arr_add_int_or_idlist($where_arr,'u.adminid',$group_adminid_list);
         }else{
             $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
@@ -621,7 +621,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
              // "(am.leave_member_time>$month or am.leave_member_time =0)",
             "((am.leave_member_time>$month and am.del_flag=1) or am.del_flag =0)",
         ];
-        if(count($group_adminid_list)>0){
+        if(count($group_adminid_list)>1){
             $this->where_arr_add_int_or_idlist($where_arr,'u.adminid',$group_adminid_list);
         }else{
             $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
