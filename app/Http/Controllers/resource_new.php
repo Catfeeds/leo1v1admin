@@ -564,6 +564,13 @@ class resource_new extends Controller
         $type    = $this->get_in_int_val("type",-1);
         $file_id = $this->get_in_int_val("file_id",-1);
         $teacherid = $this->get_in_int_val("teacherid",-1);
+
+        if($teacherid > 1){
+            $phone = $this->t_teacher_info->get_phone($teacherid);
+            $adminid = $this->t_manager_info->get_id_by_phone($phone);  
+        }else{
+            $adminid = -1;
+        }
         $resource_id = $this->get_in_int_val("resource_id",-1);
         $change_adminid = $this->get_account_id();
         if($type == 1){
@@ -575,7 +582,7 @@ class resource_new extends Controller
             $data_new = [
                 "file_id" => $file_id,
                 "add_time"=> time(),
-                "teacherid" => $teacherid,
+                "teacherid" => $adminid,
                 "change_adminid" => $change_adminid,
                 "result"    => "申请",
                 "action"    => "申请-更换修改重传负责人",
@@ -591,7 +598,7 @@ class resource_new extends Controller
             $data_new = [
                 "file_id" => $file_id,
                 "add_time"=> time(),
-                "teacherid" => $teacherid,
+                "teacherid" => $adminid,
                 "change_adminid" => $change_adminid,
                 "result"    => "申请",
                 "action"    => "申请-更换讲义统计负责人",
@@ -618,7 +625,7 @@ class resource_new extends Controller
                 "add_time"=> time(),
                 "change_adminid" => $change_adminid,
                 "result"    => "取消",
-                "action"    => "取消-取消更换修改重传负责人",
+                "action"    => "取消-更换修改重传负责人",
             ];
             $ret_info = $this->t_resource_change_record->row_insert($data_new);
             return $this->output_succ();
@@ -646,13 +653,237 @@ class resource_new extends Controller
         $file_id = $this->get_in_int_val("file_id",-1);
         $resource_id = $this->get_in_int_val("resource_id",-1);
         $change_adminid = $this->get_account_id();
-        $ret = $this->t_resource_file->get_record_info($file_id);
+        
         if($type == 1){
-            return $this->output_succ();
+            $ret = $this->t_resource_file->get_record_info_type_one($file_id);
+            return $this->output_succ(["data"=>$ret]);
         }elseif($type == 2){
-            
-            return $this->output_succ();
+            $ret = $this->t_resource_file->get_record_info_type_two($file_id);
+            return $this->output_succ(["data"=>$ret]);
         }
         
     }
+
+    public function change_status(){
+        $id = $this->get_in_int_val("id",-1);
+        $status = $this->get_in_int_val("status",-1);
+        $file_id = $this->get_in_int_val("file_id",-1);
+        $type    = $this->get_in_int_val("type",-1);
+        $change_adminid = $this->get_account_id();
+
+        $reload_adminid = $this->t_resource_change_record->get_teacherid($id);
+        $kpi_adminid    = $this->t_resource_change_record->get_teacherid($id);
+
+        if($type == 1){
+            if($status == 2){
+                $data = [
+                    "reload_status" => 0,
+                    "reload_adminid" => $reload_adminid,
+                ];
+                $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                $data_new = [
+                    "file_id" => $file_id,
+                    "add_time"=> time(),
+                    "change_adminid" => $change_adminid,
+                    "result"    => "同意",
+                    "action"    => "审批-更换修改重传负责人",
+                ];
+                $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                return $this->output_succ();
+            }elseif ($status == 3){
+                $data = [
+                    "reload_status" => 0
+                    //"reload_adminid" => $reload_adminid,
+                ];
+                $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                $data_new = [
+                    "file_id" => $file_id,
+                    "add_time"=> time(),
+                    "change_adminid" => $change_adminid,
+                    "result"    => "拒绝",
+                    "action"    => "审批-更换修改重传负责人",
+                ];
+                $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                return $this->output_succ();
+            }
+        }elseif($type == 2){
+            if($status == 2){
+                $data = [
+                    "kpi_status" => 0,
+                    "kpi_adminid" => $kpi_adminid,
+                ];
+                $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                $data_new = [
+                    "file_id" => $file_id,
+                    "add_time"=> time(),
+                    "change_adminid" => $change_adminid,
+                    "result"    => "同意",
+                    "action"    => "审批-更换讲义统计负责人",
+                ];
+                $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                return $this->output_succ();
+            }elseif($status == 3){
+                $data = [
+                    "kpi_status" => 0,
+                    //"reload_adminid" => $reload_adminid,
+                ];
+                $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                $data_new = [
+                    "file_id" => $file_id,
+                    "add_time"=> time(),
+                    "change_adminid" => $change_adminid,
+                    "result"    => "拒绝",
+                    "action"    => "审批-更换讲义统计负责人",
+                ];
+                $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                return $this->output_succ();
+            }
+        }
+    }
+
+    public function apply_change_adminid_multi(){
+        $type    = $this->get_in_int_val("type",-1);
+        $file_id_str = $this->get_in_str_val("file_id",'');
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $file_id_group=\App\Helper\Utils::json_decode_as_int_array($file_id_str);
+
+        foreach ($file_id_group as $key => $value) {
+            $file_id = $value;
+            if($teacherid > 1){
+                $phone = $this->t_teacher_info->get_phone($teacherid);
+                $adminid = $this->t_manager_info->get_id_by_phone($phone);  
+            }else{
+                $adminid = -1;
+            }
+            $change_adminid = $this->get_account_id();
+            if($type == 1){
+                $data = [
+                    "reload_status" => 1
+                ];
+                $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                $data_new = [
+                    "file_id" => $file_id,
+                    "add_time"=> time(),
+                    "teacherid" => $adminid,
+                    "change_adminid" => $change_adminid,
+                    "result"    => "申请",
+                    "action"    => "申请-更换修改重传负责人",
+                ];
+                $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                //return $this->output_succ();
+            }elseif($type == 2){
+                $data = [
+                    "kpi_status" => 1
+                ];
+                $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                $data_new = [
+                    "file_id" => $file_id,
+                    "add_time"=> time(),
+                    "teacherid" => $adminid,
+                    "change_adminid" => $change_adminid,
+                    "result"    => "申请",
+                    "action"    => "申请-更换讲义统计负责人",
+                ];
+                $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                //return $this->output_succ();
+            }
+        }
+        
+        return $this->output_succ();
+    }
+    public function change_status_multi(){
+        $status  = $this->get_in_int_val("status",-1);
+        $type    = $this->get_in_int_val("type",-1);
+        $file_id_str = $this->get_in_str_val("file_id",'');
+        $file_id_group=\App\Helper\Utils::json_decode_as_int_array($file_id_str);
+
+
+        $change_adminid = $this->get_account_id();
+
+
+        foreach ($file_id_group as $key => $value) {
+            $file_id = $value;
+            $reload_adminid = $this->t_resource_change_record->get_teacherid_by_file_id_reload($file_id);
+            $kpi_adminid    = $this->t_resource_change_record->get_teacherid_by_file_id_kpi($file_id);
+
+            if($type == 1){
+                if($status == 2){
+                    $data = [
+                        "reload_status" => 0,
+                        "reload_adminid" => $reload_adminid,
+                    ];
+                    $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                    $data_new = [
+                        "file_id" => $file_id,
+                        "add_time"=> time(),
+                        "change_adminid" => $change_adminid,
+                        "result"    => "同意",
+                        "action"    => "审批-更换修改重传负责人",
+                    ];
+                    $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                    //return $this->output_succ();
+                }elseif ($status == 3){
+                    $data = [
+                        "reload_status" => 0
+                        //"reload_adminid" => $reload_adminid,
+                    ];
+                    $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                    $data_new = [
+                        "file_id" => $file_id,
+                        "add_time"=> time(),
+                        "change_adminid" => $change_adminid,
+                        "result"    => "拒绝",
+                        "action"    => "审批-更换修改重传负责人",
+                    ];
+                    $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                    //return $this->output_succ();
+                }
+            }elseif($type == 2){
+                if($status == 2){
+                    $data = [
+                        "kpi_status" => 0,
+                        "kpi_adminid" => $kpi_adminid,
+                    ];
+                    $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                    $data_new = [
+                        "file_id" => $file_id,
+                        "add_time"=> time(),
+                        "change_adminid" => $change_adminid,
+                        "result"    => "同意",
+                        "action"    => "审批-更换讲义统计负责人",
+                    ];
+                    $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                    //return $this->output_succ();
+                }elseif($status == 3){
+                    $data = [
+                        "kpi_status" => 0,
+                        //"reload_adminid" => $reload_adminid,
+                    ];
+                    $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+                    $data_new = [
+                        "file_id" => $file_id,
+                        "add_time"=> time(),
+                        "change_adminid" => $change_adminid,
+                        "result"    => "拒绝",
+                        "action"    => "审批-更换讲义统计负责人",
+                    ];
+                    $ret_info = $this->t_resource_change_record->row_insert($data_new);
+                    // return $this->output_succ();
+                }
+            }
+        }
+
+        return $this->output_succ();
+    }
+
 }

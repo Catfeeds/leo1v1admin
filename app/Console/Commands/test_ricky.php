@@ -41,6 +41,21 @@ class test_ricky extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
 
+        $start_time = strtotime("2017-7-1");
+        $reference = "18831899877";
+        $identities = [0,5,6,7,8];
+        foreach ($identities as $identity) {
+            echo E\Eidentity::get_desc($identity).PHP_EOL;
+            $info = $task->t_teacher_lecture_appointment_info_b2->get_money_list2($start_time, $reference, $identity);
+            foreach($info as $item) {
+                echo $item["teacherid"].",";
+                echo $task->cache_get_teacher_nick($item["teacherid"]).",";
+                echo date("Y-m-d H:i:s", $item["train_through_new_time"]).PHP_EOL;
+            }
+        }
+
+        exit;
+
         // 试听课标准化讲义使用次数 科目、年级、文件名、教研员、浏览次数、使用次数
         $info = $task->t_resource->get_list_for_subject();
         foreach($info as $item) {

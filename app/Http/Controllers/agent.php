@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $orderid = $this->t_order_info->get_last_orderid_by_userid($userid=51084);
+        dd($orderid);
         $common_new = new \App\Http\Controllers\common_ex;
         $group_adminid_list = $common_new->get_group_adminid_list();
         dd($group_adminid_list);
