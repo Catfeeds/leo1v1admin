@@ -327,7 +327,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 if($contract_status>1){//释放
                     $this->set_seller_student_new($userid);
                 }else{
-                    if($contract_status == 1){//推送,有助教推助教,没助教推下单人
+                    if($contract_status == 1){//推送,有助教推助教,没助教推cc
                         $assistantid = $this->task->t_student_info->field_get_value($userid, 'assistantid');
                         if($assistantid>0){
                             $send_account = $this->task->cache_get_account_nick($assistantid);
