@@ -3257,7 +3257,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(
             " select l.userid,l.lessonid,"
             ." s.phone,s.parent_name,s.nick stu_nick,"
-            ."lsr.cur_require_adminid adminid,lss.call_end_time "
+            ." lsr.cur_require_adminid adminid,lss.call_end_time "
             ." from %s l "
             ." left join %s s on s.userid = l.userid "
             ." left join %s lss on lss.lessonid = l.lessonid "

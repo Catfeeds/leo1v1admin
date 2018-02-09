@@ -441,7 +441,11 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $account = $this->cache_get_origin_key0($id="圆通速递—180223");
+        $common_new = new \App\Http\Controllers\common_ex;
+        $group_adminid_list = $common_new->get_group_adminid_list();
+        dd($group_adminid_list);
+        E\Etmk_student_status::V_3;
+        $account = $this->cache_get_origin_key0($id="初二地理补习0601");
         dd($account);
         $manager_info = $this->t_manager_info->field_get_list($adminid=962,'become_member_time,del_flag,leave_member_time');
         // if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
