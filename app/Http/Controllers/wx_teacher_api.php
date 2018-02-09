@@ -1720,8 +1720,49 @@ class wx_teacher_api extends Controller
     //获取老师详细信息
     public function get_tea_detail_info(){
         $teacherid  = $this->get_teacherid_new();
-        $data = $this->t_teacher_info->field_get_list($teacherid,"realname,idcard");
+        $data = $this->t_teacher_info->field_get_list($teacherid,"realname,idcard,protocol_results");
         return $this->output_succ(["list"=>$data]);
  
+    }
+
+    //兼职老师入职协议结果处理协议
+        public function set_part_teacher_protocol_result(){
+            // $teacherid  = $this->get_teacherid_new();
+            $teacherid= 240314 ;
+        $protocol_results = $this->get_in_int_val("protocol_results");
+        $realname         = trim($this->get_in_str_val("realname"));
+        $idcard           = $this->get_in_str_val("idcard");
+        if($protocol_results==1){
+            if(!$realname){
+                return $this->output_err("请输入正确的名字");
+            }
+            if(strlen($idcard) != 18){
+                return $this->output_err("身份证长度不对");
+            }
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "protocol_results"  =>$protocol_results,
+                "protocol_time"     =>time(),
+                "realname"          =>$realname,
+                "idcard"            =>$idcard
+            ]);
+
+            //获取最近一次该老师的模拟试听评价记录id
+            $id = $this->t_teacher_record_list->get_late_trial_train_record_id($teacherid,1,5,1);
+            $this->t_teacher_record_list->field_update_list($id,[
+                "protocol_results_record"  =>$protocol_results,
+                "protocol_time_record"     =>time()
+            ]);
+            return $this->output_succ();
+
+
+        }elseif($protocol_results==2){
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "protocol_results"  =>$protocol_results,
+                "protocol_time"     =>time()
+            ]);
+            return $this->output_succ();
+
+        }
+
     }
 }
