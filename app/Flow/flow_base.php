@@ -28,7 +28,18 @@ class flow_base{
     }
 
     static function get_node_name( $node_type ) {
-        return  static::$node_data[$node_type][1];
+        if ($node_type==-1) {
+            return "结束";
+        }else  if ( $node_type==0 ) {
+            return "申请";
+        }
+        if ($node_type> 10000 ){
+            $node_info= static::$node_map[$node_type];
+            if (isset($node_info["title"])) return $node_info["title"]  ;
+            else return $node_info["name"] ;
+        }else{ //旧版是
+            return  static::$node_data[$node_type][1];
+        }
     }
 
     static function get_info( $flowid ) {

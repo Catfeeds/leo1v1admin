@@ -221,13 +221,13 @@ export default class extends vtable {
     var me=this;
 
     var $admin=$("<input/>");
-    var flow_title=$("<input/>");
+    var $title=$("<input/>");
     var adminid= info.adminid? info.adminid: 0;
     $admin.val(adminid);
-
+    $title.val( info.title? info.title: "个人审批" );
     var arr=[
+      ["节点名称" , $title  ],
       ["管理员" , $admin  ],
-      ["审批类型" , flow_title  ],
     ];
 
     $.show_key_value_table("指定人审批", arr ,{
@@ -235,13 +235,14 @@ export default class extends vtable {
       cssClass: 'btn-warning',
       action: function(dialog) {
         var adminid=$admin.val();
-        var flow_title_val = flow_title.val();
+        var title = $title.val();
         var args={
           "adminid" : adminid,
+          "title" : title,
         }
         me.set_node_info(id, args );
         $.do_ajax_get_nick( "account", adminid, function(_id, nick){
-          me. flow_set_name( id, flow_title_val+":"+nick ,"node"  );
+          me. flow_set_name( id, title+":"+nick ,"node"  );
         });
       }
     },function(){

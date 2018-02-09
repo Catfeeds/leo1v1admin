@@ -64,9 +64,4 @@ class flow_qingjia extends flow_base{
     }
 
 
-    static function get_node_name( $node_type ) {
-        return  static::$node_map[$node_type]["name"];
-    }
-
-
 }
