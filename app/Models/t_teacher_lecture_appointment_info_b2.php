@@ -147,4 +147,20 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
             return $item['teacherid'];
         });
     }
+
+    public function get_money_list2($start_time, $reference, $identity) {
+        $where_arr = [
+            "ta.reference='$reference'",
+            ["t.train_through_new_time>=%u", $start_time, -1],
+            "t.identity='$identity'"
+        ];
+        $sql = $this->gen_sql_new("select teacherid,name from %s t left join %s ta on t.phone=ta.phone where %s",
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item["teacherid"];
+        });
+    }
 }
