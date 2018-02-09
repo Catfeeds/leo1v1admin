@@ -1,6 +1,5 @@
 interface GargsStatic {
 	cur_page:	number;
-	is_test_no_return:	number;
 	status_list_str:	string;
 	no_jump:	number;
 	account_seller_level:	number;
@@ -189,7 +188,6 @@ function load_data(){
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
 		cur_page:	$('#id_cur_page').val(),
-		is_test_no_return:	$('#id_is_test_no_return').val(),
 		status_list_str:	$('#id_status_list_str').val(),
 		no_jump:	$('#id_no_jump').val(),
 		account_seller_level:	$('#id_account_seller_level').val(),
@@ -244,7 +242,6 @@ $(function(){
 			load_data();
 		});
 	$('#id_cur_page').val(g_args.cur_page);
-	$('#id_is_test_no_return').val(g_args.is_test_no_return);
 	$('#id_status_list_str').val(g_args.status_list_str);
 	$('#id_no_jump').val(g_args.no_jump);
 	$('#id_account_seller_level').val(g_args.account_seller_level);
@@ -411,14 +408,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["cur_page title", "cur_page", "th_cur_page" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">is_test_no_return</span>
-                <input class="opt-change form-control" id="id_is_test_no_return" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["is_test_no_return title", "is_test_no_return", "th_is_test_no_return" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
