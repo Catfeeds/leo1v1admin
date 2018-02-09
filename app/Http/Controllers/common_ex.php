@@ -324,9 +324,47 @@ class common_ex extends Controller
                 $son_adminid_arr[] = $item['adminid'];
             }
         }
-        array_unshift($son_adminid_arr,$this->get_account_id());
+        array_unshift($son_adminid_arr,$adminid);
         $admin_revisiterid_list = array_unique($son_adminid_arr);
         return $admin_revisiterid_list;
+    }
+
+    public function get_month_group_adminid_list($month,$adminid=0){
+        $adminid = $adminid>0?$adminid:$this->get_account_id();
+        $majordomo_groupid=$this->t_main_major_group_name_month->is_master($month,$adminid);
+        $admin_main_groupid=$this->t_main_group_name_month->is_master($month,$adminid);
+        $self_groupid=$this->t_group_name_month->is_master($month,$adminid);
+        //主管查看下级例子
+        $admin_revisiterid_list = [];
+        $son_adminid = [];
+        $son_adminid_arr = [];
+        if($majordomo_groupid>0){//总监
+            $son_adminid = $this->t_main_group_name_month->get_son_adminid_by_up_groupid($month,$majordomo_groupid);
+        }elseif($admin_main_groupid>0){//经理
+            $son_adminid = $this->t_group_name_month->get_son_adminid_by_up_groupid($month,$admin_main_groupid);
+        }elseif($self_groupid>0){//组长
+            $son_adminid = $this->t_group_user_month->get_son_adminid_by_up_groupid($month,$self_groupid);
+        }
+        foreach($son_adminid as $item){
+            if($item['adminid']>0){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+        }
+        array_unshift($son_adminid_arr,$adminid);
+        $admin_revisiterid_list = array_unique($son_adminid_arr);
+        return $admin_revisiterid_list;
+    }
+
+    public function get_seller_month($start_time,$end_time){
+        $month = [$start_time,$end_time];
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
+                $month = [$item['start_time'],$item['end_time']];
+                break;
+            }
+        }
+        return $month;
     }
 
 }

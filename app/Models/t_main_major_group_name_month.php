@@ -48,7 +48,13 @@ class t_main_major_group_name_month extends \App\Models\Zgen\z_t_main_major_grou
         return $this->main_update($sql);
     }
 
-
+    public function is_master($month,$adminid){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'month', $month);
+        $this->where_arr_add_int_field($where_arr, 'master_adminid', $adminid);
+        $sql = $this->gen_sql_new("select groupid from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
 
 }
 
