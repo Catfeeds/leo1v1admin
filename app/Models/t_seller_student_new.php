@@ -320,6 +320,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function check_seller_student($userid,$tmk_student_status,$orderid){
         if(in_array($tmk_student_status,[0,2])){//释放
+            \App\Helper\Utils::logger("test_new_log_new=$userid" );
             $this->set_seller_student_new($userid);
         }else{
             if($orderid>0){
