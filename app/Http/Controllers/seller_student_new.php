@@ -1657,6 +1657,9 @@ class seller_student_new extends Controller
         }
 
         E\Etq_called_flag::set_item_value_str($user_info);
+        // $this->set_filed_for_js("tq_called_flag", $user_info["tq_called_flag"]); // james
+
+
         E\Egrade::set_item_value_str($user_info);
         E\Esubject::set_item_value_str($user_info);
         E\Epad_type::set_item_value_str($user_info,"has_pad");

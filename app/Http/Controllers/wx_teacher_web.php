@@ -41,6 +41,7 @@ class wx_teacher_web extends Controller
             if(in_array($action,$filter_url) && $wx_use_flag == 0){
                 $action = 'guide_apply';
             }
+            \App\Helper\Utils::logger("james_02_09_1: $action");
 
             $url="$web_html_url/$action.html";
             if($action == 'tea'){
@@ -52,6 +53,7 @@ class wx_teacher_web extends Controller
             $wx_config = \App\Helper\Config::get_config("teacher_wx");
             $to_url    = bin2hex($this->get_in_str_val("_url"));
             $wx        = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            \App\Helper\Utils::logger("james_02_09_2: $to_url");
 
             $redirect_url = urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );

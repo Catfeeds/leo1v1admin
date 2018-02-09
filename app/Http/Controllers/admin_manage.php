@@ -198,10 +198,12 @@ class admin_manage extends Controller
     public function flow_save() {
         $flow_type= $this->get_in_e_flow_type();
         $json_data= $this->get_in_str_val("json_data");
+        $node_map=$this->t_flow_config->gen_node_map( \App\Helper\Utils::json_decode_as_array( $json_data ) );
         if ($flow_type >0) {
             $this->t_flow_config->row_insert([
                 "flow_type" => $flow_type,
                 "json_data" =>$json_data,
+                "node_map" =>json_encode($node_map),
             ], true);
 
         }

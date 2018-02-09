@@ -609,6 +609,7 @@ $(function(){
 
 
     $(".opt-re-status").click(function(){
+
     	var type = $(this).data('type');
     	var file_id = $(this).data('file_id');
     	var resource_id = $(this).data('resource_id');
@@ -654,6 +655,7 @@ $(function(){
            "file_id"        : file_id,
            "resource_id"    : resource_id,
         },function(){
+            
             var arr=[
                 ["姓名",  opt_data.realname ],
                 ["电话",  opt_data.phone ],
@@ -682,7 +684,43 @@ $(function(){
         });
     });
 
-  
+    $('#id_set_cc_adminid').on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var select_userid_list = [];
+        var num = 0;
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            if($item.iCheckValue()) {
+                select_userid_list.push( $item.data("userid") ) ;
+                num = num + 1;
+            }
+        }) ;
+        if(num == 0){
+            BootstrapDialog.alert("请选择至少一个例子");
+            return;
+        }
+        BootstrapDialog.confirm("共计"+num+"条记录",function(val){
+                if(val){
+                    var do_post= function (opt_adminid) {
+                        $.do_ajax(
+                            '/cc_manage/set_adminid',
+                            {
+                                'userid_list' : JSON.stringify(select_userid_list ),
+                                "opt_adminid" : opt_adminid,
+                            });
+                    }
+
+                    $.admin_select_user (
+                        $('#id_set_select_list'),
+                        "admin_group_master", function(val){
+                            do_post( val);
+                        } ,true, {"main_type": 2 }   );
+
+                }
+        });
+
+    });
+
    
 
    

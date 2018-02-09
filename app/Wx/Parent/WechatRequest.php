@@ -191,7 +191,10 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             // \App\Helper\Utils::logger("james:_jsdfh_333: ".json_encode($mediaId_arr));
 
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+        }elseif($request['content'] == '过年'){
+            $content = "http://wx-parent-web.leo1v1.com/poster/#/generate?type=newyear";
         }
+
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
 
