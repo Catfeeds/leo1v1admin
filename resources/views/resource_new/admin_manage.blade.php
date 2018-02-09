@@ -108,6 +108,21 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <div class="col-md-2 col-xs-2">
+                    <button id="id_apply_reload" class="btn btn-primary">批量申请——重传负责人</button>
+                </div>
+                <div class="col-md-2 col-xs-2">
+                    <button id="id_apply_kpi" class="btn btn-primary">批量申请——统计负责人</button>
+                </div>
+                <div class="col-md-2 col-xs-2">
+                    <button id="id_affirm_reload" class="btn btn-primary">批量审批——重传负责人</button>
+                </div>
+                <div class="col-md-2 col-xs-2">
+                    <button id="id_affirm_kpi" class="btn btn-primary">批量审批——统计负责人</button>
+                </div>
+
+            </div>
         </div>
         <hr/>
         <table class="common-table" id="menu_mark">
@@ -157,7 +172,7 @@
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
                         
                         <td>
-                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
+                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-kpi_status="{{$var["kpi_status"]}}" data-reload_status="{{$var["reload_status"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
                         <td style="max-width:200px">{{@$var["file_title"]}} </td>
                         <td>{{@$var['subject_str']}}</td>
@@ -204,7 +219,10 @@
                        @else
                        <a class="fa  opt-re-status" data-type="1" data-file_id="{{@$var['file_id']}}" data-resource_id="{{@$var['resource_id']}}"title="{{@$var['reload_status_string']}}">{{@$var['reload_status_str']}}</a>
                        @endif
-                       <a class="fa  opt-re-edit"  data-type="1" title="审批">审批</a>
+
+                       @if(@$var['reload_status'] == 1)
+                       <a class="fa  opt-re-edit"  data-type="1" title="审批" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}" data-file_title="{{@$var['file_title']}}" data-subject_str="{{@$var['subject_str']}}" data-grade_str="{{@$var['grade_str']}}">审批</a>
+                       @endif
                         </td>
                         <td>
                        @if(@$var['kpi_adminid_str'] != "")
@@ -218,8 +236,11 @@
                        @else
                         <a class="fa  opt-re-status" data-type="2" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}">{{@$var['kpi_status_str']}}</a>
                        @endif
-                       <a class="fa  opt-re-edit" data-type="2" title="审批">审批</a>
+                       @if(@$var['kpi_status'] == 1)
+                       <a class="fa  opt-re-edit" data-type="2" title="审批" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}" data-file_title="{{@$var['file_title']}}" data-subject_str="{{@$var['subject_str']}}" data-grade_str="{{@$var['grade_str']}}">审批</a>
+                       @endif
                         </td>
+
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
