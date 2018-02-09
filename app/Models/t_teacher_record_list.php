@@ -1544,7 +1544,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         ];
         $sql = $this->gen_sql_new("select tr.id,tr.train_lessonid,tr.record_info,tr.acc "
                                   ." from %s tr "
-                                  ." where %s not exists (select 1 from %s where teacherid=tr.teacherid and type=tr.type and lesson_style=tr.lesson_style and trial_train_status = tr.trial_train_status and add_time>tr.add_time)",
+                                  ." where %s and not exists (select 1 from %s where teacherid=tr.teacherid and type=tr.type and lesson_style=tr.lesson_style and trial_train_status = tr.trial_train_status and add_time>tr.add_time)",
                                   self::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
