@@ -111,7 +111,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_resource_type = 0;
         $tmk_student_status   = 0;
         $orderid              = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_adminid" );
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid" );
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
@@ -176,7 +176,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ]);
             }
             if($data_item && ($tmk_student_status<3 || $orderid>0)){
-                $this->check_seller_student($userid,$tmk_student_status,$orderid,$data_item['tmk_adminid']);
+                $this->check_seller_student($userid,$tmk_student_status,$orderid,$data_item['tmk_student_status_adminid']);
             }
             return $userid;
         }
@@ -338,7 +338,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }else{
                 if($tmk_student_status == 1){//推送tmk
                     $tmk_account = $this->task->cache_get_account_nick($tmk_adminid);
-                    $this->task->t_manager_info->send_wx_todo_msg($account='林文彬',"来自:系统","重进例子:".$userid.",tmk:".$tmk_account);
+                    $this->task->t_manager_info->send_wx_todo_msg($account='林文彬',"来自:系统","重进例子:".$userid.",tmk状态操作人:".$tmk_account);
                 }
             }
         }
