@@ -24,6 +24,37 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	phone	:any;
+	nickname	:any;
+	agent_level	:any;
+	all_yxyx_money	:any;
+	all_open_cush_money	:any;
+	all_have_cush_money	:any;
+	create_time	:any;
+	test_lessonid	:any;
+	p_nickname	:any;
+	p_phone	:any;
+	pp_nickname	:any;
+	pp_phone	:any;
+	lesson_start	:any;
+	lesson_user_online_status	:any;
+	userid	:any;
+	parentid	:any;
+	sys_operator	:any;
+	account	:any;
+	name	:any;
+	account_role	:any;
+	self_order_count	:any;
+	self_order_price	:any;
+	child_student_count	:any;
+	child_member_count	:any;
+	child_student_member_count	:any;
+	agent_level_str	:any;
+	agent_student_status_str	:any;
+	agent_type_str	:any;
+	is_test_lesson_str	:any;
+	agent_info	:any;
 }
 
 /*
