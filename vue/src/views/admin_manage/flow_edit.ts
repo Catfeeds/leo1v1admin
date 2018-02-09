@@ -7,6 +7,7 @@ import {self_RowData, self_Args } from "../page.d.ts/admin_manage-flow_edit"
   // 所有的组件选项都可以放在这里.
   template:  require("./flow_edit.html" ),
 })
+
 export default class extends vtable {
 
   get_args() :self_Args  {return  this.get_args_base();}
@@ -17,9 +18,15 @@ export default class extends vtable {
     this.$flow.$nodeData[id] = $.extend({}, this.$flow.$nodeData[id],  args);
   }
 
+  //设置扩展信息
+  set_line_info(id, args ) {
+    this.$flow.$lineData[id] = $.extend({}, this.$flow.$lineData[id],  args);
+  }
+  //@desn:获取结点类型
   get_node_type( type) {
     return type.split(" ")[0];
   }
+  //@desn:双击事件
   onItemDbClick(id, type){
     //this.$flow.get
     if (type=="node") {
@@ -30,23 +37,82 @@ export default class extends vtable {
 
 
   }
+  //@desn:获取线信息
   public do_line_opt(id) {
     var info=this.$flow. getItemInfo( id, "line");
+    this.do_branch_line_function_opt(id,info);
     console.log("line:", info );
   }
+
+  //@desn:添加分支后面线操作
+  do_branch_line_function_opt( id,info ) {
+    var from_id = info.from;
+    var from_type = this.get_node_type_by_id(from_id);
+    var from_info = this.get_node_info(from_id) ;//获取上个条件类型
+    var flow_function = from_info.flow_function;
+    console.log('from_type:',from_type);
+    if(from_type == 'function' && flow_function){
+
+      var  switch_value= info.switch_value? info.switch_value: 0;
+      var me = this;
+      //获取该分支类型的选项类型
+      $.do_ajax("/admin_manage/get_flow_branch_switch_value",  {
+        'flow_function' : flow_function,
+      },function(data){
+        //组合select  --begin--
+        var select = "<select>";
+        var switch_value_ar = JSON.parse(data.switch_value);
+        $.each(switch_value_ar, function(i, switch_value ){
+          select += "<option value='"+i+"'>"+switch_value+"</option>";
+        });
+        select += "</select>";
+        var $switch_value=$(select);
+        //组合select  --end--
+
+        var arr=[
+          ["分支条件" , $switch_value ],
+        ];
+        $.show_key_value_table("设置", arr ,{
+          label: '确认',
+          cssClass: 'btn-warning',
+          action: function(dialog) {
+            var switch_value=$switch_value.val();
+            var switch_desc = $switch_value.find("option:selected").text();
+
+            var args={
+              "switch_value" : switch_value,
+            }
+            me.set_line_info(id, args );
+            me.flow_set_name( id, "branch:" + switch_desc ,"line"  );
+          }
+        },function(){
+        });
+
+      });
+
+    }else if(!flow_function){
+      alert('请先选择分支类型!');
+    }
+
+
+  }
+
+
+  //@desn:通过id获取结点类型
   public get_node_type_by_id(id){
     var info=this.get_node_info(id);
     var node_type= this.get_node_type( info["type"]) ;
     return node_type;
   }
+  //@desn:设置流程结点名称
   flow_set_name( id, name,type  ) {
     this.$flow.setName(id, name, type);
   }
-
+  //@desn:根据结点id获取结点信息
   get_node_info(id) {
     return this.$flow. getItemInfo( id, "node");
   }
-
+  //@desn:双击操作分发器
   do_node_opt( id   ) {
     var info= this.get_node_info(id);
     var node_type= this.get_node_type( info["type"]) ;
@@ -60,15 +126,15 @@ export default class extends vtable {
     }else if (  node_type == "function"  ) {
       this.do_node_function_opt(id,info);
     }
-
+    console.log('id:'+id);
     console.log( "click:", info,  node_type );
   }
 
-
+  //@desn:uplevel_admin 上级审批操作
   do_node_uplevel_admin_opt( id,info ) {
 
   }
-
+  //@desn:分支操作
   do_node_function_opt( id,info ) {
     var  flow_function= info.flow_function? info.flow_function: 0;
     /*
@@ -81,7 +147,8 @@ export default class extends vtable {
     var me=this;
 
     var $flow_function=$("<select/>");
-    Enum_map.append_option_list("flow_function", $flow_function, true );
+    Enum_map.append_option_list("flow_function", $flow_function, true, me.$data.flow_function_list );
+
     $flow_function.val( flow_function);
 
     var arr=[
@@ -105,7 +172,7 @@ export default class extends vtable {
 
 
   }
-
+  //@desn:抄送操作
   do_node_notify_opt( id,info ) {
     var me=this;
 
@@ -138,30 +205,33 @@ export default class extends vtable {
     });
 
   }
-
+  //@desn:指定人审批
   do_node_admin_opt( id ,info) {
 
     var me=this;
 
     var $admin=$("<input/>");
+    var flow_title=$("<input/>");
     var adminid= info.adminid? info.adminid: 0;
     $admin.val(adminid);
 
     var arr=[
       ["管理员" , $admin  ],
+      ["审批类型" , flow_title  ],
     ];
 
-    $.show_key_value_table("抄送给", arr ,{
+    $.show_key_value_table("指定人审批", arr ,{
       label: '确认',
       cssClass: 'btn-warning',
       action: function(dialog) {
         var adminid=$admin.val();
+        var flow_title_val = flow_title.val();
         var args={
           "adminid" : adminid,
         }
         me.set_node_info(id, args );
         $.do_ajax_get_nick( "account", adminid, function(_id, nick){
-          me. flow_set_name( id, "审批:"+nick ,"node"  );
+          me. flow_set_name( id, flow_title_val+":"+nick ,"node"  );
         });
       }
     },function(){
@@ -175,6 +245,7 @@ export default class extends vtable {
 
 
 
+  //@desn:限制抄送不能有下游
   onItemAdd(id , type,json) {
     if (type=="line") {
       //get_node_type_by_id
@@ -196,6 +267,7 @@ export default class extends vtable {
     return true;
   }
 
+  //@desn：添加结点操作
   do_add_node( id, info ) {
     var node_type = this.get_node_type(info["type"] );
 
@@ -216,7 +288,7 @@ export default class extends vtable {
     }
   }
 
-
+  //@desn:审批初始化
   flow_init(){
     var property={
       toolBtns:["start round mix","end round mix","admin","uplevel_admin","notify" ,"function mix"
@@ -271,6 +343,7 @@ export default class extends vtable {
     demo.onItemAdd=this.onItemAdd;
     this.$flow =demo;
   }
+
   do_created_ex(call_func) {
 
     //加载js
@@ -303,7 +376,7 @@ export default class extends vtable {
     this.$flow.clearData();
     this.$flow.loadData( this.$data.json_data );
   }
-
+  //@desn:修改操作
   opt_edit( e:MouseEvent, opt_data: self_RowData ){
     alert(JSON.stringify( opt_data));
   }
@@ -326,14 +399,18 @@ export default class extends vtable {
     //JQuery 写法
     var jquery_body = $("<div> <button class=\"btn btn-primary do-save\">保存</button> ||||||  <a href=\"javascript:;\"class=\"btn btn-warning  do-reload\">重新加载</a> </div>");
 
+    //@desn:保存审批信息
     jquery_body.find(".do-save").on( "click" ,function(e) {
-      var json_data= JSON.stringify(me.$flow.exportData());
+      var data=me.$flow.exportData();
+      var json_data= JSON.stringify(data);
+      console.log ( data);
+
       $.do_ajax("/admin_manage/flow_save",  {
         flow_type : me.get_args().flow_type,
         json_data:  json_data,
       });
     });
-
+    //@desn:重新加载
     jquery_body.find(".do-reload").on( "click" ,function(e) {
       BootstrapDialog.alert(" test 2");
     });

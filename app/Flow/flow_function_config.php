@@ -14,8 +14,12 @@ class flow_function_config{
         ],
     ];
 
-    static  $func_config=[
-        E\Eflow_function::S_CHECK_QINGJIA_DAY =>""   ,
-    ];
+        //1, 2
+    //@desn:获取不同分支的配置
+    //@desn:$flow_type 审批类型
+    static function get_branch_type_config($flow_type){
+        $flow_type_arr = self::$config[$flow_type];
+        return $flow_type_arr;
+    }
 
 }
