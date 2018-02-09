@@ -14,7 +14,11 @@ function load_data(){
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
-		tag_five:	$('#id_tag_five').val()
+		tag_five:	$('#id_tag_five').val(),
+        adminid:    $('#id_adminid').val(),
+        reload_adminid:  $('#id_reload_adminid').val(),
+        kpi_adminid:  $('#id_kpi_adminid').val(),
+        status:  $('#id_status').val(),
 		});
 }
 $(function(){
@@ -104,8 +108,10 @@ $(function(){
     Enum_map.append_option_list("resource_error",$('#id_error_type'));
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
     $('#id_use_type').val(g_args.use_type);
-
-
+    $('#id_adminid').val(g_args.adminid);
+    $('#id_reload_adminid').val(g_args.reload_adminid);
+    $('#id_kpi_adminid').val(g_args.kpi_adminid);
+    $('#id_status').val(g_args.status);
 
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
@@ -614,7 +620,7 @@ $(function(){
     	var file_id = $(this).data('file_id');
     	var resource_id = $(this).data('resource_id');
         $(this).admin_select_user({
-            "show_select_flag":false,
+            "show_select_flag":true,
             "type":"research_teacher",
             "onChange":function(val){
             	var id = val;
@@ -646,83 +652,273 @@ $(function(){
 
 
     $(".opt-re-edit").on("click", function(){
+        var opt_data = $(this).get_opt_data();
+        var file_title = $(this).data('file_title');
+        var subject_str = $(this).data('subject_str');
+        var grade_str = $(this).data('grade_str');
         var type = $(this).data('type');
         var file_id = $(this).data('file_id');
         var resource_id = $(this).data('resource_id');
-        alert(2);
+
         $.do_ajax( '/resource_new/get_record_info',{
            "type"           : type,
            "file_id"        : file_id,
            "resource_id"    : resource_id,
-        },function(){
+        },function(ret){
+            console.log(ret);
+            var info = ret.data;
+            var id = info.id;
+            var first_info = info.first_nick + " "+info.first_phone;
+            if(info.now_nick == null){
+                var now_info   = first_info;
+            }else{
+                var now_info   = info.now_nick   + " "+info.now_phone;
+            }
             
+            var next_info  = info.next_nick  + " "+info.next_phone;
+            var apply_info = info.apply_nick + " "+info.apply_phone;
             var arr=[
-                ["姓名",  opt_data.realname ],
-                ["电话",  opt_data.phone ],
-                ["临时密码", id_tmp_passwd ],
+                ["文件名",  file_title ],
+                ["科目",  subject_str ],
+                ["年级",  grade_str ],
+                ["初版讲义上传人",  first_info ],
             ];
-            $.show_key_value_table("临时密码", arr ,{
+
+            if(type == 1){
+                arr.push(['前修改重传负责人',now_info]);
+                arr.push(['更换后修改重传负责人',next_info]);
+                arr.push(['申请人',apply_info]);
+                var title = "审批-重传讲义负责人";
+            }else{
+                arr.push(['前讲义统计负责人',now_info]);
+                arr.push(['更换后讲义统计负责人',next_info]);
+                arr.push(['申请人',apply_info]);
+                var title = "审批-讲义统计负责人";
+            }
+            $.show_key_value_table(title, arr ,[{
+                label: '拒绝',
+                cssClass: 'btn-danger',
+                action : function(dialog) {
+                $.ajax({
+                  type     :"post",
+                  url      :"/resource_new/change_status",
+                  dataType :"json",
+                  data     :{
+                            "file_id": file_id,
+                            "id"     : id,
+                            "status" : 3,
+                            "type"   : type,
+                        },
+                        success : function(result){
+                            window.location.reload();
+                        }
+                    });
+                }
+            },{
                 label: '确认',
                 cssClass: 'btn-warning',
                 action : function(dialog) {
                 $.ajax({
                   type     :"post",
-                  url      :"/user_manage/set_dynamic_passwd",
+                  url      :"/resource_new/change_status",
                   dataType :"json",
                   data     :{
-                            "phone"  : opt_data.phone,
-                            "passwd" : id_tmp_passwd.val(),
-                            "role"   : 2
+                            "file_id": file_id,
+                            "id"     : id,
+                            "status" : 2,
+                            "type"   : type,
                         },
                         success : function(result){
-                            BootstrapDialog.alert(result['info']);
                             window.location.reload();
-                  }
+                        }
                     });
                 }
-            });
+            }]);
         });
     });
 
-    $('#id_set_cc_adminid').on("click",function(){
+    $('#id_apply_reload').on("click",function(){
         var opt_data = $(this).get_opt_data();
         var select_userid_list = [];
         var num = 0;
         $(".opt-select-item").each(function(){
             var $item=$(this) ;
-            if($item.iCheckValue()) {
-                select_userid_list.push( $item.data("userid") ) ;
+            var reload_status = $item.data("reload_status");
+            if($item.iCheckValue() && reload_status == 0) {
+                select_userid_list.push( $item.data("file_id") ) ;
                 num = num + 1;
             }
         }) ;
         if(num == 0){
-            BootstrapDialog.alert("请选择至少一个例子");
+            BootstrapDialog.alert("请选择至少一个文件");
             return;
         }
-        BootstrapDialog.confirm("共计"+num+"条记录",function(val){
-                if(val){
-                    var do_post= function (opt_adminid) {
-                        $.do_ajax(
-                            '/cc_manage/set_adminid',
-                            {
-                                'userid_list' : JSON.stringify(select_userid_list ),
-                                "opt_adminid" : opt_adminid,
-                            });
-                    }
-
-                    $.admin_select_user (
-                        $('#id_set_select_list'),
-                        "admin_group_master", function(val){
-                            do_post( val);
-                        } ,true, {"main_type": 2 }   );
-
-                }
-        });
-
+        $(this).admin_select_user({
+            "show_select_flag":true,
+            "type":"research_teacher",
+            "onChange":function(val){
+                var id = val;
+                $.do_ajax( '/resource_new/apply_change_adminid_multi',{
+                   "file_id"        : JSON.stringify(select_userid_list ),
+                   "teacherid"      : id,
+                   "type"           : 1,
+                });
+            }
+        });  
     });
 
-   
+    $('#id_apply_kpi').on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var select_userid_list = [];
+        var num = 0;
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            var kpi_status = $item.data("kpi_status");
+            if($item.iCheckValue() && kpi_status == 0) {
+                select_userid_list.push( $item.data("file_id") ) ;
+                num = num + 1;
+            }
+        }) ;
+        if(num == 0){
+            BootstrapDialog.alert("请选择至少一个文件");
+            return;
+        }
+        $(this).admin_select_user({
+            "show_select_flag":true,
+            "type":"research_teacher",
+            "onChange":function(val){
+                var id = val;
+                $.do_ajax( '/resource_new/apply_change_adminid_multi',{
+                   "file_id"        : JSON.stringify(select_userid_list ),
+                   "teacherid"      : id,
+                   "type"           : 2,
+                });
+            }
+        });  
+    });
+    $('#id_affirm_reload').on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var type = $(this).data('type');
+        var file_id = $(this).data('file_id');
 
-   
+        var select_userid_list = [];
+        var num = 0;
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            var reload_status = $item.data("reload_status");
+            if($item.iCheckValue() && reload_status == 1) {
+                select_userid_list.push( $item.data("file_id") ) ;
+                num = num + 1;
+            }
+        }) ;
+        if(num == 0){
+            BootstrapDialog.alert("请选择至少一个文件");
+            return;
+        }
+        var arr=[
+            ["文件数",  num],
+        ];
+        $.show_key_value_table("批量审批——重传负责人", arr ,[{
+                label: '拒绝',
+                cssClass: 'btn-danger',
+                action : function(dialog) {
+                $.ajax({
+                  type     :"post",
+                  url      :"/resource_new/change_status_multi",
+                  dataType :"json",
+                  data     :{
+                            "file_id": JSON.stringify(select_userid_list ),
+                            "status" : 3,
+                            "type"   : 1,
+                        },
+                        success : function(result){
+                            window.location.reload();
+                        }
+                    });
+                }
+            },{
+                label: '确认',
+                cssClass: 'btn-warning',
+                action : function(dialog) {
+                $.ajax({
+                  type     :"post",
+                  url      :"/resource_new/change_status_multi",
+                  dataType :"json",
+                  data     :{
+                            "file_id": JSON.stringify(select_userid_list ),
+                            "status" : 2,
+                            "type"   : 1,
+                        },
+                        success : function(result){
+                            window.location.reload();
+                        }
+                    });
+                }
+            }]);
+    });
+
+    $('#id_affirm_kpi').on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var type = $(this).data('type');
+        var file_id = $(this).data('file_id');
+
+        var select_userid_list = [];
+        var num = 0;
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            var kpi_status = $item.data("kpi_status");
+            if($item.iCheckValue() && kpi_status == 1) {
+                select_userid_list.push( $item.data("file_id") ) ;
+                num = num + 1;
+            }
+        }) ;
+        if(num == 0){
+            BootstrapDialog.alert("请选择至少一个文件");
+            return;
+        }
+        var arr=[
+            ["文件数",  num],
+        ];
+        $.show_key_value_table("批量审批——统计负责人", arr ,[{
+                label: '拒绝',
+                cssClass: 'btn-danger',
+                action : function(dialog) {
+                $.ajax({
+                  type     :"post",
+                  url      :"/resource_new/change_status_multi",
+                  dataType :"json",
+                  data     :{
+                            "file_id": JSON.stringify(select_userid_list ),
+                            "status" : 3,
+                            "type"   : 2,
+                        },
+                        success : function(result){
+                            window.location.reload();
+                        }
+                    });
+                }
+            },{
+                label: '确认',
+                cssClass: 'btn-warning',
+                action : function(dialog) {
+                $.ajax({
+                  type     :"post",
+                  url      :"/resource_new/change_status_multi",
+                  dataType :"json",
+                  data     :{
+                            "file_id": JSON.stringify(select_userid_list ),
+                            "status" : 2,
+                            "type"   : 2,
+                        },
+                        success : function(result){
+                            window.location.reload();
+                        }
+                    });
+                }
+            }]);
+    });
+    $.admin_select_user( $("#id_adminid"), "research_teacher", load_data);
+    $.admin_select_user( $("#id_reload_adminid"), "research_teacher", load_data);
+    $.admin_select_user( $("#id_kpi_adminid"), "research_teacher", load_data);
 });
 
