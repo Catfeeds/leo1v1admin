@@ -76,21 +76,13 @@ class flow_base{
         return $ret;
     }
 
+    // return [ $node_type, $adminid, $auto_pass ]
     static function get_next_node_info_new($node_type, $flowid, $adminid ) {
-        $node_def_item=static::$node_data[$node_type];
-        $next_node_process_fun="next_node_process_$node_type";
-        $ret=static::$next_node_process_fun( $flowid,  $adminid );
-        if(!is_array($ret) ) { //next_adminid
-            $ret=[ $node_def_item[0], $ret ];
-        }
-        if (count($ret)==2) {
-            $ret[]=0; //audo pass
-        }
-        if (!( $ret[1] >0) )  { // account
-            $ret[1]= static::get_adminid_by_account( $ret[1]);
-        }
-        \App\Helper\Utils::logger( "get_next_node_info: ". json_encode($ret)  );
+        $task= $this->get_task_controler();
+        list($flow_info,$self_info)=static::get_info($flowid);
+        $task->t_flow_config->get_next_node(static::$type,$node_type, $flow_info, $self_info , $adminid );
 
+        // return [ $node_type, $adminid, $auto_pass ]
         return $ret;
     }
 

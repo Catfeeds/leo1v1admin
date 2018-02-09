@@ -4,11 +4,11 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	subject:	number;//\App\Enums\Esubject
-	grade:	number;//\App\Enums\Egrade
-	require_flag:	number;//\App\Enums\Eboolean
-	class_hour:	number;//\App\Enums\Eboolean
-	account_role:	number;//\App\Enums\Eaccount_role
+	subject:	number;//枚举: \App\Enums\Esubject
+	grade:	number;//枚举: \App\Enums\Egrade
+	require_flag:	number;//枚举: \App\Enums\Eboolean
+	class_hour:	number;//枚举: \App\Enums\Eboolean
+	account_role:	number;//枚举: \App\Enums\Eaccount_role
 	page_num:	number;
 	page_count:	number;
 }
@@ -48,8 +48,9 @@ tofile:
 /// <reference path="../g_args.d.ts/contract_present-contract_present_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -60,31 +61,70 @@ function load_data(){
 		require_flag:	$('#id_require_flag').val(),
 		class_hour:	$('#id_class_hour').val(),
 		account_role:	$('#id_account_role').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("subject",$("#id_subject"));
-	Enum_map.append_option_list("grade",$("#id_grade"));
-	Enum_map.append_option_list("boolean",$("#id_require_flag"));
-	Enum_map.append_option_list("boolean",$("#id_class_hour"));
-	Enum_map.append_option_list("account_role",$("#id_account_role"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
-	$('#id_subject').val(g_args.subject);
-	$('#id_grade').val(g_args.grade);
-	$('#id_require_flag').val(g_args.require_flag);
-	$('#id_class_hour').val(g_args.class_hour);
-	$('#id_account_role').val(g_args.account_role);
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
+	$('#id_subject').admin_set_select_field({
+		"enum_type"    : "subject",
+		"field_name" : "subject",
+		"select_value" : g_args.subject,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_subject",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_grade').admin_set_select_field({
+		"enum_type"    : "grade",
+		"field_name" : "grade",
+		"select_value" : g_args.grade,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_grade",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_require_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "require_flag",
+		"select_value" : g_args.require_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_require_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_class_hour').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "class_hour",
+		"select_value" : g_args.class_hour,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_class_hour",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_account_role').admin_set_select_field({
+		"enum_type"    : "account_role",
+		"field_name" : "account_role",
+		"select_value" : g_args.account_role,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_account_role",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -94,6 +134,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -102,6 +147,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -110,6 +156,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -118,6 +165,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["require_flag title", "require_flag", "th_require_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -126,6 +174,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["class_hour title", "class_hour", "th_class_hour" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -134,4 +183,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["account_role title", "account_role", "th_account_role" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
