@@ -196,7 +196,7 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             $tuwenList[] = array(
                 'title' => "有一种记忆,叫过年",
                 'description' => "快来定制专属于你的贺卡拜年吧!",
-                'pic_url' => "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/1134039645.jpg",
+                'pic_url' => "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/%E8%BF%87%E5%B9%B4.jpg",
                 'url' => "http://wx-parent-web.leo1v1.com/poster/#/generate?type=newyear"
             );
 
