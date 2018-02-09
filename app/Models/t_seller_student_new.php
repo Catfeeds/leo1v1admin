@@ -327,11 +327,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                     $this->set_seller_student_new($userid);
                 }else{
                     if($contract_status == 1){//推送助教
+                        // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
                     }else{//推送cc
+                        // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
                     }
                 }
             }else{
                 if($tmk_student_status == 1){//推送tmk
+                    // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
                 }
             }
         }
