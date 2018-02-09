@@ -163,8 +163,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
 
     public function get_all_info(
         $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $page_info,
-        $is_del = 0
-
+        $adminid,$reload_adminid,$kpi_adminid,$status
     ){
         $where_arr = [
             ['r.use_type=%u', $use_type, -1],
@@ -176,9 +175,15 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.tag_three=%u', $tag_three, -1],
             ['r.tag_four=%u', $tag_four, -1],
             ['r.tag_five=%u', $tag_five, -1],
-            ['r.is_del=%u', $is_del, -1],
+            ['r.is_del=%u', 0, -1],
             "f.status = 0",
+            ['r.adminid=%u', $adminid, -1],
+            ['f.reload_adminid=%u', $reload_adminid, -1],
+            ['f.kpi_adminid=%u', $kpi_adminid, -1],
         ];
+        if($status != -1){
+            $where_arr[] = " ( f.reload_status = $status or f.kpi_status = $status )";
+        }
 
         if( in_array($resource_type, [1,2,3,4,5,9]) ){
             //添加通用版50000

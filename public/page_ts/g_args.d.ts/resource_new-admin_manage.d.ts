@@ -15,6 +15,10 @@ interface GargsStatic {
 	tag_five:	number;
 	page_num:	number;
 	page_count:	number;
+	adminid:	number;
+	reload_adminid:	number;
+	kpi_adminid:	number;
+	status:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -100,7 +104,11 @@ function load_data(){
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
-		tag_five:	$('#id_tag_five').val()
+		tag_five:	$('#id_tag_five').val(),
+		adminid:	$('#id_adminid').val(),
+		reload_adminid:	$('#id_reload_adminid').val(),
+		kpi_adminid:	$('#id_kpi_adminid').val(),
+		status:	$('#id_status').val()
 		});
 }
 $(function(){
@@ -124,6 +132,17 @@ $(function(){
 	$('#id_tag_three').val(g_args.tag_three);
 	$('#id_tag_four').val(g_args.tag_four);
 	$('#id_tag_five').val(g_args.tag_five);
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
+	$('#id_reload_adminid').val(g_args.reload_adminid);
+	$('#id_kpi_adminid').val(g_args.kpi_adminid);
+	$('#id_status').val(g_args.status);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -212,4 +231,36 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["tag_five title", "tag_five", "th_tag_five" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">reload_adminid</span>
+                <input class="opt-change form-control" id="id_reload_adminid" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["reload_adminid title", "reload_adminid", "th_reload_adminid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">kpi_adminid</span>
+                <input class="opt-change form-control" id="id_kpi_adminid" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["kpi_adminid title", "kpi_adminid", "th_kpi_adminid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">status</span>
+                <input class="opt-change form-control" id="id_status" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["status title", "status", "th_status" ]])!!}
 */
