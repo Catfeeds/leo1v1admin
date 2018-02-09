@@ -326,7 +326,6 @@ abstract class NewModel
         //for old
         $ret_arr["total_num"]=$count;
         $ret_arr["per_page_count"]=$page_count;
-        $ret_arr['count_sql'] = $count_query;
 
         $ret_arr["page_info"] = array(
             "total_num"      => $count,
