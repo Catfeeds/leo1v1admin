@@ -646,8 +646,8 @@ class resource_new extends Controller
         $file_id = $this->get_in_int_val("file_id",-1);
         $resource_id = $this->get_in_int_val("resource_id",-1);
         $change_adminid = $this->get_account_id();
+        $ret = $this->t_resource_file->get_record_info($file_id);
         if($type == 1){
-            
             return $this->output_succ();
         }elseif($type == 2){
             
