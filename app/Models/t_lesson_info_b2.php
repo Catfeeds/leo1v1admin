@@ -196,7 +196,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_teacher_lesson_info(  $teacherid, $start_time,$end_time ) {
-        $sql=$this->gen_sql("select userid,lessonid,lesson_start,lesson_end,userid,lesson_type from %s "
+        $sql=$this->gen_sql("select l.userid,l.lessonid,l.lesson_start,lesson_end,l.userid,l.lesson_type,s.nick "
+                            ." from %s l "
+                            ." left join %s s on s.userid = l.userid "
                             ." where teacherid=%u "
                             ." and lesson_start>=%s "
                             ." and lesson_start<=%s "
@@ -205,6 +207,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                             ." and lesson_del_flag=0"
                             ." order by lesson_start asc ",
                             self::DB_TABLE_NAME,
+                            t_student_info::DB_TABLE_NAME,
                             $teacherid, $start_time,$end_time );
         return $this->main_get_list($sql);
     }
@@ -4352,7 +4355,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                  ." t.stu_request_test_lesson_demand,"
                                  ." jm.name jw_name,jm.phone jw_phone,s.address,n.interests_and_hobbies, "
                                  ." n.character_type ,n.need_teacher_style,n.extra_improvement,n.habit_remodel ,"
-                                 ." n.study_habit "
+                                 ." n.study_habit, s.nick "
                                  ." from %s l "
                                  ." left join %s h on l.lessonid=h.lessonid "
                                  ." left join %s s on l.userid=s.userid"
@@ -4377,7 +4380,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                  t_seller_student_new::DB_TABLE_NAME,
                                  $where_arr
         );
-        //dd($sql);
         return $this->main_get_list_as_page($sql,function($item){
             return $item['lessonid'];
         });
