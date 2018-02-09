@@ -15,6 +15,44 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	price	:any;
+	test_lesson_order_fail_flag	:any;
+	test_lesson_order_fail_set_time	:any;
+	phone	:any;
+	test_lesson_order_fail_desc	:any;
+	lessonid	:any;
+	lesson_type	:any;
+	lesson_start	:any;
+	lesson_end	:any;
+	lesson_intro	:any;
+	grade	:any;
+	subject	:any;
+	lesson_num	:any;
+	userid	:any;
+	lesson_name	:any;
+	lesson_status	:any;
+	ass_comment_audit	:any;
+	homework_status	:any;
+	stu_status	:any;
+	tea_status	:any;
+	editionid	:any;
+	finish_url	:any;
+	check_url	:any;
+	tea_cw_url	:any;
+	stu_cw_url	:any;
+	issue_url	:any;
+	pdf_question_count	:any;
+	lesson_time	:any;
+	lesson_type_str	:any;
+	lesson_num_str	:any;
+	lesson_course_name	:any;
+	textbook	:any;
+	tea_comment_str	:any;
+	tea_comment	:any;
+	pdf_status_str	:any;
+	pay_flag_str	:any;
+	pay_flag	:any;
+	pay_info	:any;
 }
 
 /*
