@@ -188,9 +188,22 @@ class admin_manage extends Controller
         if (!$json_data) {
             $json_data=[];
         }
+        $flow_function_list=[];
+        if ($flow_type>0) {
+            $flow_class=\App\Flow\flow::get_flow_class($flow_type);
+            if ($flow_class) {
+                $func_arr=get_class_methods($flow_class );
+                foreach( E\Eflow_function::$v2s_map as  $flow_function => $func_name ){
+                    if (in_array( $func_name,  $func_arr )) {
+                        $flow_function_list[]= $flow_function;
+                    }
+                }
+            }
+        }
 
         return $this->pageOutJson(__METHOD__, null , [
-            "json_data"=>$json_data
+            "json_data"=>$json_data,
+            "flow_function_list"=> $flow_function_list,
         ]);
 
     }

@@ -43,4 +43,16 @@ class flow_qingjia extends flow_base{
 
 
 
+    static function check_qingjia_day (  $flow_info, $self_info , $adminid ) {
+        $hour_count=$self_info["hour_count"];
+        $day_count=floor($hour_count/8);
+        \App\Helper\Utils::logger("day_count: $day_count");
+
+        if ($day_count>=3) {
+            return 2;
+        }else{
+            return 1;
+        }
+    }
+
 }

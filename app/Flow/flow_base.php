@@ -139,5 +139,31 @@ class flow_base{
         $account_role = $t_manager_info->get_account_role($adminid);
         return $account_role == $check_role ;
     }
+    static function check_admin_role (  $flow_info, $self_info , $adminid ) {
+        $t_manager_info =  new \App\Models\t_manager_info();
+        $post_adminid=$flow_info["post_adminid"];
+        $account_role = $t_manager_info->get_account_role($post_adminid);
+
+        /*
+        E\Eflow_function::S_CHECK_ADMIN_ROLE   => [
+            "1" => "助教",
+            "2" => "销售",
+        ],
+        ];
+        */
+        if ($account_role == E\Eaccount_role::V_2){
+            return 2;
+        }else{
+            return 1;
+        }
+    }
+
+    static function do_function( $flow_function, $flow_type,$node_type, $flow_info, $self_info , $adminid   ) {
+        $flow_class  = \App\Flow\flow::get_flow_class($flow_type);
+        $function_name=E\Eflow_function::v2s($flow_type );
+        $switch_value= $flow_class::$function_name( $flow_info, $self_info , $adminid );
+        return $switch_value;
+    }
+
 
 }

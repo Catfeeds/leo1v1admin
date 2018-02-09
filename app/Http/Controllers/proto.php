@@ -65,6 +65,7 @@ class proto extends Controller
         $cmd_info=json_decode(file_get_contents($cmd_file),true);
         $info_file=$project_dir."/{$project}-info.json";
         $info=json_decode(file_get_contents($info_file),true);
+
         $struct_map     = $info["struct_map"];
         $error_list     = $info["error_list"];
         $cmd_return_map = $info["cmd_return_map"];
@@ -101,6 +102,7 @@ class proto extends Controller
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($cmd_list) ,[
             "cmd_desc_list" =>  $cmd_desc_list,
+            "tag_list"  =>   $cmd_info["tag_list"] ,
             "error_list" => $error_list,
             "project" => $project,
         ]);
