@@ -6,8 +6,8 @@ class flow_qingjia extends flow_base{
     static $type= E\Eflow_type::V_QINGJIA;
 
     static function get_self_info( $from_key_int,  $from_key_str ) {
-        $t_qingjia = new \App\Models\t_qingjia();
-        return $t_qingjia->field_get_list($from_key_int ,"*");
+        $task= static::get_task_controler();
+        return $task->t_qingjia->field_get_list($from_key_int ,"*");
     }
 
     static function get_table_data( $flowid ) {
