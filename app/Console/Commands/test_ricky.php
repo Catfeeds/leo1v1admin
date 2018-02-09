@@ -45,10 +45,11 @@ class test_ricky extends Command
         $reference = "18831899877";
         $identities = [0,5,6,7,8];
         foreach ($identities as $identity) {
+            echo E\Eidentity::get_desc($identity).PHP_EOL;
             $info = $task->t_teacher_lecture_appointment_info_b2->get_money_list2($start_time, $reference, $identity);
             foreach($info as $item) {
-                echo $item["teacherid"]." ";
-                echo $task->cache_get_teacher_nick($item["teacherid"])." ";
+                echo $item["teacherid"].",";
+                echo $task->cache_get_teacher_nick($item["teacherid"]).",";
                 echo date("Y-m-d H:i:s", $item["train_through_new_time"]).PHP_EOL;
             }
         }
