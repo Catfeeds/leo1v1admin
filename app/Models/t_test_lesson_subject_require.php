@@ -3976,7 +3976,7 @@ ORDER BY require_time ASC";
             'count(distinct if(tr.accept_flag = 1,t.userid,null)) as distinct_test_count,'.
             // 'count(distinct if((tss.success_flag in (0,1 ) and (l.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
             // 'and tr.accept_flag=1),t.userid,null)) as distinct_succ_count '.
-            'count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,t.userid,null)) distinct_succ_count'.
+            'count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,l.userid,null)) distinct_succ_count'.
             " from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
