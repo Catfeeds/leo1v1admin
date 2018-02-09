@@ -2796,58 +2796,88 @@ class human_resource extends Controller
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
         if($status==1){
-            $ret = $this->t_teacher_info->field_update_list($teacherid,[
-                "trial_train_flag"  => 1,
-                "train_through_new" => 1,
-                "level"             => 1
-            ]);
-            $keyword2   = "已通过";
-            $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+            if($teacherid==240314 ){
+                //新版,发送入职前在线签订入职协议
+                /**
+                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                 * 标题课程 : 待办事项提醒
+                 * {{first.DATA}}
+                 * 待办主题：{{keyword1.DATA}}
+                 * 待办内容：{{keyword2.DATA}}
+                 * 日期：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
 
-            /**
-             * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
-             * 标题课程 : 等级升级通知
-             * {{first.DATA}}
-             * 用户昵称：{{keyword1.DATA}}
-             * 最新等级：{{keyword2.DATA}}
-             * 生效时间：{{keyword3.DATA}}
-             * {{remark.DATA}}
-             */
-            $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
-            if($wx_openid){
                 $data=[];
-                $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
-                $data['first']    = "恭喜您通过模拟试听课审核，加入排课群，和排课老师沟通可上课时间。点详情，看群号。";
-                $data['keyword1'] = $teacher_info["nick"];
-                $data['keyword2'] = "二星级";
-                $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "\n升级原因:具备线上教学能力。".$record_info."\n您将获得20元奖励，请在微信老师帮-个人中心-我的收入-绑定银行卡，每月10日发放上月薪资到绑定的银行卡。";
-                $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
-                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-            }
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = $teacher_info["nick"]."老师您好，恭喜您通过模拟试听课考核，为了保护您的利益，请您签订《理优平台兼职老师入职协议》，之后您将正式成为理优平台兼职老师。";
+                $data['keyword1'] = "签订入职协议";
+                $data['keyword2'] = "签订《理优平台老师兼职协议》 ";
+                $data['keyword3'] = date("Y-m-d",time());
+                $data['remark']   = "点击此链接，签订入职协议";
+                $url = "http://wx-teacher.leo1v1.com/wx_teacher_web/jack_test";
+                $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+                if($wx_openid){
+                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+                }
 
-            //邮件推送
-            $html = $this->teacher_level_up_html($teacher_info);
-            $email = $teacher_info["email"];
-            if($email){
-                dispatch( new \App\Jobs\SendEmailNew(
-                    $email,"【理优1对1】老师晋升通知",$html
-                ));
-            }
 
-            //添加模拟试听奖金
-            $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,E\Ereward_type::V_5);
-            if(!$check_flag){
-                $train_reward = \App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
-                $this->t_teacher_money_list->row_insert([
-                    "teacherid"  => $teacherid,
-                    "type"       => E\Ereward_type::V_5,
-                    "add_time"   => time(),
-                    "money"      => $train_reward,
-                    "money_info" => $lessonid,
-                    "acc"        => $this->get_account(),
+            }else{
+              
+                $ret = $this->t_teacher_info->field_update_list($teacherid,[
+                    "trial_train_flag"  => 1,
+                    "train_through_new" => 1,
+                    "level"             => 1
                 ]);
+                $keyword2   = "已通过";
+                $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+
+                /**
+                 * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+                 * 标题课程 : 等级升级通知
+                 * {{first.DATA}}
+                 * 用户昵称：{{keyword1.DATA}}
+                 * 最新等级：{{keyword2.DATA}}
+                 * 生效时间：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+                $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+                if($wx_openid){
+                    $data=[];
+                    $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+                    $data['first']    = "恭喜您通过模拟试听课审核，加入排课群，和排课老师沟通可上课时间。点详情，看群号。";
+                    $data['keyword1'] = $teacher_info["nick"];
+                    $data['keyword2'] = "二星级";
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = "\n升级原因:具备线上教学能力。".$record_info."\n您将获得20元奖励，请在微信老师帮-个人中心-我的收入-绑定银行卡，每月10日发放上月薪资到绑定的银行卡。";
+                    $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+                }
+
+                //邮件推送
+                $html = $this->teacher_level_up_html($teacher_info);
+                $email = $teacher_info["email"];
+                if($email){
+                    dispatch( new \App\Jobs\SendEmailNew(
+                        $email,"【理优1对1】老师晋升通知",$html
+                    ));
+                }
+
+                //添加模拟试听奖金
+                $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,E\Ereward_type::V_5);
+                if(!$check_flag){
+                    $train_reward = \App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
+                    $this->t_teacher_money_list->row_insert([
+                        "teacherid"  => $teacherid,
+                        "type"       => E\Ereward_type::V_5,
+                        "add_time"   => time(),
+                        "money"      => $train_reward,
+                        "money_info" => $lessonid,
+                        "acc"        => $this->get_account(),
+                    ]);
+                }
             }
+
         }elseif($status=2){
             $keyword2 = "未通过";
             if($teacher_info['wx_openid']!=""){

@@ -1716,4 +1716,12 @@ class wx_teacher_api extends Controller
 
         return $this->output_succ(['result'=>$result,'rank'=>$rank]);
     }
+
+    //获取老师详细信息
+    public function get_tea_detail_info(){
+        $teacherid  = $this->get_teacherid_new();
+        $data = $this->t_teacher_info->field_get_list($teacherid,"realname,idcard");
+        return $this->output_succ(["list"=>$data]);
+ 
+    }
 }
