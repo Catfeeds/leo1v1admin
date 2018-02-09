@@ -1726,9 +1726,9 @@ class wx_teacher_api extends Controller
     }
 
     //兼职老师入职协议结果处理协议
-        public function set_part_teacher_protocol_result(){
-            // $teacherid  = $this->get_teacherid_new();
-            $teacherid= 240314 ;
+    public function set_part_teacher_protocol_result(){
+        $teacherid  = $this->get_teacherid_new();
+        // $teacherid= 240314 ;
         $protocol_results = $this->get_in_int_val("protocol_results");
         $realname         = trim($this->get_in_str_val("realname"));
         $idcard           = $this->get_in_str_val("idcard");
