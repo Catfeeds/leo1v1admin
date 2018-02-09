@@ -325,7 +325,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }else{
                 if($contract_status == 1){//推送,有助教推助教,没助教推cc
                     $assistantid = $this->task->t_student_info->field_get_value($userid, 'assistantid');
-                    $account_send = $assistantid>0?$this->task->cache_get_account_nick($assistantid):$this->task->t_order_info->field_get_value($orderid, 'sys_operator');
+                    $account_send = $assistantid>0?$this->task->cache_get_assistant_nick($assistantid):$this->task->t_order_info->field_get_value($orderid, 'sys_operator');
                     $this->task->t_manager_info->send_wx_todo_msg($account='林文彬',"来自:系统","已签约[执行中]例子重进:".$phone.",当前负责人:".$account_send);
                 }else{//推送cc
                     $contract_status_desc = E\Econtract_status::get_desc($contract_status);
