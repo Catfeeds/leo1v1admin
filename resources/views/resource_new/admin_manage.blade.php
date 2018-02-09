@@ -199,7 +199,11 @@
                        @else
                        无
                        @endif
+                       @if(@$var['reload_status'] == 1)
+                       <a class="fa  opt-redo" data-type="1" data-file_id="{{@$var['file_id']}}" data-resource_id="{{@$var['resource_id']}}"title="{{@$var['reload_status_string']}}"><font color="red">{{@$var['reload_status_str']}}</font></a>
+                       @else
                        <a class="fa  opt-re-status" data-type="1" data-file_id="{{@$var['file_id']}}" data-resource_id="{{@$var['resource_id']}}"title="{{@$var['reload_status_string']}}">{{@$var['reload_status_str']}}</a>
+                       @endif
                        <a class="fa  opt-re-edit"  data-type="1" title="审批">审批</a>
                         </td>
                         <td>
@@ -208,7 +212,12 @@
                        @else
                        无
                        @endif
-                       <a class="fa  opt-re-status" data-type="2" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}">{{@$var['kpi_status_str']}}</a>
+
+                       @if(@$var['kpi_status'] == 1)
+                       <a class="fa  opt-redo" data-type="2" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}"><font color="red">{{@$var['kpi_status_str']}}</font></a>
+                       @else
+                        <a class="fa  opt-re-status" data-type="2" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}">{{@$var['kpi_status_str']}}</a>
+                       @endif
                        <a class="fa  opt-re-edit" data-type="2" title="审批">审批</a>
                         </td>
                         <td>

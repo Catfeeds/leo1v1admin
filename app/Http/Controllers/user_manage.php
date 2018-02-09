@@ -1071,11 +1071,17 @@ class user_manage extends Controller
                 }
 
             }
-        }elseif($type="student" || $type="student_ass"){
+        }elseif($type=="student" || $type=="student_ass"){
             foreach($ret_list["list"] as &$item){
                 $item["phone"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
             }
 
+        }
+
+        if($type=="research_teacher"){
+            foreach($ret_list["list"] as &$item){
+                $item["gender"] = E\Egender::get_desc($item["gender"]);
+            }
         }
         return $this->output_ajax_table($ret_list, [ "lru_list" => $lru_list ]);
     }
@@ -3489,6 +3495,8 @@ class user_manage extends Controller
             $nick=$this->cache_get_seller_nick($id);
         }else if (  $type=="account" ){
             $nick=$this->cache_get_account_nick($id);
+        }else{
+            $nick = '';
         }
         return $this->output_succ([ 'nick' => $nick]);
     }

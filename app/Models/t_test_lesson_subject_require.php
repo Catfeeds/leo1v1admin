@@ -602,14 +602,16 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     }
 
-    public function tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
+    public function tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$group_adminid_list=[]){
         $where_arr=[
             "require_admin_type=2",
             "is_test_user=0",
         ];
         $this->where_arr_add_time_range($where_arr,"require_time",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
-
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr, 'cur_require_adminid', $group_adminid_list);
+        }
         $sql=$this->gen_sql_new(
             "select cur_require_adminid as  admin_revisiterid  ,count(*)  as require_test_count "
             ." from %s tr "
@@ -1004,7 +1006,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list_as_page($sql);
     }
 
-    public function tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
+    public function tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time,$grade_list=[-1],$origin_ex="",$group_adminid_list=[]) {
         $where_arr=[
             "is_test_user=0",
             "tss.success_flag < 2",
@@ -1016,6 +1018,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr, 'cur_require_adminid', $group_adminid_list);
+        }
 
         $sql=$this->gen_sql_new(
             "select  cur_require_adminid as admin_revisiterid, count(*) as test_lesson_count,   sum( test_lesson_fail_flag in (1,2,3) ) as fail_need_pay_count  "
@@ -4151,4 +4156,67 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_value($sql);
     }
+
+    //@desn:获取节点型试听课统计数据
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    //@param:$opt_date_str 检索时间类型
+    public function get_test_lesson_quire_info($origin='', $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="" ){
+        switch ( $field_name ) {
+        case "origin" :
+            $field_name="s.origin";
+            break;
+        case "grade" :
+            $field_name="l.grade";
+            break;
+        case "subject" :
+            $field_name="l.subject";
+            break;
+        default:
+            break;
+        }
+
+        $where_arr=[
+            ["s.origin like '%%%s%%' ",$origin,''],
+            's.is_test_user=0',
+            'l.lesson_del_flag=0',
+            "l.lesson_type=2",
+            "t.require_admin_type =2",
+        ];
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        // $this->where_arr_adminid_in_list($where_arr,"tls.require_adminid",$adminid_list);
+
+        $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
+        $this->where_arr_add_time_range($where_arr, 'tr.require_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select '.$field_name.' as check_value,count(tr.require_id) as require_count '.
+            " from %s tr "
+            ." join %s l on tr.current_lessonid=l.lessonid "
+            ." join %s tss on tr.current_lessonid=tss.lessonid "
+            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." join %s s  on l.userid=s.userid"
+            ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
+            .'where %s group by check_value',
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            /*
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            */
+            $where_arr
+        );
+        //TODOJIM
+        return $this->main_get_list($sql);
+    }
+
 }

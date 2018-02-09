@@ -298,4 +298,17 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
       return $this->main_get_list($sql);
     }
 
+    public function get_record_info($file_id){
+      $sql = "select a.account as first_nick, a.phone as first_phone, b.account as now_nick, b.phone as now_phone, c.account as next_nick, c.phone as next_nick, d.account as apply_nick, d.phone as apply_phone "
+            ." from t_resource_file  f "
+            ." left join db_weiyi.t_resource r on f.resource_id  = r.resource_id "
+            ." left join db_weiyi.t_resource_change_record m on f.file_id = m.file_id "
+            ." left join db_weiyi_admin.t_manager_info a on r.adminid = a.uid "
+            ." left join db_weiyi_admin.t_manager_info b on f.reload_adminid =b.uid "
+            ." left join db_weiyi_admin.t_manager_info c on m.teacherid  =c.uid "
+            ." left join db_weiyi_admin.t_manager_info d on m.change_adminid  =d.uid "
+            ." where f.file_id = $file_id order by m.id desc limit 1 ";
+      return $this->main_get_row($sql);
+    }
+
 }

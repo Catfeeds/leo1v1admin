@@ -160,7 +160,10 @@ $(function(){
 
 
     var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id,look_pdf, allow_arr){
-        if(!allow_arr) {
+        if(!allow_arr ) {
+            allow_arr = ['pdf'];
+        }
+        if(btn_id == 'id_teacher_upload'){
             allow_arr = ['pdf','ppt','pptx'];
         }
         var id_item = $(
