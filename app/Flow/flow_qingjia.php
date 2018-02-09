@@ -55,4 +55,16 @@ class flow_qingjia extends flow_base{
         }
     }
 
+    //使用新版.
+    static function get_next_node_info($node_type, $flowid, $adminid ) {
+        return static::get_next_node_info_new($node_type, $flowid, $adminid);
+    }
+
+
+    static function get_node_name( $node_type ) {
+        //return  static::$node_data[$node_type][1];
+        return  "xx" ;
+    }
+
+
 }

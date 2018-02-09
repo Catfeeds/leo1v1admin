@@ -1866,6 +1866,8 @@ GooFlow.prototype={
     this.$lineData[id].from=json.from;
     this.$lineData[id].to=json.to;
     this.$lineData[id].name=json.name;
+      //change
+    this.$lineData[id].switch_value=json.switch_value;
     if(json.marked)	this.$lineData[id].marked=json.marked;
     else	this.$lineData[id].marked=false;
         if(json.dash)	this.$lineData[id].dash=json.dash;
