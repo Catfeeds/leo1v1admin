@@ -193,7 +193,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
             ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
             ." t.tag as tag_four_str,v.create_time,v.visitor_id, "
-            ." r.adminid, r.create_time as c_time, r.reload_adminid,r.kpi_adminid,r.reload_status,r.kpi_status  "
+            ." r.adminid, r.create_time as c_time, f.reload_adminid,f.kpi_adminid,f.reload_status,f.kpi_status  "
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
             ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "

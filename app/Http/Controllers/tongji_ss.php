@@ -8382,13 +8382,21 @@ class tongji_ss extends Controller
             //例子总量
             $ret_info = $this->t_test_lesson_subject->get_example_num_now($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
             $data_map=&$ret_info["list"];
+            //试听预约数
+            $test_lesson_require_data = $this->t_test_lesson_subject_require->get_test_lesson_quire_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
+            foreach($test_lesson_require_data as $item){
+                $channel_name=$item["check_value"];
+
+                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
+                $data_map[$channel_name]["require_count"] = $item["require_count"];
+
+            }
             //试听信息
             $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
             foreach ($test_lesson_data as  $test_item ) {
                 $channel_name=$test_item["check_value"];
 
                 \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
-                $data_map[$channel_name]["require_count"] = $test_item["require_count"];
                 $data_map[$channel_name]["test_lesson_count"] = $test_item["test_lesson_count"];
                 $data_map[$channel_name]["distinct_test_count"] = $test_item["distinct_test_count"];
                 $data_map[$channel_name]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];

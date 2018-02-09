@@ -525,7 +525,7 @@ class resource_new extends Controller
             if($item['kpi_status'] == 0){
                 $item['kpi_status_str'] = "申请更换";
                 $item['kpi_status_string'] = "申请更换";
-            }elseif($item['reload_status'] == 1){
+            }elseif($item['kpi_status'] == 1){
                 $item['kpi_status_str'] = "待审批";
                 $item['kpi_status_string'] = "取消更换";
             }
@@ -543,7 +543,7 @@ class resource_new extends Controller
                 }
             }
         }
-
+        //dd($ret_info);
         $sub_grade_info = $this->get_rule_range();
         $is_teacher = 0;
         //dd($ret_info);
@@ -565,8 +565,94 @@ class resource_new extends Controller
         $file_id = $this->get_in_int_val("file_id",-1);
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $resource_id = $this->get_in_int_val("resource_id",-1);
-        
+        $change_adminid = $this->get_account_id();
+        if($type == 1){
+            $data = [
+                "reload_status" => 1
+            ];
+            $ret = $this->t_resource_file->field_update_list($file_id,$data);
 
-        // $ret = $this->t_resource->
+            $data_new = [
+                "file_id" => $file_id,
+                "add_time"=> time(),
+                "teacherid" => $teacherid,
+                "change_adminid" => $change_adminid,
+                "result"    => "申请",
+                "action"    => "申请-更换修改重传负责人",
+            ];
+            $ret_info = $this->t_resource_change_record->row_insert($data_new);
+            return $this->output_succ();
+        }elseif($type == 2){
+            $data = [
+                "kpi_status" => 1
+            ];
+            $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+            $data_new = [
+                "file_id" => $file_id,
+                "add_time"=> time(),
+                "teacherid" => $teacherid,
+                "change_adminid" => $change_adminid,
+                "result"    => "申请",
+                "action"    => "申请-更换讲义统计负责人",
+            ];
+            $ret_info = $this->t_resource_change_record->row_insert($data_new);
+            return $this->output_succ();
+        }
+        
+    }
+
+    public function cancel_change_adminid(){
+        $type    = $this->get_in_int_val("type",-1);
+        $file_id = $this->get_in_int_val("file_id",-1);
+        $resource_id = $this->get_in_int_val("resource_id",-1);
+        $change_adminid = $this->get_account_id();
+        if($type == 1){
+            $data = [
+                "reload_status" => 0
+            ];
+            $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+            $data_new = [
+                "file_id" => $file_id,
+                "add_time"=> time(),
+                "change_adminid" => $change_adminid,
+                "result"    => "取消",
+                "action"    => "取消-取消更换修改重传负责人",
+            ];
+            $ret_info = $this->t_resource_change_record->row_insert($data_new);
+            return $this->output_succ();
+        }elseif($type == 2){
+            $data = [
+                "kpi_status" => 0
+            ];
+            $ret = $this->t_resource_file->field_update_list($file_id,$data);
+
+            $data_new = [
+                "file_id" => $file_id,
+                "add_time"=> time(),
+                "change_adminid" => $change_adminid,
+                "result"    => "取消",
+                "action"    => "取消-更换讲义统计负责人",
+            ];
+            $ret_info = $this->t_resource_change_record->row_insert($data_new);
+            return $this->output_succ();
+        }
+        
+    }
+
+    public function get_record_info(){
+        $type    = $this->get_in_int_val("type",-1);
+        $file_id = $this->get_in_int_val("file_id",-1);
+        $resource_id = $this->get_in_int_val("resource_id",-1);
+        $change_adminid = $this->get_account_id();
+        if($type == 1){
+            
+            return $this->output_succ();
+        }elseif($type == 2){
+            
+            return $this->output_succ();
+        }
+        
     }
 }

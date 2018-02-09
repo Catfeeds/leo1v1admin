@@ -83,7 +83,8 @@ class SendMsgToTeaSetFreeTime extends Job implements ShouldQueue
                 # 兼职老师点击
                 $url = '';
                 if(($item['teacher_money_type']==0 && $item['teacher_type'] ==3) || $item['teacher_money_type']==7 || $item['teacher_type'] == 4){
-                    $url = 'http://wx-teacher-web.leo1v1.com/course_arrange.html';
+                    // $url = 'http://wx-teacher-web.leo1v1.com/course_arrange.html';
+                    $url = "http://wx-teacher.leo1v1.com/wx_teacher_web/course_arrange";
                 }
                 \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id,$data,$url);
                 $t_parent_send_mgs_log->row_insert([

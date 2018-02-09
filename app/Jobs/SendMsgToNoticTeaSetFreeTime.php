@@ -91,7 +91,8 @@ class SendMsgToNoticTeaSetFreeTime extends Job implements ShouldQueue
                 ];
                 //点击“详情”，或者老师帮的“个人中心”-“空闲时间”哦
                 # 兼职老师点击
-                $url = 'http://wx-teacher-web.leo1v1.com/course_arrange.html';
+                $url = 'http://wx-teacher.leo1v1.com/wx_teacher_web/course_arrange';
+                // $url = 'http://wx-teacher-web.leo1v1.com/course_arrange.html';
                 $data['remark'] = '点击 "详情"，或者老师帮的 "个人中心"-"空闲时间" 哦';
                 \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id,$data,$url);
                 $t_parent_send_mgs_log->row_insert([

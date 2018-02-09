@@ -196,12 +196,20 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
             return $item['groupid'];
         });
     }
-    public function get_seller_month_money_info($start_first){
+    public function get_seller_month_money_info($start_first,$group_adminid_list=[]){
+        $where_arr = [
+            'u.groupid = mt.groupid',
+        ];
+        $this->where_arr_add_str_field($where_arr, 'mt.month', $start_first);
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr, 'u.adminid', $group_adminid_list);
+        }
         $sql = $this->gen_sql_new("select u.groupid,adminid,month_money ".
-                                  " from %s u,%s mt where u.groupid = mt.groupid and mt.month = '%s'",
+                                  " from %s u,%s mt "
+                                  ."where %s ",
                                   self::DB_TABLE_NAME,
                                   t_admin_group_month_time::DB_TABLE_NAME,
-                                  $start_first
+                                  $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item['adminid'];
