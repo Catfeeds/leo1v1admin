@@ -16,11 +16,9 @@ class test extends Controller
     public function tt() {
         $flow_type = 1;
         $config=\App\Helper\Utils::json_decode_as_array($this->t_flow_config->get_json_data($flow_type));
-        dd($config);
-        $gen_node_type= function( $type ) {
-            $arr=preg_split("/ /", $type);
-            return $arr[0];
-        };
+        $node_map=$this->t_flow_config->gen_node_map($config);
+        dd($config, $node_map);
+
 
         /*
         $this->check_and_switch_tongji_domain();
