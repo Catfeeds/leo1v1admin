@@ -911,6 +911,8 @@ $(function(){
                 }
             }]);
     });
-   
+    $.admin_select_user( $("#id_adminid"), "research_teacher", load_data);
+    $.admin_select_user( $("#id_reload_adminid"), "research_teacher", load_data);
+    $.admin_select_user( $("#id_kpi_adminid"), "research_teacher", load_data);
 });
 

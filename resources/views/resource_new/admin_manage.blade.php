@@ -107,6 +107,24 @@
                         <select class="form-control opt-change" id="id_tag_five"> </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2 hide_class">
+                    <div class="input-group ">
+                        <span >初版讲义上传人</span>
+                        <input type="text" value=""  class="opt-change"  id="id_adminid"  placeholder="" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2 hide_class">
+                    <div class="input-group ">
+                        <span >修改重传负责人</span>
+                        <input type="text" value=""  class="opt-change"  id="id_reload_adminid"  placeholder="" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2 hide_class">
+                    <div class="input-group ">
+                        <span >kpi讲义负责人</span>
+                        <input type="text" value=""  class="opt-change"  id="id_kpi_adminid"  placeholder="" />
+                    </div>
+                </div>
             </div>
             <div>
                 <div class="col-md-2 col-xs-2">
