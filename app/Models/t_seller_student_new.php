@@ -175,6 +175,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                     "seller_add_time"      => time(NULL),
                 ]);
             }
+            \App\Helper\Utils::logger("test_new_log_old=$userid" );
             return $userid;
         }
 
