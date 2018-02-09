@@ -95,7 +95,7 @@
                         <td >合同年级</td>
                         <td width="130px">合同</td>
                         <td >下单人</td>
-                        <td style="display:none;" >下单人中文名</td>
+                        <td style="display:none;" >下单人姓名</td>
                         <td style="display:none;" >合同时间</td>
                         <td style="display:none;" >合同类型</td>
                         <td style="display:none;" >合同总课时</td>
@@ -112,7 +112,7 @@
                         <td >挽单结果</td>
                         <td >申请时间</td>
                         <td >申请人</td>
-                        <td style="display:none;" >申请人中文名</td>
+                        <td style="display:none;" >申请人姓名</td>
                         <td >审批状态</td>
                         <td >审批时间</td>
                         <td >退费状态</td>

@@ -732,7 +732,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
                 ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
                 ." and is_test_user=0 "
-                ." and require_admin_type = 2 and l.lesson_type=2  "
+                ." and require_admin_type = 2 and l.lesson_type=2 and l.lesson_del_flag=0 "
                 ." group by check_value " ,
                 self::DB_TABLE_NAME,
                 t_test_lesson_subject::DB_TABLE_NAME,
@@ -754,7 +754,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
                 ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
                 ." and is_test_user=0 "
-                ." and require_admin_type = 2  and l.lesson_type=2 "
+                ." and require_admin_type = 2  and l.lesson_type=2 and l.lesson_del_flag=0 "
                 //  ." and success_flag in (0,1) "
                 ." and (lesson_user_online_status in (0,1) or f.flow_status = 2)"
                 ." group by check_value " ,
