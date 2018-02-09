@@ -17,6 +17,11 @@ export default class extends vtable {
   set_node_info(id, args ) {
     this.$flow.$nodeData[id] = $.extend({}, this.$flow.$nodeData[id],  args);
   }
+
+  //设置扩展信息
+  set_line_info(id, args ) {
+    this.$flow.$lineData[id] = $.extend({}, this.$flow.$lineData[id],  args);
+  }
   //@desn:获取结点类型
   get_node_type( type) {
     return type.split(" ")[0];
@@ -41,17 +46,18 @@ export default class extends vtable {
 
   //@desn:添加分支后面线操作
   do_branch_line_function_opt( id,info ) {
-    var from_type = this.get_node_type_by_id(info.from);
+    var from_id = info.from;
+    var from_type = this.get_node_type_by_id(from_id);
+    var from_info = this.get_node_info(from_id) ;//获取上个条件类型
+    var flow_function = from_info.flow_function;
     console.log('from_type:',from_type);
-    if(from_type == 'function'){
+    if(from_type == 'function' && flow_function){
 
-      var from_info = this.get_node_info( info.from ) ;//获取上个结点类型
-      console.log('from_info',from_info);
       var  switch_value= info.switch_value? info.switch_value: 0;
       var me = this;
       //获取该分支类型的选项类型
       $.do_ajax("/admin_manage/get_flow_branch_switch_value",  {
-        'flow_function' : from_info.flow_function,
+        'flow_function' : flow_function,
       },function(data){
         //组合select  --begin--
         var select = "<select>";
@@ -71,53 +77,22 @@ export default class extends vtable {
           cssClass: 'btn-warning',
           action: function(dialog) {
             var switch_value=$switch_value.val();
-            var switch_desc = $switch_value.text();
+            var switch_desc = $switch_value.find("option:selected").text();
 
             var args={
               "switch_value" : switch_value,
             }
-            me.set_node_info(id, args );
-            me.flow_set_name( id, "branch_line:" + switch_desc ,"line"  );
+            me.set_line_info(id, args );
+            me.flow_set_name( id, "branch:" + switch_desc ,"line"  );
           }
         },function(){
         });
 
       });
 
+    }else if(!flow_function){
+      alert('请先选择分支类型!');
     }
-
-    // var  flow_function= info.flow_function? info.flow_function: 0;
-    /*
-    if (function_id != 0) {
-      alert("已经有指定了, 只能删除再增加");
-      return;
-    }
-    */
-
-    // var me=this;
-
-    // var $flow_function=$("<select/>");
-    // Enum_map.append_option_list("flow_function", $flow_function, true );
-    // $flow_function.val( flow_function);
-
-    // var arr=[
-    //   ["分支函数" , $flow_function ],
-    // ];
-
-    // $.show_key_value_table("设置", arr ,{
-    //   label: '确认',
-    //   cssClass: 'btn-warning',
-    //   action: function(dialog) {
-    //     var flow_function=$flow_function.val();
-
-    //     var args={
-    //       "flow_function" : flow_function,
-    //     }
-    //     me.set_node_info(id, args );
-    //     me.flow_set_name( id, "分支:" +  Enum_map.get_desc("flow_function",flow_function) ,"node"  );
-    //   }
-    // },function(){
-    // });
 
 
   }
@@ -172,7 +147,8 @@ export default class extends vtable {
     var me=this;
 
     var $flow_function=$("<select/>");
-    Enum_map.append_option_list("flow_function", $flow_function, true );
+    Enum_map.append_option_list("flow_function", $flow_function, true, me.$data.flow_function_list );
+
     $flow_function.val( flow_function);
 
     var arr=[
@@ -235,11 +211,13 @@ export default class extends vtable {
     var me=this;
 
     var $admin=$("<input/>");
+    var flow_title=$("<input/>");
     var adminid= info.adminid? info.adminid: 0;
     $admin.val(adminid);
 
     var arr=[
       ["管理员" , $admin  ],
+      ["审批类型" , flow_title  ],
     ];
 
     $.show_key_value_table("指定人审批", arr ,{
@@ -247,12 +225,13 @@ export default class extends vtable {
       cssClass: 'btn-warning',
       action: function(dialog) {
         var adminid=$admin.val();
+        var flow_title_val = flow_title.val();
         var args={
           "adminid" : adminid,
         }
         me.set_node_info(id, args );
         $.do_ajax_get_nick( "account", adminid, function(_id, nick){
-          me. flow_set_name( id, "审批:"+nick ,"node"  );
+          me. flow_set_name( id, flow_title_val+":"+nick ,"node"  );
         });
       }
     },function(){
@@ -422,7 +401,10 @@ export default class extends vtable {
 
     //@desn:保存审批信息
     jquery_body.find(".do-save").on( "click" ,function(e) {
-      var json_data= JSON.stringify(me.$flow.exportData());
+      var data=me.$flow.exportData();
+      var json_data= JSON.stringify(data);
+      console.log ( data);
+
       $.do_ajax("/admin_manage/flow_save",  {
         flow_type : me.get_args().flow_type,
         json_data:  json_data,
