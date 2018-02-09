@@ -1533,4 +1533,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }
         return $this->main_get_row($sql);
     }
+
+    //获取老师最近一次通过的模拟试听记录id
+    public function get_late_trial_train_record_id($teacherid,$type,$lesson_style,$trial_train_status){
+        
+    }
 }
