@@ -602,14 +602,16 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     }
 
-    public function tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
+    public function tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$group_adminid_list=[]){
         $where_arr=[
             "require_admin_type=2",
             "is_test_user=0",
         ];
         $this->where_arr_add_time_range($where_arr,"require_time",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
-
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr, 'cur_require_adminid', $group_adminid_list);
+        }
         $sql=$this->gen_sql_new(
             "select cur_require_adminid as  admin_revisiterid  ,count(*)  as require_test_count "
             ." from %s tr "
@@ -1004,7 +1006,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list_as_page($sql);
     }
 
-    public function tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
+    public function tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time,$grade_list=[-1],$origin_ex="",$group_adminid_list=[]) {
         $where_arr=[
             "is_test_user=0",
             "tss.success_flag < 2",
@@ -1016,6 +1018,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr, 'cur_require_adminid', $group_adminid_list);
+        }
 
         $sql=$this->gen_sql_new(
             "select  cur_require_adminid as admin_revisiterid, count(*) as test_lesson_count,   sum( test_lesson_fail_flag in (1,2,3) ) as fail_need_pay_count  "

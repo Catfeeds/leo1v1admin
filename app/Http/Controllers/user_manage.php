@@ -3495,6 +3495,8 @@ class user_manage extends Controller
             $nick=$this->cache_get_seller_nick($id);
         }else if (  $type=="account" ){
             $nick=$this->cache_get_account_nick($id);
+        }else{
+            $nick = '';
         }
         return $this->output_succ([ 'nick' => $nick]);
     }
