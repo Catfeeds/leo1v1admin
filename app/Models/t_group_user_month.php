@@ -147,4 +147,17 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
         return $this->main_update($sql);
     }
 
+    public function get_son_adminid_by_up_groupid($month,$self_groupid){
+        $where = [];
+        $this->where_arr_add_int_field($where_arr, 'month', $month);
+        $this->where_arr_add_int_field($where_arr, 'groupid', $self_groupid);
+        $sql = $this->gen_sql_new(
+            " select groupid,adminid "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$self_groupid
+        );
+        return $this->main_get_list($sql);
+    }
 }

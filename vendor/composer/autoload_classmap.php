@@ -675,6 +675,7 @@ return array(
     'TDealPptToH5AddTitle' => $baseDir . '/database/migrations/2018_02_07_143635_t_deal_ppt_to_h5_add_title.php',
     'TFestivalInfoAddBeginTime' => $baseDir . '/database/migrations/2017_11_23_175242_t_festival_info_add_begin_time.php',
     'TFlowConfigEx' => $baseDir . '/database/migrations/2018_02_08_141519_t_flow_config_ex.php',
+    'TFlowConfigLinkMap' => $baseDir . '/database/migrations/2018_02_09_110115_t_flow_config_link_map.php',
     'TFlowNodeAddEx' => $baseDir . '/database/migrations/2017_11_21_114203_t_flow_node_add_ex.php',
     'TFulltimeTeacherAttendanceListAddAttendanceTimeIndex' => $baseDir . '/database/migrations/2017_12_06_151216_t_fulltime_teacher_attendance_list_add_attendance_time_index.php',
     'TFulltimeTeacherAttendanceListAddCardStartTime' => $baseDir . '/database/migrations/2017_12_06_110249_t_fulltime_teacher_attendance_list_add_card_start_time.php',

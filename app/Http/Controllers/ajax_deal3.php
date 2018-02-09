@@ -249,14 +249,14 @@ class ajax_deal3 extends Controller
                 $list["check_flag"]="否";
             }
             if($list["stu_check_time"]>0){
-                $list["stu_check_flag"]="已查看"; 
+                $list["stu_check_flag"]="已查看";
             }else{
-                $list["stu_check_flag"]="未查看"; 
+                $list["stu_check_flag"]="未查看";
             }
             if($list["download_time"]>0){
-                $list["download_flag"]="已下载"; 
+                $list["download_flag"]="已下载";
             }else{
-                $list["download_flag"]="未下载"; 
+                $list["download_flag"]="未下载";
             }
 
 
@@ -299,7 +299,7 @@ class ajax_deal3 extends Controller
                 "userid_list"           =>@$userid_list[$adminid],
                 "end_stu_num"           =>@$end_stu_info_new[$adminid]["num"],
                 "stop_student_list"       =>@$stop_userid_list[$adminid],
-                "registered_student_list" =>@$registered_userid_list[$adminid],               
+                "registered_student_list" =>@$registered_userid_list[$adminid],
                 "all_student"             =>@$stu_info_all[$adminid]["all_count"]
             ];
         }elseif($type==2){
@@ -882,7 +882,7 @@ class ajax_deal3 extends Controller
         $time = strtotime($this->get_in_str_val("time"));
         $call_flag = $this->get_in_int_val("call_flag");
         $type = $this->get_in_int_val("type");
-        if($type==1){         
+        if($type==1){
             $this->t_revisit_info->field_update_list_2($userid,$revisit_time,[
                 "revisit_time"  =>$time
             ]);
@@ -915,11 +915,11 @@ class ajax_deal3 extends Controller
         }
         $url =  $domain."/".$callcard_url;
         $this->t_teacher_info->field_update_list($teacherid,[
-            "callcard_url"=>$url 
+            "callcard_url"=>$url
         ]);
         return $this->output_succ();
 
- 
+
     }
 
     //新增测试助教(薪资)
@@ -936,19 +936,19 @@ class ajax_deal3 extends Controller
             $update_arr["kpi_type"]   =1;
             $this->t_month_ass_student_info->row_insert($update_arr);
             $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid(-1,$uid);
-           
-            if(!$db_groupid){            
+
+            if(!$db_groupid){
                 $this->t_admin_group_user->row_insert([
                     "groupid"   => 38,
                     "adminid"   => $uid,
                 ]);
             }
             return $this->output_succ();
-            
+
         }
         return $this->output_succ();
 
-        
+
 
     }
 
@@ -957,7 +957,7 @@ class ajax_deal3 extends Controller
         $lessonid_list    = $this->get_in_str_val("lessonid_list");
         $list = json_decode($lessonid_list,true);
         foreach($list as $val){
-            $lessonid = $val;           
+            $lessonid = $val;
             $ret = $this->t_lesson_info_b2->cancel_lesson_no_start($lessonid);
             if($ret){
                 $this->add_cancel_lesson_operate_info($lessonid);
@@ -975,7 +975,7 @@ class ajax_deal3 extends Controller
         $log = $this->t_ass_group_target->get_change_log($month);
         $list = json_decode($log,true);
         if($list){
-            \App\Helper\Utils::order_list( $list,"time", 0); 
+            \App\Helper\Utils::order_list( $list,"time", 0);
             foreach($list as &$item){
                 $item["time_str"] = date("Y-m-d H:i:s",$item["time"]);
                 $item["old_str"] = "系数:".$item["old"]["rate_target"].",助教月续费目标:".($item["old"]["renew_target"]/100).",团队月续费目标".($item["old"]["group_renew_target"]/100).",总体月续费目标:".($item["old"]["all_renew_target"]/100);
@@ -984,6 +984,44 @@ class ajax_deal3 extends Controller
         }
         return $this->output_succ(["data" => $list]);
 
+    }
+
+    # 标记号码是否有效
+    # 确认流程 CC=>TMK=>QC
+    public function sign_phone(){
+        $userid  = $this->get_in_int_val('userid');
+        $adminid = $this->get_in_int_val('adminid');
+        $account_type = $this->get_in_int_val('type');
+        $confirm_type = $this->get_in_int_val('confirm_type');
+        $qc_mark = $this->get_in_str_val('mark');
+        # account_type:1:CC 2:TMK 3:QC
+        if($account_type == 2){
+            $set_field_arr=[
+                "tmk_confirm_time" => time(),
+                "tmk_adminid"      => $this->get_account_id(),
+                "tmk_confirm_type" => $confirm_type
+            ];
+        }elseif($account_type == 3){
+            $set_field_arr=[
+                "qc_confirm_time" => time(),
+                "qc_adminid"      => $this->get_account_id(),
+                "qc_confirm_type" => $confirm_type,
+                "qc_mark"         => $qc_mark
+            ];
+        }
+
+        $id = $this->t_invalid_num_confirm->checkHas($userid);
+        if($id>0){
+            $this->t_invalid_num_confirm->field_update_list($id, $set_field_arr);
+        }else{
+            $this->t_invalid_num_confirm->row_insert([
+                "userid"          => $userid,
+                "cc_adminid"      => $this->get_account_id(),
+                "cc_confirm_time" => time(),
+                "cc_confirm_type" => $confirm_type
+            ]);
+        }
+        return $this->output_succ();
     }
 
 }
