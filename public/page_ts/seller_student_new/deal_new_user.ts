@@ -605,81 +605,81 @@ $(function(){
     }
 
     // james
-    $("#id_get_new").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        if(g_args.hasCalledNum < 3 && g_args.ccNoCalledNum>0){
-            alert("请先提交未拨通电话标注后才能继续抢新");
-            return ;
-        }
-        $.do_ajax_t("/ajax_deal3/checkHasSign", {
-            "userid"  : opt_data.userid,
-            "adminid" : g_adminid
-        },function(ret){
-            var is_sign = ret.is_sign;
+    // $("#id_get_new").on("click",function(){
+    //     var opt_data=$(this).get_opt_data();
+    //     if(g_args.hasCalledNum < 3 && g_args.ccNoCalledNum>0){
+    //         alert("请先提交未拨通电话标注后才能继续抢新");
+    //         return ;
+    //     }
+    //     $.do_ajax_t("/ajax_deal3/checkHasSign", {
+    //         "userid"  : opt_data.userid,
+    //         "adminid" : g_adminid
+    //     },function(ret){
+    //         var is_sign = ret.is_sign;
 
-            if(!is_sign && g_args.hasCalledNum>3 && g_args.ccNoCalledNum>0){
-                $('.bs-example-modal-sm').modal('toggle');
-                return;
-            }else{
-                $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
-                    if (resp.ret==0 ) {
-                        var phone=resp.phone;
+    //         if(!is_sign && g_args.hasCalledNum>3 && g_args.ccNoCalledNum>0){
+    //             $('.bs-example-modal-sm').modal('toggle');
+    //             return;
+    //         }else{
+    //             $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
+    //                 if (resp.ret==0 ) {
+    //                     var phone=resp.phone;
 
-                        try{
-                            window.navigate(
-                                "app:1234567@"+phone+"");
-                        } catch(e){
+    //                     try{
+    //                         window.navigate(
+    //                             "app:1234567@"+phone+"");
+    //                     } catch(e){
 
-                        };
-                        $.do_ajax_t("/ss_deal/call_ytx_phone", {
-                            "phone": phone
-                        } );
-                        $.reload();
+    //                     };
+    //                     $.do_ajax_t("/ss_deal/call_ytx_phone", {
+    //                         "phone": phone
+    //                     } );
+    //                     $.reload();
 
-                    }else{
-                        alert(resp.info);
-                        if(resp.userid){
-                            var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
-                            window.location.href = url;
-                        }
-                    }
-                });
-            }
+    //                 }else{
+    //                     alert(resp.info);
+    //                     if(resp.userid){
+    //                         var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
+    //                         window.location.href = url;
+    //                     }
+    //                 }
+    //             });
+    //         }
 
-        } );
+    //     } );
 
 
-    });
+    // });
 
 
     // 备份
-    // $("#id_get_new").on("click",function(){
+    $("#id_get_new").on("click",function(){
 
-    //     $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
-    //         if (resp.ret==0 ) {
-    //             var phone=resp.phone;
+        $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
+            if (resp.ret==0 ) {
+                var phone=resp.phone;
 
-    //             try{
-    //                 window.navigate(
-    //                     "app:1234567@"+phone+"");
-    //             } catch(e){
+                try{
+                    window.navigate(
+                        "app:1234567@"+phone+"");
+                } catch(e){
 
-    //             };
-    //             $.do_ajax_t("/ss_deal/call_ytx_phone", {
-    //                 "phone": phone
-    //             } );
-    //             $.reload();
+                };
+                $.do_ajax_t("/ss_deal/call_ytx_phone", {
+                    "phone": phone
+                } );
+                $.reload();
 
-    //         }else{
-    //             alert(resp.info);
-    //             if(resp.userid){
-    //                 var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
-    //                 window.location.href = url;
-    //             }
-    //         }
-    //     });
+            }else{
+                alert(resp.info);
+                if(resp.userid){
+                    var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
+                    window.location.href = url;
+                }
+            }
+        });
 
-    // });
+    });
 
 
 
