@@ -303,6 +303,30 @@ class common_ex extends Controller
         }
     }
 
-
+    public function get_group_adminid_list($adminid=0){
+        $adminid = $adminid>0?$adminid:$this->get_account_id();
+        $majordomo_groupid=$this->t_admin_majordomo_group_name->is_master($adminid);
+        $admin_main_groupid=$this->t_admin_main_group_name->is_master($adminid);
+        $self_groupid=$this->t_admin_group_name->is_master($adminid);
+        //主管查看下级例子
+        $admin_revisiterid_list = [];
+        $son_adminid = [];
+        $son_adminid_arr = [];
+        if($majordomo_groupid>0){//总监
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid_by_up_groupid($majordomo_groupid);
+        }elseif($admin_main_groupid>0){//经理
+            $son_adminid = $this->t_admin_group_name->get_son_adminid_by_up_groupid($admin_main_groupid);
+        }elseif($self_groupid>0){//组长
+            $son_adminid = $this->t_admin_group_user->get_son_adminid_by_up_groupid($self_groupid);
+        }
+        foreach($son_adminid as $item){
+            if($item['adminid']>0){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+        }
+        array_unshift($son_adminid_arr,$this->get_account_id());
+        $admin_revisiterid_list = array_unique($son_adminid_arr);
+        return $admin_revisiterid_list;
+    }
 
 }

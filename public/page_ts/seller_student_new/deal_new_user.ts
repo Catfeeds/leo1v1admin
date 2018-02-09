@@ -603,7 +603,6 @@ $(function(){
             }else{
                 alert(resp.info);
                 if(resp.userid){
-                    // var url = "http://admin.leo1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid="+resp.userid;
                     var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
                     window.location.href = url;
                 }
