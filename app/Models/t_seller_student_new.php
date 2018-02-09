@@ -175,7 +175,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                     "seller_add_time"      => time(NULL),
                 ]);
             }
-            \App\Helper\Utils::logger("test_new_log_old=$userid" );
+            if($data_item && ($tmk_student_status<3 || $orderid>0)){
+                $this->check_seller_student($userid,$tmk_student_status,$orderid);
+            }
             return $userid;
         }
 
@@ -313,9 +315,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             );
             $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
         }
-        if($data_item && ($tmk_student_status<3 || $orderid>0)){
-            $this->check_seller_student($userid,$tmk_student_status,$orderid);
-        }
+        
         return $userid;
     }
 
