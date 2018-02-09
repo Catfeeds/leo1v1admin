@@ -83,7 +83,7 @@ export default class extends vtable {
               "switch_value" : switch_value,
             }
             me.set_line_info(id, args );
-            me.flow_set_name( id, "branch:" + switch_desc ,"line"  );
+            me.flow_set_name( id, switch_desc ,"line"  );
           }
         },function(){
         });
