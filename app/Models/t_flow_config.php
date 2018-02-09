@@ -76,7 +76,29 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
 
     // return [ $node_type, $adminid, $auto_pass ]
     public function get_next_node($flow_type,$node_type, $flow_info, $self_info , $adminid ) {
+        $node_map=\App\Helper\Utils::json_decode_as_array( $this->get_node_map($flow_type) );
+        $cur_node=$node_map[$node_type];
+        $next_node_list=$cur_node["next_node_list"];
+        foreach ($next_node_list as $node_info ) {
+            $id=$node_info["id"];
+            $type= $node_info["type"];
+            $check_node=$node_map[$id];
+            if ($type =="admin") { //设置给某人
+                return [  $id, $node_info["adminid"], false];
+            }else if ($type =="uplevel_admin") {//上级
+                $uplevel_adminid= $this->get_uplevel_adminid($adminid);
+                return [  $id, $uplevel_adminid  , false];
+            }else if ($type =="end") {
+                return  null;
+            }else if ($type =="function" ){
+                $flow_function= $node_info["flow_function"];
+
+            }
+        }
 
     }
 
+    public function get_uplevel_adminid ( $adminid ) {
+        return 0;
+    }
 }
