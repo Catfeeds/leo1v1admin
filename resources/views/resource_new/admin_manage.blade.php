@@ -199,6 +199,7 @@
                        @else
                        无
                        @endif
+                      
                        <a class="fa  opt-re-status" data-type="1" data-file_id="{{@$var['file_id']}}" data-resource_id="{{@$var['resource_id']}}"title="{{@$var['reload_status_string']}}">{{@$var['reload_status_str']}}</a>
                        <a class="fa  opt-re-edit"  data-type="1" title="审批">审批</a>
                         </td>
