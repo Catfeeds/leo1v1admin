@@ -8,7 +8,7 @@ function next_node_process_end( $adminid,$flow_id ) {
 }
 
 class flow_base{
-    
+
 
     /**
      * @return \App\Console\Tasks\TaskController
@@ -19,6 +19,12 @@ class flow_base{
     static function get_adminid_by_account($account) {
         $task=static::get_task_controler();
         return $task->t_manager_info->get_adminid_by_account($account);
+    }
+
+    static function set_node_map () {
+        $task=static::get_task_controler();
+        static::$node_map=\App\Helper\Utils::json_decode_as_array( $task->t_flow_config->get_node_map(static::$type ) );
+
     }
 
     static function get_node_name( $node_type ) {
@@ -84,8 +90,7 @@ class flow_base{
         list($flow_info,$self_info)=static::get_info($flowid);
 
         $flow_type= static::$type;
-        $node_map=\App\Helper\Utils::json_decode_as_array( $task->t_flow_config->get_node_map($flow_type) );
-        return $task->t_flow_config->get_next_node( $node_map,$flow_type,$node_type, $flow_info, $self_info , $adminid );
+        return $task->t_flow_config->get_next_node($flow_type,$node_type, $flow_info, $self_info , $adminid );
 
     }
 
@@ -163,7 +168,7 @@ class flow_base{
 
     static function do_function( $flow_function, $flow_type,$node_type, $flow_info, $self_info , $adminid   ) {
         $flow_class  = \App\Flow\flow::get_flow_class($flow_type);
-        $function_name=E\Eflow_function::v2s($flow_type );
+        $function_name=E\Eflow_function::v2s($flow_function );
         $switch_value= $flow_class::$function_name( $flow_info, $self_info , $adminid );
         return $switch_value;
     }
