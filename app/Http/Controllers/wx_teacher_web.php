@@ -25,6 +25,11 @@ class wx_teacher_web extends Controller
             $url = "http://wx-teacher-web.leo1v1.com/tea.html?reference";
             header("Location: $url");
             return ;
+        }elseif($action == 'jack_test'){
+            $url = "http://www.baidu.com";
+            header("Location: $url");
+            return ;
+
         }
 
         if (session("login_user_role")==2 && session("login_userid")) {
@@ -62,6 +67,7 @@ class wx_teacher_web extends Controller
     public function complaint() {}
     public function honor_rank() {}
     public function index (){}
+    public function jack_test (){}
     public function teacher_day(){
         $url = "http://wx-teacher-web.leo1v1.com/teacher_day/index.html";
         header("Location: $url");

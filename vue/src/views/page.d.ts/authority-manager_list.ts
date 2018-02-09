@@ -180,6 +180,7 @@ export default class extends vtable {
 		"enum_type"    : "boolean",
 		"field_name" : "has_question_user",
 "title" : "has_question_user",
+"select_value" : this.get_args().has_question_user,
 		"multi_select_flag"     : false ,
 		"btn_id_config"     : {},
 	});
