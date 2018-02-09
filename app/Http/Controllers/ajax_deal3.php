@@ -1021,7 +1021,28 @@ class ajax_deal3 extends Controller
                 "cc_confirm_type" => $confirm_type
             ]);
         }
+
+        # 进入tmk库
+        # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
+        if($account_type == 1){
+            $hasSignNum = $this->t_invalid_num_confirm->getHasSignNum($userid);
+            if($confirm_type == 1001 && $hasSignNum == 3){
+                $this->t_seller_student_new->field_update_list($userid, [
+                    'tmk_student_status' => 2
+                ]);
+            }
+        }
+
         return $this->output_succ();
+    }
+
+    # 检查是否提交
+    public function checkHasSign(){
+        $userid  = $this->get_in_int_val('userid');
+        $adminid = $this->get_in_int_val('adminid');
+
+        $is_sign = $this->t_invalid_num_confirm->checkHasSign($userid,$adminid);
+        return $this->output_succ(['is_sign'=>1]);
     }
 
 }

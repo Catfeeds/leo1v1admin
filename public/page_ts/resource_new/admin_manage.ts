@@ -609,6 +609,7 @@ $(function(){
 
 
     $(".opt-re-status").click(function(){
+
     	var type = $(this).data('type');
     	var file_id = $(this).data('file_id');
     	var resource_id = $(this).data('resource_id');
@@ -627,8 +628,99 @@ $(function(){
         });
     });
 
+    $(".opt-redo").click(function(){
+        var type = $(this).data('type');
+        var file_id = $(this).data('file_id');
+        var resource_id = $(this).data('resource_id');
+        BootstrapDialog.confirm("确定取消此申请吗?",function(val){
+            if(val){
+                $.do_ajax( '/resource_new/cancel_change_adminid',{
+                   "type"           : type,
+                   "file_id"        : file_id,
+                   "resource_id"    : resource_id,
+                });
+            }
+        });
+        
+    });
 
-  
+
+    $(".opt-re-edit").on("click", function(){
+        var type = $(this).data('type');
+        var file_id = $(this).data('file_id');
+        var resource_id = $(this).data('resource_id');
+        alert(2);
+        $.do_ajax( '/resource_new/get_record_info',{
+           "type"           : type,
+           "file_id"        : file_id,
+           "resource_id"    : resource_id,
+        },function(){
+            
+            var arr=[
+                ["姓名",  opt_data.realname ],
+                ["电话",  opt_data.phone ],
+                ["临时密码", id_tmp_passwd ],
+            ];
+            $.show_key_value_table("临时密码", arr ,{
+                label: '确认',
+                cssClass: 'btn-warning',
+                action : function(dialog) {
+                $.ajax({
+                  type     :"post",
+                  url      :"/user_manage/set_dynamic_passwd",
+                  dataType :"json",
+                  data     :{
+                            "phone"  : opt_data.phone,
+                            "passwd" : id_tmp_passwd.val(),
+                            "role"   : 2
+                        },
+                        success : function(result){
+                            BootstrapDialog.alert(result['info']);
+                            window.location.reload();
+                  }
+                    });
+                }
+            });
+        });
+    });
+
+    $('#id_set_cc_adminid').on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var select_userid_list = [];
+        var num = 0;
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            if($item.iCheckValue()) {
+                select_userid_list.push( $item.data("userid") ) ;
+                num = num + 1;
+            }
+        }) ;
+        if(num == 0){
+            BootstrapDialog.alert("请选择至少一个例子");
+            return;
+        }
+        BootstrapDialog.confirm("共计"+num+"条记录",function(val){
+                if(val){
+                    var do_post= function (opt_adminid) {
+                        $.do_ajax(
+                            '/cc_manage/set_adminid',
+                            {
+                                'userid_list' : JSON.stringify(select_userid_list ),
+                                "opt_adminid" : opt_adminid,
+                            });
+                    }
+
+                    $.admin_select_user (
+                        $('#id_set_select_list'),
+                        "admin_group_master", function(val){
+                            do_post( val);
+                        } ,true, {"main_type": 2 }   );
+
+                }
+        });
+
+    });
+
    
 
    

@@ -111,7 +111,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_resource_type = 0;
         $tmk_student_status   = 0;
         $orderid              = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid" );
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid" );
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
@@ -173,6 +173,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                     "add_time"             => time(NULL),
                     "seller_add_time"      => time(NULL),
                 ]);
+            }
+            if($data_item && ($tmk_student_status<3 || $orderid>0)){
+                $this->check_seller_student($userid,$tmk_student_status,$orderid,$phone,$data_item['tmk_student_status_adminid']);
             }
             return $userid;
         }
@@ -311,27 +314,32 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             );
             $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
         }
-        if($data_item && ($tmk_student_status<3 || $orderid>0)){
-            $this->check_seller_student($userid,$tmk_student_status,$orderid);
-        }
         return $userid;
     }
 
-    public function check_seller_student($userid,$tmk_student_status,$orderid){
-        if(in_array($tmk_student_status,[0,2])){//释放
-            $this->set_seller_student_new($userid);
-        }else{
-            if($orderid>0){
-                $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
-                if($contract_status>1){//释放
-                    $this->set_seller_student_new($userid);
-                }else{
-                    if($contract_status == 1){//推送助教
-                    }else{//推送cc
-                    }
+    public function check_seller_student($userid,$tmk_student_status,$orderid,$phone,$tmk_adminid){
+        if($orderid>0){
+            $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
+            if($contract_status>1){//释放
+                $this->set_seller_student_new($userid);
+            }else{
+                if($contract_status == 1){//推送,有助教推助教,没助教推cc
+                    $assistantid = $this->task->t_student_info->field_get_value($userid, 'assistantid');
+                    $account_send = $assistantid>0?$this->task->cache_get_account_nick($assistantid):$this->task->t_order_info->field_get_value($orderid, 'sys_operator');
+                    $this->task->t_manager_info->send_wx_todo_msg($account='林文彬',"来自:系统","已签约[执行中]例子重进:".$phone.",当前负责人:".$account_send);
+                }else{//推送cc
+                    $contract_status_desc = E\Econtract_status::get_desc($contract_status);
+                    $account_send = $this->task->t_order_info->field_get_value($orderid, 'sys_operator');
+                    $this->task->t_manager_info->send_wx_todo_msg($account='林文彬',"来自:系统","已签约[".$contract_status_desc."]例子重进:".$phone.",销售:".$account_send);
                 }
+            }
+        }else{
+            if(in_array($tmk_student_status,[0,2])){//释放
+                $this->set_seller_student_new($userid);
             }else{
                 if($tmk_student_status == 1){//推送tmk
+                    $account_send = $this->task->cache_get_account_nick($tmk_adminid);
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","tmk标记[待定]状态例子重进:".$phone);
                 }
             }
         }

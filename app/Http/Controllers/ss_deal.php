@@ -4637,12 +4637,16 @@ class ss_deal extends Controller
                 "first_tmk_set_valid_admind"=>$adminid,
                 "first_tmk_set_valid_time"=>time(null),
                 "cc_no_called_count"=>0,
+                "tmk_student_status_adminid"=>$adminid,
+                "tmk_student_status_time"=>time(null),
             ]);
         }elseif($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_2){//tmk无效
             $this->t_seller_student_new->field_update_list($userid,[
                 "tmk_student_status"=>$tmk_student_status,
                 "tmk_next_revisit_time"=>$tmk_next_revisit_time,
                 "tmk_desc"=>$tmk_desc,
+                "tmk_student_status_adminid"=>$adminid,
+                "tmk_student_status_time"=>time(null),
             ]);
             $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
                 "seller_student_status"=>E\Eseller_student_status::V_50,
@@ -4652,6 +4656,8 @@ class ss_deal extends Controller
                 "tmk_student_status"=>$tmk_student_status,
                 "tmk_next_revisit_time"=>$tmk_next_revisit_time,
                 "tmk_desc"=>$tmk_desc,
+                "tmk_student_status_adminid"=>$adminid,
+                "tmk_student_status_time"=>time(null),
             ]);
         }
 
