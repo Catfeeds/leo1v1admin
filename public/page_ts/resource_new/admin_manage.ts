@@ -613,7 +613,7 @@ $(function(){
     	var file_id = $(this).data('file_id');
     	var resource_id = $(this).data('resource_id');
         $(this).admin_select_user({
-            "show_select_flag":true,
+            "show_select_flag":false,
             "type":"research_teacher",
             "onChange":function(val){
             	var id = val;
