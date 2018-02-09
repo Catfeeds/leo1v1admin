@@ -38,5 +38,6 @@ class TResourceChangeRecord extends Migration
     public function down()
     {
         //
+
     }
 }

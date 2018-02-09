@@ -1295,16 +1295,16 @@ class Common {
         return $list;
     }
 
-    static function gen_admin_member_data_new($old_list,$no_need_sum_list=[],$monthtime_flag=1,$month=0)
+    static function gen_admin_member_data_new($old_list,$no_need_sum_list=[],$monthtime_flag=1,$month=0,$group_adminid_list=[])
     {
         /**  @var  $t_manager_info \App\Models\t_manager_info  */
         $t_manager_info=new  \App\Models\t_manager_info ();
         $task=new \App\Console\Tasks\TongjiTask() ;
         if($monthtime_flag==1 || strtotime( date("Y-m-01")) == $month ){//非历史组织架构
             // $admin_list = $t_manager_info->get_admin_member_list();
-            $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
+            $admin_list = $t_manager_info->get_admin_member_list_tmp($month=-1,$main_type=-1,$adminid=-1,$group_adminid_list); // test
         }else{//月组织架构
-            $admin_list = $t_manager_info->get_admin_member_list_new($month);
+            $admin_list = $t_manager_info->get_admin_member_list_new($month,$main_type = -1,$adminid=-1,$group_adminid_list);
         }
 
         $admin_list=$admin_list["list"] ;

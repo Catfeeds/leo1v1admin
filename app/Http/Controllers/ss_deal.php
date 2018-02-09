@@ -4614,7 +4614,7 @@ class ss_deal extends Controller
                 "system"
             );
 
-            if ($tmk_student_status==E\Etmk_student_status::V_3 ) { //
+            if ($tmk_student_status==E\Etmk_student_status::V_3) { //
                 $this->t_test_lesson_subject->set_seller_student_status($test_lesson_subject_id,0, $this->get_account());
                 $this->t_seller_student_new->field_update_list($userid,[
                     "seller_resource_type"=>E\Eseller_resource_type::V_0,
@@ -4639,6 +4639,11 @@ class ss_deal extends Controller
                 "cc_no_called_count"=>0,
             ]);
         }elseif($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_2){//tmk无效
+            $this->t_seller_student_new->field_update_list($userid,[
+                "tmk_student_status"=>$tmk_student_status,
+                "tmk_next_revisit_time"=>$tmk_next_revisit_time,
+                "tmk_desc"=>$tmk_desc,
+            ]);
             $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
                 "seller_student_status"=>E\Eseller_student_status::V_50,
             ]);

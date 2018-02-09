@@ -3476,6 +3476,23 @@ class user_manage extends Controller
     }
 
 
+    public function get_nick (){
+        $type = $this->get_in_str_val("type","teacher");
+        $id   = $this->get_in_int_val("id",0);
+        if ($type=="teacher"){
+            $nick=$this->cache_get_teacher_nick($id);
+        }else if (  $type=="assistant" ){
+            $nick=$this->cache_get_assistant_nick($id);
+        }else if (  $type=="student"  ){
+            $nick=$this->cache_get_student_nick($id);
+        }else if (  $type=="seller" ){
+            $nick=$this->cache_get_seller_nick($id);
+        }else if (  $type=="account" ){
+            $nick=$this->cache_get_account_nick($id);
+        }
+        return $this->output_succ([ 'nick' => $nick]);
+    }
+
 
 
 }

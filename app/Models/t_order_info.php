@@ -659,13 +659,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         return $this->main_get_row($sql);
     }
-    public function  get_admin_list($start_time ,$end_time , $account_role=-1)  {
+    public function  get_admin_list($start_time ,$end_time , $account_role=-1,$group_adminid_list=[])  {
         $where_arr=[
             ["account_role=%u", $account_role, -1],
             "is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
-
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr,'m.uid',$group_adminid_list);
+        }
         $sql=$this->gen_sql_new(
             [
                 "select distinct m.uid  as adminid from %s o ",

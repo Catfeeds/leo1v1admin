@@ -76,6 +76,18 @@ class flow_base{
         return $ret;
     }
 
+    // return [ $node_type, $adminid, $auto_pass ]
+    static function get_next_node_info_new($node_type, $flowid, $adminid ) {
+        $task= $this->get_task_controler();
+        list($flow_info,$self_info)=static::get_info($flowid);
+        $task->t_flow_config->get_next_node(static::$type,$node_type, $flow_info, $self_info , $adminid );
+
+        // return [ $node_type, $adminid, $auto_pass ]
+        return $ret;
+    }
+
+
+
 
     static function call_do_succ_end($flowid) {
         $flow_info = static::get_flow_info($flowid);

@@ -22,6 +22,38 @@ class t_flow extends \App\Models\Zgen\z_t_flow
         return $this->main_get_value($sql );
     }
 
+
+    public function add_flow_new( $flow_type, $adminid, $msg, $from_key_int, $from_key_str=NULL ,  $from_key2_int=0 )  {
+        if ($this->check_flow_int(  $flow_type, $from_key_int, $from_key2_int  ) ) {
+            \App\Helper\Utils::logger("find !!");
+            return false;
+        }
+        $this->row_insert([
+            'flow_type'        => $flow_type,
+            'post_adminid'     => $adminid,
+            'post_time'        => time(NULL),
+            'from_key_int'     => $from_key_int,
+            'from_key_str'     => $from_key_str,
+            'from_key2_int'    => $from_key2_int,
+            'post_msg'         => $msg,
+            'flow_status'      => E\Eflow_status::V_START ,
+            'flow_status_time' => time(NULL),
+        ],false,false,true);
+        $flowid= $this->get_last_insertid();
+        //init t_flow_node
+        /**  @var  $flow_class    \App\Flow\flow_qingjia  */
+        $flow_class= \App\Flow\flow::get_flow_class($flow_type );
+        $init_node_type=0;
+        list($next_node_type, $next_adminid)=$flow_class::get_next_node_info($init_node_type, $flowid, $adminid   );
+        \App\Helper\Utils::logger(" next_node_type :". json_encode($next_node_type));
+
+        if (!$next_adminid) {
+            return false;
+        }
+        $this->t_flow_node->add_node($next_node_type,$flowid,$next_adminid);
+        return true;
+    }
+
     public function add_flow( $flow_type, $adminid, $msg, $from_key_int, $from_key_str=NULL ,  $from_key2_int=0 )  {
         if ($this->check_flow_int(  $flow_type, $from_key_int, $from_key2_int  ) ) {
             \App\Helper\Utils::logger("find !!");

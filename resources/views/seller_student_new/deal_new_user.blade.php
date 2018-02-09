@@ -51,8 +51,8 @@
                      <button type="button" id="id_tip_no_call"  class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="至少拨打3次，并未拨通填写!">未拨通电话标注
                      </button>
                      </div>
-                     </div>
-                -->
+                     </div> -->
+
                 <!-- 此处为模态框-->
                 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                     <div class="modal-dialog modal-sm" role="document">
@@ -449,7 +449,7 @@
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp学员姓名：</span>
                             <input type="text" class=" form-control "  id="id_stu_nick"  />
-                            
+
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-3 ">
@@ -499,7 +499,7 @@
                     </div>
 
 
-                    
+
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp上课设备：</span>
@@ -688,7 +688,7 @@
             </div>
 
             <div class="col-xs-12 col-md-3  ">
-                <div class="row">                  
+                <div class="row">
                     <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp上课意向：</span>

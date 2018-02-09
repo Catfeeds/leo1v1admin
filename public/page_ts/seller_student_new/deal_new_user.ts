@@ -8,33 +8,35 @@ $(function(){
     }
 
     // 处理标记空号功能 [james]
-    var hasCalledNum = g_args.hasCalledNum;
-    if(hasCalledNum>3){
-        $('#id_tip_no_call').addClass('btn-warning').removeAttr('disabled');
-    }else{
-        // $('#id_tip_no_call').attr('disabled','disabled').removeClass('btn-warning');
-    }
+    // var hasCalledNum = g_args.hasCalledNum;
+    // if(hasCalledNum>3 && g_args.ccNoCalledNum>0){
+    //     $('#id_tip_no_call').addClass('btn-warning').removeAttr('disabled');
+    // }else{
+    //     // $('#id_tip_no_call').attr('disabled','disabled').removeClass('btn-warning');
+    // }
 
-    $('#id_tip_no_call').on('click',function(){
-        $('.bs-example-modal-sm').modal('toggle');
-    });
+    // $('#id_tip_no_call').on('click',function(){
+    //     $('.bs-example-modal-sm').modal('toggle');
+    // });
 
 
-    $('.submit_tag').on("click",function(){
-        var invalid_type = $('.invalid_type').val();
-        var checkText=$(".invalid_type").find("option:selected").text();
-        $('.tip_text').text(checkText);
-        $('.confirm-sm').modal('toggle');
-        $('.confirm_tag').on("click",function(){
-            // $("#id_sync_tq").on("click",function(){
-            //     $.do_ajax("/ss_deal/sync_tq",{
-            //         "phone" : g_args.phone,
-            //     } );
-            // });
+    // $('.submit_tag').on("click",function(){
+    //     var opt_data=$(this).get_opt_data();
 
-            window.location.reload();
-        });
-    });
+    //     var invalid_type = $('.invalid_type').val();
+    //     var checkText=$(".invalid_type").find("option:selected").text();
+    //     $('.tip_text').text(checkText);
+    //     $('.confirm-sm').modal('toggle');
+    //     $('.confirm_tag').on("click",function(){
+    //         $.do_ajax("/ajax_deal3/sign_phone",{
+    //             "adminid" : g_adminid,
+    //             "cc_confirm_type" : invalid_type,
+    //             "userid"  : opt_data.userid
+    //         } );
+
+    //         window.location.reload();
+    //     });
+    // });
 
     // 处理标记空号功能 [james-end]
 
@@ -573,6 +575,16 @@ $(function(){
     }
 
     $("#id_get_new").on("click",function(){
+        // console.log(g_args.hasCalledNum);
+        // james-start
+        // if(g_args.hasCalledNum < 3 && g_args.ccNoCalledNum>0){
+        //     alert("请先提交未拨通电话标注后才能继续抢新");
+        //     return ;
+        // }
+
+
+        // james-end
+
         $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
             if (resp.ret==0 ) {
                 var phone=resp.phone;
@@ -591,7 +603,6 @@ $(function(){
             }else{
                 alert(resp.info);
                 if(resp.userid){
-                    // var url = "http://admin.leo1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid="+resp.userid;
                     var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
                     window.location.href = url;
                 }

@@ -176,7 +176,6 @@ class seller_student_new extends Controller
             array_unshift($son_adminid_arr,$this->get_account_id());
             $admin_revisiterid_list = array_unique($son_adminid_arr);
         }
-        $nick = '王彦奇';
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,
@@ -1623,6 +1622,7 @@ class seller_student_new extends Controller
         // $hasCalledNum = $this->t_tq_call_info->getAdminidCalledNum($adminid);
         // // $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
         // $this->set_filed_for_js("hasCalledNum", 3);
+        // $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
         # 处理该学生的通话状态 [james-end]
 
 
