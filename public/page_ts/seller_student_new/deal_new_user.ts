@@ -21,16 +21,18 @@ $(function(){
 
 
     // $('.submit_tag').on("click",function(){
+    //     var opt_data=$(this).get_opt_data();
+
     //     var invalid_type = $('.invalid_type').val();
     //     var checkText=$(".invalid_type").find("option:selected").text();
     //     $('.tip_text').text(checkText);
     //     $('.confirm-sm').modal('toggle');
     //     $('.confirm_tag').on("click",function(){
-    //         // $("#id_sync_tq").on("click",function(){
-    //         //     $.do_ajax("/ss_deal/sync_tq",{
-    //         //         "phone" : g_args.phone,
-    //         //     } );
-    //         // });
+    //         $.do_ajax("/ajax_deal3/sign_phone",{
+    //             "adminid" : g_adminid,
+    //             "cc_confirm_type" : invalid_type,
+    //             "userid"  : opt_data.userid
+    //         } );
 
     //         window.location.reload();
     //     });
