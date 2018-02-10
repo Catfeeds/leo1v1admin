@@ -1301,50 +1301,51 @@ class resource extends Controller
         }
         if( $multi_data && is_array($multi_data)){
             foreach( $multi_data as $data){
-                $ex_num        = 0;
-                //处理文件名
-                $file_title = &$data['file_title'];
-                $dot_pos = strrpos($file_title,'.');
-                $file_title = substr($file_title,0,$dot_pos);
-                //处理文件类型
-                $file_type = trim( strrchr($data['file_type'], '/'), '/' );
-                $resource_id = $data['resource_id'];
-                $file_use_type = $data['file_use_type'];
-                $file_size = round( $data['file_size']/1024, 2);
-                if ($file_use_type == 3){
-                    if($is_reupload == 0){
-                        $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
-                        $ex_num     = @$ex_num_max+1;
-                    } else {
-                        if($ex_num == 0) {
-                            //上传额外文件区间，不属于重新上传
+                if( array_key_exists("file_title", $data) && array_key_exists("file_type", $data)){                                   
+                    $ex_num        = 0;
+                    //处理文件名
+                    $file_title = &$data['file_title'];
+                    $dot_pos = strrpos($file_title,'.');
+                    $file_title = substr($file_title,0,$dot_pos);
+                    //处理文件类型
+                    $file_type = trim( strrchr($data['file_type'], '/'), '/' );
+                    $resource_id = $data['resource_id'];
+                    $file_use_type = $data['file_use_type'];
+                    $file_size = round( $data['file_size']/1024, 2);
+                    if ($file_use_type == 3){
+                        if($is_reupload == 0){
                             $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
                             $ex_num     = @$ex_num_max+1;
+                        } else {
+                            if($ex_num == 0) {
+                                //上传额外文件区间，不属于重新上传
+                                $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
+                                $ex_num     = @$ex_num_max+1;
+                            }
                         }
                     }
+                    $insert_data = [
+                        'resource_id'   => $resource_id,
+                        'file_title'    => $file_title,
+                        'file_type'     => $file_type,
+                        'file_size'     => $file_size,
+                        'file_hash'     => $data['file_hash'],
+                        'file_link'     => $data['file_link'],
+                        'file_use_type' => $file_use_type,
+                        'ex_num'        => $ex_num,
+
+                    ];
+                    $this->t_resource_file->row_insert($insert_data);
+                    $file_id = $this->t_resource_file->get_last_insertid();
+                    $adminid = $this->get_account_id();
+                    $this->t_resource_file_visit_info->row_insert([
+                        'file_id'     => $file_id,
+                        'visit_type'  => 9,
+                        'create_time' => time(),
+                        'visitor_id'  => $adminid,
+                        'ip'          => $_SERVER["REMOTE_ADDR"],
+                    ]);                
                 }
-                $insert_data = [
-                    'resource_id'   => $resource_id,
-                    'file_title'    => $file_title,
-                    'file_type'     => $file_type,
-                    'file_size'     => $file_size,
-                    'file_hash'     => $data['file_hash'],
-                    'file_link'     => $data['file_link'],
-                    'file_use_type' => $file_use_type,
-                    'ex_num'        => $ex_num,
-
-                ];
-                $this->t_resource_file->row_insert($insert_data);
-                $file_id = $this->t_resource_file->get_last_insertid();
-                $adminid = $this->get_account_id();
-                $this->t_resource_file_visit_info->row_insert([
-                    'file_id'     => $file_id,
-                    'visit_type'  => 9,
-                    'create_time' => time(),
-                    'visitor_id'  => $adminid,
-                    'ip'          => $_SERVER["REMOTE_ADDR"],
-                ]);                
-
             }
         }
         return $this->output_succ();
@@ -1415,6 +1416,23 @@ class resource extends Controller
         ]);
         \App\Helper\Utils::logger("wrong id:".json_encode($error_id_str));
         if($is_wx > 0 && $error_id_str > 0){
+            $reload_adminid = $this->t_resource_file->get_reload_adminid($file_id);
+            if($reload_adminid){
+                $reload_phone = $this->t_manager_info->get_phone($reload_adminid);
+                $reload_nick = $this->t_teacher_info->get_nick($reload_adminid);
+                $reload_wx = $this->t_teacher_info->get_wx_openid_by_phone($reload_phone);
+
+                \App\Helper\Utils::logger("重传人手机:$reload_phone 微信$reload_wx");
+
+                $data['first']      = " 您好，$reload_nick 老师，您负责的讲义“ $file_title ”已被理优更改，感谢您对理优的监督与支持。";
+                $data['keyword1']   = " 讲义重传通知";
+                $data['keyword2']   = " 请随时查看理优新的讲义资料";
+                $data['keyword3']   = date('Y-m-d');
+                $data['remark']     = "让我们共同努力，让理优明天更美好";
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher,
+                                                           $data,$teacher_url);
+            }
+
             $error_id_arr = is_array($error_id_str) ? $error_id_str : json_decode($error_id_str,true);
             foreach($error_id_arr as $k => $error){         
                 if( !$error ) {
@@ -1428,18 +1446,10 @@ class resource extends Controller
             if($info){
                 $teacher_url = ''; //待定
                 $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+              
                 foreach( $info as $var ){
                     if( $wx_openid != $var['wx_openid'] ){
-                        $wx_openid = $var['wx_openid'];
-                        if($var['reload_adminid']){
-                            $phone = $this->t_manager_info->get_phone($var['reload_adminid']);
-                            $wx_openid = $this->t_teacher_info->get_wx_openid_by_phone($phone);
-                            \App\Helper\Utils::logger("重传人手机:$phone 微信$wx_openid");
-                            if(!$wx_openid){
-                                $wx_openid = $var['wx_openid'];
-                            }
-                        }
-                        
+                        $wx_openid = $var['wx_openid'];                        
                         $file_name    = $var['file_title'];
                         $teacher_nick = $var['nick'];
   
