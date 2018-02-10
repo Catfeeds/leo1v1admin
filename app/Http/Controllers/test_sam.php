@@ -103,6 +103,26 @@ class test_sam  extends Controller
     }
 
 
+
+    public function teacher_spring(){
+        $start = "1517932800";
+        $end   = "1519315200";
+
+        
+        for ($i=$start; $i <= $end ; ) { 
+            $start_time = $i;
+            $end_time   = $i + 86400;
+
+            $day  = date("Y-m-d",$start_time);
+            echo "<h2>".$day."</h2>";
+            echo "<table align='center'>";                                                                                                                                                                                                                                                                                             
+            
+            echo "</table>";
+            $i = $i + 86400;    
+        }   
+
+       
+    }
     
 }
 

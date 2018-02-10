@@ -500,9 +500,14 @@ class resource_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
-            $item['admin_nick'] = $this->cache_get_account_nick($item['adminid']);
-            $item['reload_adminid_str'] = $this->cache_get_account_nick($item['reload_adminid']);
-            $item['kpi_adminid_str'] = $this->cache_get_account_nick($item['kpi_adminid']);
+            $item['admin_nick'] = $this->t_manager_info->get_teacher_nick($item['adminid']);
+            $item['reload_adminid_str'] = $this->t_manager_info->get_teacher_nick($item['reload_adminid']);
+            $item['kpi_adminid_str'] = $this->t_manager_info->get_teacher_nick($item['kpi_adminid']);
+
+            
+            // $item['admin_nick'] = $this->cache_get_account_nick($item['adminid']);
+            // $item['reload_adminid_str'] = $this->cache_get_account_nick($item['reload_adminid']);
+            // $item['kpi_adminid_str'] = $this->cache_get_account_nick($item['kpi_adminid']);
 
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];

@@ -134,8 +134,6 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div>
                 <div class="col-md-2 col-xs-2">
                     <button id="id_apply_reload" class="btn btn-primary">批量申请——重传负责人</button>
                 </div>
@@ -148,7 +146,6 @@
                 <div class="col-md-2 col-xs-2">
                     <button id="id_affirm_kpi" class="btn btn-primary">批量审批——统计负责人</button>
                 </div>
-
             </div>
         </div>
         <hr/>
