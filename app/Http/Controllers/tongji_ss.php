@@ -589,13 +589,15 @@ class tongji_ss extends Controller
             $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
             //  $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count_system"];
+            $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count_system"];
+
         }
         //去掉重复userid
         $distinct_test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex , 1);
 
         foreach ($distinct_test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
-            $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+            //  $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
         }
 
 
