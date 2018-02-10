@@ -123,12 +123,12 @@ class test_sam  extends Controller
             foreach ($ret as $key => $value) {
                 echo "<tr>";
                 $nick = $this->t_teacher_info->get_nick($value['teacherid']);
-                echo "<td width='200px'>";echo $nick;echo "</td>";
+                echo "<td width='200px' align='center'>";echo $nick;echo "</td>";
                 $phone  = $this->t_teacher_info->get_phone($value['teacherid']);
-                echo "<td width='200px'>";echo $phone;echo "</td>";
+                echo "<td width='200px' align='center'>";echo $phone;echo "</td>";
                 $time = date("Y-m-d H:i:s",$value['add_time']);
-                echo "<td width='200px'>";echo $time;echo "</td>";
-                echo "<td width='200px'>";echo $value['rank'];echo "</td>";
+                echo "<td width='200px' align='center'>";echo $time;echo "</td>";
+                echo "<td width='200px' align='center'>";echo $value['rank'];echo "</td>";
                 echo "</tr>";
             }
             echo "</table>";
