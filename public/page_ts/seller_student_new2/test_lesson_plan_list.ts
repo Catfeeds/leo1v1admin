@@ -99,7 +99,7 @@ $(function(){
     $.admin_select_user($('#id_require_adminid'),"admin", load_data);
     $('.opt-change').set_input_change_event(load_data);
 
-    if (window.location.pathname=="/seller_student_new2/test_lesson_plan_list_seller" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_seller/" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_ass_leader" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_ass_leader/" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_jw_leader" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_jw_leader/") {
+    if (window.location.pathname=="/seller_student_new2/test_lesson_plan_list_seller" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_seller/" || window.location.pathname=="//seller_student_new2/test_lesson_plan_list_seller/" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_ass_leader" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_ass_leader/" || window.location.pathname=="//seller_student_new2/test_lesson_plan_list_ass_leader/" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_jw_leader" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_jw_leader/" || window.location.pathname=="//seller_student_new2/test_lesson_plan_list_jw_leader/") {
         $(".show_flag").hide();
         $(".limit-require-info,.show_seller").show();
     }else{
