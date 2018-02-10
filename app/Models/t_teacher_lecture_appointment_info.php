@@ -100,8 +100,13 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["la.full_time=%u", $full_time, -1 ],
             ["la.accept_adminid=%u", $accept_adminid, -1 ],
             ["tr2.trial_train_status=%u", $second_train_status, -1 ],
-            ["tt.is_test_user=%u", $is_test_user, -1 ],
+            // ["tt.is_test_user=%u", $is_test_user, -1 ],
         ];
+        if($is_test_user ==0){
+            $where_arr[]="(tt.is_test_user==0 or tt.is_test_user is null)";
+        }elseif($is_test_user==1){
+            $where_arr[]="tt.is_test_user=1";
+        }
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         if($lecture_revisit_type==E\Electure_revisit_type::V_5){
             $where_arr[] = "(la.lecture_revisit_type=5 or ta.lesson_start>0)";
