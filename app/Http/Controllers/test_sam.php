@@ -114,10 +114,25 @@ class test_sam  extends Controller
             $end_time   = $i + 86400;
 
             $day  = date("Y-m-d",$start_time);
-            echo "<h2>".$day."</h2>";
-            echo "<table align='center'>";                                                                                                                                                                                                                                                                                             
-            
+            $ret = $this->t_teacher_spring->get_info($start_time,$end_time);
+            $count = $this->t_teacher_spring->get_info_count($start_time,$end_time);
+            echo "<div align='center'>";
+            echo "<span >".$day."参与人次".$count."</span>";
+            echo "<table align='center' border='1px solid red'>"; 
+            echo "<th>获奖人姓名</th><th>手机号</th><th>时间</th><th>次数</th>";                    
+            foreach ($ret as $key => $value) {
+                echo "<tr>";
+                $nick = $this->t_teacher_info->get_nick($value['teacherid']);
+                echo "<td>";echo $nick;echo "</td>";
+                $phone  = $this->t_teacher_info->get_phone($value['teacherid']);
+                echo "<td>";echo $phone;echo "</td>";
+                $time = date("Y-m-d H:i:s",$value['add_time']);
+                echo "<td>";echo $time;echo "</td>";
+                echo "<td>";echo $value['rank'];echo "</td>";
+                echo "</tr>";
+            }
             echo "</table>";
+            echo "</div>";
             $i = $i + 86400;    
         }   
 
