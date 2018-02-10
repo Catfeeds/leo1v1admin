@@ -319,8 +319,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function check_seller_student($userid,$tmk_student_status,$orderid,$phone,$tmk_adminid,$admin_revisiterid){
         if($orderid>0){
-            $contract_status_desc = E\Econtract_status::get_desc($contract_status);
             $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
+            $contract_status_desc = E\Econtract_status::get_desc($contract_status);
             if($contract_status>1){//释放
                 $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
                 foreach(['tom','应怡莉','林文彬'] as $account){
