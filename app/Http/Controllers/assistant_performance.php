@@ -708,6 +708,12 @@ class assistant_performance extends Controller
             }
             $kk_num = $item["kk_num"]+$item["hand_kk_num"];
             $kk_per = $last_registered_num>0?($kk_num/$last_registered_num):0;
+            //1月份以后新入职助教,当月有扩课的,扩课部分绩效拿满
+            if($start_time>=strtotime("2018-01-01")){
+                if( $item["become_member_time"]>=$start_time &&  $item["become_member_time"]< $end_time && $kk_num>0){
+                    $kk_per=1;//>=0.06就可以
+                }
+            }
             if($kk_per>=0.06){
                 $kk_reword_per = 0.2;
             }else{
