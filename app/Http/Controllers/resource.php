@@ -1416,6 +1416,9 @@ class resource extends Controller
         ]);
         \App\Helper\Utils::logger("wrong id:".json_encode($error_id_str));
         if($is_wx > 0 && $error_id_str > 0){
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+              
             $reload_adminid = $this->t_resource_file->get_reload_adminid($file_id);
             if($reload_adminid){
                 $reload_phone = $this->t_manager_info->get_phone($reload_adminid);
@@ -1429,7 +1432,7 @@ class resource extends Controller
                 $data['keyword2']   = " 请随时查看理优新的讲义资料";
                 $data['keyword3']   = date('Y-m-d');
                 $data['remark']     = "让我们共同努力，让理优明天更美好";
-                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id_teacher,
+                \App\Helper\Utils::send_teacher_msg_for_wx($reload_wx,$template_id_teacher,
                                                            $data,$teacher_url);
             }
 
@@ -1443,10 +1446,7 @@ class resource extends Controller
             $errid_str = "(".$errid_str.")";
             $info = $this->t_resource_file->get_teacherinfo_new($errid_str);
             $wx_openid = "";
-            if($info){
-                $teacher_url = ''; //待定
-                $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
-              
+            if($info){      
                 foreach( $info as $var ){
                     if( $wx_openid != $var['wx_openid'] ){
                         $wx_openid = $var['wx_openid'];                        
