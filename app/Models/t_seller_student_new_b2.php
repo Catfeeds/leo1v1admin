@@ -7,7 +7,7 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
 {
     public function get_need_check_free_list() {
 
-        $now= strtotime(date('Y-m-d'));
+        $now= time(NULL);
         $start_time=$now - 3*86400 ;
         $end_time= $now;
 
