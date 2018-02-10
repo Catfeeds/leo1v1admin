@@ -25,6 +25,9 @@ class seller_tongji extends Controller
         $day = intval(ceil((time()-$start)/86400)-1);
         $day = $day-2*$day;
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $end_time_new = $end_time;
+        $start_time_new = $start_time;
+
         if($end_time >= time()){
             $end_time = time();
         }
@@ -254,6 +257,10 @@ class seller_tongji extends Controller
 
 
         \App\Helper\Utils::logger("OUTPUT");
+       
+        $test_lesson_succ_all = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_succ_all($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="");
+        $this->set_filed_for_js("test_lesson_succ_all",@$test_lesson_succ_all["dis_succ_all_count"]);
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),
                                [
                                    '_publish_version' => 201712071914

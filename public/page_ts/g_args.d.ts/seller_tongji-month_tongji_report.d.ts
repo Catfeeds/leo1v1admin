@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	test_lesson_succ_all:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -13,6 +14,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	month_work_day	:any;
+	month_work_day_now	:any;
+	month_work_day_now_real	:any;
+	target_personal_money	:any;
+	target_money	:any;
+	require_test_count_for_month	:any;
+	test_lesson_count_for_month	:any;
 	main_type	:any;
 	first_group_name	:any;
 	up_group_name	:any;
@@ -59,7 +67,8 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		test_lesson_succ_all:	$('#id_test_lesson_succ_all').val()
 		});
 }
 $(function(){
@@ -74,6 +83,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_test_lesson_succ_all').val(g_args.test_lesson_succ_all);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -88,4 +98,12 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_lesson_succ_all</span>
+                <input class="opt-change form-control" id="id_test_lesson_succ_all" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["test_lesson_succ_all title", "test_lesson_succ_all", "th_test_lesson_succ_all" ]])!!}
 */

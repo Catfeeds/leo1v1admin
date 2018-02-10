@@ -1368,6 +1368,8 @@ class seller_student_new2 extends Controller
         $this->t_test_lesson_subject_require->switch_tongji_database();
         \App\Helper\Utils::logger("111");
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
+       
+
 
         \App\Helper\Utils::logger("10100000");
         foreach($test_leeson_list['list'] as $item){

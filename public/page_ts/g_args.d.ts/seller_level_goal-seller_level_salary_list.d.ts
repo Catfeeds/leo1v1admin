@@ -33,14 +33,15 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_level_goal-seller_level_salary_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		seller_level:	$('#id_seller_level').val(),
 		define_date:	$('#id_define_date').val(),
 		base_salary:	$('#id_base_salary').val(),
 		sup_salary:	$('#id_sup_salary').val(),
 		per_salary:	$('#id_per_salary').val()
-    });
+		});
 }
 $(function(){
 
@@ -66,6 +67,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_level" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_level title", "seller_level", "th_seller_level" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -73,6 +75,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_define_date" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["define_date title", "define_date", "th_define_date" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -80,6 +83,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_base_salary" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["base_salary title", "base_salary", "th_base_salary" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -87,6 +91,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_sup_salary" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["sup_salary title", "sup_salary", "th_sup_salary" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -94,4 +99,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_per_salary" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["per_salary title", "per_salary", "th_per_salary" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
