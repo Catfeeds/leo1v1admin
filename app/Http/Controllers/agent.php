@@ -447,7 +447,7 @@ class agent extends Controller
         }
         $common_new = new \App\Http\Controllers\common_ex;
         $month = $common_new->get_seller_month($start_time,$end_time)[0];
-        $group_adminid_list = $common_new->get_month_group_adminid_list($month);
+        $group_adminid_list = $common_new->get_month_group_adminid_list($month,$adminid=869);
         dd($group_adminid_list);
 
         $ass = $this->cache_get_assistant_nick($assistantid=134509);
