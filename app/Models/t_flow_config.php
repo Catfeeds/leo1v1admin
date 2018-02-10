@@ -85,8 +85,9 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
         $switch_value=-1;
         if ($cur_type=="function") {
             $cur_flow_function=$cur_node["flow_function"];
+            $args=  \App\Helper\Utils::json_decode_as_array($cur_node["function_args"]);
             //得到切换的分支值
-            $switch_value=\App\Flow\flow_base::do_function($cur_flow_function, $flow_type, $node_type, $flow_info, $self_info, $adminid);
+            $switch_value=\App\Flow\flow_base::do_function($cur_flow_function, $args , $flow_type, $node_type, $flow_info, $self_info, $adminid);
 
         }
 

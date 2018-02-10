@@ -35,8 +35,7 @@ export default class extends vtable {
     } else if (type =="line") {
       return this.do_line_opt(id);
     }
-
-
+    return true;
   }
   //@desn:获取线信息
   public do_line_opt(id) {
@@ -58,12 +57,13 @@ export default class extends vtable {
       var me = this;
       //获取该分支类型的选项类型
       $.do_ajax("/admin_manage/get_flow_branch_switch_value",  {
+        "flow_type" : me.get_args().flow_type,
         'flow_function' : flow_function,
       },function(data){
         //组合select  --begin--
         var select = "<select>";
-        var switch_value_ar = JSON.parse(data.switch_value);
-        $.each(switch_value_ar, function(i, switch_value ){
+
+        $.each( data.return_config, function(i, switch_value ){
           select += "<option value='"+i+"'>"+switch_value+"</option>";
         });
         select += "</select>";
@@ -73,6 +73,8 @@ export default class extends vtable {
         var arr=[
           ["分支条件" , $switch_value ],
         ];
+
+
         var line_info=me.get_line_info(id );
         console.log( "line_info", line_info);
         $switch_value.val( line_info.switch_value );
@@ -147,40 +149,99 @@ export default class extends vtable {
   //@desn:分支操作
   do_node_function_opt( id,info ) {
     var  flow_function= info.flow_function? info.flow_function: 0;
+    var function_args=  info.function_args? JSON.parse( info.function_args) :{};
     /*
-    if (function_id != 0) {
+      if (function_id != 0) {
       alert("已经有指定了, 只能删除再增加");
       return;
-    }
+      }
     */
 
     var me=this;
 
+    var arg_config = {} ;
     var $flow_function=$("<select/>");
     Enum_map.append_option_list("flow_function", $flow_function, true, me.$data.flow_function_list );
 
     $flow_function.val( flow_function);
+    $flow_function.on("change",function(){
+      do_load_args( $flow_function.val() );
+    });
+
 
     var arr=[
       ["分支函数" , $flow_function ],
     ];
 
-    $.show_key_value_table("设置", arr ,{
+
+    var dlg=$.show_key_value_table("设置", arr ,{
       label: '确认',
       cssClass: 'btn-warning',
       action: function(dialog) {
         var flow_function=$flow_function.val();
-
+        var function_args={};
+        var check_args_flag=true;
+        var show_args_arr:Array<any> =[];
+        $.each( arg_config, function(arg_name, item)  {
+          var value= item["input"].val();
+          var value_str=value;
+          if (item["type"]=="number" || item["type"]=="integer" ) { //
+            if (!$.isNumeric(value ))  {
+              alert (item["desc"] +"必须是数字:" + value );
+              check_args_flag=false;
+              return;
+            }
+          }
+          function_args[arg_name] = value;
+          show_args_arr.push(value_str);
+        });
+        if ( !check_args_flag ){
+          return;
+        }
         var args={
           "flow_function" : flow_function,
+          "function_args" :JSON.stringify(function_args ),
         }
         me.set_node_info(id, args );
-        me.flow_set_name( id, "分支:" +  Enum_map.get_desc("flow_function",flow_function) ,"node"  );
+        me.flow_set_name( id, "分支:" +  Enum_map.get_desc("flow_function",flow_function)+"("+ show_args_arr.join(",")   +")"  ,"node"  );
       }
-    },function(){
     });
 
+    var do_load_args=function( flow_function )  {
+      $.do_ajax("/admin_manage/get_flow_branch_switch_value",  {
+        "flow_type" : me.get_args().flow_type,
+        'flow_function' : flow_function,
+      },function(data){
+        arg_config = me.gen_function_args_obj(  data.arg_config,function_args );
 
+        dlg.$modalBody.find(".args-item" ).remove();
+        $.each( arg_config, function(i, item)  {
+          //arr.push([ item.desc, item.input ]);
+
+          var $tr_obj=$( "<tr class=\"args-item\"> <td style=\"text-align:right; width:30%;\">"+item.desc+"</td><td class=\"td-input\">  </td></tr>");
+          $tr_obj.find(".td-input").html(item.input);
+          dlg.$modalBody.find("tbody").append($tr_obj);
+        });
+
+
+      });
+    }
+    do_load_args(flow_function);
+
+  }
+
+  gen_function_args_obj( arg_config,  args ) {
+    /*
+      "arg_config" => [
+      "check_day_count" => [ "desc"=> "指定天数", "type"=>"integer" ],
+      ],
+    */
+    $.each( arg_config,  function( arg_name,  item   ){
+      var $input=$("<input/>");
+      $input.val(args[arg_name]);
+      item["input"] = $input;
+    });
+    return arg_config;
   }
   //@desn:抄送操作
   do_node_notify_opt( id,info ) {
@@ -258,6 +319,11 @@ export default class extends vtable {
 
   //@desn:限制抄送不能有下游
   onItemAdd(id , type,json) {
+    if (this.check_node_existed(id ) ) {
+      alert("请重新加入");
+      return false;
+    }
+
     if (type=="line") {
       //get_node_type_by_id
       var from_node_type=this.get_node_type_by_id( json["from"]);
@@ -275,7 +341,11 @@ export default class extends vtable {
     }else if ( type == "node" ) {
       this.do_add_node(id, json);
     }
+
     return true;
+  }
+  check_node_existed(id ) {
+   return this.$flow.$nodeData[id] || this.$flow.$lineData[id] || this.$flow.$areaData[id]  ;
   }
 
   //@desn：添加结点操作

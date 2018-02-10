@@ -308,13 +308,17 @@ class admin_manage extends Controller
 
     //@desn:获取审批分支配置项
     public function get_flow_branch_switch_value(){
-        $flow_function = $this->get_in_str_val('flow_function');
-        $flow_function_str = E\Eflow_function::v2s($flow_function);
-        \App\Helper\Utils::logger("flow_function_str $flow_function_str "); 
-        $switch_value_arr = FFC::get_branch_type_config($flow_function_str);
-        return $this->pageOutJson(__METHOD__, null , [
-            "switch_value"=>json_encode($switch_value_arr)
-        ]);
+        $flow_type  = $this->get_in_e_flow_type();
+        $flow_function = $this->get_in_e_flow_function();
+        $flow_class=\App\Flow\flow::get_flow_class($flow_type);
+        if ($flow_class ){
+            $config=$flow_class::get_function_config();
+            $base_conig= \App\Flow\flow_base::get_function_config();
+            $config= $base_conig+ $config;
+            return $this->output_succ($config[$flow_function] );
+        }else{
+            return $this->output_err("审批配置有误.");
+        }
     }
 
 

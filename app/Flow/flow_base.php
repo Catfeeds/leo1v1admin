@@ -24,7 +24,7 @@ class flow_base{
     static function set_node_map () {
         $task=static::get_task_controler();
         $vars= get_class_vars(static::class);
-        if ( array_has($vars, "node_map"  ) )  {
+        if ( array_has($vars, "node_map"  ) && !static::$node_map )  {
             static::$node_map=\App\Helper\Utils::json_decode_as_array( $task->t_flow_config->get_node_map(static::$type ) );
         }
     }
@@ -160,7 +160,7 @@ class flow_base{
         $account_role = $t_manager_info->get_account_role($adminid);
         return $account_role == $check_role ;
     }
-    static function check_admin_role (  $flow_info, $self_info , $adminid ) {
+    static function check_admin_role ( $args,  $flow_info, $self_info , $adminid ) {
         $t_manager_info =  new \App\Models\t_manager_info();
         $post_adminid=$flow_info["post_adminid"];
         $account_role = $t_manager_info->get_account_role($post_adminid);
@@ -179,12 +179,37 @@ class flow_base{
         }
     }
 
-    static function do_function( $flow_function, $flow_type,$node_type, $flow_info, $self_info , $adminid   ) {
+    static function do_function( $flow_function, $args , $flow_type,$node_type, $flow_info, $self_info , $adminid   ) {
         $flow_class  = \App\Flow\flow::get_flow_class($flow_type);
         $function_name=E\Eflow_function::v2s($flow_function );
-        $switch_value= $flow_class::$function_name( $flow_info, $self_info , $adminid );
+        $switch_value= $flow_class::$function_name( $args , $flow_info, $self_info , $adminid );
         return $switch_value;
     }
 
+    //返回函数参数配置 需要继承
+    static function get_function_config() {
+        return  [
+            E\Eflow_function::V_CHECK_ADMIN_ROLE => [
+                "arg_config" => [
+                ],
+                "return_config"  => [
+                    "1" => "助教",
+                    "2" => "销售",
+                ]
+            ]
+        ];
+        /*
+        return [
+            "arg_config" => [
+                "check_day_count" => [ "desc"=> "指定天数", "type"=>"integer" ],
+            ],
+            "return_config"  => [
+                "1" => "小于3天",
+                "2" => "大于等于3天",
+            ]
+        ];
+        */
+
+    }
 
 }
