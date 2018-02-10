@@ -121,7 +121,7 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
     //@desn:$start_time, $end_time  开始时间 结束时间
     public function get_cc_assign_count($adminid,$start_time, $end_time ){
         $where_arr=[
-            'adminid' => adminid,
+            'adminid' => $adminid,
             'seller_student_assign_from_type' => 0,
             'check_hold_flag' => 0
         ];
