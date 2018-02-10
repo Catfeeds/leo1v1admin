@@ -655,12 +655,12 @@ class update_teaching_core_data extends Command
                 "fulltime_teacher_cc_order_shanghai"    =>$fulltime_teacher_cc_order_shanghai,
                 // "fulltime_normal_stu_num_shanghai"      =>$fulltime_normal_stu_num_shanghai,
             ];
-            if(strtotime(date("Y-m-01",time())) == $start_time){
+            // if(strtotime(date("Y-m-01",time())) == $start_time){
                 $data_arr["fulltime_normal_stu_num"] = $fulltime_normal_stu_num;
                 $data_arr["platform_normal_stu_num"] = $platform_normal_stu_num;
                 $data_arr["fulltime_normal_stu_num_wuhan"] = $fulltime_normal_stu_num_wuhan;
                 $data_arr["fulltime_normal_stu_num_shanghai"] = $fulltime_normal_stu_num_shanghai;
-            }
+            //  }
             if($exist_info){
                 $task->t_teaching_core_data->field_update_list_2($start_time,1,$data_arr);
 
