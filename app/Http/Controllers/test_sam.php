@@ -121,6 +121,7 @@ class test_sam  extends Controller
             echo "<table align='center' border='1px solid red'>"; 
             echo "<th>获奖人姓名</th><th>手机号</th><th>时间</th><th>次数</th>";                    
             foreach ($ret as $key => $value) {
+                echo "<tr>";
                 $nick = $this->t_teacher_info->get_nick($value['teacherid']);
                 echo "<td>";echo $nick;echo "</td>";
                 $phone  = $this->t_teacher_info->get_phone($value['teacherid']);
@@ -128,6 +129,7 @@ class test_sam  extends Controller
                 $time = date("Y-m-d H:i:s",$value['add_time']);
                 echo "<td>";echo $time;echo "</td>";
                 echo "<td>";echo $value['rank'];echo "</td>";
+                echo "</tr>";
             }
             echo "</table>";
             echo "</div>";
