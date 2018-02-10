@@ -272,7 +272,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
       $sql = $this->gen_sql_new("select t.wx_openid,f.file_title, t.nick  "
                               ." from %s f "
                               ." left join %s r on r.resource_id = f.resource_id "
-                              ." left join %s m on r.adminid = m.uid"
+                              ." left join %s m on f.reload_adminid = m.uid"
                               ." left join %s t on t.phone = m.phone"
                               ." where file_id = %s "
                               ,t_resource_file::DB_TABLE_NAME
