@@ -331,7 +331,7 @@ class common_ex extends Controller
 
     public function get_month_group_adminid_list($month,$adminid=0){
         if($month == strtotime(date('Y-m-1'))){
-            $admin_revisiterid_list = $this->get_group_adminid_list();
+            $admin_revisiterid_list = $this->get_group_adminid_list($adminid);
         }else{
             $adminid = $adminid>0?$adminid:$this->get_account_id();
             $majordomo_groupid=$this->t_main_major_group_name_month->is_master($month,$adminid);
