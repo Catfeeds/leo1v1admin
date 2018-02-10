@@ -1430,7 +1430,6 @@ class resource extends Controller
                 $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
                 foreach( $info as $var ){
                     if( $wx_openid != $var['wx_openid'] ){
-                        \App\Helper\Utils::logger("admin do sth:".json_encode($var));
                         $wx_openid = $var['wx_openid'];
                         if($var['reload_adminid']){
                             $phone = $this->t_manager_info->get_phone($var['reload_adminid']);
@@ -1443,6 +1442,7 @@ class resource extends Controller
                         
                         $file_name    = $var['file_title'];
                         $teacher_nick = $var['nick'];
+  
                         $data['first']      = " 您好，$teacher_nick 老师，您报错的讲义“ $file_name ”已被理优更改，感谢您对理优的监督与支持。";
                         $data['keyword1']   = " 讲义重传通知";
                         $data['keyword2']   = " 请随时查看理优新的讲义资料";
