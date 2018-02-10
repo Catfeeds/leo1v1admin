@@ -56,7 +56,7 @@
                     <td> 操作  </td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
 
                     <tr class="{{$var["level"]}}">
