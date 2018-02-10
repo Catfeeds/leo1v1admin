@@ -146,7 +146,7 @@
                 </div>
                 <div class="col-xs-6 col-md-2 hide_class">
                     <div class="input-group ">
-                        <span >kpi讲义负责人</span>
+                        <span >KPI讲义统计负责人</span>
                         <input type="text" value=""  class="opt-change"  id="id_kpi_adminid"  placeholder="" />
                     </div>
                 </div>
@@ -212,7 +212,7 @@
                     <td>上传日期</td>
                     <td>初版讲义上传人</td>
                     <td>修改重传负责人</td>
-                    <td>kpi讲义负责人</td>
+                    <td>KPI讲义统计负责人</td>
                     <td>操作</td>
                 </tr>
             </thead>
