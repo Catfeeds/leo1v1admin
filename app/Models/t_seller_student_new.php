@@ -347,7 +347,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                     $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的tmk状态为[".$tmk_student_status_desc."]的例子重进待释放:".$phone);
                 }
                 if($admin_revisiterid>0){
-                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","tmk状态为[".$tmk_student_status_desc."]的例子重进待释放:".$phone);
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","tmk状态为[".$tmk_student_status_desc."]的例子重进:".$phone);
                 }else{
                     $this->set_seller_student_new($userid);
                 }
