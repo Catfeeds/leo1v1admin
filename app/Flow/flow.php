@@ -15,7 +15,25 @@ class flow{
     ];
 
     static function get_flow_class($flow_type ) {
-        return @static::$data[$flow_type];
+        $flow_class= @static::$data[$flow_type];
+        if ($flow_class) {
+            if ( isset($flow_class::$node_map) && !  $flow_class::$node_map  ) {
+                $flow_class::set_node_map();
+            }
+        }
+        return $flow_class;
     }
+
+
+    static function get_flow_class_node_map($flow_type ) {
+        $flow_class= @static::$data[$flow_type];
+        if ($flow_class) {
+            if ( isset($flow_class::$node_map) && !$flow_class::$node_map  ) {
+                $flow_class::set_node_map();
+            }
+        }
+        return $flow_class::$node_map;
+    }
+
 
 }

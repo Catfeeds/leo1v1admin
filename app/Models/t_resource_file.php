@@ -285,7 +285,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
     }
 
     public function get_teacherinfo_new($errid_str){
-      $sql = $this->gen_sql_new("select t.wx_openid,k.file_title, t.nick  "
+        $sql = $this->gen_sql_new("select t.wx_openid,k.file_title, t.nick,k.reload_adminid "
                               ." from %s f "
                               ." left join %s t on t.phone = f.phone"
                               ." left join %s k on k.file_id = f.file_id "
@@ -296,32 +296,6 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
                               ,$errid_str
                             );
       return $this->main_get_list($sql);
-    }
-
-    public function get_record_info_type_one($file_id){
-      $sql = "select m.id, a.account as first_nick, a.phone as first_phone, b.account as now_nick, b.phone as now_phone, c.account as next_nick, c.phone as next_phone, d.account as apply_nick, d.phone as apply_phone "
-            ." from t_resource_file  f "
-            ." left join db_weiyi.t_resource r on f.resource_id  = r.resource_id "
-            ." left join db_weiyi.t_resource_change_record m on f.file_id = m.file_id "
-            ." left join db_weiyi_admin.t_manager_info a on r.adminid = a.uid "
-            ." left join db_weiyi_admin.t_manager_info b on f.reload_adminid =b.uid "
-            ." left join db_weiyi_admin.t_manager_info c on m.teacherid  =c.uid "
-            ." left join db_weiyi_admin.t_manager_info d on m.change_adminid  =d.uid "
-            ." where f.file_id = $file_id and m.action='申请-更换修改重传负责人' order by m.id desc limit 1 ";
-      return $this->main_get_row($sql);
-    }
-
-    public function get_record_info_type_two($file_id){
-      $sql = "select m.id,a.account as first_nick, a.phone as first_phone, b.account as now_nick, b.phone as now_phone, c.account as next_nick, c.phone as next_phone, d.account as apply_nick, d.phone as apply_phone "
-            ." from t_resource_file  f "
-            ." left join db_weiyi.t_resource r on f.resource_id  = r.resource_id "
-            ." left join db_weiyi.t_resource_change_record m on f.file_id = m.file_id "
-            ." left join db_weiyi_admin.t_manager_info a on r.adminid = a.uid "
-            ." left join db_weiyi_admin.t_manager_info b on f.kpi_adminid =b.uid "
-            ." left join db_weiyi_admin.t_manager_info c on m.teacherid  =c.uid "
-            ." left join db_weiyi_admin.t_manager_info d on m.change_adminid  =d.uid "
-            ." where f.file_id = $file_id and m.action='申请-更换讲义统计负责人' order by m.id desc limit 1 ";
-      return $this->main_get_row($sql);
     }
 
 }

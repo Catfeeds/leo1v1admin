@@ -9,6 +9,7 @@ function next_node_process_end( $adminid,$flow_id ) {
 
 class flow_base{
 
+
     /**
      * @return \App\Console\Tasks\TaskController
      */
@@ -20,8 +21,25 @@ class flow_base{
         return $task->t_manager_info->get_adminid_by_account($account);
     }
 
+    static function set_node_map () {
+        $task=static::get_task_controler();
+        static::$node_map=\App\Helper\Utils::json_decode_as_array( $task->t_flow_config->get_node_map(static::$type ) );
+
+    }
+
     static function get_node_name( $node_type ) {
-        return  static::$node_data[$node_type][1];
+        if ($node_type==-1) {
+            return "结束";
+        }else  if ( $node_type==0 ) {
+            return "申请";
+        }
+        if ($node_type> 10000 ){
+            $node_info= static::$node_map[$node_type];
+            if (isset($node_info["title"])) return $node_info["title"]  ;
+            else return $node_info["name"] ;
+        }else{ //旧版是
+            return  static::$node_data[$node_type][1];
+        }
     }
 
     static function get_info( $flowid ) {
@@ -59,6 +77,7 @@ class flow_base{
 
     // return [ $node_type, $adminid ]
     static function get_next_node_info($node_type, $flowid, $adminid ) {
+
         $node_def_item=static::$node_data[$node_type];
         $next_node_process_fun="next_node_process_$node_type";
         $ret=static::$next_node_process_fun( $flowid,  $adminid );
@@ -78,12 +97,12 @@ class flow_base{
 
     // return [ $node_type, $adminid, $auto_pass ]
     static function get_next_node_info_new($node_type, $flowid, $adminid ) {
-        $task= $this->get_task_controler();
+        $task= static::get_task_controler();
         list($flow_info,$self_info)=static::get_info($flowid);
-        $task->t_flow_config->get_next_node(static::$type,$node_type, $flow_info, $self_info , $adminid );
 
-        // return [ $node_type, $adminid, $auto_pass ]
-        return $ret;
+        $flow_type= static::$type;
+        return $task->t_flow_config->get_next_node($flow_type,$node_type, $flow_info, $self_info , $adminid );
+
     }
 
 
@@ -160,7 +179,7 @@ class flow_base{
 
     static function do_function( $flow_function, $flow_type,$node_type, $flow_info, $self_info , $adminid   ) {
         $flow_class  = \App\Flow\flow::get_flow_class($flow_type);
-        $function_name=E\Eflow_function::v2s($flow_type );
+        $function_name=E\Eflow_function::v2s($flow_function );
         $switch_value= $flow_class::$function_name( $flow_info, $self_info , $adminid );
         return $switch_value;
     }

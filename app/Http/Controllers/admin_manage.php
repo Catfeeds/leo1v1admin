@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use \App\Flow\flow_function_config as FFC;
 
 class admin_manage extends Controller
 {
@@ -182,6 +183,13 @@ class admin_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
 
     }
+    public function flow_show_map() {
+        $flow_type= $this->get_in_e_flow_type();
+        $json_data=@json_decode( $this->t_flow_config->get_node_map($flow_type),true);
+        $json_data1=@json_decode( $this->t_flow_config->get_json_data($flow_type),true);
+        dd($json_data,$json_data1);
+    }
+
     public function flow_edit() {
         $flow_type= $this->get_in_e_flow_type();
         $json_data=@json_decode( $this->t_flow_config->get_json_data($flow_type),true);
@@ -276,7 +284,7 @@ class admin_manage extends Controller
                 }
                 if(!$item['up_group_name']){
                     $item['up_group_name'] = '未定义';
-                }
+}
                 $all_list["list"][$k]['is_share'] = 0;
                 $ret_info['list'][] = $item;
             }
@@ -295,6 +303,18 @@ class admin_manage extends Controller
                                    "_publish_version" => 201712010945
                                ]);
 
+    }
+
+
+    //@desn:获取审批分支配置项
+    public function get_flow_branch_switch_value(){
+        $flow_function = $this->get_in_str_val('flow_function');
+        $flow_function_str = E\Eflow_function::v2s($flow_function);
+        \App\Helper\Utils::logger("flow_function_str $flow_function_str "); 
+        $switch_value_arr = FFC::get_branch_type_config($flow_function_str);
+        return $this->pageOutJson(__METHOD__, null , [
+            "switch_value"=>json_encode($switch_value_arr)
+        ]);
     }
 
 

@@ -721,16 +721,18 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             $sql=$this->gen_sql_new(
                 "select $field_name  as check_value , count(*) as test_lesson_count, "
                 ." count( distinct t.userid ) as distinct_test_count, "
-                ." sum(  success_flag in (0,1 ) ) as succ_test_lesson_count  "
+                ." sum(  success_flag in (0,1 ) ) as succ_test_lesson_count,  "
+                ." sum(lesson_user_online_status in (0,1) or f.flow_status = 2) as succ_test_lesson_count_system "
                 ." from %s tr "
                 ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
                 ." join %s n  on t.userid=n.userid "
                 ." join %s tss on tr.current_lessonid=tss.lessonid "
                 ." join %s l on tr.current_lessonid=l.lessonid "
                 ." join %s s on s.userid = l.userid "
+                ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
                 ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
                 ." and is_test_user=0 "
-                ." and require_admin_type = 2 and l.lesson_type=2  "
+                ." and require_admin_type = 2 and l.lesson_type=2 and l.lesson_del_flag=0 "
                 ." group by check_value " ,
                 self::DB_TABLE_NAME,
                 t_test_lesson_subject::DB_TABLE_NAME,
@@ -738,6 +740,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                 t_lesson_info::DB_TABLE_NAME,
                 t_student_info::DB_TABLE_NAME,
+                t_flow::DB_TABLE_NAME,
                 $where_arr,$start_time,$end_time );
         } else {
             $sql=$this->gen_sql_new(
@@ -748,10 +751,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 ." join %s tss on tr.current_lessonid=tss.lessonid "
                 ." join %s l on tr.current_lessonid=l.lessonid "
                 ." join %s s on s.userid = l.userid "
+                ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
                 ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
                 ." and is_test_user=0 "
-                ." and require_admin_type = 2  and l.lesson_type=2 "
-                ." and success_flag in (0,1) "
+                ." and require_admin_type = 2  and l.lesson_type=2 and l.lesson_del_flag=0 "
+                //  ." and success_flag in (0,1) "
+                ." and (lesson_user_online_status in (0,1) or f.flow_status = 2)"
                 ." group by check_value " ,
                 self::DB_TABLE_NAME,
                 t_test_lesson_subject::DB_TABLE_NAME,
@@ -759,6 +764,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                 t_lesson_info::DB_TABLE_NAME,
                 t_student_info::DB_TABLE_NAME,
+                t_flow::DB_TABLE_NAME,
                 $where_arr,$start_time,$end_time );
         }
 
@@ -3970,7 +3976,7 @@ ORDER BY require_time ASC";
             'count(distinct if(tr.accept_flag = 1,t.userid,null)) as distinct_test_count,'.
             // 'count(distinct if((tss.success_flag in (0,1 ) and (l.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
             // 'and tr.accept_flag=1),t.userid,null)) as distinct_succ_count '.
-            'count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,t.userid,null)) distinct_succ_count'.
+            'count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,l.userid,null)) distinct_succ_count'.
             " from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
