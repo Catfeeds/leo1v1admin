@@ -103,7 +103,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             // ["tt.is_test_user=%u", $is_test_user, -1 ],
         ];
         if($is_test_user ==0){
-            $where_arr[]="(tt.is_test_user==0 or tt.is_test_user is null)";
+            $where_arr[]="(tt.is_test_user=0 or tt.is_test_user is null)";
         }elseif($is_test_user==1){
             $where_arr[]="tt.is_test_user=1";
         }
