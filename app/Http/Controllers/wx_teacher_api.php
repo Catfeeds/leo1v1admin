@@ -1720,7 +1720,7 @@ class wx_teacher_api extends Controller
     //获取老师详细信息
     public function get_tea_detail_info(){
         $teacherid  = $this->get_teacherid_new();
-        $data = $this->t_teacher_info->field_get_list($teacherid,"realname,idcard,protocol_results");
+        $data = $this->t_teacher_info->field_get_list($teacherid,"realname,idcard,protocol_results,dispute_handle_type");
         return $this->output_succ(["list"=>$data]);
  
     }
@@ -1730,6 +1730,7 @@ class wx_teacher_api extends Controller
         $teacherid  = $this->get_teacherid_new();
         // $teacherid= 240314 ;
         $protocol_results = $this->get_in_int_val("protocol_results");
+        $dispute_handle_type = $this->get_in_int_val("dispute_handle_type");
         $realname         = trim($this->get_in_str_val("realname"));
         $idcard           = $this->get_in_str_val("idcard");
         if($protocol_results==1){
@@ -1742,6 +1743,7 @@ class wx_teacher_api extends Controller
             $this->t_teacher_info->field_update_list($teacherid,[
                 "protocol_results"  =>$protocol_results,
                 "protocol_time"     =>time(),
+                "dispute_handle_type" =>$dispute_handle_type,
                 "realname"          =>$realname,
                 "idcard"            =>$idcard
             ]);
@@ -1754,7 +1756,8 @@ class wx_teacher_api extends Controller
 
             $this->t_teacher_record_list->field_update_list($id,[
                 "protocol_results_record"  =>$protocol_results,
-                "protocol_time_record"     =>time()
+                "protocol_time_record"     =>time(),
+                "dispute_handle_type_record" =>$dispute_handle_type,
             ]);
 
             //老师入职处理

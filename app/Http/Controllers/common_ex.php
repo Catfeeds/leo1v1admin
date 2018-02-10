@@ -330,28 +330,32 @@ class common_ex extends Controller
     }
 
     public function get_month_group_adminid_list($month,$adminid=0){
-        $adminid = $adminid>0?$adminid:$this->get_account_id();
-        $majordomo_groupid=$this->t_main_major_group_name_month->is_master($month,$adminid);
-        $admin_main_groupid=$this->t_main_group_name_month->is_master($month,$adminid);
-        $self_groupid=$this->t_group_name_month->is_master($month,$adminid);
-        //主管查看下级例子
-        $admin_revisiterid_list = [];
-        $son_adminid = [];
-        $son_adminid_arr = [];
-        if($majordomo_groupid>0){//总监
-            $son_adminid = $this->t_main_group_name_month->get_son_adminid_by_up_groupid($month,$majordomo_groupid);
-        }elseif($admin_main_groupid>0){//经理
-            $son_adminid = $this->t_group_name_month->get_son_adminid_by_up_groupid($month,$admin_main_groupid);
-        }elseif($self_groupid>0){//组长
-            $son_adminid = $this->t_group_user_month->get_son_adminid_by_up_groupid($month,$self_groupid);
-        }
-        foreach($son_adminid as $item){
-            if($item['adminid']>0){
-                $son_adminid_arr[] = $item['adminid'];
+        if($month == strtotime(date('Y-m-1'))){
+            $admin_revisiterid_list = $this->get_group_adminid_list($adminid);
+        }else{
+            $adminid = $adminid>0?$adminid:$this->get_account_id();
+            $majordomo_groupid=$this->t_main_major_group_name_month->is_master($month,$adminid);
+            $admin_main_groupid=$this->t_main_group_name_month->is_master($month,$adminid);
+            $self_groupid=$this->t_group_name_month->is_master($month,$adminid);
+            //主管查看下级例子
+            $admin_revisiterid_list = [];
+            $son_adminid = [];
+            $son_adminid_arr = [];
+            if($majordomo_groupid>0){//总监
+                $son_adminid = $this->t_main_group_name_month->get_son_adminid_by_up_groupid($month,$majordomo_groupid);
+            }elseif($admin_main_groupid>0){//经理
+                $son_adminid = $this->t_group_name_month->get_son_adminid_by_up_groupid($month,$admin_main_groupid);
+            }elseif($self_groupid>0){//组长
+                $son_adminid = $this->t_group_user_month->get_son_adminid_by_up_groupid($month,$self_groupid);
             }
+            foreach($son_adminid as $item){
+                if($item['adminid']>0){
+                    $son_adminid_arr[] = $item['adminid'];
+                }
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $admin_revisiterid_list = array_unique($son_adminid_arr);
         }
-        array_unshift($son_adminid_arr,$adminid);
-        $admin_revisiterid_list = array_unique($son_adminid_arr);
         return $admin_revisiterid_list;
     }
 

@@ -105,8 +105,8 @@ class test_sam  extends Controller
 
 
     public function teacher_spring(){
-        $start = "1517932800";
-        $end   = "1519315200";
+        $start = "1518624000";
+        $end   = "1519228800";
 
         
         for ($i=$start; $i <= $end ; ) { 
@@ -114,10 +114,28 @@ class test_sam  extends Controller
             $end_time   = $i + 86400;
 
             $day  = date("Y-m-d",$start_time);
-            echo "<h2>".$day."</h2>";
-            echo "<table align='center'>";                                                                                                                                                                                                                                                                                             
-            
+            $ret = $this->t_teacher_spring->get_info($start_time,$end_time);
+            $count = $this->t_teacher_spring->get_info_count($start_time,$end_time);
+            echo "<div align='center'>";
+            echo "<span >".$day."参与人次".$count."</span>";
+            echo "<table align='center' border='1px solid red'>"; 
+            echo "<th width='200px'>获奖人姓名</th><th width='200px'>手机号</th><th width='200px'>时间</th><th width='200px'>次数</th>";                    
+            foreach ($ret as $key => $value) {
+                if($value['result'] == 1){
+                    echo "<tr>";
+                    $nick = $this->t_teacher_info->get_nick($value['teacherid']);
+                    echo "<td width='200px' align='center'>";echo $nick;echo "</td>";
+                    $phone  = $this->t_teacher_info->get_phone($value['teacherid']);
+                    echo "<td width='200px' align='center'>";echo $phone;echo "</td>";
+                    $time = date("Y-m-d H:i:s",$value['add_time']);
+                    echo "<td width='200px' align='center'>";echo $time;echo "</td>";
+                    echo "<td width='200px' align='center'>";echo $value['rank'];echo "</td>";
+                    echo "</tr>";
+                }
+                
+            }
             echo "</table>";
+            echo "</div>";
             $i = $i + 86400;    
         }   
 
