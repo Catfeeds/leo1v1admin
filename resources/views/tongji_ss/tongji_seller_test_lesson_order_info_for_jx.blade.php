@@ -102,8 +102,8 @@
                             {!!\App\Helper\Utils::th_order_gen([
                                 ["年级","name_grade" ],
                                 ["试听成功数","num_grade" ],
-                                ["签单数","order_grade" ],
-                                ["签单率","per_grade"],
+                                ["试听转化数","order_grade" ],
+                                ["试听转化率","per_grade"],
                                ])  !!}
 
                         </thead>
@@ -126,12 +126,12 @@
                     <table   class="table table-bordered table-striped"   >
                         <thead>
                             <!-- <tr>  <td> 科目  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr>
-                               -->
+                            -->
                             {!!\App\Helper\Utils::th_order_gen([
                                 ["科目","name_subject" ],
                                 ["试听成功数","num_subject" ],
-                                ["签单数","order_subject" ],
-                                ["签单率","per_subject"],
+                                ["试听转化数","order_subject" ],
+                                ["试听转化率","per_subject"],
                                ])  !!}
 
                         </thead>
@@ -159,8 +159,8 @@
                         {!!\App\Helper\Utils::th_order_gen([
                             ["试卷","name_paper" ],
                             ["试听成功数","num_paper" ],
-                            ["签单数","order_paper" ],
-                            ["签单率","per_paper"],
+                            ["试听转化数","order_paper" ],
+                            ["试听转化率","per_paper"],
                            ])  !!}
 
                     </thead>
@@ -188,9 +188,9 @@
                             {!!\App\Helper\Utils::th_order_gen([
                                 ["地区","name_location" ],
                                 ["试听成功数","num_location" ],
-                                ["签单数","order_location" ],
-                                ["签单率","per_location"],
-                            ])  !!}
+                                ["试听转化数","order_location" ],
+                                ["试听转化率","per_location"],
+                               ])  !!}
 
 
 
@@ -225,8 +225,12 @@
                                 <td >key3</td>
                                 <td >渠道</td>
                                 <td >试听成功数</td>
+                                <td >试听成功数(去重)</td>
+                                <td >试听转化数</td>
+                                <td >试听转化率</td>
                                 <td >签单数</td>
                                 <td >签单率</td>
+
                                 <td >操作</td>
                             </tr>
                         </thead>
@@ -238,6 +242,7 @@
                                     <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
                                     <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
                                     <td>{{@$var["succ_test_lesson_count"]}}</td>
+                                    <td>{{@$var["dic_succ_test_lesson_count"]}}</td>
                                     <td>{{@$var["order_count"]}}</td>
 
                                     @if(@$var["order_count"]>0)
@@ -249,6 +254,18 @@
                                     @else
                                         <td>0%</td>
                                     @endif
+                                    <td>{{@$var["order_num"]}}</td>
+
+                                    @if(@$var["order_num"]>0)
+                                        @if(@$var['dic_succ_test_lesson_count']>0)
+                                            <td>{{@number_format($var["order_num"]/@$var["dic_succ_test_lesson_count"],2)*100}}%</td>
+                                        @else
+                                            <td>0%</td>
+                                        @endif
+                                    @else
+                                        <td>0%</td>
+                                    @endif
+
 
                                     <td>
                                         <div></div>

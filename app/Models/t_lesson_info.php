@@ -9486,7 +9486,7 @@ lesson_type in (0,1) "
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
-            "l.lesson_user_online_status =1",
+            "(l.lesson_user_online_status in (0,1) or f.flow_status = 2)",
             "lesson_type = 2",
             "lesson_del_flag = 0",
         ];
@@ -9508,6 +9508,7 @@ lesson_type in (0,1) "
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." left join %s m on t.phone=m.phone"
                                   ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
                                   ." where %s and tq.accept_flag=1 and ts.require_admin_type=2 group by check_value" ,
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
@@ -9517,6 +9518,7 @@ lesson_type in (0,1) "
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_flow::DB_TABLE_NAME,
                                   $where_arr
         );
 

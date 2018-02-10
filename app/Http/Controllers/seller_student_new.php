@@ -159,23 +159,28 @@ class seller_student_new extends Controller
         //主管查看下级例子
         $admin_revisiterid_list = [];
         if($button_show_flag == 0){
-            $son_adminid = [];
-            $son_adminid_arr = [];
-            if($majordomo_groupid>0){//总监
-                $son_adminid = $this->t_admin_main_group_name->get_son_adminid_by_up_groupid($majordomo_groupid);
-            }elseif($admin_main_groupid>0){//经理
-                $son_adminid = $this->t_admin_group_name->get_son_adminid_by_up_groupid($admin_main_groupid);
-            }elseif($self_groupid>0){//组长
-                $son_adminid = $this->t_admin_group_user->get_son_adminid_by_up_groupid($self_groupid);
-            }
-            foreach($son_adminid as $item){
-                if($item['adminid']>0){
-                    $son_adminid_arr[] = $item['adminid'];
-                }
-            }
-            array_unshift($son_adminid_arr,$this->get_account_id());
-            $admin_revisiterid_list = array_unique($son_adminid_arr);
+            // $son_adminid = [];
+            // $son_adminid_arr = [];
+            // if($majordomo_groupid>0){//总监
+            //     $son_adminid = $this->t_admin_main_group_name->get_son_adminid_by_up_groupid($majordomo_groupid);
+            // }elseif($admin_main_groupid>0){//经理
+            //     $son_adminid = $this->t_admin_group_name->get_son_adminid_by_up_groupid($admin_main_groupid);
+            // }elseif($self_groupid>0){//组长
+            //     $son_adminid = $this->t_admin_group_user->get_son_adminid_by_up_groupid($self_groupid);
+            // }
+            // foreach($son_adminid as $item){
+            //     if($item['adminid']>0){
+            //         $son_adminid_arr[] = $item['adminid'];
+            //     }
+            // }
+            // array_unshift($son_adminid_arr,$this->get_account_id());
+            // $admin_revisiterid_list = array_unique($son_adminid_arr);
+            $common_new = new \App\Http\Controllers\common_ex;
+            $month = $common_new->get_seller_month($start_time,$end_time)[0];
+            $admin_revisiterid_list = $common_new->get_group_adminid_list($self_adminid);
         }
+
+
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,

@@ -4944,7 +4944,7 @@ class tongji_ss extends Controller
 
         $this->t_seller_student_origin->switch_tongji_database();
 
-        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
+        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list);
 
         $data_map = &$origin_info['list'];
 
@@ -4955,17 +4955,26 @@ class tongji_ss extends Controller
             $check_value=$test_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+            $data_map[$check_value]["dic_succ_test_lesson_count"] = $test_item["distinct_succ_count"];
         }
 
 
         $this->t_order_info->switch_tongji_database();
         $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list);
+        $order_data = $this->t_order_info->get_node_type_order_data_now("origin",$start_time,$end_time,$require_adminid_list,-1,"","oi.order_time", "");
+
 
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
             $data_map[$check_value]["order_count"] = $order_item["have_order"];
         }
+        foreach ($order_data as  $order_item ) {
+            $check_value=$order_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+            $data_map[$check_value]["order_num"] = $order_item["order_count"];
+        }
+
 
 
         foreach ($data_map as &$item ) {
