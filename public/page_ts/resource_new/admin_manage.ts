@@ -660,6 +660,20 @@ $(function(){
         var file_id = $(this).data('file_id');
         var resource_id = $(this).data('resource_id');
 
+        if(type == 1){
+            var reload_status = $(this).data("reload_status");
+            if(reload_status == 0){
+                BootstrapDialog.alert("无审批项");
+                return false;
+            }
+        }else if(type == 2){
+            var kpi_status = $(this).data("kpi_status");
+            if(kpi_status == 0){
+                BootstrapDialog.alert("无审批项");
+                return false;
+            }
+        }
+
         $.do_ajax( '/resource_new/get_record_info',{
            "type"           : type,
            "file_id"        : file_id,
