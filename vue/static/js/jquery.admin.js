@@ -2303,6 +2303,7 @@ jQuery.extend({
         if (width) {
             dlg.getModalDialog().css("width", ""+width+"px");
         }
+      return dlg;
 
     },
 
