@@ -35,6 +35,31 @@
      var identity = "{{@$identity}}";
     </script>
     <style>
+     .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
+     .hide{ display:none}
+     .comment{ width:900px }
+     .comment .comment_item{ width:440px;float:left; margin-bottom: 20px; }
+     .comment .comment_half{ float:left; margin-bottom: 20px; margin-right:10px; }
+     .comment .comment_item .comment_info span{ margin-right:10px }
+     .comment .comment_eject tr td{ padding:7px 10px; text-align: center; border: 1px solid #42474a; }
+
+     .error{ width:850px}
+     .error .error_info .error_title{ font-size: 17px;font-weight: bold;}
+     .error .error_info .error_status_choose{ float:right;margin-right:10px }
+     .error .error_info .error_choose{ width: 120px;margin-left: 10px;display: inline-block; }
+     .error .error_upload_info{ text-align: right;margin: 10px;font-size: 14px;color: #828181;}
+     .error .error_content{ padding: 10px 5px;background: #fbfbfb;}
+     .error .error_detail tr th,.error .error_detail tr td{border: 1px solid #aab2b7;padding:7px 10px;  }
+     .error .error_detail .look_err_pic{ background: #d2cfcf;padding: 0px 12px;color: #3290a7;margin-right: 10px;}
+     .error_type_1,.error_type_2{color:#029dc3;margin-right: 10px;}
+     .error_author{ margin: 0px 20px;color: #6f6a6a;}
+     .error_time{color: #6f6a6a; }
+     .error .color-blue{ padding:0px 10px}
+     .error .error_status{ color:#616561 }
+     .error .error_file_status{ color:red}
+     .error .error_status_pass{  }
+    </style>
+    <style>
      .hide{ display:none }
      .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
     </style>
