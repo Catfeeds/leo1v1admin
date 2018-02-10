@@ -257,6 +257,7 @@ class login extends Controller
         if($ret_row['account_role'] == 2 && $ret_row['seller_student_assign_type'] == 1){
             list($start_time, $end_time)=$this->task->get_in_date_range_day(0);
             $system_assign_count = $this->t_seller_student_system_assign_log->get_cc_assign_count($ret_row['uid'],$start_time, $end_time);
+            \App\Helper\Utils::logger("system_assign_count:$system_assign_count");
             if(!$system_assign_count){
                 $system_assign = new \App\Console\Commands\seller_student_system_assign();
                 $system_assign->do_handle();
