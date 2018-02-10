@@ -1450,8 +1450,6 @@ class resource extends Controller
                 foreach( $info as $var ){
                     if( $wx_openid != $var['wx_openid'] ){
                         \App\Helper\Utils::logger("admin do sth:".json_encode($var));
-                        $wx_openid = $var['wx_openid'];
-=======
                         $wx_openid = $var['wx_openid'];                        
                         $file_name    = $var['file_title'];
                         $teacher_nick = $var['nick'];
