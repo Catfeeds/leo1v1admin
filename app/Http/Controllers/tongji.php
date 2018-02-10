@@ -1985,22 +1985,6 @@ class tongji extends Controller
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         // $ret_info = \App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
         $ret_info=\App\Helper\Common::gen_admin_member_data_new($res,[],0,strtotime(date("Y-m-01",$start_time)),$group_adminid_list);
-        foreach( $admin_list as &$item ) {
-            $item["become_member_time"] = isset($item["become_member_time"])?(isset($item["create_time"])?($item["become_member_time"]>$item["create_time"]?$item["become_member_time"]:$item["create_time"]):0):0;
-            $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
-            $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
-            E\Emain_type::set_item_value_str($item);
-            E\Eseller_level::set_item_value_str($item);
-            if($item['level'] == "l-5" ){
-                \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time",'','Y-m-d');
-                \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time",'','Y-m-d');
-                $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
-            }else{
-                $item["become_member_time"] = '';
-                $item["leave_member_time"] = '';
-                $item["del_flag_str"] = '';
-            }
-        }
         foreach($ret_info as $key=>&$item){
             $item["become_member_time"] = isset($item["become_member_time"])?(isset($item["create_time"])?($item["become_member_time"]>$item["create_time"]?$item["become_member_time"]:$item["create_time"]):0):0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
