@@ -28,7 +28,7 @@ class seller_student_system_assign extends cmd_base
         $config=\App\Helper\Config::get_seller_new_user_day_count();
 
         $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
-        $check_work_time= strtotime(date("Y-m-d 15:40:00"));
+        $check_work_time= strtotime(date("Y-m-d 14:00:00"));
         $need_work_flag=  (time(NULL) > $check_work_time);
 
         //得到要处理的的人

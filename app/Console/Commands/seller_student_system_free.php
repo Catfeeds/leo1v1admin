@@ -30,7 +30,7 @@ class seller_student_system_free extends cmd_base
     {
         \App\Helper\Utils::logger("begin");
         //14:30  发现没拨打
-        $check_time=strtotime(date("Y-m-d 15:50"));
+        $check_time=strtotime(date("Y-m-d 14:30"));
         $today_start_time=strtotime(date("Y-m-d"));
         $now= time(NULL);
         $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
@@ -78,7 +78,7 @@ class seller_student_system_free extends cmd_base
                     $account="系统分配-回收例子";
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
                     if($check_hold_flag)
-                        $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid);
+                        $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid,$is_effect=1);
                     //记录释放日志
                     $this->task->t_seller_student_system_release_log->add_log(
                         $admin_revisiterid,$userid,$phone,$release_reason_flag,$admin_assign_time

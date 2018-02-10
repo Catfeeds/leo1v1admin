@@ -441,6 +441,16 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $path = dirname(__FILE__);
+        $file_path = $path."/test.txt";
+        if(!file_exists($file_path)){
+            $fp = fopen($file_path,"w+");
+            // $str = fread($fp,filesize($file_path));//指定读取大小，这里把整个文件内容读取出来
+            // echo $str = str_replace("\r\n","<br />",$str);
+        }
+        $fp = fopen($file_path,"w+");
+        $fw = fwrite($fp,"hello,world");
+        dd($fw);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         if($end_time >= time()){
             $end_time = time();
