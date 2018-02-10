@@ -1536,6 +1536,20 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
 
     //获取老师最近一次通过的模拟试听记录id
     public function get_late_trial_train_record_id($teacherid,$type,$lesson_style,$trial_train_status){
-        
+        $where_arr=[
+            ["tr.teacherid=%u",$teacherid,-1],  
+            ["tr.type=%u",$type,-1],  
+            ["tr.lesson_style=%u",$lesson_style,-1],  
+            ["tr.trial_train_status=%u",$trial_train_status,-1],  
+        ];
+        $sql = $this->gen_sql_new("select tr.id,tr.train_lessonid,tr.record_info,tr.acc "
+                                  ." from %s tr "
+                                  ." where %s and not exists (select 1 from %s where teacherid=tr.teacherid and type=tr.type and lesson_style=tr.lesson_style and trial_train_status = tr.trial_train_status and add_time>tr.add_time)",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_row($sql);
+
     }
 }

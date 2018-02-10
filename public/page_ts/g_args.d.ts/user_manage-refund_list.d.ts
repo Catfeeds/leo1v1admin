@@ -59,6 +59,8 @@ interface RowData {
 	grade	:any;
 	need_receipt	:any;
 	should_refund_money	:any;
+	order_operator	:any;
+	refund_user_name	:any;
 	is_staged_flag	:any;
 	deal_nick	:any;
 	ass_nick	:any;

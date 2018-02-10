@@ -14,7 +14,11 @@ function load_data(){
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
-		tag_five:	$('#id_tag_five').val()
+		tag_five:	$('#id_tag_five').val(),
+        adminid:    $('#id_adminid').val(),
+        reload_adminid:  $('#id_reload_adminid').val(),
+        kpi_adminid:  $('#id_kpi_adminid').val(),
+        status:  $('#id_status').val(),
 		});
 }
 $(function(){
@@ -104,8 +108,10 @@ $(function(){
     Enum_map.append_option_list("resource_error",$('#id_error_type'));
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
     $('#id_use_type').val(g_args.use_type);
-
-
+    $('#id_adminid').val(g_args.adminid);
+    $('#id_reload_adminid').val(g_args.reload_adminid);
+    $('#id_kpi_adminid').val(g_args.kpi_adminid);
+    $('#id_status').val(g_args.status);
 
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);

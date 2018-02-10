@@ -65,6 +65,8 @@ class ajax_deal extends Controller
             \App\Helper\Utils::logger("node_type:$node_type,flowid:$flowid");
 
             list($node_type,$adminid, $auto_pass_flag)=$flow_class::get_next_node_info( $node_type, $flowid, $adminid );
+            \App\Helper\Utils::logger("node_type===".$node_type);
+
             //\App\Helper\Utils::logger(" 22 node_type:$node_type,flowid:$flowid");
 
         } while ($node_type  != -1);
