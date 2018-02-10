@@ -1422,7 +1422,7 @@ class resource extends Controller
             $reload_adminid = $this->t_resource_file->get_reload_adminid($file_id);
             if($reload_adminid){
                 $reload_phone = $this->t_manager_info->get_phone($reload_adminid);
-                $reload_nick = $this->t_teacher_info->get_nick($reload_adminid);
+                $reload_nick = $this->t_manager_info->get_name($reload_adminid);
                 $reload_wx = $this->t_teacher_info->get_wx_openid_by_phone($reload_phone);
 
                 \App\Helper\Utils::logger("重传人手机:$reload_phone 微信$reload_wx");
