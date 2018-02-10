@@ -23,8 +23,10 @@ class flow_base{
 
     static function set_node_map () {
         $task=static::get_task_controler();
-        static::$node_map=\App\Helper\Utils::json_decode_as_array( $task->t_flow_config->get_node_map(static::$type ) );
-
+        $vars= get_class_vars(static::class);
+        if ( array_has($vars, "node_map"  ) )  {
+            static::$node_map=\App\Helper\Utils::json_decode_as_array( $task->t_flow_config->get_node_map(static::$type ) );
+        }
     }
 
     static function get_node_name( $node_type ) {

@@ -81,8 +81,24 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
         $node_map=\App\Flow\flow::get_flow_class_node_map ($flow_type);
         $cur_node= $node_map[$node_type] ;
         \App\Helper\Utils::logger("DO =====node_type:$node_type:". $cur_node["name"]  );
+        $cur_type= $cur_node["type"];
+        $switch_value=-1;
+        if ($cur_type=="function") {
+            $cur_flow_function=$cur_node["flow_function"];
+            //得到切换的分支值
+            $switch_value=\App\Flow\flow_base::do_function($cur_flow_function, $flow_type, $node_type, $flow_info, $self_info, $adminid);
+
+        }
+
         $next_node_list=$cur_node["next_node_list"];
         foreach ($next_node_list as $node_info ) {
+            if ($cur_type=="function") {
+                \App\Helper\Utils::logger("check switch_value : ". $node_info["switch_value"]);
+                if ( $node_info["switch_value"] != $switch_value ){ //不是选定的分支过
+                    continue;
+                }
+            }
+
             $id=$node_info["id"];
             $check_node=$node_map[$id];
             $type= $check_node["type"];
@@ -94,55 +110,11 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
             }else if ($type =="end") {
                 return  [ -1 , 0, false ];
             }else if ($type =="function" ){
-
-                $flow_function= $check_node["flow_function"];
-                //得到切换的分支值
-                $switch_value=\App\Flow\flow_base::do_function($flow_function, $flow_type, $id, $flow_info, $self_info, $adminid);
-                \App\Helper\Utils::logger("do function == switch_value : $switch_value ");
-                foreach ($check_node["next_node_list"] as $func_item  ) {
-
-                    \App\Helper\Utils::logger("check switch_value : ". $func_item["switch_value"]);
-                    if ($func_item["switch_value"]== $switch_value ){
-
-                        return $this->get_next_node_by_switch_node( $flow_type, $func_item["id"] , $flow_info, $self_info , $adminid  );
-                        break;
-                    }
-                }
-            }
-            dd("遍历路线出错: 当前节点". $cur_node["name"] );
-            return null;
-        }
-
-    }
-    public  function get_next_node_by_switch_node(  $flow_type,$node_type, $flow_info, $self_info , $adminid  ) {
-        $id=$node_type;
-        $node_map=\App\Flow\flow::get_flow_class_node_map ($flow_type);
-        $check_node=$node_map[$id];
-        $type= $check_node["type"];
-        if ($type =="admin") { //设置给某人
-            return [  $id, $check_node["adminid"], false];
-        }else if ($type =="uplevel_admin") {//上级
-            $uplevel_adminid= $this->get_uplevel_adminid($adminid);
-            return [  $id, $uplevel_adminid  , false];
-        }else if ($type =="end") {
-            return  [ -1 , 0, false ];
-        }else if ($type =="function" ){
-
-            $flow_function= $check_node["flow_function"];
-            //得到切换的分支值
-            $switch_value=\App\Flow\flow_base::do_function($flow_function, $flow_type, $id, $flow_info, $self_info, $adminid);
-            \App\Helper\Utils::logger("do function == switch_value : $switch_value ");
-            foreach ($check_node["next_node_list"] as $func_item  ) {
-
-                \App\Helper\Utils::logger("check switch_value : ". $func_item["switch_value"]);
-                if ($func_item["switch_value"]== $switch_value ){
-
-                    return $this->get_next_node_by_switch_node( $flow_type, $func_item["id"] , $flow_info, $self_info , $adminid  );
-                    break;
-                }
+                return $this->get_next_node( $flow_type, $node_info["id"] , $flow_info, $self_info , $adminid  );
             }
         }
-        dd("遍历分支路线出错: 当前节点". $check_node["name"] );
+        dd("遍历路线出错: 当前节点". $cur_node["name"] );
+        return null;
     }
 
     public function get_uplevel_adminid ( $adminid ) {
