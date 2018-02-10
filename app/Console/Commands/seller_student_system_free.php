@@ -30,7 +30,7 @@ class seller_student_system_free extends cmd_base
     {
         \App\Helper\Utils::logger("begin");
         //14:30  发现没拨打
-        $check_time=strtotime(date("Y-m-d 14:30"));
+        $check_time=strtotime(date("Y-m-d 15:20"));
         $today_start_time=strtotime(date("Y-m-d"));
         $now= time(NULL);
         $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
