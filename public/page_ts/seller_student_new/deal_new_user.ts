@@ -6,7 +6,6 @@ $(function(){
         $.reload_self_page ( {
         });
     }
-
     // 处理标记空号功能 [james]
     // var hasCalledNum = g_args.hasCalledNum;
     // if(hasCalledNum>3 && g_args.ccNoCalledNum>0){

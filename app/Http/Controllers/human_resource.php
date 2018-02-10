@@ -2815,7 +2815,7 @@ class human_resource extends Controller
                 $data['keyword2'] = "签订《理优平台老师兼职协议》 ";
                 $data['keyword3'] = date("Y-m-d",time());
                 $data['remark']   = "点击此链接，签订入职协议";
-                $url = "http://wx-teacher.leo1v1.com/wx_teacher_web/jack_test";
+                $url = "http://wx-teacher.leo1v1.com/wx_teacher_web/agreement";
                 $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
                 if($wx_openid){
                     \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);

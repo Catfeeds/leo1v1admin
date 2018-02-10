@@ -34,14 +34,15 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_level_goal-seller_level_goal_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		seller_level:	$('#id_seller_level').val(),
 		level_goal:	$('#id_level_goal').val(),
 		level_face:	$('#id_level_face').val(),
 		level_icon:	$('#id_level_icon').val(),
 		num:	$('#id_num').val()
-    });
+		});
 }
 $(function(){
 
@@ -67,6 +68,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_level" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_level title", "seller_level", "th_seller_level" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -74,6 +76,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_level_goal" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["level_goal title", "level_goal", "th_level_goal" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -81,6 +84,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_level_face" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["level_face title", "level_face", "th_level_face" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -88,6 +92,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_level_icon" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["level_icon title", "level_icon", "th_level_icon" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -95,4 +100,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_num" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["num title", "num", "th_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

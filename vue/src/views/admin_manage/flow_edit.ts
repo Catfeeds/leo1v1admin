@@ -21,6 +21,7 @@ export default class extends vtable {
   //设置扩展信息
   set_line_info(id, args ) {
     this.$flow.$lineData[id] = $.extend({}, this.$flow.$lineData[id],  args);
+    console.log( "line data:", this.$flow.$lineData[id]  );
   }
   //@desn:获取结点类型
   get_node_type( type) {
@@ -72,6 +73,10 @@ export default class extends vtable {
         var arr=[
           ["分支条件" , $switch_value ],
         ];
+        var line_info=me.get_line_info(id );
+        console.log( "line_info", line_info);
+        $switch_value.val( line_info.switch_value );
+
         $.show_key_value_table("设置", arr ,{
           label: '确认',
           cssClass: 'btn-warning',
@@ -111,6 +116,11 @@ export default class extends vtable {
   //@desn:根据结点id获取结点信息
   get_node_info(id) {
     return this.$flow. getItemInfo( id, "node");
+  }
+
+  //@desn:根据结点id获取结点信息
+  get_line_info(id) {
+    return this.$flow. getItemInfo( id, "line");
   }
   //@desn:双击操作分发器
   do_node_opt( id   ) {
@@ -211,13 +221,13 @@ export default class extends vtable {
     var me=this;
 
     var $admin=$("<input/>");
-    var flow_title=$("<input/>");
+    var $title=$("<input/>");
     var adminid= info.adminid? info.adminid: 0;
     $admin.val(adminid);
-
+    $title.val( info.title? info.title: "个人审批" );
     var arr=[
+      ["节点名称" , $title  ],
       ["管理员" , $admin  ],
-      ["审批类型" , flow_title  ],
     ];
 
     $.show_key_value_table("指定人审批", arr ,{
@@ -225,13 +235,14 @@ export default class extends vtable {
       cssClass: 'btn-warning',
       action: function(dialog) {
         var adminid=$admin.val();
-        var flow_title_val = flow_title.val();
+        var title = $title.val();
         var args={
           "adminid" : adminid,
+          "title" : title,
         }
         me.set_node_info(id, args );
         $.do_ajax_get_nick( "account", adminid, function(_id, nick){
-          me. flow_set_name( id, flow_title_val+":"+nick ,"node"  );
+          me. flow_set_name( id, title+":"+nick ,"node"  );
         });
       }
     },function(){
@@ -259,7 +270,7 @@ export default class extends vtable {
         json["dash"] = true;
       }
 
-      console.log(from_node_type, to_node_type );
+      console.log( "line:" , json );
 
     }else if ( type == "node" ) {
       this.do_add_node(id, json);
@@ -397,7 +408,7 @@ export default class extends vtable {
 
 
     //JQuery 写法
-    var jquery_body = $("<div> <button class=\"btn btn-primary do-save\">保存</button> ||||||  <a href=\"javascript:;\"class=\"btn btn-warning  do-reload\">重新加载</a> </div>");
+    var jquery_body = $("<div> <button class=\"btn btn-primary do-save\">保存</button> ||||||  <a href=\"javascript:;\"class=\"btn btn-warning  do-reload\">重新加载</a> ||||||  <a href=\"javascript:;\"class=\"btn btn-warning  do-show\">内部数据</a>  </div>");
 
     //@desn:保存审批信息
     jquery_body.find(".do-save").on( "click" ,function(e) {
@@ -412,8 +423,15 @@ export default class extends vtable {
     });
     //@desn:重新加载
     jquery_body.find(".do-reload").on( "click" ,function(e) {
-      BootstrapDialog.alert(" test 2");
+      console.log ( me.$flow.$lineData );
     });
+
+    //@desn:重新加载
+    jquery_body.find(".do-show").on( "click" ,function(e) {
+      $.wopen("/admin_manage/flow_show_map?flow_type=" +  me.get_args().flow_type );
+    });
+
+
 
 
     $.admin_query_common({
