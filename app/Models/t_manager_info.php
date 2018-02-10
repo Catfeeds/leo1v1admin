@@ -2541,4 +2541,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select account from %s where account_role = $role and del_flag = 0 ", self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+
+
+    public function get_teacher_nick($adminid){
+        $sql = $this->gen_sql_new("select t.nick from %s m left join %s t on t.phone = m.phone "
+                                ." where m.uid = $adminid ",
+                                self::DB_TABLE_NAME,
+                                t_teacher_info::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
 }

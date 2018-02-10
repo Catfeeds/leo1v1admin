@@ -722,7 +722,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 "select $field_name  as check_value , count(*) as test_lesson_count, "
                 ." count( distinct t.userid ) as distinct_test_count, "
                 ." sum(  success_flag in (0,1 ) ) as succ_test_lesson_count,  "
-                ." sum(lesson_user_online_status in (0,1) or f.flow_status = 2) as succ_test_lesson_count_system "
+                ." sum(lesson_user_online_status in (0,1) or f.flow_status = 2) as succ_test_lesson_count_system, "
+                ."count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,l.userid,null)) distinct_succ_count_system"
                 ." from %s tr "
                 ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
                 ." join %s n  on t.userid=n.userid "
@@ -3976,7 +3977,7 @@ ORDER BY require_time ASC";
             'count(distinct if(tr.accept_flag = 1,t.userid,null)) as distinct_test_count,'.
             // 'count(distinct if((tss.success_flag in (0,1 ) and (l.lesson_user_online_status in (0,1) or f.flow_status = 2) '.
             // 'and tr.accept_flag=1),t.userid,null)) as distinct_succ_count '.
-            'count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,t.userid,null)) distinct_succ_count'.
+            'count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,l.userid,null)) distinct_succ_count'.
             " from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
