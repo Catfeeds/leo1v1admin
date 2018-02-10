@@ -105,8 +105,8 @@ class test_sam  extends Controller
 
 
     public function teacher_spring(){
-        $start = "1517932800";
-        $end   = "1519315200";
+        $start = "1518624000";
+        $end   = "1519228800";
 
         
         for ($i=$start; $i <= $end ; ) { 
