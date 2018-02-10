@@ -95,7 +95,7 @@ export default class extends vtable {
 
       });
 
-    }else if(!flow_function){
+    }else if(from_type == 'function' && !flow_function){
       alert('请先选择分支类型!');
     }
 
