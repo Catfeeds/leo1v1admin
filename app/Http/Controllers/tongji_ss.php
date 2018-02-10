@@ -4944,7 +4944,7 @@ class tongji_ss extends Controller
 
         $this->t_seller_student_origin->switch_tongji_database();
 
-        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
+        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list);
 
         $data_map = &$origin_info['list'];
 
