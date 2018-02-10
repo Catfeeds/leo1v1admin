@@ -577,7 +577,7 @@ class resource_new extends Controller
         $is_teacher = 0;
         //dd($ret_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180204111439,
+            '_publish_version'    => 20180202111439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),

@@ -585,10 +585,10 @@ $(function(){
     var color_id = 0,color_res = 0,color_flag = 0;
     $('.common-table tr').each(function(i){
         if(i>0){
-            if($(this).data('file_id') == color_res){
+            if($(this).data('resource_id') == color_res){
                 $(this).css('background',color_id );
             } else {
-                color_res = $(this).data('file_id');
+                color_res = $(this).data('resource_id');
                 (color_flag == 0) ? color_flag = 1: color_flag = 0;
                 (color_flag == 0) ? color_id = '#e6e6e6' : color_id = '#bfbfbf';
                 $(this).css('background',color_id);
@@ -934,5 +934,6 @@ $(function(){
     $.admin_select_user( $("#id_adminid"), "research_teacher", load_data);
     $.admin_select_user( $("#id_reload_adminid"), "research_teacher", load_data);
     $.admin_select_user( $("#id_kpi_adminid"), "research_teacher", load_data);
+
 });
 
