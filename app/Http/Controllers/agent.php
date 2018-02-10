@@ -441,6 +441,15 @@ class agent extends Controller
     }
 
     public function test_new(){
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        if($end_time >= time()){
+            $end_time = time();
+        }
+        $common_new = new \App\Http\Controllers\common_ex;
+        $month = $common_new->get_seller_month($start_time,$end_time)[0];
+        $group_adminid_list = $common_new->get_month_group_adminid_list($month,$adminid=869);
+        dd($group_adminid_list);
+
         $ass = $this->cache_get_assistant_nick($assistantid=134509);
         dd($ass);
         $orderid = $this->t_order_info->get_last_orderid_by_userid($userid=51084);

@@ -30,7 +30,7 @@ class seller_student_system_free extends cmd_base
     {
         \App\Helper\Utils::logger("begin");
         //14:30  发现没拨打
-        $check_time=strtotime(date("Y-m-d 14:30"));
+        $check_time=strtotime(date("Y-m-d 15:20"));
         $today_start_time=strtotime(date("Y-m-d"));
         $now= time(NULL);
         $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
@@ -44,11 +44,13 @@ class seller_student_system_free extends cmd_base
                 $admin_assign_time= $item["admin_assign_time"];
                 $check_hold_flag = true;
                 $free_flag=!isset($work_start_time_map[$admin_revisiterid] ); //没有登录
+                if($free_flag)
+                    $release_reason_flag = 4; //未登录释放今天例子
                 if (!$free_flag) {
-                    $check_hold_flag = false;
-                    $release_reason_flag = 1;
                     if ($admin_assign_time < $today_start_time ) { //今天之前的例子都free
                         $free_flag=true;
+                        $release_reason_flag = 1;
+                        $check_hold_flag = false;
                     }
                 }
                 if (!$free_flag) {
@@ -58,6 +60,7 @@ class seller_student_system_free extends cmd_base
                         //TODO
                         $free_flag=true;
                         $release_reason_flag = 2;
+                        $check_hold_flag = false;
                     }
                 }
                 //再次检测该用户是否已拨通
