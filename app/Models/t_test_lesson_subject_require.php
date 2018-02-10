@@ -3416,16 +3416,17 @@ ORDER BY require_time ASC";
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , "
-            ." sum(lesson_user_online_status = 1 or flow_status=2  ) as succ_test_lesson_count  "
+            ." sum(lesson_user_online_status in (0,1) or flow_status=2  ) as succ_test_lesson_count  ,"
+            ."count(distinct if(l.lesson_user_online_status in (0,1) or f.flow_status = 2 ,l.userid,null)) distinct_succ_count"
             ." from %s tr "
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s s on s.userid = l.userid "
-            ." left join %s f on f.from_key_int = l.lessonid"
+            ." left join %s f on f.from_key_int = l.lessonid and f.flow_type=2003"
             ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
-            ." and is_test_user=0 and l.lesson_type=2 "
+            ." and is_test_user=0 and l.lesson_type=2 and l.lesson_del_flag=0 "
             ." and require_admin_type = 2 "
             ." group by check_value " ,
             self::DB_TABLE_NAME,
