@@ -626,6 +626,7 @@ class url_power_map {
 			'/teacher_warn/tea_warn_list'	=>1363000,
 			'/resource/resource_frame_new'	=>1327405,
 			'/resource/resource_count'	=>1327402,
+			'/resource_new/admin_manage'	=>1327406,
 			'/resource/get_all'	=>1327403,
 			'/resource/get_del'	=>1327404,
 			'/user_manage_new/get_fulltime_teacher_attendance_info'	=>1320500,
