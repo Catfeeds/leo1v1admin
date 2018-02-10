@@ -2796,7 +2796,7 @@ class human_resource extends Controller
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
         if($status==1){
-            if($teacherid==240314 ){
+            if($teacherid==240314 || $teacherid==392077){
                 //新版,发送入职前在线签订入职协议
                 /**
                  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o

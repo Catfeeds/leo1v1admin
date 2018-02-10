@@ -615,7 +615,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             .",aga.nickname "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
-            .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid '
+            .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid and sal.check_hold_flag = 0 '
             ."  left join %s s on ss.userid=s.userid   "
             ." left join %s tr on   t.current_require_id = tr.require_id "
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "

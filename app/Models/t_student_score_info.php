@@ -410,14 +410,17 @@ from t_student_info s left join t_order_info o on o.userid = s.userid where reg_
     }
 
     public function get_num(){
-      $sql = "select l.uid, l.adminid, s.userid, max(l.create_time) as create_time, m.account_role, mm.account_role as uid_account_role
-from db_weiyi_admin.t_seller_edit_log l  
-left join db_weiyi.t_seller_student_new ss on ss.userid=l.new  
-left join db_weiyi.t_student_info s on s.userid=ss.userid  
-left join db_weiyi_admin.t_manager_info m on l.adminid = m.uid
-left join db_weiyi_admin.t_manager_info mm on l.uid = mm.uid
-where l.uid <> l.adminid and l.type = 3 and s.is_test_user=0 
-and l.create_time > 1508515200 and l.create_time < 1518019200 group by s.phone";
+//       $sql = "select l.uid, l.adminid, s.userid, max(l.create_time) as create_time, m.account_role, mm.account_role as uid_account_role
+// from db_weiyi_admin.t_seller_edit_log l  
+// left join db_weiyi.t_seller_student_new ss on ss.userid=l.new  
+// left join db_weiyi.t_student_info s on s.userid=ss.userid  
+// left join db_weiyi_admin.t_manager_info m on l.adminid = m.uid
+// left join db_weiyi_admin.t_manager_info mm on l.uid = mm.uid
+// where l.uid <> l.adminid and l.type = 3 and s.is_test_user=0 
+// and l.create_time > 1508515200 and l.create_time < 1518019200 group by s.phone";
+
+      $sql = "select f.file_id, f.resource_id ,f.reload_adminid , f.kpi_adminid, r.adminid  from t_resource_file f 
+left join t_resource r on r.resource_id = f.resource_id";
       return $this->main_get_list($sql);
     }
 

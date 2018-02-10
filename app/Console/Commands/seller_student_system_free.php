@@ -44,11 +44,13 @@ class seller_student_system_free extends cmd_base
                 $admin_assign_time= $item["admin_assign_time"];
                 $check_hold_flag = true;
                 $free_flag=!isset($work_start_time_map[$admin_revisiterid] ); //没有登录
+                if($free_flag)
+                    $release_reason_flag = 4; //未登录释放今天例子
                 if (!$free_flag) {
-                    $check_hold_flag = false;
-                    $release_reason_flag = 1;
                     if ($admin_assign_time < $today_start_time ) { //今天之前的例子都free
                         $free_flag=true;
+                        $release_reason_flag = 1;
+                        $check_hold_flag = false;
                     }
                 }
                 if (!$free_flag) {
@@ -58,6 +60,7 @@ class seller_student_system_free extends cmd_base
                         //TODO
                         $free_flag=true;
                         $release_reason_flag = 2;
+                        $check_hold_flag = false;
                     }
                 }
                 //再次检测该用户是否已拨通
@@ -75,10 +78,10 @@ class seller_student_system_free extends cmd_base
                     $account="系统分配-回收例子";
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
                     if($check_hold_flag)
-                        $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid);
+                        $this->task->t_seller_student_system_assign_log->update_check_flag($userid,$admin_revisiterid,$is_effect=1);
                     //记录释放日志
                     $this->task->t_seller_student_system_release_log->add_log(
-                        $admin_revisiterid,$userid,$phone,$release_reason_flag
+                        $admin_revisiterid,$userid,$phone,$release_reason_flag,$admin_assign_time
                     );
                 }
             }

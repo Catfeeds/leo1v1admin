@@ -1913,10 +1913,14 @@ class tongji extends Controller
 
     public function seller_personal_money(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $common_new = new \App\Http\Controllers\common_ex;
+        $month = $common_new->get_seller_month($start_time,$end_time)[0];
+        $group_adminid_list = $common_new->get_month_group_adminid_list($month,$this->get_account_id());
+
         list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$num,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,1,''];
         $account_role = E\Eaccount_role::V_2;
         $user_info = trim($this->get_in_str_val('user_info',''));
-        $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role,$user_info);
+        $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role,$user_info,$group_adminid_list);
         $adminid_list = array_unique(array_column($order_user_list,'uid'));
         foreach($adminid_list as $item){
             foreach($order_user_list as $info){
@@ -1979,13 +1983,15 @@ class tongji extends Controller
             $res[$adminid]['money6']  = $item['money6'];
         }
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
-        $ret_info = \App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        // $ret_info = \App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        $ret_info=\App\Helper\Common::gen_admin_member_data_new($res,[],0,strtotime(date("Y-m-01",$start_time)),$group_adminid_list);
         foreach($ret_info as $key=>&$item){
-            $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
+            $item["become_member_time"] = isset($item["become_member_time"])?(isset($item["create_time"])?($item["become_member_time"]>$item["create_time"]?$item["become_member_time"]:$item["create_time"]):0):0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
             E\Emain_type::set_item_value_str($item);
-            if($item['level'] == "l-4" ){
+            E\Eseller_level::set_item_value_str($item);
+            if($item['level'] == "l-5" ){
                 \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time",'','Y-m-d');
                 \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time",'','Y-m-d');
                 $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
@@ -2001,7 +2007,7 @@ class tongji extends Controller
                 $item['leave_member_num'] = '';
             }
 
-            if($item['level'] == 'l-3'){
+            if($item['level'] == 'l-4'){
                 $member[] = [
                     "up_group_name"     => $item['up_group_name'],
                     "group_name"        => $item['group_name'],
@@ -2015,7 +2021,7 @@ class tongji extends Controller
                 $leave_member_num_l3 = 0;
             }
 
-            if($item['level'] == 'l-2'){
+            if($item['level'] == 'l-3'){
                 $member_new[] = [
                     "up_group_name" => $item['up_group_name'],
                     "group_name"    => $item['group_name'],
@@ -2059,7 +2065,7 @@ class tongji extends Controller
             if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
                 unset($item);
             }else{
-                if($item['level'] == 'l-2'){
+                if($item['level'] == 'l-3'){
                     foreach($member_new as $info){
                         if($item['up_group_name'] == $info['up_group_name']){
                             $item['become_member_num'] = $info['become_member_num'];
@@ -2067,7 +2073,7 @@ class tongji extends Controller
                         }
                     }
                 }else{
-                    if($item['level'] == 'l-3'){
+                    if($item['level'] == 'l-4'){
                         foreach($member as $info){
                             if($item['group_name'] == $info['group_name']){
                                 $item['become_member_num'] = $info['become_member_num'];
