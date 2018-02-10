@@ -68,6 +68,11 @@ class wx_teacher_web extends Controller
     public function honor_rank() {}
     public function index (){}
     public function jack_test (){}
+
+    public function agreement(){
+        $url = "http://wx-teacher-web.leo1v1.com/agreement/index.html";
+        header("Location: $url");
+    }
     public function teacher_day(){
         $url = "http://wx-teacher-web.leo1v1.com/teacher_day/index.html";
         header("Location: $url");
