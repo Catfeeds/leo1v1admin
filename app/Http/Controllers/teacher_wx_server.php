@@ -42,6 +42,7 @@ class  teacher_wx_server extends Controller
             array('id'=>'8', 'pid'=>'2', 'name'=>'空闲时间', 'type'=>'view', 'code'=>"http://wx-teacher.leo1v1.com/wx_teacher_web/course_arrange"),
             array('id'=>'9', 'pid'=>'2', 'name'=>'课程评价', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/comment_list'),
             array('id'=>'10', 'pid'=>'2', 'name'=>'我的收入', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/wage_summary'),
+            array('id'=>'17', 'pid'=>'3', 'name'=>'旺到福到', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/redPacket'),
             array('id'=>'11', 'pid'=>'3', 'name'=>'使用手册', 'type'=>'click', 'code'=>'manual'),
             array('id'=>'12', 'pid'=>'3', 'name'=>'优秀视频', 'type'=>'click', 'code'=>'video'),
             array('id'=>'13', 'pid'=>'3', 'name'=>'建议反馈', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/feedback'),
