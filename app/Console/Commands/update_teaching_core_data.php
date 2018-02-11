@@ -42,7 +42,7 @@ class update_teaching_core_data extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         list($date_1['y'],$date_1['m'])=explode("-",date('Y-m',strtotime("2016-12-01")));
-        list($date_2['y'],$date_2['m'])=explode("-",date('Y-m',time()));
+        list($date_2['y'],$date_2['m'])=explode("-",date('Y-m',time()-86400));
         $month_num =  abs($date_1['y']-$date_2['y'])*12 +$date_2['m']-$date_1['m'];
         $month_st = $month_num-2;
         if($month_st<1){
@@ -455,7 +455,7 @@ class update_teaching_core_data extends Command
             $platform_teacher_cc_order = @$test_person_num_total['have_order'];
             $fulltime_teacher_cc_order  =@$tran_avg["cc_order_num"];
 
-            if(time()>= $start_time){
+            if(strtotime(date("Y-m-01",time()-86400)) == $start_time){
                 $week_time = time();
             }else{
                 $week_time = $end_time;
@@ -632,7 +632,7 @@ class update_teaching_core_data extends Command
                 "test_no_reg_num" =>$tea_nu,
                 "fulltime_teacher_count" =>$fulltime_teacher_count,
                 "fulltime_teacher_student" =>$fulltime_teacher_student,
-                "platform_teacher_student" =>$platform_teacher_student ,
+                // "platform_teacher_student" =>$platform_teacher_student ,
                 "fulltime_teacher_lesson_count" =>$fulltime_teacher_lesson_count,
                 "platform_teacher_lesson_count" =>$platform_teacher_lesson_count,
                 "platform_teacher_cc_lesson" =>$platform_teacher_cc_lesson,
@@ -655,11 +655,12 @@ class update_teaching_core_data extends Command
                 "fulltime_teacher_cc_order_shanghai"    =>$fulltime_teacher_cc_order_shanghai,
                 // "fulltime_normal_stu_num_shanghai"      =>$fulltime_normal_stu_num_shanghai,
             ];
-            // if(strtotime(date("Y-m-01",time())) == $start_time){
-                $data_arr["fulltime_normal_stu_num"] = $fulltime_normal_stu_num;
-                $data_arr["platform_normal_stu_num"] = $platform_normal_stu_num;
-                $data_arr["fulltime_normal_stu_num_wuhan"] = $fulltime_normal_stu_num_wuhan;
-                $data_arr["fulltime_normal_stu_num_shanghai"] = $fulltime_normal_stu_num_shanghai;
+            // if(strtotime(date("Y-m-01",time()-86400)) == $start_time){
+            $data_arr["fulltime_normal_stu_num"] = $fulltime_normal_stu_num;
+            $data_arr["platform_normal_stu_num"] = $platform_normal_stu_num;
+            $data_arr["fulltime_normal_stu_num_wuhan"] = $fulltime_normal_stu_num_wuhan;
+            $data_arr["fulltime_normal_stu_num_shanghai"] = $fulltime_normal_stu_num_shanghai;
+            $data_arr["platform_teacher_student"] = $platform_teacher_student;
             //  }
             if($exist_info){
                 $task->t_teaching_core_data->field_update_list_2($start_time,1,$data_arr);
