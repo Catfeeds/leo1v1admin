@@ -1,4 +1,5 @@
 interface GargsStatic {
+	_url:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -56,6 +57,7 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		_url:	$('#id__url').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -79,6 +81,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id__url').val(g_args._url);
 	$('#id_lesson_status').val(g_args.lesson_status);
 	$('#id_lesson_type').val(g_args.lesson_type);
 	$('#id_teacherid').admin_select_user_new({
@@ -99,6 +102,14 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">_url</span>
+                <input class="opt-change form-control" id="id__url" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["_url title", "_url", "th__url" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
