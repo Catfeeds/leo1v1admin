@@ -281,7 +281,8 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
             [  "o.order_time >= %u", $start_time, -1 ] ,
             [  "o.order_time <= %u", $end_time, -1 ] ,
             "o.contract_status in (1,2,3)" ,
-            "(m.uid <> 68 and m.uid <> 74)"
+            "(m.uid <> 68 and m.uid <> 74)",
+            "m.account_role=1",
         ];
         $sql =$this->gen_sql_new("select  o.sys_operator,count(distinct userid) all_student,sum(o.price) all_price,sum(o.lesson_total*o.default_lesson_count) all_total,sum(if(contract_type=1,lesson_total*default_lesson_count,0)) give_total from %s a, %s m,%s o where a.phone = m.phone and m.account = o.sys_operator and %s group by sys_operator order by all_price desc",
                                  self::DB_TABLE_NAME,

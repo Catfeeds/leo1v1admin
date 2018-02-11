@@ -441,6 +441,10 @@ class agent extends Controller
     }
 
     public function test_new(){
+        if(0){
+            dd('a');
+        }
+        dd('b');
         dd($HTTP_SERVER_VARS,$_SERVER);
         $path = dirname(__FILE__);
         $file_path = $path."/test.txt";
