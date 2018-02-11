@@ -1034,7 +1034,6 @@ class main_page extends Controller
             $item["read_xs"] = !empty($item["stu_is_read"])?round($item["lesson_count"]/$item["stu_is_read"]):0;
             $item["lesson_xs"] = round($item["lesson_count"]/$item["user_count"]);
         }
-
         $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_new($start_time,$end_time);
         $all_money_ass = 0;
         foreach($assistant_renew_list as  &$val){
