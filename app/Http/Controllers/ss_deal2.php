@@ -1468,7 +1468,7 @@ class ss_deal2 extends Controller
         $sub_subject_scour_arr = [];
         foreach($subject_score_arr as $item){
             $subject_arr = explode(':',$item);
-            $sub_subject_scour_arr[$subject_arr[0]] = $subject_arr[1];
+            $sub_subject_scour_arr[$subject_arr[0]] = isset($subject_arr[1])?$subject_arr[1]:'';
         }
         $subject_sore = json_encode($sub_subject_scour_arr);
         $test_stress    = $this->get_in_int_val("test_stress");//学习目标
