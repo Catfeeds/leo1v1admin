@@ -144,6 +144,29 @@ export default class extends vtable {
 
   //@desn:uplevel_admin 上级审批操作
   do_node_uplevel_admin_opt( id,info ) {
+    var me=this;
+
+    var flow_uplevel_type = $("<select/>" );
+    Enum_map.append_option_list("flow_uplevel_type", flow_uplevel_type,true);
+    flow_uplevel_type.val(info.uplevel_type );
+
+    var arr=[
+      ["审批类型" , flow_uplevel_type  ],
+    ];
+
+    $.show_key_value_table("上级审批", arr ,{
+      label: '确认',
+      cssClass: 'btn-warning',
+      action: function(dialog) {
+        var uplevel_val=flow_uplevel_type.val();
+        var uplevel_text = flow_uplevel_type.find('option:selected').text();
+        var args={
+          "uplevel_type" : uplevel_val,
+        }
+        me.set_node_info(id, args );
+        me. flow_set_name( id, "uplevel:"+uplevel_text ,"node"  );
+      }
+    });
 
   }
   //@desn:分支操作
@@ -323,6 +346,13 @@ export default class extends vtable {
       alert("请重新加入");
       return false;
     }
+    var node_type = 'start round mix';
+    var begin_count = this.check_node_each(node_type);
+
+    if(json.type == 'start round mix' && begin_count >= 1){
+      alert("开始结点最多只能有一个!");
+      return false;
+    }
 
     if (type=="line") {
       //get_node_type_by_id
@@ -344,8 +374,18 @@ export default class extends vtable {
 
     return true;
   }
+  //@desn:检测已存在值的id
   check_node_existed(id ) {
    return this.$flow.$nodeData[id] || this.$flow.$lineData[id] || this.$flow.$areaData[id]  ;
+  }
+  //@desn:循环检测已经存在的值
+  check_node_each(node_type){
+    var begin_count = 0;
+    $.each( this.$flow.$nodeData, function(i, item){
+      if(item.type == node_type)
+        begin_count++;
+    });
+    return begin_count;
   }
 
   //@desn：添加结点操作
