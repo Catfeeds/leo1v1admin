@@ -86,18 +86,19 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
             ["adminid=%u" , $adminid , -1 ],
             ["post_adminid=%u" , $post_adminid, -1 ],
             ["flow_type=%u" , $flow_type, -1 ],
-            ["flow_check_flag=%u" , $flow_check_flag, -1 ],
         ];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select f.flowid ,n.nodeid,n.node_type,n.add_time, n.flow_check_flag, n.check_msg,"
-                                  ." n.check_time, n.adminid, f.flow_status, f.post_adminid,f.post_time,f.post_msg,"
-                                  ." f.flow_type ,f.from_key_int, f.from_key_str, f.from_key2_int "
-                                  ." from %s n ,%s f "
-                                  ." where f.flowid=n.flowid and %s "
-                                  ." order  by flow_status asc,  add_time desc"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_flow::DB_TABLE_NAME
-                                  ,$where_arr
+        $this->where_arr_add_int_or_idlist($where_arr, "flow_check_flag", $flow_check_flag);
+        $sql = $this->gen_sql_new(
+            "select f.flowid ,n.nodeid,n.node_type,n.add_time, n.flow_check_flag, n.check_msg,"
+            ." n.check_time, n.adminid, f.flow_status, f.post_adminid,f.post_time,f.post_msg,"
+            ." f.flow_type ,f.from_key_int, f.from_key_str, f.from_key2_int "
+            ." from %s n ,%s f "
+            ." where f.flowid=n.flowid and %s "
+            ." order  by flow_status asc,  add_time desc"
+            ,self::DB_TABLE_NAME
+            ,t_flow::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);
     }
