@@ -1558,6 +1558,11 @@ class seller_student_new extends Controller
         if(date('Y-m-d',time()) == '2018-02-01'){
             $limit_arr=array( [0, 14*60]);
         }
+        if($now>=1518364800 && $now<=1519228800){//春节放假
+            return  $this->error_view([
+                "春节放假!"
+            ]);
+        }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $this->set_filed_for_js("seller_level",$seller_level);
         $success_flag=true;
