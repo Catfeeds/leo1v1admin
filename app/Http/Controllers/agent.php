@@ -441,6 +441,7 @@ class agent extends Controller
     }
 
     public function test_new(){
+        dd($HTTP_SERVER_VARS,$_SERVER);
         $path = dirname(__FILE__);
         $file_path = $path."/test.txt";
         if(!file_exists($file_path)){
@@ -449,7 +450,8 @@ class agent extends Controller
             // echo $str = str_replace("\r\n","<br />",$str);
         }
         $fp = fopen($file_path,"w+");
-        $fw = fwrite($fp,"hello,world");
+        $fw = fwrite($fp,"hello,worldab");
+        fclose($fp);
         dd($fw);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         if($end_time >= time()){
