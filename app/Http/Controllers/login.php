@@ -457,7 +457,7 @@ class login extends Controller
         ]);
 
         $_SESSION = array();
-        Session::clear();
+        Session::flush() ;
 
         $_SESSION['acc']          = $account;
         $_SESSION['adminid']      = $ret_db['id'];
@@ -490,7 +490,7 @@ class login extends Controller
     {
         global $_SESSION;
         $_SESSION = array();
-        Session::clear();
+        Session::flush() ;
         if (strpos(@$_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false )  {
             //WX 退出
             //\App\Helper\Utils::logger("WX_LOGOUT");
