@@ -203,8 +203,12 @@ export default class admin_table extends Vue {
   check_power_show (field_info):boolean{
     var show_flag=true;
     if (field_info.need_power){
-      console.log("html_power_list:"+ field_info.need_power, this.$props.table_config.html_power_list );
-      show_flag= this.$props.table_config.html_power_list&& this.$props.table_config.html_power_list[field_info.need_power];
+      if ($.isFunction ( field_info.need_power) ) {
+        show_flag=field_info.need_power(field_info ) ;
+      }else{
+        console.log("html_power_list:"+ field_info.need_power, this.$props.table_config.html_power_list );
+        show_flag= this.$props.table_config.html_power_list&& this.$props.table_config.html_power_list[field_info.need_power];
+      }
     }
     return show_flag;
   }

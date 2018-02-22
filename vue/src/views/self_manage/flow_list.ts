@@ -35,33 +35,31 @@ export default class extends vtable {
   data_ex() {
     //扩展的 data  数据
     var me=this;
-    var field_list=[{
-      field_name: "title",
-      "title": "说明",
-    },{
-      field_name: "admin_nick",
-      "order_field_name": "admin_nick",
-      "title": "昵称",
-      "default_display":  false,
-      render:function(value, item:self_RowData ,index){
-      }
-    },{
-      field_name: "auth_flag_str",
-      "title": "管理员",
-      "order_field_name": "auth_flag",
-      need_power: "auth_flag",
-      render:function(value, item:self_RowData ,index){
-        return "<a class=\"fa btn\" >"+value+"</a>" ;
-      }
-    }];
-    var  row_opt_list =[{
-      face_icon: "fa-edit",
-      on_click: me.opt_edit ,
-      "title": "编辑",
-    },{
-      face_icon: "fa-times",
-      "title": "删除",
-    }];
+    var field_list :Array<any>=[];
+    var row_opt_list :Array<any>=[];
+      field_list=[{
+        field_name: "add_time",
+        "title": "时间",
+      },{
+        field_name: "flow_type_str",
+        "order_field_name": "flow_type",
+        "title": "flow_type"
+      },{
+        field_name: "post_admin_nick",
+        "title": "管理员",
+      },{
+        field_name: "line_data",
+        "title": "xx",
+      }];
+      row_opt_list =[{
+        face_icon: "fa-edit",
+        on_click: me.opt_edit ,
+        "title": "编辑",
+      },{
+        face_icon: "fa-times",
+        "title": "删除",
+      }];
+
 
     return {
       "table_config":  {
@@ -106,15 +104,6 @@ export default class extends vtable {
       "show_title_flag":true,
       "title"        :  "申请人",
       "select_value" : this.get_args().post_adminid,
-    });
-    $. admin_enum_select({
-      'join_header'  : $header_query_info,
-      "enum_type"    : "flow_check_flag",
-      "field_name" : "flow_check_flag",
-      "title" : "状态",
-      "select_value" : this.get_args().flow_check_flag,
-      "multi_select_flag"     : false ,
-      "btn_id_config"     : {},
     });
 
     $("#id_page_type >li ").removeClass("active");
