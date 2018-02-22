@@ -29,11 +29,13 @@ class t_channel_funnel_archive_data extends \App\Models\Zgen\z_t_channel_funnel_
             $origin_arr = explode(',', $origin_ex);
             $this->where_arr_add_str_field($where_arr, 'key0',$origin_arr[0]);
             $this->where_arr_add_str_field($where_arr, 'key1',$origin_arr[1]);
+            $where_add = '';
             $key0 = $origin_arr[0];
+            $key1 = $origin_arr[1];
             if($key0)
                 $where_add = " or (key0 = '$key0' and add_time = $month_begin) ";
-            else
-                $where_add = ' and true';
+            if($key1)
+                $where_add = " or (key0 = '$key0' and key1 <> '$key1' and add_time = $month_begin) ";
         }
 
         $sql = $this->gen_sql_new(
