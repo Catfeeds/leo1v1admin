@@ -93,30 +93,23 @@ class self_manage extends Controller
         }
 
         $post_adminid    = $this->get_in_int_val("post_adminid",-1);
-        $flow_check_flag = $this->get_in_el_flow_check_flag();
         $flow_type       = $this->get_in_int_val("flow_type",-1, E\Eflow_type::class );
         $page_info    = $this->get_in_page_info();
         $page_type= $this->get_in_int_val("page_type");
 
-
+        $flow_check_flag = -1;
+        $node_type= -1 ;
             /*
             0 => "未审核",
             1 => "通过",
-            2 => "不通过",
+            2 => "不通过"
             3 => "驳回",
             4 => "自动通过",
             5 => "转审",
             */
-        if ($page_type==1) {  //待审批
-            $flow_check_flag=[ 0 ];
-        }else if ( $page_type==2 ){ //已审批
-            $flow_check_flag=[ 1,2,3,4,5 ];
-        }else if ( $page_type==3 ){ //抄送我
-            $flow_check_flag=[ 10 ];
-        }
 
 
-        $ret_info=$this->t_flow_node->get_list($page_info,$start_time,$end_time,$adminid,$post_adminid,$flow_type,$flow_check_flag);
+        $ret_info=$this->t_flow_node->get_list($page_info,$page_type,$start_time,$end_time,$adminid,$post_adminid,$flow_type,$flow_check_flag, $node_type);
         foreach( $ret_info["list"] as &$item) {
             E\Eflow_type::set_item_value_str($item);
             $flow_class=\App\Flow\flow::get_flow_class($item["flow_type"]);

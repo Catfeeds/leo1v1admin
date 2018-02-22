@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "js-cookie": "2.2.0",
+    "typescript-loader": "^1.1.3",
     "vue": "^2.5.13",
     "vue-class-component": "^6.1.1",
     "vue-router": "3.0.1",

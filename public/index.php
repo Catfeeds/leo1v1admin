@@ -1,4 +1,6 @@
 <?php
+
+
 // url config  in  ../app/Http/NewRouteConfig.php
 @ini_set('session.auto_start', 0); 
 
@@ -76,11 +78,15 @@ $_REQUEST["_act"]= $arr[2];
 
 
 /**
+
+/**
  * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
- * @author   Taylor Otwell <taylorotwell@gmail.com>
+ * @author   Taylor Otwell <taylor@laravel.com>
  */
+
+define('LARAVEL_START', microtime(true));
 
 /*
 |--------------------------------------------------------------------------
@@ -90,11 +96,11 @@ $_REQUEST["_act"]= $arr[2];
 | Composer provides a convenient, automatically generated class loader for
 | our application. We just need to utilize it! We'll simply require it
 | into the script here so that we don't have to worry about manual
-| loading any of our classes later on. It feels nice to relax.
+| loading any of our classes later on. It feels great to relax.
 |
 */
 
-require __DIR__.'/../bootstrap/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -108,11 +114,7 @@ require __DIR__.'/../bootstrap/autoload.php';
 |
 */
 
-
-
-/**  @var  $app Illuminate\Foundation\Application */
-
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__.'/'.'../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -126,14 +128,11 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
-
-/**  @var  $kernel  Illuminate\Foundation\Http\Kernel */
-
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
-
-$request= Illuminate\Http\Request::capture() ;
-$response = $kernel->handle($request);
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
 
 $response->send();
 

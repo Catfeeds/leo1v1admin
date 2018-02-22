@@ -391,27 +391,15 @@ class resource extends Controller
             'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
         ];
 
-        //判断是不是总监
-        // $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-        // if ($is_master) {
-        //     $data = [
-        //         'subject' => [1,2,3,4,5,6,7,8,9,10],
-        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-        //     ];
-        //     return $data;
-        // }
-
-        //判断是不是主管
-        // $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
-        // if ($is_zhuguan) {
-        //     $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-        //     $data = [
-        //         'subject' => $info['subject'],
-        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-        //     ];
-
-        //     return $data;
-        // }
+        //判断是不是教研总监
+      
+        if ($adminid == 1171 ) {
+            $data = [
+                'subject' => [1,2,3,4,5,6,7,8,9,10],
+                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+            ];
+            return $data;
+        }
 
         //教研老师只能看他所教的科目和年级
         $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
