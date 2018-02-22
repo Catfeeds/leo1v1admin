@@ -20,6 +20,17 @@ class flow_base{
         $task=static::get_task_controler();
         return $task->t_manager_info->get_adminid_by_account($account);
     }
+    static function get_node_map() {
+
+        \App\Helper\Utils::logger("class name ". static::class);
+
+        $vars= get_class_vars(static::class);
+        if ( array_has($vars, "node_map"  )  )  {
+            return static::$node_map;
+        }else{
+            return [];
+        }
+    }
 
     static function set_node_map () {
         $task=static::get_task_controler();
@@ -34,13 +45,15 @@ class flow_base{
             return "结束";
         }else  if ( $node_type==0 ) {
             return "申请";
+        }else  if ( $node_type==-2 ) {
+            return "抄送";
         }
         if ($node_type> 10000 ){
             $node_info= static::$node_map[$node_type];
             if (isset($node_info["title"])) return $node_info["title"]  ;
             else return $node_info["name"] ;
         }else{ //旧版是
-            return  static::$node_data[$node_type][1];
+            $ret= @static::$node_data[$node_type][1];
         }
     }
 
@@ -113,6 +126,7 @@ class flow_base{
     static function call_do_succ_end($flowid) {
         $flow_info = static::get_flow_info($flowid);
         $self_info = static::get_self_info($flow_info["from_key_int"], $flow_info["from_key_str"], $flow_info["from_key2_int"] );
+
         return  static::do_succ_end( $flow_info, $self_info );
 
     }
@@ -141,6 +155,24 @@ class flow_base{
             $msg= $flow_class::get_line_data( $flow_info["from_key_int"] ,$flow_info["from_key_str"],  $flow_info["from_key2_int"] );
 
             $task->t_manager_info->send_wx_todo_msg_by_adminid($flow_info["post_adminid"],"审批系统","审批完成:".E\Eflow_type::get_desc($flow_type),$msg,"");
+
+            //得到抄送列表
+            $node_list=$task->t_flow_node->get_node_list($flowid );
+            $node_type_list=[ -1 ];
+            foreach( $node_list["list"] as  $node ) {
+                $node_type_list[]=$node["node_type"];
+            }
+            \App\Helper\Utils::logger("flow_class=$flow_class");
+
+            $notify_adminid_list=$flow_class::get_notify_user_list($node_type_list);
+
+            //抄送
+            $notify_node_type=-2;
+            $auto_pass_flag = false;
+            foreach($notify_adminid_list as $notify_adminid) {
+                $next_nodeid=$task->t_flow_node->add_node($notify_node_type,$flowid,$notify_adminid,0,0,"",0 ,$auto_pass_flag);
+            }
+
             $flow_class::call_do_succ_end($flowid);
         }else{
             if (!$next_adminid) {
@@ -194,7 +226,7 @@ class flow_base{
                 ],
                 "return_config"  => [
                     "1" => "助教",
-                    "2" => "销售",
+                    "2" => "销售",d
                 ]
             ]
         ];
@@ -210,6 +242,22 @@ class flow_base{
         ];
         */
 
+    }
+
+    static public function  get_notify_user_list( $flow_node_list){
+        $user_map=[];
+        $node_map=static::get_node_map();
+        \App\Helper\Utils::logger("XX:".json_encode($flow_node_list ));
+
+        foreach( $flow_node_list as $id ) {
+            foreach (@$node_map[$id]["next_node_list"] as $node_info ) {
+                $next_node_id=$node_info["id"];
+                if ($node_map[$next_node_id]["type"] =="notify") { //
+                    $user_map[ $node_map[$next_node_id]["adminid"]]=true;
+                }
+            }
+        }
+        return array_keys($user_map);
     }
 
 }
