@@ -474,7 +474,7 @@ class login extends Controller
 
         global $_SESSION;
         $_SESSION = array();
-        Session::clear();
+        Session::flush();
 
         if (strpos(@$_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false )  {
             //WX 退出
