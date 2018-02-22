@@ -4949,8 +4949,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      */
     public function get_total_for_teacherid_2018_1_30($start_time, $end_time, $phone, $reference_type) {
         $where_arr = [
-            ["t.train_through_new_time>=%u", $start_time, 0],
-            ["t.train_through_new_time<%u", $end_time, 0],
+            ["t.train_through_new_time>%u", $start_time, 0],
+            ["t.train_through_new_time<=%u", $end_time, 0],
             ["ta.reference='%s'",$phone,'']
         ];
 
