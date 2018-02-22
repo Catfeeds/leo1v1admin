@@ -160,7 +160,7 @@
                 <div class="col-xs-12 col-md-4">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title">
-                             系统参数 
+                             系统参数
                         </div>
                         <div class="panel-body">
                             <table   class="table table-bordered "   >
@@ -171,7 +171,7 @@
                                     </tr>
                                 </thead>
                                 <tbody >
-                                    @foreach ($sys_info as $var) 
+                                    @foreach ($sys_info as $var)
                                         @if($var[0] == '新例子配置')
                                             <tr>
                                                 <td>{{$var[0]}}</td>
@@ -211,7 +211,7 @@
                                     </tr>
                                 </thead>
                                 <tbody >
-                                    @foreach ($record_server_list as $var) 
+                                    @foreach ($record_server_list as $var)
                                         <tr>
                                             <td>{{@$var["server"]}}</td>
                                             <td>{{@$var["active_count"]}}</td>
@@ -230,7 +230,7 @@
                 <div class="col-xs-12 col-md-4">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title">
-                            今天短信 
+                            今天短信
                         </div>
                         <div class="panel-body">
                             <table   class="table table-bordered "   >
@@ -242,7 +242,7 @@
                                     </tr>
                                 </thead>
                                 <tbody >
-                                    @foreach ($sms_list as $var) 
+                                    @foreach ($sms_list as $var)
                                         <tr>
                                             <td>{{$var["type_str"]}}</td>
                                             <td>{{$var["succ_count"]}}</td>
@@ -255,12 +255,11 @@
                         </div>
                     </div>
 
-                    
+
                 </div>
 
             </div>
         </div>
     </section>
-    
-@endsection
 
+@endsection

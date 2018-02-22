@@ -5,8 +5,7 @@ interface self_Args {
 	start_time:	string;
 	end_time:	string;
 	post_adminid:	number;
-	flow_check_flag:	string;//枚举列表: \App\Enums\Eflow_check_flag
- 	flow_type:	number;//枚举: App\Enums\Eflow_type
+	flow_type:	number;//枚举: App\Enums\Eflow_type
 	page_num:	number;
 	page_count:	number;
 	page_type:	number;
@@ -119,16 +118,6 @@ export default class extends vtable {
 		"title"        :  "post_adminid",
 		"select_value" : this.get_args().post_adminid,
 	});
-	$.admin_enum_select({
-		'join_header'  : $header_query_info,
-"enum_type"    : "flow_check_flag",
-"field_name" : "flow_check_flag",
-"title" : "flow_check_flag",
-"select_value" : this.get_args().flow_check_flag,
-		"multi_select_flag"     : true,
-		"btn_id_config"     : {},
-	});
-
 	$.admin_enum_select({
 		'join_header'  : $header_query_info,
 		"enum_type"    : "flow_type",
