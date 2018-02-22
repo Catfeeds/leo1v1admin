@@ -5,13 +5,36 @@ interface self_Args {
 	start_time:	string;
 	end_time:	string;
 	post_adminid:	number;
-	flow_check_flag:	number;//枚举: App\Enums\Eflow_check_flag
-	flow_type:	number;//枚举: App\Enums\Eflow_type
+	flow_check_flag:	string;//枚举列表: \App\Enums\Eflow_check_flag
+ 	flow_type:	number;//枚举: App\Enums\Eflow_type
 	page_num:	number;
 	page_count:	number;
+	page_type:	number;
 
 }
 interface self_RowData {
+	flowid	:any;
+	nodeid	:any;
+	node_type	:any;
+	add_time	:any;
+	flow_check_flag	:any;
+	check_msg	:any;
+	check_time	:any;
+	adminid	:any;
+	flow_status	:any;
+	post_adminid	:any;
+	post_time	:any;
+	post_msg	:any;
+	flow_type	:any;
+	from_key_int	:any;
+	from_key_str	:any;
+	from_key2_int	:any;
+	flow_type_str	:any;
+	node_name	:any;
+	post_admin_nick	:any;
+	line_data	:any;
+	flow_check_flag_str	:any;
+	flow_status_str	:any;
 
 }
 export  {self_RowData , self_Args  }
@@ -98,10 +121,11 @@ export default class extends vtable {
 	});
 	$.admin_enum_select({
 		'join_header'  : $header_query_info,
-		"enum_type"    : "flow_check_flag",
-		"field_name" : "flow_check_flag",
+"enum_type"    : "flow_check_flag",
+"field_name" : "flow_check_flag",
 "title" : "flow_check_flag",
-		"multi_select_flag"     : false ,
+"select_value" : this.get_args().flow_check_flag,
+		"multi_select_flag"     : true,
 		"btn_id_config"     : {},
 	});
 
@@ -110,10 +134,19 @@ export default class extends vtable {
 		"enum_type"    : "flow_type",
 		"field_name" : "flow_type",
 "title" : "flow_type",
+"select_value" : this.get_args().flow_type,
 		"multi_select_flag"     : false ,
 		"btn_id_config"     : {},
 	});
 
+	$.admin_query_input({
+		'join_header'  : $header_query_info,
+		"field_name"    : "page_type" ,
+		"length_css" : "col-xs-6 col-md-2", 
+		"show_title_flag":true, 
+		"title"        :  "page_type",
+		"select_value" : this.get_args().page_type,
+	});
 
   }
 }

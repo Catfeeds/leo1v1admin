@@ -51,7 +51,7 @@ $(function(){
                     if($(this).parent().attr('ban_level') > 0){
                         alert('请先启用上一级！');
                     } else {
-                        add_or_del_or_edit($(this).parent().attr('info_str'),'add');
+                        add_book_new($(this).parent().attr('info_str'));
                     }
                     return false;
                 });
@@ -83,7 +83,7 @@ $(function(){
             if( ban_level > 0){
                 alert('请先启用上一级！');
             }else {
-                add_or_del_or_edit(data_str,'add');
+                add_book_new(data_str);
             }
         },class:'menu_select hide'},
         {text: '删除', onclick: function() {
@@ -162,27 +162,11 @@ $(function(){
         }
     });
 
-    var add_or_del_or_edit = function(info_str,do_type){
-        var id_book = $("<select />");
-        Enum_map.append_option_list("region_version",id_book,true);
-        // id_book.val(50000);
-        var id_resource = $("<input style='width:90%' id='id_resource_type' />");
-        var str = '';
-        var id_str = "";
-        var re_arr = [1,2,3,4,5,6,9];
-        var select_id_list = re_arr;
-        $('tr[level="1"]').each(function(){
-            var resource_id = parseInt($(this).attr('info_str'));
-            if( $.inArray( resource_id ,re_arr) >= 0 ){
-                str += $(this).children().first().text() + ",";
-                id_str += resource_id+",";
-            }
-        });
-        id_str != '' ? id_str = id_str.substring(0,id_str.length-1) : '' ;
-        str != '' ? str = str.substring(0,str.length-1) : '' ;
+    var add_book_new = function(info_str,do_type){
+        var id_book = $("<input style='width:90%' id='id_book' />");
 
-        id_resource.val(str);
-        id_resource.attr({'resource':id_str});
+        var id_resource = $("<input style='width:90%' id='id_resource_type' />");
+
         var arr= [
             ["选择资源类型：", id_resource],
             ["添加教材版本：", id_book],
@@ -192,12 +176,41 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-info',
             action   : function() {
-
-                if(id_book.val() > 0){
-                    ajax_submit(info_str,do_type,id_book.val(),id_resource.attr('resource'));
-                } else {
-                    alert('请选择教材版本!');
+                var resource = id_resource.attr('resource');
+                if(!resource){
+                    alert('请选择资源类型!');
+                    return false;
                 }
+
+                var book = id_book.val();
+                if(!book){
+                    alert('请选择教材版本!');
+                    return false;
+                }
+
+                var data = {
+                    'info_str':info_str,
+                    'book'  :book,
+                    'resource':resource,
+                };
+
+                console.log(data);
+
+                $.ajax({
+                    type     : "post",
+                    url      : "/resource/add_book_resource",
+                    dataType : "json",
+                    data : data,
+                    success : function(result){
+                        console.log(data);
+                        if(result.ret == 0){                            
+                            BootstrapDialog.alert("操作成功！");
+                            window.location.reload();                                                  
+                        } else {
+                            alert(result.info);
+                        }
+                    }
+                });
 
             }
         },function(){
@@ -207,15 +220,15 @@ $(function(){
                     $.each( response.data.list,function(){
                         data_list.push([this['resource_id'], this["resource_type"] ]);                                               
                     });
+
                     $(this).admin_select_dlg({
                         header_list     : [ "id","名称" ],
                         data_list       : data_list,
                         multi_selection : true,
-                        select_list     : select_id_list,
+                        select_list     : [],
                         onChange        : function( select_list,dlg) {
                             var str = '';
                             var str_id = '';
-                            select_id_list = select_list
                             $('#id_body .warning').each(function(){
                                 str += $(this).find('td:eq(1)').text() + ',';
                                 str_id += $(this).find('td:eq(0)').text() + ',';
@@ -231,7 +244,9 @@ $(function(){
                 }) ;
 
             })
- 
+
+            $.enum_multi_select_new( $('#id_book'), 'region_version', function(){});
+
         },false,800);
 
     };

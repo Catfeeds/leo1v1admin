@@ -16,7 +16,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql=$this->gen_sql_new(
-            "select lessonid, record_audio_server1, xmpp_server_name, lesson_start, lesson_end, userid,teacherid"
+            "select lessonid, subject,record_audio_server1, lesson_type, xmpp_server_name, lesson_start, lesson_end, userid,teacherid"
             ." from %s   where  lesson_del_flag=0 and  %s " ,
             self::DB_TABLE_NAME,
             $where_arr );
@@ -65,6 +65,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         return $this->main_get_row($sql);
     }
+
+
+    public function get_success_test_lesson($userid, $start_time, $end_time ) {
+        $where_arr=[
+            "userid" =>$userid,
+        ];
+        $this->where_arr_add_time_range($where_arr, "lesson_start", $start_time, $end_time);
+
+        $sql = $this->gen_sql_new(
+            "select lesson_start from %s"
+            . " where  %s "
+            . " and confirm_flag<>2  and lesson_del_flag =0  "
+            . " order by lesson_start desc limit 1  ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        ) ;
+
+        return $this->main_get_row($sql);
+    }
+
 
 
     public function get_next_day_lesson_info(){
@@ -2830,7 +2850,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.lesson_type in (0,1,3)",
             "l.lesson_del_flag=0",
-            "l.lesson_cancel_time_type=0"
+            "l.lesson_cancel_time_type=0",
+            "l.confirm_flag in (0,1,3) "
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_end", $oneMinuteStart, $oneMinuteEnd);
         $sql = $this->gen_sql_new("  select p.wx_openid, s.nick as stu_nick, l.subject, l.lesson_start, l.lesson_end, l.lesson_count/100 as lesson_count , a.nick as ass_nick, a.phone as ass_phone "

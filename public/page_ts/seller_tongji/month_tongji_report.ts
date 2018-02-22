@@ -51,6 +51,12 @@ $(function(){
                 superAdd('l-2','l-3');
                 superAdd('l-1','l-2');
                 superAdd('l-0','l-1');
+                $(".main_type").each(function(){
+                    if( $(this).text()=="全部"){
+                        $(this).parent().find('.dis_succ_all_count_for_month').text(g_args.test_lesson_succ_all);
+                    }
+ 
+                });
                 successAndFail();
             }
         };
@@ -145,6 +151,7 @@ $(function(){
             $(this).find('.suc_lesson_count_three').text(suc_lesson_count_three);
             $(this).find('.suc_lesson_count_four').text(suc_lesson_count_four);
             $(this).find('.fail_all_count_for_month').text(fail_all_count_for_month);
+          
         })
     }
 

@@ -181,12 +181,15 @@ class user extends TeaWxController
             $ret_update = $this->t_teacher_freetime_for_week->field_update_list($teacherid,[
                 'free_time_new' => $time_value
             ]);
+            return $this->output_succ(["data"=>$ret_update]);
 
-            if($ret_update) {
-                return $this->output_succ(["data"=>$ret_update]);
-            }else {
-                return $this->output_err('老师空闲时间设置失败!');
-            }
+            // if($ret_update) {
+            //     return $this->output_succ(["data"=>$ret_update]);
+            // }else {
+            //     return $this->output_err('老师空闲时间设置失败!');
+            // }
+        }else{
+            return $this->output_err('老师空闲时间设置失败!');
         }
     }
 

@@ -111,22 +111,20 @@ class seller_student_system_assign extends cmd_base
 
 
             //记录试听未回访信息
-            if($no_return_call_num>0){
-                $is_set = $this->task->t_cc_no_return_call->field_get_value($adminid, 'uid');
-                if(!$is_set){
-                    $this->task->t_cc_no_return_call->row_insert([
-                        'uid' => $adminid,
-                        'no_return_call_num' => $no_return_call_num,
-                        'no_call_str' => $no_return_call_str,
-                        'add_time' => strtotime(date('Y-m-d'))
-                    ]);
-                }else{
-                    $this->task->t_cc_no_return_call->field_update_list($adminid, [
-                        'no_return_call_num' => $no_return_call_num,
-                        'no_call_str' => $no_return_call_str,
-                        'add_time' => strtotime(date('Y-m-d'))
-                    ]);
-                }
+            $is_set = $this->task->t_cc_no_return_call->field_get_value($adminid, 'uid');
+            if(!$is_set){
+                $this->task->t_cc_no_return_call->row_insert([
+                    'uid' => $adminid,
+                    'no_return_call_num' => $no_return_call_num,
+                    'no_call_str' => $no_return_call_str,
+                    'add_time' => strtotime(date('Y-m-d'))
+                ]);
+            }else{
+                $this->task->t_cc_no_return_call->field_update_list($adminid, [
+                    'no_return_call_num' => $no_return_call_num,
+                    'no_call_str' => $no_return_call_str,
+                    'add_time' => strtotime(date('Y-m-d'))
+                ]);
             }
 
         }
@@ -157,25 +155,25 @@ class seller_student_system_assign extends cmd_base
         $admin_list=$ret_info["admin_list"];//销售信息
 
         $seller_max_new_count = $ret_info["seller_max_new_count"];//最大新例子配额
-        $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
-        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+        
+        if(time()<1518364800 || time()>1519228800){//春节放假
+            $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
             $no_connnected_ret_info=$this->assign_no_connected_new( $left_no_connected_count_all,$admin_list  );
-        else
-            $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
+            // $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
 
-        $this->task->t_seller_student_system_assign_count_log->row_insert([
-            "logtime" => time(),
-            "new_count"=> $new_ret_info["need_deal_count"],
-            "need_new_count" => $ret_info["need_new_count_all"],
-            "new_count_assigned" =>  $ret_info["assigned_new_count_all"] + $new_ret_info["assigned_count"],
+            $this->task->t_seller_student_system_assign_count_log->row_insert([
+                "logtime" => time(),
+                "new_count"=> $new_ret_info["need_deal_count"],
+                "need_new_count" => $ret_info["need_new_count_all"],
+                "new_count_assigned" =>  $ret_info["assigned_new_count_all"] + $new_ret_info["assigned_count"],
 
-            "no_connected_count"  =>$no_connnected_ret_info["need_deal_count"],
-            "need_no_connected_count" =>  $ret_info["need_no_connected_count_all"],
+                "no_connected_count"  =>$no_connnected_ret_info["need_deal_count"],
+                "need_no_connected_count" =>  $ret_info["need_no_connected_count_all"],
 
-            "no_connected_count_assigned" => $ret_info["assigned_no_connected_count_all"] + $no_connnected_ret_info["assigned_count"],
+                "no_connected_count_assigned" => $ret_info["assigned_no_connected_count_all"] + $no_connnected_ret_info["assigned_count"],
 
-        ]);
-
+            ]);
+        }
     }
 
     //@desn:分配奖励例子

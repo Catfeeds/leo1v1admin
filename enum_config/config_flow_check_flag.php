@@ -7,4 +7,5 @@ return array(
     array(3,"return_back","驳回"),
     array(4,"audo_pass","自动通过"),
     array(5,"exchange_to_other","转审"),
+    array(10,"notify","抄送"),
 );

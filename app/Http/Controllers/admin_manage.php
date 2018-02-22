@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use \App\Flow\flow_function_config as FFC;
 
 class admin_manage extends Controller
 {
@@ -182,7 +183,53 @@ class admin_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
 
     }
+    public function flow_show_map() {
+        $flow_type= $this->get_in_e_flow_type();
+        $json_data=@json_decode( $this->t_flow_config->get_node_map($flow_type),true);
+        $json_data1=@json_decode( $this->t_flow_config->get_json_data($flow_type),true);
+        dd($json_data,$json_data1);
+    }
 
+    public function flow_edit() {
+        $flow_type= $this->get_in_e_flow_type();
+        $json_data=@json_decode( $this->t_flow_config->get_json_data($flow_type),true);
+        if (!$json_data) {
+            $json_data=[];
+        }
+        $flow_function_list=[];
+        if ($flow_type>0) {
+            $flow_class=\App\Flow\flow::get_flow_class($flow_type);
+            if ($flow_class) {
+                $func_arr=get_class_methods($flow_class );
+                foreach( E\Eflow_function::$v2s_map as  $flow_function => $func_name ){
+                    if (in_array( $func_name,  $func_arr )) {
+                        $flow_function_list[]= $flow_function;
+                    }
+                }
+            }
+        }
+
+        return $this->pageOutJson(__METHOD__, null , [
+            "json_data"=>$json_data,
+            "flow_function_list"=> $flow_function_list,
+        ]);
+
+    }
+
+    public function flow_save() {
+        $flow_type= $this->get_in_e_flow_type();
+        $json_data= $this->get_in_str_val("json_data");
+        $node_map=$this->t_flow_config->gen_node_map( \App\Helper\Utils::json_decode_as_array( $json_data ) );
+        if ($flow_type >0) {
+            $this->t_flow_config->row_insert([
+                "flow_type" => $flow_type,
+                "json_data" =>$json_data,
+                "node_map" =>json_encode($node_map),
+            ], true);
+
+        }
+        return $this->output_succ();
+    }
 
     public function  job_list() {
         $page_info= $this->get_in_page_info();
@@ -237,7 +284,7 @@ class admin_manage extends Controller
                 }
                 if(!$item['up_group_name']){
                     $item['up_group_name'] = '未定义';
-                }
+}
                 $all_list["list"][$k]['is_share'] = 0;
                 $ret_info['list'][] = $item;
             }
@@ -256,6 +303,22 @@ class admin_manage extends Controller
                                    "_publish_version" => 201712010945
                                ]);
 
+    }
+
+
+    //@desn:获取审批分支配置项
+    public function get_flow_branch_switch_value(){
+        $flow_type  = $this->get_in_e_flow_type();
+        $flow_function = $this->get_in_e_flow_function();
+        $flow_class=\App\Flow\flow::get_flow_class($flow_type);
+        if ($flow_class ){
+            $config=$flow_class::get_function_config();
+            $base_conig= \App\Flow\flow_base::get_function_config();
+            $config= $base_conig+ $config;
+            return $this->output_succ($config[$flow_function] );
+        }else{
+            return $this->output_err("审批配置有误.");
+        }
     }
 
 

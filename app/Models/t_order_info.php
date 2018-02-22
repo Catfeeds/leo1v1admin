@@ -659,13 +659,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         return $this->main_get_row($sql);
     }
-    public function  get_admin_list($start_time ,$end_time , $account_role=-1)  {
+    public function  get_admin_list($start_time ,$end_time , $account_role=-1,$group_adminid_list=[])  {
         $where_arr=[
             ["account_role=%u", $account_role, -1],
             "is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
-
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr,'m.uid',$group_adminid_list);
+        }
         $sql=$this->gen_sql_new(
             [
                 "select distinct m.uid  as adminid from %s o ",
@@ -680,7 +682,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function  get_admin_list_new($start_time ,$end_time , $account_role=-1,$user_info=-1)  {
+    public function  get_admin_list_new($start_time ,$end_time , $account_role=-1,$user_info=-1,$group_adminid_list=[])  {
         $where_arr=[
             "o.contract_type =0",
             "o.contract_status in (1,2)",
@@ -701,6 +703,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                         $this->ensql($user_info),
                                         $this->ensql($user_info)));
             }
+        }
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr, 'm.uid', $group_adminid_list);
         }
         $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
 
@@ -789,7 +794,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_1v1_order_list_by_adminid( $start_time,$end_time ,$stu_from_type=-1,$adminid=-1,$adminid_list=[]) {
+    public function get_1v1_order_list_by_adminid( $start_time,$end_time ,$stu_from_type=-1,$adminid=-1,$adminid_list=[],$group_adminid_list=[]) {
         $where_arr = [
             ["order_time>=%u" , $start_time, -1],
             ["order_time<=%u" , $end_time, -1],
@@ -798,10 +803,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["stu_from_type=%u" , $stu_from_type, -1],
             // ["t2.uid=%u" ,$adminid,-1],
         ];
-        if(count($adminid_list)>0){
-            $this->where_arr_add_int_or_idlist($where_arr,'t2.uid',$adminid_list);
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr,'t2.uid',$group_adminid_list);
         }else{
-            $this->where_arr_add_int_field($where_arr,'t2.uid',$adminid);
+            if(count($adminid_list)>0){
+                $this->where_arr_add_int_or_idlist($where_arr,'t2.uid',$adminid_list);
+            }else{
+                $this->where_arr_add_int_field($where_arr,'t2.uid',$adminid);
+            }
         }
         $sql = $this->gen_sql_new("select t2.uid adminid,count(*) all_new_contract,sum(price) all_price,MAX(price) max_price,"
                                   ."t2.create_time,t2.become_member_time,t2.leave_member_time,t2.del_flag "
@@ -4877,9 +4886,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_last_orderid_by_userid($userid){
         $where_arr=[
-            "contract_status>0",
             "price>0",
-            'contract_type = 0',
         ];
         $this->where_arr_add_int_field($where_arr, 'userid', $userid);
         $sql = $this->gen_sql_new(

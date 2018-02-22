@@ -367,7 +367,14 @@ class fulltime_teacher extends Controller
             $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);
             $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time, $lesson_end_time);
             $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time, $lesson_end_time);
-            $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+            if(time()>= $start_time){
+                $week_time = time();
+            }else{
+                $week_time = $end_time;
+            }
+            $date_week                         = \App\Helper\Utils::get_week_range($week_time,1);
+
+            //   $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
             $week_start = $date_week["sdate"]-14*86400;
             $week_end = $date_week["sdate"]+21*86400;
             $normal_stu_num1 = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);

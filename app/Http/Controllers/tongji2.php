@@ -343,14 +343,15 @@ class tongji2 extends Controller
 
     public function seller_month_money_list() {
         $adminid=$this->get_in_adminid(-1);
-        //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $month = strtotime( date("Y-m-01", $start_time));
-
-        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
+        $common_new = new \App\Http\Controllers\common_ex;
+        $month = $common_new->get_seller_month($start_time,$end_time)[0];
+        $group_adminid_list = $common_new->get_month_group_adminid_list($month);
+        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid,$group_adminid_list);
         $admin_list=&$ret_info["list"];
         $account_role= E\Eaccount_role::V_2;
-        $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
+        $order_user_list=$this->t_order_info->get_admin_list($start_time,$end_time,$account_role,$group_adminid_list);
         $map=[];
         foreach($ret_info["list"] as $item ) {
             $map[$item["adminid"] ]=true;
@@ -368,7 +369,7 @@ class tongji2 extends Controller
             }
         }
         // $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
-        $admin_list=\App\Helper\Common::gen_admin_member_data_new($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
+        $admin_list=\App\Helper\Common::gen_admin_member_data_new($admin_list, [],0, strtotime( date("Y-m-01",$start_time )),$group_adminid_list);
         foreach( $admin_list as &$item ) {
             $item["become_member_time"] = isset($item["become_member_time"])?(isset($item["create_time"])?($item["become_member_time"]>$item["create_time"]?$item["become_member_time"]:$item["create_time"]):0):0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
@@ -1973,7 +1974,7 @@ class tongji2 extends Controller
     # 市场部个性海报转发
     public function marketposterdata(){
         $page_num  = $this->get_in_page_num();
-        $uid = $this->get_in_int_val("adminid",-1);
+        $uid = $this->get_in_int_val("adminid",0);
         $ret_info = $this->t_personality_poster->getData($page_num,$uid);
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -2089,6 +2090,9 @@ class tongji2 extends Controller
     }
     //@desn:添加销售排名
     public function cc_day_top_add(){
+        if(!in_array($this->get_account(), ['abner','jim'])){
+            return $this->output_err('无权限');
+        }
         $score = $this->get_in_int_val('score');
         $rank = $this->get_in_int_val('rank');
         $uid = $this->get_in_int_val('uid');
@@ -2106,6 +2110,9 @@ class tongji2 extends Controller
     }
     //@desn:修改销售排名信息
     public function cc_day_top_update(){
+        if(!in_array($this->get_account(), ['abner','jim'])){
+            return $this->output_err('无权限');
+        }
         $id = $this->get_in_id();
         $score = $this->get_in_int_val('score');
         $rank = $this->get_in_int_val('rank');
@@ -2123,6 +2130,9 @@ class tongji2 extends Controller
     }
     //@desn:删除该条排名信息
     public function cc_day_top_del(){
+        if(!in_array($this->get_account(), ['abner','jim'])){
+            return $this->output_err('无权限');
+        }
         $id = $this->get_in_id();
         if($id){
             $this->t_cc_day_top->row_delete($id);

@@ -38,7 +38,7 @@ function load_data(){
     });
 }
 $(function(){
-   $('#id_date_range').select_date_range({
+	  $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
         'start_time'    : g_args.start_time,
@@ -47,7 +47,7 @@ $(function(){
         onQuery :function() {
             load_data();
         }
-   });
+    });
 
     //获取学科化标签
     var get_sub_grade_tag = function(subject,grade,booid,resource_type,season_id,obj,opt_type){

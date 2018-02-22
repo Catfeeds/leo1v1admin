@@ -571,7 +571,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_admin_member_list_tmp(  $month=-1,$main_type = -1 ,$adminid=-1){
+    public function get_admin_member_list_tmp(  $month=-1,$main_type = -1 ,$adminid=-1,$group_adminid_list=[]){
         $where_arr=[
             [ "tm.main_type =%u ", $main_type,-1] , // 测试
             // [ "m.main_type =%u ", $main_type,-1] ,
@@ -580,7 +580,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             // "(am.leave_member_time>$month or am.leave_member_time =0)"
             "((am.leave_member_time>$month and am.del_flag=1) or am.del_flag =0)",
         ];
-        $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr,'u.adminid',$group_adminid_list);
+        }else{
+            $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
+        }
 
         $sql = $this->gen_sql_new("select tm.group_name first_group_name, g.main_type,"
                                   ."g.group_name group_name, g.groupid groupid,m.group_name up_group_name,".
@@ -609,7 +613,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_admin_member_list_new( $month, $main_type = -1 ,$adminid=-1){
+    public function get_admin_member_list_new( $month, $main_type = -1 ,$adminid=-1,$group_adminid_list=[]){
         $where_arr=[
             [ "m.main_type =%u ", $main_type,-1] ,
             [  "am.account not like 'c\_%s%%'", "",  1] ,
@@ -617,7 +621,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
              // "(am.leave_member_time>$month or am.leave_member_time =0)",
             "((am.leave_member_time>$month and am.del_flag=1) or am.del_flag =0)",
         ];
-        $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
+        if(count($group_adminid_list)>1){
+            $this->where_arr_add_int_or_idlist($where_arr,'u.adminid',$group_adminid_list);
+        }else{
+            $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
+        }
 
         $sql = $this->gen_sql_new("select tm.group_name first_group_name,g.main_type,g.group_name group_name,"
                                   ."g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
@@ -2490,7 +2498,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function checkIsRole($userOpenid){
         $where_arr = [
-            "m.account_role in (1,2)",
+            // "m.account_role in (1,2)",
+            "m.account_role in (2,12)",
             "m.wx_openid='$userOpenid'"
         ];
         $sql = $this->gen_sql_new("  select uid from %s m where %s"
@@ -2531,5 +2540,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function get_ass_info ($role) {
         $sql = $this->gen_sql_new("select account from %s where account_role = $role and del_flag = 0 ", self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
+    }
+
+
+    public function get_teacher_nick($adminid){
+        $sql = $this->gen_sql_new("select t.nick from %s m left join %s t on t.phone = m.phone "
+                                ." where m.uid = $adminid ",
+                                self::DB_TABLE_NAME,
+                                t_teacher_info::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
     }
 }

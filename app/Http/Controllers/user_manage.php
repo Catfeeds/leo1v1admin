@@ -400,9 +400,7 @@ class user_manage extends Controller
         }else{
             $master_adminid=0;
         }
-        $domain = config('admin')['qiniu']['public']['url'];
-        $this->set_filed_for_js("qiniu_url",$domain.'/');
-        // dd($ret_info);
+        $this->set_filed_for_js("qiniu_url",'http://7u2f5q.com2.z0.glb.qiniucdn.com/');
         return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc"),"account_role"=>$this->get_account_role()]);
     }
 
@@ -1073,11 +1071,17 @@ class user_manage extends Controller
                 }
 
             }
-        }elseif($type="student" || $type="student_ass"){
+        }elseif($type=="student" || $type=="student_ass"){
             foreach($ret_list["list"] as &$item){
                 $item["phone"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
             }
 
+        }
+
+        if($type=="research_teacher"){
+            foreach($ret_list["list"] as &$item){
+                $item["gender"] = E\Egender::get_desc($item["gender"]);
+            }
         }
         return $this->output_ajax_table($ret_list, [ "lru_list" => $lru_list ]);
     }
@@ -3477,6 +3481,25 @@ class user_manage extends Controller
 
     }
 
+
+    public function get_nick (){
+        $type = $this->get_in_str_val("type","teacher");
+        $id   = $this->get_in_int_val("id",0);
+        if ($type=="teacher"){
+            $nick=$this->cache_get_teacher_nick($id);
+        }else if (  $type=="assistant" ){
+            $nick=$this->cache_get_assistant_nick($id);
+        }else if (  $type=="student"  ){
+            $nick=$this->cache_get_student_nick($id);
+        }else if (  $type=="seller" ){
+            $nick=$this->cache_get_seller_nick($id);
+        }else if (  $type=="account" ){
+            $nick=$this->cache_get_account_nick($id);
+        }else{
+            $nick = '';
+        }
+        return $this->output_succ([ 'nick' => $nick]);
+    }
 
 
 

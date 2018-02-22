@@ -269,7 +269,7 @@
                                 </label>
                             </div>
                             <div class="col-xs-6">
-                                <a href="" class="color-blue">忘记密码？</a>
+                                <!-- <a href="" class="color-blue">忘记密码？</a> -->
                             </div>
                         </div>
                         <div class="login-mig">

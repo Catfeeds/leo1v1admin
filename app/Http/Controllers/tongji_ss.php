@@ -587,14 +587,17 @@ class tongji_ss extends Controller
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
             $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
             $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
-            $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+            //  $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+            $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count_system"];
+            $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count_system"];
+
         }
         //去掉重复userid
         $distinct_test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex , 1);
 
         foreach ($distinct_test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
-            $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+            //  $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
         }
 
 
@@ -4941,28 +4944,37 @@ class tongji_ss extends Controller
 
         $this->t_seller_student_origin->switch_tongji_database();
 
-        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
+        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list);
 
         $data_map = &$origin_info['list'];
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
-        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_jx( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_jx( $field_name,$start_time,$end_time,$require_adminid_list,-1, '' );
 
         foreach ($test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+            $data_map[$check_value]["dic_succ_test_lesson_count"] = $test_item["distinct_succ_count"];
         }
 
 
         $this->t_order_info->switch_tongji_database();
         $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list);
+        $order_data = $this->t_order_info->get_node_type_order_data_now("origin",$start_time,$end_time,$require_adminid_list,-1,"","oi.order_time", "");
+
 
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
             $data_map[$check_value]["order_count"] = $order_item["have_order"];
         }
+        foreach ($order_data as  $order_item ) {
+            $check_value=$order_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+            $data_map[$check_value]["order_num"] = $order_item["order_count"];
+        }
+
 
 
         foreach ($data_map as &$item ) {
@@ -8382,13 +8394,21 @@ class tongji_ss extends Controller
             //例子总量
             $ret_info = $this->t_test_lesson_subject->get_example_num_now($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
             $data_map=&$ret_info["list"];
+            //试听预约数
+            $test_lesson_require_data = $this->t_test_lesson_subject_require->get_test_lesson_quire_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
+            foreach($test_lesson_require_data as $item){
+                $channel_name=$item["check_value"];
+
+                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
+                $data_map[$channel_name]["require_count"] = $item["require_count"];
+
+            }
             //试听信息
             $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
             foreach ($test_lesson_data as  $test_item ) {
                 $channel_name=$test_item["check_value"];
 
                 \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
-                $data_map[$channel_name]["require_count"] = $test_item["require_count"];
                 $data_map[$channel_name]["test_lesson_count"] = $test_item["test_lesson_count"];
                 $data_map[$channel_name]["distinct_test_count"] = $test_item["distinct_test_count"];
                 $data_map[$channel_name]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];

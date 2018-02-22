@@ -70,7 +70,7 @@ class seller_student_new extends Controller
     public function assign_member_list_master ( ) {
         $adminid=$this->get_account_id();
 
-        $main_master_flag = $this->t_admin_main_group_name->check_is_master(2,$adminid);
+        $main_master_flag = $this->t_admin_majordomo_group_name->check_is_master(2,$adminid);
         if($adminid==349){
             $main_master_flag=1;
         }
@@ -79,8 +79,8 @@ class seller_student_new extends Controller
         }
 
         $this->set_in_value("main_master_flag", $main_master_flag);
-        $this->set_in_value("admin_revisiterid", 0);
-        $this->set_in_value("sub_assign_adminid_2", 0);
+        // $this->set_in_value("admin_revisiterid", 0);
+        // $this->set_in_value("sub_assign_adminid_2", 0);
 
         return $this->assign_sub_adminid_list();
     }
@@ -117,7 +117,6 @@ class seller_student_new extends Controller
         $page_num                  = $this->get_in_page_num();
         $page_count                = $this->get_in_page_count();
         $has_pad                   = $this->get_in_int_val("has_pad", -1, E\Epad_type::class);
-        $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0);
         $origin_assistantid        = $this->get_in_int_val("origin_assistantid",-1  );
         $tmk_adminid               = $this->get_in_int_val("tmk_adminid",-1, "");
         $account_role              = $this->get_in_enum_list(E\Eaccount_role::class, -1 );
@@ -148,28 +147,24 @@ class seller_student_new extends Controller
         }
         $this->switch_tongji_database();
 
+        //总监查看所有转介绍
+        if($main_master_flag==1){
+            $majordomo_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($self_adminid);
+            $button_show_flag = 0;
+            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", -1); 
+        }else{
+            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0); 
+        }
 
         //主管查看下级例子
         $admin_revisiterid_list = [];
         if($button_show_flag == 0){
-            $son_adminid = [];
-            $son_adminid_arr = [];
-            if($majordomo_groupid>0){//总监
-                $son_adminid = $this->t_admin_main_group_name->get_son_adminid_by_up_groupid($majordomo_groupid);
-            }elseif($admin_main_groupid>0){//经理
-                $son_adminid = $this->t_admin_group_name->get_son_adminid_by_up_groupid($admin_main_groupid);
-            }elseif($self_groupid>0){//组长
-                $son_adminid = $this->t_admin_group_user->get_son_adminid_by_up_groupid($self_groupid);
-            }
-            foreach($son_adminid as $item){
-                if($item['adminid']>0){
-                    $son_adminid_arr[] = $item['adminid'];
-                }
-            }
-            array_unshift($son_adminid_arr,$this->get_account_id());
-            $admin_revisiterid_list = array_unique($son_adminid_arr);
+            $common_new = new \App\Http\Controllers\common_ex;
+            $month = $common_new->get_seller_month($start_time,$end_time)[0];
+            $admin_revisiterid_list = $common_new->get_group_adminid_list($self_adminid);
         }
-        $nick = '王彦奇';
+
+
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,
@@ -415,7 +410,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-
+        
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -1563,6 +1558,11 @@ class seller_student_new extends Controller
         if(date('Y-m-d',time()) == '2018-02-01'){
             $limit_arr=array( [0, 14*60]);
         }
+        if($now>=1518364800 && $now<=1519228800){//春节放假
+            return  $this->error_view([
+                "春节放假!"
+            ]);
+        }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $this->set_filed_for_js("seller_level",$seller_level);
         $success_flag=true;
@@ -1612,8 +1612,12 @@ class seller_student_new extends Controller
 
 
         # 处理该学生的通话状态 [james]
-        $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
-        $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
+        // $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
+        // $hasCalledNum = $this->t_tq_call_info->getAdminidCalledNum($adminid);
+        // // $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
+        // $this->set_filed_for_js("hasCalledNum", 3);
+        // $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
+        # 处理该学生的通话状态 [james-end]
 
 
 
@@ -1626,13 +1630,10 @@ class seller_student_new extends Controller
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
         $user_info= @$ret_info["list"][0];
         if (!$user_info) {
-
             return $this->pageView(
                 __METHOD__ , null,
                 ["user_info"=>null , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
             );
-
-
         }
 
         $this->set_filed_for_js("phone", $user_info["phone"]);
@@ -1647,11 +1648,12 @@ class seller_student_new extends Controller
                 __METHOD__ , null,
                 ["user_info"=>null , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
             );
-
-
         }
 
         E\Etq_called_flag::set_item_value_str($user_info);
+        // $this->set_filed_for_js("tq_called_flag", $user_info["tq_called_flag"]); // james
+
+
         E\Egrade::set_item_value_str($user_info);
         E\Esubject::set_item_value_str($user_info);
         E\Epad_type::set_item_value_str($user_info,"has_pad");

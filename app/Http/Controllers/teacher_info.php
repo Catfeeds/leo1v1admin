@@ -108,11 +108,13 @@ class teacher_info extends Controller
                     $item['cc_id']= $this->t_assistant_info->get_adminid_by_assistand( $item['assistantid']);
                 }
                 $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
-                if($item['userid']>0){
-                    $item["stu_nick"] = $this->cache_get_student_nick($item["userid"]);
-                }else{
-                    $item['stu_nick'] = "";
-                }
+                // if($item['userid']>0){
+                //     $item["stu_nick"] = $this->cache_get_student_nick($item["userid"]);
+                // }else{
+                //     $item['stu_nick'] = "";
+                // }
+
+                $item['stu_nick'] = $item['nick'];
 
                 $this->check_tea_comment($item);
                 if($item['confirm_flag']>=2){
@@ -252,6 +254,8 @@ class teacher_info extends Controller
         }elseif($question_type == 5){
             $question_type_str="是否重上";
         }elseif($question_type == 6){
+            $question_type_str="其他问题";
+        }else{
             $question_type_str="其他问题";
         }
 
@@ -465,7 +469,8 @@ class teacher_info extends Controller
 
         $lesson_list=$this->t_lesson_info_b2->get_teacher_lesson_info($teacherid,$start_time,$end_time);
         foreach($lesson_list as &$item) {
-            $nick=$this->cache_get_student_nick($item["userid"]);
+            // $nick=$this->cache_get_student_nick($item["userid"]);
+            $nick = $item['nick'];
             $item["month_title"]= $nick  ;
             $item["week_title"]=  "学生:$nick";
         }

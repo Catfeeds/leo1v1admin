@@ -4,26 +4,16 @@ use \App\Enums as E;
 class flow_qingjia extends flow_base{
 
     static $type= E\Eflow_type::V_QINGJIA;
-    static $node_data=[
-        //nodeid => next_nodeid(s) name  ,next_node_process
-        0=>[ 1 , "申请"  ],
-        1=>[ [3,5],"申请->主管审批"  ],
-        3=>[ -1 ,"主管->财务审批" ],
-        5=>[ 6,"主管->校长审批"  ],
-        6=>[ -1,"校长->财务审批"  ],
-    ];
-
-    static function get_check_node_function_list() {
-
-    }
+    static $node_map=null; // get_flow_class 时同步设置
 
     static function get_self_info( $from_key_int,  $from_key_str ) {
-        $t_qingjia = new \App\Models\t_qingjia();
-        return $t_qingjia->field_get_list($from_key_int ,"*");
+        $task= static::get_task_controler();
+        return $task->t_qingjia->field_get_list($from_key_int ,"*");
     }
 
     static function get_table_data( $flowid ) {
         list($flow_info,$self_info)=static::get_info($flowid);
+
 
         $hour_count=$self_info["hour_count"];
         $day_count=floor($hour_count/8);
@@ -54,31 +44,39 @@ class flow_qingjia extends flow_base{
     }
 
 
-    static function next_node_process_0 ($flowid ,$adminid){ //
-        $t_manager_info=  new \App\Models\t_manager_info();
-        return $t_manager_info->get_up_adminid($adminid);
-    }
 
-    static function next_node_process_1 ($flowid ,$adminid){ //
-        list($flow_info,$self_info)=static::get_info($flowid);
-        if ($self_info["hour_count"]>=24) {
-            //Cofing
-            return [5,99];
+    static function check_qingjia_day ( $args, $flow_info, $self_info , $adminid ) {
+        $hour_count=$self_info["hour_count"];
+        $day_count=floor($hour_count/8);
+
+        \App\Helper\Utils::logger("day_count: $day_count");
+        \App\Helper\Utils::logger("args: ". json_encode( $args));
+        //{"check_day_count":"5"}
+
+        if ($day_count>= $args["check_day_count"]) {
+            return 2;
         }else{
-            return [3,99];
+            return 1;
         }
     }
 
-    static function next_node_process_3 ($flowid ,$adminid){ //
-        return 0;
+    //使用新版.
+    static function get_next_node_info($node_type, $flowid, $adminid ) {
+        return static::get_next_node_info_new($node_type, $flowid, $adminid);
     }
 
-    static function next_node_process_5 ($flowid, $adminid){ //
-        //Config
-        return 99;
-    }
-    static function next_node_process_6 ($flowid, $adminid){ //
-        return 0;
-    }
 
+    static function get_function_config() {
+        return [
+            E\Eflow_function::V_CHECK_QINGJIA_DAY => [
+                "arg_config" => [
+                    "check_day_count" => [ "desc"=> "指定天数", "type"=>"integer" ],
+                ],
+                "return_config"  => [
+                    "1" => "小于指定天数",
+                    "2" => "大于等于指定天数",
+                ]
+            ]
+        ];
+    }
 }

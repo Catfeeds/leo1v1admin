@@ -1656,7 +1656,7 @@ class wx_teacher_api extends Controller
 
 
     public function get_teacher_lesson_count(){
-        $teacherid  = $this->get_teacherid();
+        $teacherid  = $this->get_teacherid_new();
         if(!$teacherid){
             return $this->output_err("老师id缺失!");
         }
@@ -1676,7 +1676,7 @@ class wx_teacher_api extends Controller
     }
 
     public function draw_lottery(){
-        $teacherid  = $this->get_teacherid();
+        $teacherid  = $this->get_teacherid_new();
         if(!$teacherid){
             return $this->output_err("老师id缺失!");
         }
@@ -1715,5 +1715,117 @@ class wx_teacher_api extends Controller
         ]);
 
         return $this->output_succ(['result'=>$result,'rank'=>$rank]);
+    }
+
+    //获取老师详细信息
+    public function get_tea_detail_info(){
+        $teacherid  = $this->get_teacherid_new();
+        $data = $this->t_teacher_info->field_get_list($teacherid,"realname,idcard,protocol_results,dispute_handle_type");
+        return $this->output_succ(["list"=>$data]);
+ 
+    }
+
+    //兼职老师入职协议结果处理协议
+    public function set_part_teacher_protocol_result(){
+        $teacherid  = $this->get_teacherid_new();
+        // $teacherid= 240314 ;
+        $protocol_results = $this->get_in_int_val("protocol_results");
+        $dispute_handle_type = $this->get_in_int_val("dispute_handle_type");
+        $realname         = trim($this->get_in_str_val("realname"));
+        $idcard           = $this->get_in_str_val("idcard");
+        if($protocol_results==1){
+            if(!$realname){
+                return $this->output_err("请输入正确的名字");
+            }
+            if(strlen($idcard) != 18){
+                return $this->output_err("身份证长度不对");
+            }
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "protocol_results"  =>$protocol_results,
+                "protocol_time"     =>time(),
+                "dispute_handle_type" =>$dispute_handle_type,
+                "realname"          =>$realname,
+                "idcard"            =>$idcard
+            ]);
+
+            //获取最近一次该老师的模拟试听评价记录id
+            $record_list = $this->t_teacher_record_list->get_late_trial_train_record_id($teacherid,1,5,1);
+            $id =  $record_list["id"];
+            $record_info = $record_list["record_info"];
+            $acc = $record_list["acc"];
+
+            $this->t_teacher_record_list->field_update_list($id,[
+                "protocol_results_record"  =>$protocol_results,
+                "protocol_time_record"     =>time(),
+                "dispute_handle_type_record" =>$dispute_handle_type,
+            ]);
+
+            //老师入职处理
+            $ret = $this->t_teacher_info->field_update_list($teacherid,[
+                "trial_train_flag"  => 1,
+                "train_through_new" => 1,
+                "level"             => 1
+            ]);
+            $keyword2   = "已通过";
+            $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+
+            /**
+             * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+             * 标题课程 : 等级升级通知
+             * {{first.DATA}}
+             * 用户昵称：{{keyword1.DATA}}
+             * 最新等级：{{keyword2.DATA}}
+             * 生效时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $wx_openid = $teacher_info["wx_openid"];
+            if($wx_openid){
+                $data=[];
+                $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+                $data['first']    = "恭喜您通过模拟试听课审核，加入排课群，和排课老师沟通可上课时间。点详情，看群号。";
+                $data['keyword1'] = $teacher_info["nick"];
+                $data['keyword2'] = "二星级";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "\n升级原因:具备线上教学能力。".$record_info."\n您将获得20元奖励，请在微信老师帮-个人中心-我的收入-绑定银行卡，每月10日发放上月薪资到绑定的银行卡。";
+                $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
+
+            //邮件推送
+            $html = $this->teacher_level_up_html($teacher_info);
+            $email = $teacher_info["email"];
+            if($email){
+                dispatch( new \App\Jobs\SendEmailNew(
+                    $email,"【理优1对1】老师晋升通知",$html
+                ));
+            }
+
+            //添加模拟试听奖金
+            $lessonid = $record_list["train_lessonid"];
+            $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,E\Ereward_type::V_5);
+            if(!$check_flag){
+                $train_reward = \App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
+                $this->t_teacher_money_list->row_insert([
+                    "teacherid"  => $teacherid,
+                    "type"       => E\Ereward_type::V_5,
+                    "add_time"   => time(),
+                    "money"      => $train_reward,
+                    "money_info" => $lessonid,
+                    "acc"        => $acc,
+                ]);
+            }
+
+            return $this->output_succ();
+
+
+        }elseif($protocol_results==2){
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "protocol_results"  =>$protocol_results,
+                "protocol_time"     =>time()
+            ]);
+            return $this->output_succ();
+
+        }
+
     }
 }

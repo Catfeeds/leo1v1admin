@@ -25,12 +25,17 @@ class seller_tongji extends Controller
         $day = intval(ceil((time()-$start)/86400)-1);
         $day = $day-2*$day;
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $end_time_new = $end_time;
+        $start_time_new = $start_time;
+
         if($end_time >= time()){
             $end_time = time();
         }
+        $common_new = new \App\Http\Controllers\common_ex;
+        $month = $common_new->get_seller_month($start_time,$end_time)[0];
+        $group_adminid_list = $common_new->get_month_group_adminid_list($month);
         $start_first = date('Y-m-01',$start_time);
         $res = [];
-
         $this->t_seller_month_money_target->switch_tongji_database();
         $ret_info = $this->t_seller_month_money_target->get_seller_month_time_info($start_first);
         $start_day = date('d',$start_time);
@@ -69,8 +74,9 @@ class seller_tongji extends Controller
             $res[$k]['target_personal_money'] = $item['personal_money'];
         }
    
-        $this->t_admin_group_user->switch_tongji_database();
-        $group_money_info = $this->t_admin_group_user->get_seller_month_money_info($start_first);
+        $this->check_and_switch_tongji_domain();
+        // $this->t_admin_group_user->switch_tongji_database();
+        $group_money_info = $this->t_admin_group_user->get_seller_month_money_info($start_first,$group_adminid_list);
         $num_info = $this->t_admin_group_user->get_group_num($start_time);
         foreach($group_money_info as &$item){
             $groupid = $item['groupid'];
@@ -79,8 +85,8 @@ class seller_tongji extends Controller
             }
         }
         //试听申请数
-        $this->t_test_lesson_subject_require->switch_tongji_database();
-        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time);
+        // $this->t_test_lesson_subject_require->switch_tongji_database();
+        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1],$origin_ex="",$group_adminid_list);
         foreach($tr_info['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['require_test_count_for_month']=$item['require_test_count'];
@@ -89,14 +95,14 @@ class seller_tongji extends Controller
             }
         }
         //教务排课数
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time );
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time,$grade_list=[-1],$origin_ex="",$group_adminid_list);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
         }
 
-        $this->t_order_info->switch_tongji_database();
-        $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1);
+        // $this->t_order_info->switch_tongji_database();
+        $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,$stu_from_type=-1,$adminid=-1,$adminid_list=[],$group_adminid_list);
         foreach($order_new as $k=>$v){
             $res[$k]['all_new_contract_for_month'] = $v['all_new_contract'];
             if(isset($res[$k]['succ_all_count_for_month']) && $res[$k]['succ_all_count_for_month'] != 0){
@@ -116,7 +122,7 @@ class seller_tongji extends Controller
             $res_item["adminid"] = $ret_k ;
         }
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
-        $ret_info=\App\Helper\Common::gen_admin_member_data_new($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        $ret_info=\App\Helper\Common::gen_admin_member_data_new($res,[],0,strtotime(date("Y-m-01",$start_time)),$group_adminid_list);
         foreach( $ret_info as $key=>&$item ){
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
@@ -183,9 +189,9 @@ class seller_tongji extends Controller
                 $become_member_num_l2 = 0;
                 $leave_member_num_l2 = 0;
             }
-            // if(($item['main_type_str'] == '助教') || $item['main_type_str'] == '未定义'){
-            //     unset($ret_info[$key]);
-            // }
+            if(in_array($item['main_type_str'], ['助教','未定义','全部'])){
+                unset($ret_info[$key]);
+            }
             if(isset($item['target_money'])){
                 $item['target_money'] = round($item['target_money']);
             }
@@ -223,9 +229,9 @@ class seller_tongji extends Controller
             $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
         }
         foreach($ret_info as &$item){
-            // if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
-            //     unset($item);
-            // }else{
+            if(in_array($item['main_type_str'], ['助教','未定义','全部'])){
+                unset($item);
+            }else{
                 if($item['level'] == 'l-3'){
                     foreach($member_new as $info){
                         if($item['up_group_name'] == $info['up_group_name']){
@@ -246,11 +252,15 @@ class seller_tongji extends Controller
                         $item['leave_member_num'] = '';
                     }
                 }
-            // }
+            }
         }
 
 
         \App\Helper\Utils::logger("OUTPUT");
+       
+        $test_lesson_succ_all = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_succ_all($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="");
+        $this->set_filed_for_js("test_lesson_succ_all",@$test_lesson_succ_all["dis_succ_all_count"]);
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),
                                [
                                    '_publish_version' => 201712071914

@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_invalid_num_confirm","id"],
     ["db_weiyi","t_deal_ppt_to_h5","id"],
     ["db_weiyi","t_cc_no_return_call","uid"],
     ["db_weiyi","t_seller_student_do_tag_log","id"],
@@ -85,6 +86,7 @@ return array(
     ["db_weiyi_admin","t_sys_error_info", "id"],
     ["db_weiyi_admin","t_config_date", "id"],
     ["db_weiyi_admin","t_admin_self_menu", "id"],
+    ["db_weiyi_admin","t_flow_config", "flow_type"],
     ["db_weiyi","t_yxyx_wxnews_info", "id"],
     ["db_weiyi","t_yxyx_test_pic_info", "id"],
     ["db_weiyi","t_yxyx_test_pic_visit_info", "test_pic_id"],
@@ -253,6 +255,7 @@ return array(
     ["db_weiyi","t_phone_info","id"],
     ["db_weiyi","t_resource_file_evalutation","id"],
     ["db_weiyi","t_resource_file_error_info","id"],
+    ["db_weiyi","t_resource_change_record","id"],
     ["db_weiyi","t_subject_grade_config", "adminid","type"],
 
     ["db_weiyi","t_origin_key", "value"],

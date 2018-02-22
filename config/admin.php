@@ -72,7 +72,8 @@ return [
     ],
     "teacher_wx_url" => [
         "normal_url"  => "http://wx-teacher.leo1v1.com/jump_page?url=comment_normal.html?lessonid=",
-        "normal_list" => "http://wx-teacher.leo1v1.com/jump_page?url=comment_list.html?type=1",
+        "normal_list" => "http://wx-teacher.leo1v1.com/wx_teacher_web/comment_list?type=1",
+        // "normal_list" => "http://wx-teacher.leo1v1.com/jump_page?url=comment_list.html?type=1",
         "trial_url"   => "http://wx-teacher.leo1v1.com/jump_page?url=comment_trial.html?lessonid=",
         "trial_list"  => "http://wx-teacher.leo1v1.com/jump_page?url=comment_list.html?type=0",
     ],

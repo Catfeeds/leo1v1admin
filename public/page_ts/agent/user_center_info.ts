@@ -112,7 +112,6 @@ $(function(){
             dataType : "jsonp",//数据类型为jsonp
             success : function(data){
                 var my_str="" ;
-                var member_str="" ;
                 //遍历我的邀请
                 $.each( data.child_reward.list, function(){
                     my_str+="<tr style=\"\" ><td>"
@@ -123,8 +122,21 @@ $(function(){
                         +"上课节数:" + this.count + "<br>"
                         +" </td> </tr>";
                 });
-                //遍历会员邀请
                 $("#id_detail_info").html(my_str);
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
+
+
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_commission_reward?_agent_id="+g_args.id+"&table_type=2&page_count=1000",
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var member_str="" ;
+                //遍历会员邀请
                 $.each( data.member_reward.list, function(){
                     member_str+="<tr style=\"\" ><td>"
                         +"姓名:" + this.nickname  + "<br>"

@@ -40,6 +40,7 @@ class menu{
                 ["power_id"=>71, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
 
                 ["power_id"=>13, "name"=>"录音xmpp分布",   "url"=>"/tea_manage_new/lesson_record_server_list"],
+                ["power_id"=>14, "name"=>"录音xmpp分布-vue", "url"=>"/tea_manage_new/lesson_record_server_list", "domain_type"=>100],
                 ["power_id"=>72, "name"=>"ssh 登录记录",   "url"=>"/login_log/login_list"],
                 ["power_id"=>2, "name"=>"job统计",   "url"=>"/admin_manage/job_list", "domain_type" =>100],
             ]],
@@ -292,6 +293,7 @@ class menu{
                 ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
                 ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
+                ["power_id"=>47, "name"=>"审批配置",   "url"=>"/admin_manage/flow_edit","domain_type"=>100 ],
                 ["power_id"=>6, "name"=>"权限查询",   "url"=>"/authority/get_acc_power_list"],
                 ["power_id"=>7, "name"=>"登录日志",   "url"=>"/authority/get_login_list"],
                 ["power_id"=>71, "name"=>"websocket测试",   "url"=>"/seller_student_new/seller_student_ws"],
@@ -485,6 +487,7 @@ class menu{
                     ["power_id"=>1, "name"=>"系统分配例子信息",   "url"=>"/tongji2/tongji_sys_assign_call_info", "domain_type" =>100],
                     ["power_id"=>2, "name"=>"系统释放例子日志",   "url"=>"/tongji2/tongji_sys_free_log", "domain_type" =>100],
                     ["power_id"=>3, "name"=>"未回访记录",   "url"=>"/tongji2/no_return_call_list"],
+                    ["power_id"=>4, "name"=>"每日排名记录",   "url"=>"/tongji2/cc_day_top_list"],
                 ]],
                 ["power_id"=>1, "name"=>"销售", "list"=>[
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
@@ -892,6 +895,7 @@ class menu{
                 ['power_id'=>74, 'name'=>"教研备课上传","list" => [
                     ["power_id"=>05, "name"=>"教研备课资料框架-新",   "url"=>"/resource/resource_frame_new"],
                     ["power_id"=>02, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
+                    ["power_id"=>06, "name"=>"更换讲义负责人",   "url"=>"/resource_new/admin_manage"],
                     ["power_id"=>03, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
                     ["power_id"=>04, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                 ]],

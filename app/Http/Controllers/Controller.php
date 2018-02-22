@@ -161,9 +161,9 @@ class Controller extends ControllerEx
                     if ( $server_name== "admin.leo1v1.com" ) {
                         \App\Helper\Utils::logger(" DO admin.leo1v1.com ");
 
-                        header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                        header('Location: http://admin-tongji.leo1v1.com/'. trim($_SERVER["REQUEST_URI"],"/")  );
                     }else{
-                        header('Location: http://p.admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                        header('Location: http://p.admin-tongji.leo1v1.com/'.  trim($_SERVER["REQUEST_URI"],"/")  );
                     }
 
                 }else{
@@ -436,6 +436,25 @@ class Controller extends ControllerEx
         }else{
             echo $this->output_err("未登录");
             exit;
+        }
+    }
+
+    public function get_teacherid_new(){
+        $role      = $this->get_in_int_val("_role",0);
+        $teacherid = $this->get_in_int_val("_userid",0);
+
+        if (!$role) {
+            $role = session("login_user_role" );
+        }
+
+        if (!$teacherid) {
+            $teacherid = session("login_userid" );
+        }
+
+        if ($role==2 &&  $teacherid ) {
+            return $teacherid;
+        }else{
+            return 0;
         }
     }
 

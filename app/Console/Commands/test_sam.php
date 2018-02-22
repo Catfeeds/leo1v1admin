@@ -383,14 +383,38 @@ where s.is_test_user = 0 and q.is_called_phone =1
             
         }
         */ 
-        // $ret = $task->t_student_score_info->reflash_info();
-        // foreach ($ret as $key => $value) {
-        //     $teacherid = $value['teacherid'];
-        //     $task->t_teacher_info->field_update_list($teacherid,[
-        //         "teaching_achievement" =>$value['achievement'],
-        //     ]);
-        //     echo "$teacherid \n" ;
-        // }
+        // $ret = $task->t_student_score_info->get_num();
+        // foreach ($ret as $key => &$value) {
+        //     $value["adminid_nick"]= $value["adminid"]>0?$task->cache_get_account_nick($value["adminid"]):'';
+        //     $value["uid_nick"]= $task->cache_get_account_nick($value["uid"]);
+        //     $value['adminid_account_role'] = E\Eaccount_role::get_desc($value['account_role']);
+        //     $value['uid_account_role']     = E\Eaccount_role::get_desc($value['uid_account_role']);
 
+        //     $value['create_time_str'] = \App\Helper\Utils::unixtime2date($value['create_time']);
+        // }
+        // $file_name = 'sam_0208-';
+        // $arr_title = ["用户ID","最后一次分配例子的时间","分配人（操作人)","分配人account","被分配人","被分配人account"];
+        // $arr_data  = ['userid','create_time_str',"adminid_nick","adminid_account_role","uid_nick","uid_account_role"];
+        // $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
+
+
+        $ret = $task->t_student_score_info->get_num();
+        foreach ($ret as $key => $value) {
+            $adminid = $value['adminid'];
+            $file_id = $value['file_id'];
+            $kpi_adminid = $value['kpi_adminid'];
+            $reload_adminid = $value['reload_adminid'];
+
+            if($reload_adminid == 0){
+                $task->t_resource_file->field_update_list($file_id,[
+                    "reload_adminid" =>$adminid,
+                ]);
+            }
+            if($kpi_adminid == 0){
+                $task->t_resource_file->field_update_list($file_id,[
+                    "kpi_adminid" =>$adminid,
+                ]);
+            }
+        }
     }     
 }

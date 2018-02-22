@@ -14,6 +14,78 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $lessonid = $this->get_in_int_val('lessonid',549731);
+
+        $homework_situation = array_flip(E\Ehomework_situation::$desc_map);
+        $content_grasp = array_flip(E\Econtent_grasp::$desc_map);
+        $lesson_interact = array_flip(E\Elesson_interact::$desc_map);
+
+        $ret = $this->t_lesson_info_b2->get_lesson_stu_performance($lessonid);
+        if($ret['stu_performance']!=''){
+            $ret_info = json_decode($ret['stu_performance'],true);
+            $ret_info['homework_situation'] = $homework_situation[$ret_info['homework_situation']];
+            $ret_info['content_grasp']      = $content_grasp[$ret_info['content_grasp']];
+            $ret_info['lesson_interact']    = $lesson_interact[$ret_info['lesson_interact']];
+
+            if(isset($ret_info['point_note_list']) && is_array($ret_info['point_note_list'])){
+                foreach($ret_info['point_note_list'] as $key => $val){
+                    $ret_info['point_name'][$key]     = $val['point_name'];
+                    $ret_info['point_stu_desc'][$key] = $val['point_stu_desc'];
+                }
+            }else{
+                $ret_info['point_name']=explode("|",$ret['lesson_intro']);
+            }
+        }else{
+            $ret_info=explode("|",$ret['lesson_intro']);
+        }
+        dd($ret_info);
+
+        dd(111);
+
+
+        $master_adminid_arr = $this->t_admin_main_group_name->get_seller_master_adminid_by_campus_id(-1);
+        //  $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid($sub_assign_adminid_1);
+        $ret=[];
+        foreach($master_adminid_arr as $val){
+            $adminid = $val["master_adminid"];
+            
+            if($adminid>0){
+                $list = $this->t_seller_student_new->get_stu_info_master_leader($adminid);
+                $sub_assign_adminid_1 = $this->t_admin_main_group_name->get_major_master_adminid($adminid);
+                // foreach($list as $item){
+                //     $nick = $item["nick"];
+                //     $phone = $item["phone"];
+                //     $userid = $item["userid"];
+                //     $this->t_seller_student_new->field_update_list($userid,[
+                //         "sub_assign_adminid_1"  =>$sub_assign_adminid_1,
+                //         "sub_assign_adminid_2"  =>$sub_assign_adminid_1,
+                //         "admin_revisiterid"     =>$sub_assign_adminid_1,
+                //         "admin_assign_time"     =>time()
+                //     ]);
+
+                //     $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
+                //     $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","总监:".$sub_assign_adminid_1."类型2","/seller_student_new/seller_student_list_all?userid=$userid");
+
+                //     $name = $this->t_manager_info->get_account($sub_assign_adminid_1);
+                //     $this->t_book_revisit->add_book_revisit(
+                //         $phone,
+                //         "操作者: $account ,分配给销售总监".$name,
+                //         "system"
+                //     );
+ 
+                // }
+                $ret[$adminid] = $list;
+                $s2 = $this->t_admin_main_group_name->get_major_master_adminid(-1,$val["groupid"]);
+                echo $s1."<br>";
+                echo $s2."<br>";
+
+            }
+        }
+        dd($ret);
+        $su = $this->t_admin_main_group_name->get_major_master_adminid(416);
+        dd($su);
+
+        dd(md5("leo15179518621580092561911v1"));
       
         $tt= $this->t_teacher_info->get_prize(240314);
         dd(json_decode($tt,true));

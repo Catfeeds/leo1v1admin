@@ -139,6 +139,7 @@ interface RowData {
 	stu_type	:any;
 	tmk_desc	:any;
 	tmk_student_status	:any;
+	seller_student_assign_from_type	:any;
 	nickname	:any;
 	phone_hide	:any;
 	lesson_plan_status	:any;

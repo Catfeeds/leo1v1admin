@@ -11,6 +11,7 @@ interface JQueryStatic {
     intval_range_select ( $element,  onChange  ):void ;
 
     reload( ):void;
+  createGooFlow(obj, args1 ):any;
     isWeiXin():boolean;
   do_select_menu(obj):void;
 
@@ -38,7 +39,7 @@ interface JQueryStatic {
             */
 
 
-    show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
+    show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):any;
 
 
     /*

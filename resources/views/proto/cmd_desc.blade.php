@@ -164,7 +164,7 @@
             @if( count( $table_data_list )  >0 )
                 <table      class="ui-widget ui-widget-content"  cellspacing="0"  style=" margin:0 auto; " >
 
-                    <caption class="caption_center"> 命令列表 [{{$project}}] </caption>
+                    <caption class="caption_center"> 命令列表 [{{$project}}]   </caption>
                     <tbody>
                         <tr  class="ui-widget-header">
                             <td width="50px">命令号</td>

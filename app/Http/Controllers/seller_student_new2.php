@@ -1368,6 +1368,8 @@ class seller_student_new2 extends Controller
         $this->t_test_lesson_subject_require->switch_tongji_database();
         \App\Helper\Utils::logger("111");
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
+       
+
 
         \App\Helper\Utils::logger("10100000");
         foreach($test_leeson_list['list'] as $item){
@@ -1455,6 +1457,16 @@ class seller_student_new2 extends Controller
         $lesson_tags   = $this->get_in_str_val("lesson_tags");
         $refresh_flag  = $this->get_in_int_val("refresh_flag");
         $userid = $this->get_in_str_val("userid",0);
+        $dialect_type  = $this->get_in_enum_list(E\Edialect_type::class);
+        $dialect_type_list = E\Edialect_type::$desc_map;
+        $dialect_type_arr=[];
+        if(isset( $dialect_type[0]) &&  $dialect_type[0] != -1){
+            foreach($dialect_type as $v){
+                $dialect_type_arr[] = $dialect_type_list[$v];
+            }
+        }
+      
+        $plan_level               = $this->get_in_int_val("plan_level", -1);
 
         $is_test_arr = $this->t_student_info->field_get_list($userid, "is_test_user");
         $is_test = $is_test_arr['is_test_user'];
@@ -1531,7 +1543,7 @@ class seller_student_new2 extends Controller
             $tea_list     = $this->get_teacher_list_for_test_lesson(
                 $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag
                 ,$identity,$gender,$tea_age,$require_info['subject_tag'],$teacher_tags,$lesson_tags,$teaching_tags,$teacher_type
-                ,$region_version,$teacher_info,$is_test
+                ,$region_version,$teacher_info,$is_test,$dialect_type_arr,$plan_level
             );
         }else{
             $tea_list = [];
@@ -1585,7 +1597,7 @@ class seller_student_new2 extends Controller
      */
     public function get_teacher_list_for_test_lesson(
         $redis_key,$lesson_start,$lesson_end,$grade,$subject,$refresh_flag=false,$identity=-1,$gender=-1,$tea_age=-1,
-        $subject_tags='',$teacher_tags='',$lesson_tags='',$teaching_tags='',$teacher_type=-1,$region_version=0,$teacher_info='',$is_test
+        $subject_tags='',$teacher_tags='',$lesson_tags='',$teaching_tags='',$teacher_type=-1,$region_version=0,$teacher_info='',$is_test,$dialect_type_arr=[],$plan_level=-1
     ){
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
         $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
@@ -1666,6 +1678,60 @@ class seller_student_new2 extends Controller
                     $tea_val['is_teacher_type'] = 0;
                 }
 
+
+                $tea_val["is_plan_level"]=0;
+              
+                if($tea_val["test_transfor_per"]>=20){
+                    $tea_val["fine_dimension"]="维度A";
+                    if($plan_level==1){
+                        $tea_val["is_plan_level"]=1;
+                    }
+                }elseif($tea_val["test_transfor_per"]>=10 && $tea_val["test_transfor_per"]<20){
+                    $tea_val["fine_dimension"]="维度B";
+                    if($plan_level==2){
+                        $tea_val["is_plan_level"]=1;
+                    }
+
+                }elseif($tea_val["test_transfor_per"]<10 && in_array($tea_val["identity"],[5,6]) && $tea_val["month_stu_num"]>=4 && $tea_val["record_score"]>=60 && $tea_val["record_score"]<=90){
+                    $tea_val["fine_dimension"]="维度C";
+                    if($plan_level==3){
+                        $tea_val["is_plan_level"]=1;
+                    }
+
+                }elseif($tea_val["test_transfor_per"]<10 && !in_array($tea_val["identity"],[5,6]) && $tea_val["month_stu_num"]>=4 && $tea_val["record_score"]<=90){
+                    $tea_val["fine_dimension"]="维度C候选";
+                    if($plan_level==4){
+                        $tea_val["is_plan_level"]=1;
+                    }
+
+                }elseif($tea_val["test_transfor_per"]<10 && in_array($tea_val["identity"],[5,6]) && $tea_val["month_stu_num"]>=1 && $tea_val["month_stu_num"]<=3 && $tea_val["record_score"]>=60 && $tea_val["record_score"]<=90){
+                    $tea_val["fine_dimension"]="维度D";
+                    if($plan_level==5){
+                        $tea_val["is_plan_level"]=1;
+                    }
+
+                }elseif($tea_val["test_transfor_per"]<10 && !in_array($tea_val["identity"],[5,6]) && $tea_val["month_stu_num"]>=1 && $tea_val["month_stu_num"]<=3 && $tea_val["record_score"]<=90){
+                    if($plan_level==6){
+                        $tea_val["is_plan_level"]=1;
+                    }
+
+                    $tea_val["fine_dimension"]="维度D候选";
+                }else{
+                    $tea_val["fine_dimension"]="其他";
+                    if($plan_level==7){
+                        $tea_val["is_plan_level"]=1;
+                    }
+
+                }
+
+
+                $tea_val["is_dialect_type"]=0;
+                if(count($dialect_type_arr)>0){
+                    if(in_array($tea_val["phone_province"],$dialect_type_arr)){
+                        $tea_val["is_dialect_type"]=1;
+                    }
+                }
+
                 if($del_flag){
                     unset($tea_list[$tea_key]);
                 }else{
@@ -1683,6 +1749,8 @@ class seller_student_new2 extends Controller
                     $teacher_type_list[$tea_key] = $tea_val['is_teacher_type'];
                     $search_list[$tea_key]       = $tea_val['is_search'];
                     $textbook_list[$tea_key]     = $tea_val['is_textbook'];
+                    $province_list[$tea_key]     = $tea_val['is_dialect_type'];
+                    $plan_level_list[$tea_key]     = $tea_val['is_plan_level'];
                     E\Eidentity::set_item_value_str($tea_val);
                     E\Egender::set_item_value_str($tea_val);
                     E\Eteacher_type::set_item_value_str($tea_val);
@@ -1699,8 +1767,8 @@ class seller_student_new2 extends Controller
             if(!empty($tea_list)){
                 array_multisort(
                     $search_list,SORT_DESC,$identity_list,SORT_DESC,$gender_list,SORT_DESC,$tea_age_list,SORT_DESC,
-                    $teacher_type_list,SORT_DESC,$textbook_list,SORT_DESC,$match_time,SORT_DESC,$match_tags,SORT_DESC,
-                    $ruzhi_list,SORT_DESC,$tea_list
+                    $teacher_type_list,SORT_DESC,$province_list,SORT_DESC,$textbook_list,SORT_DESC,$plan_level_list,
+                    SORT_DESC,$match_time,SORT_DESC,$match_tags,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
                 );
             }
         }

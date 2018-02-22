@@ -36,14 +36,6 @@ interface RowData {
 	tq_call_fail_invalid_count	:any;
 	tq_call_succ_invalid_count	:any;
 	tq_call_succ_valid_count	:any;
-	test_lesson_count	:any;
-	distinct_test_count	:any;
-	succ_test_lesson_count	:any;
-	distinct_succ_count	:any;
-	require_count	:any;
-	order_count	:any;
-	user_count	:any;
-	order_all_money	:any;
 	title	:any;
 	key1	:any;
 	key2	:any;

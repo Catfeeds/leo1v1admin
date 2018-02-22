@@ -2153,22 +2153,13 @@ jQuery.extend({
 
 
     do_ajax_get_nick:function( type,  id, func) {
-        $.ajax({
-            type     : "post",
-            url      : "/user_manage/get_nick" ,
-            dataType : "json",
-            data : {
+        $.do_ajax("/user_manage/get_nick" , {
                 "type" : type
                 ,"id"  : id
-            },
-
-            error: function() {
-                alert("操作失败, 已通知开发人员 ");
-            },
-            success : function(result){
+            }, function(result){
                 var nick = result.nick;
                 func(id,nick );
-            }});
+            });
     },
 
     do_get_env:function( func) {
@@ -2312,6 +2303,7 @@ jQuery.extend({
         if (width) {
             dlg.getModalDialog().css("width", ""+width+"px");
         }
+      return dlg;
 
     },
 
