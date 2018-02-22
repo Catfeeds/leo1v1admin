@@ -20,21 +20,36 @@ $(function(){
         },function(ret){
             if(ret.ret==0){
                 var ret_data = ret.data, add_str = '',select = ret.select;
-                $.each(ret_data, function(i,val){
-                    var new_info = info_str+'-'+val[select];
-                    var next_level = parseInt(level)+1;
-                    if(select == 'tag_two'){
-                        var text_str = ChineseDistricts[86][ val['tag_two'] ];
-                        var tr_str = get_add_tr(next_level, new_info, text_str, info_str, ret.is_end, val.is_ban,val.ban_level);
-                    } else if (select == 'tag_three'){
-                        var pro_num = info_str.slice(-6);
-                        var text_str = ChineseDistricts[pro_num][ val['tag_three'] ];
-                        var tr_str = get_add_tr(next_level, new_info, text_str, info_str, ret.is_end, val.is_ban,val.ban_level);
-                    }else {
-                        var tr_str = get_add_tr(next_level, new_info, val[select+'_str'], info_str, ret.is_end, val.is_ban,val.ban_level);
+                if(select == "get_province"){
+                    var province = ChineseDistricts[86];
+                    for(var x in province){
+                        var new_info = info_str+'-' + x;
+                        var text_str = province[x];
+                        //console.log(info_str);
+                        var tr_str = get_add_tr(6, new_info, text_str, info_str,0,0,0);
+                        add_str = add_str + tr_str;
                     }
-                    add_str = add_str + tr_str;
-                });
+                }else if(select == "get_city"){
+                    var info_arr = info_str.split("-");
+                    var province_id = info_arr[5];
+                    //console.log(province_id);
+                    var city = ChineseDistricts[province_id];
+                    //console.log(city);
+                    for( var x in city){
+                        var new_info = info_str+'-' + x;
+                        var text_str = city[x];
+                        //console.log(info_str);
+                        var tr_str = get_add_tr(7, new_info, text_str, info_str,0,0,1);
+                        add_str = add_str + tr_str;
+                    }
+                }else{
+                    $.each(ret_data, function(i,val){
+                        var new_info = info_str+'-'+val[select];
+                        var next_level = parseInt(level)+1;
+                        var tr_str = get_add_tr(next_level, new_info, val[select+'_str'], info_str, ret.is_end, val.is_ban,val.ban_level);
+                        add_str = add_str + tr_str;
+                    });
+                }
                 obj.after(add_str);
 
                 $('tr[key]').each(function(){
