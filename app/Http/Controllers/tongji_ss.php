@@ -491,9 +491,11 @@ class tongji_ss extends Controller
     }
 
     public function origin_count_yhyy () {
+        $is_history = $this->get_in_int_val('is_history',1);
+        $sta_data_type = $this->get_in_int_val('sta_data_type',1);
         $this->set_in_value("origin_ex","自有渠道,用户运营,,,");
-        $this->set_in_value("is_history",2);
-        $this->set_in_value("sta_data_type",1);
+        $this->set_in_value("is_history",$is_history);
+        $this->set_in_value("sta_data_type",$sta_data_type);
         return $this->channel_statistics();
     }
 
