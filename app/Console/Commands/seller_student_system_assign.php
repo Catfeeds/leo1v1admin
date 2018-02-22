@@ -156,7 +156,7 @@ class seller_student_system_assign extends cmd_base
 
         $seller_max_new_count = $ret_info["seller_max_new_count"];//最大新例子配额
         
-        if(time()<1518364800 && time()>1519228800){//春节放假
+        if(time()<1518364800 || time()>1519228800){//春节放假
             $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
             $no_connnected_ret_info=$this->assign_no_connected_new( $left_no_connected_count_all,$admin_list  );
             // $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
