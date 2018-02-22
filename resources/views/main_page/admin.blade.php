@@ -172,20 +172,10 @@
                                 </thead>
                                 <tbody >
                                     @foreach ($sys_info as $var)
-                                        @if($var[0] == '新例子配置')
-                                            <tr>
-                                                <td>{{$var[0]}}</td>
-                                                <td>
-                                                    <span>{{$var[1]}}</span>
-                                                    <a id="id_edit_system_allocates_num" class="fa fa-edit" href="#" >
-                                                </td>
-                                            </tr>
-                                        @else
-                                            <tr>
-                                                <td>{{$var[0]}}</td>
-                                                <td>{{$var[1]}}</td>
-                                            </tr>
-                                        @endif
+                                        <tr>
+                                            <td>{{$var[0]}}</td>
+                                            <td>{{$var[1]}}</td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

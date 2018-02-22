@@ -29,6 +29,7 @@ class Controller extends ControllerEx
     use ViewDeal;
     use InputDeal;
 
+
     function __construct()  {
 
         $this->middleware(function ($request, $next) {
@@ -464,6 +465,7 @@ class Controller extends ControllerEx
             return 0;
         }
     }
+
 
 
 
