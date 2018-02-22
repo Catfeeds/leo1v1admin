@@ -35,7 +35,7 @@ class t_channel_funnel_archive_data extends \App\Models\Zgen\z_t_channel_funnel_
             if($key0)
                 $where_add = " or (key0 = '$key0' and add_time = $month_begin) ";
             if($key1)
-                $where_add = " or (key0 = '$key0' and key1 <> '$key1' and add_time = $month_begin) ";
+                $where_add = " or (key0 = '$key0' and key1 = '' and add_time = $month_begin) ";
         }
 
         $sql = $this->gen_sql_new(

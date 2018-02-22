@@ -34,7 +34,7 @@ class t_channel_node_type_statistics extends \App\Models\Zgen\z_t_channel_node_t
             if($key0)
                 $where_add = " or (key0 = '$key0' and add_time = $month_begin) ";
             if($key1)
-                $where_add = " or (key0 = '$key0' and key1 <> '$key1' and add_time = $month_begin) ";
+                $where_add = " or (key0 = '$key0' and key1 = '' and add_time = $month_begin) ";
 
         }else{
             $where_add = '';
