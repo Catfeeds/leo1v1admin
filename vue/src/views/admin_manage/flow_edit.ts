@@ -188,7 +188,8 @@ export default class extends vtable {
 
     $flow_function.val( flow_function);
     $flow_function.on("change",function(){
-      do_load_args( $flow_function.val() );
+      if($flow_function.val())
+        do_load_args( $flow_function.val() );
     });
 
 
@@ -231,6 +232,8 @@ export default class extends vtable {
     });
 
     var do_load_args=function( flow_function )  {
+      console.log('flow_type:',me.get_args().flow_type);
+      console.log('flow_function:',flow_function);
       $.do_ajax("/admin_manage/get_flow_branch_switch_value",  {
         "flow_type" : me.get_args().flow_type,
         'flow_function' : flow_function,
@@ -249,8 +252,7 @@ export default class extends vtable {
 
       });
     }
-    do_load_args(flow_function);
-
+    // do_load_args(flow_function);
   }
 
   gen_function_args_obj( arg_config,  args ) {
@@ -568,8 +570,6 @@ export default class extends vtable {
       var json_data= JSON.stringify(data);
       var node_type = 'function mix';
       var attribute = 'flow_function';
-      console.log ( '保存数据',data);
-      console.log ( '保存数据2',json_data);
       //获取类型为结点型的id数组
       var node_id_arr = me.check_type_id(data,node_type);
       //分支个数之和
