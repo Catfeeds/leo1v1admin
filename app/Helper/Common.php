@@ -3,6 +3,7 @@ namespace App\Helper;
 use Illuminate\Support\Facades\Log ;
 use Illuminate\Support\Facades\Redis;
 use \App\Enums as  E;
+use \PHPMailer\PHPMailer\PHPMailer ;
 
 class Common {
     static function env_obj( $key, $def =null ) {
@@ -311,7 +312,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -451,7 +452,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -502,7 +503,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -551,7 +552,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -598,7 +599,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         //$mail->IsSMTP(); // 使用SMTP方式发送
         $mail->Mailer = 'SMTP';
