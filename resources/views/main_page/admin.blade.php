@@ -62,8 +62,7 @@
                 <div  id="id_date_range" >
                 </div>
             </div>
-        </div>
-
+	</div>
 
         <div>
             <div class="row">

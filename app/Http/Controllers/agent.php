@@ -441,6 +441,18 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = [];
+        $list = $this->t_test_lesson_subject->get_item_list();
+        foreach($list as $item){
+            $origin_level = $this->cache_get_origin_key0($item['origin']);
+            if(in_array($origin_level,[90,99])){
+                $ret['userid'] = $item['userid'];
+                $ret['phone'] = $item['phone'];
+                $ret['origin'] = $item['origin'];
+                $ret['origin_level'] = $origin_level;
+            }
+        }
+        dd($ret);
         if(0){
             dd('a');
         }
