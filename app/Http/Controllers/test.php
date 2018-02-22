@@ -14,6 +14,9 @@ class test extends Controller
     var $check_login_flag =true;
 
     public function tt() {
+        \App\Helper\Common::send_mail_leo_com("xcwenn@qq.com", "xcc", "ddfadf" );
+        exit;
+
         dd($_SERVER["REQUEST_URI"]);
         $flow_type = 1;
         $config=\App\Helper\Utils::json_decode_as_array($this->t_flow_config->get_json_data($flow_type));

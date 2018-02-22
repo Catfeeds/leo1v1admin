@@ -773,7 +773,7 @@ class resource extends Controller
             }
         }
 
-        if( $select == 'tag_one' && $arr[0] != 7 ){
+        if( $select == 'tag_one' && $arr[0] != 7 && $arr[0] != 6 ){
             //教材
             $book = $this->t_resource_agree_info->get_all_resource_type($arr[0], $arr[1], $arr[2]);
             $book_arr = [];
@@ -792,6 +792,18 @@ class resource extends Controller
                 ];
             }
             $select = "region_version";
+        }
+
+        if( $select == 'tag_one' && $arr[0] == 6 ){
+            $resource = E\Eresource_volume::$desc_map;
+            foreach( $resource as $k => $v){
+                $data[] = [
+                    'tag_two' => $arr[2],
+                    'resource_volume' => $k,
+                    'resource_volume_str' => $v
+                ];
+            }
+            $select = "resource_volume";
         }
 
         if( $select == 'tag_two' ){
@@ -817,7 +829,7 @@ class resource extends Controller
                 }
                 $select = "resource_free";
             } 
-            if( in_array($arr[0], [4,5,6]) ){
+            if( in_array($arr[0], [4,5]) ){
                 $resource = E\Eresource_volume::$desc_map;
                 foreach( $resource as $k => $v){
                     $data[] = [
@@ -829,7 +841,24 @@ class resource extends Controller
                 $select = "resource_volume";
 
             }
-   
+
+            if( $arr[0] == 6 ){
+       
+                $data = [
+                    [
+                        'tag_two' => $arr[3],
+                        'resource_train' => 0,
+                        'resource_train_str' => "按教材版本分类"
+                    ],[
+                        'tag_two' => $arr[3],
+                        'resource_train' => 1,
+                        'resource_train_str' => "按省市分类"
+                    ]
+                ];
+                
+                $select = "resource_train";
+            } 
+
             if( $arr[0] == 9 ){
                 $resource = E\Eresource_train::$desc_map;
                 foreach( $resource as $k => $v){
@@ -840,9 +869,8 @@ class resource extends Controller
                     ];
                 }
                 $select = "resource_train";
-
             } 
-
+            
         }
 
         if( $select == 'tag_three' ){
@@ -871,16 +899,34 @@ class resource extends Controller
             }
 
             if( $arr[0] == 6 ){
-                $resource = E\Eresource_year::$desc_map;
-                foreach( $resource as $k => $v){
-                    $data[] = [
-                        'tag_two' => $arr[3],
-                        'resource_year' => $k,
-                        'resource_year_str' => $v
-                    ];
+                //试卷库
+                if($arr[4] == 0){
+                    //教材
+                    $book = $this->t_resource_agree_info->get_all_resource_type($arr[0], $arr[1], $arr[2]);
+                    $book_arr = [];
+                    if($book){
+                        foreach($book as $v) {
+                            if( $v['tag_one'] != 0 && $v['tag_one'] != 2016 && $v['tag_one'] != 2015){
+                                array_push($book_arr, intval($v['tag_one']) );
+                            }
+                        }
+                    }
+                    foreach($book_arr as $v){
+                        $data[] = [
+                            'tag_one'   => (string)$v,
+                            'region_version' => (string)$v,
+                            'region_version_str' => E\Eregion_version::get_desc($v),
+                        ];
+                    }
+                    $select = "region_version";
                 }
-                $select = "resource_year";
 
+                if($arr[4] == 1 ){
+                    $data[] = [
+                        'tag_three' => $arr[3]
+                    ];
+                    $select = "get_province";
+                }
             } 
 
         }
@@ -897,6 +943,14 @@ class resource extends Controller
                 }
                 $select = 'tag_four';
             }
+
+            if( $arr[0] == 6 && $arr[4] == 1 ){
+                $data[] = [
+                    'tag_four' => $arr[4]
+                ];
+                $select = "get_city";
+            }
+
         }
 
         return $this->output_succ(['data' => $data,'select' => $select, 'is_end' => $is_end]);
