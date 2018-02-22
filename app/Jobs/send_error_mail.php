@@ -36,7 +36,10 @@ class send_error_mail extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $this->init_task();
+        //$this->init_task();
+        $this->task= new \App\Console\Tasks\TaskController();
+
+
 
         $mail_info = $this->mail_info;
         $to                = @$mail_info["to"];
