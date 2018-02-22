@@ -378,14 +378,14 @@ export default class extends vtable {
   check_node_existed(id ) {
    return this.$flow.$nodeData[id] || this.$flow.$lineData[id] || this.$flow.$areaData[id]  ;
   }
-  //@desn:循环检测已经存在的值
+  //@desn:循环检测已经存在该类型的个数
   check_node_each(node_type){
-    var begin_count = 0;
+    var count = 0;
     $.each( this.$flow.$nodeData, function(i, item){
       if(item.type == node_type)
-        begin_count++;
+        count++;
     });
-    return begin_count;
+    return count;
   }
 
   //@desn：添加结点操作
@@ -524,7 +524,7 @@ export default class extends vtable {
     jquery_body.find(".do-save").on( "click" ,function(e) {
       var data=me.$flow.exportData();
       var json_data= JSON.stringify(data);
-      console.log ( data);
+      console.log ( '保存数据',data);
 
       $.do_ajax("/admin_manage/flow_save",  {
         flow_type : me.get_args().flow_type,
