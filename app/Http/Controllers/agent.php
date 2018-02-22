@@ -452,7 +452,7 @@ class agent extends Controller
                 $ret['origin_level'] = $origin_level;
             }
         }
-        dd($ret);
+        dd($list,$ret);
         if(0){
             dd('a');
         }
