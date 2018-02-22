@@ -7,15 +7,15 @@ namespace Composer\Autoload;
 class ComposerStaticInit1e62b970343e77b3751e77db710c2392
 {
     public static $files = array (
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
-        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
         '4ab23f771f87cea31b61de77d474100f' => __DIR__ . '/../..' . '/app/Libs/Qiniu/functions.php',
         'c5e3ad7a7135de3236077feafaf75199' => __DIR__ . '/../..' . '/app/Functions/common_funtions.php',
@@ -75,6 +75,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
             'Proto\\agent_api\\' => 16,
             'Predis\\' => 7,
             'PhpParser\\' => 10,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -107,9 +108,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
             'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Inflector\\' => 26,
-            'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
-            'Doctrine\\Common\\' => 16,
             'DeepCopy\\' => 9,
         ),
         'C' => 
@@ -246,6 +245,10 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -290,17 +293,9 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
         ),
-        'Doctrine\\Common\\Cache\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
-        ),
         'Doctrine\\Common\\Annotations\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
-        ),
-        'Doctrine\\Common\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
         ),
         'DeepCopy\\' => 
         array (
@@ -363,17 +358,9 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         ),
         'D' => 
         array (
-            'Doctrine\\DBAL\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/dbal/lib',
-            ),
             'Doctrine\\Common\\Lexer\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
-            ),
-            'Doctrine\\Common\\Collections\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
             ),
         ),
     );
@@ -1244,7 +1231,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'TRuffianActivityAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
         'TRuffianActivityAddStuType' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_152520_t_ruffian_activity_add_stu_type.php',
         'TRuffianActivityDropAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_151005_t_ruffian_activity_drop_add_time.php',
-        'TRuffianActivityModify' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
+        'TRuffianActivityModify' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_155743_t_ruffian_activity_modify.php',
         'TSellerEditLogAddFirstRevisitTime' => __DIR__ . '/../..' . '/database/migrations/2018_01_19_165523_t_seller_edit_log_add_first_revisit_time.php',
         'TSellerEditLogAddNewCreateTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
         'TSellerGetNewLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_18_110632_t_seller_get_new_log.php',
@@ -1281,7 +1268,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'TSellerStudentOriginAddLastSucLessonid' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_174946_t_seller_student_origin_add_last_suc_lessonid.php',
         'TSellerStudentSystemAssignCountLogAddDefCount' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_104534_t_seller_student_system_assign_count_log_add__def_count.php',
         'TSellerStudentSystemReleaseLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_120646_t_seller_student_system_release_log.php',
-        'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
+        'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
         'TSellerTongjiForMonthAddColumons' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
         'TSellerTongjiForMonthAddDataType' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',
         'TSellerTongjiForMonthAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_185426_t_seller_tongji_for_month_add_item.php',
