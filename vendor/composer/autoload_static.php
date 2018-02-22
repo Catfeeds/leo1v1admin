@@ -38,6 +38,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'T' => 
         array (
             'TijsVerkoyen\\CssToInlineStyles\\' => 31,
+            'Tests\\' => 6,
         ),
         'S' => 
         array (
@@ -144,6 +145,10 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
             0 => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src',
+        ),
+        'Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
         ),
         'Symfony\\Thanks\\' => 
         array (
@@ -1375,7 +1380,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'TWebPageTraceLogAddShareWxFlag' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_174305_t_web_page_trace_log_add_share_wx_flag.php',
         'TWebPageTraceLogAddWx' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_180044_t_web_page_trace_log_add_wx.php',
         'TWxGiveBookModifyColumon' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_172130_t_wx_give_book_modify_columon.php',
-        'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'TheSeer\\Tokenizer\\Exception' => __DIR__ . '/..' . '/theseer/tokenizer/src/Exception.php',
         'TheSeer\\Tokenizer\\NamespaceUri' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUri.php',

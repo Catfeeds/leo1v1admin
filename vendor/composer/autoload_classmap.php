@@ -1007,7 +1007,6 @@ return array(
     'TWebPageTraceLogAddShareWxFlag' => $baseDir . '/database/migrations/2017_11_25_174305_t_web_page_trace_log_add_share_wx_flag.php',
     'TWebPageTraceLogAddWx' => $baseDir . '/database/migrations/2017_11_25_180044_t_web_page_trace_log_add_wx.php',
     'TWxGiveBookModifyColumon' => $baseDir . '/database/migrations/2017_10_10_172130_t_wx_give_book_modify_columon.php',
-    'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'TheSeer\\Tokenizer\\Exception' => $vendorDir . '/theseer/tokenizer/src/Exception.php',
     'TheSeer\\Tokenizer\\NamespaceUri' => $vendorDir . '/theseer/tokenizer/src/NamespaceUri.php',
