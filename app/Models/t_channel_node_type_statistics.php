@@ -28,7 +28,9 @@ class t_channel_node_type_statistics extends \App\Models\Zgen\z_t_channel_node_t
             $origin_arr = explode(',', $origin_ex);
             $this->where_arr_add_str_field($where_arr, 'key0',$origin_arr[0]);
             $this->where_arr_add_str_field($where_arr, 'key1',$origin_arr[1]);
-            $where_add = " or sort = 0 or key0 = '".$origin_arr[0]."'";
+            $key0 = $origin_arr[0];
+            if($key0)
+                $where_add = " or (key0 = '$key0' and add_time = $month_begin)";
         }else{
             $where_add = '';
         }
