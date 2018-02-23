@@ -1448,19 +1448,20 @@ class wx_teacher_api extends Controller
      * @ 微演示ip 47.104.104.138
      * @ 返回状态码 1:正确的IP 0:错误的IP
      */
-
     public function getUpdateState_tmp(){
         $ip = getenv('REMOTE_ADDR');
         // 记录日志
         $this->t_user_log->row_insert([
             "add_time" => time(),
-            "msg"      => $ip
+            "msg"      => $ip,
+            "user_log_type" => E\Euser_log_type::V_6
         ]);
+        \App\Helper\Utils::logger("ppt_to_h5_log: $ip");
         if($ip == '47.104.104.138'){
             $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
 
             $saveH5FilePath = "/tmp/pptToH5Zip.rar";
-            $unzipFilePath  = "/tmp/pptToH5File/";// 解压后的文件夹
+            $unzipFilePath  = "/tmp/pptToH5File/"; // 解压后的文件夹
 
             $data=@file_get_contents($fileUrl);
             file_put_contents($saveH5FilePath, $data);
@@ -1471,7 +1472,7 @@ class wx_teacher_api extends Controller
             $cmd_sed = "sed -i 's/module.exports = /\/\/module.exports =/' ".$unzipFilePath.'canvg.js';
             shell_exec($cmd_sed);
 
-            $cmd_zip = "zip -r /tmp/pptfile_new.zip $unzipFilePath";
+            $cmd_zip = "cd $unzipFilePath; zip -r /tmp/pptfile_new.zip ./*";
             shell_exec($cmd_zip);
 
             // 上传文件至远程
@@ -1485,7 +1486,6 @@ class wx_teacher_api extends Controller
         }else{
             return 0;
         }
-
     }
 
     # ppt 配置文档更新时发送通知提示
