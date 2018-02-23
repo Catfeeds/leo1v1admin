@@ -50,6 +50,7 @@ class test_ricky extends Command
         $tea = [];
         $month = [12, 1];
         foreach($month as $v) {
+            echo $v."==============================".PHP_EOL;
             if ($v == 12) { // 处理12月
                 $start_time = strtotime("2017-12-1");
                 $end_time = strtotime("2018-1-1");
@@ -131,7 +132,7 @@ class test_ricky extends Command
                 }
                 $tea[$teacherid]['money_'.$v] = $money1;
                 $tea[$teacherid]['money_minny_'.$v] = $money2;
-                $tea[$teacherid]["money_sal"] = $money3;
+                $tea[$teacherid]["money_sal_".$v] = $money3;
             }
             dd($tea);
             foreach($tea as $key => $t) {
