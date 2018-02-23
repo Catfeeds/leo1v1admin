@@ -50,7 +50,6 @@ class test_ricky extends Command
         $tea = [];
         $month = [12, 1];
         foreach($month as $v) {
-            echo $v."==============================".PHP_EOL;
             if ($v == 12) { // 处理12月
                 $start_time = strtotime("2017-12-1");
                 $end_time = strtotime("2018-1-1");
@@ -134,19 +133,19 @@ class test_ricky extends Command
                 $tea[$teacherid]['money_minny_'.$v] = $money2;
                 $tea[$teacherid]["money_sal_".$v] = $money3;
             }
-            dd($tea);
-            foreach($tea as $key => $t) {
-                echo $key." ";
-                if ($tea[$key]["nick"]) {
-                    echo $tea[$key]["nick"]." ";
-                } else {
-                    echo $task->cache_get_teacher_nick($key).' ';
-                }
-                echo $tea[$key]["total_count_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["money_sal_12"]." ".$tea[$teacherid]["money_sal_1"]." ";
-                echo $tea[$key]["money_12"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
-            }
-
         }
+        dd($tea);
+        foreach($tea as $key => $t) {
+            echo $key." ";
+            if ($tea[$key]["nick"]) {
+                echo $tea[$key]["nick"]." ";
+            } else {
+                echo $task->cache_get_teacher_nick($key).' ';
+            }
+            echo $tea[$key]["total_count_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["money_sal_12"]." ".$tea[$teacherid]["money_sal_1"]." ";
+            echo $tea[$key]["money_12"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
+        }
+
         //dd($info);
         exit;
 
