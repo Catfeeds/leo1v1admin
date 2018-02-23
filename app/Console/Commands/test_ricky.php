@@ -69,10 +69,11 @@ class test_ricky extends Command
                 $count_303 = 0; // 303
                 $total_count = 0; // 总课时
                 foreach($data as $val) {
-                    $lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
+                    //$lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
 
                     //echo "时长".$lesson_count;
-                    $count = $lesson_count / 40;
+                    //$count = $lesson_count / 40;
+                    $count = $val["lesson_count"];
                     //if ($teacherid == "398239") {
                     //    echo $lesson_count." ".$count." ---> ";
                     //}
