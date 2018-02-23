@@ -1682,11 +1682,9 @@ class wx_teacher_api extends Controller
         }
 
         $start_time = strtotime(date("Y-m-d",time()));
-        //$end_time   = $start_time + 86400;
         $end_time   = time();
-        //$teacherid  = 202149;
 
-        $total_count = $this->t_lesson_info_b2->get_teacher_lesson_total($teacherid,$start_time,$end_time);
+        $total_count   = $this->t_lesson_info_b2->get_teacher_lesson_total($teacherid,$start_time,$end_time);
         $consume_count = $this->t_teacher_spring->get_total($teacherid,$start_time,$end_time);
 
         $count = $total_count + 1 - $consume_count;
@@ -1722,7 +1720,6 @@ class wx_teacher_api extends Controller
         $teacherid  = $this->get_teacherid_new();
         $data = $this->t_teacher_info->field_get_list($teacherid,"realname,idcard,protocol_results,dispute_handle_type");
         return $this->output_succ(["list"=>$data]);
- 
     }
 
     //兼职老师入职协议结果处理协议
@@ -1747,12 +1744,12 @@ class wx_teacher_api extends Controller
             if(strlen($idcard) != 18){
 //                return $this->output_err("身份证长度不对");
             }
-            $this->t_teacher_info->field_update_list($teacherid,[
-                "protocol_results"  =>$protocol_results,
-                "protocol_time"     =>time(),
-                "dispute_handle_type" =>$dispute_handle_type,
-                "realname"          =>$realname,
-                "idcard"            =>$idcard
+                        $this->t_teacher_info->field_update_list($teacherid,[
+                "protocol_results"    => $protocol_results,
+                "protocol_time"       => time(),
+                "dispute_handle_type" => $dispute_handle_type,
+                "realname"            => $realname,
+                "idcard"              => $idcard
             ]);
 
             //获取最近一次该老师的模拟试听评价记录id
@@ -1762,9 +1759,9 @@ class wx_teacher_api extends Controller
             $acc = $record_list["acc"];
 
             $this->t_teacher_record_list->field_update_list($id,[
-                "protocol_results_record"  =>$protocol_results,
-                "protocol_time_record"     =>time(),
-                "dispute_handle_type_record" =>$dispute_handle_type,
+                "protocol_results_record"    => $protocol_results,
+                "protocol_time_record"       => time(),
+                "dispute_handle_type_record" => $dispute_handle_type,
             ]);
 
             //老师入职处理
@@ -1823,8 +1820,6 @@ class wx_teacher_api extends Controller
             }
 
             return $this->output_succ();
-
-
         }elseif($protocol_results==2){
             $this->t_teacher_info->field_update_list($teacherid,[
                 "protocol_results"  =>$protocol_results,

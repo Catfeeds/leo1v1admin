@@ -66,7 +66,6 @@ class new_seller_student extends Job implements ShouldQueue
         $obtain_count = $had_assign+$need_deal_count;
         // if(Redis::get('day_system_assign_count'))
         //     $need_count = Redis::get('day_system_assign_count');
-        \App\Helper\Utils::logger("--系统分配入口--has_count:$obtain_count   need_count:$need_assign ");
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --begin--
         //特殊渠道不进入自动分配例子
         $special_origin = ['美团—1230','学校-180112'];
@@ -99,7 +98,7 @@ class new_seller_student extends Job implements ShouldQueue
                 $is_public = 4;//转介绍用户
 
         //系统自动分配序满足条件[非特殊渠道,已注册在公海,非在读学员] --end--
-
+            \App\Helper\Utils::logger("--系统分配入口--has_count:$obtain_count   need_count:$need_assign is_public:$is_public");
             if( $obtain_count < $need_assign  && in_array($is_public, [0,1])) {
                 //分配模式 调整
                 $n->field_update_list( $this->userid, [
