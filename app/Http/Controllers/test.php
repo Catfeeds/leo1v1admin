@@ -34,6 +34,9 @@ class test extends Controller
     }
 
     public function test1() {
+        global $_SESSION;
+        dd($_SESSION);
+        dd(session()->all() );
         //$f= new \App\Jobs\new_seller_student(10001,1,3,3,3,3,3,3);
         dispatch( new \App\Jobs\send_error_mail('', "SQL XXX", "title asdfa adfagf  "));
         //dispatch($f);

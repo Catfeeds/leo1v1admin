@@ -2,7 +2,8 @@
 
 
 // url config  in  ../app/Http/NewRouteConfig.php
-@ini_set('session.auto_start', 0); 
+@ini_set('session.auto_start', 1);
+
 
 function get_request_method() {
     global $HTTP_RAW_POST_DATA;

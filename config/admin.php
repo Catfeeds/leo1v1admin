@@ -255,4 +255,6 @@ return [
     "day_system_assign_count"=> 64,
 
     "login_auto_key"=>"xcwen@jim142857kk001!\0\0\0",
+
+    "admin_list"=> ["jim","jack","adrian", "tom","james", "boby", "sam","abner","ricky","顾培根"],
 ];

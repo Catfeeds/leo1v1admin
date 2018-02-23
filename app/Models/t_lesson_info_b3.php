@@ -2851,7 +2851,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_type in (0,1,3)",
             "l.lesson_del_flag=0",
             "l.lesson_cancel_time_type=0",
+<<<<<<< HEAD
+            "l.confirm_flag in (0,1,3)"
+=======
             "l.confirm_flag in (0,1,3) "
+>>>>>>> 8b63ef674c1d12f15aebf73d48050a9765b41ff0
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_end", $oneMinuteStart, $oneMinuteEnd);
         $sql = $this->gen_sql_new("  select p.wx_openid, s.nick as stu_nick, l.subject, l.lesson_start, l.lesson_end, l.lesson_count/100 as lesson_count , a.nick as ass_nick, a.phone as ass_phone "
@@ -3869,6 +3873,21 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_lesson_list_by_teacherid($teacherid, $start_time, $end_time) {
+        $where = [
+            ["lesson_start >= %u", $start_time, -1],
+            ["lesson_start < %u", $end_time, -1],
+            ["teacherid=%u", $teacherid, -1],
+            "confirm_flag != 2",
+            "lesson_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("select lesson_start,lesson_end,grade from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where
         );
         return $this->main_get_list($sql);
     }

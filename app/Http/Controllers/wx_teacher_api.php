@@ -1413,7 +1413,7 @@ class wx_teacher_api extends Controller
         foreach($tag_lib_arr_two as $v){
             $tag_list[] = $v['tag_name'];
         }
-        $tea_label_arr = array_intersect($tag_list,$tag_arr);
+        $tea_label_arr = @array_intersect($tag_list,$tag_arr);
         $tea_label_type_str = "";
         foreach($tea_label_arr as $v){
             $tea_label_type_str.=$v." ";
@@ -1427,15 +1427,17 @@ class wx_teacher_api extends Controller
     /**
      * @需求 ppt => h5
      * @使用 此接口为微演示服务商调用, 返回ppt转化状态
+     * @状态码 0:代表转化成功 1:代表转化失败
      */
     public function getConversionStatus(){
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
-        if($status == 1){
-            $status = 0;
-        }else{
-            $status = 1;
-        }
+        // if($status == 1){
+        //     $status = 0;
+        // }else{
+        //     $status = 1;
+        // }
+        $status +=1;
 
         $this->t_deal_ppt_to_h5->updateStatusByUuid($uuid,$status);
         return $this->output_succ();
@@ -1726,19 +1728,25 @@ class wx_teacher_api extends Controller
     public function set_part_teacher_protocol_result(){
         $teacherid  = $this->get_teacherid_new();
         // $teacherid= 240314 ;
-        $protocol_results    = $this->get_in_int_val("protocol_results");
+  \App\Helper\Utils::logger("teacherid: $teacherid");
+
+        $protocol_results = $this->get_in_int_val("protocol_results");
         $dispute_handle_type = $this->get_in_int_val("dispute_handle_type");
-        $realname            = trim($this->get_in_str_val("realname"));
-        $idcard              = $this->get_in_str_val("idcard");
+        $realname         = trim($this->get_in_str_val("realname"));
+        $idcard           = $this->get_in_str_val("idcard");
+  \App\Helper\Utils::logger("protocol_results: $protocol_results");
+  \App\Helper\Utils::logger("wx_url_new: 111");
+  \App\Helper\Utils::logger("wx_url_new: 222");
+  \App\Helper\Utils::logger("wx_url_new: 333");
 
         if($protocol_results==1){
             if(!$realname){
                 return $this->output_err("请输入正确的名字");
             }
-            // if(strlen($idcard) != 18){
-            //     return $this->output_err("身份证长度不对");
-            // }
-            $this->t_teacher_info->field_update_list($teacherid,[
+            if(strlen($idcard) != 18){
+//                return $this->output_err("身份证长度不对");
+            }
+                        $this->t_teacher_info->field_update_list($teacherid,[
                 "protocol_results"    => $protocol_results,
                 "protocol_time"       => time(),
                 "dispute_handle_type" => $dispute_handle_type,

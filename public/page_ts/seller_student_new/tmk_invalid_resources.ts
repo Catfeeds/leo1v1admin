@@ -1,6 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/seller_student_new-tel_student_list.d.ts" />
-
+/// <reference path="../g_args.d.ts/seller_student_new-tmk_invalid_resources.d.ts" />
 $(function(){
     function load_data(){
         $.reload_self_page ( {
@@ -16,70 +15,6 @@ $(function(){
             page_num: g_args.page_num ,
         });
     }
-
-
-    // 处理标记空号功能 [james]
-
-
-    var test_arr = ['99','684','1173','1273'];
-
-    if($.inArray(g_adminid,test_arr)>=0){ // 测试
-        $('.opt-sign').on('click',function(){
-            $('.bs-example-modal-sm').modal('toggle');
-            do_submit();
-        });
-
-
-        $('.submit_tag').on("click",function(){
-            var opt_data=$(this).get_opt_data();
-            sign_func(opt_data);
-        });
-
-        $('.invalid_type').on("change",function(){
-            do_submit();
-        });
-
-        var do_submit = function(){
-            var invalid_type = $('.invalid_type').val();
-            if(invalid_type == 0){
-                $('.submit_tag').attr('disabled','disabled');
-            }else{
-                $('.submit_tag').removeAttr('disabled');
-            }
-        }
-
-        var sign_func = function(opt_data){
-            var invalid_type = $('.invalid_type').val();
-            var checkText=$(".invalid_type").find("option:selected").text();
-
-            $('.tip_text').text(checkText);
-            $('.confirm-sm').modal('toggle');
-            $('.confirm_tag').on("click",function(){
-                $.do_ajax("/ajax_deal3/sign_phone",{
-                    "adminid" : g_adminid,
-                    "confirm_type" : invalid_type,
-                    "userid"  : opt_data.userid,
-                    "type"    : 2
-                });
-                window.location.reload();
-            });
-        }
-
-        // if(g_args.tq_called_flag != 2){
-        //     $('#id_edit').attr('disabled','disabled');
-        // }else{
-        //     $('#id_edit').removeAttr('disabled');
-        // }
-    }
-
-
-    // 处理标记空号功能 [james-end]
-
-
-
-
-
-
 
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
@@ -99,12 +34,12 @@ $(function(){
 	  $('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
 	  $.enum_multi_select( $('#id_global_tq_called_flag'), 'tq_called_flag', function(){load_data();} )
 
-	$('#id_subject').val(g_args.subject);
-	$.enum_multi_select( $('#id_subject'), 'subject', function(){load_data();} )
+	  $('#id_subject').val(g_args.subject);
+	  $.enum_multi_select( $('#id_subject'), 'subject', function(){load_data();} )
 
 
-	$('#id_grade').val(g_args.grade);
-	$.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
+	  $('#id_grade').val(g_args.grade);
+	  $.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
 
     $('.opt-change').set_input_change_event(load_data);
     $(".opt-publish-flag").on("click",function(){
@@ -170,26 +105,23 @@ $(function(){
         var $tmk_student_status= $("<select/>");
         Enum_map.append_option_list("grade", $grade,true );
         Enum_map.append_option_list("subject", $subject,true );
+        // Enum_map.append_option_list("tmk_student_status", $tmk_student_status,true ); // 备份
 
 
         // james-start
-        if($.inArray(g_adminid,test_arr)>=0){ // 测试
-            Enum_map.append_option_list("tmk_student_status", $tmk_student_status,true,[0,1,3] );
-        }else{
-            Enum_map.append_option_list("tmk_student_status", $tmk_student_status,true ); // 原始
-        }
+        Enum_map.append_option_list("tmk_student_status", $tmk_student_status,true,[0,1,3] );
         // james-end
 
 
         $tmk_next_revisit_time.datetimepicker({
-        lang:'ch',
-        datepicker:true,
-        timepicker:true,
-        format:'Y-m-d H:i',
-        step:30,
-          onChangeDateTime :function(){
+            lang:'ch',
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i',
+            step:30,
+            onChangeDateTime :function(){
             }
-      });
+        });
 
         $nick.val(opt_data.nick);
         $grade.val(opt_data.grade);
@@ -212,23 +144,23 @@ $(function(){
         $.show_key_value_table("编辑", arr ,[
             {
 
-                label    : '确认',
-                cssClass : 'btn-warning',
-                action   : function(dialog) {
-                    $.do_ajax("/ss_deal/tmk_save_user_info",{
-                        'test_lesson_subject_id' : opt_data.test_lesson_subject_id,
-                        'userid'                 : opt_data.userid,
-                        'nick'                   : $nick.val(),
-                        'grade'                  : $grade.val(),
-                        'subject'                : $subject.val(),
-                        'tmk_desc'               : $tmk_desc.val(),
-                        'tmk_next_revisit_time'  : $tmk_next_revisit_time.val(),
-                        'tmk_student_status'     : $tmk_student_status.val(),
-                        'tmk_student_status_old' : opt_data.tmk_student_status
-                    });
-                }
-            }],function(){
-            });
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax("/ss_deal/tmk_save_user_info",{
+                    'test_lesson_subject_id' : opt_data.test_lesson_subject_id,
+                    'userid'                 : opt_data.userid,
+                    'nick'                   : $nick.val(),
+                    'grade'                  : $grade.val(),
+                    'subject'                : $subject.val(),
+                    'tmk_desc'               : $tmk_desc.val(),
+                    'tmk_next_revisit_time'  : $tmk_next_revisit_time.val(),
+                    'tmk_student_status'     : $tmk_student_status.val(),
+                    'tmk_student_status_old' : opt_data.tmk_student_status
+                });
+            }
+        }],function(){
+        });
 
 
 
@@ -239,3 +171,17 @@ $(function(){
     });
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
