@@ -48,11 +48,11 @@
                 <!-- james -->
                 <!-- <div class="col-xs-6 col-md-2">
                      <div class="input-group " >
-                     <button type="button" id="id_tip_no_call"  class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="至少拨打3次，并未拨通填写!">未拨通电话标注
+                     <button type="button" id="id_tip_no_call" style="display:none;"  class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="至少拨打3次，并未拨通填写!">未拨通电话标注
                      </button>
                      </div>
-                     </div> -->
-
+                     </div>
+                -->
                 <!-- 此处为模态框-->
                 <!-- <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                      <div class="modal-dialog modal-sm" role="document">
@@ -83,8 +83,8 @@
                      </div>
                      </div>
                      </div>
-
                 -->
+
                 <!-- 此处为模态框-->
                 <!-- <div class="modal fade confirm-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                      <div class="modal-dialog modal-sm" role="document">
@@ -105,8 +105,10 @@
                      </div>
                      </div>
                      </div>
-                     </div> -->
+                     </div>
+                -->
                 <!-- james-end -->
+                <!-- //t_tq_call_info-->
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >

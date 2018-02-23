@@ -42,8 +42,8 @@ class test_ricky extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         // 老师ID、老师姓名、12月份授课课时数
-        $rules = [[0, 16, 26, 34, 38, 41], [0, 17, 30, 38, 40, 43], [0, 18, 36, 44, 48, 51]];
-        echo $rules[0][1];
+        $rules1 = [[0, 16, 26, 34, 38, 41], [0, 17, 30, 38, 40, 43], [0, 18, 36, 44, 48, 51], [0, 20, 39, 49, 50, 53], [0, 28, 46, 54, 58, 61]];
+        $rules2 = [[0, 18, 26, 30, 36, 38, 41], [0, 22, 28, 33, 38, 40, 43], [0, 28, 36, 40, 46, 48, 51], [0, 32, 39, 43, 48, 50, 53], [0, 38, 46, 50, 55, 58, 61]];
         // 查武汉全职老师 select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0;
         $info = $task->t_teacher_info->get_info_for_money_type();
         $month = [12, 1];
@@ -59,11 +59,43 @@ class test_ricky extends Command
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
+                $count_101 = 0; // 101 -105
+                $count_106 = 0; // 106, 201 202
+                $count_203 = 0; // 203
+                $count_301 = 0; // 301 302
+                $count_303 = 0; // 303
+                $total_count = 0; // 总课时
                 foreach($data as $val) {
                     $lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
                     echo "时长".$lesson_count;
                     $count = $lesson_count / 40;
-                    echo "课时数".$count;
+                    $total_count += $count;
+                    echo "总课时数".$total_count;
+                    if ($val["grade"] >= 101 && $val["grade"] <= 105) {
+                        $count_101 += $count;
+                    } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
+                        $count_106 += $count;
+                    } elseif ($val["grade"] == 203) {
+                        $count_203 += $count;
+                    } elseif ($val["grade"] == 301 && $val["grade"] == 302) {
+                        $count_301 += $count;
+                    } elseif ($val["grade"] == 303) {
+                        $count_303 += $count;
+                    }
+                }
+                // 处理年级课时数
+                if ($total_count <= 30) {
+                    $money = 0;
+                } elseif ($total_count >= 31 && $total_count <= 60) {
+                    var_dump($rules1[1]);
+                } elseif ($total_count >= 61 && $total_count <= 120) {
+                    var_dump($rules1[2]);
+                } elseif ($total_count >= 121 && $total_count <= 150) {
+                    var_dump($rules1[3]);
+                } elseif ($total_count >= 151 && $total_count <= 195) {
+                    var_dump($rules1[4]);
+                } else {
+                    var_dump($rules1[5]);
                 }
                 dd($data);
             }

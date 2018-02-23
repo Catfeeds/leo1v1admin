@@ -151,9 +151,9 @@ class seller_student_new extends Controller
         if($main_master_flag==1){
             $majordomo_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($self_adminid);
             $button_show_flag = 0;
-            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", -1); 
+            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", -1);
         }else{
-            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0); 
+            $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0);
         }
 
         //主管查看下级例子
@@ -410,7 +410,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-        
+
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -1502,6 +1502,49 @@ class seller_student_new extends Controller
            "unallot_info" => $unallot_info
         ]);
     }
+
+    # TMK 无效资源页面
+    public function tmk_invalid_resources(){
+        $this->switch_tongji_database();
+        $self_groupid          = $this->get_in_int_val("self_groupid",-1);
+        $userid                = $this->get_in_userid(-1);
+        $page_num              = $this->get_in_page_num();
+        $global_tq_called_flag = $this->get_in_el_tq_called_flag("-1", "global_tq_called_flag");
+        $grade                 = $this->get_in_el_grade();
+        $subject               = $this->get_in_el_subject();
+        list($start_time,$end_time) = $this->get_in_date_range(-7,1);
+
+        $seller_student_status = $this->get_in_int_val('seller_student_status',-1,E\Eseller_student_status::class);
+
+        $ret_info = $this->t_seller_student_new->getTmkInvalidResources($start_time,$end_time,$seller_student_status,$page_num,$global_tq_called_flag,$grade,$subject);
+
+        $real_page_num = $ret_info["page_info"]["page_num"]-1;
+        foreach( $ret_info["list"] as $index=> &$item ) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"sub_assign_time_2");
+            \App\Helper\Utils::unixtime2date_for_item($item,"admin_assign_time");
+            $item["index"]    =  $index +1;
+            E\Eseller_student_status::set_item_value_str($item);
+            E\Eseller_student_sub_status::set_item_value_str($item);
+            E\Ebook_grade::set_item_value_str($item,"grade");
+            E\Esubject::set_item_value_str($item);
+            E\Epad_type::set_item_value_str($item,"has_pad");
+            E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
+            E\Eorigin_level::set_item_value_str($item);
+
+            $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_admin_2_nick");
+            $this->cache_set_item_account_nick($item,"admin_revisiterid","admin_revisiter_nick");
+            $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
+            $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
+            \App\Helper\Utils::hide_item_phone($item);
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,null);
+    }
+
+
+
+
     public function deal_new_user_tmk(){
         return $this->deal_new_user();
     }
@@ -1610,9 +1653,9 @@ class seller_student_new extends Controller
         # 处理该学生的通话状态 [james]
         // $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
         // $hasCalledNum = $this->t_tq_call_info->getAdminidCalledNum($adminid);
-        // // $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
-        // $this->set_filed_for_js("hasCalledNum", 3);
+        // $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
         // $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
+
         # 处理该学生的通话状态 [james-end]
 
 
@@ -1639,7 +1682,6 @@ class seller_student_new extends Controller
         $now = time(NULL);
         //超时
         if ($competition_call_adminid==$adminid && $now > $competition_call_time +3600   ){
-
             return $this->pageView(
                 __METHOD__ , null,
                 ["user_info"=>null , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
@@ -1647,9 +1689,6 @@ class seller_student_new extends Controller
         }
 
         E\Etq_called_flag::set_item_value_str($user_info);
-        // $this->set_filed_for_js("tq_called_flag", $user_info["tq_called_flag"]); // james
-
-
         E\Egrade::set_item_value_str($user_info);
         E\Esubject::set_item_value_str($user_info);
         E\Epad_type::set_item_value_str($user_info,"has_pad");
@@ -1659,7 +1698,6 @@ class seller_student_new extends Controller
             __METHOD__ , null,
             ["user_info"=>$user_info , "count_info"=>$count_info,'count_new'=>$count,'left_count_new'=>6-$count]
         );
-
     }
 
     public function refresh_test_call_end(){

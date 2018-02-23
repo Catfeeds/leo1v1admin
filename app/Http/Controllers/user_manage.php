@@ -3501,6 +3501,48 @@ class user_manage extends Controller
         return $this->output_succ([ 'nick' => $nick]);
     }
 
+    # QC 无效资源
+    public function qc_invalid_resources(){
+        $this->switch_tongji_database();
+        $page_num = $this->get_in_page_num();
+        list($start_time,$end_time) = $this->get_in_date_range(-7,1);
+        $seller_student_status = $this->get_in_int_val('seller_student_status');
+        $seller_student_status = $this->get_in_int_val('seller_student_status');
 
+        $ret_info = $this->t_seller_student_new->getQcInvalidResources($start_time,$end_time,$seller_student_status,$page_num);
+
+        $real_page_num = $ret_info["page_info"]["page_num"]-1;
+        foreach( $ret_info["list"] as $index=> &$item ) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"sub_assign_time_2");
+            \App\Helper\Utils::unixtime2date_for_item($item,"admin_assign_time");
+            $item["index"]    =  $index +1;
+            E\Eseller_student_status::set_item_value_str($item);
+            E\Eseller_student_sub_status::set_item_value_str($item);
+            E\Ebook_grade::set_item_value_str($item,"grade");
+            E\Esubject::set_item_value_str($item);
+            E\Epad_type::set_item_value_str($item,"has_pad");
+            E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
+            E\Eorigin_level::set_item_value_str($item);
+
+            $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_admin_2_nick");
+            $this->cache_set_item_account_nick($item,"admin_revisiterid","admin_revisiter_nick");
+            $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
+            $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
+            \App\Helper\Utils::hide_item_phone($item);
+            $mark_list = $this->t_invalid_num_confirm->getCCMarktInfo($item['userid']);
+            $item['cc_mark'] = '';
+            $item['tmk_mark'] = '';
+
+            foreach($mark_list as $i => $v){
+                $item['cc_mark'] .= $this->cache_get_account_nick($v['cc_adminid'])."&nbsp&nbsp".E\Eseller_student_sub_status::get_desc($v['cc_confirm_type'])."\n";
+                if($i == 0){
+                    $item['tmk_mark'] .= $this->cache_get_account_nick($v['tmk_adminid'])."&nbsp&nbsp".E\Eseller_student_sub_status::get_desc($v['tmk_confirm_type'])."\n";
+                }
+            }
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 
 }
