@@ -756,6 +756,7 @@ class NewRouteConfig {
         "/resource_new/file_err_refuse"                  =>true,
         "/resource_new/get_error_by_file_id"             =>true,
         "/resource/add_book_resource"                    =>true,
+        "/test_paper/input_paper"                        =>true,  
     ];
 
     static $dev_url_map = [

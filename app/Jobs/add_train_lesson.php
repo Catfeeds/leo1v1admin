@@ -30,6 +30,7 @@ class add_train_lesson extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $this->init_task();
         $subject_map = E\Esubject::$desc_map;
         $grade_map   = E\Egrade::$desc_map;
         //0日期 1审核老师姓名 2审核老师手机号 3具体时间 4面试老师姓名 5面试老师手机号 6科目 7年级 
