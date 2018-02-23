@@ -57,7 +57,7 @@ class test_ricky extends Command
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
-                dd($info);
+                dd($data);
             }
         }
         dd($info);
