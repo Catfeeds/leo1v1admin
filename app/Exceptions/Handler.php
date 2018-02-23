@@ -77,14 +77,11 @@ class Handler extends ExceptionHandler
         }
         $list_str=preg_replace("/<br\/>/","\n" ,$bt_str );
         \App\Helper\Utils::logger( "LOG_HANDER:". $e->getMessage()."\n $list_str ");
-        
-        if ($e instanceof ModelNotFoundException) {
-            $e = new NotFoundHttpException($e->getMessage(), $e);
-        }
 
-        if($e instanceof \Symfony\Component\Debug\Exception\FatalErrorException
-           &&! \App\Helper\Config::check_in_admin_list($account)  ) {
-            return response("500 :系统出错");
+
+        if( \App\Helper\Utils::check_env_is_release() && !\App\Helper\Config::check_in_admin_list($account)   ) {
+            response("500 :系统出错")->send();
+            exit;
         }
 
         parent::report($e);
