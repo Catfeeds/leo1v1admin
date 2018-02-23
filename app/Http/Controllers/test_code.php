@@ -479,10 +479,15 @@ class test_code extends Controller
     }
 
     public function test_email(){
-        $address = "392567893@qq.com";
+        $address = "wg392567893@163.com";
         $title = "test title";
         $message= "test message";
-        $ret = \App\Helper\Email::SendMail163($address, $title, $message);
+
+        dispatch( new \App\Jobs\SendEmail(
+            $address,$title, $message
+        ));
+        exit;
+        $ret = \App\Helper\Email::SendMailEmd163($address,$title, $message);
         dd($ret);
     }
 

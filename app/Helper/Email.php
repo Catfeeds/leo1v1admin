@@ -20,6 +20,20 @@ class Email{
     }
 
     /**
+     * 理优教研组-163
+     */
+    static public function SendMailLeoCom163($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
+        $Username = "leoeduemd@163.com";
+        $Password = "yb142857";
+        $From     = "leoeduemd@163.com";
+        $FromName = "理优教学管理部";
+        $MailHost = "smtp.163.com";
+
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey,$MailHost);
+        return $ret;
+    }
+
+    /**
      * 教学管理事业部教学部
      */
     static public function SendMailJiaoXue($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
@@ -46,15 +60,30 @@ class Email{
     }
 
     /**
+     * 理优教学管理部-163邮箱
+     */
+    static public function SendMailEmd163($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
+        $Username = "leoeduemd@163.com";
+        $Password = "yb142857";
+        $From     = "leoeduemd@163.com";
+        $FromName = "理优教学管理部";
+        $MailHost = "smtp.163.com";
+
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey,$MailHost);
+        return $ret;
+    }
+
+    /**
      * 理优教学管理部
      */
     static public function SendMail163($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
         $Username = "wg392567893@163.com";
         $Password = "adlovecat123";
         $From     = "wg392567893@163.com";
-        $FromName = "测试";
+        $FromName = "理优教学管理部";
+        $MailHost = "smtp.163.com";
 
-        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey,$MailHost);
         return $ret;
     }
 
@@ -71,19 +100,21 @@ class Email{
      * @param integer AddAddressKey 当Address为array时，前Key个为发送人，剩余的为抄送人
      * @return
      */
-    static public function SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey){
+    static public function SendMail(
+        $Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey,$MailHost="smtp.leoedu.com"
+    ){
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
         //设定时区东八区
         date_default_timezone_set('Asia/Shanghai');
 
         $mail = new PHPMailer();
+        // $mail->SMTPDebug = 2;
         //使用SMTP方式发送
         $mail->IsSMTP();
         //设置编码，否则发送中文乱码
         $mail->CharSet = "UTF-8";
-        // $mail->Host = "smtp.leoedu.com";
-        $mail->Host = "smtp.163.com";
+        $mail->Host = $MailHost;
 
         // 启用SMTP验证功能
         $mail->SMTPAuth   = true;
@@ -123,7 +154,7 @@ class Email{
             \App\Helper\Utils::logger(" leo_com:email succ: ".json_encode($Address)." :$Title " );
         }
 
-        return  $ret;
+        return $ret;
     }
 
 };
