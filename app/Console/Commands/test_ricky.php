@@ -134,7 +134,7 @@ class test_ricky extends Command
                 $tea[$teacherid]["money_sal_".$v] = $money3;
             }
         }
-        dd($tea);
+        
         foreach($tea as $key => $t) {
             echo $key." ";
             if ($tea[$key]["nick"]) {
