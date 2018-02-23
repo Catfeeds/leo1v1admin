@@ -21,7 +21,7 @@ class test_control extends Controller
 
                     if (! in_array( $className,["CacheNick","ViewDeal","InputDeal","TeaPower","LessonPower"] ) ) {
                         $str="\\App\\Http\\Controllers\\".  $className;
-                        $str::getRouter() ;
+                        $str::_static_test();
                     }
                 }
             }
