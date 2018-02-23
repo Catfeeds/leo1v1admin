@@ -1848,6 +1848,22 @@ class test_james extends Controller
     // Redis::INCR($key_num);
     // Redis::set($key,1);
 
+    public function updateZipFile(){
+        $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
+
+        $saveH5FilePath = "/tmp/pptToH5Zip.zip";
+        $unzipFilePath  = "/tmp/pptToH5File";// 解压后的文件夹
+
+        $data=@file_get_contents($fileUrl);
+        file_put_contents($saveH5FilePath, $data);
+
+        # 文件解压
+        $unzipShell = "rar x $saveH5FilePath  ";
+        shell_exec($unzipShell);
+
+
+
+    }
 
 
 }

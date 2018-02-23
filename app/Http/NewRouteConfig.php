@@ -170,6 +170,7 @@ class NewRouteConfig {
         "/common/baidu_callback_return_info_test" => true,
         "/common/baidu_callback_return_info"      => true,
 
+        "/user_manage/qc_invalid_resources"           => true,
         "/user_manage/get_nick"                       => true,
         "/user_manage/pay_money_stu_list"                       => true,
         "/user_manage/refund_duty_analysis"                     => true,
