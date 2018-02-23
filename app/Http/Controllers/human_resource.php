@@ -1692,7 +1692,6 @@ class human_resource extends Controller
 
         }
         return $this->output_succ(["data"=>$num]);
-
     }
 
     public function set_teacher_lecture_account(){
