@@ -73,7 +73,7 @@ class test_ricky extends Command
 
                     //echo "时长".$lesson_count;
                     //$count = $lesson_count / 40;
-                    $count = $val["lesson_count"];
+                    $count = $val["lesson_count"] / 100;
                     //if ($teacherid == "398239") {
                     //    echo $lesson_count." ".$count." ---> ";
                     //}
