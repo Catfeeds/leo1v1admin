@@ -60,13 +60,34 @@ class test_ricky extends Command
                 $teacherid = $item['teacherid'];
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
                 $count_101 = 0; // 101 -105
-                $count_101 = 0;
+                $count_106 = 0; // 106, 201 202
+                $count_203 = 0; // 203
+                $count_301 = 0; // 301 302
+                $count_303 = 0; // 303
+                $total_count = 0; // 总课时
                 foreach($data as $val) {
                     $lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
                     echo "时长".$lesson_count;
                     $count = $lesson_count / 40;
-                    $total_count = 0;
-                    echo "课时数".$count;
+                    $total_count += $count;
+                    echo "总课时数".$total_count;
+                    if ($val["grade"] >= 101 && $val["grade"] <= 105) {
+                        $count_101 += $count;
+                    } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
+                        $count_106 += $count;
+                    } elseif ($val["grade"] == 203) {
+                        $count_203 += $count;
+                    } elseif ($val["grade"] == 301 && $val["grade"] == 302) {
+                        $count_301 += $count;
+                    } elseif ($val["grade"] == 303) {
+                        $count_303 += $count;
+                    }
+                }
+                // 处理年级课时数
+                if ($total_count <= 30) {
+                    $money = 0;
+                } elseif ($total_count >= 31 && $total_count <= 60) {
+                    echo $rules1[1];
                 }
                 dd($data);
             }
