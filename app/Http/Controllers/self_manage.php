@@ -166,6 +166,8 @@ class self_manage extends Controller
 
         if ($flow_check_flag== E\Eflow_check_flag::V_PASS ) {
             $ret=\App\Flow\flow_base::do_flow_pass($nodeid,$flow_check_flag, $check_msg );
+            \App\Helper\Utils::logger(" james_shengpi: $ret");
+
             if($ret) {
                 \App\Helper\Utils::logger("flow_type ".$flow_info['flow_type']);
                 if($flow_info['flow_type'] == E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE){
