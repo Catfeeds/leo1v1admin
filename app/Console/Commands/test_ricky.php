@@ -142,7 +142,7 @@ class test_ricky extends Command
             } else {
                 echo $task->cache_get_teacher_nick($key).' ';
             }
-            echo $tea[$key]["total_count_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["money_sal_12"]." ".$tea[$teacherid]["money_sal_1"]." ";
+            echo $tea[$key]["total_count_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["money_sal_12"]." ".$tea[$key]["money_sal_1"]." ";
             echo $tea[$key]["money_12"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
         }
 
