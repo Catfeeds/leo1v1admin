@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use App\Enums as f;
@@ -33,7 +34,9 @@ class test extends Controller
     }
 
     public function test1() {
-       $f= new \App\Jobs\new_seller_student(10001);
+        //$f= new \App\Jobs\new_seller_student(10001,1,3,3,3,3,3,3);
+        dispatch( new \App\Jobs\send_error_mail('', "SQL XXX", "title asdfa adfagf  "));
+        //dispatch($f);
         return $this->output_succ();
     }
     public function tree() {

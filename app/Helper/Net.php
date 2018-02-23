@@ -93,6 +93,7 @@ class Net {
         );
 
         $ret_send = self::send_post_data($url, $send_data);
+        return $ret_send;
     }
 
     static public  function send_post_data($url, $data)

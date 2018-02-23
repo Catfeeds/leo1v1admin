@@ -48,6 +48,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $this->init_task();
         $tea_list = $this->task->t_teacher_info->get_teacher_simulate_list(
             $this->start_time,$this->end_time
         );
