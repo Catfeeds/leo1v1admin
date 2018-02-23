@@ -15,7 +15,22 @@
     </script>
     <style>
      .hide{ display:none }
-     .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
+     .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px }
+     .paper_edit{ border:1px solid #999;padding:20px;width:800px }
+     .fl{ float:left }
+     .fr{ float:right}
+     .clear_both{ clear:both }
+     .paper_tab{ margin:0 auto }
+     .edit_paper{ width:180px;height:50px;line-height:50px;text-align:center;font-size:18px;color:#055076;background:#c4ebf5;cursor:pointer}
+     .edit_have{ color:white;background:#0995b8;}
+     .edit_box{ width:720px;}
+     .paper_info{ width:720px; }
+     .paper_info_left,.paper_info_right{ width:359px }
+     .paper_info_input{ margin:10px 0px 0px 10px }
+     .paper_info_input font{ color:red }
+     .paper_info_input span{ margin-right:10px;width:70px;display:inline-block }
+     .paper_info_input select{ width:179px;height: 26px;background: white;}
+     .paper_info_input .search_book{ height: 25px;line-height: 15px;margin-bottom: 4px;}
     </style>
     <section class="content">
 
@@ -131,4 +146,69 @@
         </table>
     </div>
 
+    <div class="paper_edit">
+        <div class="paper_tab">
+            <div class="edit_paper fl edit_none edit_have" onclick="edit_paper(this,event)">评测卷信息</div>
+            <div class="edit_paper fl edit_none" onclick="edit_paper(this,event)">维度设置</div>
+            <div class="edit_paper fl edit_none" onclick="edit_paper(this,event)">绑定题目</div>
+            <div class="edit_paper fl edit_none" onclick="edit_paper(this,event)">维度结果与建议</div>
+            <div class="clear_both"></div>
+        </div>
+        <div class="edit_box">
+            <div class="paper_info">
+                <div class="paper_info_left fl">
+                    <div class="paper_info_input">
+                        <span><font>*</font> 测评卷ID</span>
+                        <input type="text" class="paper_id" />
+                    </div>
+
+                    <div class="paper_info_input">
+                        <span><font>*</font> 测评名称</span>
+                        <input type="text" class="paper_name" style="width:250px" />
+                    </div>
+
+                    <div class="paper_info_input">
+                        <span><font>*</font>科目</span>
+                        <select class="paper_subject" onchange="get_paper_book(this,event)"></select>
+                    </div>
+
+                    <div class="paper_info_input">
+                        <span><font>*</font>上下册</span>
+                        <select class="paper_volume"></select>
+                    </div>
+
+                </div>
+                <div class="paper_info_right fl">
+                    <div class="paper_info_input">
+                        <span><font>*</font>题目数量</span>
+                        <input type="text" class="paper_question" />
+                    </div>
+
+                    <div class="paper_info_input">
+                        <span><font>*</font>年级</span>
+                        <select class="paper_grade" onchange="get_paper_book(this,event)"></select>
+                    </div>
+
+                    <div class="paper_info_input">
+                        <span><font>*</font>教材</span>
+                        <select class="paper_book"></select>
+                    </div>
+
+                </div>
+                <div class="clear_both"></div>
+            </div>
+            <div class="paper_answer"></div>
+        </div>
+        <div class="edit_box hide">
+            22
+        </div>
+        <div class="edit_box hide">
+            33
+        </div>
+        <div class="edit_box hide">
+            44
+        </div>
+
+
+    </div>
 @endsection
