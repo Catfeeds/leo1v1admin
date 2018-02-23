@@ -34,4 +34,22 @@ class t_teacher_spring extends \App\Models\Zgen\z_t_teacher_spring
     							,$where_arr);
     	return $this->main_get_value($sql);
     }
+
+    public function get_info($start_time,$end_time){
+        $where_arr = [
+            ["add_time>=%u",$start_time,-1],
+            ["add_time<%u",$end_time,-1],
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s", self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_info_count($start_time,$end_time){
+        $where_arr = [
+            ["add_time>=%u",$start_time,-1],
+            ["add_time<%u",$end_time,-1],
+        ];
+        $sql = $this->gen_sql_new("select count(*) from %s where %s", self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
 }

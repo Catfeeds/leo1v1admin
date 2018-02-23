@@ -1,0 +1,37 @@
+
+<section class="content " style="padding: 5px 0px;">
+
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs" id="id_page_type"  >
+      <li class=""><a href="#page_type_0" data-toggle="tab" aria-expanded="true" data-index="0" >我提交</a></li>
+      <li class=""><a href="#page_type_2" data-toggle="tab" aria-expanded="true" data-index="1" >待审批</a></li>
+      <li class=""><a href="#page_type_2" data-toggle="tab" aria-expanded="true" data-index="2" >已审批</a></li>
+      <li class=""><a href="#page_type_2" data-toggle="tab" aria-expanded="true" data-index="3" >抄送我</a></li>
+      <li class=""> <a class=" btn btn-primary fa fa-gear "  style=" color: #367fa9;"  @click="togger_query" > </a> </li>
+    </ul>
+    <div class="tab-content"  style="padding: 0px;" >
+      <!-- /.tab-pane -->
+      <!-- /.tab-pane -->
+      <!-- /.tab-pane -->
+
+      <div class="tab-pane " id="page_type_0">
+
+
+      </div>
+
+      <div class="tab-pane active " id="page_type_2">
+        <div id="id_header_query_info"  class="header_query_info"  style="display:none" > </div>
+        <hr class="header_query_info"  style="display:none"  />
+
+        <admin-table id="ss" :multi_select="false" :table_data="table_data" :table_config="table_config"    />
+
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+
+
+    <!-- /.tab-content -->
+  </div>
+
+
+</section>

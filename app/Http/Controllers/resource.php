@@ -391,27 +391,15 @@ class resource extends Controller
             'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
         ];
 
-        //判断是不是总监
-        // $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-        // if ($is_master) {
-        //     $data = [
-        //         'subject' => [1,2,3,4,5,6,7,8,9,10],
-        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-        //     ];
-        //     return $data;
-        // }
-
-        //判断是不是主管
-        // $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
-        // if ($is_zhuguan) {
-        //     $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-        //     $data = [
-        //         'subject' => $info['subject'],
-        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-        //     ];
-
-        //     return $data;
-        // }
+        //判断是不是教研总监
+      
+        if ($adminid == 1171 ) {
+            $data = [
+                'subject' => [1,2,3,4,5,6,7,8,9,10],
+                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+            ];
+            return $data;
+        }
 
         //教研老师只能看他所教的科目和年级
         $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
@@ -785,7 +773,7 @@ class resource extends Controller
             }
         }
 
-        if( $select == 'tag_one' && $arr[0] != 7 ){
+        if( $select == 'tag_one' && $arr[0] != 7 && $arr[0] != 6 ){
             //教材
             $book = $this->t_resource_agree_info->get_all_resource_type($arr[0], $arr[1], $arr[2]);
             $book_arr = [];
@@ -804,6 +792,18 @@ class resource extends Controller
                 ];
             }
             $select = "region_version";
+        }
+
+        if( $select == 'tag_one' && $arr[0] == 6 ){
+            $resource = E\Eresource_volume::$desc_map;
+            foreach( $resource as $k => $v){
+                $data[] = [
+                    'tag_two' => $arr[2],
+                    'resource_volume' => $k,
+                    'resource_volume_str' => $v
+                ];
+            }
+            $select = "resource_volume";
         }
 
         if( $select == 'tag_two' ){
@@ -829,7 +829,7 @@ class resource extends Controller
                 }
                 $select = "resource_free";
             } 
-            if( in_array($arr[0], [4,5,6]) ){
+            if( in_array($arr[0], [4,5]) ){
                 $resource = E\Eresource_volume::$desc_map;
                 foreach( $resource as $k => $v){
                     $data[] = [
@@ -841,7 +841,24 @@ class resource extends Controller
                 $select = "resource_volume";
 
             }
-   
+
+            if( $arr[0] == 6 ){
+       
+                $data = [
+                    [
+                        'tag_two' => $arr[3],
+                        'resource_train' => 0,
+                        'resource_train_str' => "按教材版本分类"
+                    ],[
+                        'tag_two' => $arr[3],
+                        'resource_train' => 1,
+                        'resource_train_str' => "按省市分类"
+                    ]
+                ];
+                
+                $select = "resource_train";
+            } 
+
             if( $arr[0] == 9 ){
                 $resource = E\Eresource_train::$desc_map;
                 foreach( $resource as $k => $v){
@@ -852,9 +869,8 @@ class resource extends Controller
                     ];
                 }
                 $select = "resource_train";
-
             } 
-
+            
         }
 
         if( $select == 'tag_three' ){
@@ -883,16 +899,34 @@ class resource extends Controller
             }
 
             if( $arr[0] == 6 ){
-                $resource = E\Eresource_year::$desc_map;
-                foreach( $resource as $k => $v){
-                    $data[] = [
-                        'tag_two' => $arr[3],
-                        'resource_year' => $k,
-                        'resource_year_str' => $v
-                    ];
+                //试卷库
+                if($arr[4] == 0){
+                    //教材
+                    $book = $this->t_resource_agree_info->get_all_resource_type($arr[0], $arr[1], $arr[2]);
+                    $book_arr = [];
+                    if($book){
+                        foreach($book as $v) {
+                            if( $v['tag_one'] != 0 && $v['tag_one'] != 2016 && $v['tag_one'] != 2015){
+                                array_push($book_arr, intval($v['tag_one']) );
+                            }
+                        }
+                    }
+                    foreach($book_arr as $v){
+                        $data[] = [
+                            'tag_one'   => (string)$v,
+                            'region_version' => (string)$v,
+                            'region_version_str' => E\Eregion_version::get_desc($v),
+                        ];
+                    }
+                    $select = "region_version";
                 }
-                $select = "resource_year";
 
+                if($arr[4] == 1 ){
+                    $data[] = [
+                        'tag_three' => $arr[3]
+                    ];
+                    $select = "get_province";
+                }
             } 
 
         }
@@ -909,6 +943,14 @@ class resource extends Controller
                 }
                 $select = 'tag_four';
             }
+
+            if( $arr[0] == 6 && $arr[4] == 1 ){
+                $data[] = [
+                    'tag_four' => $arr[4]
+                ];
+                $select = "get_city";
+            }
+
         }
 
         return $this->output_succ(['data' => $data,'select' => $select, 'is_end' => $is_end]);
@@ -1301,50 +1343,51 @@ class resource extends Controller
         }
         if( $multi_data && is_array($multi_data)){
             foreach( $multi_data as $data){
-                $ex_num        = 0;
-                //处理文件名
-                $file_title = &$data['file_title'];
-                $dot_pos = strrpos($file_title,'.');
-                $file_title = substr($file_title,0,$dot_pos);
-                //处理文件类型
-                $file_type = trim( strrchr($data['file_type'], '/'), '/' );
-                $resource_id = $data['resource_id'];
-                $file_use_type = $data['file_use_type'];
-                $file_size = round( $data['file_size']/1024, 2);
-                if ($file_use_type == 3){
-                    if($is_reupload == 0){
-                        $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
-                        $ex_num     = @$ex_num_max+1;
-                    } else {
-                        if($ex_num == 0) {
-                            //上传额外文件区间，不属于重新上传
+                if( array_key_exists("file_title", $data) && array_key_exists("file_type", $data)){                                   
+                    $ex_num        = 0;
+                    //处理文件名
+                    $file_title = &$data['file_title'];
+                    $dot_pos = strrpos($file_title,'.');
+                    $file_title = substr($file_title,0,$dot_pos);
+                    //处理文件类型
+                    $file_type = trim( strrchr($data['file_type'], '/'), '/' );
+                    $resource_id = $data['resource_id'];
+                    $file_use_type = $data['file_use_type'];
+                    $file_size = round( $data['file_size']/1024, 2);
+                    if ($file_use_type == 3){
+                        if($is_reupload == 0){
                             $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
                             $ex_num     = @$ex_num_max+1;
+                        } else {
+                            if($ex_num == 0) {
+                                //上传额外文件区间，不属于重新上传
+                                $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
+                                $ex_num     = @$ex_num_max+1;
+                            }
                         }
                     }
+                    $insert_data = [
+                        'resource_id'   => $resource_id,
+                        'file_title'    => $file_title,
+                        'file_type'     => $file_type,
+                        'file_size'     => $file_size,
+                        'file_hash'     => $data['file_hash'],
+                        'file_link'     => $data['file_link'],
+                        'file_use_type' => $file_use_type,
+                        'ex_num'        => $ex_num,
+
+                    ];
+                    $this->t_resource_file->row_insert($insert_data);
+                    $file_id = $this->t_resource_file->get_last_insertid();
+                    $adminid = $this->get_account_id();
+                    $this->t_resource_file_visit_info->row_insert([
+                        'file_id'     => $file_id,
+                        'visit_type'  => 9,
+                        'create_time' => time(),
+                        'visitor_id'  => $adminid,
+                        'ip'          => $_SERVER["REMOTE_ADDR"],
+                    ]);                
                 }
-                $insert_data = [
-                    'resource_id'   => $resource_id,
-                    'file_title'    => $file_title,
-                    'file_type'     => $file_type,
-                    'file_size'     => $file_size,
-                    'file_hash'     => $data['file_hash'],
-                    'file_link'     => $data['file_link'],
-                    'file_use_type' => $file_use_type,
-                    'ex_num'        => $ex_num,
-
-                ];
-                $this->t_resource_file->row_insert($insert_data);
-                $file_id = $this->t_resource_file->get_last_insertid();
-                $adminid = $this->get_account_id();
-                $this->t_resource_file_visit_info->row_insert([
-                    'file_id'     => $file_id,
-                    'visit_type'  => 9,
-                    'create_time' => time(),
-                    'visitor_id'  => $adminid,
-                    'ip'          => $_SERVER["REMOTE_ADDR"],
-                ]);                
-
             }
         }
         return $this->output_succ();
@@ -1415,6 +1458,26 @@ class resource extends Controller
         ]);
         \App\Helper\Utils::logger("wrong id:".json_encode($error_id_str));
         if($is_wx > 0 && $error_id_str > 0){
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+              
+            $reload_adminid = $this->t_resource_file->get_reload_adminid($file_id);
+            if($reload_adminid){
+                $reload_phone = $this->t_manager_info->get_phone($reload_adminid);
+                $reload_nick = $this->t_manager_info->get_name($reload_adminid);
+                $reload_wx = $this->t_teacher_info->get_wx_openid_by_phone($reload_phone);
+
+                \App\Helper\Utils::logger("重传人手机:$reload_phone 微信$reload_wx");
+
+                $data['first']      = " 您好，$reload_nick 老师，您负责的讲义“ $file_title ”已被理优更改，感谢您对理优的监督与支持。";
+                $data['keyword1']   = " 讲义重传通知";
+                $data['keyword2']   = " 请随时查看理优新的讲义资料";
+                $data['keyword3']   = date('Y-m-d');
+                $data['remark']     = "让我们共同努力，让理优明天更美好";
+                \App\Helper\Utils::send_teacher_msg_for_wx($reload_wx,$template_id_teacher,
+                                                           $data,$teacher_url);
+            }
+
             $error_id_arr = is_array($error_id_str) ? $error_id_str : json_decode($error_id_str,true);
             foreach($error_id_arr as $k => $error){         
                 if( !$error ) {
@@ -1425,13 +1488,11 @@ class resource extends Controller
             $errid_str = "(".$errid_str.")";
             $info = $this->t_resource_file->get_teacherinfo_new($errid_str);
             $wx_openid = "";
-            if($info){
-                $teacher_url = ''; //待定
-                $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+            if($info){      
                 foreach( $info as $var ){
                     if( $wx_openid != $var['wx_openid'] ){
                         \App\Helper\Utils::logger("admin do sth:".json_encode($var));
-                        $wx_openid = $var['wx_openid'];
+                        $wx_openid = $var['wx_openid'];                        
                         $file_name    = $var['file_title'];
                         $teacher_nick = $var['nick'];
                         $data['first']      = " 您好，$teacher_nick 老师，您报错的讲义“ $file_name ”已被理优更改，感谢您对理优的监督与支持。";

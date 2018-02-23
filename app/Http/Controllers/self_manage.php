@@ -93,11 +93,23 @@ class self_manage extends Controller
         }
 
         $post_adminid    = $this->get_in_int_val("post_adminid",-1);
-        $flow_check_flag = $this->get_in_int_val("flow_check_flag",-1,E\Eflow_check_flag::class);
         $flow_type       = $this->get_in_int_val("flow_type",-1, E\Eflow_type::class );
-        $page_num        = $this->get_in_page_num();
+        $page_info    = $this->get_in_page_info();
+        $page_type= $this->get_in_int_val("page_type");
 
-        $ret_info=$this->t_flow_node->get_list($page_num,$start_time,$end_time,$adminid,$post_adminid,$flow_type,$flow_check_flag);
+        $flow_check_flag = -1;
+        $node_type= -1 ;
+            /*
+            0 => "未审核",
+            1 => "通过",
+            2 => "不通过"
+            3 => "驳回",
+            4 => "自动通过",
+            5 => "转审",
+            */
+
+
+        $ret_info=$this->t_flow_node->get_list($page_info,$page_type,$start_time,$end_time,$adminid,$post_adminid,$flow_type,$flow_check_flag, $node_type);
         foreach( $ret_info["list"] as &$item) {
             E\Eflow_type::set_item_value_str($item);
             $flow_class=\App\Flow\flow::get_flow_class($item["flow_type"]);
@@ -184,6 +196,7 @@ class self_manage extends Controller
     }
     public function ssh_login() {
         $account = $this->get_account();
+        session(["debug_flag" => true ]);
         if ( \App\Helper\Utils::check_env_is_release() ) {
             $ip="118.190.115.161";
             \App\Helper\Common::redis_set("SSH_LOGIN_TIME_$account",time(NULL));

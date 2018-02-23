@@ -118,11 +118,11 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_lecture_info($id){
-        $sql=$this->gen_sql_new("select phone,status,nick,teacher_re_submit_num,subject,grade"
-                                ." from %s "
-                                ." where id=%u"
-                                ,self::DB_TABLE_NAME
-                                ,$id
+        $sql = $this->gen_sql_new("select phone,status,nick,teacher_re_submit_num,subject,grade"
+                                  ." from %s "
+                                  ." where id=%u"
+                                  ,self::DB_TABLE_NAME
+                                  ,$id
         );
         return $this->main_get_row($sql);
     }

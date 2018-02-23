@@ -14,7 +14,11 @@ function load_data(){
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
-		tag_five:	$('#id_tag_five').val()
+		tag_five:	$('#id_tag_five').val(),
+        adminid:    $('#id_adminid').val(),
+        reload_adminid:  $('#id_reload_adminid').val(),
+        kpi_adminid:  $('#id_kpi_adminid').val(),
+        status:  $('#id_status').val(),
 		});
 }
 $(function(){
@@ -104,8 +108,10 @@ $(function(){
     Enum_map.append_option_list("resource_error",$('#id_error_type'));
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
     $('#id_use_type').val(g_args.use_type);
-
-
+    $('#id_adminid').val(g_args.adminid);
+    $('#id_reload_adminid').val(g_args.reload_adminid);
+    $('#id_kpi_adminid').val(g_args.kpi_adminid);
+    $('#id_status').val(g_args.status);
 
     if(g_args.use_type == 1){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
@@ -579,10 +585,10 @@ $(function(){
     var color_id = 0,color_res = 0,color_flag = 0;
     $('.common-table tr').each(function(i){
         if(i>0){
-            if($(this).data('file_id') == color_res){
+            if($(this).data('resource_id') == color_res){
                 $(this).css('background',color_id );
             } else {
-                color_res = $(this).data('file_id');
+                color_res = $(this).data('resource_id');
                 (color_flag == 0) ? color_flag = 1: color_flag = 0;
                 (color_flag == 0) ? color_id = '#e6e6e6' : color_id = '#bfbfbf';
                 $(this).css('background',color_id);
@@ -653,6 +659,20 @@ $(function(){
         var type = $(this).data('type');
         var file_id = $(this).data('file_id');
         var resource_id = $(this).data('resource_id');
+
+        if(type == 1){
+            var reload_status = $(this).data("reload_status");
+            if(reload_status == 0){
+                BootstrapDialog.alert("无审批项");
+                return false;
+            }
+        }else if(type == 2){
+            var kpi_status = $(this).data("kpi_status");
+            if(kpi_status == 0){
+                BootstrapDialog.alert("无审批项");
+                return false;
+            }
+        }
 
         $.do_ajax( '/resource_new/get_record_info',{
            "type"           : type,
@@ -914,5 +934,6 @@ $(function(){
     $.admin_select_user( $("#id_adminid"), "research_teacher", load_data);
     $.admin_select_user( $("#id_reload_adminid"), "research_teacher", load_data);
     $.admin_select_user( $("#id_kpi_adminid"), "research_teacher", load_data);
+
 });
 

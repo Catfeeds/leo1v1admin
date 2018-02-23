@@ -52,6 +52,8 @@ class ajax_deal extends Controller
 
         $ret_list=[];
         $auto_pass_flag=0;
+        $node_type_list=[-1];
+
         do{
 
             $ret_list[]=[
@@ -61,10 +63,13 @@ class ajax_deal extends Controller
                 "admin_nick" => $this->cache_get_account_nick($adminid),
                 "auto_pass_flag" =>  $auto_pass_flag
             ];
+            $node_type_list[]= $node_type;
 
             \App\Helper\Utils::logger("node_type:$node_type,flowid:$flowid");
 
             list($node_type,$adminid, $auto_pass_flag)=$flow_class::get_next_node_info( $node_type, $flowid, $adminid );
+            \App\Helper\Utils::logger("node_type===".$node_type);
+
             //\App\Helper\Utils::logger(" 22 node_type:$node_type,flowid:$flowid");
 
         } while ($node_type  != -1);
@@ -76,6 +81,20 @@ class ajax_deal extends Controller
             "admin_nick" =>"" ,
             "auto_pass_flag" =>0 ,
         ];
+        $adminid_list = $flow_class::get_notify_user_list($node_type_list);
+
+        foreach($adminid_list as $notify_adminid  ) {
+            $ret_list[]=[
+                "node_type" => -2,
+                "name" => "抄送",
+                "adminid" => $notify_adminid,
+                "admin_nick" => $this->cache_get_account_nick($notify_adminid),
+                "auto_pass_flag" =>  false ,
+            ];
+
+        }
+
+
 
         $ret_info=\App\Helper\Utils::list_to_page_info($ret_list);
         $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );

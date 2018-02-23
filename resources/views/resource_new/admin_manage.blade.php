@@ -35,6 +35,31 @@
      var identity = "{{@$identity}}";
     </script>
     <style>
+     .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
+     .hide{ display:none}
+     .comment{ width:900px }
+     .comment .comment_item{ width:440px;float:left; margin-bottom: 20px; }
+     .comment .comment_half{ float:left; margin-bottom: 20px; margin-right:10px; }
+     .comment .comment_item .comment_info span{ margin-right:10px }
+     .comment .comment_eject tr td{ padding:7px 10px; text-align: center; border: 1px solid #42474a; }
+
+     .error{ width:850px}
+     .error .error_info .error_title{ font-size: 17px;font-weight: bold;}
+     .error .error_info .error_status_choose{ float:right;margin-right:10px }
+     .error .error_info .error_choose{ width: 120px;margin-left: 10px;display: inline-block; }
+     .error .error_upload_info{ text-align: right;margin: 10px;font-size: 14px;color: #828181;}
+     .error .error_content{ padding: 10px 5px;background: #fbfbfb;}
+     .error .error_detail tr th,.error .error_detail tr td{border: 1px solid #aab2b7;padding:7px 10px;  }
+     .error .error_detail .look_err_pic{ background: #d2cfcf;padding: 0px 12px;color: #3290a7;margin-right: 10px;}
+     .error_type_1,.error_type_2{color:#029dc3;margin-right: 10px;}
+     .error_author{ margin: 0px 20px;color: #6f6a6a;}
+     .error_time{color: #6f6a6a; }
+     .error .color-blue{ padding:0px 10px}
+     .error .error_status{ color:#616561 }
+     .error .error_file_status{ color:red}
+     .error .error_status_pass{  }
+    </style>
+    <style>
      .hide{ display:none }
      .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px };
     </style>
@@ -121,12 +146,19 @@
                 </div>
                 <div class="col-xs-6 col-md-2 hide_class">
                     <div class="input-group ">
-                        <span >kpi讲义负责人</span>
+                        <span >KPI讲义统计负责人</span>
                         <input type="text" value=""  class="opt-change"  id="id_kpi_adminid"  placeholder="" />
                     </div>
                 </div>
-            </div>
-            <div>
+                <div class="col-xs-6 col-md-2 hide_class">
+                    <div class="input-group ">
+                        <span class="input-group-addon">状态</span>
+                        <select class="form-control opt-change" id="id_status"> 
+                            <option value="-1">全部</option>
+                            <option value="1">待审核</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-md-2 col-xs-2">
                     <button id="id_apply_reload" class="btn btn-primary">批量申请——重传负责人</button>
                 </div>
@@ -139,7 +171,6 @@
                 <div class="col-md-2 col-xs-2">
                     <button id="id_affirm_kpi" class="btn btn-primary">批量审批——统计负责人</button>
                 </div>
-
             </div>
         </div>
         <hr/>
@@ -181,7 +212,7 @@
                     <td>上传日期</td>
                     <td>初版讲义上传人</td>
                     <td>修改重传负责人</td>
-                    <td>kpi讲义负责人</td>
+                    <td>KPI讲义统计负责人</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -227,10 +258,10 @@
                        <td>{{@$var['c_time']}}</td>
                        <td>{{@$var['admin_nick']}}</td>
                        <td>
-                       @if(@$var['reload_adminid_str'] != "")
+                       @if(@$var['reload_adminid'] > 0)
                        {{@$var['reload_adminid_str']}}
                        @else
-                       无
+                       {{@$var['admin_nick']}}
                        @endif
                        @if(@$var['reload_status'] == 1)
                        <a class="fa  opt-redo" data-type="1" data-file_id="{{@$var['file_id']}}" data-resource_id="{{@$var['resource_id']}}"title="{{@$var['reload_status_string']}}"><font color="red">{{@$var['reload_status_str']}}</font></a>
@@ -238,15 +269,13 @@
                        <a class="fa  opt-re-status" data-type="1" data-file_id="{{@$var['file_id']}}" data-resource_id="{{@$var['resource_id']}}"title="{{@$var['reload_status_string']}}">{{@$var['reload_status_str']}}</a>
                        @endif
 
-                       @if(@$var['reload_status'] == 1)
-                       <a class="fa  opt-re-edit"  data-type="1" title="审批" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}" data-file_title="{{@$var['file_title']}}" data-subject_str="{{@$var['subject_str']}}" data-grade_str="{{@$var['grade_str']}}">审批</a>
-                       @endif
+                       <a class="fa  opt-re-edit"  data-type="1" title="审批" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}" data-file_title="{{@$var['file_title']}}" data-subject_str="{{@$var['subject_str']}}" data-grade_str="{{@$var['grade_str']}}" data-reload_status="{{@$var['reload_status']}}">审批</a>
                         </td>
                         <td>
-                       @if(@$var['kpi_adminid_str'] != "")
+                       @if(@$var['kpi_adminid'] > 0)
                        {{@$var['kpi_adminid_str']}}
                        @else
-                       无
+                       {{@$var['admin_nick']}}
                        @endif
 
                        @if(@$var['kpi_status'] == 1)
@@ -254,9 +283,9 @@
                        @else
                         <a class="fa  opt-re-status" data-type="2" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}">{{@$var['kpi_status_str']}}</a>
                        @endif
-                       @if(@$var['kpi_status'] == 1)
-                       <a class="fa  opt-re-edit" data-type="2" title="审批" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}" data-file_title="{{@$var['file_title']}}" data-subject_str="{{@$var['subject_str']}}" data-grade_str="{{@$var['grade_str']}}">审批</a>
-                       @endif
+
+                       <a class="fa  opt-re-edit" data-type="2" title="审批" data-file_id="{{@$var['file_id']}}" title="{{@$var['kpi_status_string']}}" data-resource_id="{{@$var['resource_id']}}" data-file_title="{{@$var['file_title']}}" data-subject_str="{{@$var['subject_str']}}" data-grade_str="{{@$var['grade_str']}}" data-kpi_status="{{@$var['kpi_status']}}">审批</a>
+
                         </td>
 
                         <td>

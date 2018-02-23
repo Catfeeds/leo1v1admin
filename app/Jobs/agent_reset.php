@@ -31,6 +31,7 @@ class agent_reset extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $this->init_task();
         $agent_id=$this->agent_id;
         \App\Helper\Utils::logger(" JOB_AGENT_RESET $agent_id ");
 

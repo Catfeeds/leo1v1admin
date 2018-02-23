@@ -27,8 +27,9 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
 
             if ($type=="end" ) {
                 $end_id=$id;
-                $id=1;
+                $id=-1;
             }
+
             $node["type"]=$type;
             unset($node["alt"]);
             unset($node["left"]);
@@ -41,7 +42,7 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
         }
         $get_id=function( $id, $start_id, $end_id ) {
             if ($id==$start_id) return 0;
-            else  if  ($id==$end_id) return 1;
+            else  if  ($id==$end_id) return -1;
             else return $id;
         };
 
@@ -72,33 +73,53 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
         }
 
         return $node_map;
+
     }
 
     // return [ $node_type, $adminid, $auto_pass ]
-    public function get_next_node($flow_type,$node_type, $flow_info, $self_info , $adminid ) {
-        $node_map=\App\Helper\Utils::json_decode_as_array( $this->get_node_map($flow_type) );
-        $cur_node=$node_map[$node_type];
+    public function get_next_node( $flow_type,$node_type, $flow_info, $self_info , $adminid ) {
+        $node_map=\App\Flow\flow::get_flow_class_node_map ($flow_type);
+        $cur_node= $node_map[$node_type] ;
+        \App\Helper\Utils::logger("DO =====node_type:$node_type:". $cur_node["name"]  );
+        $cur_type= $cur_node["type"];
+        $switch_value=-1;
+        if ($cur_type=="function") {
+            $cur_flow_function=$cur_node["flow_function"];
+            $args=  \App\Helper\Utils::json_decode_as_array($cur_node["function_args"]);
+            //得到切换的分支值
+            $switch_value=\App\Flow\flow_base::do_function($cur_flow_function, $args , $flow_type, $node_type, $flow_info, $self_info, $adminid);
+
+        }
+
         $next_node_list=$cur_node["next_node_list"];
         foreach ($next_node_list as $node_info ) {
+            if ($cur_type=="function") {
+                \App\Helper\Utils::logger("check switch_value : ". $node_info["switch_value"]);
+                if ( $node_info["switch_value"] != $switch_value ){ //不是选定的分支过
+                    continue;
+                }
+            }
+
             $id=$node_info["id"];
-            $type= $node_info["type"];
             $check_node=$node_map[$id];
+            $type= $check_node["type"];
             if ($type =="admin") { //设置给某人
-                return [  $id, $node_info["adminid"], false];
+                return [  $id, $check_node["adminid"], false];
             }else if ($type =="uplevel_admin") {//上级
                 $uplevel_adminid= $this->get_uplevel_adminid($adminid);
                 return [  $id, $uplevel_adminid  , false];
             }else if ($type =="end") {
-                return  null;
+                return  [ -1 , 0, false ];
             }else if ($type =="function" ){
-                $flow_function= $node_info["flow_function"];
-
+                return $this->get_next_node( $flow_type, $node_info["id"] , $flow_info, $self_info , $adminid  );
             }
         }
-
+        dd("遍历路线出错: 当前节点". $cur_node["name"] );
+        return null;
     }
 
     public function get_uplevel_adminid ( $adminid ) {
-        return 0;
+        //TODO
+        return 99;
     }
 }

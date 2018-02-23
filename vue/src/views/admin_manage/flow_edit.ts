@@ -7,6 +7,7 @@ import {self_RowData, self_Args } from "../page.d.ts/admin_manage-flow_edit"
   // 所有的组件选项都可以放在这里.
   template:  require("./flow_edit.html" ),
 })
+
 export default class extends vtable {
 
   get_args() :self_Args  {return  this.get_args_base();}
@@ -17,9 +18,16 @@ export default class extends vtable {
     this.$flow.$nodeData[id] = $.extend({}, this.$flow.$nodeData[id],  args);
   }
 
+  //设置扩展信息
+  set_line_info(id, args ) {
+    this.$flow.$lineData[id] = $.extend({}, this.$flow.$lineData[id],  args);
+    console.log( "line data:", this.$flow.$lineData[id]  );
+  }
+  //@desn:获取结点类型
   get_node_type( type) {
     return type.split(" ")[0];
   }
+  //@desn:双击事件
   onItemDbClick(id, type){
     //this.$flow.get
     if (type=="node") {
@@ -27,26 +35,96 @@ export default class extends vtable {
     } else if (type =="line") {
       return this.do_line_opt(id);
     }
-
-
+    return true;
   }
+  //@desn:获取线信息
   public do_line_opt(id) {
     var info=this.$flow. getItemInfo( id, "line");
+    this.do_branch_line_function_opt(id,info);
     console.log("line:", info );
   }
+
+  //@desn:添加分支后面线操作
+  do_branch_line_function_opt( id,info ) {
+    var from_id = info.from;
+    var from_type = this.get_node_type_by_id(from_id);
+    var from_info = this.get_node_info(from_id) ;//获取上个条件类型
+    var flow_function = from_info.flow_function;
+    console.log('from_type:',from_type);
+    if(from_type == 'function' && flow_function){
+
+      var  switch_value= info.switch_value? info.switch_value: 0;
+      var me = this;
+      //获取该分支类型的选项类型
+      $.do_ajax("/admin_manage/get_flow_branch_switch_value",  {
+        "flow_type" : me.get_args().flow_type,
+        'flow_function' : flow_function,
+      },function(data){
+        //组合select  --begin--
+        var select = "<select>";
+
+        $.each( data.return_config, function(i, switch_value ){
+          select += "<option value='"+i+"'>"+switch_value+"</option>";
+        });
+        select += "</select>";
+        var $switch_value=$(select);
+        //组合select  --end--
+
+        var arr=[
+          ["分支条件" , $switch_value ],
+        ];
+
+
+        var line_info=me.get_line_info(id );
+        console.log( "line_info", line_info);
+        $switch_value.val( line_info.switch_value );
+
+        $.show_key_value_table("设置", arr ,{
+          label: '确认',
+          cssClass: 'btn-warning',
+          action: function(dialog) {
+            var switch_value=$switch_value.val();
+            var switch_desc = $switch_value.find("option:selected").text();
+
+            var args={
+              "switch_value" : switch_value,
+            }
+            me.set_line_info(id, args );
+            me.flow_set_name( id, switch_desc ,"line"  );
+          }
+        },function(){
+        });
+
+      });
+
+    }else if(from_type == 'function' && !flow_function){
+      alert('请先选择分支类型!');
+    }
+
+
+  }
+
+
+  //@desn:通过id获取结点类型
   public get_node_type_by_id(id){
     var info=this.get_node_info(id);
     var node_type= this.get_node_type( info["type"]) ;
     return node_type;
   }
+  //@desn:设置流程结点名称
   flow_set_name( id, name,type  ) {
     this.$flow.setName(id, name, type);
   }
-
+  //@desn:根据结点id获取结点信息
   get_node_info(id) {
     return this.$flow. getItemInfo( id, "node");
   }
 
+  //@desn:根据结点id获取结点信息
+  get_line_info(id) {
+    return this.$flow. getItemInfo( id, "line");
+  }
+  //@desn:双击操作分发器
   do_node_opt( id   ) {
     var info= this.get_node_info(id);
     var node_type= this.get_node_type( info["type"]) ;
@@ -60,52 +138,137 @@ export default class extends vtable {
     }else if (  node_type == "function"  ) {
       this.do_node_function_opt(id,info);
     }
-
+    console.log('id:'+id);
     console.log( "click:", info,  node_type );
   }
 
-
+  //@desn:uplevel_admin 上级审批操作
   do_node_uplevel_admin_opt( id,info ) {
+    var me=this;
+
+    var flow_uplevel_type = $("<select/>" );
+    Enum_map.append_option_list("flow_uplevel_type", flow_uplevel_type,true);
+    flow_uplevel_type.val(info.uplevel_type );
+
+    var arr=[
+      ["审批类型" , flow_uplevel_type  ],
+    ];
+
+    $.show_key_value_table("上级审批", arr ,{
+      label: '确认',
+      cssClass: 'btn-warning',
+      action: function(dialog) {
+        var uplevel_val=flow_uplevel_type.val();
+        var uplevel_text = flow_uplevel_type.find('option:selected').text();
+        var args={
+          "uplevel_type" : uplevel_val,
+        }
+        me.set_node_info(id, args );
+        me. flow_set_name( id, "uplevel:"+uplevel_text ,"node"  );
+      }
+    });
 
   }
-
+  //@desn:分支操作
   do_node_function_opt( id,info ) {
     var  flow_function= info.flow_function? info.flow_function: 0;
+    var function_args=  info.function_args? JSON.parse( info.function_args) :{};
     /*
-    if (function_id != 0) {
+      if (function_id != 0) {
       alert("已经有指定了, 只能删除再增加");
       return;
-    }
+      }
     */
 
     var me=this;
 
+    var arg_config = {} ;
     var $flow_function=$("<select/>");
-    Enum_map.append_option_list("flow_function", $flow_function, true );
+    Enum_map.append_option_list("flow_function", $flow_function, true, me.$data.flow_function_list );
+
     $flow_function.val( flow_function);
+    $flow_function.on("change",function(){
+      if($flow_function.val())
+        do_load_args( $flow_function.val() );
+    });
+
 
     var arr=[
       ["分支函数" , $flow_function ],
     ];
 
-    $.show_key_value_table("设置", arr ,{
+
+    var dlg=$.show_key_value_table("设置", arr ,{
       label: '确认',
       cssClass: 'btn-warning',
       action: function(dialog) {
         var flow_function=$flow_function.val();
-
+        var function_args={};
+        var check_args_flag=true;
+        var show_args_arr:Array<any> =[];
+        $.each( arg_config, function(arg_name, item)  {
+          var value= item["input"].val();
+          var value_str=value;
+          if (item["type"]=="number" || item["type"]=="integer" ) { //
+            if (!$.isNumeric(value ))  {
+              alert (item["desc"] +"必须是数字:" + value );
+              check_args_flag=false;
+              return;
+            }
+          }
+          function_args[arg_name] = value;
+          show_args_arr.push(value_str);
+        });
+        if ( !check_args_flag ){
+          return;
+        }
         var args={
           "flow_function" : flow_function,
+          "function_args" :JSON.stringify(function_args ),
         }
         me.set_node_info(id, args );
-        me.flow_set_name( id, "分支:" +  Enum_map.get_desc("flow_function",flow_function) ,"node"  );
+        me.flow_set_name( id, "分支:" +  Enum_map.get_desc("flow_function",flow_function)+"("+ show_args_arr.join(",")   +")"  ,"node"  );
       }
-    },function(){
     });
 
+    var do_load_args=function( flow_function )  {
+      console.log('flow_type:',me.get_args().flow_type);
+      console.log('flow_function:',flow_function);
+      $.do_ajax("/admin_manage/get_flow_branch_switch_value",  {
+        "flow_type" : me.get_args().flow_type,
+        'flow_function' : flow_function,
+      },function(data){
+        arg_config = me.gen_function_args_obj(  data.arg_config,function_args );
 
+        dlg.$modalBody.find(".args-item" ).remove();
+        $.each( arg_config, function(i, item)  {
+          //arr.push([ item.desc, item.input ]);
+
+          var $tr_obj=$( "<tr class=\"args-item\"> <td style=\"text-align:right; width:30%;\">"+item.desc+"</td><td class=\"td-input\">  </td></tr>");
+          $tr_obj.find(".td-input").html(item.input);
+          dlg.$modalBody.find("tbody").append($tr_obj);
+        });
+
+
+      });
+    }
+    // do_load_args(flow_function);
   }
 
+  gen_function_args_obj( arg_config,  args ) {
+    /*
+      "arg_config" => [
+      "check_day_count" => [ "desc"=> "指定天数", "type"=>"integer" ],
+      ],
+    */
+    $.each( arg_config,  function( arg_name,  item   ){
+      var $input=$("<input/>");
+      $input.val(args[arg_name]);
+      item["input"] = $input;
+    });
+    return arg_config;
+  }
+  //@desn:抄送操作
   do_node_notify_opt( id,info ) {
     var me=this;
 
@@ -138,30 +301,34 @@ export default class extends vtable {
     });
 
   }
-
+  //@desn:指定人审批
   do_node_admin_opt( id ,info) {
 
     var me=this;
 
     var $admin=$("<input/>");
+    var $title=$("<input/>");
     var adminid= info.adminid? info.adminid: 0;
     $admin.val(adminid);
-
+    $title.val( info.title? info.title: "个人审批" );
     var arr=[
+      ["节点名称" , $title  ],
       ["管理员" , $admin  ],
     ];
 
-    $.show_key_value_table("抄送给", arr ,{
+    $.show_key_value_table("指定人审批", arr ,{
       label: '确认',
       cssClass: 'btn-warning',
       action: function(dialog) {
         var adminid=$admin.val();
+        var title = $title.val();
         var args={
           "adminid" : adminid,
+          "title" : title,
         }
         me.set_node_info(id, args );
         $.do_ajax_get_nick( "account", adminid, function(_id, nick){
-          me. flow_set_name( id, "审批:"+nick ,"node"  );
+          me. flow_set_name( id, title+":"+nick ,"node"  );
         });
       }
     },function(){
@@ -175,7 +342,20 @@ export default class extends vtable {
 
 
 
+  //@desn:限制抄送不能有下游
   onItemAdd(id , type,json) {
+    if (this.check_node_existed(id ) ) {
+      alert("请重新加入");
+      return false;
+    }
+    var node_type = 'start round mix';
+    var begin_count = this.check_node_each(node_type);
+
+    if(json.type == 'start round mix' && begin_count >= 1){
+      alert("开始结点最多只能有一个!");
+      return false;
+    }
+
     if (type=="line") {
       //get_node_type_by_id
       var from_node_type=this.get_node_type_by_id( json["from"]);
@@ -188,14 +368,71 @@ export default class extends vtable {
         json["dash"] = true;
       }
 
-      console.log(from_node_type, to_node_type );
+      console.log( "line:" , json );
 
     }else if ( type == "node" ) {
       this.do_add_node(id, json);
     }
+
     return true;
   }
+  //@desn:检测已存在值的id
+  check_node_existed(id ) {
+   return this.$flow.$nodeData[id] || this.$flow.$lineData[id] || this.$flow.$areaData[id]  ;
+  }
+  //@desn:循环检测已经存在该类型的个数
+  check_node_each(node_type){
+    var count = 0;
+    $.each( this.$flow.$nodeData, function(i, item){
+      if(item.type == node_type)
+        count++;
+    });
+    return count;
+  }
+  //@desn:返回相应类型结点的id
+  //@param: type
+  //@param: data 所有数据
+  //@return:id
+  check_type_id(data,node_type){
+    var branch_nodes_id = new Array();
+    $.each( data.nodes, function(i, nodes ){
+      console.log('结点类型',nodes);
+      console.log('结点id',i);
+      if(nodes.type == node_type)
+        branch_nodes_id.push(i);
+    });
+    return branch_nodes_id;
+  }
+  //@desn:返回相应类型结点的属性之和
+  //@param:data 所有数据
+  //@param:node_type 结点类型
+  //@param:attribute 求和的属性
+  check_branch_count(data,node_type,attribute){
+    var branch_count = 0;
+    $.each( data.nodes, function(i, nodes ){
+      if(nodes.type == node_type)
+        branch_count += nodes[attribute];
+    });
+    return branch_count;
 
+  }
+  //@desn:返回对应分支结点有效switch_value个数
+  //@param: node_id_arr 分支结点arr
+  //@param: data 所有数据
+  //@return:count 有效switch_value 个数
+  check_switch_value(data,node_id_arr){
+    var switch_value_count = 0;
+    $.each( data.lines, function(i, lines ){
+      console.log('线数据',lines);
+      if(lines.switch_value != null && $.inArray(lines.from,node_id_arr) != -1 )
+        switch_value_count++;
+    });
+    return switch_value_count;
+  }
+
+
+
+  //@desn：添加结点操作
   do_add_node( id, info ) {
     var node_type = this.get_node_type(info["type"] );
 
@@ -216,7 +453,7 @@ export default class extends vtable {
     }
   }
 
-
+  //@desn:审批初始化
   flow_init(){
     var property={
       toolBtns:["start round mix","end round mix","admin","uplevel_admin","notify" ,"function mix"
@@ -271,6 +508,7 @@ export default class extends vtable {
     demo.onItemAdd=this.onItemAdd;
     this.$flow =demo;
   }
+
   do_created_ex(call_func) {
 
     //加载js
@@ -303,7 +541,7 @@ export default class extends vtable {
     this.$flow.clearData();
     this.$flow.loadData( this.$data.json_data );
   }
-
+  //@desn:修改操作
   opt_edit( e:MouseEvent, opt_data: self_RowData ){
     alert(JSON.stringify( opt_data));
   }
@@ -324,19 +562,42 @@ export default class extends vtable {
 
 
     //JQuery 写法
-    var jquery_body = $("<div> <button class=\"btn btn-primary do-save\">保存</button> ||||||  <a href=\"javascript:;\"class=\"btn btn-warning  do-reload\">重新加载</a> </div>");
+    var jquery_body = $("<div> <button class=\"btn btn-primary do-save\">保存</button> ||||||  <a href=\"javascript:;\"class=\"btn btn-warning  do-reload\">重新加载</a> ||||||  <a href=\"javascript:;\"class=\"btn btn-warning  do-show\">内部数据</a>  </div>");
 
+    //@desn:保存审批信息
     jquery_body.find(".do-save").on( "click" ,function(e) {
-      var json_data= JSON.stringify(me.$flow.exportData());
+      var data=me.$flow.exportData();
+      var json_data= JSON.stringify(data);
+      var node_type = 'function mix';
+      var attribute = 'flow_function';
+      //获取类型为结点型的id数组
+      var node_id_arr = me.check_type_id(data,node_type);
+      //分支个数之和
+      var branch_count = me.check_branch_count(data,node_type,attribute);
+      //存在分支结点求出该分支结点下线switch_value个数
+      var switch_value_count = me.check_switch_value(data,node_id_arr);
+      if(branch_count != switch_value_count){
+        alert('分支条件必选!');
+        return false;
+      }
+
+
       $.do_ajax("/admin_manage/flow_save",  {
         flow_type : me.get_args().flow_type,
         json_data:  json_data,
       });
     });
-
+    //@desn:重新加载
     jquery_body.find(".do-reload").on( "click" ,function(e) {
-      BootstrapDialog.alert(" test 2");
+      console.log ( me.$flow.$lineData );
     });
+
+    //@desn:重新加载
+    jquery_body.find(".do-show").on( "click" ,function(e) {
+      $.wopen("/admin_manage/flow_show_map?flow_type=" +  me.get_args().flow_type );
+    });
+
+
 
 
     $.admin_query_common({

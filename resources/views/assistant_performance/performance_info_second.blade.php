@@ -65,7 +65,7 @@
                     <td>续费目标 </td>
                     <td>续费业绩 </td>
                     <td>续费提成奖金 </td>
-                    <td>续费业绩(打8折) </td>
+                    <td style="display:none;">续费业绩(打8折) </td>
                     <td>转介绍数量 </td>
                     <td>转介绍金额 </td>
                     <td>转介绍提成 </td>

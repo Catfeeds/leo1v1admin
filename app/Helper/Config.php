@@ -119,7 +119,11 @@ class Config{
         $config=self::get_config("test");
         return  $config["username"];
     }
-    
+
+    static public function check_in_admin_list( $account) {
+        return   in_array( $account , self::get_config("admin_list"));
+    }
+
     static public function get_liyou_public_ip_list() {
         return  self::get_config("liyou_public_ip_list");
     }

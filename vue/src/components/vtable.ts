@@ -29,6 +29,7 @@ import Component from 'vue-class-component'
 export default class vtable extends Vue {
 
   loading_selector=".vue-table";
+  show_all_item_limit_item_count=4;
   data_ex(){
     return {};
   }
@@ -119,12 +120,17 @@ export default class vtable extends Vue {
 
     var $header_query_info= $("#id_header_query_info").admin_header_query ({
       "html_power_list": this.$data.html_power_list,
+      "other_args_func":  this.query_other_args_func ,
+      "show_all_item_limit_item_count" : this.show_all_item_limit_item_count,
     });
 
     this.$header_query_info= $header_query_info ;
     return this.$header_query_info;
 
   }
+  query_other_args_func (){
+  }
+
   check_show(field_name) {
     return this.$data.html_power_list[field_name];
   }
@@ -158,7 +164,9 @@ export default class vtable extends Vue {
     var total_page_count = Math.ceil(total_num / per_page_count);
     var fix_count= 3;
     if ($.check_in_phone() ) {
-      fix_count =0;
+      if(  total_page_count>3 ) {
+        fix_count =0;
+      }
     }
     var show_start_index = cur_page_num - fix_count  ;
     var show_end_index = cur_page_num + fix_count  ;
@@ -171,51 +179,59 @@ export default class vtable extends Vue {
     var $page_info = $('<div class="pages"> </div>');
     //   <a class="page_next "  >&gt;</a>
     $page_info.append("<span>总记录数:" + total_num + "</span>");
-    $page_info.append('<select class="select_page_count" > <option value="10"> 每页10行 </option> <option value="50"> 每页50行 </option> <option value="100"> 每页100行 </option> <option value="500"> 每页500行 </option> <option value="1000"> 每页1000行 </option> <option value="5000"> 每页5000行 </option> </select> <input style="width:50px" placeholder="输入页数" class="input_page_num" >');
+    $page_info.append("<select class=\"select_page_count\" style=\"border: solid 1px #999;appearance: none;-moz-appearance: none;-webkit-appearance: none;background: url('http://ourjs.github.io/static/2015/arrow.png') no-repeat scroll right center transparent;padding-right: 14px;\" > <option value=\"10\"> 每页10行 </option> <option value=\"50\"> 每页50行 </option> <option value=\"100\"> 每页100行 </option> <option value=\"500\"> 每页500行 </option> <option value=\"1000\"> 每页1000行 </option> <option value=\"5000\"> 每页5000行 </option> </select> ");
     $page_info.find(".select_page_count").val(page_info.per_page_count);
-    var pre_page_num = cur_page_num - 1;
-    if (pre_page_num < 1) {
-      pre_page_num = 1;
-    }
-    var next_page_num = cur_page_num + 1;
-    if (next_page_num > total_page_count) {
-      next_page_num = total_page_count;
-    }
-    $page_info.append(' <a class="page_prev" data-page_num="' + pre_page_num + '"   >&lt;</a> ');
-    $page_info.append(' <a class=" page_num" data-page_num="1" >1</a> ');
-    var left_page_num = show_start_index;
-    if (show_start_index > 2) {
-      $page_info.append('<span >...</span>');
-    }
-    else {
-      if (show_start_index < 2) {
-        left_page_num = 2;
+
+    if ( total_page_count >1 ) {
+      $page_info.append( '<input style="width:50px;border-radius: 0; line-height: 1.42857; color: #555; vertical-align: middle; background-color: #FFF; background-image: none; border: 1px solid #CCC; transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; " placeholder="输入页数" class="input_page_num" /> ');
+
+      var pre_page_num = cur_page_num - 1;
+      if (pre_page_num < 1) {
+        pre_page_num = 1;
       }
+      var next_page_num = cur_page_num + 1;
+      if (next_page_num > total_page_count) {
+        next_page_num = total_page_count;
+      }
+      $page_info.append(' <a class="page_prev" data-page_num="' + pre_page_num + '"   >&lt;</a> ');
+      $page_info.append(' <a class=" page_num" data-page_num="1" >1</a> ');
+
+      var left_page_num = show_start_index;
+      if (show_start_index > 2) {
+        $page_info.append('<span >...</span>');
+      }
+      else {
+        if (show_start_index < 2) {
+          left_page_num = 2;
+        }
+      }
+      for (let i = left_page_num; i < cur_page_num; i++) {
+        $page_info.append(' <a class=" page_num" data-page_num="' + i + '" >' + i + ' </a> ');
+      }
+      // 当前页
+      if (cur_page_num != 1 && cur_page_num != total_page_count) {
+        $page_info.append(' <a class=" page_num" data-page_num="' + cur_page_num + '" >' + cur_page_num + ' </a> ');
+      }
+      var right_page_num = show_end_index;
+      if (show_end_index == total_page_count) {
+        right_page_num--;
+      }
+      for (let i = cur_page_num + 1; i <= right_page_num; i++) {
+        $page_info.append(' <a class=" page_num" data-page_num="' + i + '" >' + i + '</a> ');
+      }
+      if (right_page_num < total_page_count - 1) {
+        $page_info.append('<span >...</span>');
+      }
+      if (total_page_count > 1) {
+        $page_info.append(' <a class=" page_num" data-page_num="' + total_page_count + '" >' + total_page_count + '</a> ');
+      }
+      $page_info.append(' <a class="page_next " data-page_num="' + next_page_num + '"     >&gt;</a> ');
     }
-    for (let i = left_page_num; i < cur_page_num; i++) {
-      $page_info.append(' <a class=" page_num" data-page_num="' + i + '" >' + i + ' </a> ');
-    }
-    // 当前页
-    if (cur_page_num != 1 && cur_page_num != total_page_count) {
-      $page_info.append(' <a class=" page_num" data-page_num="' + cur_page_num + '" >' + cur_page_num + ' </a> ');
-    }
-    var right_page_num = show_end_index;
-    if (show_end_index == total_page_count) {
-      right_page_num--;
-    }
-    for (let i = cur_page_num + 1; i <= right_page_num; i++) {
-      $page_info.append(' <a class=" page_num" data-page_num="' + i + '" >' + i + '</a> ');
-    }
-    if (right_page_num < total_page_count - 1) {
-      $page_info.append('<span >...</span>');
-    }
-    if (total_page_count > 1) {
-      $page_info.append(' <a class=" page_num" data-page_num="' + total_page_count + '" >' + total_page_count + '</a> ');
-    }
-    $page_info.append(' <a class="page_next " data-page_num="' + next_page_num + '"     >&gt;</a> ');
     var $table_p = $(".common-table, .vue-table").parent();
     $table_p.find(".pages").remove();
+
     $table_p.append($page_info);
+
     $page_info.find("[data-page_num=" + cur_page_num + "]").addClass("page_cur");
     $page_info.find("a").attr("href", "javascript:;");
     $page_info.find("a").on("click", function (e) {

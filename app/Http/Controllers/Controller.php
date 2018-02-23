@@ -29,11 +29,19 @@ class Controller extends ControllerEx
     use ViewDeal;
     use InputDeal;
 
+
     function __construct()  {
-        if ($this->check_login_flag ) {
-            $this->check_login();
-            $this->set_call_ctl_init();
-        }
+
+        $this->middleware(function ($request, $next) {
+            if ($this->check_login_flag ) {
+                $this->check_login();
+                $this->set_call_ctl_init();
+            }
+            $this->setUpTraits();
+
+            return $next($request);
+        });
+
         $this->setUpTraits();
         //$this->check_approval_require(); // 检测数据页面权限 (仅申请人与研发部可见)
     }
@@ -161,9 +169,9 @@ class Controller extends ControllerEx
                     if ( $server_name== "admin.leo1v1.com" ) {
                         \App\Helper\Utils::logger(" DO admin.leo1v1.com ");
 
-                        header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                        header('Location: http://admin-tongji.leo1v1.com/'. trim($_SERVER["REQUEST_URI"],"/")  );
                     }else{
-                        header('Location: http://p.admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                        header('Location: http://p.admin-tongji.leo1v1.com/'.  trim($_SERVER["REQUEST_URI"],"/")  );
                     }
 
                 }else{
@@ -457,6 +465,7 @@ class Controller extends ControllerEx
             return 0;
         }
     }
+
 
 
 

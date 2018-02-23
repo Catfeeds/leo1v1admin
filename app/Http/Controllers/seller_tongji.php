@@ -25,6 +25,9 @@ class seller_tongji extends Controller
         $day = intval(ceil((time()-$start)/86400)-1);
         $day = $day-2*$day;
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $end_time_new = $end_time;
+        $start_time_new = $start_time;
+
         if($end_time >= time()){
             $end_time = time();
         }
@@ -186,9 +189,9 @@ class seller_tongji extends Controller
                 $become_member_num_l2 = 0;
                 $leave_member_num_l2 = 0;
             }
-            // if(($item['main_type_str'] == '助教') || $item['main_type_str'] == '未定义'){
-            //     unset($ret_info[$key]);
-            // }
+            if(in_array($item['main_type_str'], ['助教','未定义','全部'])){
+                unset($ret_info[$key]);
+            }
             if(isset($item['target_money'])){
                 $item['target_money'] = round($item['target_money']);
             }
@@ -226,9 +229,9 @@ class seller_tongji extends Controller
             $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
         }
         foreach($ret_info as &$item){
-            // if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
-            //     unset($item);
-            // }else{
+            if(in_array($item['main_type_str'], ['助教','未定义','全部'])){
+                unset($item);
+            }else{
                 if($item['level'] == 'l-3'){
                     foreach($member_new as $info){
                         if($item['up_group_name'] == $info['up_group_name']){
@@ -249,11 +252,15 @@ class seller_tongji extends Controller
                         $item['leave_member_num'] = '';
                     }
                 }
-            // }
+            }
         }
 
 
         \App\Helper\Utils::logger("OUTPUT");
+       
+        $test_lesson_succ_all = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_succ_all($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="");
+        $this->set_filed_for_js("test_lesson_succ_all",@$test_lesson_succ_all["dis_succ_all_count"]);
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),
                                [
                                    '_publish_version' => 201712071914

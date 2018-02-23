@@ -46,10 +46,6 @@ class main_page extends Controller
             E\Esms_type::set_item_value_str($item, "type");
         }
         $sys_assign=$this->t_seller_student_system_assign_count_log->get_last_item();
-        $day_system_assign_count = 0;
-        if(Redis::get('day_system_assign_count'))
-            $day_system_assign_count = Redis::get('day_system_assign_count');
-
 
         $sys_info=[
             ["当前IP", $this->get_in_client_ip() ],
@@ -59,7 +55,6 @@ class main_page extends Controller
             ["系统分配例子时间", \App\Helper\Utils::unixtime2date( $sys_assign["logtime"])],
             ["新例子剩余", $sys_assign["new_count"]],
             ["新例子需要", $sys_assign["need_new_count"]],
-            ["新例子配置", $day_system_assign_count],
             ["新例子已分配", $sys_assign["new_count_assigned"]],
 
             ["未联系剩余", $sys_assign["no_connected_count"]],
@@ -1034,7 +1029,6 @@ class main_page extends Controller
             $item["read_xs"] = !empty($item["stu_is_read"])?round($item["lesson_count"]/$item["stu_is_read"]):0;
             $item["lesson_xs"] = round($item["lesson_count"]/$item["user_count"]);
         }
-
         $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_new($start_time,$end_time);
         $all_money_ass = 0;
         foreach($assistant_renew_list as  &$val){

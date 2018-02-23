@@ -1692,7 +1692,6 @@ class human_resource extends Controller
 
         }
         return $this->output_succ(["data"=>$num]);
-
     }
 
     public function set_teacher_lecture_account(){
@@ -2796,7 +2795,8 @@ class human_resource extends Controller
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
         if($status==1){
-            if($teacherid==240314 ){
+            // if($teacherid==240314 || $teacherid==392077){
+            if(1){
                 //新版,发送入职前在线签订入职协议
                 /**
                  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
@@ -2815,7 +2815,7 @@ class human_resource extends Controller
                 $data['keyword2'] = "签订《理优平台老师兼职协议》 ";
                 $data['keyword3'] = date("Y-m-d",time());
                 $data['remark']   = "点击此链接，签订入职协议";
-                $url = "http://wx-teacher.leo1v1.com/wx_teacher_web/jack_test";
+                $url = "http://wx-teacher.leo1v1.com/wx_teacher_web/agreement";
                 $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
                 if($wx_openid){
                     \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);

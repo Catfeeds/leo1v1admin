@@ -441,61 +441,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ass = $this->cache_get_assistant_nick($assistantid=134509);
-        dd($ass);
-        $orderid = $this->t_order_info->get_last_orderid_by_userid($userid=51084);
-        dd($orderid);
-        $common_new = new \App\Http\Controllers\common_ex;
-        $group_adminid_list = $common_new->get_group_adminid_list();
-        dd($group_adminid_list);
-        E\Etmk_student_status::V_3;
-        $account = $this->cache_get_origin_key0($id="初二地理补习0601");
-        dd($account);
-        $manager_info = $this->t_manager_info->field_get_list($adminid=962,'become_member_time,del_flag,leave_member_time');
-        // if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
-        $kpi = 0;
-        if($manager_info["become_member_time"]>0 && ($end_time=1517414400-$manager_info["become_member_time"])<3600*24*60){
-            $kpi = "100%";
-        }
-        dd($kpi);
-        $ret = [];
-        $group_list= $this->t_order_info->get_item_month_list();
-        $uid_list = array_unique(array_column($group_list, 'uid'));
-        foreach($uid_list as $uid){
-            foreach($group_list as $item){
-                if($item['uid'] == $uid){
-                    $ret[$uid]['list'][$item['orderid']]['price'] = $item['price'];
-                    $ret[$uid]['account'] = $item['account'];
-                }
-            }
-        }
-        E\Econtract_from_type::V_11;
-        foreach($ret as $uid=>$item){
-            $ret[$uid]['price'] = array_sum(array_column($item['list'], 'price'));
-        }
-        dd($ret);
-        $group_all_price=0;
-        $group_all_stage_price = 0;
-        $group_all_no_stage_price = 0;
-        if ( count ( $group_list) ==1 ) {
-            $group_all_price          = $group_list[0]["all_price"];
-            $group_all_stage_price    = $group_list[0]["all_stage_price"];
-            $group_all_no_stage_price = $group_list[0]["all_no_stage_price"];
-        }
-        dd($group_all_price);
-        $last_refund_list = $this->t_order_info->get_refund_month_money($account='李丹',$start_time=1512057600,$end_time=1514736000);
-        dd($last_refund_list);
-        $domain = config('admin')['qiniu']['public']['url'];
-        dd($domain);
-        list($start_time,$end_time) = [1514736000,1517414400];
-        //月度报表
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time);
-        dd($test_leeson_list);
-        //渠道统计
-        $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin='origin', $field_name='',$start_time,$end_time);
-        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,1517500800,[],[]];
-        $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
-        return $this->pageView(__METHOD__,null);
+        dd('a');
     }
 
     public function del_detailid(){

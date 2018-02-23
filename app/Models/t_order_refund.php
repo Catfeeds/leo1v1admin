@@ -35,7 +35,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             " select  r.pay_account_admin, r.qc_adminid, r.qc_deal_time, s.assistantid, r.subject, r.teacher_id, r.qc_contact_status, r.qc_advances_status, r.qc_voluntarily_status, r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status,"
             ." f.flow_status_time,f.flowid,r.should_refund,r.price,o.invoice,o.order_time,o.sys_operator,r.pay_account, "
             ." r.real_refund,r.refund_status,r.apply_time,r.refund_userid,o.contractid,r.save_info,r.refund_info,file_url, "
-            ." o.grade,o.need_receipt,r.should_refund_money  "
+            ." o.grade,o.need_receipt,r.should_refund_money,m.name order_operator,mm.name refund_user_name  "
             ." ,if(co.child_order_type=2,1,0) is_staged_flag"
             ." from %s r"
             ." left join %s s on s.userid=r.userid"
@@ -43,6 +43,8 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             ." left join %s f on (f.flow_type=%u and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int) "
             ." left join %s co on (co.parent_orderid = r.orderid and co.child_order_type = 2)"
             ." left join %s a on s.assistantid = a.assistantid "
+            ." left join %s m on o.sys_operator = m.account"
+            ." left join %s mm on mm.uid= refund_userid"
             ." where %s"
             ." order by $opt_date_str desc"
             ,self::DB_TABLE_NAME //r
@@ -52,6 +54,8 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             ,E\Eflow_type::V_ASS_ORDER_REFUND
             ,t_child_order_info::DB_TABLE_NAME
             ,t_assistant_info::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);

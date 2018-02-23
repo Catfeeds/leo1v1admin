@@ -449,6 +449,30 @@ class resource_new extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $tag_five      = $this->get_in_int_val('tag_five', -1);
         $page_info     = $this->get_in_page_info();
+        $adminid       = $this->get_in_int_val("adminid",-1);
+        $reload_adminid = $this->get_in_int_val("reload_adminid",-1);
+        $kpi_adminid   = $this->get_in_int_val("kpi_adminid",-1);
+
+        $status        = $this->get_in_int_val("status",-1);
+        if($adminid > 1){
+            $adminid_phone = $this->t_teacher_info->get_phone($adminid);
+            $adminid = $this->t_manager_info->get_id_by_phone($adminid_phone);  
+        }else{
+            $adminid = -1;
+        }
+        if($reload_adminid > 1){
+            $reload_adminid_phone = $this->t_teacher_info->get_phone($reload_adminid);
+            $reload_adminid = $this->t_manager_info->get_id_by_phone($reload_adminid_phone);  
+        }else{
+            $reload_adminid = -1;
+        }
+        if($kpi_adminid > 1){
+            $kpi_adminid_phone = $this->t_teacher_info->get_phone($kpi_adminid);
+            $kpi_adminid = $this->t_manager_info->get_id_by_phone($kpi_adminid_phone);  
+        }else{
+            $kpi_adminid = -1;
+        }
+
 
         if($use_type == 1){
             $resource_type = ($resource_type<1)?1:$resource_type;
@@ -459,7 +483,7 @@ class resource_new extends Controller
             $resource_type = 8;
         }
         $ret_info = $this->t_resource->get_all_info($use_type ,$resource_type, $subject, $grade, 
-            $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $page_info
+            $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $page_info,$adminid,$reload_adminid,$kpi_adminid,$status
         );
         $r_mark = 0;
         $index  = 1;
@@ -476,6 +500,11 @@ class resource_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
+            // $item['admin_nick'] = $this->t_manager_info->get_teacher_nick($item['adminid']);
+            // $item['reload_adminid_str'] = $this->t_manager_info->get_teacher_nick($item['reload_adminid']);
+            // $item['kpi_adminid_str'] = $this->t_manager_info->get_teacher_nick($item['kpi_adminid']);
+
+            
             $item['admin_nick'] = $this->cache_get_account_nick($item['adminid']);
             $item['reload_adminid_str'] = $this->cache_get_account_nick($item['reload_adminid']);
             $item['kpi_adminid_str'] = $this->cache_get_account_nick($item['kpi_adminid']);
@@ -548,7 +577,7 @@ class resource_new extends Controller
         $is_teacher = 0;
         //dd($ret_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180204111439,
+            '_publish_version'    => 20180202111439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),

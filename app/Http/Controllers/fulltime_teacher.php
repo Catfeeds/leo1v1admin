@@ -29,18 +29,15 @@ class fulltime_teacher extends Controller
             $account_info["create_time"] = $teacher_info["train_through_new_time"];
         }
         //添加全职老师类型
-        $account_info['fulltime_teacher_type'] =$teacher_info['fulltime_teacher_type'];
-        
-        $account_info['post'] =7;
-        $account_info['main_department']=2;
+        $account_info['fulltime_teacher_type'] = $teacher_info['fulltime_teacher_type'];
+        $account_info['post'] = 7;
+        $account_info['main_department'] = 2;
         if((time() - $account_info["create_time"])<55*86400){
-            return $this->error_view(
-                [
-                    "转正考核需在入职55天以后才能提交"
-                ]
-            );
-
+            return $this->error_view([
+                "转正考核需在入职55天以后才能提交"
+            ]);
         }
+
         //获取试用期内月平均课时消耗数和设置评分
         $start_time = $account_info['create_time'];
         $per_start = time()-92*86400;
@@ -367,7 +364,14 @@ class fulltime_teacher extends Controller
             $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);
             $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time, $lesson_end_time);
             $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time, $lesson_end_time);
-            $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+            if(time()>= $start_time){
+                $week_time = time();
+            }else{
+                $week_time = $end_time;
+            }
+            $date_week                         = \App\Helper\Utils::get_week_range($week_time,1);
+
+            //   $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
             $week_start = $date_week["sdate"]-14*86400;
             $week_end = $date_week["sdate"]+21*86400;
             $normal_stu_num1 = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);

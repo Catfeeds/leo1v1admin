@@ -253,6 +253,18 @@ class login extends Controller
 
         $ret_row = $this->t_manager_info->get_info_by_account($account);
 
+        //判断是否为系统分配 销售 且现在例子已被释放
+        // if($ret_row['account_role'] == 2 && $ret_row['seller_student_assign_type'] == 1){
+        //     $start_time = strtotime(date('Y-m-d'));
+        //     $end_time = strtotime('+ 1 day',$start_time);
+        //     $system_assign_count = $this->t_seller_student_system_assign_log->get_cc_assign_count($ret_row['uid'],$start_time, $end_time);
+        //     \App\Helper\Utils::logger("system_assign_count:$system_assign_count");
+        //     if(!$system_assign_count){
+        //         $system_assign = new \App\Console\Commands\seller_student_system_assign();
+        //         $system_assign->do_handle();
+        //     }
+        // }
+
         $_SESSION['login_userid']    = $ret_row["uid"];
         $_SESSION['login_user_role'] = 1;
         $_SESSION['acc']             = $account;
@@ -445,7 +457,7 @@ class login extends Controller
         ]);
 
         $_SESSION = array();
-        Session::clear();
+        Session::flush() ;
 
         $_SESSION['acc']          = $account;
         $_SESSION['adminid']      = $ret_db['id'];
@@ -462,7 +474,7 @@ class login extends Controller
 
         global $_SESSION;
         $_SESSION = array();
-        Session::clear();
+        Session::flush();
 
         if (strpos(@$_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false )  {
             //WX 退出
@@ -478,7 +490,7 @@ class login extends Controller
     {
         global $_SESSION;
         $_SESSION = array();
-        Session::clear();
+        Session::flush() ;
         if (strpos(@$_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false )  {
             //WX 退出
             //\App\Helper\Utils::logger("WX_LOGOUT");

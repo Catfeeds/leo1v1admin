@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 interface GargsStatic {
 	date_type_config:	string;
 	date_type:	number;
@@ -294,3 +295,5 @@ $(function(){
         </div>
 {!!\App\Helper\Utils::th_order_gen([["seller_groupid_ex title", "seller_groupid_ex", "th_seller_groupid_ex" ]])!!}
 */
+=======
+>>>>>>> 8b63ef674c1d12f15aebf73d48050a9765b41ff0

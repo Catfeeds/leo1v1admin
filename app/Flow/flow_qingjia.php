@@ -4,6 +4,9 @@ use \App\Enums as E;
 class flow_qingjia extends flow_base{
 
     static $type= E\Eflow_type::V_QINGJIA;
+    static $node_map=null; // get_flow_class 时同步设置
+    static $node_data=[];
+
 
     static function get_self_info( $from_key_int,  $from_key_str ) {
         $task= static::get_task_controler();
@@ -43,16 +46,38 @@ class flow_qingjia extends flow_base{
 
 
 
-    static function check_qingjia_day (  $flow_info, $self_info , $adminid ) {
+    static function check_qingjia_day ( $args, $flow_info, $self_info , $adminid ) {
         $hour_count=$self_info["hour_count"];
         $day_count=floor($hour_count/8);
-        \App\Helper\Utils::logger("day_count: $day_count");
 
-        if ($day_count>=3) {
+        \App\Helper\Utils::logger("day_count: $day_count");
+        \App\Helper\Utils::logger("args: ". json_encode( $args));
+        //{"check_day_count":"5"}
+
+        if ($day_count>= $args["check_day_count"]) {
             return 2;
         }else{
             return 1;
         }
     }
 
+    //使用新版.
+    static function get_next_node_info($node_type, $flowid, $adminid ) {
+        return static::get_next_node_info_new($node_type, $flowid, $adminid);
+    }
+
+
+    static function get_function_config() {
+        return [
+            E\Eflow_function::V_CHECK_QINGJIA_DAY => [
+                "arg_config" => [
+                    "check_day_count" => [ "desc"=> "指定天数", "type"=>"integer" ],
+                ],
+                "return_config"  => [
+                    "1" => "小于指定天数",
+                    "2" => "大于等于指定天数",
+                ]
+            ]
+        ];
+    }
 }

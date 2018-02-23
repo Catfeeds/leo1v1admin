@@ -111,7 +111,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_resource_type = 0;
         $tmk_student_status   = 0;
         $orderid              = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid" );
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid,admin_revisiterid" );
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
@@ -175,7 +175,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ]);
             }
             if($data_item && ($tmk_student_status<3 || $orderid>0)){
-                $this->check_seller_student($userid,$tmk_student_status,$orderid,$phone,$data_item['tmk_student_status_adminid']);
+                $this->check_seller_student($userid,$tmk_student_status,$orderid,$phone,$data_item['tmk_student_status_adminid'],$data_item['admin_revisiterid']);
             }
             return $userid;
         }
@@ -317,25 +317,40 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $userid;
     }
 
-    public function check_seller_student($userid,$tmk_student_status,$orderid,$phone,$tmk_adminid){
+    public function check_seller_student($userid,$tmk_student_status,$orderid,$phone,$tmk_adminid,$admin_revisiterid){
         if($orderid>0){
             $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
+            $contract_status_desc = E\Econtract_status::get_desc($contract_status);
             if($contract_status>1){//释放
-                $this->set_seller_student_new($userid);
+                $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
+                foreach(['tom','应怡莉','林文彬'] as $account){
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的已签约[".$contract_status_desc."]例子重进待释放:".$phone."=>orderid:".$orderid);
+                }
+                if($admin_revisiterid>0){
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","已签约[".$contract_status_desc."]例子重进:".$phone);
+                }else{
+                    $this->set_seller_student_new($userid);
+                }
             }else{
+                $account_send = $this->task->t_order_info->field_get_value($orderid, 'sys_operator');
                 if($contract_status == 1){//推送,有助教推助教,没助教推cc
                     $assistantid = $this->task->t_student_info->field_get_value($userid, 'assistantid');
-                    $account_send = $assistantid>0?$this->task->cache_get_assistant_nick($assistantid):$this->task->t_order_info->field_get_value($orderid, 'sys_operator');
-                    $this->task->t_manager_info->send_wx_todo_msg($account='林文彬',"来自:系统","已签约[执行中]例子重进:".$phone.",当前负责人:".$account_send);
-                }else{//推送cc
-                    $contract_status_desc = E\Econtract_status::get_desc($contract_status);
-                    $account_send = $this->task->t_order_info->field_get_value($orderid, 'sys_operator');
-                    $this->task->t_manager_info->send_wx_todo_msg($account='林文彬',"来自:系统","已签约[".$contract_status_desc."]例子重进:".$phone.",销售:".$account_send);
+                    $account_send = $assistantid>0?$this->task->cache_get_assistant_nick($assistantid):$account_send;
                 }
+                $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","已签约[".$contract_status_desc."]例子重进:".$phone);
             }
         }else{
             if(in_array($tmk_student_status,[0,2])){//释放
-                $this->set_seller_student_new($userid);
+                $tmk_student_status_desc = E\Etmk_student_status::get_desc($tmk_student_status);
+                $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
+                foreach(['tom','应怡莉','林文彬'] as $account){
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的tmk状态为[".$tmk_student_status_desc."]的例子重进待释放:".$phone);
+                }
+                if($admin_revisiterid>0){
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","tmk状态为[".$tmk_student_status_desc."]的例子重进:".$phone);
+                }else{
+                    $this->set_seller_student_new($userid);
+                }
             }else{
                 if($tmk_student_status == 1){//推送tmk
                     $account_send = $this->task->cache_get_account_nick($tmk_adminid);
@@ -600,7 +615,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             .",aga.nickname "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
-            .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid '
+            .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid and sal.check_hold_flag = 0 '
             ."  left join %s s on ss.userid=s.userid   "
             ." left join %s tr on   t.current_require_id = tr.require_id "
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "
@@ -3820,4 +3835,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_item_seller_list($start_time, $end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            " select n.userid,n.phone,n.add_time,s.origin "
+            ." from %s n "
+            ." left join %s s on s.userid=n.userid "
+            ." where %s order by n.add_time desc "
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
