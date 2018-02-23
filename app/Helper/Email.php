@@ -3,9 +3,9 @@ namespace App\Helper;
 use Illuminate\Support\Facades\Log ;
 use Illuminate\Support\Facades\Redis ;
 use \App\Enums as  E;
+use \PHPMailer\PHPMailer\PHPMailer ;
 
 class Email{
-
     /**
      * 理优教研组
      */
@@ -46,6 +46,19 @@ class Email{
     }
 
     /**
+     * 理优教学管理部
+     */
+    static public function SendMail163($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
+        $Username = "wg392567893@163.com";
+        $Password = "adlovecat123";
+        $From     = "wg392567893@163.com";
+        $FromName = "测试";
+
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        return $ret;
+    }
+
+    /**
      * 发送邮件
      * @param string UserName 邮局用户名
      * @param string Password 邮局密码
@@ -64,16 +77,18 @@ class Email{
         //设定时区东八区
         date_default_timezone_set('Asia/Shanghai');
 
-        $mail = new \PHPMailer();
+        $mail = new PHPMailer();
         //使用SMTP方式发送
         $mail->IsSMTP();
         //设置编码，否则发送中文乱码
-        $mail->CharSet ="UTF-8";
-        $mail->Host = "smtp.leoedu.com";
+        $mail->CharSet = "UTF-8";
+        // $mail->Host = "smtp.leoedu.com";
+        $mail->Host = "smtp.163.com";
 
         // 启用SMTP验证功能
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure="tls";
+        $mail->SMTPAuth   = true;
+        $mail->SMTPSecure = "tls";
+        $mail->Port       = 25;
 
         $mail->Username = $Username;
         $mail->Password = $Password;
@@ -96,11 +111,11 @@ class Email{
 
         //$mail->AddAttachment("/var/tmp/file.tar.gz"); // 添加附件
         //是否使用HTML格式
-        $mail->IsHTML($IsHtml); 
+        $mail->IsHTML($IsHtml);
         $mail->Subject = $Title;
         $mail->Body    = $Message;
         //附加信息，可以省略
-        //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; 
+        //$mail->AltBody = "This is the body in plain text for non-HTML mail clients";
         $ret = $mail->Send();
         if(!$ret) {
             \App\Helper\Utils::logger(" leo_com:email err: ".json_encode($Address)." :$Title  ". $mail->ErrorInfo);
