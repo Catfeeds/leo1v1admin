@@ -478,7 +478,10 @@ class test_code extends Controller
         dd($ret);
     }
 
-
+    public function test_get(){
+        $a = $this->get_in_int_val("a",1);
+        echo $a;
+    }
 
 
 
