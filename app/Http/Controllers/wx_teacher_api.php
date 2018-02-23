@@ -1450,7 +1450,13 @@ class wx_teacher_api extends Controller
      */
 
     public function getUpdateState_tmp(){
+        dd(1);
         $ip = getenv('REMOTE_ADDR');
+        // 记录日志
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "msg"      => $ip
+        ]);
         if($ip == '47.104.104.138'){
             $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
 
