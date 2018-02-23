@@ -223,6 +223,12 @@ function edit_paper(obj,oEvent){
     var edit_index  = $(target).index();
     //console.log(edit_index);
     if(!$(target).hasClass("edit_have")){
+        var answer_length = $(target).parents(".paper_edit").find(".edit_box:eq(0) .edit_answer").length;
+        if( ( edit_index == 2 || edit_index == 3 ) && answer_length == 1 ){
+            BootstrapDialog.alert("请先插入题目！");
+            return false;
+        }
+
         $(target).addClass("edit_have").siblings().removeClass("edit_have");
         $(target).parents(".paper_edit").find(".edit_box").each(function(i,r){
             if(i == edit_index){
@@ -241,4 +247,177 @@ function get_paper_book(obj,oEvent){
     var subject = paper.find('.paper_subject').val();
     var grade = paper.find('.paper_grade').val();
     get_book($('.paper_book'),0,subject,grade);
+}
+
+function add_answer(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var could_add = 1;
+    $(target).parents(".paper_answer").find('.edit_answer:gt(0)').each(function(i){
+        $(this).find("input").each(function(){
+            if($(this).val() == ""){
+                could_add = 0;
+                return false;
+            }
+        });
+    });
+
+    if(could_add == 0 ){
+        BootstrapDialog.alert("请先填写完整，再添加！");
+        return false;
+    }
+    var answer_index = 1;
+    if( $(target).parents(".paper_answer").find('.edit_answer').length>1 ){
+        var pre_index = $(target).parents(".paper_answer").find('.edit_answer:last').find("input:eq(0)").val();
+        answer_index = parseInt(pre_index) + 1;
+    }
+    var answer = $(target).parents(".paper_answer").find('.edit_answer:eq(0)').clone();
+    answer.removeClass("hide");
+    answer.find("input:eq(0)").val(answer_index);
+    $(target).parents("tr").before(answer);
+    
+}
+
+function answer_insert(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+    var could_add = 1;
+    $(target).parents(".paper_answer").find('.edit_answer:gt(0)').each(function(i){
+        $(this).find("input").each(function(){
+            if($(this).val() == ""){
+                could_add = 0;
+                return false;
+            }
+        });
+    });
+
+    if(could_add == 0 ){
+        BootstrapDialog.alert("请先填写完整，再插入！");
+        return false;
+    }
+    var cur_index = $(target).parents("tr").index();
+    var cur_index_no = parseInt($(target).parents("tr").find("input:eq(0)").val());
+    $(target).parents(".paper_answer").find('.edit_answer:gt(' + cur_index + ')').each(function(i){
+        var now_index_no = parseInt( $(this).find("input:first").val());
+        var new_index_no = now_index_no + 1;
+        $(this).find("input:first").val(new_index_no)
+        
+    });
+
+    var answer = $(target).parents(".paper_answer").find('.edit_answer:eq(0)').clone();
+    answer.removeClass("hide");
+    answer.find("input:eq(0)").val(cur_index_no+1);
+    $(target).parents("tr").after(answer);
+
+}
+
+function answer_up(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+    var cur_index = $(target).parents("tr").index();
+    if( cur_index == 1 ){
+        BootstrapDialog.alert("已经是顶部，不能上移！");
+        return false;
+    }
+    var could_move = 1;
+    $(target).parents("tr").find("input").each(function(){
+        if($(this).val() == ""){
+            could_move == 0;
+            return false;
+        };
+    });
+
+    $(target).parents("tr").prev().find("input").each(function(){
+        if($(this).val() == ""){
+            could_move == 0;
+            return false;
+        };
+    });
+
+    if(could_move == 0 ){
+        BootstrapDialog.alert("请将本条目和上一个条目填写完整，再置换顺序！");
+        return false;
+    }
+    var prev_obj = $(target).parents("tr").prev();
+    $(target).parents("tr").after(prev_obj);
+}
+
+function answer_down(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+    var cur_index = $(target).parents("tr").index();
+    var whole_length = $(target).parents(".paper_answer").find('.edit_answer').length;
+    if( cur_index == whole_length - 1 ){
+        BootstrapDialog.alert("已经是底部，不能下移！");
+        return false;
+    }
+    var could_move = 1;
+    $(target).parents("tr").find("input").each(function(){
+        if($(this).val() == ""){
+            could_move == 0;
+            return false;
+        };
+    });
+
+    $(target).parents("tr").next().find("input").each(function(){
+        if($(this).val() == ""){
+            could_move == 0;
+            return false;
+        };
+    });
+
+    if(could_move == 0 ){
+        BootstrapDialog.alert("请将本条目和下一个条目填写完整，再置换顺序！");
+        return false;
+    }
+
+    var next_obj = $(target).parents("tr").next();
+    $(target).parents("tr").before(next_obj);
+    
+}
+
+function answer_dele(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement; 
+    var cur_index = $(target).parents("tr").index();
+    $(target).parents(".paper_answer").find('.edit_answer:gt(' + cur_index + ')').each(function(i){
+        var now_index_no = parseInt( $(this).find("input:first").val());
+        var new_index_no = now_index_no - 1;
+        $(this).find("input:first").val(new_index_no)
+        
+    });
+    $(target).parents("tr").remove();
+}
+
+function add_dimension(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var could_add = 1;
+    $(target).parents(".paper_dimension").find('.edit_dimension:gt(0)').each(function(i){        
+        if($(this).find("input").val() == ""){
+            could_add = 0;
+            return false;
+        }        
+    });
+
+    if(could_add == 0 ){
+        BootstrapDialog.alert("请先填写完整，再添加！");
+        return false;
+    }
+    var answer_index = 1;
+    if( $(target).parents(".paper_dimension").find('.edit_dimension').length > 1 ){
+        var pre_index = $(target).parents(".paper_dimension").find('.edit_dimension:last').find("td:eq(0)").text();
+        answer_index = parseInt(pre_index) + 1;
+    }
+    var answer = $(target).parents(".paper_dimension").find('.edit_dimension:eq(0)').clone();
+    answer.removeClass("hide");
+    answer.find("td:eq(0)").text(answer_index);
+    $(target).parents("tr").before(answer);
+
+}
+
+function dimension_dele(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    $(target).parents("tr").remove();
 }

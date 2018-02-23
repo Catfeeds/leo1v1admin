@@ -95,7 +95,7 @@ class self_manage extends Controller
         $post_adminid    = $this->get_in_int_val("post_adminid",-1);
         $flow_type       = $this->get_in_int_val("flow_type",-1, E\Eflow_type::class );
         $page_info    = $this->get_in_page_info();
-        $page_type= $this->get_in_int_val("page_type");
+        $page_type= $this->get_in_int_val("page_type", -1);
 
         $flow_check_flag = -1;
         $node_type= -1 ;

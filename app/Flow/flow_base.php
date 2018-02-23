@@ -250,7 +250,8 @@ class flow_base{
         \App\Helper\Utils::logger("XX:".json_encode($flow_node_list ));
 
         foreach( $flow_node_list as $id ) {
-            if(is_array(@$node_map[$id]["next_node_list"])){
+            $next_node_list= @$node_map[$id]["next_node_list"];
+            if ($next_node_list) {
                 foreach (@$node_map[$id]["next_node_list"] as $node_info ) {
                     $next_node_id=$node_info["id"];
                     if ($node_map[$next_node_id]["type"] =="notify") { //
