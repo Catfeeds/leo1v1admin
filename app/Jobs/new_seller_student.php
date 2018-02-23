@@ -35,6 +35,8 @@ class new_seller_student extends Job implements ShouldQueue
         $this->origin=$origin;
         $this->subject=$subject;
 
+        \App\Helper\Utils::logger("---例子入口断点2--"); 
+
     }
 
     /**
@@ -44,6 +46,8 @@ class new_seller_student extends Job implements ShouldQueue
      */
     public function handle()
     {
+
+        \App\Helper\Utils::logger("---例子入口断点3--"); 
         $n=new \App\Models\t_seller_student_new_b2();
         $t_personality_poster = new \App\Models\t_personality_poster();
         $t_seller_student_new = new \App\Models\t_seller_student_new();
@@ -74,6 +78,8 @@ class new_seller_student extends Job implements ShouldQueue
             $origin_level = $t_origin_key->field_get_value($this->origin, 'origin_level');
         else
             $origin_level = 0;
+
+        \App\Helper\Utils::logger("---例子入口断点4--"); 
         if(!in_array(@$this->origin, $special_origin) && !in_array($origin_level, $special_origin_level)){
             $is_public = 0;//该用户从未注册
 

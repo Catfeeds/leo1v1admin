@@ -227,6 +227,7 @@ class common_ex extends Controller
         # 获取分享链接打开次数 [市场部活动-分享个性海报]
         $uid = $this->get_in_int_val('uid');
         $posterTag = $this->get_in_int_val('posterTag');
+        \App\Helper\Utils::logger("---例子入口断点1--"); 
 
         dispatch(new \App\Jobs\new_seller_student($userid,$uid,$posterTag,$phone,$origin,$subject));
 
