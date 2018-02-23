@@ -73,9 +73,9 @@ class test_ricky extends Command
 
                     //echo "时长".$lesson_count;
                     $count = $lesson_count / 40;
-                    if ($teacherid == "398239") {
-                        echo $lesson_count." ".$count." ---> ";
-                    }
+                    //if ($teacherid == "398239") {
+                    //    echo $lesson_count." ".$count." ---> ";
+                    //}
                     $total_count += $count;
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
@@ -83,9 +83,9 @@ class test_ricky extends Command
                         $count_106 += $count;
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
-                    } elseif ($val["grade"] == 301 && $val["grade"] == 302) {
+                    } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
-                    } elseif ($val["grade"] == 303) {
+                    } else {
                         $count_303 += $count;
                     }
                 }
@@ -144,7 +144,6 @@ class test_ricky extends Command
                 $tea[$teacherid]["money_sal_".$v] = $money3;
             }
         }
-        exit;
         foreach($tea as $key => $t) {
             echo $key." ";
             if ($tea[$key]["nick"]) {
