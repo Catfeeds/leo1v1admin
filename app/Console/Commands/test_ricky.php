@@ -57,6 +57,12 @@ class test_ricky extends Command
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
+                foreach($data as $val) {
+                    $lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
+                    echo "时长".$lesson_count;
+                    $count = $lesson_count / 40;
+                    echo "课时数".$count;
+                }
                 dd($data);
             }
         }
