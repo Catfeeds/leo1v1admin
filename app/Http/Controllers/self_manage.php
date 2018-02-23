@@ -196,6 +196,7 @@ class self_manage extends Controller
     }
     public function ssh_login() {
         $account = $this->get_account();
+        session(["debug_flag" => true ]);
         if ( \App\Helper\Utils::check_env_is_release() ) {
             $ip="118.190.115.161";
             \App\Helper\Common::redis_set("SSH_LOGIN_TIME_$account",time(NULL));

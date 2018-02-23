@@ -42,6 +42,8 @@ class test_ricky extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         // 老师ID、老师姓名、12月份授课课时数
+        $rules = [[0, 16, 26, 34, 38, 41], [0, 17, 30, 38, 40, 43], [0, 18, 36, 44, 48, 51]];
+        echo $rules[0][1];
         // 查武汉全职老师 select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0;
         $info = $task->t_teacher_info->get_info_for_money_type();
         $month = [12, 1];
