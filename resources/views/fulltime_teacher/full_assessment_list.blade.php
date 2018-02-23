@@ -723,7 +723,7 @@
                     {{@$ret_info["rate_stars_master"]}}星
                 @endif
             </td>
-        </tr>         
+        </tr>
         <tr>
             <td >考评人</td>
             <td >
@@ -737,11 +737,8 @@
                     {{@$ret_info["assess_time_str"]}}
                 @endif
             </td>
-        </tr>         
-
-
+        </tr>
     </table>
-
     @if(empty($positive_info) || (@$positive_info["master_deal_flag"]==2 || @$positive_info["main_master_deal_flag"]==2) || $check_is_late==1)
         <div class="row" >
             <div class="col-xs-12 col-md-12" style="text-align:center;  margin-top:20px">
@@ -749,8 +746,6 @@
             </div>
         </div>
     @endif
-
-    
 </section>
 @endsection
 
