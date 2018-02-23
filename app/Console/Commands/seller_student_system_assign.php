@@ -213,7 +213,7 @@ class seller_student_system_assign extends cmd_base
                                     $opt_type ="" ;
                                     $opt_type=0;
                                     $account="系统分配-未拨通例子";
-                                    $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                                    $this->task->t_seller_student_new->set_admin_id_ex($userid_list,$opt_adminid,$opt_type,$account,$sys_assign_flag=2);
                                     $check_hold_flag = false;
                                     $this->task->t_seller_student_system_assign_log->add(
                                         E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
@@ -365,7 +365,7 @@ class seller_student_system_assign extends cmd_base
         $userid_list=[$userid];
         $opt_type ="" ;
         $opt_type=0;
-        $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $adminid, $opt_type,$account);
+        $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $adminid, $opt_type,$account,$sys_assign_flag=1);
         $check_hold_flag = false;
         $this->task->t_seller_student_system_assign_log->add(
             E\Eseller_student_assign_from_type::V_0, $userid, $adminid,$check_hold_flag

@@ -441,7 +441,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd('a');
+        // $field_list = $this->t_seller_student_new->field_get_list($userid=62793, 'cc_not_exist_count,cc_invalid_count');
+        // $cc_invalid_count = $field_list['cc_invalid_count']+1;
+        dd($this->t_seller_student_new->field_get_value($userid=62793, 'sys_assign_count')+1);
     }
 
     public function del_detailid(){
