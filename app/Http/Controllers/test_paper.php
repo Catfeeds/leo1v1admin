@@ -81,7 +81,7 @@ class test_paper extends Controller
                 $data["paper_id"] = $paper_id;
                 $ret = $this->t_student_test_paper->row_insert($data);
             }
-            return $ret;
+            return $this->output_succ('添加成功');
         }
 
         if( $save_type == 2 && !empty($dimension) ){
@@ -110,7 +110,7 @@ class test_paper extends Controller
 
         if( !empty($data)){
             $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
-            return $ret;
+            return $this->output_succ('添加成功');
         }
 
     }

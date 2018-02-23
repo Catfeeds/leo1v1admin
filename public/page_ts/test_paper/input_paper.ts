@@ -473,4 +473,42 @@ function save_answer(obj,oEvent){
 function save_dimension(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement;
+    var paper_id = $(target).parents('.paper_edit').find('.edit_box:eq(0) .paper_id').val();
+    var cur_obj = $(target).parents('.edit_box');
+    var could_answer = 0;
+    var dimension = [];
+    cur_obj.find("table tbody tr.edit_dimension:gt(0)").each(function(){
+        var item_1 = $(this).find("td:eq(0)").text();
+        var item_2 = $(this).find("td:eq(1) input").val();
+        if( item_1 == "" || item_2 == "" ){
+            could_answer = 0;
+            return false;
+        }
+        var item = [item_1,item_2];
+        dimension.push(item);
+    });
+
+    var data = {
+        'paper_id'   : paper_id,
+        "dimension"  : dimension,
+        'save_type'  : 2,
+    };
+
+    if( could_answer == 1 ){
+        $.ajax({
+            type     : "post",
+            url      : "/test_paper/save_paper_answer",
+            dataType : "json",
+            data : data,
+            success   : function(result){
+                if(result.ret == 0){
+                    BootstrapDialog.alert("保存成功");
+                } else {
+                    alert(result.info);
+                }
+            }
+        });
+
+    }
+
 }
