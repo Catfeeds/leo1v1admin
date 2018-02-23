@@ -77,7 +77,7 @@ trait  InputDeal {
         global $g_request;
         /** @var $g_request Illuminate\Http\Request */
         if ($g_request) {
-            if($g_request->has($field_name)){
+            if($g_request->has($field_name) && $g_request->$field_name !== "" ){
                 $v = (int) $g_request->$field_name;
             }else{
                 $v = $def_value;
