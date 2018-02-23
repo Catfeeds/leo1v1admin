@@ -43,6 +43,7 @@ class Handler extends ExceptionHandler
 
         $server_info=@$_SERVER["SERVER_NAME"].@$_SERVER["SERVER_ADDR"];
         $cmd_info= @join(" ", @$global["argv"]);
+        global  $_SESSION;
 
         $account=@$_SESSION["acc"];
 
@@ -76,6 +77,13 @@ class Handler extends ExceptionHandler
         }
         $list_str=preg_replace("/<br\/>/","\n" ,$bt_str );
         \App\Helper\Utils::logger( "LOG_HANDER:". $e->getMessage()."\n $list_str ");
+
+
+        if ( //true
+            \App\Helper\Utils::check_env_is_release() && !\App\Helper\Config::check_in_admin_list($account)
+        ) {
+            return response()->view('errors.500', [], 500)->send();
+        }
 
         parent::report($e);
     }

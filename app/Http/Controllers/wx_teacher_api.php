@@ -1726,19 +1726,25 @@ class wx_teacher_api extends Controller
     public function set_part_teacher_protocol_result(){
         $teacherid  = $this->get_teacherid_new();
         // $teacherid= 240314 ;
-        $protocol_results    = $this->get_in_int_val("protocol_results");
+  \App\Helper\Utils::logger("teacherid: $teacherid");
+
+        $protocol_results = $this->get_in_int_val("protocol_results");
         $dispute_handle_type = $this->get_in_int_val("dispute_handle_type");
-        $realname            = trim($this->get_in_str_val("realname"));
-        $idcard              = $this->get_in_str_val("idcard");
+        $realname         = trim($this->get_in_str_val("realname"));
+        $idcard           = $this->get_in_str_val("idcard");
+  \App\Helper\Utils::logger("protocol_results: $protocol_results");
+  \App\Helper\Utils::logger("wx_url_new: 111");
+  \App\Helper\Utils::logger("wx_url_new: 222");
+  \App\Helper\Utils::logger("wx_url_new: 333");
 
         if($protocol_results==1){
             if(!$realname){
                 return $this->output_err("请输入正确的名字");
             }
-            // if(strlen($idcard) != 18){
-            //     return $this->output_err("身份证长度不对");
-            // }
-            $this->t_teacher_info->field_update_list($teacherid,[
+            if(strlen($idcard) != 18){
+//                return $this->output_err("身份证长度不对");
+            }
+                        $this->t_teacher_info->field_update_list($teacherid,[
                 "protocol_results"    => $protocol_results,
                 "protocol_time"       => time(),
                 "dispute_handle_type" => $dispute_handle_type,

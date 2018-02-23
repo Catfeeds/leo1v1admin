@@ -41,6 +41,34 @@ class test_ricky extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
 
+        // 老师ID、老师姓名、12月份授课课时数
+        // 查武汉全职老师 select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0;
+        $info = $task->t_teacher_info->get_info_for_money_type();
+        $month = [12, 1];
+        foreach($month as $v) {
+            if ($v == 12) { // 处理12月
+                $start_time = strtotime("2017-12-1");
+                $end_time = strtotime("2018-1-1");
+
+            } else {
+                $start_time = strtotime("2018-1-1");
+                $end_time = strtotime("2018-2-1");
+            }
+            foreach($info as $item) {
+                $teacherid = $item['teacherid'];
+                $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
+                foreach($data as $val) {
+                    $lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
+                    echo "时长".$lesson_count;
+                    $count = $lesson_count / 40;
+                    echo "课时数".$count;
+                }
+                dd($data);
+            }
+        }
+        dd($info);
+        exit;
+
         $start_time = strtotime("2017-7-1");
         $reference = "18831899877";
         $identities = [0,5,6,7,8];
