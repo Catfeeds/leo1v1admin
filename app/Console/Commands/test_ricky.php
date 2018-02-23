@@ -42,8 +42,8 @@ class test_ricky extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         // 老师ID、老师姓名、12月份授课课时数
-        $rules1 = [[16, 17, 18, 20, 28], [0, 17, 30, 38, 40, 43], [0, 18, 36, 44, 48, 51], [0, 20, 39, 49, 50, 53], [0, 28, 46, 54, 58, 61]];
-        $rules2 = [[0, 18, 26, 30, 36, 38, 41], [0, 22, 28, 33, 38, 40, 43], [0, 28, 36, 40, 46, 48, 51], [0, 32, 39, 43, 48, 50, 53], [0, 38, 46, 50, 55, 58, 61]];
+        $rules1 = [[16, 17, 18, 20, 28], [26, 30, 36, 39, 46], [34, 38, 44, 49, 54], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
+        $rules2 = [[18, 22, 28, 32, 38], [26, 28, 36, 39, 46], [30, 33, 40, 43, 50], [36, 38, 46, 48, 55], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
         // 查武汉全职老师 select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0;
         $info = $task->t_teacher_info->get_info_for_money_type();
         $month = [12, 1];
@@ -70,7 +70,6 @@ class test_ricky extends Command
                     echo "时长".$lesson_count;
                     $count = $lesson_count / 40;
                     $total_count += $count;
-                    echo "总课时数".$total_count;
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
                     } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
@@ -83,6 +82,7 @@ class test_ricky extends Command
                         $count_303 += $count;
                     }
                 }
+                echo "总课时数".$total_count;
                 // 处理年级课时数
                 if ($total_count <= 30) {
                     $money = 0;
