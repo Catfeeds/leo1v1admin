@@ -46,6 +46,7 @@ class test_ricky extends Command
         $rules2 = [[18, 22, 28, 32, 38], [26, 28, 36, 39, 46], [30, 33, 40, 43, 50], [36, 38, 46, 48, 55], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
         // 查武汉全职老师 select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0;
         $info = $task->t_teacher_info->get_info_for_money_type();
+        $tea = [];
         $month = [12, 1];
         foreach($month as $v) {
             if ($v == 12) { // 处理12月
@@ -58,6 +59,7 @@ class test_ricky extends Command
             }
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
+                $tea[$teacherid]["nick"] = $item["realname"];
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
                 $count_101 = 0; // 101 -105
                 $count_106 = 0; // 106, 201 202
@@ -82,30 +84,53 @@ class test_ricky extends Command
                         $count_303 += $count;
                     }
                 }
+                $tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
                 echo "总课时数".$total_count;
                 // 处理年级课时数
                 if ($total_count <= 30) {
-                    $money = 0;
+                    $money1 = 0;
+                    $money2 = 0;
                 } elseif ($total_count >= 31 && $total_count <= 60) {
-                    var_dump($rules1[1]);
-                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
+                    $coef1 = $rules1[0];
+                    $coef2 = $rules2[0];
+                    var_dump($rules1[0]);
+                    $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
+                    $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
                 } elseif ($total_count >= 61 && $total_count <= 120) {
-                    var_dump($rules1[2]);
-                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
+                    $coef1 = $rules1[1];
+                    var_dump($rules1[1]);
+                    $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
+                    if ($total_count <= 90) {
+                        $coef2 = $rules2[1];
+                    } else {
+                        $coef2 = $rules2[2];
+                    }
+                    $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
                 } elseif ($total_count >= 121 && $total_count <= 150) {
-                    var_dump($rules1[3]);
-                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
+                    $coef1 = $rules1[2];
+                    $coef2 = $rules2[3];
+                    var_dump($rules1[2]);
+                    $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
+                    $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
                 } elseif ($total_count >= 151 && $total_count <= 195) {
-                    var_dump($rules1[4]);
-                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
+                    $coef1 = $rules1[3];
+                    $coef2 = $rules2[4];
+                    var_dump($rules1[3]);
+                    $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
+                    $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
                 } else {
-                    var_dump($rules1[5]);
-                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
+                    $coef1 = $rules1[4];
+                    $coef2 = $rules2[5];
+                    var_dump($rules1[4]);
+                    $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
+                    $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
                 }
-                echo $money;
+                $tea[$teacherid]['money_'.$v] = $money1;
+                $tea[$teacherid]['money_minny_'.$v] = $money2;
+                dd($tea);
                 exit;
-                dd($data);
             }
+
         }
         dd($info);
         exit;
