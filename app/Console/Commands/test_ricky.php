@@ -91,12 +91,16 @@ class test_ricky extends Command
                     $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
                 } elseif ($total_count >= 61 && $total_count <= 120) {
                     var_dump($rules1[2]);
+                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
                 } elseif ($total_count >= 121 && $total_count <= 150) {
                     var_dump($rules1[3]);
+                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
                 } elseif ($total_count >= 151 && $total_count <= 195) {
                     var_dump($rules1[4]);
+                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
                 } else {
                     var_dump($rules1[5]);
+                    $money = $count_101 * $rules1[1][1] + $count_106 * $rules1[1][2];
                 }
                 echo $money;
                 exit;
