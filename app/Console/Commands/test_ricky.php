@@ -136,8 +136,8 @@ class test_ricky extends Command
             //dd($tea);
             foreach($tea as $key => $t) {
                 echo $key." ";
-                if ($tea[$key]["realname"]) {
-                    echo $tea[$key]["realname"]." ";
+                if ($tea[$key]["nick"]) {
+                    echo $tea[$key]["nick"]." ";
                 } else {
                     echo $task->cache_get_teacher_nick($key).' ';
                 }
