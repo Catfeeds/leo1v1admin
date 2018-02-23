@@ -3879,7 +3879,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["lesson_start < %u", $end_time, -1],
             ["teacherid=%u", $teacherid, -1],
             "confirm_flag != 2",
-            "lesson_type in (0,1,3)"
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag=0"
         ];
         $sql = $this->gen_sql_new("select lesson_start,lesson_end,grade from %s where %s",
                                   self::DB_TABLE_NAME,
