@@ -43,6 +43,7 @@ class Handler extends ExceptionHandler
 
         $server_info=@$_SERVER["SERVER_NAME"].@$_SERVER["SERVER_ADDR"];
         $cmd_info= @join(" ", @$global["argv"]);
+        global  $_SESSION;
 
         $account=@$_SESSION["acc"];
 
@@ -76,6 +77,15 @@ class Handler extends ExceptionHandler
         }
         $list_str=preg_replace("/<br\/>/","\n" ,$bt_str );
         \App\Helper\Utils::logger( "LOG_HANDER:". $e->getMessage()."\n $list_str ");
+        
+        if ($e instanceof ModelNotFoundException) {
+            $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        if($e instanceof \Symfony\Component\Debug\Exception\FatalErrorException
+           &&! \App\Helper\Config::check_in_admin_list($account)  ) {
+            return response("500 :系统出错");
+        }
 
         parent::report($e);
     }
