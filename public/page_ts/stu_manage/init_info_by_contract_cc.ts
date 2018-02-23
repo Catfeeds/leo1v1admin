@@ -100,7 +100,6 @@ $(function(){
                 if(result.ret == 0){
                     $('#id_submit_succ').remove();
                 }
-
             });
         }
 

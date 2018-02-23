@@ -1413,7 +1413,7 @@ class wx_teacher_api extends Controller
         foreach($tag_lib_arr_two as $v){
             $tag_list[] = $v['tag_name'];
         }
-        $tea_label_arr = array_intersect($tag_list,$tag_arr);
+        $tea_label_arr = @array_intersect($tag_list,$tag_arr);
         $tea_label_type_str = "";
         foreach($tea_label_arr as $v){
             $tea_label_type_str.=$v." ";
@@ -1427,15 +1427,17 @@ class wx_teacher_api extends Controller
     /**
      * @需求 ppt => h5
      * @使用 此接口为微演示服务商调用, 返回ppt转化状态
+     * @状态码 0:代表转化成功 1:代表转化失败
      */
     public function getConversionStatus(){
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
-        if($status == 1){
-            $status = 0;
-        }else{
-            $status = 1;
-        }
+        // if($status == 1){
+        //     $status = 0;
+        // }else{
+        //     $status = 1;
+        // }
+        $status +=1;
 
         $this->t_deal_ppt_to_h5->updateStatusByUuid($uuid,$status);
         return $this->output_succ();

@@ -1010,23 +1010,23 @@ class ajax_deal3 extends Controller
             ];
         }
 
-        $id = $this->t_invalid_num_confirm->checkHas($userid);
-        if($id>0){
-            $this->t_invalid_num_confirm->field_update_list($id, $set_field_arr);
-        }else{
+        if($account_type == 1){
             $this->t_invalid_num_confirm->row_insert([
                 "userid"          => $userid,
                 "cc_adminid"      => $this->get_account_id(),
                 "cc_confirm_time" => time(),
                 "cc_confirm_type" => $confirm_type
             ]);
+            // 更新例子表中的cc标记次数
+        }else{
+            $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
         }
         # 进入tmk库
         # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
         if($account_type == 1){
             /*
             $hasSignNum = $this->t_invalid_num_confirm->getHasSignNum($userid);
-            if($confirm_type == 1001 && $hasSignNum == 3){
+            if($confirm_type == 1001 || $hasSignNum == 3){
                 $this->t_seller_student_new->field_update_list($userid, [
                     'tmk_student_status' => 2
                 ]);
@@ -1046,7 +1046,6 @@ class ajax_deal3 extends Controller
                 $this->t_seller_student_new->field_update_list($userid,$arr);
             }
         }
-
         return $this->output_succ();
     }
 
@@ -1057,6 +1056,32 @@ class ajax_deal3 extends Controller
 
         $is_sign = $this->t_invalid_num_confirm->checkHasSign($userid,$adminid);
         return $this->output_succ(['is_sign'=>1]);
+    }
+
+    # qc页面获取录音数据
+    public function qc_get_audio(){
+        $userid = $this->get_in_int_val('userid');
+
+        $ret_info = $this->t_tq_call_info->getAllAudioList($userid);
+        $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("leoAa123456" )."seed1")."&seed=seed1"  ;
+        $now=time(NULL);
+
+        dd($ret_info);
+        foreach(@$ret_info as &$item){
+            $record_url= $item["record_url"] ;
+            if ($now-$item["start_time"] >1*86400 && (preg_match("/saas.yxjcloud.com/", $record_url  )|| preg_match("/121.196.236.95/", $record_url  ) ) ){
+                $item["load_wav_self_flag"]=1;
+            }else{
+                $item["load_wav_self_flag"]=0;
+            }
+            if (preg_match("/api.clink.cn/", $record_url ) ) {
+                $item["record_url"].=$clink_args;
+            }
+
+            E\Eaccount_role::set_item_value_str($item);
+        }
+
+        return $this->output_succ(['data'=>$ret_info]);
     }
 
 }
