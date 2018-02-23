@@ -60,29 +60,6 @@ $(function(){
         get_book($('.paper_book'),bookid,subject,grade);
     }
        
-    
-    //预览讲义
-    $('.opt-look').click(function(){
-        var id = $(this).data('file_id');
-        console.log(id);
-        var newTab=window.open('about:blank');
-        do_ajax('/resource/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
-            console.log(ret);
-            if(ret.ret == 0){
-                $('.look-pdf').show();
-                $('.look-pdf-son').mousedown(function(e){
-                    if(e.which == 3){
-                        return false;
-                    }
-                });
-                console.log(ret.url);
-                newTab.location.href = ret.url;
-            } else {
-                BootstrapDialog.alert(ret.info);
-            }
-        });
-    })
-
     var opt_look = function(data_obj){
         var id = data_obj.data('file_id');
         var newTab=window.open('about:blank');
@@ -128,59 +105,55 @@ $(function(){
         });
     };
 
-    var add_multi_file = function (data){
-        $.ajax({
-            type     : "post",
-            url      : "/resource/add_multi_file",
-            dataType : "json",
-            data : data,
-            success   : function(result){
-                if(result.ret == 0){
-                    window.onbeforeunload=function(){};
-                    //window.location.reload();
-                } else {
-                    alert(result.info);
+    $('.opt-change').set_input_change_event(load_data);
+
+    //添加试卷
+    $('.add_new_paper').on('click',function(){
+        var paper = $(".paper_edit").clone();
+        paper.removeClass("hide");
+        var dlg= BootstrapDialog.show({
+            title: "添加试卷",
+            message : paper,
+            buttons: [{
+                label: '返回',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        dlg.getModalDialog().css("width", "1030px");
+    })
+
+    //编辑试卷
+    $('.opt-edit').onclick('click',function(){
+        var opt_data = $(this).parents('tr').get_self_opt_data();
+        var paper_id = opt_data.paper_id;
+ 
+        do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
+            console.log(ret);
+            if(ret.ret == 0){
+                if( ret.status == 200 ){
+                    var paper = $(".paper_edit").clone();
+                    paper.removeClass("hide");
+
+                    var dlg= BootstrapDialog.show({
+                        title: "添加试卷",
+                        message : paper,
+                        buttons: [{
+                            label: '返回',
+                            cssClass: 'btn-warning',
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    dlg.getModalDialog().css("width", "1030px");
                 }
             }
         });
-    };
 
-    var do_del = function(){
-        var res_id_list = [],file_id_list = [];
-        $('.opt-select-item').each(function(){
-            if( $(this).iCheckValue()){
-                res_id_list.push( $(this).data('id') );
-                file_id_list.push( $(this).data('file_id') );
-            }
-        });
-
-        if(res_id_list.length == 0) {
-            BootstrapDialog.alert('请先选择文件！');
-        } else {
-
-            var res_id_info  = JSON.stringify(res_id_list);
-            var file_id_info = JSON.stringify(file_id_list);
-            if( confirm('若删除，则会同时删除与之相关联的其他文件,确定要删除？') ){
-                $.ajax({
-                    type    : "post",
-                    url     : "/resource/del_or_restore_resource",
-                    dataType: "json",
-                    data    : {
-                        "type"        : 3,
-                        "res_id_str"  : res_id_info,
-                        "file_id_str" : file_id_info,
-                    },
-                    success : function(result){
-                        if(result.ret == 0){
-                            window.location.reload();
-                        }
-                    }
-                });
-            };
-        }
-    };
-
-    $('.opt-change').set_input_change_event(load_data);
+    })
 });
 
 var get_book = function(obj,bookid,subject,grade){
@@ -420,4 +393,84 @@ function dimension_dele(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement;
     $(target).parents("tr").remove();
+}
+
+function save_answer(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var cur_obj = $(target).parents('.edit_box');
+    var paper_id = cur_obj.find(".paper_id").val();
+    var paper_name = cur_obj.find(".paper_name").val();
+    var subject = cur_obj.find(".paper_subject").val();
+    var grade = cur_obj.find(".paper_grade").val();
+    var volume = cur_obj.find(".paper_volume").val();
+    var book = cur_obj.find(".paper_book").val();
+    
+    var answer = [];
+    var could_save = 1;
+    var could_answer = 1;
+    cur_obj.find("table tbody tr.edit_answer:gt(0)").each(function(){
+        var item_1 = $(this).find("input:eq(0)").val();
+        var item_2 = $(this).find("input:eq(1)").val();
+        var item_3 = $(this).find("input:eq(2)").val();
+        var item_4 = $(this).find("input:eq(3)").val();
+        if( item_1 == "" || item_2 == "" || item_3 == "" || item_4 == "" ){
+            could_answer = 0;
+            return false;
+        }
+        var item = [item_1,item_2,item_3,item_4];
+        answer.push(item);
+    });
+
+    if( paper_id == "" || paper_name == "" ){
+        BootstrapDialog.alert("试卷id，试卷名字填写完整");
+        could_save == 0;
+        return false;
+    }
+    
+    if( subject == -1 || grade == -1 || volume == -1 || book == -1){
+        BootstrapDialog.alert("年级，科目，上下册，教材填写完整");
+        could_save == 0;
+        return false;
+    }
+
+    if( could_answer == 0){
+        BootstrapDialog.alert("将题目信息填写完整");
+        return false;
+    }
+
+    var data = {
+        'paper_id'   : paper_id,
+        'paper_name' : paper_name,
+        'subject'    : subject,
+        'grade'      : grade,
+        'volume'     : volume,
+        'book'       : book,
+        'answer'     : answer,
+        'save_type'  : 1,
+    };
+
+    console.log(data);
+
+    if( could_answer == 1 && could_save == 1){
+        $.ajax({
+            type     : "post",
+            url      : "/test_paper/save_paper_answer",
+            dataType : "json",
+            data : data,
+            success   : function(result){
+                if(result.ret == 0){
+                    BootstrapDialog.alert("保存成功");
+                } else {
+                    alert(result.info);
+                }
+            }
+        });
+
+    }
+}
+
+function save_dimension(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
 }
