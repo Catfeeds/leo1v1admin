@@ -155,7 +155,7 @@ class test_ricky extends Command
             echo $tea[$key]["count_301_12"]." ".$tea[$key]["count_303_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["count_101_1"]." ";
             echo $tea[$key]["count_106_1"]." ".$tea[$key]["count_203_1"]." ".$tea[$key]["count_301_1"]." ".$tea[$key]["count_303_1"].' ';
             echo $tea[$key]["money_sal_12"]." ".$tea[$key]["money_sal_1"]." ";
-            echo $tea[$key]["money_12"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
+            echo $tea[$key]["money_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
         }
 
         //dd($info);
