@@ -27,7 +27,7 @@
                     <div id="id_date_range"> </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <span class="input-group-addon">评测ID</span>
                         <input class="form-control opt-change" id="id_paper"> </select>
@@ -51,21 +51,21 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">上下册</span>
-                        <select class="form-control opt-change" id="id_tag_one"> </select>
+                        <select class="form-control opt-change" id="id_volume"> </select>
                     </div>
                 </div>
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">教材版本</span>
-                        <select class="form-control opt-change" id="id_tag_two"> </select>
+                        <select class="form-control opt-change" id="id_book"> </select>
                     </div>
                 </div>
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">录入状态</span>
-                        <select class="form-control opt-change" id="id_tag_three"> </select>
+                        <select class="form-control opt-change" id="id_input"> </select>
                     </div>
                 </div>
 
@@ -97,112 +97,17 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
-                        <td style="max-width:200px">{{@$var["file_title"]}} </td>
-                        <td>报错人:{{@$var['error_nick']}} <br/>
-                            报错时间:{{@$var['add_time']}}
-                        </td>
-                        @if( @$var['etype'] == 9)
-
-                        @else
-                            <td>一级:{{@$var['error_type_str']}}<br/>
-                                二级:{{@$var['sub_error_type_str']}}
-                            </td>
-                        @endif
-
-                        @if( @$var['etype'] == 9)
-
-                        @else
-                            <td style="max-width:200px">
-                                {{@$var['detail_error']}}<br/>
-                                @if(@$var['picture_one'] != '')
-                                    <a href="{{@$var['picture_one']}}" target="_blank">图片1</a>
-                                @endif
-                                @if(@$var['picture_two'] != '')
-                                    <a href="{{@$var['picture_two']}}" target="_blank">图片2</a>
-                                @endif
-                                @if(@$var['picture_three'] != '')
-                                    <a href="{{@$var['picture_three']}}" target="_blank">图片3</a>
-                                @endif
-                                @if(@$var['picture_four'] != '')
-                                    <a href="{{@$var['picture_five']}}" target="_blank">图片4</a>
-                                @endif
-                                    @if(@$var['picture_five'] != '')
-                                    <a href="{{@$var['picture_five']}}" target="_blank">图片5</a>
-                                @endif
-                            </td>
-                        @endif
-
-                        <td>资源类型:{{@$var['resource_type_str']}}<br/>
-                            科目:{{@$var['subject_str']}}<br/>
-                            年级:{{@$var['grade_str']}}<br/>
-                            @if ($var['tag_one_name'] != '')
-                                {{ @$var['tag_one_name']}}:{{@$var['tag_one_str']}}<br/>
-                            @endif
-
-                            @if ($var['tag_two_name'] != '')
-                                {{@$var['tag_two_name']}}:{{@$var['tag_two_str']}}<br/>
-                            @endif
-                            @if ($var['tag_three_name'] != '')
-                                {{@$var['tag_three_name']}}:{{@$var['tag_three_str']}}<br/>
-                            @endif
-                            @if ($var['tag_four_name'] != '')
-                                {{@$var['tag_four_name']}}:{{@$var['tag_four_str']}}<br/>
-                            @endif
-                            @if ($var['tag_five_name'] != '')
-                                {{@$var['tag_five_name']}}:{{@$var['tag_five_str']}}<br/>
-                            @endif
-                        </td>
-
-                        <td>上传者:{{@$var['nick']}}<br/>
-                            上传时间:{{@$var['c_time']}}<br/>
-
-                        </td>
-
-                        <td class="file_status">
-                            @if(@$var['estatus'] == 0)
-                                <span style="color:#e81616">未处理</span>
-                            @elseif(@$var['estatus'] == 1)
-                                <span style="color:#e81616">待修改</span>
-                            @elseif(@$var['estatus'] == 2)
-                                <span style="color:#2c8404">已修改</span>
-                            @elseif(@$var['estatus'] == 3)
-                                <span style="color:#e81616">初审驳回</span>
-                            @elseif(@$var['estatus'] == 4)
-                                <span style="color:#e81616">复审驳回</span>
-                            @endif
-                        </td>
+                        <td>{{@$var["paper_id"]}} </td>
+                        <td>{{@$var["subject"]}} </td>
+                        <td>{{@$var["grade"]}} </td>
+                        <td>{{@$var["volume"]}} </td>
+                        <td>{{@$var["book"]}} </td>
+                        <td>{{@$var['operator']}}</td>
+                        <td>{{@$var['modify_time']}}</td>
+                        <td>{{@$var['use_number']}}</td>
                         <td style="max-width:150px">
-                            <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
-                            @if(@$var['estatus'] == 0)
-                                <a class="opt-agree btn color-blue" title="预览">同意修改</a>
-                            @else
-                                <span style="color:#2d2828">已同意</span>
-                            @endif
-
-                            @if(@$var['estatus'] == 0)
-                                <a class="opt-upload btn color-blue hide" title="上传">上传</a>
-                            @elseif(@$var['estatus'] == 1)
-                                <a class="opt-upload btn color-blue" data-id="{{$var['eid']}}" title="上传">上传</a>
-                            @else
-                                <a class="opt-upload btn color-blue" data-id="{{$var['eid']}}" title="重传">重传</a>
-                            @endif
-
-                            @if($var['estatus'] == 3 && $var['estatus'] != 4)
-                                <span style="color:#e81616">初审已驳回</span>
-                            @endif
-
-                            @if($var['estatus'] != 3 && $var['estatus'] != 4)
-                                <a class="opt-first-look btn color-blue" title="初审驳回">初审驳回</a>
-                            @endif
-
-                            @if(@$var['estatus'] == 4)
-                                <span style="color:#e81616">初审已驳回</span>
-                                <span style="color:#e81616">复审已驳回</span>
-                            @else
-                                <a class="opt-sec-look btn color-blue"  title="复审驳回">复审驳回</a>
-                            @endif
-
-                            <a class="opt-error"></a>
+                            <a class="opt-edit btn color-blue"  title="编辑">编辑</a>
+                            <a class="opt-dele btn color-blue" title="删除">删除</a>          
                         </td>
                     </tr>
                 @endforeach

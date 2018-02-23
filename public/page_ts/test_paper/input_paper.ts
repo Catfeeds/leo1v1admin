@@ -33,30 +33,19 @@ $(function(){
 
     $('#id_use_type').val(g_args.paper_id);
 
-    Enum_map.append_option_list("subject", $("#id_subject"),true,[1,2,3,4,5,6,7,8,9,10,11]);
-    Enum_map.append_option_list("grade", $("#id_grade"),true, [101,102,103,104,105,106,201,202,203,301,302,303]);
+    Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
+    Enum_map.append_option_list("grade", $("#id_grade"),false, [101,102,103,104,105,106,201,202,203,301,302,303]);
     Enum_map.append_option_list("resource_volume", $("#id_volume"));
 
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
     $('#id_volume').val(g_args.volume);    
 
-    if(tag_four != ''){
-        Enum_map.append_option_list(tag_four, $("#id_tag_four"));
-    } else {
-        if( parseInt(g_args.subject) < 0 || parseInt(g_args.grade) < 0 ){
-            $("#id_book").append('<option value="-1">先选择科目和年级</option>');
-        }else{         
-            get_book(g_args.book,$("#id_book"));
-        }
-    }
-   
-    var get_book = function(bookid,obj){
-
-        var resource_type = $('.resource').val();
-        var subject = $('.subject').val();
-        var grade = $('.grade').val();
-
+    if( parseInt(g_args.subject) < 0 || parseInt(g_args.grade) < 0 ){
+        $("#id_book").append('<option value="-1">先选择科目和年级</option>');
+    }else{         
+        var obj = $("#id_book");
+        var bookid = g_args.book;
         $.ajax({
             type     : "post",
             url      : "/resource/get_resource_type_js",
@@ -68,11 +57,9 @@ $(function(){
             } ,
             success   : function(result){
                 if(result.ret == 0){
-                    obj.empty();
-                    obj.next('p').remove();
                     var agree_book = result.book;
                     if(agree_book.length == 0) {
-                        obj.after('<p style="color:red;">该资源类型、科目、年级下暂无开放的教材版本!</p>');
+                        obj.html('<option value="-1">该科目、年级下暂无开放的教材版本!</option>');
                     } else {
                         //console.log(bookid);
                         Enum_map.append_option_list("region_version",obj,true,agree_book);
@@ -87,8 +74,10 @@ $(function(){
                 }
             }
         });
-    }
 
+    }
+       
+   
     //预览讲义
     $('.opt-look').click(function(){
         var id = $(this).data('file_id');
@@ -209,6 +198,4 @@ $(function(){
     };
 
     $('.opt-change').set_input_change_event(load_data);
-
-
 });
