@@ -5049,4 +5049,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_info_for_money_type() {
+        $sql = "select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0";
+        return $this->main_get_list($sql);
+    }
+
 }

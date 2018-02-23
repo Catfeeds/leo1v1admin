@@ -25,7 +25,7 @@ class test_paper extends Controller
         $ret_info = [];
        
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180223101439,
+            '_publish_version'    => 20180223131439,
         ]);
     } 
 

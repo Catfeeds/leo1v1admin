@@ -73,7 +73,7 @@
                     <td >科目</td>
                     <td >是否有pad</td>
                     <td >负责人</td>
-                    <td >联系负责人</td>
+                    <td style="display:none;">联系负责人</td>
                     <td style="min-width:130px" >操作</td>
                 </tr>
             </thead>
@@ -123,7 +123,6 @@
                         </td>
 
                         <td>
-                        <td>
                             {{$var["grade_str"]}} <br/>
                         </td>
 
@@ -139,7 +138,8 @@
                             {{$var["sub_assign_admin_2_nick"]}} / {{$var["admin_revisiter_nick"]}}
                             <br/>
                         </td>
-
+                        <td>
+                        </td>
 
                         <td>
                             <div
