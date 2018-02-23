@@ -39,6 +39,22 @@ class t_invalid_num_confirm extends \App\Models\Zgen\z_t_invalid_num_confirm
         return $this->main_get_value($sql);
     }
 
+    public function get_row_by_adminid($adminid,$confirm_type){
+        $where_arr = [];
+        if($confirm_type==E\Eseller_student_sub_status::V_1001){
+            $this->where_arr_add_int_field($where_arr, 'cc_confirm_type', $confirm_type);
+        }elseif($confirm_type>1001){
+            $where_arr[] = "cc_confirm_type>1001";
+        }
+        $this->where_arr_add_int_field($where_arr, 'cc_adminid', $adminid);
+        $sql = $this->gen_sql_new(" select cc_confirm_type "
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
 

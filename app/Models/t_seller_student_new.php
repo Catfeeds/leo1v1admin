@@ -1233,14 +1233,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     //@param:$userid_list 分配用户
     //@param:$opt_adminid cc id
     //@param:$opt_type 0
-    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type ,$account="system") {
+    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type ,$account="system",$sys_assign_flag=0) {
         if ( count($userid_list) ==0 ) {
             return false;
         }
         //分配例子
         $this->set_admin_info(
             $opt_type, $userid_list,  $opt_adminid,0 );
-
+        //系统分配统计
+        if($sys_assign_flag>0 && $opt_adminid>0){
+            foreach($userid_list as $userid){
+                $this->field_update_list($userid, ['sys_assign_count'=>$this->field_get_value($userid, 'sys_assign_count')+1]);
+            }
+        }
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
 
         foreach ( $userid_list as $userid ) {

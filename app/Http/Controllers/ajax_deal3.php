@@ -1021,15 +1021,29 @@ class ajax_deal3 extends Controller
                 "cc_confirm_type" => $confirm_type
             ]);
         }
-
         # 进入tmk库
         # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
         if($account_type == 1){
+            /*
             $hasSignNum = $this->t_invalid_num_confirm->getHasSignNum($userid);
             if($confirm_type == 1001 && $hasSignNum == 3){
                 $this->t_seller_student_new->field_update_list($userid, [
                     'tmk_student_status' => 2
                 ]);
+            }
+            */
+            $adminid = $this->get_account_id();
+            $cc_confirm_type = $this->t_invalid_num_confirm->get_row_by_adminid($adminid,$confirm_type);
+            $field_list = $this->t_seller_student_new->field_get_list($userid, 'cc_not_exist_count,cc_invalid_count');
+            if($cc_confirm_type==0 && $confirm_type>0){
+                if($confirm_type == E\Eseller_student_sub_status::V_1001){
+                    $arr['cc_not_exist_count'] = $field_list['cc_not_exist_count']+1;
+                }elseif($confirm_type>1001){
+                    $arr['cc_invalid_count'] = $field_list['cc_invalid_count']+1;
+                }
+            }
+            if(count($arr)>0){
+                $this->t_seller_student_new->field_update_list($userid,$arr);
             }
         }
 
