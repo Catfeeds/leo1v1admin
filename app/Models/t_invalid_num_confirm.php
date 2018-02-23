@@ -74,7 +74,6 @@ class t_invalid_num_confirm extends \App\Models\Zgen\z_t_invalid_num_confirm
         return $this->main_get_list($sql);
     }
 
->>>>>>> 905a6c393637048f0771616d96f7e05b3ca6abac
 }
 
 
