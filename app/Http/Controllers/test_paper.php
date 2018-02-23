@@ -114,4 +114,15 @@ class test_paper extends Controller
         }
 
     }
+
+    public function get_paper(){
+        $paper_id  = trim($this->get_in_int_val('paper_id'));
+        $paper = $this->t_student_test_paper->get_paper($paper_id);
+      
+        if($paper){
+            return $this->output_succ(["paper"=>$paper,'stauts'=>200]);
+        }else{
+            return $this->output_succ(['stauts'=>201]);
+        }
+    }
 }

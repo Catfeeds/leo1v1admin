@@ -759,6 +759,7 @@ class NewRouteConfig {
         "/resource/add_book_resource"                    =>true,
         "/test_paper/input_paper"                        =>true,
         "/test_paper/save_paper_answer"                  =>true,
+        "/test_paper/get_paper"                          =>true,
     ];
 
     static $dev_url_map = [

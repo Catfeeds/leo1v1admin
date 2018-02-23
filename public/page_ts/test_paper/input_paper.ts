@@ -138,7 +138,7 @@ $(function(){
                     paper.removeClass("hide");
 
                     var dlg= BootstrapDialog.show({
-                        title: "添加试卷",
+                        title: "编辑试卷",
                         message : paper,
                         buttons: [{
                             label: '返回',
@@ -148,6 +148,9 @@ $(function(){
                             }
                         }]
                     });
+                    var info = ret.paper;
+
+
                     dlg.getModalDialog().css("width", "1030px");
                 }
             }
