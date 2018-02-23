@@ -79,9 +79,10 @@ class Handler extends ExceptionHandler
         \App\Helper\Utils::logger( "LOG_HANDER:". $e->getMessage()."\n $list_str ");
 
 
-        if( \App\Helper\Utils::check_env_is_release() && !\App\Helper\Config::check_in_admin_list($account)   ) {
-            response("500 :系统出错")->send();
-            exit;
+        if ( //true
+            \App\Helper\Utils::check_env_is_release() && !\App\Helper\Config::check_in_admin_list($account)
+        ) {
+            return response()->view('errors.500', [], 500)->send();
         }
 
         parent::report($e);
