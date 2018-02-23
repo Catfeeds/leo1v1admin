@@ -86,9 +86,10 @@ class test_ricky extends Command
                     }
                 }
                 $tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
-                echo "总课时数".$total_count;
-                echo $val['level'];
-                exit;
+                //echo "总课时数".$total_count;
+                //echo $item['level'];
+                $coef3 = $rules3[$item["level"]];
+                $money3 = $count_101 * $coef3[0] + $count_106 * $coef3[1] + ($count_203 + $count_301) * $coef3[2] + $count_303 * $coef3[3];
                 // 处理年级课时数
                 if ($total_count <= 30) {
                     $money1 = 0;
@@ -130,6 +131,7 @@ class test_ricky extends Command
                 }
                 $tea[$teacherid]['money_'.$v] = $money1;
                 $tea[$teacherid]['money_minny_'.$v] = $money2;
+                $tea[$teacherid]["money_sal"] = $money3;
             }
             dd($tea);
             foreach($tea as $key => $t) {
@@ -139,12 +141,12 @@ class test_ricky extends Command
                 } else {
                     echo $task->cache_get_teacher_nick($key).' ';
                 }
-                echo $tea[$key]["total_count_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["money_12"]." ".$tea[$key]["money_minny_12"];
-                echo $tea[$key]["money_1"]." ".$tea[$key]["money_minny_1"];
+                echo $tea[$key]["total_count_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["money_sal_12"]." ".$tea[$teacherid]["money_sal_1"]." ";
+                echo $tea[$key]["money_12"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
             }
 
         }
-        dd($info);
+        //dd($info);
         exit;
 
         $start_time = strtotime("2017-7-1");
