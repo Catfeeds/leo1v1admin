@@ -70,8 +70,12 @@ class test_ricky extends Command
                 $total_count = 0; // 总课时
                 foreach($data as $val) {
                     $lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
+
                     //echo "时长".$lesson_count;
                     $count = $lesson_count / 40;
+                    //if ($teacherid == "398239") {
+                    //    echo $lesson_count." ".$count." ---> ";
+                    //}
                     $total_count += $count;
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
@@ -79,13 +83,19 @@ class test_ricky extends Command
                         $count_106 += $count;
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
-                    } elseif ($val["grade"] == 301 && $val["grade"] == 302) {
+                    } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
-                    } elseif ($val["grade"] == 303) {
+                    } else {
                         $count_303 += $count;
                     }
                 }
-                $tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
+                //$tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
+                $tea[$teacherid]["total_count_".$v] = $total_count;
+                $tea[$teacherid]["count_101_".$v] = $count_101;
+                $tea[$teacherid]["count_106_".$v] = $count_106;
+                $tea[$teacherid]["count_203_".$v] = $count_203;
+                $tea[$teacherid]["count_301_".$v] = $count_301;
+                $tea[$teacherid]["count_303_".$v] = $count_303;
                 //echo "总课时数".$total_count;
                 //echo $item['level'];
                 $coef3 = $rules3[$item["level"]];
@@ -134,7 +144,6 @@ class test_ricky extends Command
                 $tea[$teacherid]["money_sal_".$v] = $money3;
             }
         }
-        
         foreach($tea as $key => $t) {
             echo $key." ";
             if ($tea[$key]["nick"]) {
@@ -142,8 +151,11 @@ class test_ricky extends Command
             } else {
                 echo $task->cache_get_teacher_nick($key).' ';
             }
-            echo $tea[$key]["total_count_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["money_sal_12"]." ".$tea[$key]["money_sal_1"]." ";
-            echo $tea[$key]["money_12"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
+            echo $tea[$key]["total_count_12"]." ".$tea[$key]["count_101_12"]." ".$tea[$key]["count_106_12"]." ".$tea[$key]["count_203_12"]." ";
+            echo $tea[$key]["count_301_12"]." ".$tea[$key]["count_303_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["count_101_1"]." ";
+            echo $tea[$key]["count_106_1"]." ".$tea[$key]["count_203_1"]." ".$tea[$key]["count_301_1"]." ".$tea[$key]["count_303_1"].' ';
+            echo $tea[$key]["money_sal_12"]." ".$tea[$key]["money_sal_1"]." ";
+            echo $tea[$key]["money_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
         }
 
         //dd($info);
