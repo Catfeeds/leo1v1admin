@@ -41,6 +41,12 @@ class test_ricky extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
 
+        // 老师ID、老师姓名、12月份授课课时数
+        // 查武汉全职老师 select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0;
+        $info = $task->t_teacher_info->get_info_for_money_type();
+        dd($info);
+        exit;
+
         $start_time = strtotime("2017-7-1");
         $reference = "18831899877";
         $identities = [0,5,6,7,8];

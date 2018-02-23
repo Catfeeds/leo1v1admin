@@ -123,7 +123,6 @@
                         </td>
 
                         <td>
-                        <td>
                             {{$var["grade_str"]}} <br/>
                         </td>
 
