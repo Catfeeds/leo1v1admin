@@ -87,7 +87,15 @@ class test_ricky extends Command
                 if ($total_count <= 30) {
                     $money = 0;
                 } elseif ($total_count >= 31 && $total_count <= 60) {
-                    echo $rules1[1];
+                    var_dump($rules1[1]);
+                } elseif ($total_count >= 61 && $total_count <= 120) {
+                    var_dump($rules1[2]);
+                } elseif ($total_count >= 121 && $total_count <= 150) {
+                    var_dump($rules1[3]);
+                } elseif ($total_count >= 151 && $total_count <= 195) {
+                    var_dump($rules1[4]);
+                } else {
+                    var_dump($rules1[5]);
                 }
                 dd($data);
             }
