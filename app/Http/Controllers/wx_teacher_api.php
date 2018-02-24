@@ -1472,6 +1472,7 @@ class wx_teacher_api extends Controller
             $cmd_sed = "sed -i 's/module.exports = /\/\/module.exports =/' ".$unzipFilePath.'canvg.js';
             shell_exec($cmd_sed);
 
+            // 对修改后的文件打包
             $cmd_zip = "cd $unzipFilePath; zip -r /tmp/pptfile_new.zip ./*";
             shell_exec($cmd_zip);
 
