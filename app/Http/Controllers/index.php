@@ -128,6 +128,7 @@ class index extends Controller
     public function index(){
         global $_SESSION;
         global $_SERVER;
+        \App\Helper\Utils::logger("首页登录断点host:".@$_SERVER["HTTP_HOST"]);
 
         if ( @$_SERVER["HTTP_HOST"] == "wx-teacher.leo1v1.com" ) {
             return $this->wx_teacher_index();
