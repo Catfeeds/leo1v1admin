@@ -431,12 +431,14 @@ class seller_student_new extends Controller
                 }else{
                     $first_time = $item['first_contact_time'];
                 }
+                $item['assign_type'] = '系统分配';
             }else{
                 if($item['last_revisit_time']>$item['admin_assign_time'] && $item['last_edit_time']>$item['admin_assign_time']){
                     $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
                 }else{
                     $first_time = $item['admin_assign_time'];
                 }
+                $item['assign_type'] = '抢单';
             }
             $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
             $item['left_time'] = $left_time;
@@ -470,6 +472,9 @@ class seller_student_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "parent_confirm_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "last_revisit_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "last_edit_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "first_contact_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "seller_require_change_time");
