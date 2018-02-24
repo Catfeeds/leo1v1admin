@@ -140,13 +140,15 @@ class test_paper extends Controller
             if($dimension){
                 $old_dimension = json_decode($dimension,true);
                 $old_dimension[$dimension_id] = $bind;
-                if(count($bind) == 0){
-                    unset($old_dimension[$dimension_id]);
+                foreach( $old_dimension as $k => $v){
+                    if($v == ""){
+                        unset($old_dimension[$k]);
+                    }
                 }
                 ksort($old_dimension);
                 $data = ['question_bind'=>json_encode($old_dimension)];
             }
-            if( !empty($data) && !empty($bind)){
+            if( !empty($data) ){
                 $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
                 return $this->output_succ(['status'=>200]);
             }
