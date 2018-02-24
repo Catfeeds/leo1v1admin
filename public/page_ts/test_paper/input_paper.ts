@@ -597,9 +597,42 @@ function get_dimension(dimension,oEvent){
 }
 
 function dimension_pub_bind(dimension,obj){
+    var paper_id = obj.parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+   
     if(parseInt(dimension) != 0){
         obj.find(".dimension_box").addClass("hide");
         obj.find(".dimension_bind").removeClass("hide");
+        do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
+            if( ret.ret == 0 && ret.status == 200){
+                var answer_arr = ret.paper.answer;
+                var dimension_arr = ret.paper.dimension;
+                var bind_arr = ret.paper.question_bind;
+                var have_bind = [];
+                var have_dimension_name = "";
+                if( dimension_arr != "" ){
+                    var dimension_str = $.parseJSON(dimension_arr);
+                    for(var x in dimension_str){
+                        if( parseInt(dimension_str[x][0]) == parseInt(dimension)){
+                            have_dimension_name = dimension_str[x][1];
+                            continue;
+                        }
+                    }
+                }
+
+                if( answer_arr != ""){
+                    var answer_str = $.parseJSON(answer_arr);
+                    obj.find(".dimension_answer:gt(0)").remove();
+                    for(var x in answer_str){
+                        var answer_tr = obj.find(".dimension_answer:first").clone().removeClass("hide");
+                        answer_tr.find("td:eq(0) input").attr({"id":answer_str[x][0]});
+                        answer_tr.find("td:eq(1)").text(answer_str[x][1]);
+                        answer_tr.find("td:eq(2)").html("<span class='hide'>"+have_dimension_name+"</span>");
+                        obj.find(".dimension_answer:last").after(answer_tr);
+                    }
+                }
+            }
+        });
+
     }else{
         obj.find(".dimension_box").removeClass("hide");
         obj.find(".dimension_bind").addClass("hide");
@@ -607,3 +640,33 @@ function dimension_pub_bind(dimension,obj){
     }
 }
 
+function click_dimension(oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var hasChk = $(target).is(':checked');
+    if(hasChk){
+        $(target).parents("tr").find("td:eq(2) span").removeClass("hide");
+    }else{
+        $(target).parents("tr").find("td:eq(2) span").addClass("hide");
+    }
+}
+
+function save_bind(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var paper_id = obj.parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var cur_obj = $(target).parents('.edit_box');
+    var could_save = 1;
+    var item = [];
+    var dimension_id = $(cur_obj).find(".dimension_item").val();
+    cur_obj.find("table tbody tr.dimension_answer:gt(0)").each(function(){
+        var checked_obj = $(this).find("td:eq(0) input");
+        if( checked_obj.is(':checked') ){
+            item.push(checked_obj.attr("id"));
+        }
+    });
+    if( item.length <= 1){
+        BootstrapDialog.alert("请勾选保存的题目");
+        return false;
+    }
+}
