@@ -478,8 +478,52 @@ class test extends Controller
         return $this->pageView( __METHOD__,$ret_info);
 
     }
+    public function mail() {
+        \App\Helper\Common::send_mail_leo_com("xcwenn@qq.com", "test", "xxx");
+
+        return;
+
+
+        $transport = new \Swift_SmtpTransport('smtp.leoedu.com', 25, 'tls');
+        // Create the Mailer using your created Transport
+        $transport->setUsername('jim@leoedu.com')
+             ->setPassword('xcwen142857');
+
+        $mailer = new \Swift_Mailer($transport);
+        $message = new \Swift_Message('Wonderful Subject');
+        $message
+             ->setFrom(['jim@leoedu.com' => 'JIM'])
+             ->setTo(['xcwenn@qq.com' ])
+             ->setBody('Here is the message itself');
+
+        $ret=$mailer->send($message);
+        dd($ret);
+    }
+
     public function ff() {
-        dd($_SERVER);
+        $transport = new \Swift_SmtpTransport('smtp.163.com', 25, 'tls');
+        // Create the Mailer using your created Transport
+        $transport->setUsername('wg392567893@163.com')
+             ->setPassword('adlovecat123');
+
+        $mailer = new \Swift_Mailer($transport);
+        $message = new \Swift_Message('Wonderful Subject');
+        $message
+             ->setFrom(['wg392567893@163.com' => 'XXLLL '])
+             ->setTo(['xcwenn@qq.com' ])
+             ->setBody('Here is the message itself');
+
+        $ret=$mailer->send($message);
+        dd($ret);
+        //\App\Helper\Email::SendMail163($Address, $Title, $Message);
+        /*
+          $Username = "wg392567893@163.com";
+          $Password = "adlovecat123";
+          $From     = "wg392567893@163.com";
+          $FromName = "理优教学管理部";
+          $MailHost = "smtp.163.com";
+        */
+
     }
 
 

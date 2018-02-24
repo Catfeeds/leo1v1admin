@@ -1626,6 +1626,7 @@ class ss_deal2 extends Controller
             "new_demand_flag"   =>1,
             "class_num"   =>$class_num,
             "subject_score"   =>$subject_score,
+            "last_edit_time"   =>time(),
         ];
         if ($db_tt_item["seller_student_status"] != $seller_student_status && $ss_item["seller_resource_type"] ==0 ) {
             $ss_arr["first_seller_status"]=$seller_student_status;

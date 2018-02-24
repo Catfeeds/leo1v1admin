@@ -321,12 +321,12 @@
                         <tr>
                             <th>维度</th>
                             <th>已绑定的题目</th>
-                            <th>绑定的题目</th>
+                            <th>绑定的维度</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="dimension_answer">
-                            <td><input type="checkbox" class="have_bind"></td>
+                        <tr class="dimension_answer hide">
+                            <td><input type="checkbox" class="have_bind" onclick="click_dimension(event)"></td>
                             <td></td>
                             <td></td>
                         </tr>

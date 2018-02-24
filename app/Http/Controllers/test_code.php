@@ -491,6 +491,15 @@ class test_code extends Controller
         dd($ret);
     }
 
-
+    public function test_error_email(){
+        $title = "测试报错";
+        $message = "测试报错信息";
+        $data = [
+            "title"   => $title,
+            "message" => $message,
+        ];
+        $url = "http://admin.leo1v1.com/common_new/send_error_email_for_api";
+        \App\Helper\Net::send_post_data($url,$data);
+    }
 
 }
