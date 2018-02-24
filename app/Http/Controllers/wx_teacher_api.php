@@ -1429,7 +1429,7 @@ class wx_teacher_api extends Controller
      * @使用 此接口为微演示服务商调用, 返回ppt转化状态
      * @状态码 0:代表转化成功 1:代表转化失败
      */
-    public function getConversionStatus(){
+    public function getConversionStatus_11(){
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
         // if($status == 1){
@@ -1448,7 +1448,7 @@ class wx_teacher_api extends Controller
      * @ 微演示ip 47.104.104.138
      * @ 返回状态码 1:正确的IP 0:错误的IP
      */
-    public function getUpdateState_tmp(){
+    public function getUpdateState(){
         $ip = getenv('REMOTE_ADDR');
         // 记录日志
         $this->t_user_log->row_insert([
@@ -1457,7 +1457,8 @@ class wx_teacher_api extends Controller
             "user_log_type" => E\Euser_log_type::V_6
         ]);
         \App\Helper\Utils::logger("ppt_to_h5_log: $ip");
-        if($ip == '47.104.104.138'){
+        if($ip == '101.81.227.245'){
+            // if($ip == '47.104.104.138'){
 
             $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
 
