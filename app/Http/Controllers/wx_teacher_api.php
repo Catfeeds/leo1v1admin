@@ -1457,13 +1457,16 @@ class wx_teacher_api extends Controller
             "user_log_type" => E\Euser_log_type::V_6
         ]);
         \App\Helper\Utils::logger("ppt_to_h5_log: $ip");
-        // if($ip == '47.104.104.138'){
-        if($ip == '101.81.224.61'){
+        if($ip == '47.104.104.138'){
 
             $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
 
             $saveH5FilePath = "/tmp/pptToH5Zip.rar";
             $unzipFilePath  = "/tmp/pptToH5File/"; // 解压后的文件夹
+            if(!file_exists($unzipFilePath)){
+                $cmd_mkdir = "mkdir $unzipFilePath";
+                shell_exec($cmd_mkdir);
+            }
 
             $data=@file_get_contents($fileUrl);
             file_put_contents($saveH5FilePath, $data);
