@@ -40,10 +40,7 @@ class test_ricky extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-        $power = new \App\Http\Controllers\teacher_money();
-        $info = $power->get_teacher_lesson_money_list(285211 , strtotime("2017-12-1"), strtotime("2018-1-1"));
-        dd($info);
-
+        $money = new \App\Http\Controllers\teacher_money();
 
         // 老师ID、老师姓名、12月份授课课时数
         $rules1 = [[16, 17, 18, 20, 28], [26, 30, 36, 39, 46], [34, 38, 44, 49, 54], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
@@ -62,6 +59,7 @@ class test_ricky extends Command
                 $start_time = strtotime("2018-1-1");
                 $end_time = strtotime("2018-2-1");
             }
+            $info = [285211];
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
                 $tea[$teacherid]["nick"] = $item["realname"];
@@ -72,6 +70,7 @@ class test_ricky extends Command
                 $count_301 = 0; // 301 302
                 $count_303 = 0; // 303
                 $total_count = 0; // 总课时
+                $money3 = 0;
                 foreach($data as $val) {
                     //$lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
 
@@ -82,17 +81,29 @@ class test_ricky extends Command
                     //    echo $lesson_count." ".$count." ---> ";
                     //}
                     $total_count += $count;
+                    $coef3 = $rules3[$item["level"]];
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
+                        $money3 += $count_101 * $coef3[0];
                     } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
                         $count_106 += $count;
+                        $money3 += $count_106 * $coef3[1];
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
+                        $money3 += $count_203 * $coef3[2];
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
+                        $money3 += $count_301 * $coef3[2];
                     } else {
                         $count_303 += $count;
+                        $money3 += $count_303 * $coef3[3];
                     }
+                    $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["teacher_type"], $val["level"]);
+                    $reward = $money->get_lesson_reward_money(
+                        0, $total_count, $val['teacher_money_type'], $val['teacher_type'], $type
+                    );
+
+                    $money3 += $reward;
                 }
                 //$tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
                 $tea[$teacherid]["total_count_".$v] = $total_count;
