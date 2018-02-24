@@ -370,6 +370,7 @@
         <table class="common-table">
             <thead>
                 <tr>
+                    <td>剩余时间</td>
                     <td >电话</td>
                     <td >渠道</td>
                     <td style="min-width:140px;">个人信息</td>
@@ -411,6 +412,9 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td >
+                            {{$var["left_time_desc"]}}
+                        </td>
                         <td  class="td-phone">
                             <div class="phone-data">
                                 @if($var["seller_student_assign_from_type"])
