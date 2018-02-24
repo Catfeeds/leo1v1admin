@@ -96,6 +96,7 @@ interface RowData {
 	has_pad	:any;
 	last_revisit_time	:any;
 	last_revisit_msg	:any;
+	global_tq_called_flag	:any;
 	tq_called_flag	:any;
 	next_revisit_time	:any;
 	lesson_start	:any;

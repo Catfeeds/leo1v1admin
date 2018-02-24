@@ -3946,8 +3946,6 @@ function init_edit() {
                             return;
                         }
 
-
-
                         var region = html_node.find("#province_new_two").find("option:selected").text();
                         var province = html_node.find("#province_new_two").val();
                         var city = html_node.find("#city_new_two").find("option:selected").text();
@@ -4216,7 +4214,6 @@ function init_edit() {
                                 html_node.find("#id_stu_request_test_lesson_time").attr('style','');
                             }
                         }
-
                         $.do_ajax("/ss_deal2/save_user_info_new",{
                             save   : 2,
                             new_demand_flag   : 1,
@@ -4277,7 +4274,6 @@ function init_edit() {
                             stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
                             user_desc     : id_user_desc.val(),
                         },function(){
-
                             if(!opt_data.parent_wx_openid && g_args.account_role != 12 && g_args.jack_flag !=349 && g_args.jack_flag !=99
                                && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186
                                && g_args.jack_flag!=944

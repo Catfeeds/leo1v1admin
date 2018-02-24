@@ -19,6 +19,7 @@ interface RowData {
 	money_3	:any;
 	money_4	:any;
 	money_5	:any;
+	money_6	:any;
 }
 
 /*

@@ -84,21 +84,21 @@ class test_ricky extends Command
                     $total_count += $count;
                     $coef3 = $rules3[$val["level"]];
                     //　处理奥数
-                    if ($val['competition_flag'] == 1 && $val["grade"] <= 106) {
-                        if ($val["grade"] <= 106) {
+                    if ($val['competition_flag'] == 1) {
+                        if (intval($val["grade"]) <= 106) {
                             $money3 += $count * ($coef3[2] + $reward);
                         } else {
                             $money3 += $count * ($coef3[3] + $reward);
                         }
                     }
 
-                    if ($val["grade"] >= 101 && $val["grade"] <= 105) {
+                    if (intval($val["grade"]) >= 101 && intval($val["grade"]) <= 105) {
                         $count_101 += $count;
                         if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[0] + $reward);
-                    } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
+                    } elseif (intval($val["grade"]) >= 106 && intval($val["grade"]) <= 202) {
                         $count_106 += $count;
                         if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[1] + $reward);
-                    } elseif ($val["grade"] == 203) {
+                    } elseif (intval($val["grade"]) == 203) {
                         $count_203 += $count;
                         if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[2] + $reward);
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
