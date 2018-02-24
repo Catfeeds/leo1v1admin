@@ -81,7 +81,7 @@ class test_ricky extends Command
                     //    echo $lesson_count." ".$count." ---> ";
                     //}
                     $total_count += $count;
-                    $coef3 = $rules3[$item["level"]];
+                    $coef3 = $rules3[$val["level"]];
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
                         $money3 += $count_101 * $coef3[0];
@@ -114,8 +114,8 @@ class test_ricky extends Command
                 $tea[$teacherid]["count_303_".$v] = $count_303;
                 //echo "总课时数".$total_count;
                 //echo $item['level'];
-                $coef3 = $rules3[$item["level"]];
-                $money3 = $count_101 * $coef3[0] + $count_106 * $coef3[1] + ($count_203 + $count_301) * $coef3[2] + $count_303 * $coef3[3];
+                //$coef3 = $rules3[$item["level"]];
+                //$money3 = $count_101 * $coef3[0] + $count_106 * $coef3[1] + ($count_203 + $count_301) * $coef3[2] + $count_303 * $coef3[3];
                 // 处理年级课时数
                 if ($total_count <= 30) {
                     $money1 = 0;
