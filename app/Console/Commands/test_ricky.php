@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use \App\Enums as E;
+use App\Controller\TeaPower;
 
 class test_ricky extends Command
 {
@@ -40,6 +41,10 @@ class test_ricky extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
+        $power = new TeaPower;
+        $info = $power->get_teacher_lesson_money_list(285211 , strtotime("2017-12-1"), strtotime("2018-1-1"));
+        dd($info);
+
 
         // 老师ID、老师姓名、12月份授课课时数
         $rules1 = [[16, 17, 18, 20, 28], [26, 30, 36, 39, 46], [34, 38, 44, 49, 54], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
