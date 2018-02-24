@@ -105,7 +105,10 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
     public function handle_url($burl) {
         $url = $burl;
         // 测试 http://self.admin.leo1v1.com/user_deal/reload_account_power 控制器中可以直接把数据打印到此页面用于测试
-        $curr_host = $_SERVER['HTTP_HOST']; // 当前域名
+        if(\App\Helper\Utils::check_env_is_testing())
+            $curr_host = 'http://self.admin.leo1v1.com';
+        else
+           $curr_host = $_SERVER['HTTP_HOST']; // 当前域名
         $http_curr_host = "http://".$curr_host;
 
         // 1. 处理以前数据库中的短地址 /controller/action
