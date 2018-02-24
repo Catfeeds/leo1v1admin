@@ -492,11 +492,13 @@ class test_code extends Controller
     }
 
     public function test_error_email(){
+        $title = "测试报错";
+        $message = "测试报错信息";
         $data = [
             "title"   => $title,
             "message" => $message,
         ];
-        $url = "http://p.admin.leo1v1.com/common/send_error_email_for_api";
+        $url = "http://admin.leo1v1.com/common_new/send_error_email_for_api";
         \App\Helper\Net::send_post_data($url,$data);
     }
 

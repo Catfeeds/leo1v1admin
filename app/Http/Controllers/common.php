@@ -2298,17 +2298,5 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $this->output_succ(['data'=>$list]);
     }
 
-    /**
-     * API部分报错发送
-     */
-    public function send_error_email_for_api(){
-        $title   = $this->get_in_str_val("title");
-        $message = $this->get_in_str_val("message");
-
-        dispatch( new \App\Jobs\send_error_mail(
-            "", $title,$message, E\Ereport_error_from_type::V_2
-        ));
-
-    }
 
 }
