@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use \App\Enums as E;
-use App\Controller\TeaPower;
 
 class test_ricky extends Command
 {
@@ -41,7 +40,7 @@ class test_ricky extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-        $power = new TeaPower;
+        $power = new \App\Http\Controllers\TeaPower;
         $info = $power->get_teacher_lesson_money_list(285211 , strtotime("2017-12-1"), strtotime("2018-1-1"));
         dd($info);
 
