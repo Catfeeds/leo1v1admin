@@ -1006,8 +1006,4 @@ class teacher_money extends Controller
         $this->set_teacher_all_lesson_money_list($teacherid, $start_time, $end_time);
     }
 
-    public function get_teacher_lesson_money_list($teacherid , $start_time, $end_time) {
-        return $this->get_teacher_lesson_money_list($teacherid , $start_time, $end_time);
-    }
-
 }

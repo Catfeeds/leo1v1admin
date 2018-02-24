@@ -221,7 +221,7 @@ class common extends Controller
         $this->t_seller_student_info->add_or_add_to_sub($name,$phone,0,$origin,0,0,0,0);
         $this->t_seller_student_new->book_free_lesson_new($name,$phone,0,$origin,0,0);
 
-        if ($ret ) {
+        if($ret){
             return outputjson_success();
         }else{
             return outputjson_error("发送失败");
@@ -2297,4 +2297,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         return $this->output_succ(['data'=>$list]);
     }
+
+
 }

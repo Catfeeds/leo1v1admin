@@ -163,10 +163,10 @@ $(function(){
                         var answer_arr = $.parseJSON(answer);
                         for(var x in answer_arr){
                             var answer_tr = paper.find(".edit_answer:first").clone().removeClass("hide");
-                            answer_tr.find("input:eq(0)").val(answer_arr[x][0]);
-                            answer_tr.find("input:eq(1)").val(answer_arr[x][1]);
-                            answer_tr.find("input:eq(2)").val(answer_arr[x][2]);
-                            answer_tr.find("input:eq(3)").val(answer_arr[x][3]);
+                            answer_tr.find("input:eq(0)").val(x);
+                            answer_tr.find("input:eq(1)").val(answer_arr[x][0]);
+                            answer_tr.find("input:eq(2)").val(answer_arr[x][1]);
+                            answer_tr.find("input:eq(3)").val(answer_arr[x][2]);
                             paper.find(".paper_answer tbody tr.edit_answer:last").after(answer_tr);
                         }
                     }
@@ -176,8 +176,8 @@ $(function(){
                         var dimension_arr = $.parseJSON(info.dimension);
                         for(var x in dimension_arr){
                             var dimension_tr = paper.find(".edit_dimension:first").clone().removeClass("hide");
-                            dimension_tr.find("td:eq(0)").text(dimension_arr[x][0]);
-                            dimension_tr.find("td:eq(1) input").val(dimension_arr[x][1]);
+                            dimension_tr.find("td:eq(0)").text(x);
+                            dimension_tr.find("td:eq(1) input").val(dimension_arr[x]);
                             paper.find(".paper_dimension tbody tr.edit_dimension:last").after(dimension_tr);
                         }
                     }
@@ -235,27 +235,29 @@ function edit_paper(obj,oEvent){
             return false;
         }
 
+        var paper_id = $(target).parents('.paper_edit').find('.edit_box:eq(0) .paper_id').val();
+        
         //绑定题目
         if( edit_index == 2 ){
-            var paper_id = $(target).parents('.paper_edit').find('.edit_box:eq(0) .paper_id').val();
-            do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
-                if(ret.ret == 0 && ret.status == 200 && ret.paper.answer != "" && ret.paper.dimension != ""){
-                    var answer_arr = $.parseJSON(ret.paper.answer);
-                    var dimension_arr = $.parseJSON(ret.paper.dimension);
-                    var option_str = "<option value='0'>全部</option>";
-                    
-                    for(var x in dimension_arr){
-                        option_str += "<option value='"+dimension_arr[x][0]+"'>"+dimension_arr[x][1]+"</option>";
+            dimension_pub_bind(0,$(target).parents(".paper_edit").find(".edit_box:eq(2)") );
+        }
 
-                        var dimension_var = $(target).parents(".paper_edit").find(".edit_box:eq(2) .dimension_var:first").clone().removeClass("hide");
-                        dimension_var.find("td:eq(0)").text(dimension_arr[x][1]);
-                        dimension_var.find("td:eq(2)").attr({"dimension":dimension_arr[x][0]});
-                        $(target).parents(".paper_edit").find(".edit_box:eq(2) .dimension_var:last").after(dimension_var);
+        //绑定维度结果建议
+        if( edit_index == 3 ){
+            do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
+                if( ret.ret == 0 && ret.status == 200){
+                    console.log(1);
+                    //维度名称
+                    if( ret.paper.dimension != ''){
+                        var dimension_arr = $.parseJSON(ret.paper.dimension);
+                        for(var x in dimension_arr){
+                            var dimension_tr = $(target).parents(".paper_edit").find(".edit_box:eq(3) .suggestion_info tbody tr.suggest_item:first").clone().removeClass("hide");
+                            dimension_tr.find("td:eq(0)").text(x);
+                            dimension_tr.find("td:eq(1)").text(dimension_arr[x]);
+                            $(target).parents(".paper_edit").find(".edit_box:eq(3) .suggestion_info tbody tr.suggest_item:last").after(dimension_tr);
+                        }
                     }
-                    $(target).parents(".paper_edit").find(".edit_box:eq(2) .dimension_item").html(option_str);
-                }else{
-                    BootstrapDialog.alert("题目和维度尚未保存！");
-                    return false;
+
                 }
             });
         }
@@ -612,8 +614,18 @@ function dimension_pub_bind(dimension,obj){
                 if( dimension_arr != "" ){
                     var dimension_str = $.parseJSON(dimension_arr);
                     for(var x in dimension_str){
-                        if( parseInt(dimension_str[x][0]) == parseInt(dimension)){
-                            have_dimension_name = dimension_str[x][1];
+                        if( parseInt(x) == parseInt(dimension)){
+                            have_dimension_name = dimension_str[x];
+                            continue;
+                        }
+                    }
+                }
+                
+                if( bind_arr != ""){
+                    var bind_str = $.parseJSON(bind_arr);
+                    for(var x in bind_str){
+                        if( parseInt(x) == parseInt(dimension) ){
+                            have_bind =  bind_str[x];
                             continue;
                         }
                     }
@@ -624,9 +636,15 @@ function dimension_pub_bind(dimension,obj){
                     obj.find(".dimension_answer:gt(0)").remove();
                     for(var x in answer_str){
                         var answer_tr = obj.find(".dimension_answer:first").clone().removeClass("hide");
-                        answer_tr.find("td:eq(0) input").attr({"id":answer_str[x][0]});
-                        answer_tr.find("td:eq(1)").text(answer_str[x][1]);
-                        answer_tr.find("td:eq(2)").html("<span class='hide'>"+have_dimension_name+"</span>");
+                        answer_tr.find("td:eq(0) input").attr({"id":x});
+                        if( have_bind.length > 0 && $.inArray(x,have_bind) >= 0 ){
+                            answer_tr.find("td:eq(0) input").attr({"checked":"checked"});
+                            answer_tr.find("td:eq(2)").html("<span>"+have_dimension_name+"</span>");
+                        }else{
+                            answer_tr.find("td:eq(2)").html("<span class='hide'>"+have_dimension_name+"</span>");
+                        }
+                        answer_tr.find("td:eq(1)").text(answer_str[x][0]);
+                        
                         obj.find(".dimension_answer:last").after(answer_tr);
                     }
                 }
@@ -636,7 +654,53 @@ function dimension_pub_bind(dimension,obj){
     }else{
         obj.find(".dimension_box").removeClass("hide");
         obj.find(".dimension_bind").addClass("hide");
-        
+        do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
+            if( ret.ret == 0 && ret.status == 200){
+                var question_bind = ret.paper.question_bind;
+                var answer = ret.paper.answer;
+                var dimension = ret.paper.dimension;
+                var bind_arr = [],answer_arr = [],dimension_arr = [];
+                var option_str = "<option value='0'>全部</option>";
+                if( answer != ""){
+                    answer_arr = $.parseJSON(answer);
+                }
+                if( question_bind != ""){
+                    bind_arr = $.parseJSON(question_bind);
+                }
+           
+                if( dimension != ""){
+                    dimension_arr = $.parseJSON(dimension);
+                    obj.parents(".paper_edit").find(".edit_box:eq(2) .dimension_var:gt(0)").remove();
+                    for(var x in dimension_arr){
+                        option_str += "<option value='"+x+"'>"+dimension_arr[x]+"</option>";
+                        var dimension_var = obj.parents(".paper_edit").find(".edit_box:eq(2) .dimension_var:first").clone().removeClass("hide");
+                        dimension_var.find("td:eq(0)").text(dimension_arr[x]);
+
+                        if( question_bind != "" ){
+                            var bind_question = bind_arr[x];
+                            //console.log(bind_question);
+                            if( bind_question != undefined){
+                                var bind_html = "";
+                                for(var y in bind_question){
+                                    bind_html += answer_arr[bind_question[y]][0] + "<br/>";
+                                }
+                                dimension_var.find("td:eq(1)").html(bind_html);
+                            }else{
+                                dimension_var.find("td:eq(1)").html("<span style='color:#999'>此维度未绑定题目</span>");
+                            }
+                            
+                        }else{
+                            dimension_var.find("td:eq(1)").html("<span style='color:#999'>此维度未绑定题目</span>");
+                        }
+                        dimension_var.find("td:eq(2)").attr({"dimension":x});
+                        obj.parents(".paper_edit").find(".edit_box:eq(2) .dimension_var:last").after(dimension_var);
+                    }
+                    obj.parents(".paper_edit").find(".edit_box:eq(2) .dimension_item").html(option_str);
+                }
+
+            }
+            
+        })
     }
 }
 
@@ -654,7 +718,7 @@ function click_dimension(oEvent){
 function save_bind(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement;
-    var paper_id = obj.parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
     var cur_obj = $(target).parents('.edit_box');
     var could_save = 1;
     var item = [];
@@ -665,8 +729,24 @@ function save_bind(obj,oEvent){
             item.push(checked_obj.attr("id"));
         }
     });
-    if( item.length <= 1){
-        BootstrapDialog.alert("请勾选保存的题目");
-        return false;
-    }
+
+    var data = {
+        paper_id:paper_id,
+        dimension_id:dimension_id,
+        bind:item,
+    };
+    $.ajax({
+        type     : "post",
+        url      : "/test_paper/save_dimension_answer",
+        dataType : "json",
+        data : data,
+        success   : function(result){
+            if(result.ret == 0){
+                BootstrapDialog.alert("保存成功");
+            } else {
+                alert(result.info);
+            }
+        }
+    });
+    
 }

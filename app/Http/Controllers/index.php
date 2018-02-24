@@ -128,6 +128,7 @@ class index extends Controller
     public function index(){
         global $_SESSION;
         global $_SERVER;
+        \App\Helper\Utils::logger("首页登录断点host:".@$_SERVER["HTTP_HOST"]);
 
         if ( @$_SERVER["HTTP_HOST"] == "wx-teacher.leo1v1.com" ) {
             return $this->wx_teacher_index();
@@ -140,6 +141,7 @@ class index extends Controller
         $tq_token=$this->get_in_str_val("token");
         $tq_uin=$this->get_in_int_val("uin");
         session(["login_tquin"=>  $tq_uin ]);
+        \App\Helper\Utils::logger("首页登录断点session_acc:".session("acc"));
 
         if (session("acc")) {
             foreach (  \Illuminate\Support\Facades\Session::all() as $key =>  $value) {
@@ -155,7 +157,9 @@ class index extends Controller
                 $this->jump_page();
             }
         }else{
+            //微信浏览器
             if (strpos(@$_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false )  {
+                \App\Helper\Utils::logger("首页登录断点1");
                 $code=$this->get_in_str_val("code");
 
                 /**  @var  wx \App\Helper\Wx */
@@ -176,9 +180,11 @@ class index extends Controller
                     \App\Helper\Utils::logger("TO URL:$to_url ");
 
                     $redirect_url=urlencode("http://wx-parent.leo1v1.com?to_url=$to_url" );
+                    \App\Helper\Utils::logger("首页登录断点2 redirect_url:".$redirect_url);
                     $wx->goto_wx_login( $redirect_url );
                     return;
                 }else{
+                    \App\Helper\Utils::logger("首页登录断点3");
                     if ( $_SERVER["HTTP_HOST"] == "wx-parent.leo1v1.com" ) {
                         $url="http://admin.leo1v1.com{$_SERVER["REQUEST_URI"]}";
                         header("Location: $url");
