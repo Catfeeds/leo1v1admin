@@ -68,7 +68,13 @@ class test_paper extends Controller
             ];
 
             if(!empty($answer)){
-                $data['answer'] = json_encode($answer);
+                $new_answer = [];
+                foreach( $answer as $v){
+                    $new_answer[$v[0]] = [
+                        $v[1],$v[2],$v[3]
+                    ];
+                }
+                $data['answer'] = json_encode($new_answer);
             }
 
             $is_exist = $this->t_student_test_paper->check_paper_exist($paper_id);
@@ -88,8 +94,13 @@ class test_paper extends Controller
             $data = [
                 "modify_time" => time(),
                 "adminid"    => $adminid,
-                "dimension" => json_encode($dimension)
             ];
+
+            $new_dimension = [];
+            foreach( $dimension as $v){
+                $new_dimension[$v[0]] = $v[1];
+            }
+            $data['dimension'] = json_encode($new_dimension);
         }
 
         if( $save_type == 3 && !empty($question_bind) ){
@@ -111,6 +122,37 @@ class test_paper extends Controller
         if( !empty($data)){
             $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
             return $this->output_succ('添加成功');
+        }
+
+    }
+
+    public function save_dimension_answer(){
+        $paper_id     = trim($this->get_in_int_val('paper_id') );
+        $dimension_id       = $this->get_in_int_val("dimension_id");
+        $bind       = $this->get_in_str_val("bind");
+        $paper = $this->t_student_test_paper->get_paper($paper_id);
+
+        if($paper){
+            $dimension = $paper['question_bind'];
+            
+            $new_dimension = json_encode([$dimension_id => $bind]);
+            $data = ['question_bind'=>$new_dimension];
+            if($dimension){
+                $old_dimension = json_decode($dimension,true);
+                $old_dimension[$dimension_id] = $bind;
+                if(count($bind) == 0){
+                    unset($old_dimension[$dimension_id]);
+                }
+                ksort($old_dimension);
+                $data = ['question_bind'=>json_encode($old_dimension)];
+            }
+            if( !empty($data) && !empty($bind)){
+                $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
+                return $this->output_succ(['status'=>200]);
+            }
+            return $this->output_succ(['status'=>201]);
+        }else{
+            return $this->output_succ(['status'=>201]);
         }
 
     }
