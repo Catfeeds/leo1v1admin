@@ -1457,8 +1457,8 @@ class wx_teacher_api extends Controller
             "user_log_type" => E\Euser_log_type::V_6
         ]);
         \App\Helper\Utils::logger("ppt_to_h5_log: $ip");
-        if($ip == '101.81.227.245'){
-            // if($ip == '47.104.104.138'){
+        // if($ip == '101.81.227.245'){// 本机测试
+        if($ip == '47.104.104.138'){
 
             $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
 
