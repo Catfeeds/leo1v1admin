@@ -61,7 +61,6 @@ class test_ricky extends Command
             }
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
-                if ($teacherid != 338338) continue;
                 $tea[$teacherid]["nick"] = $item["realname"];
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
                 $count_101 = 0; // 101 -105
@@ -84,46 +83,33 @@ class test_ricky extends Command
                     );
                     $total_count += $count;
                     $coef3 = $rules3[$val["level"]];
+                    //　处理奥数
                     if ($val['competition_flag'] == 1 && $val["grade"] <= 106) {
                         if ($val["grade"] <= 106) {
                             $money3 += $count * ($coef3[2] + $reward);
-                            echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
                         } else {
                             $money3 += $count * ($coef3[3] + $reward);
-                            echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
                         }
                     }
 
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
-                        if ($val["competition_flag"] != 1) {
-                            $money3 += $count * ($coef3[0] + $reward);
-                        }
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[0]."课时奖金: ".$reward." level: ".$val["level"]."年级: ".$val["grade"].PHP_EOL;
+                        if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[0] + $reward);
                     } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
                         $count_106 += $count;
-                        if ($val["competition_flag"] != 1) {
-                            $money3 += $count * ($coef3[1] + $reward);
-                        }
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[1]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
+                        if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[1] + $reward);
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
-                        if ($val["competition_flag"] != 1) {
-                            $money3 += $count * ($coef3[2] + $reward);
-                        }
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
+                        if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[2] + $reward);
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
-                        if ($val["competition_flag"] != 1) {
-                            $money3 += $count * ($coef3[2] + $reward);
-                        }
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
+                        if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[2] + $reward);
                     } else {
                         $count_303 += $count;
                         if ($val["competition_flag"] != 1) {
                             $money3 += $count * ($coef3[3] + $reward);
                         }
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
+                        //echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
                     }
                 }
 
