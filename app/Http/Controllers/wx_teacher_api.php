@@ -1429,7 +1429,7 @@ class wx_teacher_api extends Controller
      * @使用 此接口为微演示服务商调用, 返回ppt转化状态
      * @状态码 0:代表转化成功 1:代表转化失败
      */
-    public function getConversionStatus(){
+    public function getConversionStatus_11(){
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
         // if($status == 1){
@@ -1448,7 +1448,7 @@ class wx_teacher_api extends Controller
      * @ 微演示ip 47.104.104.138
      * @ 返回状态码 1:正确的IP 0:错误的IP
      */
-    public function getUpdateState_tmp(){
+    public function getUpdateState(){
         $ip = getenv('REMOTE_ADDR');
         // 记录日志
         $this->t_user_log->row_insert([
@@ -1457,11 +1457,17 @@ class wx_teacher_api extends Controller
             "user_log_type" => E\Euser_log_type::V_6
         ]);
         \App\Helper\Utils::logger("ppt_to_h5_log: $ip");
+        // if($ip == '101.81.227.245'){// 本机测试
         if($ip == '47.104.104.138'){
+
             $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
 
             $saveH5FilePath = "/tmp/pptToH5Zip.rar";
             $unzipFilePath  = "/tmp/pptToH5File/"; // 解压后的文件夹
+            if(!file_exists($unzipFilePath)){
+                $cmd_mkdir = "mkdir $unzipFilePath";
+                shell_exec($cmd_mkdir);
+            }
 
             $data=@file_get_contents($fileUrl);
             file_put_contents($saveH5FilePath, $data);
@@ -1472,6 +1478,7 @@ class wx_teacher_api extends Controller
             $cmd_sed = "sed -i 's/module.exports = /\/\/module.exports =/' ".$unzipFilePath.'canvg.js';
             shell_exec($cmd_sed);
 
+            // 对修改后的文件打包
             $cmd_zip = "cd $unzipFilePath; zip -r /tmp/pptfile_new.zip ./*";
             shell_exec($cmd_zip);
 
@@ -1480,7 +1487,7 @@ class wx_teacher_api extends Controller
             shell_exec($cmd_upload);
 
             // 压缩远程老文件
-            $cmd_exce_zip = "sshpass -p yb142857 ssh -o StrictHostKeyChecking=no ybai@47.104.21.42 'cd /var/www/admin.yb1v1.com/public/pptfiles/; zip -r ~/myppt_old.zip ./*; unzip -o -d /var/www/admin.yb1v1.com/public/pptfiles/ ~/pptfile_new.zip '";
+            $cmd_exce_zip = "sshpass -p yb142857 ssh -o StrictHostKeyChecking=no ybai@47.104.21.42 'cd /var/www/admin.yb1v1.com/public/pptfiles/; zip -r ~/myppt_old.zip ./*; unzip -o -d /var/www/admin.yb1v1.com/public/pptfiles/ ~/pptfile_new.zip; rm -f ~/pptfile_new.zip '";
             shell_exec($cmd_exce_zip);
             return 1;
         }else{
@@ -1489,7 +1496,7 @@ class wx_teacher_api extends Controller
     }
 
     # ppt 配置文档更新时发送通知提示
-    public function getUpdateState(){
+    public function getUpdateState_111(){
     $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU"; //[待办事项]
 
     $data= [

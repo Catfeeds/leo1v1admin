@@ -1971,19 +1971,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $zip_url  = $this->get_in_str_val('zip_url');
         $is_tea   = $this->get_in_int_val('is_tea');
         $id       = $this->get_in_int_val('id');
-        $uid      = $this->get_in_int_val('uid');
+        $uuid     = $this->get_in_str_val('uuid');
+
 
         if($is_tea == 1 ){ # 老师
             $this->t_lesson_info_b3->field_update_list($lessonid,[
                 "zip_url" => $zip_url,
-                "uid"     => $uid,
+                "uuid"     => $uuid,
                 "ppt_status"  => 1,
                 "use_ppt"     => 1
             ]);
         }else{ # 学生
             $this->t_lesson_info_b3->field_update_list($lessonid,[
                 "zip_url_stu" => $zip_url,
-                "uid"         => $uid,
+                "uuid"         => $uuid,
                 "ppt_status"  => 1,
                 "use_ppt"     => 1
             ]);
@@ -2015,7 +2016,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $deal_status = $this->get_in_int_val('status');
         $this->t_deal_ppt_to_h5->field_update_list($id, [
             "uuid" => $uuid,
-            "id_deal_falg" => 1
+            // "id_deal_falg" => 1
         ]);
         return $this->output_succ();
     }
