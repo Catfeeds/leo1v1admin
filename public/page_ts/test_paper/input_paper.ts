@@ -235,10 +235,31 @@ function edit_paper(obj,oEvent){
             return false;
         }
 
+        var paper_id = $(target).parents('.paper_edit').find('.edit_box:eq(0) .paper_id').val();
+        
         //绑定题目
         if( edit_index == 2 ){
-            var paper_id = $(target).parents('.paper_edit').find('.edit_box:eq(0) .paper_id').val();
             dimension_pub_bind(0,$(target).parents(".paper_edit").find(".edit_box:eq(2)") );
+        }
+
+        //绑定维度结果建议
+        if( edit_index == 3 ){
+            do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
+                if( ret.ret == 0 && ret.status == 200){
+                    console.log(1);
+                    //维度名称
+                    if( ret.paper.dimension != ''){
+                        var dimension_arr = $.parseJSON(ret.paper.dimension);
+                        for(var x in dimension_arr){
+                            var dimension_tr = $(target).parents(".paper_edit").find(".edit_box:eq(3) .suggestion_info tbody tr.suggest_item:first").clone().removeClass("hide");
+                            dimension_tr.find("td:eq(0)").text(x);
+                            dimension_tr.find("td:eq(1)").text(dimension_arr[x]);
+                            $(target).parents(".paper_edit").find(".edit_box:eq(3) .suggestion_info tbody tr.suggest_item:last").after(dimension_tr);
+                        }
+                    }
+
+                }
+            });
         }
 
         $(target).addClass("edit_have").siblings().removeClass("edit_have");
@@ -593,8 +614,8 @@ function dimension_pub_bind(dimension,obj){
                 if( dimension_arr != "" ){
                     var dimension_str = $.parseJSON(dimension_arr);
                     for(var x in dimension_str){
-                        if( parseInt(dimension_str[x][0]) == parseInt(dimension)){
-                            have_dimension_name = dimension_str[x][1];
+                        if( parseInt(x) == parseInt(dimension)){
+                            have_dimension_name = dimension_str[x];
                             continue;
                         }
                     }
