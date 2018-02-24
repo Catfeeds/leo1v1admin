@@ -61,6 +61,7 @@ class test_ricky extends Command
             }
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
+                if ($teacherid != 338338) continue;
                 $tea[$teacherid]["nick"] = $item["realname"];
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
                 $count_101 = 0; // 101 -105
@@ -86,18 +87,24 @@ class test_ricky extends Command
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
                         $money3 += $count * ($coef3[0] + $reward);
+                        echo "课时: ".$count."课时基价: ".$coef3[0]."课时奖金: ".$reward." level: ".$val["level"];
                     } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
                         $count_106 += $count;
                         $money3 += $count * ($coef3[1] + $reward);
+                        echo "课时: ".$count."课时基价: ".$coef3[1]."课时奖金: ".$reward." level: ".$val["level"];
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
                         $money3 += $count * ($coef3[2] + $reward);
+                        echo "课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"];
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
                         $money3 += $count * ($coef3[2] + $reward);
+                        echo "课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"];
                     } else {
+                        echo $val["grade"];
                         $count_303 += $count;
                         $money3 += $count * ($coef3[3] + $reward);
+                        echo "课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"];
                     }
                 }
 
