@@ -909,3 +909,11 @@ function suggest_edit(obj,oEvent){
     cur_obj.find(".suggest_score .score_max").val(score_max);
     cur_obj.find(".suggest_supply textarea").val(suggestion);
 }
+
+function suggest_dele(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var cur_obj = $(target).parents(".edit_box").find(".suggest_result");
+
+}
