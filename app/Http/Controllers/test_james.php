@@ -1859,7 +1859,7 @@ class test_james extends Controller
             "user_log_type" => E\Euser_log_type::V_6
         ]);
         \App\Helper\Utils::logger("ppt_to_h5_log: $ip");
-        if($ip == '118.190.65.189'){
+        if($ip == '101.81.227.245'){
             $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
 
             $saveH5FilePath = "/tmp/pptToH5Zip.rar";
