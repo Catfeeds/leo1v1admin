@@ -83,23 +83,21 @@ class test_ricky extends Command
                     );
                     $total_count += $count;
                     $coef3 = $rules3[$val["level"]];
-
-                    $coef3 += $reward;
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
-                        $money3 += $count * $coef3[0];
+                        $money3 += $count * ($coef3[0] + $reward);
                     } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
                         $count_106 += $count;
-                        $money3 += $count * $coef3[1];
+                        $money3 += $count * ($coef3[1] + $reward);
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
-                        $money3 += $count * $coef3[2];
+                        $money3 += $count * ($coef3[2] + $reward);
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
-                        $money3 += $count * $coef3[2];
+                        $money3 += $count * ($coef3[2] + $reward);
                     } else {
                         $count_303 += $count;
-                        $money3 += $count * $coef3[3];
+                        $money3 += $count * ($coef3[3] + $reward);
                     }
                 }
 
