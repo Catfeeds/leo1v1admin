@@ -36,7 +36,7 @@ class test_paper extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180223134439,
+            '_publish_version'    => 20180224134439,
         ]);
     } 
 
@@ -120,9 +120,9 @@ class test_paper extends Controller
         $paper = $this->t_student_test_paper->get_paper($paper_id);
       
         if($paper){
-            return $this->output_succ(["paper"=>$paper,'stauts'=>200]);
+            return $this->output_succ(["paper"=>$paper,'status'=>200]);
         }else{
-            return $this->output_succ(['stauts'=>201]);
+            return $this->output_succ(['status'=>201]);
         }
     }
 }
