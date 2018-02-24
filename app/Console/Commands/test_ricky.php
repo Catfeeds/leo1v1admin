@@ -87,24 +87,24 @@ class test_ricky extends Command
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
                         $money3 += $count * ($coef3[0] + $reward);
-                        echo "课时: ".$count."课时基价: ".$coef3[0]."课时奖金: ".$reward." level: ".$val["level"];
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[0]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
                         $count_106 += $count;
                         $money3 += $count * ($coef3[1] + $reward);
-                        echo "课时: ".$count."课时基价: ".$coef3[1]."课时奖金: ".$reward." level: ".$val["level"];
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[1]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
                         $money3 += $count * ($coef3[2] + $reward);
-                        echo "课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"];
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
                         $money3 += $count * ($coef3[2] + $reward);
-                        echo "课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"];
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     } else {
                         echo $val["grade"];
                         $count_303 += $count;
                         $money3 += $count * ($coef3[3] + $reward);
-                        echo "课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"];
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     }
                 }
 
