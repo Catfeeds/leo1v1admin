@@ -424,7 +424,8 @@ class common_new extends Controller
         if($email!=""){
             $html  = $this->get_email_html_new($name);
             $title = "【理优1对1】试讲邀请和安排";
-            $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
+            $ret   = \App\Helper\Email::SendMailEmd163($email,$title,$html);
+            // $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             if(!$ret){
                 return $this->output_err("邮件发送失败!");
             }

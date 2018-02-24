@@ -16,21 +16,42 @@
     <style>
      .hide{ display:none }
      .up_file,.down_file,.dele_file{ padding: 4px;margin-left: 6px;margin-bottom:5px }
-     .paper_edit{ border:1px solid #999;padding:20px;width:800px }
+     .paper_edit{ border:1px solid #999;padding:20px;width:1000px }
      .fl{ float:left }
      .fr{ float:right}
      .clear_both{ clear:both }
      .paper_tab{ margin:0 auto }
-     .edit_paper{ width:180px;height:50px;line-height:50px;text-align:center;font-size:18px;color:#055076;background:#c4ebf5;cursor:pointer}
+     .edit_paper{ width:238px;height:50px;line-height:50px;text-align:center;font-size:18px;color:#055076;background:#c4ebf5;cursor:pointer}
      .edit_have{ color:white;background:#0995b8;}
-     .edit_box{ width:720px;}
-     .paper_info{ width:720px; }
-     .paper_info_left,.paper_info_right{ width:359px }
+     .edit_box{ width:960px;}
+     .paper_info{ width:960px; }
+     .paper_info_left,.paper_info_right{ width:479px }
      .paper_info_input{ margin:10px 0px 0px 10px }
      .paper_info_input font{ color:red }
      .paper_info_input span{ margin-right:10px;width:70px;display:inline-block }
-     .paper_info_input select{ width:179px;height: 26px;background: white;}
+     .paper_info_input select{ width:200px;height: 32px;background: white;}
      .paper_info_input .search_book{ height: 25px;line-height: 15px;margin-bottom: 4px;}
+     .paper_answer{ width:960px; margin-top:10px}
+     .paper_answer table{ width:960px;}
+     .paper_answer table tr th, .paper_answer table tr td { border:1px solid #4b5d6a;padding:10px 5px }
+     .paper_answer table tr.edit_answer td{ padding:0px }
+     .add_answer{ text-align:center;color:#0995b8;cursor:pointer }
+     .paper_answer table tr td input{ width:100%;height:100%;border:0px;height:30px;text-indent: 5px;}
+     .edit_answer a{ cursor:pointer}
+     .answer_save{ text-align:center;margin-top:10px }
+     .answer_save .answer_save_all{ padding: 5px 20px; font-size: 18px;}
+     .paper_dimension,.dimension_box,.dimension_bind{ width:960px; margin-top:10px}
+     .paper_dimension table,.dimension_box table,.dimension_bind table{ width:960px;}
+     .paper_dimension table tr th, .paper_dimension table tr td { border:1px solid #4b5d6a;padding:10px 5px }
+     .paper_dimension table tr td input{ width:100%;border:0px;height:29px;text-indent: 5px;}
+     .paper_dimension table tr.edit_dimension td{ padding:0px }
+     .dimension-dele{ cursor:pointer }
+     .check_dimension{ font-size:14px;margin-top:10px }
+     .check_dimension span{ margin-right:10px;font-size:16px }
+     .check_dimension .dimension_item{ width:200px;height: 32px;background: white; }
+     .dimension_box table tr th, .dimension_box table tr td,.dimension_bind table tr th, .dimension_bind table tr td { border:1px solid #4b5d6a;padding:10px 5px }
+     .dimension_bind input[type=checkbox]{ width :18px;height :18px;}
+     .dimension_box .dimension_var a{ cursor:pointer}
     </style>
     <section class="content">
 
@@ -85,11 +106,11 @@
                 </div>
 
                 <div class="col-xs-2 col-md-2 ">
-                    <button class="btn btn-primary opt-sub-tag">新建评测卷</button>
+                    <button class="btn btn-primary add_new_paper">新建评测卷</button>
                 </div>
 
                 <div class="col-xs-2 col-md-2 ">
-                    <button class="btn btn-primary opt-sub-tag">导入评测卷（excel）</button>
+                    <button class="btn btn-primary import_paper">导入评测卷（excel）</button>
                 </div>
 
             </div>
@@ -113,10 +134,10 @@
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
                         <td>{{@$var["paper_id"]}} </td>
-                        <td>{{@$var["subject"]}} </td>
-                        <td>{{@$var["grade"]}} </td>
-                        <td>{{@$var["volume"]}} </td>
-                        <td>{{@$var["book"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+                        <td>{{@$var["volume_str"]}} </td>
+                        <td>{{@$var["book_str"]}} </td>
                         <td>{{@$var['operator']}}</td>
                         <td>{{@$var['modify_time']}}</td>
                         <td>{{@$var['use_number']}}</td>
@@ -197,13 +218,126 @@
                 </div>
                 <div class="clear_both"></div>
             </div>
-            <div class="paper_answer"></div>
+            <div class="paper_answer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="10%">题目序号</th>
+                            <th width="40%">题目描述/题目</th>
+                            <th width="20%">标准答案</th>
+                            <th width="10%">分值</th>
+                            <th width="20%">操作</th>
+                        </tr>
+                    </thead>                 
+                    <tbody>
+                        <tr class="edit_answer hide">
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td>
+                                <a class="answer-insert" onclick="answer_insert(this,event)" title="插入">插入</a>
+                                <a class="answer-dele" onclick="answer_dele(this,event)" title="删除">删除</a>
+                                <a class="answer-up" onclick="answer_up(this,event)" title="上移">上移</a>      
+                                <a class="answer-dowm" onclick="answer_down(this,event)" title="下移">下移</a>      
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="add_answer" onclick="add_answer(this,event)">
+                                <i class="fa fa-plus"></i>增加题目
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="answer_save">
+                <button class="btn btn-primary answer_save_all" onclick="save_answer(this,event)">保存</button>
+            </div>
         </div>
         <div class="edit_box hide">
-            22
+            <div class="paper_dimension">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="10%">编号</th>
+                            <th width="50%">维度名称</th>
+                            <th width="20%">题目数</th>
+                            <th width="20%">操作</th>
+                        </tr>
+                    </thead>                 
+                    <tbody>
+                        <tr class="edit_dimension hide">
+                            <td></td>
+                            <td><input type="text"></td>
+                            <td></td>
+                            <td>
+                                <a class="dimension-dele" onclick="dimension_dele(this,event)" title="删除">删除</a>                     
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="add_answer" onclick="add_dimension(this,event)">
+                                <i class="fa fa-plus"></i>增加维度
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="answer_save">
+                <button class="btn btn-primary answer_save_all" onclick="save_dimension(this,event)">保存维度</button>
+            </div>
+
         </div>
         <div class="edit_box hide">
-            33
+            <div class="check_dimension">
+                <span>选择维度</span>
+                <select class="dimension_item" onchange="get_dimension(this.options[this.options.selectedIndex].value,event)">
+                    <option value="-1">全部</option>
+                </select>
+            </div>
+            <div class="dimension_box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>已绑定的题目</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="dimension_var hide">
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a onclick="dimension_bind(this,event)" title="绑定">绑定</a>       
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="dimension_bind hide">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>已绑定的题目</th>
+                            <th>绑定的题目</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="dimension_answer">
+                            <td><input type="checkbox" class="have_bind"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="answer_save">
+                    <button class="btn btn-primary answer_save_all" onclick="save_bind(this,event)">保存绑定</button>
+                </div>
+
+            </div>
+
         </div>
         <div class="edit_box hide">
             44

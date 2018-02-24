@@ -20,6 +20,24 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	paper_id	:any;
+	paper_name	:any;
+	subject	:any;
+	grade	:any;
+	book	:any;
+	volume	:any;
+	status	:any;
+	adminid	:any;
+	modify_time	:any;
+	answer	:any;
+	dimension	:any;
+	question_bind	:any;
+	suggestion	:any;
+	subject_str	:any;
+	grade_str	:any;
+	volume_str	:any;
+	book_str	:any;
+	operator	:any;
 }
 
 /*

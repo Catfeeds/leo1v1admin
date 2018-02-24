@@ -206,14 +206,14 @@ class seller_student_system_assign extends cmd_base
                             for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {  //为了避免因已分配过少分
                                 $find_userid= @$need_deal_list[$j]["userid"];
                                 //判断之前没有分配给此用户过
-                                if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
+                                if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid) && $this->task->t_seller_student_new->field_get_value($find_userid, 'sys_assign_count')<3) {
 
                                     $assigned_count++;
                                     $userid_list=[$find_userid];
                                     $opt_type ="" ;
                                     $opt_type=0;
                                     $account="系统分配-未拨通例子";
-                                    $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                                    $this->task->t_seller_student_new->set_admin_id_ex($userid_list,$opt_adminid,$opt_type,$account,$sys_assign_flag=2);
                                     $check_hold_flag = false;
                                     $this->task->t_seller_student_system_assign_log->add(
                                         E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid,$check_hold_flag
@@ -365,7 +365,7 @@ class seller_student_system_assign extends cmd_base
         $userid_list=[$userid];
         $opt_type ="" ;
         $opt_type=0;
-        $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $adminid, $opt_type,$account);
+        $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $adminid, $opt_type,$account,$sys_assign_flag=1);
         $check_hold_flag = false;
         $this->task->t_seller_student_system_assign_log->add(
             E\Eseller_student_assign_from_type::V_0, $userid, $adminid,$check_hold_flag

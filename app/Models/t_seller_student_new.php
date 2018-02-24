@@ -1233,14 +1233,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     //@param:$userid_list 分配用户
     //@param:$opt_adminid cc id
     //@param:$opt_type 0
-    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type ,$account="system") {
+    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type ,$account="system",$sys_assign_flag=0) {
         if ( count($userid_list) ==0 ) {
             return false;
         }
         //分配例子
         $this->set_admin_info(
             $opt_type, $userid_list,  $opt_adminid,0 );
-
+        //系统分配统计
+        if($sys_assign_flag>0 && $opt_adminid>0){
+            foreach($userid_list as $userid){
+                $this->field_update_list($userid, ['sys_assign_count'=>$this->field_get_value($userid, 'sys_assign_count')+1]);
+            }
+        }
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
 
         foreach ( $userid_list as $userid ) {
@@ -2412,7 +2417,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
         $where_arr[] =  "last_contact_time <  $last_contact_time " ;
-        $where_arr[]= 's.origin_level in (1,2,3,4)';
+        // $where_arr[]= 's.origin_level in (1,2,3,4)';
+        $where_arr[]= '((s.origin_level in (1,2,3,4)) or (n.seller_student_assign_type=0 and s.origin_level=99 and n.cc_not_exist_count>0) or (n.seller_student_assign_type=0 and s.origin_level=99 and n.cc_invalid_count>2) or (n.seller_student_assign_type=1 and s.origin_level=99 and n.sys_assign_count>2))';
         $where_arr[] = 'n.cc_no_called_count>2';
         // E\Eorigin_level::V_1;
         //if ( $seller_student_status ==2 ) {

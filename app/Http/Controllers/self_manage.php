@@ -95,7 +95,7 @@ class self_manage extends Controller
         $post_adminid    = $this->get_in_int_val("post_adminid",-1);
         $flow_type       = $this->get_in_int_val("flow_type",-1, E\Eflow_type::class );
         $page_info    = $this->get_in_page_info();
-        $page_type= $this->get_in_int_val("page_type");
+        $page_type= $this->get_in_int_val("page_type", -1);
 
         $flow_check_flag = -1;
         $node_type= -1 ;
@@ -166,6 +166,8 @@ class self_manage extends Controller
 
         if ($flow_check_flag== E\Eflow_check_flag::V_PASS ) {
             $ret=\App\Flow\flow_base::do_flow_pass($nodeid,$flow_check_flag, $check_msg );
+            \App\Helper\Utils::logger(" james_shengpi: $ret");
+
             if($ret) {
                 \App\Helper\Utils::logger("flow_type ".$flow_info['flow_type']);
                 if($flow_info['flow_type'] == E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE){
