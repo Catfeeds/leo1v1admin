@@ -445,22 +445,21 @@ class Common {
         return $ret;
     }
 
-    static  function curl_send_mail_leo_com( $from, $from_nick, $password, $to, $title, $body  ){
-        $data=[
-            "host" => "smtp.leoedu.com",
-            "from" => $from,
+    static function curl_send_mail_leo_com( $from, $from_nick, $password, $to, $title, $body  ){
+        $data = [
+            "host"      => "smtp.leoedu.com",
+            "from"      => $from,
             "from_nick" => $from_nick,
-            "password" => $password,
-            "to" => $to,
-            "title" => $title,
-            "body" => $body,
+            "password"  => $password,
+            "to"        => $to,
+            "title"     => $title,
+            "body"      => $body,
         ];
         \App\Helper\Net::send_post_data("http://admin.leo1v1.com:9501/leoedu_com_send_mail", $data);
 
     }
 
-    static function send_mail_leo_com ( $address ,$title ,$message ,$is_html=true) {
-
+    static function send_mail_leo_com( $address ,$title ,$message ,$is_html=true) {
         if (!is_array( $address )) {
             $address =[$address];
         }
@@ -520,6 +519,13 @@ class Common {
     }
 
     static function send_paper_mail_new ( $address ,$title ,$message ,$is_html=true) {
+        if (!is_array( $address )) {
+            $address =[$address];
+        }
+        foreach ($address as $to) {
+            static::curl_send_mail_leo_com("jim@leoedu.com", "理优教学管理部", "xcwen142857",  $to, $title,$message );
+        }
+        return true;
 
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
