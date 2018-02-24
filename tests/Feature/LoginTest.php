@@ -12,7 +12,7 @@ class LoginTest extends TestCase
 
     public function test_index()
     {
-        echo "login test_index\n";
+        echo __METHOD__. "\n";
         $response = $this->get('/');
         $response->assertStatus(200)
              ->assertSee('后台登录');
@@ -20,7 +20,7 @@ class LoginTest extends TestCase
 
     public function test_login()
     {
-        echo "login test_login\n";
+        echo __METHOD__. "\n";
         //检测验证码
         $response1 = $this->get('/login/get_verify_code');
         $response1->assertSessionHas("verify");
@@ -42,7 +42,7 @@ class LoginTest extends TestCase
              ->assertSee('后台登录');
 
 
-        /*//模拟成功登录
+        // 模拟成功登录
         $response4 = $this->json("POST","/login/login",[
             "account" => \App\Helper\Config::get_test_username(),
             "password" => md5( \App\Helper\Config::get_test_password() ),
@@ -51,14 +51,16 @@ class LoginTest extends TestCase
 
         $response4->assertJson( ["ret"=>0] );
         $response4->assertSessionHas("acc","jim");
-        $response4->assertGlobalSessionHas("acc","jim");*/
+        // $response4->assertGlobalSessionHas("acc","jim");
 
-        // $response5 = $this->visit('/');
-        // $response5->assertSee("/supervisor/monitor");
+        $this->get('/')->assertSee('/supervisor/monitor');
+        //测试退出
+        $this->json("POST","/login/logout",[]);
+
 
     }
     public function test_check_power() {
-        echo "login test_check_power\n";
+        echo __METHOD__. "\n";
         $response = $this->withSession(["acc"=>"jim","power_list"=>"{}"])
                   ->get('/supervisor/monitor');
 
