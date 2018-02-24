@@ -83,27 +83,34 @@ class test_ricky extends Command
                     $coef3 = $rules3[$val["level"]];
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
-                        $money3 += $count_101 * $coef3[0];
+                        $money3 += $count * $coef3[0];
                     } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
                         $count_106 += $count;
-                        $money3 += $count_106 * $coef3[1];
+                        $money3 += $count * $coef3[1];
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
-                        $money3 += $count_203 * $coef3[2];
+                        $money3 += $count * $coef3[2];
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
-                        $money3 += $count_301 * $coef3[2];
+                        $money3 += $count * $coef3[2];
                     } else {
                         $count_303 += $count;
-                        $money3 += $count_303 * $coef3[3];
+                        $money3 += $count * $coef3[3];
                     }
-                    $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["teacher_type"], $val["level"]);
+                    $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
                     $reward = $money->get_lesson_reward_money(
                         0, $val['already_lesson_count'], $val['teacher_money_type'], $val['teacher_type'], $type
                     );
 
                     $money3 += $reward;
                 }
+                // $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
+                // $reward = $money->get_lesson_reward_money(
+                //     0, $val['already_lesson_count'], $val['teacher_money_type'], $val['teacher_type'], $type
+                // );
+
+                // $money3 += $reward;
+
                 //$tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
                 $tea[$teacherid]["total_count_".$v] = $total_count;
                 $tea[$teacherid]["count_101_".$v] = $count_101;
