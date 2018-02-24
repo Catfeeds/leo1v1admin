@@ -896,6 +896,7 @@ return array(
     'TSellerStudentNewAddIndexFirstCallTimeAddTime' => $baseDir . '/database/migrations/2017_10_21_154835_t_seller_student_new_add_index_first_call_time_add_time.php',
     'TSellerStudentNewAddIndexSucTestLessonid' => $baseDir . '/database/migrations/2018_01_04_145247_t_seller_student_new_add_index_suc_test_lessonid.php',
     'TSellerStudentNewAddLastContactCc' => $baseDir . '/database/migrations/2017_12_26_185743_t_seller_student_new_add_last_contact_cc.php',
+    'TSellerStudentNewAddLastEditTime' => $baseDir . '/database/migrations/2018_02_24_142742_t_seller_student_new_add_last_edit_time.php',
     'TSellerStudentNewAddLastSuccTestLessonid' => $baseDir . '/database/migrations/2017_11_01_105442_t_seller_student_new_add_last_succ_test_lessonid.php',
     'TSellerStudentNewAddNewFields' => $baseDir . '/database/migrations/2018_01_11_133134_t_seller_student_new_add_new_fields.php',
     'TSellerStudentNewAddOriginCount' => $baseDir . '/database/migrations/2017_11_03_121842_t_seller_student_new_add_origin_count.php',
