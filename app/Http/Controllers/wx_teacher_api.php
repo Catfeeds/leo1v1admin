@@ -1457,7 +1457,9 @@ class wx_teacher_api extends Controller
             "user_log_type" => E\Euser_log_type::V_6
         ]);
         \App\Helper\Utils::logger("ppt_to_h5_log: $ip");
-        if($ip == '47.104.104.138'){
+        // if($ip == '47.104.104.138'){
+        if($ip == '101.81.227.245'){
+
             $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
 
             $saveH5FilePath = "/tmp/pptToH5Zip.rar";
@@ -1481,7 +1483,7 @@ class wx_teacher_api extends Controller
             shell_exec($cmd_upload);
 
             // 压缩远程老文件
-            $cmd_exce_zip = "sshpass -p yb142857 ssh -o StrictHostKeyChecking=no ybai@47.104.21.42 'cd /var/www/admin.yb1v1.com/public/pptfiles/; zip -r ~/myppt_old.zip ./*; unzip -o -d /var/www/admin.yb1v1.com/public/pptfiles/ ~/pptfile_new.zip '";
+            $cmd_exce_zip = "sshpass -p yb142857 ssh -o StrictHostKeyChecking=no ybai@47.104.21.42 'cd /var/www/admin.yb1v1.com/public/pptfiles/; zip -r ~/myppt_old.zip ./*; unzip -o -d /var/www/admin.yb1v1.com/public/pptfiles/ ~/pptfile_new.zip; rm -f ~/pptfile_new.zip '";
             shell_exec($cmd_exce_zip);
             return 1;
         }else{

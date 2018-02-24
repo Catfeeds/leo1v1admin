@@ -1883,7 +1883,7 @@ class test_james extends Controller
             shell_exec($cmd_upload);
 
             // 压缩远程老文件
-            $cmd_exce_zip = "sshpass -p yb142857 ssh -o StrictHostKeyChecking=no ybai@47.104.21.42 'cd /var/www/admin.yb1v1.com/public/pptfiles/; zip -r ~/myppt_old.zip ./*; unzip -o -d /tmp/pptfiles/ ~/pptfile_new.zip '";
+            $cmd_exce_zip = "sshpass -p yb142857 ssh -o StrictHostKeyChecking=no ybai@47.104.21.42 'cd /var/www/admin.yb1v1.com/public/pptfiles/; zip -r ~/myppt_old.zip ./*; unzip -o -d /tmp/pptfiles/ ~/pptfile_new.zip; rm -f ~/pptfile_new.zip '";
             shell_exec($cmd_exce_zip);
             return 1;
         }else{
