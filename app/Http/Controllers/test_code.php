@@ -478,9 +478,17 @@ class test_code extends Controller
         dd($ret);
     }
 
-    public function test_get(){
-        $a = $this->get_in_int_val("a",1);
-        echo $a;
+    public function test_email(){
+        $address = "wg392567893@163.com";
+        $title = "test title";
+        $message= "test message";
+
+        dispatch( new \App\Jobs\SendEmail(
+            $address,$title, $message
+        ));
+        exit;
+        $ret = \App\Helper\Email::SendMailEmd163($address,$title, $message);
+        dd($ret);
     }
 
 

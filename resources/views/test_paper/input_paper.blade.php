@@ -29,7 +29,7 @@
      .paper_info_input{ margin:10px 0px 0px 10px }
      .paper_info_input font{ color:red }
      .paper_info_input span{ margin-right:10px;width:70px;display:inline-block }
-     .paper_info_input select{ width:179px;height: 26px;background: white;}
+     .paper_info_input select{ width:200px;height: 32px;background: white;}
      .paper_info_input .search_book{ height: 25px;line-height: 15px;margin-bottom: 4px;}
      .paper_answer{ width:960px; margin-top:10px}
      .paper_answer table{ width:960px;}
@@ -40,12 +40,18 @@
      .edit_answer a{ cursor:pointer}
      .answer_save{ text-align:center;margin-top:10px }
      .answer_save .answer_save_all{ padding: 5px 20px; font-size: 18px;}
-     .paper_dimension{ width:960px; margin-top:10px}
-     .paper_dimension table{ width:960px;}
+     .paper_dimension,.dimension_box,.dimension_bind{ width:960px; margin-top:10px}
+     .paper_dimension table,.dimension_box table,.dimension_bind table{ width:960px;}
      .paper_dimension table tr th, .paper_dimension table tr td { border:1px solid #4b5d6a;padding:10px 5px }
      .paper_dimension table tr td input{ width:100%;border:0px;height:29px;text-indent: 5px;}
      .paper_dimension table tr.edit_dimension td{ padding:0px }
      .dimension-dele{ cursor:pointer }
+     .check_dimension{ font-size:14px;margin-top:10px }
+     .check_dimension span{ margin-right:10px;font-size:16px }
+     .check_dimension .dimension_item{ width:200px;height: 32px;background: white; }
+     .dimension_box table tr th, .dimension_box table tr td,.dimension_bind table tr th, .dimension_bind table tr td { border:1px solid #4b5d6a;padding:10px 5px }
+     .dimension_bind input[type=checkbox]{ width :18px;height :18px;}
+     .dimension_box .dimension_var a{ cursor:pointer}
     </style>
     <section class="content">
 
@@ -100,11 +106,11 @@
                 </div>
 
                 <div class="col-xs-2 col-md-2 ">
-                    <button class="btn btn-primary opt-sub-tag">新建评测卷</button>
+                    <button class="btn btn-primary add_new_paper">新建评测卷</button>
                 </div>
 
                 <div class="col-xs-2 col-md-2 ">
-                    <button class="btn btn-primary opt-sub-tag">导入评测卷（excel）</button>
+                    <button class="btn btn-primary import_paper">导入评测卷（excel）</button>
                 </div>
 
             </div>
@@ -128,10 +134,10 @@
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
                         <td>{{@$var["paper_id"]}} </td>
-                        <td>{{@$var["subject"]}} </td>
-                        <td>{{@$var["grade"]}} </td>
-                        <td>{{@$var["volume"]}} </td>
-                        <td>{{@$var["book"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+                        <td>{{@$var["volume_str"]}} </td>
+                        <td>{{@$var["book_str"]}} </td>
                         <td>{{@$var['operator']}}</td>
                         <td>{{@$var['modify_time']}}</td>
                         <td>{{@$var['use_number']}}</td>
@@ -169,7 +175,7 @@
             <div class="edit_paper fl edit_none" onclick="edit_paper(this,event)">维度结果与建议</div>
             <div class="clear_both"></div>
         </div>
-        <div class="edit_box hide">
+        <div class="edit_box">
             <div class="paper_info">
                 <div class="paper_info_left fl">
                     <div class="paper_info_input">
@@ -245,10 +251,10 @@
                 </table>
             </div>
             <div class="answer_save">
-                <button class="btn btn-primary answer_save_all">保存</button>
+                <button class="btn btn-primary answer_save_all" onclick="save_answer(this,event)">保存</button>
             </div>
         </div>
-        <div class="edit_box">
+        <div class="edit_box hide">
             <div class="paper_dimension">
                 <table>
                     <thead>
@@ -277,12 +283,61 @@
                 </table>
             </div>
             <div class="answer_save">
-                <button class="btn btn-primary answer_save_all">保存维度</button>
+                <button class="btn btn-primary answer_save_all" onclick="save_dimension(this,event)">保存维度</button>
             </div>
 
         </div>
         <div class="edit_box hide">
-            33
+            <div class="check_dimension">
+                <span>选择维度</span>
+                <select class="dimension_item" onchange="get_dimension(this.options[this.options.selectedIndex].value,event)">
+                    <option value="-1">全部</option>
+                </select>
+            </div>
+            <div class="dimension_box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>已绑定的题目</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="dimension_var hide">
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a onclick="dimension_bind(this,event)" title="绑定">绑定</a>       
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="dimension_bind hide">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>已绑定的题目</th>
+                            <th>绑定的维度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="dimension_answer hide">
+                            <td><input type="checkbox" class="have_bind" onclick="click_dimension(event)"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="answer_save">
+                    <button class="btn btn-primary answer_save_all" onclick="save_bind(this,event)">保存绑定</button>
+                </div>
+
+            </div>
+
         </div>
         <div class="edit_box hide">
             44

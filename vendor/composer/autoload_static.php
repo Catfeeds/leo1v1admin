@@ -12,10 +12,10 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
         '4ab23f771f87cea31b61de77d474100f' => __DIR__ . '/../..' . '/app/Libs/Qiniu/functions.php',
         'c5e3ad7a7135de3236077feafaf75199' => __DIR__ . '/../..' . '/app/Functions/common_funtions.php',
@@ -85,6 +85,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         array (
             'League\\Flysystem\\' => 17,
             'Laravel\\Tinker\\' => 15,
+            'Laravel\\Dusk\\' => 13,
         ),
         'I' => 
         array (
@@ -98,6 +99,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         array (
             'Fideloper\\Proxy\\' => 16,
             'Faker\\' => 6,
+            'Facebook\\WebDriver\\' => 19,
         ),
         'E' => 
         array (
@@ -126,8 +128,8 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -261,6 +263,10 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
         ),
+        'Laravel\\Dusk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel/dusk/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -276,6 +282,10 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
+        ),
+        'Facebook\\WebDriver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/facebook/webdriver/lib',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -1145,7 +1155,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'TInterviewRemindAddCreateTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_094948_t_interview_remind_add_create_time.php',
         'TLessonAllMoneyAddLessonCost' => __DIR__ . '/../..' . '/database/migrations/2018_01_17_181006_t_lesson_all_money_add_lesson_cost.php',
         'TLessonAllMoneyList' => __DIR__ . '/../..' . '/database/migrations/2018_01_17_142437_t_lesson_all_money_list.php',
-        'TLessonInfoAdd' => __DIR__ . '/../..' . '/database/migrations/2017_12_20_180451_t_lesson_info_add.php',
+        'TLessonInfoAdd' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_200758_t_lesson_info_add.php',
         'TLessonInfoAddColum' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_105733_t_lesson_info_add_colum.php',
         'TLessonInfoAddLearningRecord' => __DIR__ . '/../..' . '/database/migrations/2018_01_26_150901_t_lesson_info_add_learning_record.php',
         'TLessonInfoAddLessonRecord' => __DIR__ . '/../..' . '/database/migrations/2018_01_24_103407_t_lesson_info_add_lesson_record.php',
@@ -1293,6 +1303,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'TStudentScoreInfoAddPaper' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_145658_t_student_score_info_add_paper.php',
         'TStudentScoreInfoAddPaperStu' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_144012_t_student_score_info_add_paper_stu.php',
         'TStudentScoreInfoAddSchoolEx' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_195034_t_student_score_info_add_school_ex.php',
+        'TStudentTestPaper' => __DIR__ . '/../..' . '/database/migrations/2018_02_23_184004_t_student_test_paper.php',
         'TTeacherAdvanceListAddReachFlag' => __DIR__ . '/../..' . '/database/migrations/2018_01_20_122458_t_teacher_advance_list_add_reach_flag.php',
         'TTeacherAdvanceListAddStuNum' => __DIR__ . '/../..' . '/database/migrations/2017_10_19_101810_t_teacher_advance_list_add_stu_num.php',
         'TTeacherAdvanceListAddTeacherMoneyType' => __DIR__ . '/../..' . '/database/migrations/2017_10_17_100916_t_teacher_advance_list_add_teacher_money_type.php',

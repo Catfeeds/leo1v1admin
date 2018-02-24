@@ -40,6 +40,7 @@ class test_ricky extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
+        $money = new \App\Http\Controllers\teacher_money();
 
         // 老师ID、老师姓名、12月份授课课时数
         $rules1 = [[16, 17, 18, 20, 28], [26, 30, 36, 39, 46], [34, 38, 44, 49, 54], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
@@ -60,6 +61,7 @@ class test_ricky extends Command
             }
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
+                if ($teacherid != 338338) continue;
                 $tea[$teacherid]["nick"] = $item["realname"];
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
                 $count_101 = 0; // 101 -105
@@ -68,27 +70,44 @@ class test_ricky extends Command
                 $count_301 = 0; // 301 302
                 $count_303 = 0; // 303
                 $total_count = 0; // 总课时
+                $money3 = 0;
                 foreach($data as $val) {
-                    $lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
+                    //$lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
 
                     //echo "时长".$lesson_count;
-                    $count = $lesson_count / 40;
-                    //if ($teacherid == "398239") {
-                    //    echo $lesson_count." ".$count." ---> ";
-                    //}
+                    //$count = $lesson_count / 40;
+                    $count = $val["lesson_count"] / 100;
+
+                    $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
+                    $reward = $money->get_lesson_reward_money(
+                        0, $val['already_lesson_count'], $val['teacher_money_type'], $val['teacher_type'], $type
+                    );
                     $total_count += $count;
+                    $coef3 = $rules3[$val["level"]];
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
+                        $money3 += $count * ($coef3[0] + $reward);
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[0]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
                         $count_106 += $count;
+                        $money3 += $count * ($coef3[1] + $reward);
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[1]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     } elseif ($val["grade"] == 203) {
                         $count_203 += $count;
+                        $money3 += $count * ($coef3[2] + $reward);
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
+                        $money3 += $count * ($coef3[2] + $reward);
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     } else {
+                        echo $val["grade"];
                         $count_303 += $count;
+                        $money3 += $count * ($coef3[3] + $reward);
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].PHP_EOL;
                     }
                 }
+
                 //$tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
                 $tea[$teacherid]["total_count_".$v] = $total_count;
                 $tea[$teacherid]["count_101_".$v] = $count_101;
@@ -98,8 +117,8 @@ class test_ricky extends Command
                 $tea[$teacherid]["count_303_".$v] = $count_303;
                 //echo "总课时数".$total_count;
                 //echo $item['level'];
-                $coef3 = $rules3[$item["level"]];
-                $money3 = $count_101 * $coef3[0] + $count_106 * $coef3[1] + ($count_203 + $count_301) * $coef3[2] + $count_303 * $coef3[3];
+                //$coef3 = $rules3[$item["level"]];
+                //$money3 = $count_101 * $coef3[0] + $count_106 * $coef3[1] + ($count_203 + $count_301) * $coef3[2] + $count_303 * $coef3[3];
                 // 处理年级课时数
                 if ($total_count <= 30) {
                     $money1 = 0;
