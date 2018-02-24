@@ -111,7 +111,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_resource_type = 0;
         $tmk_student_status   = 0;
         $orderid              = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid,admin_revisiterid" );
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid,admin_revisiterid");
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
@@ -318,16 +318,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function check_seller_student($userid,$tmk_student_status,$orderid,$phone,$tmk_adminid,$admin_revisiterid){
+        $nick = $this->task->cache_get_student_nick($userid);
         if($orderid>0){
             $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
             $contract_status_desc = E\Econtract_status::get_desc($contract_status);
             if($contract_status>1){//释放
                 $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
-                foreach(['tom','应怡莉','林文彬'] as $account){
-                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的已签约[".$contract_status_desc."]例子重进待释放:".$phone."=>orderid:".$orderid);
+                foreach(['tom','应怡莉'] as $account){
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的已签约[".$contract_status_desc."]例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进=>orderid:".$orderid);
                 }
                 if($admin_revisiterid>0){
-                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","已签约[".$contract_status_desc."]例子重进:".$phone);
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","你有一个已签约[".$contract_status_desc."]例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }else{
                     $this->set_seller_student_new($userid);
                 }
@@ -343,11 +344,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if(in_array($tmk_student_status,[0,2])){//释放
                 $tmk_student_status_desc = E\Etmk_student_status::get_desc($tmk_student_status);
                 $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
-                foreach(['tom','应怡莉','林文彬'] as $account){
-                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的tmk状态为[".$tmk_student_status_desc."]的例子重进待释放:".$phone);
+                foreach(['tom','应怡莉'] as $account){
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }
                 if($admin_revisiterid>0){
-                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","tmk状态为[".$tmk_student_status_desc."]的例子重进:".$phone);
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","你有一个例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }else{
                     $this->set_seller_student_new($userid);
                 }
