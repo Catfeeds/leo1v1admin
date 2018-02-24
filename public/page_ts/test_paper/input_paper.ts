@@ -126,7 +126,7 @@ $(function(){
     })
 
     //编辑试卷
-    $('.opt-edit').onclick('click',function(){
+    $('.opt-edit').on('click',function(){
         var opt_data = $(this).parents('tr').get_self_opt_data();
         var paper_id = opt_data.paper_id;
  
@@ -134,6 +134,7 @@ $(function(){
             console.log(ret);
             if(ret.ret == 0){
                 if( ret.status == 200 ){
+                    //console.log(ret);
                     var paper = $(".paper_edit").clone();
                     paper.removeClass("hide");
 
@@ -149,8 +150,37 @@ $(function(){
                         }]
                     });
                     var info = ret.paper;
+                    //题目
+                    paper.find('.paper_id').val(info.paper_id);
+                    paper.find('.paper_name').val(info.paper_name);
+                    paper.find('.paper_grade').val(info.grade);
+                    paper.find('.paper_subject').val(info.subject);
+                    paper.find('.paper_volume').val(info.volume);
+                    get_book(paper.find('.paper_book'),0,info.subject,info.grade);
+                    paper.find('.paper_book').val(info.book);
+                    var answer = info.answer;
+                    if(answer != ''){
+                        var answer_arr = $.parseJSON(answer);
+                        for(var x in answer_arr){
+                            var answer_tr = paper.find(".edit_answer:first").clone().removeClass("hide");
+                            answer_tr.find("input:eq(0)").val(answer_arr[x][0]);
+                            answer_tr.find("input:eq(1)").val(answer_arr[x][1]);
+                            answer_tr.find("input:eq(2)").val(answer_arr[x][2]);
+                            answer_tr.find("input:eq(3)").val(answer_arr[x][3]);
+                            paper.find(".paper_answer tbody tr.edit_answer:last").after(answer_tr);
+                        }
+                    }
 
-
+                    //维度名称
+                    if( info.dimension != ''){
+                        var dimension_arr = $.parseJSON(info.dimension);
+                        for(var x in dimension_arr){
+                            var dimension_tr = paper.find(".edit_dimension:first").clone().removeClass("hide");
+                            dimension_tr.find("td:eq(0)").text(dimension_arr[x][0]);
+                            dimension_tr.find("td:eq(1) input").val(dimension_arr[x][1]);
+                            paper.find(".paper_dimension tbody tr.edit_dimension:last").after(dimension_tr);
+                        }
+                    }
                     dlg.getModalDialog().css("width", "1030px");
                 }
             }
@@ -192,7 +222,7 @@ var get_book = function(obj,bookid,subject,grade){
 
 }
 
-
+//点击tabq切换不同的页面
 function edit_paper(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement; 
@@ -201,8 +231,33 @@ function edit_paper(obj,oEvent){
     if(!$(target).hasClass("edit_have")){
         var answer_length = $(target).parents(".paper_edit").find(".edit_box:eq(0) .edit_answer").length;
         if( ( edit_index == 2 || edit_index == 3 ) && answer_length == 1 ){
-            BootstrapDialog.alert("请先插入题目！");
+            BootstrapDialog.alert("请先插入题目和维度并且保存！");
             return false;
+        }
+
+        //绑定题目
+        if( edit_index == 2 ){
+            var paper_id = $(target).parents('.paper_edit').find('.edit_box:eq(0) .paper_id').val();
+            do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
+                if(ret.ret == 0 && ret.status == 200 && ret.paper.answer != "" && ret.paper.dimension != ""){
+                    var answer_arr = $.parseJSON(ret.paper.answer);
+                    var dimension_arr = $.parseJSON(ret.paper.dimension);
+                    var option_str = "<option value='0'>全部</option>";
+                    
+                    for(var x in dimension_arr){
+                        option_str += "<option value='"+dimension_arr[x][0]+"'>"+dimension_arr[x][1]+"</option>";
+
+                        var dimension_var = $(target).parents(".paper_edit").find(".edit_box:eq(2) .dimension_var:first").clone().removeClass("hide");
+                        dimension_var.find("td:eq(0)").text(dimension_arr[x][1]);
+                        dimension_var.find("td:eq(2)").attr({"dimension":dimension_arr[x][0]});
+                        $(target).parents(".paper_edit").find(".edit_box:eq(2) .dimension_var:last").after(dimension_var);
+                    }
+                    $(target).parents(".paper_edit").find(".edit_box:eq(2) .dimension_item").html(option_str);
+                }else{
+                    BootstrapDialog.alert("题目和维度尚未保存！");
+                    return false;
+                }
+            });
         }
 
         $(target).addClass("edit_have").siblings().removeClass("edit_have");
@@ -216,6 +271,7 @@ function edit_paper(obj,oEvent){
     }
 }
 
+//
 function get_paper_book(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement; 
@@ -225,6 +281,7 @@ function get_paper_book(obj,oEvent){
     get_book($('.paper_book'),0,subject,grade);
 }
 
+//添加评测卷信息
 function add_answer(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement;
@@ -254,6 +311,7 @@ function add_answer(obj,oEvent){
     
 }
 
+//评测卷信息插入题目信息
 function answer_insert(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement; 
@@ -287,6 +345,7 @@ function answer_insert(obj,oEvent){
 
 }
 
+//评测卷信息上移
 function answer_up(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement; 
@@ -318,6 +377,7 @@ function answer_up(obj,oEvent){
     $(target).parents("tr").after(prev_obj);
 }
 
+//评测卷信息下移
 function answer_down(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement; 
@@ -352,6 +412,7 @@ function answer_down(obj,oEvent){
     
 }
 
+//评测卷信息删除信息
 function answer_dele(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement; 
@@ -392,12 +453,14 @@ function add_dimension(obj,oEvent){
 
 }
 
+//维度设置删除
 function dimension_dele(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement;
     $(target).parents("tr").remove();
 }
 
+//评卷测信息保存
 function save_answer(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement;
@@ -473,12 +536,13 @@ function save_answer(obj,oEvent){
     }
 }
 
+//维度保存
 function save_dimension(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement;
     var paper_id = $(target).parents('.paper_edit').find('.edit_box:eq(0) .paper_id').val();
     var cur_obj = $(target).parents('.edit_box');
-    var could_answer = 0;
+    var could_answer = 1;
     var dimension = [];
     cur_obj.find("table tbody tr.edit_dimension:gt(0)").each(function(){
         var item_1 = $(this).find("td:eq(0)").text();
@@ -497,6 +561,8 @@ function save_dimension(obj,oEvent){
         'save_type'  : 2,
     };
 
+    console.log(data);
+
     if( could_answer == 1 ){
         $.ajax({
             type     : "post",
@@ -511,7 +577,33 @@ function save_dimension(obj,oEvent){
                 }
             }
         });
-
     }
-
 }
+
+//获取每一个维度绑定的题目
+function dimension_bind(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var dimension = $(target).parents("td").attr("dimension");
+    $(target).parents(".edit_box").find(".dimension_item").val(dimension);
+    dimension_pub_bind(dimension,$(target).parents(".edit_box"));
+}
+
+//点击select框获取每一个维度绑定的题目
+function get_dimension(dimension,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    dimension_pub_bind(dimension,$(target).parents(".edit_box"));
+}
+
+function dimension_pub_bind(dimension,obj){
+    if(parseInt(dimension) != 0){
+        obj.find(".dimension_box").addClass("hide");
+        obj.find(".dimension_bind").removeClass("hide");
+    }else{
+        obj.find(".dimension_box").removeClass("hide");
+        obj.find(".dimension_bind").addClass("hide");
+        
+    }
+}
+

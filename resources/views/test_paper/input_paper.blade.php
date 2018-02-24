@@ -40,12 +40,18 @@
      .edit_answer a{ cursor:pointer}
      .answer_save{ text-align:center;margin-top:10px }
      .answer_save .answer_save_all{ padding: 5px 20px; font-size: 18px;}
-     .paper_dimension{ width:960px; margin-top:10px}
-     .paper_dimension table{ width:960px;}
+     .paper_dimension,.dimension_box,.dimension_bind{ width:960px; margin-top:10px}
+     .paper_dimension table,.dimension_box table,.dimension_bind table{ width:960px;}
      .paper_dimension table tr th, .paper_dimension table tr td { border:1px solid #4b5d6a;padding:10px 5px }
      .paper_dimension table tr td input{ width:100%;border:0px;height:29px;text-indent: 5px;}
      .paper_dimension table tr.edit_dimension td{ padding:0px }
      .dimension-dele{ cursor:pointer }
+     .check_dimension{ font-size:14px;margin-top:10px }
+     .check_dimension span{ margin-right:10px;font-size:16px }
+     .check_dimension .dimension_item{ width:200px;height: 32px;background: white; }
+     .dimension_box table tr th, .dimension_box table tr td,.dimension_bind table tr th, .dimension_bind table tr td { border:1px solid #4b5d6a;padding:10px 5px }
+     .dimension_bind input[type=checkbox]{ width :18px;height :18px;}
+     .dimension_box .dimension_var a{ cursor:pointer}
     </style>
     <section class="content">
 
@@ -161,7 +167,7 @@
         </table>
     </div>
 
-    <div class="paper_edit hide">
+    <div class="paper_edit">
         <div class="paper_tab">
             <div class="edit_paper fl edit_none edit_have" onclick="edit_paper(this,event)">评测卷信息</div>
             <div class="edit_paper fl edit_none" onclick="edit_paper(this,event)">维度设置</div>
@@ -284,7 +290,7 @@
         <div class="edit_box hide">
             <div class="check_dimension">
                 <span>选择维度</span>
-                <select class="dimension_item">
+                <select class="dimension_item" onchange="get_dimension(this.options[this.options.selectedIndex].value,event)">
                     <option value="-1">全部</option>
                 </select>
             </div>
@@ -298,7 +304,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="dimension_var">
+                        <tr class="dimension_var hide">
                             <td></td>
                             <td></td>
                             <td>
@@ -308,6 +314,30 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="dimension_bind hide">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>已绑定的题目</th>
+                            <th>绑定的题目</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="dimension_answer">
+                            <td><input type="checkbox" class="have_bind"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="answer_save">
+                    <button class="btn btn-primary answer_save_all" onclick="save_bind(this,event)">保存绑定</button>
+                </div>
+
+            </div>
+
         </div>
         <div class="edit_box hide">
             44
