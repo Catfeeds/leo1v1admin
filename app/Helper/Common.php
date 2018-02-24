@@ -452,11 +452,12 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new PHPMailer(); //建立邮件发送类
+        $mail = new \PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
         $mail->Host = "smtp.leoedu.com"; // 您的企业邮局域名
+        $mail->SMTPAutoTLS=false;
 
 
         $mail->SMTPAuth = true; // 启用SMTP验证功能
