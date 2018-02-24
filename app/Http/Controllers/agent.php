@@ -441,6 +441,12 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $time = strtotime(date('Y-m-d',strtotime("2018-02-23 16:19:43")))+8*24*3600-time();
+        $hour = floor($time/3600);
+        $min = floor($time%3600/60);
+        $sec = floor($time%3600%60);
+        $time_desc = $hour.'时'.$min.'分'.$sec.'秒';
+        dd($time_desc);
         $nick = $this->cache_get_student_nick($userid=60001);
         dd($nick);
         // $field_list = $this->t_seller_student_new->field_get_list($userid=62793, 'cc_not_exist_count,cc_invalid_count');
