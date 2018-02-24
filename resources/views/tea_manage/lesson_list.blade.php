@@ -176,10 +176,10 @@
                 <tr>
                     <td class="remove-for-xs">id</td>
                     <td style="min-width:50px">类型</td>
-                    {!!\App\Helper\Utils::th_order_gen([["上课时段", "lesson_start", "" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["上课时段", "lesson_start", "th_date_range" ]])!!}
                     <td style="display:none;">上课结束时间</td>
                     <td style="display:none;">上课实际开始时间</td>
-                    {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "th_grade" ]])!!}
                     <td style="display:none;" >科目</td>
                     <td style="display:none;" >知识点</td>
                     <td style="display:none;">老师</td>
