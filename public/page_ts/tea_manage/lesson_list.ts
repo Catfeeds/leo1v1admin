@@ -4,7 +4,7 @@ var Cwhiteboard=null;
 var notify_cur_playpostion =null;
     function load_data( ){
         $.reload_self_page({
-		        order_by_str : g_args.order_by_str,
+            order_by_str : g_args.order_by_str,
             date_type     :	$('#id_date_type').val(),
             opt_date_type :	$('#id_opt_date_type').val(),
             start_time    :	$('#id_start_time').val(),
@@ -2800,6 +2800,18 @@ $(function(){
 
     });
 
+    $('.opt-download-zip').on('click',function(){
+        var opt_data = $(this).get_opt_data();
+        $.do_ajax('/ajax_deal3/downloadPPtZip',{
+            "lessonid" : opt_data.lessonid
+        },function(data){
+            if(data.base_name){
+                window.location.href=data.url;
+            }else{
+                alert('老师未上传PPT文件!');
+            }
+        });
+    });
 
 
    // download_hide();

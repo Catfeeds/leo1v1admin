@@ -761,6 +761,7 @@ class NewRouteConfig {
         "/test_paper/save_paper_answer"                  =>true,
         "/test_paper/get_paper"                          =>true,
         "/test_paper/save_dimension_answer"              =>true,
+        "/test_paper/save_suggestion"                    =>true,
     ];
 
     static $dev_url_map = [

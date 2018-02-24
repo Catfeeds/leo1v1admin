@@ -61,7 +61,7 @@ class send_error_mail extends Job implements ShouldQueue
         }else{
             \App\Helper\Utils::logger("ADMIN MAIL HANDLE :$to:$title:$content");
 
-            $ret = \App\Helper\Email::SendMailLeoCom($to,$title,$content);
+            $ret = \App\Helper\Common::send_mail_leo_com($to,$title,$content);
             if (!$ret) {
             }
             \App\Helper\Utils::logger("ADMIN MAIL HANDLE END :$to");
