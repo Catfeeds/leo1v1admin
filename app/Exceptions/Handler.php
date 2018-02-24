@@ -76,7 +76,6 @@ class Handler extends ExceptionHandler
             }
         }
         $list_str=preg_replace("/<br\/>/","\n" ,$bt_str );
-        \App\Helper\Utils::logger( "LOG_HANDER:". $e->getMessage()."\n $list_str ");
 
         if ( \App\Helper\Utils::check_env_is_release() ) {
             if ( !(session("debug_flag") || \App\Helper\Config::check_in_admin_list($account))) {
