@@ -76,9 +76,6 @@ class test_ricky extends Command
                     //echo "时长".$lesson_count;
                     //$count = $lesson_count / 40;
                     $count = $val["lesson_count"] / 100;
-                    //if ($teacherid == "398239") {
-                    //    echo $lesson_count." ".$count." ---> ";
-                    //}
 
                     $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
                     $reward = $money->get_lesson_reward_money(
@@ -105,12 +102,6 @@ class test_ricky extends Command
                         $money3 += $count * $coef3[3];
                     }
                 }
-                // $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
-                // $reward = $money->get_lesson_reward_money(
-                //     0, $val['already_lesson_count'], $val['teacher_money_type'], $val['teacher_type'], $type
-                // );
-
-                // $money3 += $reward;
 
                 //$tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
                 $tea[$teacherid]["total_count_".$v] = $total_count;
