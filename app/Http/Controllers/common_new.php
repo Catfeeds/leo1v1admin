@@ -2016,7 +2016,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $deal_status = $this->get_in_int_val('status');
         $this->t_deal_ppt_to_h5->field_update_list($id, [
             "uuid" => $uuid,
-            // "id_deal_falg" => 1
+            "id_deal_falg" => 3//处理中
         ]);
         return $this->output_succ();
     }
