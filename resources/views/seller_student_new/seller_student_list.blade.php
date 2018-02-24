@@ -370,6 +370,8 @@
         <table class="common-table">
             <thead>
                 <tr>
+                    <td style="display:none;">剩余时间</td>
+                    <td style="display:none;">时间详情</td>
                     <td >电话</td>
                     <td >渠道</td>
                     <td style="min-width:140px;">个人信息</td>
@@ -411,6 +413,20 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td >
+                            {{$var["left_time_desc"]}}
+                        </td>
+                        <td >
+                            抢单模式:{{$var["assign_type"]}}
+                            <br/>
+                            分配时间:{{$var["admin_assign_time"]}}
+                            <br/>
+                            首次拨通时间:{{$var["first_contact_time"]}}
+                            <br/>
+                            最后拨打时间:{{$var["last_revisit_time"]}}
+                            <br/>
+                            最后编辑时间:{{$var["last_edit_time"]}}
+                        </td>
                         <td  class="td-phone">
                             <div class="phone-data">
                                 @if($var["seller_student_assign_from_type"])

@@ -31,27 +31,39 @@
      .paper_info_input span{ margin-right:10px;width:70px;display:inline-block }
      .paper_info_input select{ width:200px;height: 32px;background: white;}
      .paper_info_input .search_book{ height: 25px;line-height: 15px;margin-bottom: 4px;}
-     .paper_answer{ width:960px; margin-top:10px}
+     .paper_answer,.suggestion_info,.suggest_result{ width:960px; margin-top:10px}
      .paper_answer table{ width:960px;}
      .paper_answer table tr th, .paper_answer table tr td { border:1px solid #4b5d6a;padding:10px 5px }
      .paper_answer table tr.edit_answer td{ padding:0px }
      .add_answer{ text-align:center;color:#0995b8;cursor:pointer }
      .paper_answer table tr td input{ width:100%;height:100%;border:0px;height:30px;text-indent: 5px;}
-     .edit_answer a{ cursor:pointer}
+     .edit_answer a{ cursor:pointer;margin-left:5px}
      .answer_save{ text-align:center;margin-top:10px }
      .answer_save .answer_save_all{ padding: 5px 20px; font-size: 18px;}
      .paper_dimension,.dimension_box,.dimension_bind{ width:960px; margin-top:10px}
-     .paper_dimension table,.dimension_box table,.dimension_bind table{ width:960px;}
+     .paper_dimension table,.dimension_box table,.dimension_bind table,.suggestion_info table{ width:960px;}
      .paper_dimension table tr th, .paper_dimension table tr td { border:1px solid #4b5d6a;padding:10px 5px }
-     .paper_dimension table tr td input{ width:100%;border:0px;height:29px;text-indent: 5px;}
-     .paper_dimension table tr.edit_dimension td{ padding:0px }
+     .paper_dimension table tr td input{ width:100%;border:0px;text-indent: 5px;}
+     .paper_dimension table tr.edit_dimension td.edit_dimension_name{ padding:0px }
      .dimension-dele{ cursor:pointer }
      .check_dimension{ font-size:14px;margin-top:10px }
      .check_dimension span{ margin-right:10px;font-size:16px }
      .check_dimension .dimension_item{ width:200px;height: 32px;background: white; }
-     .dimension_box table tr th, .dimension_box table tr td,.dimension_bind table tr th, .dimension_bind table tr td { border:1px solid #4b5d6a;padding:10px 5px }
+     .dimension_box table tr th, .dimension_box table tr td,.dimension_bind table tr th, .dimension_bind table tr td,.suggestion_info table tr th, .suggestion_info table tr td,.suggest_result table tr th, .suggest_result table tr td { border:1px solid #4b5d6a;padding:10px 5px }
      .dimension_bind input[type=checkbox]{ width :18px;height :18px;}
      .dimension_box .dimension_var a{ cursor:pointer}
+     .suggest_result{ padding : 10px 15px;background:rgba(200, 196, 196, 0.15)}
+     .suggest_result table{ width :900px }
+     .suggest_result span{ font-size:14px;font-weight:bold;margin:8px 0px}
+     .suggest_result span font{ color:red}
+     .suggest_result table{margin-top:10px;background:#faf8f8 }
+     .suggest_result .suggest_score{ margin:10px 0px}
+     .suggest_result .suggest_supply{ position:relative;}
+     .suggest_result .suggest_supply span{ position:absolute;width:100px;top:0px}
+     .suggest_result .suggest_supply textarea{ margin:10px 0px 0px 100px;width:750px;height:160px}
+     .suggest_result .suggest_score input{ width:50px}
+     .suggest_save{ margin-top:10px;text-align:center}
+     .suggest_save button{ margin:0 auto}
     </style>
     <section class="content">
 
@@ -167,7 +179,7 @@
         </table>
     </div>
 
-    <div class="paper_edit">
+    <div class="paper_edit hide">
         <div class="paper_tab">
             <div class="edit_paper fl edit_none edit_have" onclick="edit_paper(this,event)">评测卷信息</div>
             <div class="edit_paper fl edit_none" onclick="edit_paper(this,event)">维度设置</div>
@@ -268,7 +280,7 @@
                     <tbody>
                         <tr class="edit_dimension hide">
                             <td></td>
-                            <td><input type="text"></td>
+                            <td class="edit_dimension_name"><input type="text"></td>
                             <td></td>
                             <td>
                                 <a class="dimension-dele" onclick="dimension_dele(this,event)" title="删除">删除</a>                     
@@ -340,7 +352,65 @@
 
         </div>
         <div class="edit_box hide">
-            44
+            <div class="suggestion_info">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="20%">编号</th>
+                            <th width="50%">维度名称</th>
+                            <th width="30%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="suggest_item hide">
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a onclick="suggest_set(this,event)" title="设置维度结果">设置维度结果</a>       
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="suggest_result hide">
+                <span class="suggest_dimension">维度：<font>代数知识</font></span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="20%">得分范围</th>
+                            <th width="50%">评测结果与建议</th>
+                            <th width="30%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="suggest_item">
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a onclick="suggest_edit(this,event)" title="修改">修改</a>
+                                <a onclick="suggest_dele(this,event)" title="删除">删除</a> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="suggest_score">
+                    <span>得分范围：</span>
+                    <span><input type="text" class="score_min"></span>
+                    <span>-</span>
+                    <span><input type="text" class="score_max"></span>
+                    <span class="score_total">总分：<font>8</font></span>
+                </div>
+                <div class="suggest_supply">
+                    <span>结果与建议：</span>
+                    <textarea></textarea>
+                </div>
+                <div class="suggest_save">
+                    <button class="btn btn-info answer_save_all" onclick="save_suggest(this,event)">新增结果与建议</button>
+                </div>
+            </div>
+
         </div>
 
 

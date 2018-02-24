@@ -111,7 +111,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_resource_type = 0;
         $tmk_student_status   = 0;
         $orderid              = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid,admin_revisiterid" );
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid,admin_revisiterid");
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
@@ -318,16 +318,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function check_seller_student($userid,$tmk_student_status,$orderid,$phone,$tmk_adminid,$admin_revisiterid){
+        $nick = $this->task->cache_get_student_nick($userid);
         if($orderid>0){
             $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
             $contract_status_desc = E\Econtract_status::get_desc($contract_status);
             if($contract_status>1){//释放
                 $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
-                foreach(['tom','应怡莉','林文彬'] as $account){
-                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的已签约[".$contract_status_desc."]例子重进待释放:".$phone."=>orderid:".$orderid);
+                foreach(['tom','应怡莉'] as $account){
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的已签约[".$contract_status_desc."]例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进=>orderid:".$orderid);
                 }
                 if($admin_revisiterid>0){
-                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","已签约[".$contract_status_desc."]例子重进:".$phone);
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","你有一个已签约[".$contract_status_desc."]例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }else{
                     $this->set_seller_student_new($userid);
                 }
@@ -343,11 +344,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if(in_array($tmk_student_status,[0,2])){//释放
                 $tmk_student_status_desc = E\Etmk_student_status::get_desc($tmk_student_status);
                 $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
-                foreach(['tom','应怡莉','林文彬'] as $account){
-                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的tmk状态为[".$tmk_student_status_desc."]的例子重进待释放:".$phone);
+                foreach(['tom','应怡莉'] as $account){
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }
                 if($admin_revisiterid>0){
-                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","tmk状态为[".$tmk_student_status_desc."]的例子重进:".$phone);
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","你有一个例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }else{
                     $this->set_seller_student_new($userid);
                 }
@@ -611,12 +612,32 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
         $sql=$this->gen_sql_new(
-            "select   ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,global_tq_called_flag,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,s.is_test_user,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status,sal.seller_student_assign_from_type "
-            .",aga.nickname "
+            "select ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,"
+            ."tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid,"
+            ."competition_call_time,pay_time,tr.test_lesson_order_fail_desc,tr.test_lesson_order_fail_flag,"
+            ."seller_student_sub_status,f.flow_status stu_test_paper_flow_status,f.flowid stu_test_paper_flowid,"
+            ."o.price/100 order_price,s.user_agent,tr.notify_lesson_day1,tr.notify_lesson_day2,"
+            ."tss.confirm_time,tss.confirm_adminid,tss.fail_greater_4_hour_flag,tr.current_lessonid,"
+            ."tss.test_lesson_fail_flag,tss.success_flag,tss.fail_greater_4_hour_flag,tss.fail_reason,"
+            ."t.current_require_id,t.test_lesson_subject_id,add_time,seller_student_status,s.userid,s.nick,"
+            ."s.origin,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid,"
+            ."ss.admin_assign_time,ss.sub_assign_time_2,s.origin_assistantid,s.origin_userid,t.subject,"
+            ."s.grade,ss.user_desc,ss.has_pad,ss.last_revisit_time,ss.last_revisit_msg,global_tq_called_flag,"
+            ."tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag,tr.require_time,l.teacherid,"
+            ."t.stu_test_paper,t.tea_download_paper_time,tr.seller_require_change_flag,tr.seller_require_change_time,"
+            ."accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,"
+            ."l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,"
+            ."s.type study_type,s.lesson_count_all,s.lesson_count_left,s.is_test_user,o.contract_type,o.price,"
+            ."o.lesson_total ,o.discount_price,o.order_status,tr.accept_flag,s.init_info_pdf_url,o.orderid,"
+            ."tss.parent_confirm_time,p.wx_openid parent_wx_openid,t.stu_request_lesson_time_info,"
+            ."t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,"
+            ."tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc,tmk_student_status,"
+            ."sal.seller_student_assign_from_type,aga.nickname,ss.seller_student_assign_type,"
+            ."ss.last_edit_time,ss.first_contact_time "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
             .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid and sal.check_hold_flag = 0 '
-            ."  left join %s s on ss.userid=s.userid   "
+            ." left join %s s on ss.userid=s.userid "
             ." left join %s tr on   t.current_require_id = tr.require_id "
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "
             ." left join %s l on  tss.lessonid = l.lessonid "
