@@ -145,6 +145,7 @@ interface RowData {
 	seller_student_assign_type	:any;
 	last_edit_time	:any;
 	first_contact_time	:any;
+	assign_type	:any;
 	left_time	:any;
 	left_time_desc	:any;
 	phone_hide	:any;

@@ -418,9 +418,13 @@
                         </td>
                         <td >
                             抢单模式:{{$var["assign_type"]}}
+                            <br/>
                             分配时间:{{$var["admin_assign_time"]}}
+                            <br/>
                             首次拨通时间:{{$var["first_contact_time"]}}
+                            <br/>
                             最后拨打时间:{{$var["last_revisit_time"]}}
+                            <br/>
                             最后编辑时间:{{$var["last_edit_time"]}}
                         </td>
                         <td  class="td-phone">

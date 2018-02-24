@@ -475,7 +475,6 @@ class seller_student_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "last_edit_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "first_contact_time");
-            \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "seller_require_change_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","", "Y-m-d H:i");
