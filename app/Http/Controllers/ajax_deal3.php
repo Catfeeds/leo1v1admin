@@ -1084,4 +1084,15 @@ class ajax_deal3 extends Controller
         return $this->output_succ(['data'=>$ret_info]);
     }
 
+    public function downloadPPtZip(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $base_name   = $this->t_lesson_info->get_zip_url($lessonid);
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$base_name;
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $this->output_succ(['url'=>$base_url,'base_name'=>$base_name]);
+    }
 }
