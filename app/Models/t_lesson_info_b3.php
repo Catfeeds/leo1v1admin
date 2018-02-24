@@ -3882,7 +3882,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_type in (0,1,3)",
             "lesson_del_flag=0"
         ];
-        $sql = $this->gen_sql_new("select lesson_start,lesson_end,lesson_count,grade,level,teacher_type,teacher_money_type from %s where %s",
+        $sql = $this->gen_sql_new("select lesson_start,lesson_end,lesson_count,grade,level,teacher_type,teacher_money_type,already_lesson_count from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where
         );

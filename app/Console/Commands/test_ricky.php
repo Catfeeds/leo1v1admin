@@ -59,7 +59,6 @@ class test_ricky extends Command
                 $start_time = strtotime("2018-1-1");
                 $end_time = strtotime("2018-2-1");
             }
-            $info = [285211];
             foreach($info as $item) {
                 $teacherid = $item['teacherid'];
                 $tea[$teacherid]["nick"] = $item["realname"];
@@ -100,7 +99,7 @@ class test_ricky extends Command
                     }
                     $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["teacher_type"], $val["level"]);
                     $reward = $money->get_lesson_reward_money(
-                        0, $total_count, $val['teacher_money_type'], $val['teacher_type'], $type
+                        0, $val['already_lesson_count'], $val['teacher_money_type'], $val['teacher_type'], $type
                     );
 
                     $money3 += $reward;
