@@ -79,8 +79,15 @@ class test_ricky extends Command
                     //if ($teacherid == "398239") {
                     //    echo $lesson_count." ".$count." ---> ";
                     //}
+
+                    $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
+                    $reward = $money->get_lesson_reward_money(
+                        0, $val['already_lesson_count'], $val['teacher_money_type'], $val['teacher_type'], $type
+                    );
                     $total_count += $count;
                     $coef3 = $rules3[$val["level"]];
+
+                    $coef3 += $reward;
                     if ($val["grade"] >= 101 && $val["grade"] <= 105) {
                         $count_101 += $count;
                         $money3 += $count * $coef3[0];
@@ -97,12 +104,6 @@ class test_ricky extends Command
                         $count_303 += $count;
                         $money3 += $count * $coef3[3];
                     }
-                    $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
-                    $reward = $money->get_lesson_reward_money(
-                        0, $val['already_lesson_count'], $val['teacher_money_type'], $val['teacher_type'], $type
-                    );
-
-                    $money3 += $reward;
                 }
                 // $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
                 // $reward = $money->get_lesson_reward_money(
