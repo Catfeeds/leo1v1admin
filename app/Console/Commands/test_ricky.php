@@ -97,19 +97,19 @@ class test_ricky extends Command
                         $count_101 += $count;
                         if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[0] + $reward);
 
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[0]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
                     } elseif (intval($val["grade"]) >= 106 && intval($val["grade"]) <= 202) {
                         $count_106 += $count;
                         if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[1] + $reward);
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[1]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
                     } elseif (intval($val["grade"]) == 203) {
                         $count_203 += $count;
                         if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[2] + $reward);
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
                     } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
                         if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[2] + $reward);
-                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
+                        echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[2]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
                     } else {
                         $count_303 += $count;
                         if ($val["competition_flag"] != 1) {
