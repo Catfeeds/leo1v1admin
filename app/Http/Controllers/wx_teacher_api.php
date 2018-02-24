@@ -1496,7 +1496,7 @@ class wx_teacher_api extends Controller
     }
 
     # ppt 配置文档更新时发送通知提示
-    public function getUpdateState(){
+    public function getUpdateState_111(){
     $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU"; //[待办事项]
 
     $data= [
