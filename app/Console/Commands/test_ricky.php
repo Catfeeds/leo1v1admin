@@ -46,6 +46,8 @@ class test_ricky extends Command
         $rules1 = [[16, 17, 18, 20, 28], [26, 30, 36, 39, 46], [34, 38, 44, 49, 54], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
         $rules2 = [[18, 22, 28, 32, 38], [26, 28, 36, 39, 46], [30, 33, 40, 43, 50], [36, 38, 46, 48, 55], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
         $rules3 = [[24, 27, 30, 33], [31, 34, 37, 40], [38, 41, 44, 47], [45, 48, 51, 54]];
+        // 2-25新规则
+        $rules4 = [[18, 19, 20, 22, 26], [28, 29, 32, 34, 40], [34, 36, 40, 44, 52], [42, 44, 49, 53, 63], [45, 47, 52, 57, 67]];
         // 查武汉全职老师 select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0;
         $info = $task->t_teacher_info->get_info_for_money_type();
         $tea = [];
@@ -128,12 +130,15 @@ class test_ricky extends Command
                 if ($total_count <= 30) {
                     $money1 = 0;
                     $money2 = 0;
+                    $money4 = 0;
                 } elseif ($total_count >= 31 && $total_count <= 60) {
                     $coef1 = $rules1[0];
                     $coef2 = $rules2[0];
+                    $coef4 = $rules4[0];
                     //var_dump($rules1[0]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 } elseif ($total_count >= 61 && $total_count <= 120) {
                     $coef1 = $rules1[1];
                     //var_dump($rules1[1]);
@@ -143,29 +148,37 @@ class test_ricky extends Command
                     } else {
                         $coef2 = $rules2[2];
                     }
+                    $coef4 = $rules4[1];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 } elseif ($total_count >= 121 && $total_count <= 150) {
                     $coef1 = $rules1[2];
                     $coef2 = $rules2[3];
                     //var_dump($rules1[2]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                 } elseif ($total_count >= 151 && $total_count <= 195) {
                     $coef1 = $rules1[3];
                     $coef2 = $rules2[4];
+                    $coef4 = $rules4[3];
                     //var_dump($rules1[3]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 } else {
                     $coef1 = $rules1[4];
                     $coef2 = $rules2[5];
+                    $coef4 = $rules4[4];
                     //var_dump($rules1[4]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 }
                 $tea[$teacherid]['money_'.$v] = $money1;
                 $tea[$teacherid]['money_minny_'.$v] = $money2;
                 $tea[$teacherid]["money_sal_".$v] = $money3;
+                $tea[$teacherid]['money_neww_'.$v] = $money4;
             }
         }
         foreach($tea as $key => $t) {
@@ -178,8 +191,8 @@ class test_ricky extends Command
             echo $tea[$key]["total_count_12"]." ".$tea[$key]["count_101_12"]." ".$tea[$key]["count_106_12"]." ".$tea[$key]["count_203_12"]." ";
             echo $tea[$key]["count_301_12"]." ".$tea[$key]["count_303_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["count_101_1"]." ";
             echo $tea[$key]["count_106_1"]." ".$tea[$key]["count_203_1"]." ".$tea[$key]["count_301_1"]." ".$tea[$key]["count_303_1"].' ';
-            echo $tea[$key]["money_sal_12"]." ".$tea[$key]["money_sal_1"]." ";
-            echo $tea[$key]["money_12"]." ".$tea[$key]["money_1"]." ".$tea[$key]["money_minny_12"]." ".$tea[$key]["money_minny_1"].PHP_EOL;
+            echo $tea[$key]["money_sal_12"]." ".$tea[$key]["money_sal_1"]." ".$tea[$key]["money_12"]." ".$tea[$key]["money_1"]." ";
+            echo $tea[$key]["money_minny_12"]." ".$tea[$key]["money_minny_1"]." ".$tea[$key]["money_neww_12"]." ".$tea["money_neww_1"].PHP_EOL;
         }
 
         //dd($info);
