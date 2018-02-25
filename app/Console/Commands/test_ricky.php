@@ -154,10 +154,11 @@ class test_ricky extends Command
                 } elseif ($total_count >= 121 && $total_count <= 150) {
                     $coef1 = $rules1[2];
                     $coef2 = $rules2[3];
+                    $coef4 = $rules4[2];
                     //var_dump($rules1[2]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
-                    $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 } elseif ($total_count >= 151 && $total_count <= 195) {
                     $coef1 = $rules1[3];
                     $coef2 = $rules2[4];
@@ -192,7 +193,7 @@ class test_ricky extends Command
             echo $tea[$key]["count_301_12"]." ".$tea[$key]["count_303_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["count_101_1"]." ";
             echo $tea[$key]["count_106_1"]." ".$tea[$key]["count_203_1"]." ".$tea[$key]["count_301_1"]." ".$tea[$key]["count_303_1"].' ';
             echo $tea[$key]["money_sal_12"]." ".$tea[$key]["money_sal_1"]." ".$tea[$key]["money_12"]." ".$tea[$key]["money_1"]." ";
-            echo $tea[$key]["money_minny_12"]." ".$tea[$key]["money_minny_1"]." ".$tea[$key]["money_new_12"]." ".$tea[$key]["money_neww_1"].PHP_EOL;
+            echo $tea[$key]["money_minny_12"]." ".$tea[$key]["money_minny_1"]." ".$tea[$key]["money_new_12"]." ".$tea[$key]["money_new_1"].PHP_EOL;
         }
 
         //dd($info);
