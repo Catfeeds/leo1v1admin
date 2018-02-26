@@ -28,7 +28,7 @@ EOF
   mkdir  -p ./storage/{app,framework/{cache,sessions,views,views-testing},logs}
 
   文件权限
-  chmod a+wr -R ./storage/ ./bootstrap/cache ./public/page_ts/g_args.d.ts
+  chmod -R a+wr  ./storage/ ./bootstrap/cache ./public/page_ts/g_args.d.ts
 
   #生成 自动生成的代码
   ./gen_code.sh
