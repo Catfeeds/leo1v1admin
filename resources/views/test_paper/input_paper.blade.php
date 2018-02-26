@@ -64,6 +64,7 @@
      .suggest_result .suggest_score input{ width:50px}
      .suggest_save{ margin-top:10px;text-align:center}
      .suggest_save button{ margin:0 auto}
+     .suggest_item a{ cursor:pointer}
     </style>
     <section class="content">
 
@@ -385,7 +386,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="suggest_item">
+                        <tr class="suggest_item hide">
                             <td></td>
                             <td></td>
                             <td>

@@ -246,7 +246,7 @@ function edit_paper(obj,oEvent){
         if( edit_index == 3 ){
             do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
                 if( ret.ret == 0 && ret.status == 200){
-                    console.log(1);
+                    $(target).parents(".paper_edit").find(".edit_box:eq(3) .suggestion_info tbody tr.suggest_item:gt(0)").remove();
                     //维度名称
                     if( ret.paper.dimension != ''){
                         var dimension_arr = $.parseJSON(ret.paper.dimension);
@@ -749,4 +749,171 @@ function save_bind(obj,oEvent){
         }
     });
     
+}
+
+function suggest_set(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var dimension_id = $(target).parents("tr").find("td:eq(0)").text();
+    do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
+        if( ret.ret == 0 && ret.status == 200){
+            var question_bind = ret.paper.question_bind;
+            var answer = ret.paper.answer;
+            var dimension = ret.paper.dimension;
+            var suggestion = ret.paper.suggestion;
+
+            var bind_arr = [],answer_arr = [],dimension_arr = [],suggest_arr = [];
+            if( answer == ""){
+                BootstrapDialog.alert("先添加题目");
+                return false;
+            }
+            if( question_bind == ""){
+                BootstrapDialog.alert("先为维度绑定题目");
+                return false;
+            }
+            
+            answer_arr = $.parseJSON(answer);
+            bind_arr = $.parseJSON(question_bind);
+            dimension_arr = $.parseJSON(dimension);
+            var score_total = 0;
+            var dimension_name = dimension_arr[dimension_id];
+            var binds = bind_arr[dimension_id];
+            if( binds != undefined ){
+                for(var x in binds){
+                    score_total += parseInt(answer_arr[binds[x]][2]);
+
+                }
+            }
+            var cur_obj = $(target).parents(".edit_box").find(".suggest_result");
+            cur_obj.removeClass("hide");
+            cur_obj.find(".suggest_dimension font").attr({"dimension":dimension_id});
+            cur_obj.find(".suggest_dimension font").text(dimension_name);
+            cur_obj.find(".score_total font").text(score_total);
+            cur_obj.find(".suggest_score .score_min").val("");
+            cur_obj.find(".suggest_score .score_max").val("");
+            if( suggestion != ""){
+                suggest_arr = $.parseJSON(suggestion);
+                cur_obj.find("tbody tr.suggest_item:gt(0)").remove();
+                if( suggest_arr[dimension_id] != undefined ){
+                    console.log(suggest_arr);
+                    for( var x in suggest_arr[dimension_id] ){
+                        var sug_tr = cur_obj.find("tbody tr.suggest_item:first").clone().removeClass("hide");
+                        //sug_tr.find("td:eq(0) input").attr({"id":x});                       
+                        sug_tr.find("td:eq(0)").text(x);
+                        sug_tr.find("td:eq(1)").text(suggest_arr[dimension_id][x]);
+                        cur_obj.find("tbody tr.suggest_item:last").after(sug_tr);
+
+                    }
+                }
+            }else{
+                cur_obj.find("tbody tr.suggest_item:gt(0)").remove();
+            }
+
+        }else{
+            BootstrapDialog.alert("先为维度绑定题目");
+        }
+
+    })
+}
+
+function save_suggest(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var cur_obj = $(target).parents(".edit_box").find(".suggest_result");
+    var dimension = cur_obj.find(".suggest_dimension font").attr("dimension");
+    var score_total = parseInt(cur_obj.find(".score_total font").text());
+
+    var score_min = cur_obj.find('.score_min').val();
+    var score_max = cur_obj.find('.score_max').val();
+    var suggestion = cur_obj.find(".suggest_supply textarea").val();
+    if( score_min == ""){
+        BootstrapDialog.alert("请填写最小得分");
+        return false;
+    }
+    if( score_max == ""){
+        BootstrapDialog.alert("请填写最大得分");
+        return false;
+    }
+
+    if( suggestion == ""){
+        BootstrapDialog.alert("请填写维度建议");
+        return false;
+    }
+
+    if( parseInt(score_min) >= parseInt(score_max)){
+        BootstrapDialog.alert("最小得分不能大于最大得分");
+        return false;
+    }
+    if( parseInt(score_max) > score_total){
+        BootstrapDialog.alert("最大得分不能大于总得分");
+        return false;
+    }
+    var data = {
+        paper_id : paper_id,
+        dimension_id : dimension,
+        score_min : score_min,
+        score_max : score_max,
+        suggestion : suggestion,
+    };
+    $.ajax({
+        type     : "post",
+        url      : "/test_paper/save_suggestion",
+        dataType : "json",
+        data : data,
+        success   : function(result){
+            if(result.ret == 0){
+                BootstrapDialog.alert("保存成功");
+                var is_edit = cur_obj.find(".suggest_supply").attr("edit");
+                var score_range = score_min + "-" + score_max; 
+                if(is_edit == undefined){
+                    //新增维度结果建议                    
+                    var sug_tr = cur_obj.find("tbody tr.suggest_item:first").clone().removeClass("hide");                  
+                    sug_tr.find("td:eq(0)").text(score_range);
+                    sug_tr.find("td:eq(1)").text($.trim(suggestion));
+                    cur_obj.find("tbody tr.suggest_item:last").after(sug_tr);
+                }else{
+                    //编辑维度结果建议
+                    var edit_str = cur_obj.find("tbody tr.suggest_item_edit");
+                    edit_str.find("td:eq(0)").text(score_range);
+                    edit_str.find("td:eq(1)").text($.trim(suggestion));
+                    cur_obj.find(".suggest_supply").removeAttr("edit");
+                    cur_obj.find("tbody tr.suggest_item_edit").removeClass("suggest_item_edit");
+                }
+                cur_obj.find(".suggest_score .score_min").val("");
+                cur_obj.find(".suggest_score .score_max").val("");
+                cur_obj.find(".suggest_supply textarea").val("");
+            } else {
+                alert(result.info);
+            }
+        }
+    });
+
+}
+
+//编辑维度结果建议
+function suggest_edit(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var cur_obj = $(target).parents(".edit_box").find(".suggest_result");
+    var score_range = $(target).parents("tr").find("td:eq(0)").text();
+    var suggestion = $(target).parents("tr").find("td:eq(1)").text();
+    var score_arr = score_range.split('-');
+    var score_min = score_arr[0];
+    var score_max = score_arr[1];
+    $(target).parents("tr").addClass("suggest_item_edit");
+    cur_obj.find(".suggest_supply").attr({"edit":1});
+    cur_obj.find(".suggest_score .score_min").val(score_min);
+    cur_obj.find(".suggest_score .score_max").val(score_max);
+    cur_obj.find(".suggest_supply textarea").val(suggestion);
+}
+
+function suggest_dele(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var cur_obj = $(target).parents(".edit_box").find(".suggest_result");
+
 }

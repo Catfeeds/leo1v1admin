@@ -424,8 +424,8 @@ class common_new extends Controller
         if($email!=""){
             $html  = $this->get_email_html_new($name);
             $title = "【理优1对1】试讲邀请和安排";
-            $ret   = \App\Helper\Email::SendMailEmd163($email,$title,$html);
-            // $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
+            // $ret   = \App\Helper\Email::SendMailEmd163($email,$title,$html);
+            $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             if(!$ret){
                 return $this->output_err("邮件发送失败!");
             }
@@ -2016,7 +2016,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $deal_status = $this->get_in_int_val('status');
         $this->t_deal_ppt_to_h5->field_update_list($id, [
             "uuid" => $uuid,
-            // "id_deal_falg" => 1
+            "id_deal_falg" => 3//处理中
         ]);
         return $this->output_succ();
     }
@@ -2053,9 +2053,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $message = $this->get_in_str_val("message");
         $code    = $this->get_in_str_val("code");
 
+        \App\Helper\Utils::logger("error for api");
 
         dispatch( new \App\Jobs\send_error_mail(
-            "", $title,$message, E\Ereport_error_from_type::V_2
+            "", $title,$message, E\Ereport_error_type::V_1,E\Ereport_error_from_type::V_2
         ));
     }
 

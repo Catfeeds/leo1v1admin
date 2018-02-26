@@ -483,18 +483,14 @@ class test_code extends Controller
         $title = "test title";
         $message= "test message";
 
-        dispatch( new \App\Jobs\SendEmail(
-            $address,$title, $message
-        ));
-        exit;
-        $ret = \App\Helper\Email::SendMailEmd163($address,$title, $message);
-        dd($ret);
+        \App\Helper\Common::send_mail_leo_com($address,$title,$message);
+
     }
 
     public function test_error_email(){
-        $title = "测试报错";
+        $title   = "测试报错";
         $message = "测试报错信息";
-        $data = [
+        $data    = [
             "title"   => $title,
             "message" => $message,
         ];
