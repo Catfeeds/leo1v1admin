@@ -91,7 +91,7 @@ class NoticeTomorrowLessonToParent extends Command
             }
         }
 
-        foreach( $ret_list as $item ) {
+        foreach($ret_list as $item){
             $phone        = $item["phone"];
             $lesson_start = $item["lesson_start"];
             $lesson_end   = $item["lesson_end"];

@@ -478,8 +478,24 @@ class test_code extends Controller
         dd($ret);
     }
 
+    public function test_email(){
+        $address = "wg392567893@163.com";
+        $title = "test title";
+        $message= "test message";
 
+        \App\Helper\Common::send_mail_leo_com($address,$title,$message);
 
+    }
 
+    public function test_error_email(){
+        $title   = "测试报错";
+        $message = "测试报错信息";
+        $data    = [
+            "title"   => $title,
+            "message" => $message,
+        ];
+        $url = "http://admin.leo1v1.com/common_new/send_error_email_for_api";
+        \App\Helper\Net::send_post_data($url,$data);
+    }
 
 }

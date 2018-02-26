@@ -441,82 +441,14 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd($HTTP_SERVER_VARS,$_SERVER);
-        $path = dirname(__FILE__);
-        $file_path = $path."/test.txt";
-        if(!file_exists($file_path)){
-            $fp = fopen($file_path,"w+");
-            // $str = fread($fp,filesize($file_path));//指定读取大小，这里把整个文件内容读取出来
-            // echo $str = str_replace("\r\n","<br />",$str);
+        $nick = $this->cache_get_student_nick($userid=60001);
+        dd($nick);
+        // $field_list = $this->t_seller_student_new->field_get_list($userid=62793, 'cc_not_exist_count,cc_invalid_count');
+        // $cc_invalid_count = $field_list['cc_invalid_count']+1;
+        if($this->t_seller_student_new->field_get_value($userid=62793, 'sys_assign_count')<3){
+            dd('a');
         }
-        $fp = fopen($file_path,"w+");
-        $fw = fwrite($fp,"hello,worldab");
-        fclose($fp);
-        dd($fw);
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        if($end_time >= time()){
-            $end_time = time();
-        }
-        $common_new = new \App\Http\Controllers\common_ex;
-        $month = $common_new->get_seller_month($start_time,$end_time)[0];
-        $group_adminid_list = $common_new->get_month_group_adminid_list($month,$adminid=869);
-        dd($group_adminid_list);
-
-        $ass = $this->cache_get_assistant_nick($assistantid=134509);
-        dd($ass);
-        $orderid = $this->t_order_info->get_last_orderid_by_userid($userid=51084);
-        dd($orderid);
-        $common_new = new \App\Http\Controllers\common_ex;
-        $group_adminid_list = $common_new->get_group_adminid_list();
-        dd($group_adminid_list);
-        E\Etmk_student_status::V_3;
-        $account = $this->cache_get_origin_key0($id="初二地理补习0601");
-        dd($account);
-        $manager_info = $this->t_manager_info->field_get_list($adminid=962,'become_member_time,del_flag,leave_member_time');
-        // if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
-        $kpi = 0;
-        if($manager_info["become_member_time"]>0 && ($end_time=1517414400-$manager_info["become_member_time"])<3600*24*60){
-            $kpi = "100%";
-        }
-        dd($kpi);
-        $ret = [];
-        $group_list= $this->t_order_info->get_item_month_list();
-        $uid_list = array_unique(array_column($group_list, 'uid'));
-        foreach($uid_list as $uid){
-            foreach($group_list as $item){
-                if($item['uid'] == $uid){
-                    $ret[$uid]['list'][$item['orderid']]['price'] = $item['price'];
-                    $ret[$uid]['account'] = $item['account'];
-                }
-            }
-        }
-        E\Econtract_from_type::V_11;
-        foreach($ret as $uid=>$item){
-            $ret[$uid]['price'] = array_sum(array_column($item['list'], 'price'));
-        }
-        dd($ret);
-        $group_all_price=0;
-        $group_all_stage_price = 0;
-        $group_all_no_stage_price = 0;
-        if ( count ( $group_list) ==1 ) {
-            $group_all_price          = $group_list[0]["all_price"];
-            $group_all_stage_price    = $group_list[0]["all_stage_price"];
-            $group_all_no_stage_price = $group_list[0]["all_no_stage_price"];
-        }
-        dd($group_all_price);
-        $last_refund_list = $this->t_order_info->get_refund_month_money($account='李丹',$start_time=1512057600,$end_time=1514736000);
-        dd($last_refund_list);
-        $domain = config('admin')['qiniu']['public']['url'];
-        dd($domain);
-        list($start_time,$end_time) = [1514736000,1517414400];
-        //月度报表
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time);
-        dd($test_leeson_list);
-        //渠道统计
-        $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin='origin', $field_name='',$start_time,$end_time);
-        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,1517500800,[],[]];
-        $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
-        return $this->pageView(__METHOD__,null);
+        dd($this->t_seller_student_new->field_get_value($userid=62793, 'sys_assign_count')+1);
     }
 
     public function del_detailid(){

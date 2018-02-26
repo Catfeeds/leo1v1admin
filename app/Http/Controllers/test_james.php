@@ -419,28 +419,14 @@ class test_james extends Controller
             $table->index('uuid_stu', 'uuid_stu_ppt');
         });
 
-        Schema::create('db_weiyi.t_invalid_num_confirm', function(Blueprint $table) {
-            t_comment($table, "无效号码确认表");
+        Schema::create('db_weiyi.t_ppt_file_update_log', function(Blueprint $table) {
+            t_comment($table, "ppt转h5基础包文件更新日志表");
             t_field($table->increments("id"), "");
-            t_field($table->integer("cc_confirm_time"), "CC确认时间");
-            t_field($table->integer("userid"), "学生ID");
-            t_field($table->integer("cc_adminid"), "确认人id");
-            t_field($table->integer("cc_confirm_type"), "cc标注类型  枚举seller_student_sub_status");
-            t_field($table->integer("tmk_confirm_time"), "tmk确认时间");
-            t_field($table->integer("tmk_adminid"), "确认人id");
-            t_field($table->tinyInteger("tmk_confirm_type"), "0:未设置 1:无效");
-            t_field($table->integer("qc_confirm_time"), "QC确认时间");
-            t_field($table->integer("qc_adminid"), "确认人id");
-            t_field($table->tinyInteger("qc_confirm_type"), "qc标注类型");
-            t_field($table->string("qc_mark",2048), "qc备注");
+            t_field($table->integer("update_time"), "更新时间");
+            t_field($table->integer("ip"), "请求方IP");
 
-            $table->index('userid','userid');
-            $table->index('qc_adminid','qc_adminid');
-            $table->index('tmk_adminid','tmk_adminid');
-            $table->index('cc_adminid','cc_adminid');
-            $table->index('cc_confirm_time','cc_confirm_time');
-            $table->index('tmk_confirm_time','tmk_confirm_time');
-            $table->index('qc_confirm_time','qc_confirm_time');
+            $table->index('ip','ip');
+            $table->index('update_time','update_time');
         });
 
 
@@ -1847,6 +1833,63 @@ class test_james extends Controller
     // $key_num = 'thinking_record_test';
     // Redis::INCR($key_num);
     // Redis::set($key,1);
+
+    public function updateZipFile(){
+        $ip = getenv('REMOTE_ADDR');
+        if($ip == '127.0.0.1'){
+            echo 11;
+        }
+        // echo $ip;
+        //微演示ip 47.104.104.138
+
+    }
+
+
+        # ppt 配置文档更新时发送通知提示
+    /*
+     * @ 微演示ip 47.104.104.138
+     * @ 返回状态码 1:正确的IP 0:错误的IP
+     */
+    public function getUpdateState_tmp(){
+        $ip = getenv('REMOTE_ADDR');
+        // 记录日志
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "msg"      => $ip,
+            "user_log_type" => E\Euser_log_type::V_6
+        ]);
+        \App\Helper\Utils::logger("ppt_to_h5_log: $ip");
+        if($ip == '101.81.227.245'){
+            $fileUrl = "http://leo1v1.whytouch.com/ppt.rar";
+
+            $saveH5FilePath = "/tmp/pptToH5Zip.rar";
+            $unzipFilePath  = "/tmp/pptToH5File/"; // 解压后的文件夹
+
+            $data=@file_get_contents($fileUrl);
+            file_put_contents($saveH5FilePath, $data);
+            $unzipShell = "rar x $saveH5FilePath $unzipFilePath";
+            shell_exec($unzipShell);
+
+            // canvg.js 替换其中的代码
+            $cmd_sed = "sed -i 's/module.exports = /\/\/module.exports =/' ".$unzipFilePath.'canvg.js';
+            shell_exec($cmd_sed);
+
+            // 对修改后的文件打包
+            $cmd_zip = "cd $unzipFilePath; zip -r /tmp/pptfile_new.zip ./*";
+            shell_exec($cmd_zip);
+
+            // 上传文件至远程
+            $cmd_upload = 'sshpass -p yb142857 scp /tmp/pptfile_new.zip ybai@47.104.21.42:~/';
+            shell_exec($cmd_upload);
+
+            // 压缩远程老文件
+            $cmd_exce_zip = "sshpass -p yb142857 ssh -o StrictHostKeyChecking=no ybai@47.104.21.42 'cd /var/www/admin.yb1v1.com/public/pptfiles/; zip -r ~/myppt_old.zip ./*; unzip -o -d /tmp/pptfiles/ ~/pptfile_new.zip; rm -f ~/pptfile_new.zip '";
+            shell_exec($cmd_exce_zip);
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
 
 

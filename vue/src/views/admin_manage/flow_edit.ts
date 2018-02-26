@@ -188,7 +188,8 @@ export default class extends vtable {
 
     $flow_function.val( flow_function);
     $flow_function.on("change",function(){
-      do_load_args( $flow_function.val() );
+      if($flow_function.val())
+        do_load_args( $flow_function.val() );
     });
 
 
@@ -231,6 +232,8 @@ export default class extends vtable {
     });
 
     var do_load_args=function( flow_function )  {
+      console.log('flow_type:',me.get_args().flow_type);
+      console.log('flow_function:',flow_function);
       $.do_ajax("/admin_manage/get_flow_branch_switch_value",  {
         "flow_type" : me.get_args().flow_type,
         'flow_function' : flow_function,
@@ -249,8 +252,7 @@ export default class extends vtable {
 
       });
     }
-    do_load_args(flow_function);
-
+    // do_load_args(flow_function);
   }
 
   gen_function_args_obj( arg_config,  args ) {
@@ -378,15 +380,57 @@ export default class extends vtable {
   check_node_existed(id ) {
    return this.$flow.$nodeData[id] || this.$flow.$lineData[id] || this.$flow.$areaData[id]  ;
   }
-  //@desn:循环检测已经存在的值
+  //@desn:循环检测已经存在该类型的个数
   check_node_each(node_type){
-    var begin_count = 0;
+    var count = 0;
     $.each( this.$flow.$nodeData, function(i, item){
       if(item.type == node_type)
-        begin_count++;
+        count++;
     });
-    return begin_count;
+    return count;
   }
+  //@desn:返回相应类型结点的id
+  //@param: type
+  //@param: data 所有数据
+  //@return:id
+  check_type_id(data,node_type){
+    var branch_nodes_id = new Array();
+    $.each( data.nodes, function(i, nodes ){
+      console.log('结点类型',nodes);
+      console.log('结点id',i);
+      if(nodes.type == node_type)
+        branch_nodes_id.push(i);
+    });
+    return branch_nodes_id;
+  }
+  //@desn:返回相应类型结点的属性之和
+  //@param:data 所有数据
+  //@param:node_type 结点类型
+  //@param:attribute 求和的属性
+  check_branch_count(data,node_type,attribute){
+    var branch_count = 0;
+    $.each( data.nodes, function(i, nodes ){
+      if(nodes.type == node_type)
+        branch_count += nodes[attribute];
+    });
+    return branch_count;
+
+  }
+  //@desn:返回对应分支结点有效switch_value个数
+  //@param: node_id_arr 分支结点arr
+  //@param: data 所有数据
+  //@return:count 有效switch_value 个数
+  check_switch_value(data,node_id_arr){
+    var switch_value_count = 0;
+    $.each( data.lines, function(i, lines ){
+      console.log('线数据',lines);
+      if(lines.switch_value != null && $.inArray(lines.from,node_id_arr) != -1 )
+        switch_value_count++;
+    });
+    return switch_value_count;
+  }
+
+
 
   //@desn：添加结点操作
   do_add_node( id, info ) {
@@ -524,7 +568,19 @@ export default class extends vtable {
     jquery_body.find(".do-save").on( "click" ,function(e) {
       var data=me.$flow.exportData();
       var json_data= JSON.stringify(data);
-      console.log ( data);
+      var node_type = 'function mix';
+      var attribute = 'flow_function';
+      //获取类型为结点型的id数组
+      var node_id_arr = me.check_type_id(data,node_type);
+      //分支个数之和
+      var branch_count = me.check_branch_count(data,node_type,attribute);
+      //存在分支结点求出该分支结点下线switch_value个数
+      var switch_value_count = me.check_switch_value(data,node_id_arr);
+      if(branch_count != switch_value_count){
+        alert('分支条件必选!');
+        return false;
+      }
+
 
       $.do_ajax("/admin_manage/flow_save",  {
         flow_type : me.get_args().flow_type,

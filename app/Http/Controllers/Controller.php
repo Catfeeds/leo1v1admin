@@ -29,11 +29,19 @@ class Controller extends ControllerEx
     use ViewDeal;
     use InputDeal;
 
+
     function __construct()  {
-        if ($this->check_login_flag ) {
-            $this->check_login();
-            $this->set_call_ctl_init();
-        }
+
+        $this->middleware(function ($request, $next) {
+            if ($this->check_login_flag ) {
+                $this->check_login();
+                $this->set_call_ctl_init();
+            }
+            $this->setUpTraits();
+
+            return $next($request);
+        });
+
         $this->setUpTraits();
         //$this->check_approval_require(); // 检测数据页面权限 (仅申请人与研发部可见)
     }
@@ -457,6 +465,7 @@ class Controller extends ControllerEx
             return 0;
         }
     }
+
 
 
 

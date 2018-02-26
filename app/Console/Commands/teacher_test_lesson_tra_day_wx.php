@@ -63,6 +63,7 @@ class teacher_test_lesson_tra_day_wx extends Command
         $end_time = strtotime(date("Y-m-d",time()-$day_num*86400));
         //$ret_info = $task->t_lesson_info->tongji_teacher_test_lesson_info_list($start_time,$end_time);
 
+
         //整体转化率
         $all = $zh= [];
         $test_person_num= $task->t_lesson_info->get_teacher_test_person_num_list_subject( $start_time,$end_time);
@@ -100,7 +101,6 @@ class teacher_test_lesson_tra_day_wx extends Command
 
 
         $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_subject( $start_time,$end_time);
-        //dd($change_test_person_num);
         foreach($change_test_person_num as $item){
             @$all["change_num"] +=$item["change_num"];
             @$all["change_order"] +=$item["change_order"];
@@ -119,19 +119,19 @@ class teacher_test_lesson_tra_day_wx extends Command
 
 
         //$success_test_lesson_list = $task->t_lesson_info->get_success_test_lesson_list_new_subject($start_time,$end_time);
-
+        //349 江惠朋，72 刘亚辉
         $admin_arr2=[349,72];
-        // $admin_arr2=[349];
         foreach($admin_arr2 as $vv){
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日各学科试听转化率","本月签单率:".$all["order_per"].",扩课签单率:".$all["kk_per"].",换老师签单率:".$all["change_per"].";其中语文签单率:".$yw["order_per"].",扩课签单率:".$yw["kk_per"].",换老师签单率:".$yw["change_per"].";数学签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"].";英语签单率:".$yy["order_per"].",扩课签单率:".$yy["kk_per"].",换老师签单率:".$yy["change_per"].";物理签单率:".$wl["order_per"].",扩课签单率:".$wl["kk_per"].",换老师签单率:".$wl["change_per"].";小学科签单率:".$zh["order_per"].",扩课签单率:".$zh["kk_per"].",换老师签单率:".$zh["change_per"],"");   
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日各学科试听转化率","本月签单率:".$all["order_per"].",扩课签单率:".$all["kk_per"].",换老师签单率:".$all["change_per"].";其中语文签单率:".$yw["order_per"].",扩课签单率:".$yw["kk_per"].",换老师签单率:".$yw["change_per"].";数学签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"].";英语签单率:".$yy["order_per"].",扩课签单率:".$yy["kk_per"].",换老师签单率:".$yy["change_per"].";物理签单率:".$wl["order_per"].",扩课签单率:".$wl["kk_per"].",换老师签单率:".$wl["change_per"].";小学科签单率:".$zh["order_per"].",扩课签单率:".$zh["kk_per"].",换老师签单率:".$zh["change_per"],"");
         }
         $list = $task->t_admin_main_group_name->get_group_list (4);
+
         $task->t_manager_info->send_wx_todo_msg_by_adminid (793,"理优监课组","物理每日试听转化率","签单率:".$wl["order_per"].",扩课签单率:".$wl["kk_per"].",换老师签单率:".$wl["change_per"],"");
         foreach($list as $item){
             if($item["group_name"]=="文综组"){
                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($item["master_adminid"],"理优监课组","语文每日试听转化率","签单率:".$yw["order_per"].",扩课签单率:".$yw["kk_per"].",换老师签单率:".$yw["change_per"],"");
                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($item["master_adminid"],"理优监课组","英语每日试听转化率","签单率:".$yy["order_per"].",扩课签单率:".$yy["kk_per"].",换老师签单率:".$yy["change_per"],"");
-                
+
             }elseif($item["group_name"]=="数学组"){
                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($item["master_adminid"],"理优监课组","数学每日试听转化率","签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"],"");
                 $task->t_manager_info->send_wx_todo_msg_by_adminid (754,"理优监课组","数学每日试听转化率","签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"],"");
@@ -202,9 +202,8 @@ class teacher_test_lesson_tra_day_wx extends Command
         //$success_test_lesson_list = $task->t_lesson_info->get_success_test_lesson_list_new_subject($start_time,$end_time);
 
         $admin_arr2=[349,72,1171];
-        // $admin_arr2=[349];
         foreach($admin_arr2 as $vv){
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日兼职试听转化率","本月签单率:".$all["order_per"].",扩课签单率:".$all["kk_per"].",换老师签单率:".$all["change_per"].";其中语文签单率:".$yw["order_per"].",扩课签单率:".$yw["kk_per"].",换老师签单率:".$yw["change_per"].";数学签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"].";英语签单率:".$yy["order_per"].",扩课签单率:".$yy["kk_per"].",换老师签单率:".$yy["change_per"].";物理签单率:".$wl["order_per"].",扩课签单率:".$wl["kk_per"].",换老师签单率:".$wl["change_per"].";小学科签单率:".$zh["order_per"].",扩课签单率:".$zh["kk_per"].",换老师签单率:".$zh["change_per"],"");   
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日兼职试听转化率","本月签单率:".$all["order_per"].",扩课签单率:".$all["kk_per"].",换老师签单率:".$all["change_per"].";其中语文签单率:".$yw["order_per"].",扩课签单率:".$yw["kk_per"].",换老师签单率:".$yw["change_per"].";数学签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"].";英语签单率:".$yy["order_per"].",扩课签单率:".$yy["kk_per"].",换老师签单率:".$yy["change_per"].";物理签单率:".$wl["order_per"].",扩课签单率:".$wl["kk_per"].",换老师签单率:".$wl["change_per"].";小学科签单率:".$zh["order_per"].",扩课签单率:".$zh["kk_per"].",换老师签单率:".$zh["change_per"],"");
         }
 
 
@@ -262,17 +261,12 @@ class teacher_test_lesson_tra_day_wx extends Command
         $yy["change_per"] = (!empty($change_test_person_num[3]["change_num"])?round($change_test_person_num[3]["change_order"]/$change_test_person_num[3]["change_num"],3)*100:0)."%";
         $wl["change_per"] = (!empty($change_test_person_num[5]["change_num"])?round($change_test_person_num[5]["change_order"]/$change_test_person_num[5]["change_num"],3)*100:0)."%";
 
-
-
         //$success_test_lesson_list = $task->t_lesson_info->get_success_test_lesson_list_new_subject($start_time,$end_time);
 
-        $admin_arr2=[349,72,480];
-        //$admin_arr2=[349];
+        $admin_arr2 = [349,72,480,1171,1453,1446];
         foreach($admin_arr2 as $vv){
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日全职试听转化率","本月签单率:".$all["order_per"].",扩课签单率:".$all["kk_per"].",换老师签单率:".$all["change_per"].";其中语文签单率:".$yw["order_per"].",扩课签单率:".$yw["kk_per"].",换老师签单率:".$yw["change_per"].";数学签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"].";英语签单率:".$yy["order_per"].",扩课签单率:".$yy["kk_per"].",换老师签单率:".$yy["change_per"].";物理签单率:".$wl["order_per"].",扩课签单率:".$wl["kk_per"].",换老师签单率:".$wl["change_per"].";小学科签单率:".$zh["order_per"].",扩课签单率:".$zh["kk_per"].",换老师签单率:".$zh["change_per"],"");   
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日全职试听转化率","本月签单率:".$all["order_per"].",扩课签单率:".$all["kk_per"].",换老师签单率:".$all["change_per"].";其中语文签单率:".$yw["order_per"].",扩课签单率:".$yw["kk_per"].",换老师签单率:".$yw["change_per"].";数学签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"].";英语签单率:".$yy["order_per"].",扩课签单率:".$yy["kk_per"].",换老师签单率:".$yy["change_per"].";物理签单率:".$wl["order_per"].",扩课签单率:".$wl["kk_per"].",换老师签单率:".$wl["change_per"].";小学科签单率:".$zh["order_per"].",扩课签单率:".$zh["kk_per"].",换老师签单率:".$zh["change_per"],"");
         }
-
-
 
         //每日各模式试听转化率
         $top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
@@ -286,22 +280,14 @@ class teacher_test_lesson_tra_day_wx extends Command
 
         $normal_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,0); //咨询/老师普通排课总体(非抢课)
         $normal_seller_total["per"] = !empty($normal_seller_total["person_num"])?round($normal_seller_total["have_order"]/$normal_seller_total["person_num"]*100,2):0;
+
         $admin_arr2=[349,72,967];
-        //$admin_arr2=[349];
         $start = date("Y-m-d H:i:s",$start_time);
-        $end = date("Y-m-d H:i:s",$end_time);
+        $end   = date("Y-m-d H:i:s",$end_time);
         foreach($admin_arr2 as $vv){
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日各模式试听转化率","\n抢单模式:".$normal_seller_total_grab["per"]."%\n普排模式:".$normal_seller_total["per"]."%\n精排模式:".$top_seller_total["per"]."%\n绿色通道:".$green_seller_total["per"]."%","http://admin.leo1v1.com/main_page/teacher_management_info?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$start."&end_time=".$end);   
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日各模式试听转化率","\n抢单模式:".$normal_seller_total_grab["per"]."%\n普排模式:".$normal_seller_total["per"]."%\n精排模式:".$top_seller_total["per"]."%\n绿色通道:".$green_seller_total["per"]."%","http://admin.leo1v1.com/main_page/teacher_management_info?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$start."&end_time=".$end);
         }
-
-
-
-       
-
-
-    
-           
-       
-
     }
+
+
 }

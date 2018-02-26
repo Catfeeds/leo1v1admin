@@ -158,7 +158,7 @@ class wx_yxyx extends Controller
     public function bind_off()  {
         $ret=$this->t_wx_openid_bind->row_delete_2(session("openid"),E\Erole::V_TEACHER );
         $_SESSION = array();
-        Session::clear();
+        Session::flush();
         return $this->output_bool_ret($ret==1);
     }
 

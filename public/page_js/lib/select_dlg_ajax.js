@@ -101,7 +101,7 @@
     Cselect_dlg_ajax.prototype = {
         init_body:function() {
             var me=this;
-            var $body=$("<div ></div>");
+            var $body=$("<div></div>");
 
             $.each(me.options.filter_list,function (i,row_item){
                 var $filter_row= $('<div class="row"></div>');

@@ -16,9 +16,14 @@ class teacher_info_admin extends Controller
 
     public function __construct() {
         parent::__construct();
-        $this->teacherid=$this->get_in_teacherid();
-        static::$page_self_view_data["_teacherid"]= $this->teacherid;
-        static::$page_self_view_data["_teacher_nick"]= $this->cache_get_teacher_nick($this->teacherid);
+        $this->middleware(function ($request, $next)
+        {
+            $this->teacherid=$this->get_in_teacherid();
+            static::$page_self_view_data["_teacherid"]= $this->teacherid;
+            static::$page_self_view_data["_teacher_nick"]= $this->cache_get_teacher_nick($this->teacherid);
+
+            return $next($request);
+        });
     }
 
     public function index(){

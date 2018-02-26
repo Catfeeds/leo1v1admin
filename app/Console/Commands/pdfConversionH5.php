@@ -125,18 +125,19 @@ class pdfConversionH5 extends Command
             shell_exec($rmResourceCmd);
 
             # 在42服务器端执行此段程序
-            $this->updateTranResult($item['lessonid'],$saveH5Upload,$item['is_tea'],$item['id']);
+            $this->updateTranResult($item['lessonid'],$saveH5Upload,$item['is_tea'],$item['id'],$item['uuid']);
         }
 
     }
 
-    public function updateTranResult($lessonid,$saveH5Upload,$is_tea,$id){
+    public function updateTranResult($lessonid,$saveH5Upload,$is_tea,$id,$uuid){
         $url = "http://admin.leo1v1.com/common_new/updateTranResult";
         $post_data = array(
             "lessonid" => $lessonid,
             "zip_url"  => $saveH5Upload,
             "is_tea"   => $is_tea,
-            "id"       => $id
+            "id"       => $id,
+            "uuid"     => $uuid
         );
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);

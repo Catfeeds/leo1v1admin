@@ -103,10 +103,10 @@ class fulltime_teacher_wuhan_data extends Command
         $leave_num = $task->t_manager_info->get_admin_leave_num($start_time,$end_time);
         $leave_num_all = $task->t_manager_info->get_admin_leave_num($data_start,$end_time);
         $enter_num_all = $task->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($data_start,$end_time);
-        $leave_per = $enter_num_all>0?round($leave_num_all/$enter_num_all*100,2):0;           
+        $leave_per = $enter_num_all>0?round($leave_num_all/$enter_num_all*100,2):0;
         $leave_per .= '%('. $leave_num_all.'/'.$enter_num_all.')';
 
-        $arr=[349,1043,72,480,747];
+        $arr=[349,1043,72,480,747,1171,1453,1446];
         foreach($arr as $v){
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($v,"武汉全职老师面试数据","武汉全职老师面试数据","成功注册人数:".$apply_num.",一面到面人数:".$arrive_num.",一面通过人数:".$arrive_through.",二面通过人数:".$second_through.",入职人数:".$enter_num.",离职人数:".$leave_num.",一面到面率:".$arrive_num_per.",一面通过率:".$arrive_through_per.",录用率:".$second_through_per.",入职率:".$enter_num_per.",离职率:".$leave_per,"");
  
