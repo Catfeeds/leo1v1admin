@@ -30,4 +30,3 @@ vue/src/router/index.js
 /vue/dist.tar.gz
 composer.lock
 vue/package-lock.json
-vendor
