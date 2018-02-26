@@ -101,10 +101,12 @@ class seller_student_system_free extends cmd_base
                     $release_reason_flag = 3;
                 }
 
-                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
-                //再次检测该用户是否已拨通
-                if($is_through)
-                    $free_flag=false;
+                if($free_flag){
+                    $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
+                    //再次检测该用户是否已拨通
+                    if($is_through)
+                        $free_flag=false;
+                }
 
                 if ($free_flag) {
                     $today_start_time_str = date('Y-m-d H:i:s',$today_start_time);
