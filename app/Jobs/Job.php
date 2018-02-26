@@ -31,6 +31,9 @@ class Job
      */
     public function __construct()
     {
+    }
+
+    public function init_task()  {
         $this->task= new \App\Console\Tasks\TaskController();
     }
 

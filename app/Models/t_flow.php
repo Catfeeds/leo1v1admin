@@ -48,7 +48,7 @@ class t_flow extends \App\Models\Zgen\z_t_flow
         \App\Helper\Utils::logger(" next_node_type :". json_encode($next_node_type));
 
         if (!$next_adminid) {
-            return false;
+            //return false;
         }
         $this->t_flow_node->add_node($next_node_type,$flowid,$next_adminid);
         return true;

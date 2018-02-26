@@ -55,8 +55,8 @@ class seller_student_system_free extends cmd_base
                 }
                 if (!$free_flag) {
                     $user_check_time= max( @$work_start_time_map[$admin_revisiterid]["work_start_time"], $admin_assign_time  );
-                    //分配并上班6个小时 free
-                    if ($now-$user_check_time>6*3600 ) {
+                    //分配并上班6个小时 free未拨打
+                    if ($now-$user_check_time>6*3600 && $item['tq_called_flag'] == 0) {
                         //TODO
                         $free_flag=true;
                         $release_reason_flag = 2;
@@ -64,9 +64,11 @@ class seller_student_system_free extends cmd_base
                     }
                 }
                 //再次检测该用户是否已拨通
-                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
-                if($is_through)
-                    $free_flag=false;
+                if($free_flag){
+                    $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
+                    if($is_through)
+                        $free_flag=false;
+                }
 
                 if ($free_flag) {
                     \App\Helper\Utils::logger("例子释放分析-1userid:$userid adminid:$admin_revisiterid");
@@ -99,10 +101,12 @@ class seller_student_system_free extends cmd_base
                     $release_reason_flag = 3;
                 }
 
-                $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
-                //再次检测该用户是否已拨通
-                if($is_through)
-                    $free_flag=false;
+                if($free_flag){
+                    $is_through = $this->task->t_tq_call_info->get_is_through($phone,$admin_revisiterid);
+                    //再次检测该用户是否已拨通
+                    if($is_through)
+                        $free_flag=false;
+                }
 
                 if ($free_flag) {
                     $today_start_time_str = date('Y-m-d H:i:s',$today_start_time);

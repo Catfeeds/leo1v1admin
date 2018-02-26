@@ -848,6 +848,19 @@ $(function(){
             need_list=[ opt_data.seller_student_status, 50];
         }
 
+
+        // james-start 删除枚举中出现的[无效资源]|[无效-公海/试听未签不出现]
+        // var remove = function(val) {
+        //     var index = this.indexOf(val);
+        //     if (index > -1) {
+        //         this.splice(index, 1);
+        //     }
+        // };
+        // need_list.remove(1);
+        // need_list.remove(50);
+        // james-end
+
+
         $seller_student_status.val(opt_data.seller_student_status );
 
         var need_wx=[];

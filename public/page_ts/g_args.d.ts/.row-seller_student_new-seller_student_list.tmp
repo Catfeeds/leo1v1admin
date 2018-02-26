@@ -44,6 +44,7 @@
 	has_pad	:any;
 	last_revisit_time	:any;
 	last_revisit_msg	:any;
+	global_tq_called_flag	:any;
 	tq_called_flag	:any;
 	next_revisit_time	:any;
 	lesson_start	:any;
@@ -89,6 +90,12 @@
 	tmk_student_status	:any;
 	seller_student_assign_from_type	:any;
 	nickname	:any;
+	seller_student_assign_type	:any;
+	last_edit_time	:any;
+	first_contact_time	:any;
+	assign_type	:any;
+	left_time	:any;
+	left_time_desc	:any;
 	phone_hide	:any;
 	lesson_plan_status	:any;
 	editionid_str	:any;

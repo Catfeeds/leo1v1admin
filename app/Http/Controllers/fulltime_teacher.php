@@ -29,18 +29,15 @@ class fulltime_teacher extends Controller
             $account_info["create_time"] = $teacher_info["train_through_new_time"];
         }
         //添加全职老师类型
-        $account_info['fulltime_teacher_type'] =$teacher_info['fulltime_teacher_type'];
-        
-        $account_info['post'] =7;
-        $account_info['main_department']=2;
+        $account_info['fulltime_teacher_type'] = $teacher_info['fulltime_teacher_type'];
+        $account_info['post'] = 7;
+        $account_info['main_department'] = 2;
         if((time() - $account_info["create_time"])<55*86400){
-            return $this->error_view(
-                [
-                    "转正考核需在入职55天以后才能提交"
-                ]
-            );
-
+            return $this->error_view([
+                "转正考核需在入职55天以后才能提交"
+            ]);
         }
+
         //获取试用期内月平均课时消耗数和设置评分
         $start_time = $account_info['create_time'];
         $per_start = time()-92*86400;

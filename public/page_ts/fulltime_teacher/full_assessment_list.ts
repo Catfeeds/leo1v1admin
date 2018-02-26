@@ -99,41 +99,41 @@ $(function(){
         BootstrapDialog.confirm(str, function(val){
             if (val) {
                 $.do_ajax('/user_deal/fulltime_teacher_assessment_deal',{
-                    "type_flag":type_flag,
-                    "adminid" :g_args.tea_adminid,
-                    "observe_law_score" : $("#observe_law_score").find("select").val(),
-                    "core_socialist_score" : $("#core_socialist_score").find("select").val(),
+                    "type_flag"                 : type_flag,
+                    "adminid"                   : g_args.tea_adminid,
+                    "observe_law_score"         : $("#observe_law_score").find("select").val(),
+                    "core_socialist_score"      : $("#core_socialist_score").find("select").val(),
                     "work_responsibility_score" : $("#work_responsibility_score").find("select").val(),
-                    "obey_leadership_score" : $("#obey_leadership_score").find("select").val(),
-                    "dedication_score" : $("#dedication_score").find("select").val(),
-                    "prepare_lesson_score" : $("#prepare_lesson_score").find("select").val(),
-                    "upload_handouts_score" : $("#upload_handouts_score").find("select").val(),
-                    "handout_writing_score" : $("#handout_writing_score").find("select").val(),
-                    "no_absences_score" : $("#no_absences_score").find("select").val(),
-                    "late_leave_score" : $("#late_leave_score").find("select").val(),
-                    "prepare_quality_score" : $("#prepare_quality_score").find("select").val(),
-                    "class_concent_score" : $("#class_concent_score").find("select").val(),
-                    "tea_attitude_score" : $("#tea_attitude_score").find("select").val(),
-                    "after_feedback_score" : $("#after_feedback_score").find("select").val(),
-                    "modify_homework_score" : $("#modify_homework_score").find("select").val(),
-                    "teamwork_positive_score" : $("#teamwork_positive_score").find("select").val(),
+                    "obey_leadership_score"     : $("#obey_leadership_score").find("select").val(),
+                    "dedication_score"          : $("#dedication_score").find("select").val(),
+                    "prepare_lesson_score"      : $("#prepare_lesson_score").find("select").val(),
+                    "upload_handouts_score"     : $("#upload_handouts_score").find("select").val(),
+                    "handout_writing_score"     : $("#handout_writing_score").find("select").val(),
+                    "no_absences_score"         : $("#no_absences_score").find("select").val(),
+                    "late_leave_score"          : $("#late_leave_score").find("select").val(),
+                    "prepare_quality_score"     : $("#prepare_quality_score").find("select").val(),
+                    "class_concent_score"       : $("#class_concent_score").find("select").val(),
+                    "tea_attitude_score"        : $("#tea_attitude_score").find("select").val(),
+                    "after_feedback_score"      : $("#after_feedback_score").find("select").val(),
+                    "modify_homework_score"     : $("#modify_homework_score").find("select").val(),
+                    "teamwork_positive_score"   : $("#teamwork_positive_score").find("select").val(),
                     "test_lesson_prepare_score" : $("#test_lesson_prepare_score").find("select").val(),
-                    "undertake_actively_score" : $("#undertake_actively_score").find("select").val(),
-                    "active_part_score" : $("#active_part_score").find("select").val(),
-                    "active_share_score" : $("#active_share_score").find("select").val(),
-                    "complaint_refund_score":$("#complaint_refund_score").find("select").val(),
-                    "order_per_score":$("#order_per_score").text(),
-                    "lesson_level_score":$("#lesson_level_score").find("select").val(),
-                    "stu_lesson_total_score":$("#lesson_count_avg_score").text(),
-                    "moral_education_score":$("#moral_education_score").text(),
-                    "tea_score":$("#tea_score").text(),
-                    "teach_research_score":$("#teach_research_score").text(),
-                    "result_score":$("#result_score").text(),
-                    "total_score":$("#total_score").text(),
-                    "rate_stars":rate_score,
-                    "positive_type":positive_type,
-                   "order_per" : g_order_per,
-                   "stu_lesson_total" :g_stu_lesson_total
+                    "undertake_actively_score"  : $("#undertake_actively_score").find("select").val(),
+                    "active_part_score"         : $("#active_part_score").find("select").val(),
+                    "active_share_score"        : $("#active_share_score").find("select").val(),
+                    "complaint_refund_score"    : $("#complaint_refund_score").find("select").val(),
+                    "order_per_score"           : $("#order_per_score").text(),
+                    "lesson_level_score"        : $("#lesson_level_score").find("select").val(),
+                    "stu_lesson_total_score"    : $("#lesson_count_avg_score").text(),
+                    "moral_education_score"     : $("#moral_education_score").text(),
+                    "tea_score"                 : $("#tea_score").text(),
+                    "teach_research_score"      : $("#teach_research_score").text(),
+                    "result_score"              : $("#result_score").text(),
+                    "total_score"               : $("#total_score").text(),
+                    "rate_stars"                : rate_score,
+                    "positive_type"             : positive_type,
+                   "order_per"                  : g_order_per,
+                   "stu_lesson_total"           : g_stu_lesson_total
                 },function(res){
                     var id = res.id;
                     if(id<=0){
@@ -178,8 +178,6 @@ $(function(){
                                             "positive_level" : data.positive_level,
                                             "self_assessment" : html_node.find("table").find("#id_self_assessment").val()
                                         });
-
-
                                     }
                                 }],
                                 onshown:function(){
@@ -198,7 +196,6 @@ $(function(){
                         });
                     }else{
                         window.location.reload();
-
                     }
 
 

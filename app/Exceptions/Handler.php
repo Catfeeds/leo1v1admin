@@ -41,14 +41,13 @@ class Handler extends ExceptionHandler
           "SERVER_NAME" => "admin.yb1v1.com"
         */
 
-        $server_info=@$_SERVER["SERVER_NAME"].@$_SERVER["SERVER_ADDR"];
-        $cmd_info= @join(" ", @$global["argv"]);
+        $server_info = @$_SERVER["SERVER_NAME"].@$_SERVER["SERVER_ADDR"];
+        $cmd_info    = @join(" ", @$global["argv"]);
+        global  $_SESSION;
 
-        $account=@$_SESSION["acc"];
-
-        $url=preg_split("/\\?/", @$_SERVER["REQUEST_URI"])[0];
-
-        $bt_str= "user:$account<br/>.url:$url<br/> server_info $server_info  $cmd_info<br/> ";
+        $account = @$_SESSION["acc"];
+        $url     = preg_split("/\\?/", @$_SERVER["REQUEST_URI"])[0];
+        $bt_str  = "user:$account<br/>.url:$url<br/> server_info $server_info  $cmd_info<br/> ";
 
         foreach( $e->getTrace() as &$bt_item ) {
             //$args=json_encode($bt_item["args"]);
@@ -58,8 +57,7 @@ class Handler extends ExceptionHandler
         }
 
         $ip=@$_SERVER["REMOTE_ADDR"];
-
-        if ( strpos($url,"." ) ===false) { //找文件,
+        if(strpos($url,".")===false) { //找文件,
             if( \App\Helper\Utils::check_env_is_release()  ) {
                 $ip_fix=preg_replace("/\.[^.]*$/","", $ip );
                 if ( !in_array( $ip_fix ,["59.173.189","140.205.201","121.42.0", "140.205.225" ])   ) { //阿里云盾
@@ -70,12 +68,16 @@ class Handler extends ExceptionHandler
                             "<br>client_ip:$ip", \App\Enums\Ereport_error_from_type::V_1
                         ));
                     }
-
                 }
             }
         }
-        $list_str=preg_replace("/<br\/>/","\n" ,$bt_str );
-        \App\Helper\Utils::logger( "LOG_HANDER:". $e->getMessage()."\n $list_str ");
+
+        $list_str = preg_replace("/<br\/>/","\n" ,$bt_str );
+        if(\App\Helper\Utils::check_env_is_release()){
+            if(!(session("debug_flag") || \App\Helper\Config::check_in_admin_list($account))){
+                return response()->view('errors.500', [], 500)->send();
+            }
+        }
 
         parent::report($e);
     }
