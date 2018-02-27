@@ -17,7 +17,7 @@ class t_seller_auto_free_log extends \App\Models\Zgen\z_t_seller_auto_free_log
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
-        $this->main_get_list($sql);
+        return $this->main_get_list($sql);
     }
 }
 
