@@ -2398,6 +2398,7 @@ class Utils  {
     //@param:$agent  优学优享信息
     //@param:$img_type 生成邀请图片类型 1:学员 2:会员
     static function make_invite_img_new($bg_url,$qr_code_url,$agent,$img_type){
+        \App\Helper\Utils::logger("generate_poster");
         $wx_openid = $agent['wx_openid'];
         $t_agent = new \App\Models\t_agent();
         $phone   = $agent['phone'];
@@ -2411,6 +2412,8 @@ class Utils  {
             $img_url = realpath($img_path);
             return $relative_path;
         }
+
+        \App\Helper\Utils::logger("generate_poster_2");
 
         $qr_url  = "/tmp/yxyx_wx_".$phone."_qr.png";
         $old_headimgurl = @$agent['headimgurl'];
@@ -2435,6 +2438,7 @@ class Utils  {
         $is_exists = file_exists($agent_qr_url);
         // dd($is_exists);
         if( $old_headimgurl !== $headimgurl || !$is_exists ){
+            \App\Helper\Utils::logger("generate_poster_3");
             //下载头像，制作图片
             $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
             $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
@@ -2504,7 +2508,7 @@ class Utils  {
         $mediaId = Media::upload($img_url, $type);
         self::logger("mediaId info:". json_encode($mediaId));
 
-        $mediaId = $mediaId['media_id'];
+        $mediaId = @$mediaId['media_id'];
         $t_agent->set_add_type_2( $id );
 
         //判断是否更换头像
@@ -2512,6 +2516,7 @@ class Utils  {
         if ( $is_change ){
             $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
         }
+        \App\Helper\Utils::logger("generate_poster_4");
 
         return $relative_path;
     }
