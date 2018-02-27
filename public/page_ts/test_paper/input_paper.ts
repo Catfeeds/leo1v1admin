@@ -865,19 +865,76 @@ function save_suggest(obj,oEvent){
         success   : function(result){
             if(result.ret == 0){
                 BootstrapDialog.alert("保存成功");
-
-                var sug_tr = cur_obj.find("tbody tr.suggest_item:first").clone().removeClass("hide");
-                var score_range = score_min + "-" + score_max;                     
-                sug_tr.find("td:eq(0)").text(score_range);
-                sug_tr.find("td:eq(1)").text($.trim(suggestion));
-                cur_obj.find("tbody tr.suggest_item:last").after(sug_tr);
+                var is_edit = cur_obj.find(".suggest_supply").attr("edit");
+                var score_range = score_min + "-" + score_max; 
+                if(is_edit == undefined){
+                    //新增维度结果建议                    
+                    var sug_tr = cur_obj.find("tbody tr.suggest_item:first").clone().removeClass("hide");                  
+                    sug_tr.find("td:eq(0)").text(score_range);
+                    sug_tr.find("td:eq(1)").text($.trim(suggestion));
+                    cur_obj.find("tbody tr.suggest_item:last").after(sug_tr);
+                }else{
+                    //编辑维度结果建议
+                    var edit_str = cur_obj.find("tbody tr.suggest_item_edit");
+                    edit_str.find("td:eq(0)").text(score_range);
+                    edit_str.find("td:eq(1)").text($.trim(suggestion));
+                    cur_obj.find(".suggest_supply").removeAttr("edit");
+                    cur_obj.find("tbody tr.suggest_item_edit").removeClass("suggest_item_edit");
+                }
                 cur_obj.find(".suggest_score .score_min").val("");
                 cur_obj.find(".suggest_score .score_max").val("");
-
+                cur_obj.find(".suggest_supply textarea").val("");
             } else {
                 alert(result.info);
             }
         }
     });
 
+}
+
+//编辑维度结果建议
+function suggest_edit(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var cur_obj = $(target).parents(".edit_box").find(".suggest_result");
+    var score_range = $(target).parents("tr").find("td:eq(0)").text();
+    var suggestion = $(target).parents("tr").find("td:eq(1)").text();
+    var score_arr = score_range.split('-');
+    var score_min = score_arr[0];
+    var score_max = score_arr[1];
+    $(target).parents("tr").addClass("suggest_item_edit");
+    cur_obj.find(".suggest_supply").attr({"edit":1});
+    cur_obj.find(".suggest_score .score_min").val(score_min);
+    cur_obj.find(".suggest_score .score_max").val(score_max);
+    cur_obj.find(".suggest_supply textarea").val(suggestion);
+}
+
+function suggest_dele(obj,oEvent){
+    var e = oEvent || window.event;
+    var target = e.target || e.srcElement;
+    var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
+    var cur_obj = $(target).parents(".edit_box").find(".suggest_result");
+    var dimension = cur_obj.find(".suggest_dimension font").attr("dimension");
+    var score_range = $(target).parents("tr").find("td:eq(0)").text();
+    var data = {
+        paper_id : paper_id,
+        dimension_id : dimension,
+        score_range : score_range
+    };
+
+    $.ajax({
+        type     : "post",
+        url      : "/test_paper/dele_suggestion",
+        dataType : "json",
+        data : data,
+        success   : function(result){
+            if(result.ret == 0){
+                BootstrapDialog.alert("删除成功！");
+                $(target).parents("tr").remove();
+            }else{
+                alert(result.info);
+            }
+        }
+    })
 }

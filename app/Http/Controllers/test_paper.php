@@ -36,7 +36,7 @@ class test_paper extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180224134439,
+            '_publish_version'    => 20180227134439,
         ]);
     } 
 
@@ -157,6 +157,7 @@ class test_paper extends Controller
                 $old_suggest = json_decode($paper['suggestion'],true);
                 $old_suggest[$dimension_id][$score_range] = $suggestion;
                 ksort($old_suggest);
+                ksort($old_suggest[$dimension_id]);
                 $data = ['suggestion'=>json_encode($old_suggest)];
 
             }else{
@@ -169,6 +170,29 @@ class test_paper extends Controller
                 return $this->output_succ(['status'=>200]);
             }
             return $this->output_succ(['status'=>201]);
+
+        }else{
+            return $this->output_err();
+        }
+    }
+
+    public function dele_suggestion(){
+        $paper_id       = trim($this->get_in_int_val('paper_id') );
+        $dimension_id   = $this->get_in_int_val("dimension_id");
+        $score_range    = $this->get_in_str_val("score_range");
+        $paper = $this->t_student_test_paper->get_paper($paper_id);
+        if($paper){
+            if($paper['suggestion']){
+                $suggest = json_decode($paper['suggestion'],true);
+                //$suggest[$dimension_id][$score_range] = "";
+                unset($suggest[$dimension_id][$score_range]);
+                //ksort($suggest);
+                $data = ['suggestion'=>json_encode($suggest)];
+                $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
+                return $this->output_succ(['status'=>200]);
+            }else{
+                return $this->output_succ(['status'=>200,"info"=>"数据库未找到该条记录！"]); 
+            }
 
         }else{
             return $this->output_err();

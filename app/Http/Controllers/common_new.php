@@ -2056,7 +2056,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         \App\Helper\Utils::logger("error for api");
 
         dispatch( new \App\Jobs\send_error_mail(
-            "", $title,$message, E\Ereport_error_from_type::V_2
+            "", $title,$message, E\Ereport_error_type::V_1,E\Ereport_error_from_type::V_2
         ));
     }
 
