@@ -4955,8 +4955,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      */
     public function get_total_for_teacherid_2018_1_30($start_time, $end_time, $phone, $reference_type) {
         $where_arr = [
-            ["t.train_through_new_time>=%u", $start_time, 0],
-            ["t.train_through_new_time<%u", $end_time, 0],
+            ["t.train_through_new_time>%u", $start_time, 0],
+            ["t.train_through_new_time<=%u", $end_time, 0],
             ["ta.reference='%s'",$phone,'']
         ];
 
@@ -5046,6 +5046,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_info_for_money_type() {
+        $sql = "select teacherid,realname,level from t_teacher_info where teacher_money_type = 7 and is_test_user=0";
         return $this->main_get_list($sql);
     }
 

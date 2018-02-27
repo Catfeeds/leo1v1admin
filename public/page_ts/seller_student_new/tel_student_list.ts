@@ -17,6 +17,70 @@ $(function(){
         });
     }
 
+
+    // 处理标记空号功能 [james]
+
+
+    var test_arr = ['99','684','1173','1273'];
+
+    if($.inArray(g_adminid,test_arr)>=0){ // 测试
+        $('.opt-sign').on('click',function(){
+            $('.bs-example-modal-sm').modal('toggle');
+            do_submit();
+        });
+
+
+        $('.submit_tag').on("click",function(){
+            var opt_data=$(this).get_opt_data();
+            sign_func(opt_data);
+        });
+
+        $('.invalid_type').on("change",function(){
+            do_submit();
+        });
+
+        var do_submit = function(){
+            var invalid_type = $('.invalid_type').val();
+            if(invalid_type == 0){
+                $('.submit_tag').attr('disabled','disabled');
+            }else{
+                $('.submit_tag').removeAttr('disabled');
+            }
+        }
+
+        var sign_func = function(opt_data){
+            var invalid_type = $('.invalid_type').val();
+            var checkText=$(".invalid_type").find("option:selected").text();
+
+            $('.tip_text').text(checkText);
+            $('.confirm-sm').modal('toggle');
+            $('.confirm_tag').on("click",function(){
+                $.do_ajax("/ajax_deal3/sign_phone",{
+                    "adminid" : g_adminid,
+                    "confirm_type" : invalid_type,
+                    "userid"  : opt_data.userid,
+                    "type"    : 2
+                });
+                window.location.reload();
+            });
+        }
+
+        // if(g_args.tq_called_flag != 2){
+        //     $('#id_edit').attr('disabled','disabled');
+        // }else{
+        //     $('#id_edit').removeAttr('disabled');
+        // }
+    }
+
+
+    // 处理标记空号功能 [james-end]
+
+
+
+
+
+
+
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
@@ -106,7 +170,15 @@ $(function(){
         var $tmk_student_status= $("<select/>");
         Enum_map.append_option_list("grade", $grade,true );
         Enum_map.append_option_list("subject", $subject,true );
-        Enum_map.append_option_list("tmk_student_status", $tmk_student_status,true );
+
+
+        // james-start
+        if($.inArray(g_adminid,test_arr)>=0){ // 测试
+            Enum_map.append_option_list("tmk_student_status", $tmk_student_status,true,[0,1,3] );
+        }else{
+            Enum_map.append_option_list("tmk_student_status", $tmk_student_status,true ); // 原始
+        }
+        // james-end
 
 
         $tmk_next_revisit_time.datetimepicker({

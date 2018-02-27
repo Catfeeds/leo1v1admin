@@ -8,5 +8,8 @@ __MODEL_DEFINE__
 */
 class ControllerEnums extends BaseController
 {
+    static public function _static_test( ) {
+           return "x";
+    }
 
 }

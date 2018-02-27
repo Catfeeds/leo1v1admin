@@ -29,7 +29,7 @@ trait  InputDeal {
     public function check_in_has( $field_name  ) {
         global $g_request;
         /** @var $g_request Illuminate\Http\Request */
-        return $g_request->has($field_name) ;
+        return $g_request->has($field_name) && $g_request->$field_name !== null  ;
     }
 
     public function get_in_boolean_val(  $field_name ,$def_value=0  ){
@@ -77,7 +77,7 @@ trait  InputDeal {
         global $g_request;
         /** @var $g_request Illuminate\Http\Request */
         if ($g_request) {
-            if($g_request->has($field_name)){
+            if($g_request->has($field_name) && $g_request->$field_name !== null ){
                 $v = (int) $g_request->$field_name;
             }else{
                 $v = $def_value;
@@ -99,7 +99,7 @@ trait  InputDeal {
         global $g_request;
         /** @var $g_request Illuminate\Http\Request */
 
-        if ( $g_request->has($field_name)   ){
+        if ( $g_request->has($field_name) && $g_request->$field_name !== null    ){
             $v = (float)$g_request->$field_name;
         }else{
             $v = $def_value;
@@ -117,7 +117,7 @@ trait  InputDeal {
         /** @var $g_request Illuminate\Http\Request */
 
         if ($g_request){
-            if ( $g_request->has($field_name) ){
+            if ( $g_request->has($field_name) && $g_request->$field_name !== null  ){
                 if(!( $g_request->$field_name == "")) {
                     $v= $g_request->$field_name;
                 }else{

@@ -54,7 +54,7 @@ class send_courseware_PDF_email_to_stu extends Command
                 if($work_status >= 1){
                     $homework_url    = $item['issue_url'];
                     $homework_url_ex = config("admin")['monitor_new_url']."/common/email_open_address?url=".$homework_url;
-                }else{                    
+                }else{
                     $homework_url_ex = config("admin")['monitor_new_url']."/common/email_open_address?url=";
 
                 }

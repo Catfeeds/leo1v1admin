@@ -36,7 +36,7 @@ class set_new_user_later_call_free extends Command
         parent::__construct();
 
         $this->task= new \App\Console\Tasks\TaskController();
-        $this->task->t_seller_student_new->get_no_call_to_free_list();
+        //$this->task->t_seller_student_new->get_no_call_to_free_list();
 
     }
 

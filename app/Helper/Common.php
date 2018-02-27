@@ -3,6 +3,7 @@ namespace App\Helper;
 use Illuminate\Support\Facades\Log ;
 use Illuminate\Support\Facades\Redis;
 use \App\Enums as  E;
+use \PHPMailer\PHPMailer\PHPMailer ;
 
 class Common {
     static function env_obj( $key, $def =null ) {
@@ -311,7 +312,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -354,7 +355,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -400,7 +401,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -444,7 +445,29 @@ class Common {
         return $ret;
     }
 
-    static function send_mail_leo_com ( $address ,$title ,$message ,$is_html=true) {
+    static function curl_send_mail_leo_com( $from, $from_nick, $password, $to, $title, $body  ){
+        $data = [
+            "host"      => "smtp.leoedu.com",
+            "from"      => $from,
+            "from_nick" => $from_nick,
+            "password"  => $password,
+            "to"        => $to,
+            "title"     => $title,
+            "body"      => $body,
+        ];
+        \App\Helper\Net::send_post_data("http://admin.leo1v1.com:9501/leoedu_com_send_mail", $data);
+
+    }
+
+    static function send_mail_leo_com( $address ,$title ,$message ,$is_html=true) {
+        if (!is_array( $address )) {
+            $address =[$address];
+        }
+        foreach ($address as $to) {
+            static::curl_send_mail_leo_com("jim@leoedu.com", "理优教研组", "xcwen142857",  $to, $title,$message );
+        }
+        return;
+
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
         date_default_timezone_set('Asia/Shanghai');//设定时区东八区
@@ -456,6 +479,7 @@ class Common {
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
         $mail->Host = "smtp.leoedu.com"; // 您的企业邮局域名
+        $mail->SMTPAutoTLS=false;
 
 
         $mail->SMTPAuth = true; // 启用SMTP验证功能
@@ -495,6 +519,13 @@ class Common {
     }
 
     static function send_paper_mail_new ( $address ,$title ,$message ,$is_html=true) {
+        if (!is_array( $address )) {
+            $address =[$address];
+        }
+        foreach ($address as $to) {
+            static::curl_send_mail_leo_com("jim@leoedu.com", "理优教学管理部", "xcwen142857",  $to, $title,$message );
+        }
+        return true;
 
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
@@ -502,7 +533,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -551,7 +582,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
@@ -598,7 +629,7 @@ class Common {
 
         /**  @var  $mail PHPMailer  */
 
-        $mail = new \PHPMailer(); //建立邮件发送类
+        $mail = new PHPMailer(); //建立邮件发送类
 
         //$mail->IsSMTP(); // 使用SMTP方式发送
         $mail->Mailer = 'SMTP';

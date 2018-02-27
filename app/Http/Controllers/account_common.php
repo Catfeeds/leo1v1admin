@@ -168,7 +168,7 @@ class account_common extends Controller
             return $this->output_err("角色值不能为空!");
         }
 
-        $check_phone =  \App\Helper\Utils::check_phone($phone);
+        $check_phone = \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
             return $this->output_err("手机号码不合法!");
         }

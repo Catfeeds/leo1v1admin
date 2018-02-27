@@ -31,6 +31,7 @@
 
         <script type="text/javascript">
 	       var g_sid="{{$_sid}}";
+         console.log(g_sid);
          var g_nick="{{$_stu_nick}}";
         </script>
 

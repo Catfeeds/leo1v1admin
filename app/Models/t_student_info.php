@@ -1517,7 +1517,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //区分已有助教,但原有组长离职的情况
             $adminid_ass_old = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
             $del_flag = $this->t_manager_info->get_del_flag($adminid_ass_old);
-            if($adminid_ass_old>0 &&  $del_flag!=1){
+            if($adminid_ass_old>0 &&  $del_flag!=1 && false){
                 $master_adminid_arr = $this->t_admin_group_user->get_group_master_adminid($adminid_ass_old);
                 $master_adminid = @$master_adminid_arr["group_adminid"];
             }else{                
@@ -3600,4 +3600,5 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
 
     }
+
 }
