@@ -226,6 +226,8 @@ class index extends Controller
                         $permission = $login->reset_power($account);
                         session($_SESSION) ;
                         $this->t_admin_users->set_last_ip( $account,$ip );
+                        \App\Helper\Utils::logger("XXXLocation: $to_url");
+
                         header("Location: $to_url");
                         return ;
                     }else{
