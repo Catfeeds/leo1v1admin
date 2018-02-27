@@ -49,7 +49,7 @@
      .check_dimension{ font-size:14px;margin-top:10px }
      .check_dimension span{ margin-right:10px;font-size:16px }
      .check_dimension .dimension_item{ width:200px;height: 32px;background: white; }
-     .dimension_box table tr th, .dimension_box table tr td,.dimension_bind table tr th, .dimension_bind table tr td,.suggestion_info table tr th, .suggestion_info table tr td,.suggest_result table tr th, .suggest_result table tr td { border:1px solid #4b5d6a;padding:10px 5px }
+     .dimension_box table tr th, .dimension_box table tr td,.dimension_bind table tr th, .dimension_bind table tr td,.suggestion_info table tr th, .suggestion_info table tr td,.suggest_result table tr th, .suggest_result table tr td,.dimension_look table tr th, .dimension_look table tr td { border:1px solid #4b5d6a;padding:10px 5px }
      .dimension_bind input[type=checkbox]{ width :18px;height :18px;}
      .dimension_box .dimension_var a{ cursor:pointer}
      .suggest_result{ padding : 10px 15px;background:rgba(200, 196, 196, 0.15)}
@@ -65,6 +65,8 @@
      .suggest_save{ margin-top:10px;text-align:center}
      .suggest_save button{ margin:0 auto}
      .suggest_item a{ cursor:pointer}
+     .dimension_look{ width:800px;padding:10px 20px}
+     .dimension_look table{ width:100%}
     </style>
     <section class="content">
 
@@ -414,9 +416,25 @@
                     <button class="btn btn-info answer_save_all" onclick="save_suggest(this,event)">新增结果与建议</button>
                 </div>
             </div>
-
         </div>
+    </div>
 
-
+    <div class="dimension_look hide">
+        <table>
+            <thead>
+                <tr>
+                    <th width="30%">维度名称</th>
+                    <th width="10%">得分范围</th>
+                    <th width="60%">测评结果与建议</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="hide">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 @endsection

@@ -55,14 +55,14 @@ class seller_student_auto_free extends cmd_base
 
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
                 $theme = "私海过期例子回流";
-                $desc = "例子：".$item['phone']."\n" 
+                $desc = "例子：".$item['phone']."\n"
                       ."例子类型：".$item['assign_type']."\n"
                       ."分配人：".$send_account."\n"
                       ."分配时间：".date('Y-m-d H:i:s',$item['admin_assign_time'])."\n"
                       ."最后拨打时间：".date('Y-m-d H:i:s',$item['last_revisit_time'])."\n"
                       ."最后编辑时间：".date('Y-m-d H:i:s',$item['last_edit_time'])."\n"
                       ."首次拨通时间：".date('Y-m-d H:i:s',$item['first_contact_time'])."\n"
-                      ."过期时间:".date('Y-m-d H:i:s',strtotime(date('Y-m-d',$first_time))+8*24*3600)
+                      ."过期时间:".date('Y-m-d H:i:s',strtotime(date('Y-m-d',$first_time))+8*24*3600)."\n"
                       ."过期时长:".$left_time_desc;
                 $account_arr = ['tom'];
                 foreach($account_arr as $account){
