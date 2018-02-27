@@ -235,7 +235,7 @@ class seller_student_new extends Controller
         if($self_groupid >0) { //主管
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info_sub_assign_adminid_2($sub_assign_adminid_2);
         }else{
-            $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
+            $unallot_info=$this->t_test_lesson_subject->get_unallot_info();
         }
         $this->set_filed_for_js('button_show_flag',$button_show_flag);
         //测试模拟系统分配系统释放
@@ -425,6 +425,32 @@ class seller_student_new extends Controller
         $notify_lesson_check_start_time=$now - 3600;
 
         foreach ($ret_info["list"] as &$item) {
+            if($item['seller_student_assign_type']==1 && $item['first_contact_time']>$item['admin_assign_time']){
+                if($item['last_revisit_time']>$item['first_contact_time'] && $item['last_edit_time']>$item['first_contact_time']){
+                    $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
+                }else{
+                    $first_time = $item['first_contact_time'];
+                }
+                $item['assign_type'] = '系统分配';
+            }else{
+                if($item['last_revisit_time']>$item['admin_assign_time'] && $item['last_edit_time']>$item['admin_assign_time']){
+                    $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
+                }else{
+                    $first_time = $item['admin_assign_time'];
+                }
+                $item['assign_type'] = '抢单';
+            }
+            $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
+            $item['left_time'] = $left_time;
+            if($left_time>7*24*3600 || $left_time<0){
+                $item['left_time_desc'] = '';
+            }else{
+                $hour = floor($item['left_time']/3600);
+                $min = floor($item['left_time']%3600/60);
+                $sec = floor($item['left_time']%3600%60);
+                $item['left_time_desc'] = $hour.'时'.$min.'分'.$sec.'秒';
+            }
+
             \App\Helper\Utils::hide_item_phone($item);
             if($item['call_end_time']){
                 $item["call_end_time"] = date('Y-m-d H:i',$item['call_end_time']);
@@ -446,7 +472,9 @@ class seller_student_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "parent_confirm_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "last_revisit_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "last_edit_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "first_contact_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "seller_require_change_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","", "Y-m-d H:i");
@@ -564,6 +592,7 @@ class seller_student_new extends Controller
             }else{//未设置
                 $item['test_lesson_order_fail_flag_one'] = 0;
             }
+            
         }
         $count_info =$this->t_seller_student_new->get_seller_count_list(
             $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
@@ -633,7 +662,7 @@ class seller_student_new extends Controller
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("account_role",$account_role);
         $this->set_filed_for_js("account",$account);
-        $this->set_filed_for_js("admin_seller_level", session("seller_level" ) );
+        $this->set_filed_for_js("admin_seller_level", session("seller_level" ));
         return $this->pageView(__METHOD__,$ret_info,[
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
@@ -1601,7 +1630,7 @@ class seller_student_new extends Controller
         if(date('Y-m-d',time()) == '2018-02-01'){
             $limit_arr=array( [0, 14*60]);
         }
-        
+
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $this->set_filed_for_js("seller_level",$seller_level);
         $success_flag=true;

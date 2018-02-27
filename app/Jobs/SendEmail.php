@@ -40,5 +40,6 @@ class SendEmail extends Job implements ShouldQueue
         $content   = $mail_info["content"];
 
         \App\Helper\Common::send_mail_leo_com($to, $title ,  $content );
+        // \App\Helper\Email::SendMailLeoCom163($to, $title ,  $content );
     }
 }

@@ -757,7 +757,12 @@ class NewRouteConfig {
         "/resource_new/file_err_refuse"                  =>true,
         "/resource_new/get_error_by_file_id"             =>true,
         "/resource/add_book_resource"                    =>true,
-        "/test_paper/input_paper"                        =>true,  
+        "/test_paper/input_paper"                        =>true,
+        "/test_paper/save_paper_answer"                  =>true,
+        "/test_paper/get_paper"                          =>true,
+        "/test_paper/save_dimension_answer"              =>true,
+        "/test_paper/save_suggestion"                    =>true,
+        "/test_paper/dele_suggestion"                    =>true,
     ];
 
     static $dev_url_map = [

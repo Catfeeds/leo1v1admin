@@ -377,6 +377,8 @@
                                     <a class="opt-seller-ass-record" title="教学质量反馈" >馈-old</a>
                                     <a class="opt-first-lesson-record" >质监反馈-old</a>
                                 @endif
+                                <a class="opt-download-zip" >PPT讲义下载</a>
+
                             </div>
                         </td>
                     </tr>

@@ -1051,10 +1051,10 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         $where_arr = [
             ['phone=%u',$phone,''],
             ['adminid=%u',$adminid,-1],
-            ['is_called_phone=%u',$is_called_phone,-1]
+            // ['is_called_phone=%u',$is_called_phone,-1]
         ];
         $sql = $this->gen_sql_new(
-            'select count(*) from %s where %s',
+            'select sum(is_called_phone) from %s where %s',
             self::DB_TABLE_NAME,
             $where_arr
         );

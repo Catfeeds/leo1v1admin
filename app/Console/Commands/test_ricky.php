@@ -40,10 +40,14 @@ class test_ricky extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
+        $money = new \App\Http\Controllers\teacher_money();
 
         // 老师ID、老师姓名、12月份授课课时数
         $rules1 = [[16, 17, 18, 20, 28], [26, 30, 36, 39, 46], [34, 38, 44, 49, 54], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
         $rules2 = [[18, 22, 28, 32, 38], [26, 28, 36, 39, 46], [30, 33, 40, 43, 50], [36, 38, 46, 48, 55], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
+        $rules3 = [[24, 27, 30, 33], [31, 34, 37, 40], [38, 41, 44, 47], [45, 48, 51, 54]];
+        // 2-25新规则
+        $rules4 = [[18, 19, 20, 22, 26], [28, 29, 32, 34, 40], [34, 36, 40, 44, 52], [42, 44, 49, 53, 63], [45, 47, 52, 57, 67]];
         // 查武汉全职老师 select teacherid,realname from t_teacher_info where teacher_money_type = 7 and is_test_user=0;
         $info = $task->t_teacher_info->get_info_for_money_type();
         $tea = [];
@@ -67,72 +71,132 @@ class test_ricky extends Command
                 $count_301 = 0; // 301 302
                 $count_303 = 0; // 303
                 $total_count = 0; // 总课时
+                $money3 = 0;
                 foreach($data as $val) {
-                    $lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
-                    echo "时长".$lesson_count;
-                    $count = $lesson_count / 40;
+                    //$lesson_count = floor(($val["lesson_end"] - $val["lesson_start"]) % 86400 / 60);
+
+                    //echo "时长".$lesson_count;
+                    //$count = $lesson_count / 40;
+                    $count = $val["lesson_count"] / 100;
+
+                    $type = $task->t_teacher_money_type->get_type_for_money($val["teacher_money_type"], $val["grade"], $val["level"]);
+                    $reward = $money->get_lesson_reward_money(
+                        0, $val['already_lesson_count'], $val['teacher_money_type'], $val['teacher_type'], $type
+                    );
                     $total_count += $count;
-                    if ($val["grade"] >= 101 && $val["grade"] <= 105) {
+                    $coef3 = $rules3[$val["level"]];
+                    //　处理奥数
+                    if ($val['competition_flag'] == 1) {
+                        if (intval($val["grade"]) <= 106) {
+                            $money3 += $count * ($coef3[2] + $reward);
+                        } else {
+                            $money3 += $count * ($coef3[3] + $reward);
+                        }
+                    }
+
+                    if (intval($val["grade"]) >= 101 && intval($val["grade"]) <= 105) {
                         $count_101 += $count;
-                    } elseif ($val["grade"] >= 106 && $val["grade"] <= 202) {
+                        if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[0] + $reward);
+                    } elseif (intval($val["grade"]) >= 106 && intval($val["grade"]) <= 202) {
                         $count_106 += $count;
-                    } elseif ($val["grade"] == 203) {
+                        if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[1] + $reward);
+                    } elseif (intval($val["grade"]) == 203) {
                         $count_203 += $count;
-                    } elseif ($val["grade"] == 301 && $val["grade"] == 302) {
+                        if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[2] + $reward);
+                    } elseif ($val["grade"] >= 301 && $val["grade"] <= 302) {
                         $count_301 += $count;
-                    } elseif ($val["grade"] == 303) {
+                        if ($val["competition_flag"] != 1) $money3 += $count * ($coef3[2] + $reward);
+                    } else {
                         $count_303 += $count;
+                        if ($val["competition_flag"] != 1) {
+                            $money3 += $count * ($coef3[3] + $reward);
+                        }
+                        //echo date("Y-m-d H:i:s", $val["lesson_start"])."课时: ".$count."课时基价: ".$coef3[3]."课时奖金: ".$reward." level: ".$val["level"].$val["grade"].PHP_EOL;
                     }
                 }
-                $tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
-                echo "总课时数".$total_count;
+
+                //$tea[$teacherid]["total_count_".$v] = $total_count."($count_101,$count_106,$count_203,$count_301,$count_303)";
+                $tea[$teacherid]["total_count_".$v] = $total_count;
+                $tea[$teacherid]["count_101_".$v] = $count_101;
+                $tea[$teacherid]["count_106_".$v] = $count_106;
+                $tea[$teacherid]["count_203_".$v] = $count_203;
+                $tea[$teacherid]["count_301_".$v] = $count_301;
+                $tea[$teacherid]["count_303_".$v] = $count_303;
+                //echo "总课时数".$total_count;
+                //echo $item['level'];
+                //$coef3 = $rules3[$item["level"]];
+                //$money3 = $count_101 * $coef3[0] + $count_106 * $coef3[1] + ($count_203 + $count_301) * $coef3[2] + $count_303 * $coef3[3];
                 // 处理年级课时数
                 if ($total_count <= 30) {
                     $money1 = 0;
                     $money2 = 0;
+                    $money4 = 0;
                 } elseif ($total_count >= 31 && $total_count <= 60) {
                     $coef1 = $rules1[0];
                     $coef2 = $rules2[0];
-                    var_dump($rules1[0]);
+                    $coef4 = $rules4[0];
+                    //var_dump($rules1[0]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 } elseif ($total_count >= 61 && $total_count <= 120) {
                     $coef1 = $rules1[1];
-                    var_dump($rules1[1]);
+                    //var_dump($rules1[1]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     if ($total_count <= 90) {
                         $coef2 = $rules2[1];
                     } else {
                         $coef2 = $rules2[2];
                     }
+                    $coef4 = $rules4[1];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 } elseif ($total_count >= 121 && $total_count <= 150) {
                     $coef1 = $rules1[2];
                     $coef2 = $rules2[3];
-                    var_dump($rules1[2]);
+                    $coef4 = $rules4[2];
+                    //var_dump($rules1[2]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 } elseif ($total_count >= 151 && $total_count <= 195) {
                     $coef1 = $rules1[3];
                     $coef2 = $rules2[4];
-                    var_dump($rules1[3]);
+                    $coef4 = $rules4[3];
+                    //var_dump($rules1[3]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 } else {
                     $coef1 = $rules1[4];
                     $coef2 = $rules2[5];
-                    var_dump($rules1[4]);
+                    $coef4 = $rules4[4];
+                    //var_dump($rules1[4]);
                     $money1 = $count_101 * $coef1[0] + $count_106 * $coef1[1] + $count_203 * $coef1[2] + $count_301 * $coef1[3] + $count_303 * $coef1[4];
                     $money2 = $count_101 * $coef2[0] + $count_106 * $coef2[1] + $count_203 * $coef2[2] + $count_301 * $coef2[3] + $count_303 * $coef2[4];
+                    $money4 = $count_101 * $coef4[0] + $count_106 * $coef4[1] + $count_203 * $coef4[2] + $count_301 * $coef4[3] + $count_303 * $coef4[4];
                 }
                 $tea[$teacherid]['money_'.$v] = $money1;
                 $tea[$teacherid]['money_minny_'.$v] = $money2;
-                dd($tea);
-                exit;
+                $tea[$teacherid]["money_sal_".$v] = $money3;
+                $tea[$teacherid]['money_new_'.$v] = $money4;
             }
-
         }
-        dd($info);
+        foreach($tea as $key => $t) {
+            echo $key." ";
+            if ($tea[$key]["nick"]) {
+                echo $tea[$key]["nick"]." ";
+            } else {
+                echo $task->cache_get_teacher_nick($key).' ';
+            }
+            echo $tea[$key]["total_count_12"]." ".$tea[$key]["count_101_12"]." ".$tea[$key]["count_106_12"]." ".$tea[$key]["count_203_12"]." ";
+            echo $tea[$key]["count_301_12"]." ".$tea[$key]["count_303_12"]." ".$tea[$key]["total_count_1"]." ".$tea[$key]["count_101_1"]." ";
+            echo $tea[$key]["count_106_1"]." ".$tea[$key]["count_203_1"]." ".$tea[$key]["count_301_1"]." ".$tea[$key]["count_303_1"].' ';
+            echo $tea[$key]["money_sal_12"]." ".$tea[$key]["money_sal_1"]." ".$tea[$key]["money_12"]." ".$tea[$key]["money_1"]." ";
+            echo $tea[$key]["money_minny_12"]." ".$tea[$key]["money_minny_1"]." ".$tea[$key]["money_new_12"]." ".$tea[$key]["money_new_1"].PHP_EOL;
+        }
+
+        //dd($info);
         exit;
 
         $start_time = strtotime("2017-7-1");

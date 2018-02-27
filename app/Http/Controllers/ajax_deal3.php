@@ -1021,15 +1021,29 @@ class ajax_deal3 extends Controller
         }else{
             $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
         }
-
         # 进入tmk库
         # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
         if($account_type == 1){
+            /*
             $hasSignNum = $this->t_invalid_num_confirm->getHasSignNum($userid);
             if($confirm_type == 1001 || $hasSignNum == 3){
                 $this->t_seller_student_new->field_update_list($userid, [
                     'tmk_student_status' => 2
                 ]);
+            }
+            */
+            $adminid = $this->get_account_id();
+            $cc_confirm_type = $this->t_invalid_num_confirm->get_row_by_adminid($adminid,$confirm_type);
+            $field_list = $this->t_seller_student_new->field_get_list($userid, 'cc_not_exist_count,cc_invalid_count');
+            if($cc_confirm_type==0 && $confirm_type>0){
+                if($confirm_type == E\Eseller_student_sub_status::V_1001){
+                    $arr['cc_not_exist_count'] = $field_list['cc_not_exist_count']+1;
+                }elseif($confirm_type>1001){
+                    $arr['cc_invalid_count'] = $field_list['cc_invalid_count']+1;
+                }
+            }
+            if(count($arr)>0){
+                $this->t_seller_student_new->field_update_list($userid,$arr);
             }
         }
         return $this->output_succ();
@@ -1070,4 +1084,15 @@ class ajax_deal3 extends Controller
         return $this->output_succ(['data'=>$ret_info]);
     }
 
+    public function downloadPPtZip(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $base_name   = $this->t_lesson_info->get_zip_url($lessonid);
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$base_name;
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $this->output_succ(['url'=>$base_url,'base_name'=>$base_name]);
+    }
 }
