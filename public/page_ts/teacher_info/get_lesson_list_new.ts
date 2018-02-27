@@ -1641,6 +1641,46 @@ $(function(){
         }
     });
 
+    function openwin(info) {
+        BootstrapDialog.alert(info);
+    } 
+    function get_cookie(name) {
+        var search = name+"=";
+        var returnvalue = "";
+        if(document.cookie.length>0) {
+            offset = document.cookie.indexOf(search);
+            if(offset!=-1) {
+                offset = search.length;
+                end = document.cookie.indexOf(";",offset);
+                if(end==-1) {
+                    end = document.cookie.length;
+                }
+                returnvalue = unescape(document.cookie.substring(offset,end));
+            }
+        }
+        return returnvalue;
+    }
+    function loadpopup() {
+        if(get_cookie("popped")=='') {
+            var num = 0;
+            $(".lesson_data").each(function(){
+                var lesson_start = $(this).data("lesson_start");
+                var lesson_type  = $(this).data("lesson_type");
+                var train_type   = $(this).data("train_type");
+                
+                if(train_type==4 && lesson_type==1100 && lesson_start==0 ){
+                    $(this).parents("tr").addClass("bg_train_lesson");
+                    num = num + 1;
+                }
+                
+            });
+            if(num > 0){
+                var info = "您有"+num+"节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)"
+            }
+            openwin(info);
+            document.cookie="popped=yes";
+        }
+    }
     $(".opt-complaint").on("click",function(){
         var data                = $(this).get_opt_data();
         var id_complaint_info   = $("<textarea>");

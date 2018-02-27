@@ -155,6 +155,7 @@
                         <td>{{@$var['modify_time']}}</td>
                         <td>{{@$var['use_number']}}</td>
                         <td style="max-width:150px">
+                            <a class="opt-dimension btn color-blue"  title="维度">维度</a>
                             <a class="opt-edit btn color-blue"  title="编辑">编辑</a>
                             <a class="opt-dele btn color-blue" title="删除">删除</a>          
                         </td>
@@ -273,8 +274,8 @@
                     <thead>
                         <tr>
                             <th width="10%">编号</th>
-                            <th width="50%">维度名称</th>
-                            <th width="20%">题目数</th>
+                            <th width="70%">维度名称</th>
+                            <!-- <th width="20%">题目数</th> -->
                             <th width="20%">操作</th>
                         </tr>
                     </thead>                 
@@ -282,13 +283,13 @@
                         <tr class="edit_dimension hide">
                             <td></td>
                             <td class="edit_dimension_name"><input type="text"></td>
-                            <td></td>
+                            <!-- <td></td> -->
                             <td>
                                 <a class="dimension-dele" onclick="dimension_dele(this,event)" title="删除">删除</a>                     
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="add_answer" onclick="add_dimension(this,event)">
+                            <td colspan="3" class="add_answer" onclick="add_dimension(this,event)">
                                 <i class="fa fa-plus"></i>增加维度
                             </td>
                         </tr>
@@ -313,6 +314,7 @@
                         <tr>
                             <th>维度</th>
                             <th>已绑定的题目</th>
+                            <th>绑定题目数</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -320,6 +322,7 @@
                         <tr class="dimension_var hide">
                             <td></td>
                             <td></td>
+                            <td>0</td>
                             <td>
                                 <a onclick="dimension_bind(this,event)" title="绑定">绑定</a>       
                             </td>

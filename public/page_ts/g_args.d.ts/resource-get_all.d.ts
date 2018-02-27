@@ -12,6 +12,7 @@ interface GargsStatic {
 	has_comment:	number;
 	has_error:	number;
 	id_order:	number;
+	paper_assort:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -23,47 +24,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	file_title	:any;
-	file_size	:any;
-	file_type	:any;
-	ex_num	:any;
-	file_hash	:any;
-	file_link	:any;
-	file_id	:any;
-	file_use_type	:any;
-	use_type	:any;
-	resource_id	:any;
-	resource_type	:any;
-	subject	:any;
-	grade	:any;
-	tag_one	:any;
-	tag_two	:any;
-	tag_three	:any;
-	tag_four	:any;
-	tag_five	:any;
-	tag_four_str	:any;
-	create_time	:any;
-	visitor_id	:any;
-	comment_id	:any;
-	error_id	:any;
-	error_status	:any;
-	file_use_type_str	:any;
-	nick	:any;
-	tag_one_name	:any;
-	tag_two_name	:any;
-	tag_three_name	:any;
-	tag_four_name	:any;
-	tag_five_name	:any;
-	file_size_str	:any;
-	subject_str	:any;
-	grade_str	:any;
-	resource_type_str	:any;
-	use_type_str	:any;
-	tag_one_str	:any;
-	tag_two_str	:any;
-	tag_five_str	:any;
-	comment	:any;
-	error	:any;
 }
 
 /*
@@ -90,7 +50,8 @@ function load_data(){
 		file_title:	$('#id_file_title').val(),
 		has_comment:	$('#id_has_comment').val(),
 		has_error:	$('#id_has_error').val(),
-		id_order:	$('#id_id_order').val()
+		id_order:	$('#id_id_order').val(),
+		paper_assort:	$('#id_paper_assort').val()
 		});
 }
 $(function(){
@@ -109,6 +70,7 @@ $(function(){
 	$('#id_has_comment').val(g_args.has_comment);
 	$('#id_has_error').val(g_args.has_error);
 	$('#id_id_order').val(g_args.id_order);
+	$('#id_paper_assort').val(g_args.paper_assort);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -222,6 +184,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["id_order title", "id_order", "th_id_order" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">paper_assort</span>
+                <input class="opt-change form-control" id="id_paper_assort" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["paper_assort title", "paper_assort", "th_paper_assort" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
