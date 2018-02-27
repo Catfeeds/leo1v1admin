@@ -46,15 +46,18 @@ class seller_student_auto_free extends cmd_base
             }
             $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
             $item['left_time'] = $left_time;
-            if($left_time>7*24*3600 || $left_time<0){
-                $item['left_time_desc'] = '';
-            }else{
-                $hour = floor($item['left_time']/3600);
-                $min = floor($item['left_time']%3600/60);
-                $sec = floor($item['left_time']%3600%60);
-                $item['left_time_desc'] = $hour.'时'.$min.'分'.$sec.'秒';
-                echo $this->task->cache_get_account_nick($item['admin_revisiterid']).':'.$item['userid'].'=>'.$item['left_time_desc']."\n";
+            if($left_time<=0){
+                echo $this->task->cache_get_account_nick($item['admin_revisiterid']).':'.$item['userid'].'=>'.$left_time."\n";
             }
+            // if($left_time>7*24*3600 || $left_time<0){
+            //     $item['left_time_desc'] = '';
+            // }else{
+            //     $hour = floor($item['left_time']/3600);
+            //     $min = floor($item['left_time']%3600/60);
+            //     $sec = floor($item['left_time']%3600%60);
+            //     $item['left_time_desc'] = $hour.'时'.$min.'分'.$sec.'秒';
+            //     echo $this->task->cache_get_account_nick($item['admin_revisiterid']).':'.$item['userid'].'=>'.$item['left_time_desc']."\n";
+            // }
         }
     }
 
