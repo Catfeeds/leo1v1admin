@@ -38,7 +38,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >工资分类</span>
-                        <select id="id_teacher_money_type" class ="opt-change" ></select>
+                        <select id="id_teacher_money_type" name="id_teacher_money_type" class ="opt-change" ></select>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
