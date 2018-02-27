@@ -15,7 +15,27 @@ class test_jack  extends Controller
 
     public function test_ass(){
         $list = $this->t_fulltime_teacher_attendance_list->get_list_by_attendance_type(3);
-        dd($list);
+        foreach($list as $val){
+            $str = $val["holiday_hugh_time"];
+            if($str){
+                $arr = json_decode($str,true);
+                $arr["lesson_count"] = $val["lesson_count"];
+            }else{
+                $arr=[
+                    "start" => $val["attendance_time"],
+                    "end" => ($val["attendance_time"]+86400*($val["day_time"]-1)),
+                    "lesson_count" => $val["lesson_count"]
+                ];
+              
+            }
+            $res = json_encode($arr);
+            $this->t_fulltime_teacher_attendance_list->field_update_list($val["id"],[
+                "holiday_hugh_time" =>  $res
+            ]);
+        }
+        $list2 = $this->t_fulltime_teacher_attendance_list->get_list_by_attendance_type(3);
+
+        dd($list2);
         $adminid = $this->get_account_id();
         $arr=[
             ["tag_name"=>"幽默风趣","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
