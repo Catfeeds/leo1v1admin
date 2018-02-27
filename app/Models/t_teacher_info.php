@@ -218,6 +218,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    public function get_research_tea_list_for_select_zs($id,$gender, $nick_phone, $page_num){
+        $where_arr = array(
+            array( "t.gender=%d", $gender, -1 ),
+            array( "teacherid=%d", $id, -1 ),
+            "(m.account_role in(4,9) and m.del_flag=0)"
+            //  "m.account_role in(4,9)",
+            // "m.del_flag=0"
+        );
+        $where_arr = $this->teacher_search_info_sql($nick_phone, 't', $where_arr);
+
+        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
+                                  ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".
+                                  " left join %s m on t.phone= m.phone".
+                                  " where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num,10);
+
+    }
+
+
     public function get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num){
         $where_arr = [
             ["t.gender=%d",$gender,-1],
