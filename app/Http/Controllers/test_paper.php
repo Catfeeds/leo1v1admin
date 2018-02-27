@@ -36,7 +36,7 @@ class test_paper extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180224134439,
+            '_publish_version'    => 20180227134439,
         ]);
     } 
 
@@ -103,22 +103,6 @@ class test_paper extends Controller
             $data['dimension'] = json_encode($new_dimension);
         }
 
-        if( $save_type == 3 && !empty($question_bind) ){
-            $data = [
-                "modify_time" => time(),
-                "adminid"    => $adminid,
-                "question_bind" => json_encode($question_bind)
-            ];
-        }
-
-        if( $save_type == 4 && !empty($suggestion) ){
-            $data = [
-                "modify_time" => time(),
-                "adminid"    => $adminid,
-                "suggestion" => json_encode($suggestion)
-            ];
-        }
-
         if( !empty($data)){
             $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
             return $this->output_succ('添加成功');
@@ -154,9 +138,65 @@ class test_paper extends Controller
             }
             return $this->output_succ(['status'=>201]);
         }else{
-            return $this->output_succ(['status'=>201]);
+            return $this->output_err();
         }
 
+    }
+
+    public function save_suggestion(){
+        $paper_id     = trim($this->get_in_int_val('paper_id') );
+        $dimension_id       = $this->get_in_int_val("dimension_id");
+        $score_min       = $this->get_in_int_val("score_min");
+        $score_max       = $this->get_in_int_val("score_max");
+        $suggestion       = trim($this->get_in_str_val("suggestion"));
+        $paper = $this->t_student_test_paper->get_paper($paper_id);
+        if($paper){
+            $score_range = $score_min."-".$score_max;
+
+            if($paper['suggestion']){
+                $old_suggest = json_decode($paper['suggestion'],true);
+                $old_suggest[$dimension_id][$score_range] = $suggestion;
+                ksort($old_suggest);
+                ksort($old_suggest[$dimension_id]);
+                $data = ['suggestion'=>json_encode($old_suggest)];
+
+            }else{
+                $new_suggest[$dimension_id] = [ $score_range => $suggestion ];
+                $data = ["suggestion" => json_encode($new_suggest)];
+            }
+
+            if( !empty($data) ){
+                $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
+                return $this->output_succ(['status'=>200]);
+            }
+            return $this->output_succ(['status'=>201]);
+
+        }else{
+            return $this->output_err();
+        }
+    }
+
+    public function dele_suggestion(){
+        $paper_id       = trim($this->get_in_int_val('paper_id') );
+        $dimension_id   = $this->get_in_int_val("dimension_id");
+        $score_range    = $this->get_in_str_val("score_range");
+        $paper = $this->t_student_test_paper->get_paper($paper_id);
+        if($paper){
+            if($paper['suggestion']){
+                $suggest = json_decode($paper['suggestion'],true);
+                //$suggest[$dimension_id][$score_range] = "";
+                unset($suggest[$dimension_id][$score_range]);
+                //ksort($suggest);
+                $data = ['suggestion'=>json_encode($suggest)];
+                $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
+                return $this->output_succ(['status'=>200]);
+            }else{
+                return $this->output_succ(['status'=>200,"info"=>"数据库未找到该条记录！"]); 
+            }
+
+        }else{
+            return $this->output_err();
+        }
     }
 
     public function get_paper(){

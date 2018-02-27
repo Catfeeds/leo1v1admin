@@ -176,77 +176,80 @@ class get_period_repay_info extends Command
  
                 }else{
                     $period_info = $task->t_child_order_info->get_period_info_by_userid($userid,$orderid);
+                    if(!empty($period_info)){
+                     
 
-                    //已还款金额
-                    $pay_price=$task->t_period_repay_list->get_paid_money_all($orderid);
+                        //已还款金额
+                        $pay_price=$task->t_period_repay_list->get_paid_money_all($orderid);
                     
-                    //已支付金额
-                    $pay_price +=$period_info["price"]-$period_info["period_price"];
+                        //已支付金额
+                        $pay_price +=$period_info["price"]-$period_info["period_price"];
 
-                    //课时单价
-                    $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
+                        //课时单价
+                        $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
 
-                    $parent_orderid= $task->t_child_order_info->get_parent_orderid($orderid);
-                    //已消耗课时
-                    $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
+                        $parent_orderid= $task->t_child_order_info->get_parent_orderid($orderid);
+                        //已消耗课时
+                        $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
 
-                    //得到合同消耗课次段折扣
-                    $discount_per = $task->get_order_lesson_discount_per($parent_orderid,$order_use);
-                    $money_use = $per_price*$order_use*$discount_per;
-                    $money_contrast = ($money_use-$pay_price)/100;
-                    $day_start = strtotime(date("Y-m-d",time()));
-                    if($money_contrast>=1){
-                        $old_type= $task->t_student_info->get_type($userid);
+                        //得到合同消耗课次段折扣
+                        $discount_per = $task->get_order_lesson_discount_per($parent_orderid,$order_use);
+                        $money_use = $per_price*$order_use*$discount_per;
+                        $money_contrast = ($money_use-$pay_price)/100;
+                        $day_start = strtotime(date("Y-m-d",time()));
+                        if($money_contrast>=1){
+                            $old_type= $task->t_student_info->get_type($userid);
                    
-                        $task->t_student_info->get_student_type_update($userid,6);
-                        $task->t_student_type_change_list->row_insert([
-                            "userid"    =>$userid,
-                            "add_time"  =>time(),
-                            "type_before" =>$old_type,
-                            "type_cur"    =>0,
-                            "change_type" =>6,
-                            "adminid"     =>0,
-                            "reason"      =>"系统更新"
-                        ]);
-                        $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
+                            $task->t_student_info->get_student_type_update($userid,6);
+                            $task->t_student_type_change_list->row_insert([
+                                "userid"    =>$userid,
+                                "add_time"  =>time(),
+                                "type_before" =>$old_type,
+                                "type_cur"    =>0,
+                                "change_type" =>6,
+                                "adminid"     =>0,
+                                "reason"      =>"系统更新"
+                            ]);
+                            $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
  
-                    }elseif($money_contrast>0 && $money_contrast<1){
-                        //判断当天有无课程
-                        //  $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
-                        $first_lesson_start = $task->t_lesson_info_b3->get_first_lesson_start($userid,$day_start);
-                        if($first_lesson_start>0){
-                            //删除之后的课
-                            $task->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
-                        }
-                        //已排超出课是否要清除,待确认
-                        
-                    }else{
-                        //可排课量
-                        $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per*100));
-
-                        //已排课量
-                        $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
-                        $plan_lesson_count = $plan_lesson_count/100;
-
-                        //两者比较,若已排课量超出,则清除超出部分
-                        if( $left_plan_count<$plan_lesson_count){                          
-                            $lesson_list = $task->t_lesson_info_b3->get_lesson_count_list_new($userid,$day_start,0);
-                            $first_lesson_start=0;
-                            $lesson_count_total=0;
-                            foreach($lesson_list as $var){
-                                if($lesson_count_total>=($left_plan_count*100)){
-                                    break;
-                                }
-                                $lesson_count_total +=$var["lesson_count"];
-                                $first_lesson_start = $var["lesson_start"];
+                        }elseif($money_contrast>0 && $money_contrast<1){
+                            //判断当天有无课程
+                            //  $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
+                            $first_lesson_start = $task->t_lesson_info_b3->get_first_lesson_start($userid,$day_start);
+                            if($first_lesson_start>0){
+                                //删除之后的课
+                                $task->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
                             }
-                            //删除之后的课
-                            $task->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
+                            //已排超出课是否要清除,待确认
+                        
+                        }else{
+                            //可排课量
+                            $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per*100));
+
+                            //已排课量
+                            $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+                            $plan_lesson_count = $plan_lesson_count/100;
+
+                            //两者比较,若已排课量超出,则清除超出部分
+                            if( $left_plan_count<$plan_lesson_count){                          
+                                $lesson_list = $task->t_lesson_info_b3->get_lesson_count_list_new($userid,$day_start,0);
+                                $first_lesson_start=0;
+                                $lesson_count_total=0;
+                                foreach($lesson_list as $var){
+                                    if($lesson_count_total>=($left_plan_count*100)){
+                                        break;
+                                    }
+                                    $lesson_count_total +=$var["lesson_count"];
+                                    $first_lesson_start = $var["lesson_start"];
+                                }
+                                //删除之后的课
+                                $task->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
 
                             
+                            }
+                        
+                        
                         }
-                        
-                        
                     }
                     
 
