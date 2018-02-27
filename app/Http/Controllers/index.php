@@ -157,7 +157,7 @@ class index extends Controller
                 $to_url=$this->get_in_str_val("to_url");
                 $bin_to_url= @hex2bin($to_url );
                 if ($bin_to_url ) {
-                    $to_url;
+                    $to_url=$bin_to_url;
                 }
                 if ($to_url) {
                     \App\Helper\Utils::logger("ACC TO:$to_url ");
