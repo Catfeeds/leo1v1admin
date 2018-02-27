@@ -26,7 +26,17 @@ class LoginTest extends DuskTestCase
                     ->visit("/");
 
                 // 页面url click页面元素的单击
+                // ["url" => "", "click" => ""],
                 $pages = [
+                    // cc相关页面
+                    ["url" => "/main_page/seller", "click" => ".opt-no-order"], // 排行榜
+                    ["url" => "/seller_student_new/seller_student_list_all", "click" => ".opt-edit-new_new_two"], // 所有用户
+                    ["url" => "/seller_student_new/assign_member_list", "click" => ".opt-return-back-list"], // 分配例子-主管
+                    ["url" => "/seller_student_new/ass_master_seller_student_list", "click" => ".opt-edit-new_new_two"], // 转介绍例子
+
+                    // cr相关页面
+                    ["url" => "/user_manage/ass_random_revisit", "click" => ".opt-return-back-lesson"],
+                    // ["url" => "", "click" => ""],
                     ["url" => "/user_manage/all_users", "click" => ".td-info"],
                     ["url" => "/human_resource/index_new", "click" => ".opt-freeze-list"],
                     ["url" => "/authority/manager_list", "click" => ".opt-ower-permission"]
@@ -35,7 +45,8 @@ class LoginTest extends DuskTestCase
                 foreach($pages as $item) {
                     echo PHP_EOL."当前页面:".$item["url"];
                     $browser->visit($item["url"])->click($item["click"])->pause(200);
-                    $text = $browser->text(".bootstrap-dialog-title");
+                    $text = $browser->text(".modal-header");
+                    //$text = $browser->text(".bootstrap-dialog-title");
                 }
                 $browser->quit();
 

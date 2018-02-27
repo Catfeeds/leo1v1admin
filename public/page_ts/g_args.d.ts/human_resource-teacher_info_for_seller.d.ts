@@ -41,10 +41,11 @@ tofile:
 /// <reference path="../g_args.d.ts/human_resource-teacher_info_for_seller.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		address:	$('#id_address').val()
-    });
+		});
 }
 $(function(){
 
@@ -66,4 +67,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_address" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["address title", "address", "th_address" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
