@@ -441,14 +441,35 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $nick = $this->cache_get_student_nick($userid=60001);
-        dd($nick);
-        // $field_list = $this->t_seller_student_new->field_get_list($userid=62793, 'cc_not_exist_count,cc_invalid_count');
-        // $cc_invalid_count = $field_list['cc_invalid_count']+1;
-        if($this->t_seller_student_new->field_get_value($userid=62793, 'sys_assign_count')<3){
-            dd('a');
-        }
-        dd($this->t_seller_student_new->field_get_value($userid=62793, 'sys_assign_count')+1);
+        $adminid = $this->get_in_int_val('adminid');
+        $start_time = strtotime(date('Y-m-d',time()));
+        $end_time = $start_time+3600*24;
+        $count = $this->get_in_int_val('count');
+        $ret = $this->t_seller_new_count->row_insert([
+            'seller_new_count_type'=>1,
+            'adminid'=>$adminid,
+            'add_time'=>time(),
+            'start_time'=>$start_time,
+            'end_time'=>$end_time,
+            'count'=>$count,
+        ]);
+        dd($ret);
+    }
+
+    public function add_seller_new_count(){
+        $adminid = $this->get_in_int_val('adminid');
+        $start_time = strtotime(date('Y-m-d',time()));
+        $end_time = $start_time+3600*24;
+        $count = $this->get_in_int_val('count');
+        $ret = $this->t_seller_new_count->row_insert([
+            'seller_new_count_type'=>1,
+            'adminid'=>$adminid,
+            'add_time'=>time(),
+            'start_time'=>$start_time,
+            'end_time'=>$end_time,
+            'count'=>$count,
+        ]);
+        dd($ret);
     }
 
     public function del_detailid(){
