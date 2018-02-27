@@ -15,6 +15,23 @@ $(function(){
     $('#id_lesson_type').val(g_args.lesson_type);
     $('#id_student').val(g_args.userid);
 
+    var num = 0;
+    $(".lesson_data").each(function(){
+        var lesson_start = $(this).data("lesson_start");
+        var lesson_type  = $(this).data("lesson_type");
+        var train_type   = $(this).data("train_type");
+        
+        if(train_type==4 && lesson_type==1100 && lesson_start==0 ){
+            $(this).parents("tr").addClass("bg_train_lesson");
+            num = num + 1;
+        }
+        
+    });
+    if(num > 0){
+        var info = "您有"+num+"节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)"
+        BootstrapDialog.alert(info);
+    }
+
     //时间插件
     $("#id_start_date").datetimepicker({
         lang:'ch',
@@ -1631,20 +1648,7 @@ $(function(){
         });
     });
 
-    $(".lesson_data").each(function(){
-        var lesson_start = $(this).data("lesson_start");
-        var lesson_type  = $(this).data("lesson_type");
-        var train_type   = $(this).data("train_type");
-        var num = 0;
-        if(train_type==4 && lesson_type==1100 && lesson_start==0 ){
-            $(this).parents("tr").addClass("bg_train_lesson");
-            num = num + 1;
-        }
-        if(num > 0){
-            var info = "您有"+num+"节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)"
-            BootstrapDialog.alert(info);
-        }
-    });
+    
 
     $(".opt-complaint").on("click",function(){
         var data                = $(this).get_opt_data();
