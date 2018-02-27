@@ -2818,6 +2818,7 @@ class teacher_info extends Controller
     }
 
     public function get_leo_resource_new(){
+        $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
         if($teacherid == 60024){
             $tea_info[0]['subject'] = 1;
