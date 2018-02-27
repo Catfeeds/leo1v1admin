@@ -91,7 +91,7 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
 
     }
 
-    public function get_list_by_attendance_type(){
+    public function get_list_by_attendance_type($attendance_type){
         $where_arr=[
             ["attendance_type=%u",$attendance_type,-1],
         ];
