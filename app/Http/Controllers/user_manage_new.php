@@ -4261,9 +4261,11 @@ class user_manage_new extends Controller
                     $holiday_hugh_time_arr = json_decode($item["holiday_hugh_time"],true);
                     $item["holiday_hugh_time_str"] = date("Y.m.d",@$holiday_hugh_time_arr["start"])."-".date("Y.m.d",@$holiday_hugh_time_arr["end"]);
                     $item["holiday_start_time"] = @$holiday_hugh_time_arr["start"];
+                    $item["holiday_lesson_count"] = @$holiday_hugh_time_arr["lesson_count"];
                 }else{
                     $item["holiday_hugh_time_str"]="";
                     $item["holiday_start_time"] =0;
+                    $item["holiday_lesson_count"]=0;
                 }
 
                 if($item["attendance_type"]==5){
