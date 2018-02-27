@@ -110,7 +110,7 @@
                             
                         </td>
                         <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["holiday_start_time"]}}" data-flag="2">
-                            @if($var["attendance_type"] ==3 && $var["holiday_lesson_count"]>0)
+                            @if($var["attendance_type"] ==3 && @$var["holiday_lesson_count"]>0)
                                 {{@$var["holiday_lesson_count"]/100}}
                             @endif
                         </td>
