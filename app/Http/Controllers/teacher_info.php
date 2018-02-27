@@ -652,8 +652,7 @@ class teacher_info extends Controller
             ]);
         }elseif(strtolower($tea_cw_url_arr[1]) == 'ppt' || strtolower($tea_cw_url_arr[1]) == 'pptx'){
             // 增加限制目前只对测试人员开放
-            $account_role = $this->get_account_role();
-            if($account_role != 12){
+            if($teacherid != 392077){ // 针对卫彬开放
                 return $this->output_err('您好,目前暂不支持PPT格式课件!');
             }
 
@@ -2643,7 +2642,32 @@ class teacher_info extends Controller
         */
         $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
-        dd($tea_info);
+
+        if($teacherid == 489187){
+            $tea_info[0]['subject'] = 1;
+            $tea_info[0]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[1]['subject'] = 2;
+            $tea_info[1]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[2]['subject'] = 3;
+            $tea_info[2]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+
+            $tea_info[3]['subject'] = 4;
+            $tea_info[3]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[4]['subject'] = 5;
+            $tea_info[4]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[5]['subject'] = 6;
+            $tea_info[5]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[6]['subject'] = 7;
+            $tea_info[6]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[7]['subject'] = 8;
+            $tea_info[7]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[8]['subject'] = 9;
+            $tea_info[8]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[9]['subject'] = 10;
+            $tea_info[9]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[10]['subject'] = 11;
+            $tea_info[10]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+        }
         $type_list = [1,3,5,6]; //
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
@@ -2794,7 +2818,33 @@ class teacher_info extends Controller
     }
 
     public function get_leo_resource_new(){
+        $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
+        if($teacherid == 489187){
+            $tea_info[0]['subject'] = 1;
+            $tea_info[0]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[1]['subject'] = 2;
+            $tea_info[1]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[2]['subject'] = 3;
+            $tea_info[2]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+
+            $tea_info[3]['subject'] = 4;
+            $tea_info[3]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[4]['subject'] = 5;
+            $tea_info[4]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[5]['subject'] = 6;
+            $tea_info[5]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[6]['subject'] = 7;
+            $tea_info[6]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[7]['subject'] = 8;
+            $tea_info[7]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[8]['subject'] = 9;
+            $tea_info[8]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[9]['subject'] = 10;
+            $tea_info[9]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[10]['subject'] = 11;
+            $tea_info[10]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+        }
         $type_list = [1,3,5,6]; //
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
@@ -3435,8 +3485,33 @@ class teacher_info extends Controller
 
 
     public function get_leo_train(){
-
+        $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
+        if($teacherid == 489187){
+            $tea_info[0]['subject'] = 1;
+            $tea_info[0]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[1]['subject'] = 2;
+            $tea_info[1]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[2]['subject'] = 3;
+            $tea_info[2]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+
+            $tea_info[3]['subject'] = 4;
+            $tea_info[3]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[4]['subject'] = 5;
+            $tea_info[4]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[5]['subject'] = 6;
+            $tea_info[5]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[6]['subject'] = 7;
+            $tea_info[6]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[7]['subject'] = 8;
+            $tea_info[7]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[8]['subject'] = 9;
+            $tea_info[8]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[9]['subject'] = 10;
+            $tea_info[9]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+            $tea_info[10]['subject'] = 11;
+            $tea_info[10]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
+        }
         $type_list = [9]; //
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
