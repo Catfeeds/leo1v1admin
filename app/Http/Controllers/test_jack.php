@@ -14,6 +14,62 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $list = $this->t_fulltime_teacher_attendance_list->get_list_by_attendance_type(3);
+        foreach($list as $val){
+            $str = $val["holiday_hugh_time"];
+            if($str){
+                $arr = json_decode($str,true);
+                $arr["lesson_count"] = $val["lesson_count"];
+            }else{
+                $arr=[
+                    "start" => $val["attendance_time"],
+                    "end" => ($val["attendance_time"]+86400*($val["day_num"]-1)),
+                    "lesson_count" => $val["lesson_count"]
+                ];
+              
+            }
+            $res = json_encode($arr);
+            $this->t_fulltime_teacher_attendance_list->field_update_list($val["id"],[
+                "holiday_hugh_time" =>  $res
+            ]);
+        }
+        $list2 = $this->t_fulltime_teacher_attendance_list->get_list_by_attendance_type(3);
+
+        dd($list2);
+        $adminid = $this->get_account_id();
+        $arr=[
+            ["tag_name"=>"幽默风趣","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"生动活泼","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"耐心绅士","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"口语标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"经验丰富","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"普通话标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"熟悉考纲","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"激昂热情","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"生动活泼","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"经验丰富","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"丰富有趣","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"游戏相关","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"图片精美","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"嘻嘻哈哈","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"兴趣培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"习惯培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"信心建立","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"学习方法技巧","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"文学素养培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+
+        ];
+        foreach($arr as $var){
+            $this->t_tag_library->row_insert($var);
+ 
+        }
+               // return $this->output_succ();
+
+        // $this->t_student_info->reset_lesson_count(440915);
+        dd(1111);
+
         $lessonid = $this->get_in_int_val('lessonid',549731);
 
         $homework_situation = array_flip(E\Ehomework_situation::$desc_map);

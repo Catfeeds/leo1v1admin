@@ -203,6 +203,9 @@ interface RowData {
 	week_limit_time_info	:any;
 	limit_seller_require_flag	:any;
 	callcard_url	:any;
+	protocol_results	:any;
+	protocol_time	:any;
+	dispute_handle_type	:any;
 	label_id	:any;
 	tag_info	:any;
 	teacher_type_str	:any;

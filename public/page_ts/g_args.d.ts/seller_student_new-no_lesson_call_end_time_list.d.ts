@@ -20,16 +20,25 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-no_lesson_call_end_time_list.d.ts" />
 
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		adminid:	$('#id_adminid').val(),
+		phone:	$('#id_phone').val()
+		});
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			adminid:	$('#id_adminid').val(),
-			phone:	$('#id_phone').val()
-        });
-    }
 
 
-	$('#id_adminid').val(g_args.adminid);
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_phone').val(g_args.phone);
 
 
@@ -47,6 +56,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -54,4 +64,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_phone" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["phone title", "phone", "th_phone" ]])!!}
 */
