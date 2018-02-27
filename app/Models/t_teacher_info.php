@@ -222,7 +222,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = array(
             array( "t.gender=%d", $gender, -1 ),
             array( "teacherid=%d", $id, -1 ),
-            "(m.account_role in(4,9) and m.del_flag=0)"
+            "((m.account_role in(4,9) and m.del_flag=0) or t.teacher_type=1000)"
             //  "m.account_role in(4,9)",
             // "m.del_flag=0"
         );
