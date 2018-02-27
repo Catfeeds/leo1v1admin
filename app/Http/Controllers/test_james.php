@@ -1835,6 +1835,9 @@ class test_james extends Controller
     // Redis::set($key,1);
 
     public function updateZipFile(){
+        $account_role = $this->get_account_role();
+        dd($account_role);
+
         $ip = getenv('REMOTE_ADDR');
         if($ip == '127.0.0.1'){
             echo 11;
@@ -1845,7 +1848,7 @@ class test_james extends Controller
     }
 
 
-        # ppt 配置文档更新时发送通知提示
+    # ppt 配置文档更新时发送通知提示
     /*
      * @ 微演示ip 47.104.104.138
      * @ 返回状态码 1:正确的IP 0:错误的IP

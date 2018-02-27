@@ -31,6 +31,7 @@ class resource extends Controller
         $has_comment   = $this->get_in_int_val('has_comment', -1);
         $has_error     = $this->get_in_int_val('has_error', -1);
         $id_order      = $this->get_in_int_val('id_order', 1);
+        $paper_assort  = $this->get_in_int_val('paper_assort', 0);
         $page_info     = $this->get_in_page_info();
 
         if($use_type == 1){
@@ -159,7 +160,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180206171440,
+            '_publish_version'    => 20180226171440,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),

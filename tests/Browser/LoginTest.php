@@ -38,7 +38,7 @@ class LoginTest extends DuskTestCase
 
                 $browser->visit("/tea_manage/lesson_list")
                      ->press("ALL")
-                     -pause(5000);
+                     ->pause(5000);
 
         });
 

@@ -4823,7 +4823,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." where teacherid = $teacherid"
                                   ,self::DB_TABLE_NAME
         );
-
+        // dd($sql);   
         return $this->main_get_row($sql);
     }
 
