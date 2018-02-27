@@ -231,7 +231,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
                                   ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".
                                   " left join %s m on t.phone= m.phone".
-                                  " where %s ",
+                                  " where %s order by t.phone desc ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
