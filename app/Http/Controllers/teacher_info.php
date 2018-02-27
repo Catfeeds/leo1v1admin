@@ -652,8 +652,7 @@ class teacher_info extends Controller
             ]);
         }elseif(strtolower($tea_cw_url_arr[1]) == 'ppt' || strtolower($tea_cw_url_arr[1]) == 'pptx'){
             // 增加限制目前只对测试人员开放
-            $account_role = $this->get_account_role();
-            if($account_role != 12){
+            if($teacherid != 392077){ // 针对卫彬开放
                 return $this->output_err('您好,目前暂不支持PPT格式课件!');
             }
 
