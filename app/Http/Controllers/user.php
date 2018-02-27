@@ -62,13 +62,14 @@ class user extends TeaWxController
                 $flag = 0;
                 $time     = @strtotime($item['0']);
                 $time_end = $time+59*60;
-                // $time_end = time(NULL)+59*60;
                 foreach($tea_lessons_arr as $item_lesson){
                     if($time_end <= $item_lesson["lesson_end"] && $time >= $item_lesson["lesson_start"]) {
                         $flag = 1;
                     }
                 }
 
+
+                // $time_end = time(NULL)+59*60;
                 // foreach($tea_lessons_arr as $item_lesson){
                 //     if($time <= $item_lesson["lesson_end"] && $time_end >= $item_lesson["lesson_start"]) {
                 //         $flag = 1;
