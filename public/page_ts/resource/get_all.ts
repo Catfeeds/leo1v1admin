@@ -30,7 +30,8 @@ function load_data(){
         file_title    :	$('#id_file_title').val(),
         has_comment   : $('#id_has_comment').val(),
         has_error     : $('#id_has_error').val(),
-        id_order      : $('#id_order').val()
+        id_order      : $('#id_order').val(),
+        paper_assort  : $('#paper_assort').val()
     });
 }
 $(function(){
@@ -204,6 +205,15 @@ $(function(){
         }
         get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),season_default,$('#id_tag_four'), 1);
     } else if($('#id_resource_type').val() == 6) {
+        if(g_args.paper_assort == 0){
+            //$("#id_tag_two").addClass("hide");
+            $("#id_tag_three").parents(".col-xs-6").addClass("hide");
+            $("#id_tag_four").parents(".col-xs-6").addClass("hide");
+        }else{
+            $("#id_tag_one").parents(".col-xs-6").addClass("hide");
+        }
+        $('#paper_assort').val(g_args.paper_assort);
+
         get_province($('#id_tag_three'));
         if($('.right-menu').length>0){
             $('.right-menu').each(function(){

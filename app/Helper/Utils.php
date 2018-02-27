@@ -2508,7 +2508,7 @@ class Utils  {
         $mediaId = Media::upload($img_url, $type);
         self::logger("mediaId info:". json_encode($mediaId));
 
-        $mediaId = $mediaId['media_id'];
+        $mediaId = @$mediaId['media_id'];
         $t_agent->set_add_type_2( $id );
 
         //判断是否更换头像

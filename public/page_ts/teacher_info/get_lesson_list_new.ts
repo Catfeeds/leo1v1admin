@@ -90,6 +90,8 @@ $(function(){
             lesson_type : $('#id_lesson_type').val(),
             userid      : $('#id_student').val()
         });
+        oadpopup();
+
     }
 
     var upload_status_show=function(id_item, status){
@@ -1630,7 +1632,7 @@ $(function(){
             }
         });
     });
-
+    /*
     $(".lesson_data").each(function(){
         var lesson_start = $(this).data("lesson_start");
         var lesson_type  = $(this).data("lesson_type");
@@ -1640,6 +1642,7 @@ $(function(){
             BootstrapDialog.alert("您有一节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)");
         }
     });
+    */
 
     function openwin(info) {
         BootstrapDialog.alert(info);

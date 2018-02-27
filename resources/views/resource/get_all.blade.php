@@ -94,6 +94,18 @@
                     </div>
                 </div>
 
+                
+                <div class="col-xs-6 col-md-2 @if($resource_type != 6) hide @endif" >
+                    <div class="input-group">
+                        <span class="input-group-addon">分类标准</span>
+                        <select class="form-control opt-change" id="paper_assort">
+                             <option value="0">按教材版本分类</option>
+                             <option value="1">按省市分类</option>
+                        </select>
+                    </div>
+                </div>
+            
+
                 <div class="col-xs-6 col-md-2 {{$tag_info['tag_one']['hide']}}">
                     <div class="input-group ">
                         <span class="input-group-addon">{{$tag_info['tag_one']['name']}}</span>
