@@ -2669,7 +2669,6 @@ class teacher_info extends Controller
             $tea_info[10]['subject'] = 11;
             $tea_info[10]['grade'] = ['101','102','103','104','105','106','201','202','203','301','302','303'];
         }
-        dd($tea_info);
         $type_list = [1,3,5,6]; //
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
