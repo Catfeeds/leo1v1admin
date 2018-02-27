@@ -36,7 +36,7 @@ class test_paper extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180227144439,
+            '_publish_version'    => 20180227134439,
         ]);
     } 
 
@@ -207,6 +207,16 @@ class test_paper extends Controller
             return $this->output_succ(["paper"=>$paper,'status'=>200]);
         }else{
             return $this->output_succ(['status'=>201]);
+        }
+    }
+
+    public function dele_paper(){
+        $paper_id  = trim($this->get_in_int_val('paper_id'));
+        $dele_num = $this->t_student_test_paper->dele_paper($paper_id);
+        if($dele_num){
+            return $this->output_succ();
+        }else{
+            return $this->output_err();
         }
     }
 }
