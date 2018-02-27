@@ -635,6 +635,12 @@ class teacher_info extends Controller
         if($tea_cw_origin!=0){
             $origin_id =1;
         }
+
+        $use_ppt_stu = 0;
+        $use_ppt     = 0;
+        // $stu_cw_url_arr = explode('.', $stu_cw_url);
+
+
         //转换pdf,可以平铺
         $tea_cw_url_arr = explode('.', $tea_cw_url);
         if($tea_cw_url && strtolower($tea_cw_url_arr['1']) == 'pdf'){
@@ -644,15 +650,13 @@ class teacher_info extends Controller
                 'create_time' => time(),
                 "origin_id"   => $origin_id,
             ]);
-        }
+        }elseif(strtolower($tea_cw_url_arr[1]) == 'ppt' || strtolower($tea_cw_url_arr[1]) == 'pptx'){
+            // 增加限制目前只对测试人员开放
+            $account_role = $this->get_account_role();
+            if($account_role != 12){
+                return $this->output_err('您好,目前暂不支持PPT格式课件!');
+            }
 
-        $use_ppt_stu = 0;
-        $use_ppt     = 0;
-        $stu_cw_url_arr = explode('.', $stu_cw_url);
-        # 增加到待处理列表中[james]
-
-
-        if(strtolower($tea_cw_url_arr[1]) == 'ppt' || strtolower($tea_cw_url_arr[1]) == 'pptx'){
             $use_ppt = 1;
             $tea_cw_name = $this->t_lesson_info->get_tea_cw_name($lessonid);
             $this->t_deal_ppt_to_h5->row_insert([
@@ -663,17 +667,17 @@ class teacher_info extends Controller
                 "title"    => $tea_cw_name
             ]);
         }
-        if(strtolower($stu_cw_url_arr[1]) == 'ppt' || strtolower($stu_cw_url_arr[1]) == 'pptx'){
-            $use_ppt_stu = 1;
-            $stu_cw_name = $this->t_lesson_info->get_stu_cw_name($lessonid);
-            $this->t_deal_ppt_to_h5->row_insert([
-                "add_time" => time(),
-                "lessonid" => $lessonid,
-                "is_tea"   => 0,
-                "ppt_url"  => $stu_cw_url,
-                "title"    => $stu_cw_name
-            ]);
-        }
+        // if(strtolower($stu_cw_url_arr[1]) == 'ppt' || strtolower($stu_cw_url_arr[1]) == 'pptx'){
+        //     $use_ppt_stu = 1;
+        //     $stu_cw_name = $this->t_lesson_info->get_stu_cw_name($lessonid);
+        //     $this->t_deal_ppt_to_h5->row_insert([
+        //         "add_time" => time(),
+        //         "lessonid" => $lessonid,
+        //         "is_tea"   => 0,
+        //         "ppt_url"  => $stu_cw_url,
+        //         "title"    => $stu_cw_name
+        //     ]);
+        // }
 
 
 
