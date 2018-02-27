@@ -662,7 +662,6 @@ class teacher_info extends Controller
                 "ppt_url"  => $tea_cw_url,
                 "title"    => $tea_cw_name
             ]);
-
         }
         if(strtolower($stu_cw_url_arr[1]) == 'ppt' || strtolower($stu_cw_url_arr[1]) == 'pptx'){
             $use_ppt_stu = 1;
