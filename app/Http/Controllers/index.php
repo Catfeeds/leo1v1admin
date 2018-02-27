@@ -228,8 +228,7 @@ class index extends Controller
                         $this->t_admin_users->set_last_ip( $account,$ip );
                         \App\Helper\Utils::logger("XXXLocation: $to_url");
 
-                        header("BBBLocation: $to_url");
-                        return ;
+                        return redirect($to_url );
                     }else{
                         $token=$token_info["access_token"];
                         $user_info=$wx->get_user_info_from_token($openid,$token);
