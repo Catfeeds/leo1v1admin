@@ -342,9 +342,9 @@
                                             }
                                         }
                                         $.do_ajax( me.options.url,{
-                                            "type" : me.options.args_ex.type,
-                                            "lru_id"   : value,
-                                            "lru_id_name" :  item_desc
+                                            "type"        : me.options.args_ex.type,
+                                            "lru_id"      : value,
+                                            "lru_id_name" : item_desc
                                         },function(){});
                                     }
 

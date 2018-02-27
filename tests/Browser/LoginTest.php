@@ -32,14 +32,13 @@ class LoginTest extends DuskTestCase
                      ->click(".td-info")
                      ->pause(500);
 
-                $browser->click(".bootstrap-dialog-body .opt-user");
+                //$browser->click(".bootstrap-dialog-body .opt-user");
 
                 $browser->click(".bootstrap-dialog-header .close"); // 关闭模态框
 
                 $browser->visit("/tea_manage/lesson_list")
-                     ->pause(400)
                      ->press("ALL")
-                     -pause(5000);
+                     ->pause(5000);
 
         });
 
