@@ -1642,6 +1642,7 @@ $(function(){
             BootstrapDialog.alert("您有一节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)");
         }
     });
+    */
 
     function openwin(info) {
         BootstrapDialog.alert(info);
