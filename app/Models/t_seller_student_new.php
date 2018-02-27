@@ -3877,12 +3877,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_auto_free_list($start_time, $end_time){
+    public function get_auto_free_list(){
         $where_arr = [
             "admin_revisiterid>0",
             "orderid>0",
         ];
-        $this->where_arr_add_time_range($where_arr, 'admin_assign_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
             " select * "
             ." from %s "
@@ -3892,4 +3891,5 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+
 }
