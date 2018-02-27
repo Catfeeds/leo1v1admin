@@ -23,7 +23,7 @@ class test_jack  extends Controller
             }else{
                 $arr=[
                     "start" => $val["attendance_time"],
-                    "end" => ($val["attendance_time"]+86400*($val["day_time"]-1)),
+                    "end" => ($val["attendance_time"]+86400*($val["day_num"]-1)),
                     "lesson_count" => $val["lesson_count"]
                 ];
               
