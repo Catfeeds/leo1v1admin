@@ -488,8 +488,8 @@ class test_code extends Controller
     }
 
     public function test_error_email(){
-        $title   = "测试报错";
-        $message = "测试报错信息";
+        $title   = "api测试报错";
+        $message = "api测试报错信息";
         $data    = [
             "title"   => $title,
             "message" => $message,

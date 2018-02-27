@@ -25,10 +25,13 @@ class wx_yxyx_api extends Controller
     var $check_login_flag=false;
     public function __construct() {
         parent::__construct();
-        if (! $this->get_agent_id()){
-            echo $this->output_err("未登录");
-            exit;
-        }
+        $this->middleware(function ($request, $next) {
+            if (! $this->get_agent_id()){
+                echo $this->output_err("未登录");
+                exit;
+            }
+            return $next($request);
+        });
     }
 
     public function get_agent_id(){
