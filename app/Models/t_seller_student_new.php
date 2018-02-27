@@ -3879,14 +3879,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_auto_free_list(){
         $where_arr = [
-            "admin_revisiterid>0",
-            "orderid>0",
+            "n.admin_revisiterid>0",
+            "n.orderid>0",
+            "m.account_role=2",
         ];
         $sql=$this->gen_sql_new(
-            " select * "
-            ." from %s "
-            ." where %s order by add_time desc "
+            " select n.* "
+            ." from %s n "
+            ." left join %s m on m.uid=n.admin_revisiterid "
+            ." where %s order by n.add_time desc "
             , self::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

@@ -120,7 +120,21 @@ $(function(){
                 action: function(dialog) {
                     dialog.close();
                 }
-            }]
+            },{
+                    label: '确认',
+                    cssClass: 'btn-info',
+                    action: function(dialog) {
+                        BootstrapDialog.confirm(
+                            "确认后将刷新页面，你确定吗？"  ,
+                            function(val){
+                                if (val) {
+                                    window.location.reload();
+                                }
+                            });
+
+                    }
+                }]
+
         });
         dlg.getModalDialog().css("width", "1030px");
     })
@@ -200,6 +214,85 @@ $(function(){
         });
 
     })
+
+    //查看维度
+    $(".opt-dimension").on("click",function(){
+        var opt_data = $(this).parents('tr').get_self_opt_data();
+        var paper_id = opt_data.paper_id;
+        
+        do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){           
+            if( ret.ret == 0 && ret.status == 200 ){
+                var paper = $(".dimension_look").clone();
+                paper.removeClass("hide");
+
+                var dlg= BootstrapDialog.show({
+                    title: "查看维度设置",
+                    message : paper,
+                    buttons: [{
+                        label: '返回',
+                        cssClass: 'btn-warning',
+                        action: function(dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+
+                var info = ret.paper;
+
+
+
+                //维度名称
+                if( info.dimension != ''){
+                    var dimension_arr = $.parseJSON(info.dimension);
+                    var suggest_arr = [];
+                    if( info.suggestion != ''){
+                        suggest_arr = $.parseJSON(info.suggestion);
+                    }
+
+                    for(var x in dimension_arr){
+                        if( suggest_arr[x] != undefined){
+                            var dimension_tr = paper.find("tbody tr:first").clone().removeClass("hide");
+                            for(var y in suggest_arr[x]){
+                                var dimension_tr = paper.find("tbody tr:first").clone().removeClass("hide");
+                                dimension_tr.find("td:eq(0)").text(dimension_arr[x]);
+                                dimension_tr.find("td:eq(1)").text(y);
+                                dimension_tr.find("td:eq(2)").text(suggest_arr[x][y]);
+                                paper.find("tbody tr:last").after(dimension_tr);
+                            }
+                        }else{
+                            var dimension_tr = paper.find("tbody tr:first").clone().removeClass("hide");
+                            dimension_tr.find("td:eq(0)").text(dimension_arr[x]);
+                            dimension_tr.find("td:eq(1)").text(0);
+                            dimension_tr.find("td:eq(2)").html("<span style='color:#666'>该维度未绑定建议</span>");
+                            paper.find("tbody tr:last").after(dimension_tr);
+
+                        }
+                    }
+                }
+
+                dlg.getModalDialog().css("width", "830px");
+            }
+        })
+    });
+
+    $(".opt-dele").on("click",function(){
+        var opt_data = $(this).parents('tr').get_self_opt_data();
+        var paper_id = opt_data.paper_id;
+        BootstrapDialog.confirm(
+            "你确定删除吗？"  ,
+            function(val){
+                if (val) {
+                    //window.location.reload();
+                    do_ajax('/test_paper/dele_paper',{'paper_id':paper_id},function(ret){
+                        if(ret.ret == 0){
+                            BootstrapDialog.alert("删除成功！");
+                            window.location.reload();
+                        }
+                    })
+                }
+            });
+    
+    });
 });
 
 var get_book = function(obj,bookid,subject,grade){
@@ -286,7 +379,7 @@ function edit_paper(obj,oEvent){
     }
 }
 
-//
+//获取试卷教材
 function get_paper_book(obj,oEvent){
     var e = oEvent || window.event;
     var target = e.target || e.srcElement; 

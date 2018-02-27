@@ -222,7 +222,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = array(
             array( "t.gender=%d", $gender, -1 ),
             array( "teacherid=%d", $id, -1 ),
-            "(m.account_role in(4,9) and m.del_flag=0)"
+            "((m.account_role in(4,9) and m.del_flag=0) or t.teacher_type=127)"
             //  "m.account_role in(4,9)",
             // "m.del_flag=0"
         );
@@ -231,7 +231,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
                                   ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".
                                   " left join %s m on t.phone= m.phone".
-                                  " where %s ",
+                                  " where %s order by t.teacher_type desc ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
