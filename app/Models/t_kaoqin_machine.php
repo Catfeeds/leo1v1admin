@@ -33,7 +33,7 @@ class t_kaoqin_machine extends \App\Models\Zgen\z_t_kaoqin_machine
         if (!$ret) {
             $ret=$this->row_insert([
                 "sn" => $sn
-            ]);
+            ],true);
         }
         return !$ret;
     }
