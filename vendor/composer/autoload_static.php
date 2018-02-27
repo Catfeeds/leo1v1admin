@@ -390,7 +390,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'AddVotesToTAgentDailyLottery' => __DIR__ . '/../..' . '/database/migrations/2017_11_18_163011_add_votes_to_t_agent_daily_lottery.php',
         'AddVotesToTAgentIncomeLog' => __DIR__ . '/../..' . '/database/migrations/2017_11_22_104231_add_votes_to_t_agent_income_log.php',
         'AddVotesToTAgentIncomeLog_2' => __DIR__ . '/../..' . '/database/migrations/2017_11_23_094700_add_votes_to_t_agent_income_log.php',
-<<<<<<< HEAD
         'App\\ClassMenu\\menu' => __DIR__ . '/../..' . '/app/ClassMenu/menu.php',
         'App\\Config\\class_menu' => __DIR__ . '/../..' . '/app/Config/class_menu.php',
         'App\\Config\\guding_teacher_price' => __DIR__ . '/../..' . '/app/Config/guding_teacher_price.php',
@@ -1980,11 +1979,9 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'ClassPreloader\\Parser\\FileVisitor' => __DIR__ . '/..' . '/classpreloader/classpreloader/src/Parser/FileVisitor.php',
         'ClassPreloader\\Parser\\NodeTraverser' => __DIR__ . '/..' . '/classpreloader/classpreloader/src/Parser/NodeTraverser.php',
         'ClassPreloader\\Parser\\StrictTypesVisitor' => __DIR__ . '/..' . '/classpreloader/classpreloader/src/Parser/StrictTypesVisitor.php',
-=======
         'AddVotesToTSellerStudentSystemReleaseLog' => __DIR__ . '/../..' . '/database/migrations/2018_02_03_152550_add_votes_to_t_seller_student_system_release_log.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
->>>>>>> 2ad381d32251ebd43f3fe35b3982c6d08397b996
         'CompanyWxApprovalDataAddPageUrl' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_113512_company_wx_approval_data_add_page_url.php',
         'CreateAdminSubjectGrdaeTypeConfigList' => __DIR__ . '/../..' . '/database/migrations/2018_01_18_160411_create_admin_subject_grdae_type_config_list.php',
         'CreateCompanyWxApprovalNotify' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_144334_create_company_wx_approval_notify.php',
@@ -2061,7 +2058,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'DeleteCycleCloumnFromTAgetn' => __DIR__ . '/../..' . '/database/migrations/2017_11_13_171716_delete_cycle_cloumn_from_t_agetn.php',
         'DeleteUniqueKeyForTeacherSalaryList' => __DIR__ . '/../..' . '/database/migrations/2017_11_14_134920_delete_unique_key_for_teacher_salary_list.php',
-<<<<<<< HEAD
         'Doctrine\\Common\\Annotations\\Annotation' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/Annotation.php',
         'Doctrine\\Common\\Annotations\\AnnotationException' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationException.php',
         'Doctrine\\Common\\Annotations\\AnnotationReader' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationReader.php',
@@ -2788,11 +2784,9 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'Faker\\Provider\\zh_TW\\Text' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/zh_TW/Text.php',
         'Faker\\UniqueGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/UniqueGenerator.php',
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/ValidGenerator.php',
-=======
         'DivisionByZeroError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
         'DropTableTPeriodOrderRepaymentList' => __DIR__ . '/../..' . '/database/migrations/2017_10_13_161932_drop_table_t_period_order_repayment_list.php',
         'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
->>>>>>> 2ad381d32251ebd43f3fe35b3982c6d08397b996
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
@@ -2869,7 +2863,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'Hamcrest\\Type\\IsString' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
-<<<<<<< HEAD
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
         'Illuminate\\Auth\\Access\\AuthorizationException' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
         'Illuminate\\Auth\\Access\\Gate' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
@@ -3484,8 +3477,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'League\\Flysystem\\Util\\ContentListingFormatter' => __DIR__ . '/..' . '/league/flysystem/src/Util/ContentListingFormatter.php',
         'League\\Flysystem\\Util\\MimeType' => __DIR__ . '/..' . '/league/flysystem/src/Util/MimeType.php',
         'League\\Flysystem\\Util\\StreamHasher' => __DIR__ . '/..' . '/league/flysystem/src/Util/StreamHasher.php',
-=======
->>>>>>> 2ad381d32251ebd43f3fe35b3982c6d08397b996
         'MarkerPosterReset' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_135328_marker_poster_reset.php',
         'MarketPosterLastest' => __DIR__ . '/../..' . '/database/migrations/2018_01_25_153102_market_poster_lastest.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
@@ -3645,7 +3636,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'Monolog\\Processor\\WebProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/WebProcessor.php',
         'Monolog\\Registry' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Registry.php',
         'OriginPageLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_12_164924_origin_page_log.php',
-<<<<<<< HEAD
         'PHPExcel' => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes/PHPExcel.php',
         'PHPExcel_Autoloader' => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes/PHPExcel/Autoloader.php',
         'PHPExcel_Best_Fit' => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes/PHPExcel/Shared/trend/bestFitClass.php',
@@ -4059,7 +4049,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'PHP_CodeCoverage_Report_XML_Totals' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Totals.php',
         'PHP_CodeCoverage_Util' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Util.php',
         'PHP_CodeCoverage_Util_InvalidArgumentHelper' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage/Util/InvalidArgumentHelper.php',
-=======
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',
@@ -4232,7 +4221,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'PHPUnit\\Util\\Xml' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Xml.php',
         'PHPUnit\\Util\\XmlTestListRenderer' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/XmlTestListRenderer.php',
         'PHPUnit_Framework_MockObject_MockObject' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/MockObject.php',
->>>>>>> 2ad381d32251ebd43f3fe35b3982c6d08397b996
         'PHP_Timer' => __DIR__ . '/..' . '/phpunit/php-timer/src/Timer.php',
         'PHP_Token' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_TokenWithScope' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -4434,7 +4422,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PageTrack' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_164418_page_track.php',
-<<<<<<< HEAD
         'PhpParser\\Autoloader' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Autoloader.php',
         'PhpParser\\Builder' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Builder.php',
         'PhpParser\\BuilderAbstract' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/BuilderAbstract.php',
@@ -5105,7 +5092,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'Psy\\VarDumper\\Dumper' => __DIR__ . '/..' . '/psy/psysh/src/Psy/VarDumper/Dumper.php',
         'Psy\\VarDumper\\Presenter' => __DIR__ . '/..' . '/psy/psysh/src/Psy/VarDumper/Presenter.php',
         'Psy\\VarDumper\\PresenterAware' => __DIR__ . '/..' . '/psy/psysh/src/Psy/VarDumper/PresenterAware.php',
-=======
         'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
         'PharIo\\Manifest\\Application' => __DIR__ . '/..' . '/phar-io/manifest/src/values/Application.php',
         'PharIo\\Manifest\\ApplicationName' => __DIR__ . '/..' . '/phar-io/manifest/src/values/ApplicationName.php',
@@ -5173,7 +5159,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'PharIo\\Version\\VersionConstraintParser' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintParser.php',
         'PharIo\\Version\\VersionConstraintValue' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintValue.php',
         'PharIo\\Version\\VersionNumber' => __DIR__ . '/..' . '/phar-io/version/src/VersionNumber.php',
->>>>>>> 2ad381d32251ebd43f3fe35b3982c6d08397b996
         'Qiniu\\Auth' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Auth.php',
         'Qiniu\\Cdn\\CdnManager' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Cdn/CdnManager.php',
         'Qiniu\\Config' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Config.php',
@@ -5284,7 +5269,6 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => __DIR__ . '/..' . '/sebastian/recursion-context/src/InvalidArgumentException.php',
         'SebastianBergmann\\ResourceOperations\\ResourceOperations' => __DIR__ . '/..' . '/sebastian/resource-operations/src/ResourceOperations.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
-<<<<<<< HEAD
         'SuperClosure\\Analyzer\\AstAnalyzer' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/Analyzer/AstAnalyzer.php',
         'SuperClosure\\Analyzer\\ClosureAnalyzer' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/Analyzer/ClosureAnalyzer.php',
         'SuperClosure\\Analyzer\\Token' => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src/Analyzer/Token.php',
@@ -5803,9 +5787,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
         'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
         'Symfony\\Polyfill\\Util\\TestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListener.php',
-=======
         'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
->>>>>>> 2ad381d32251ebd43f3fe35b3982c6d08397b996
         'TActivityUsuallyAdd' => __DIR__ . '/../..' . '/database/migrations/2017_12_24_142104_t_activity_usually_add.php',
         'TActivityUsuallyAddNum' => __DIR__ . '/../..' . '/database/migrations/2018_01_26_161331_t_activity_usually_add_num.php',
         'TActivityUsuallyReset' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_113554_t_activity_usually_reset.php',
@@ -5930,10 +5912,7 @@ class ComposerStaticInit1e62b970343e77b3751e77db710c2392
         'TResourceFileAddWxIndex' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_144649_t_resource_file_add_wx_index.php',
         'TResourceFileErrorInfo' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_181758_t_resource_file_error_info.php',
         'TResourceFileErrorInfoAddTrainType' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_110644_t_resource_file_error_info_add_train_type.php',
-<<<<<<< HEAD
-=======
         'TResourceFileErrorInfoChangeStatus' => __DIR__ . '/../..' . '/database/migrations/2018_02_05_151001_t_resource_file_error_info_change_status.php',
->>>>>>> 2ad381d32251ebd43f3fe35b3982c6d08397b996
         'TResourceFileEvalutation' => __DIR__ . '/../..' . '/database/migrations/2018_01_30_172419_t_resource_file_evalutation.php',
         'TResourceFileReset' => __DIR__ . '/../..' . '/database/migrations/2017_12_30_111310_t_resource_file_reset.php',
         'TRevisitAssessInfoDropRevisitNumCallCount' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_114323_t_revisit_assess_info_drop_revisit_num_call_count.php',
