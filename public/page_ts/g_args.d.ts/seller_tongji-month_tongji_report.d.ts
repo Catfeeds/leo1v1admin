@@ -14,13 +14,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	month_work_day	:any;
-	month_work_day_now	:any;
-	month_work_day_now_real	:any;
-	target_personal_money	:any;
-	target_money	:any;
-	require_test_count_for_month	:any;
-	test_lesson_count_for_month	:any;
 	main_type	:any;
 	first_group_name	:any;
 	up_group_name	:any;

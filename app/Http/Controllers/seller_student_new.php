@@ -440,15 +440,9 @@ class seller_student_new extends Controller
                 }
                 $item['assign_type'] = '抢单';
             }
-            $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
-            $item['left_time'] = $left_time;
-            if($left_time>7*24*3600 || $left_time<0){
-                $item['left_time_desc'] = '';
-            }else{
-                $hour = floor($item['left_time']/3600);
-                $min = floor($item['left_time']%3600/60);
-                $sec = floor($item['left_time']%3600%60);
-                $item['left_time_desc'] = $hour.'时'.$min.'分'.$sec.'秒';
+            $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
+            if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
+                $item['left_end_time'] = strtotime('2018-03-07');
             }
 
             \App\Helper\Utils::hide_item_phone($item);
