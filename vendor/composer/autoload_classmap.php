@@ -785,7 +785,7 @@ return array(
     'TInterviewRemindAddCreateTime' => $baseDir . '/database/migrations/2017_10_21_094948_t_interview_remind_add_create_time.php',
     'TLessonAllMoneyAddLessonCost' => $baseDir . '/database/migrations/2018_01_17_181006_t_lesson_all_money_add_lesson_cost.php',
     'TLessonAllMoneyList' => $baseDir . '/database/migrations/2018_01_17_142437_t_lesson_all_money_list.php',
-    'TLessonInfoAdd' => $baseDir . '/database/migrations/2017_12_28_200758_t_lesson_info_add.php',
+    'TLessonInfoAdd' => $baseDir . '/database/migrations/2017_12_20_180451_t_lesson_info_add.php',
     'TLessonInfoAddColum' => $baseDir . '/database/migrations/2017_12_08_105733_t_lesson_info_add_colum.php',
     'TLessonInfoAddLearningRecord' => $baseDir . '/database/migrations/2018_01_26_150901_t_lesson_info_add_learning_record.php',
     'TLessonInfoAddLessonRecord' => $baseDir . '/database/migrations/2018_01_24_103407_t_lesson_info_add_lesson_record.php',
