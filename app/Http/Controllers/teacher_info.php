@@ -2640,6 +2640,7 @@ class teacher_info extends Controller
         */
         $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
+        dd($tea_info);
         $type_list = [1,3,5,6]; //
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
