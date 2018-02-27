@@ -1679,7 +1679,7 @@ $(function(){
             var info = "您有"+num+"节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)"
             BootstrapDialog.alert(info);
             var date=new Date(); 
-            date.setTime(date.getTime()+86400*12*1000); 
+            date.setTime(date.getTime()+60*60*12*1000); 
             document.cookie = "popped=yes" + ';expires=' + date.toGMTString();
         }
     }
