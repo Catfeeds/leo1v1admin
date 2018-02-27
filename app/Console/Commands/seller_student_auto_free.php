@@ -27,6 +27,12 @@ class seller_student_auto_free extends cmd_base
      * @return mixed
      */
     public function do_handle(){
+        $ret_info = $this->task->t_seller_auto_free_log->get_all_list();
+        foreach($ret_info as $item){
+            $res = $this->task->t_seller_auto_free_log->row_delete($item['id']);
+            echo $item['id'].'=>'.$res."\n";
+        }
+
         $ret = $this->task->t_seller_student_new->get_auto_free_list();
         foreach($ret as $item){
             if($item['seller_student_assign_type']==1 && $item['first_contact_time']>$item['admin_assign_time']){
@@ -52,18 +58,18 @@ class seller_student_auto_free extends cmd_base
                 $sec = floor($left_time%3600%60);
                 $left_time_desc = $hour.'时'.$min.'分'.$sec.'秒';
 
-                $ret = $this->task->t_seller_auto_free_log->row_insert([
-                    'userid'=>$item['userid'],
-                    'adminid'=>$item['admin_revisiterid'],
-                    'assign_type'=>$item['seller_student_assign_type'],
-                    'assign_time'=>$item['admin_assign_time'],
-                    'last_revisit_time'=>$item['last_revisit_time'],
-                    'last_edit_time'=>$item['last_edit_time'],
-                    'first_contact_time'=>$item['first_contact_time'],
-                    'left_time'=>strtotime(date('Y-m-d',$first_time))+8*24*3600,
-                    'left_time_long'=>$left_time,
-                    'create_time'=>time(),
-                ]);
+                // $ret = $this->task->t_seller_auto_free_log->row_insert([
+                //     'userid'=>$item['userid'],
+                //     'adminid'=>$item['admin_revisiterid'],
+                //     'assign_type'=>$item['seller_student_assign_type'],
+                //     'assign_time'=>$item['admin_assign_time'],
+                //     'last_revisit_time'=>$item['last_revisit_time'],
+                //     'last_edit_time'=>$item['last_edit_time'],
+                //     'first_contact_time'=>$item['first_contact_time'],
+                //     'left_time'=>strtotime(date('Y-m-d',$first_time))+8*24*3600,
+                //     'left_time_long'=>$left_time,
+                //     'create_time'=>time(),
+                // ]);
                 echo $item['userid'].'=>'.$left_time_desc.'\n';
                 // $this->set_seller_free($item['phone'],$item['userid']);
                 // $send_account = $this->task->cache_get_account_nick($item['admin_revisiterid']);
