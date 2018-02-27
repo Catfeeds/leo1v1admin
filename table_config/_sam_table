@@ -1,0 +1,195 @@
+#!/usr/bin/php
+<?php
+    function send_post_data($url, $data)
+    {
+        // the data should be key-value, or something unexpectable may happen.
+        $ch = curl_init();
+        if ($ch === false) {
+            Log::error("curl_init error");
+            return false;
+        }
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); // wait to connect
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);//wait to execute
+
+
+        { //Loger
+            $args_str_arr=[];
+            if (is_array($data)){
+                foreach ($data as $key =>$value){
+                    $args_str_arr[]= "$key=".urlencode($value);
+                }
+            }
+            $opt_url= $url."?".implode("&",$args_str_arr );
+        }
+
+        $result = curl_exec($ch);
+
+        /**
+         * if ($result === false) {
+         * return false;
+         * }
+         */
+
+        curl_close($ch);
+        return $result;
+    }
+if(@$argv[1]=="dev"){
+    $url_fix="dev";
+}else{
+    $url_fix="self";
+}
+echo "from  $url_fix \n";
+$t_config=require("./_z_config.php");
+
+$g_php_data   = file_get_contents("./_z_t_1.temp");
+$g_php_data_2 = file_get_contents("./_z_t_2.temp");
+$g_php_d      = file_get_contents("./_z_d.temp");
+
+$table_list = [];
+foreach ($t_config as $item) {
+    $db_name      = $item[0];
+    $table_name   = $item[1];
+    $table_list[] = "$db_name.$table_name";
+}
+
+$url= "http://d.admin.leo1v1.com/common_new/show_create_table_list";
+echo "start url : $url\n";
+$json_data= send_post_data($url,  ["table_list" =>  json_encode($table_list) ]  );
+echo "end url\n";
+
+ //var_dump($table_list);
+ //exit;
+
+
+$table_map = json_decode($json_data,true);
+ //return;
+if ( !is_array($table_map) ) {
+    echo "get table config  error !!====";
+	echo $json_data;
+    exit;
+}
+$table_map = $table_map["table_desc_list"];
+
+if ( !is_array($table_map) ) {
+    echo "get table config 222  error !!====";
+	echo $json_data;
+    exit;
+}
+
+$define_str="";
+foreach ($t_config as $item) {
+    $db_name    = $item[0];
+    $table_name = $item[1];
+    $key_1_name = $item[2];
+    $key_2_name = "";
+    if (count($item)==4 ) {
+        $key_2_name=$item[3];
+    }
+    $db_table_name="$db_name.$table_name";
+
+    echo "deal $table_name ..\n";
+
+    //echo $url;
+    $arr=$table_map[$db_table_name];
+    $table_desc=$arr["table_desc"];
+    $table_desc=preg_replace_callback("/'([a-f0-9]+)'/",function($matches ){
+        if (strlen( $matches[1]) %2 ==0 ) {
+            return "'".@hex2bin($matches[1])."'";
+        }else{
+            return  $matches[0];
+        }
+    },$table_desc);
+
+    $field_str="";
+    $field_get_str="";
+
+    // * @property tpl  $tpl
+    $define_str.= " * @property  \\App\\Models\\$table_name  \t \$$table_name\n";
+
+    $key_1_flag=true;
+    if (count($item )==4) { //2 key
+        $key_1_flag=false;
+    }
+    $field_get_str="";
+
+    foreach($arr["desc_list"] as $desc_item ) {
+        $field_name=$desc_item["Field"];
+        $type_str=$desc_item["Type"];
+        $field_str.="\n\t".'/*'.$type_str.' */'. "\n\tconst C_".$field_name. "='$field_name';\n";
+        if ($field_name !=  $key_1_name && $field_name !=  $key_2_name  ) {
+            if ($key_1_flag) {
+                $field_get_str.="\tfunction get_$field_name(\$$key_1_name ){\n\t\treturn \$this->field_get_value( \$$key_1_name , self::C_$field_name );\n\t}\n";
+            }else{
+                $field_get_str.="\tfunction get_$field_name(\$$key_1_name, \$$key_2_name ){\n\t\treturn \$this->field_get_value_2( \$$key_1_name, \$$key_2_name  , self::C_$field_name  );\n\t}\n";
+            }
+        }
+    }
+    $field_str.=$field_get_str;
+
+
+    if ($key_1_flag) { //2 key
+        gen_table( $g_php_data,$field_str,$table_desc,$item[0],$item[1],$item[2]);
+    }else{
+        gen_table_2(  $g_php_data_2,$field_str, $table_desc,$item[0],$item[1],$item[2],$item[3]);
+    }
+
+    gen_table_d($g_php_d, $table_name);
+}
+
+put_control_define( $define_str );
+
+function gen_table_d( $php_data, $table_name )  {
+
+    $php_data=preg_replace('/__TABLE_NAME__/',$table_name ,$php_data );
+    $file_name="./.".$table_name.".php.temp";
+    
+    save_file_check_data( $file_name,$php_data );
+}
+
+function  put_control_define( $php_define_str ) {
+    echo "00000\n";
+    $tmp_file_name= './ControllerEx.temp';
+    $file_name= '../app/Http/Controllers/ControllerEx.php';
+    $control_data=file_get_contents($tmp_file_name);
+
+    $control_new_data=preg_replace('/__MODEL_DEFINE__/',$php_define_str,$control_data);
+
+    save_file_check_data($file_name, $control_new_data);
+
+
+}
+
+function save_file_check_data( $file_name, $data ) {
+    if (file_exists($file_name) ) {
+        if ( file_get_contents($file_name ) == $data ) {
+            #echo " $file_name no need update \n ";
+            return;
+        }
+    }
+    echo " $file_name update \n ";
+    file_put_contents($file_name, $data);
+}
+
+function gen_table( $php_data,$field_str,$table_desc,$db_name, $table_name, $id_name  )  {
+    $php_data=preg_replace('/__DB_NAME__/',$db_name, $php_data );
+    $php_data=preg_replace('/__ID1_NAME__/',$id_name, $php_data );
+    $php_data=preg_replace('/__TABLE_NAME__/',$table_name ,$php_data );
+    $php_data=preg_replace('/__TABLE_DESC__/',$table_desc ,$php_data );
+    $php_data=preg_replace('/__FIELD_LIST__/',$field_str ,$php_data );
+    save_file_check_data ("../app/Models/Zgen/z_".$table_name.".php",$php_data );
+}
+
+function gen_table_2( $php_data,$field_str,$table_desc, $db_name,$table_name, $id_name ,$id2_name )  {
+    $php_data=preg_replace('/__DB_NAME__/',$db_name, $php_data );
+    $php_data=preg_replace('/__ID1_NAME__/',$id_name, $php_data );
+    $php_data=preg_replace('/__ID2_NAME__/',$id2_name, $php_data );
+    $php_data=preg_replace('/__TABLE_NAME__/',$table_name ,$php_data );
+    $php_data=preg_replace('/__TABLE_DESC__/',$table_desc ,$php_data );
+    $php_data=preg_replace('/__FIELD_LIST__/',$field_str ,$php_data );
+    save_file_check_data ( "../app/Models/Zgen/z_".$table_name.".php",$php_data );
+}
