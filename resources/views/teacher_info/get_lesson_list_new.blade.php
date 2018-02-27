@@ -29,7 +29,7 @@
      width:80px;
  }
 </style>
-<section class="content li-section">
+<section class="content li-section" >
     <div class="row">
         <div class="col-xs-12 col-md-4">
             <div class="input-group">
