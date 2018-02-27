@@ -53,8 +53,8 @@ class seller_student_auto_free extends cmd_base
                 $min = floor($item['left_time']%3600/60);
                 $sec = floor($item['left_time']%3600%60);
                 $item['left_time_desc'] = $hour.'时'.$min.'分'.$sec.'秒';
+                echo $this->task->cache_get_account_nick($item['admin_revisiterid']).':'.$item['userid'].'=>'.$item['left_time_desc']."\n";
             }
-            echo $this->task->cache_get_account_nick($item['admin_revisiterid']).':'.$item['userid'].'=>'.$item['left_time_desc']."\n";
         }
     }
 
