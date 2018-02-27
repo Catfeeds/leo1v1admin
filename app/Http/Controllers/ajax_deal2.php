@@ -278,7 +278,6 @@ class ajax_deal2 extends Controller
             "pdf_url" =>$pdf_file_url
         ]);
 
-        return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
 
         # 增加发送给家长 [暂停发布] -->安卓,ios 微信已可直接查看 功能ok
         $parentid = $this->t_parent_child->get_parentid_by_userid($userid);
@@ -298,6 +297,8 @@ class ajax_deal2 extends Controller
                 \App\Helper\Utils::send_wx_to_parent($parentOpenid,$template_id,$data,$pdf_url);
             }
         }
+        return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
+
     }
 
     /**
