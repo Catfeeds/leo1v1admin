@@ -90,6 +90,8 @@ $(function(){
             lesson_type : $('#id_lesson_type').val(),
             userid      : $('#id_student').val()
         });
+        oadpopup();
+
     }
 
     var upload_status_show=function(id_item, status){
@@ -1630,7 +1632,7 @@ $(function(){
             }
         });
     });
-
+    /*
     $(".lesson_data").each(function(){
         var lesson_start = $(this).data("lesson_start");
         var lesson_type  = $(this).data("lesson_type");
