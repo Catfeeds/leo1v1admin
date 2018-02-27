@@ -146,8 +146,7 @@ interface RowData {
 	last_edit_time	:any;
 	first_contact_time	:any;
 	assign_type	:any;
-	left_time	:any;
-	left_time_desc	:any;
+	left_end_time	:any;
 	phone_hide	:any;
 	lesson_plan_status	:any;
 	editionid_str	:any;

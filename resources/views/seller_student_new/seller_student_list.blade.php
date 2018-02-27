@@ -413,8 +413,7 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td >
-                            {{$var["left_time_desc"]}}
+                        <td class="time" data-endtime='{{$var["left_end_time"]}}'>
                         </td>
                         <td >
                             抢单模式:{{$var["assign_type"]}}

@@ -44,6 +44,7 @@ interface RowData {
 	achievement	:any;
 	is_quit	:any;
 	e_name	:any;
+	assign_lesson_count	:any;
 	yi_total_revisit	:any;
 	total_revisit	:any;
 	first_revisit	:any;
@@ -63,12 +64,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-lesson_count_type_list.d.ts" />
 
-$(function(){
-    function load_data(){
-        $.reload_self_page ( {
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 
-        });
-    }
+		});
+}
+$(function(){
 
 
 
@@ -80,4 +83,6 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
