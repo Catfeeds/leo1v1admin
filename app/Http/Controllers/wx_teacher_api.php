@@ -1786,9 +1786,6 @@ class wx_teacher_api extends Controller
         $realname         = trim($this->get_in_str_val("realname"));
         $idcard           = $this->get_in_str_val("idcard");
   \App\Helper\Utils::logger("protocol_results: $protocol_results");
-  \App\Helper\Utils::logger("wx_url_new: 111");
-  \App\Helper\Utils::logger("wx_url_new: 222");
-  \App\Helper\Utils::logger("wx_url_new: 333");
 
         if($protocol_results==1){
             if(!$realname){

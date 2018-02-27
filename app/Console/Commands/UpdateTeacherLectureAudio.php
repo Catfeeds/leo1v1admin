@@ -120,9 +120,7 @@ class UpdateTeacherLectureAudio extends Command
                 }
             }
         }
-
     }
-
 
     public function check_file_is_exists($file){
         $flag = @file_get_contents($file, null, null, -1, 1) ? true : false;

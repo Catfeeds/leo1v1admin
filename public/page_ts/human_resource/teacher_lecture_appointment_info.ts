@@ -1163,7 +1163,7 @@ $(function(){
                 });
             }
         }],function(){
-            $.admin_select_user(id_record_teacher,"research_teacher");
+            $.admin_select_user(id_record_teacher,"research_teacher_zs");
         });
     });
 
