@@ -39,6 +39,15 @@ class t_student_test_paper extends \App\Models\Zgen\z_t_student_test_paper
         return $this->main_get_row($sql);
 
     }
+
+    public function dele_paper($paper_id){
+        $sql=$this->gen_sql_new("delete from %s where paper_id=%u"
+                                ,self::DB_TABLE_NAME
+                                ,$paper_id
+        );
+
+        return $this->main_update($sql);
+    }
 }
 
 

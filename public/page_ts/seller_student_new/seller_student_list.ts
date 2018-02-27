@@ -2530,7 +2530,7 @@ function init_edit() {
             id_address.val(data.address);
             id_subject.val(data.subject);
             id_status.val(data.status);
-            //id_user_desc.val(data.user_desc);
+            id_user_desc.val(data.user_desc);
            // id_revisite_info.val(data.revisite_info);
             id_has_pad.val(data.has_pad);
             id_school.val(data.school);
