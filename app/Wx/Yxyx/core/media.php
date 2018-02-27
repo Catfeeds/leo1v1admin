@@ -28,6 +28,7 @@ class Media{
         \App\Helper\Utils::logger('teacherwx1');
 
         $accessToken = AccessToken::getAccessToken();
+
         $queryUrl = 'http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token='.$accessToken.'&type='.$type;
         \App\Helper\Utils::logger('wxinfo123'.$queryUrl);
         // \App\Helper\Utils::logger('wxtoken1'.$accessToken);
