@@ -113,7 +113,8 @@ class fulltime_teacher_kaoqin extends Command
                             $task->t_fulltime_teacher_attendance_list->field_update_list($id,[
                                 "card_start_time"  =>$card_start_time,
                                 "card_end_time"   =>$card_end_time,
-                                "attendance_type" =>$attendance_type
+                                "attendance_type" =>$attendance_type,
+                                "lesson_count"    =>@$list[$key]*100
                             ]);
                         }else{
                             $task->t_fulltime_teacher_attendance_list->row_insert([
@@ -123,7 +124,8 @@ class fulltime_teacher_kaoqin extends Command
                                 "adminid"           =>$key,
                                 "card_start_time"  =>$card_start_time,
                                 "card_end_time"   =>$card_end_time,
-                                "attendance_type" =>$attendance_type
+                                "attendance_type" =>$attendance_type,
+                                "lesson_count"    =>@$list[$key]*100
                             ]);
                         }
                     }
