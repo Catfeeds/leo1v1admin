@@ -872,6 +872,7 @@ return array(
     'TRuffianActivityAddStuType' => $baseDir . '/database/migrations/2017_10_28_152520_t_ruffian_activity_add_stu_type.php',
     'TRuffianActivityDropAddTime' => $baseDir . '/database/migrations/2017_10_28_151005_t_ruffian_activity_drop_add_time.php',
     'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
+    'TSellerAutoFreeLog' => $baseDir . '/database/migrations/2018_02_27_141440_t_seller_auto_free_log.php',
     'TSellerEditLogAddFirstRevisitTime' => $baseDir . '/database/migrations/2018_01_19_165523_t_seller_edit_log_add_first_revisit_time.php',
     'TSellerEditLogAddNewCreateTimeIndex' => $baseDir . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
     'TSellerGetNewLog' => $baseDir . '/database/migrations/2018_01_18_110632_t_seller_get_new_log.php',
