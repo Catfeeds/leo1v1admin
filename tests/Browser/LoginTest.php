@@ -35,7 +35,31 @@ class LoginTest extends DuskTestCase
                     ["url" => "/seller_student_new/ass_master_seller_student_list", "click" => ".opt-edit-new_new_two"], // 转介绍例子
 
                     // cr相关页面
-                    ["url" => "/user_manage/ass_random_revisit", "click" => ".opt-return-back-lesson"],
+                    ["url" => "/user_manage/ass_random_revisit", "click" => ".opt-return-back-lesson"], // 助长满意度回访
+                    ["url" => "/user_manage/ass_archive", "click" => ".opt-edit-new_new_two"], // 学员档案
+                    ["url" => "/user_manage/ass_count", "click" => ".opt-return-back-list"], // 回访统计
+                    ["url" => "/user_manage/student_school_score_stat", "click" => ".td-info"], // 学生在校成绩统计
+                    ["url" => "/user_manage/stu_all_teacher_all", "click" => ".td-info"], // 在读学员老师列表``
+                    ["url" => "/human_resource/index_ass", "click" => ".opt-account-number "], // 老师档案
+                    ["url" => "/human_resource/specialty", "click" => ".opt-edit-info"], // 老师特长
+
+                    // 师资部
+                    ["url" => "/human_resource/reaearch_teacher_lesson_list", "click" => ".td-info"],
+                    ["url" => "/channel_manage/admin_channel_manage", "click" => ".opt-assign-channel"],
+
+                    // 教研部
+                    ["url" => "/textbook_manage/get_subject_grade_textbook_info", "click" => ".opt-edit"], // 教材版本管理
+                    ["url" => "/teacher_level/get_teacher_level_quarter_info_new", "click" => ".opt-advance-require"], // 老师晋升申请
+                    ["url" => "/human_resource/reaearch_teacher_lesson_list_research", "click" => ".opt-set-grade-range"], // 教研老师信息
+
+                    // 服务管理
+                    ["url" => "/user_manage_new/account_list", "click" => ".opt-set-userid"], // 账号登录管理
+                    ["url" => "/user_manage/parent_archive", "click" => ".opt-edit"], // 家长档案
+                    // ["url" => "", "click" => ""],
+                    // ["url" => "", "click" => ""],
+                    // ["url" => "", "click" => ""],
+                    // ["url" => "", "click" => ""],
+                    // ["url" => "", "click" => ""],
                     // ["url" => "", "click" => ""],
                     ["url" => "/user_manage/all_users", "click" => ".td-info"],
                     ["url" => "/human_resource/index_new", "click" => ".opt-freeze-list"],
@@ -49,42 +73,6 @@ class LoginTest extends DuskTestCase
                     //$text = $browser->text(".bootstrap-dialog-title");
                 }
                 $browser->quit();
-
-                // 页面 url, 是否有All按钮, select 选择框
-                // 模板 ["url" => "", "select" => ["name" => "", "value" => ""]]
-                /*
-                $pages = [
-                    ["url" => "/user_manage/all_users", "all" => true, "select" => ["name" => "id_grade", "value" => 102], "click" => ".td-info"],
-                    ["url" => "human_resource/index_new", "select" => ["name" => "id_teacher_money_type", "value" => 0], "click" => ".opt-freeze-list"],
-                    ["url" => "/authority/manager_list", "select" =>["name" => "id_call_phone_type", "value" => "2"]]
-                ];
-                
-                foreach($pages as $item) {
-                    $browser->visit($item["url"])->pause(5000);
-                    if (isset($item["all"]))
-                        $browser->press("ALL");
-                    //$browser->select($item["select"]['name'], $item["select"]["value"]);
-                    if (isset($item["click"]) && $item["click"])
-                        $browser->click($item["click"]);
-                    //$browser->pause(5000);
-                    }*/
-
-                    /*       $browser->visit("/user_manage/all_users")
-                     ->press("ALL")
-                     ->select("id_grade", 101)
-                     ->select("id_grade", 102)
-                     ->click(".td-info")
-                     ->pause(500);
-                /*
-
-                //$browser->click(".bootstrap-dialog-body .opt-user");
-
-                $browser->click(".bootstrap-dialog-header .close"); // 关闭模态框
-
-                $browser->visit("/tea_manage/lesson_list")
-                     ->press("ALL")
-                     ->pause(2000);
-                */
         });
 
 

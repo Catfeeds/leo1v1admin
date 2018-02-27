@@ -38,6 +38,7 @@ interface RowData {
 	nick	:any;
 	file_url	:any;
 	paper_upload_time	:any;
+	school_ex	:any;
 	num	:any;
 	semester_str	:any;
 	grade_str	:any;
