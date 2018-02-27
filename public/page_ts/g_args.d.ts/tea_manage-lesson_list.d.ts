@@ -1,4 +1,5 @@
 interface GargsStatic {
+	test_seller_id:	number;
 	order_by_str:	string;
 	page_num:	number;
 	page_count:	number;
@@ -14,8 +15,7 @@ interface GargsStatic {
 	lesson_status:	number;
 	assistantid:	number;
 	grade:	string;//枚举列表: App\Enums\Egrade
- 	test_seller_id:	number;
-	test_seller_adminid:	number;
+ 	test_seller_adminid:	number;
 	has_performance:	number;
 	fulltime_flag:	number;
 	lesson_user_online_status:	number;//枚举: \App\Enums\Eset_boolean
@@ -197,6 +197,7 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		test_seller_id:	$('#id_test_seller_id').val(),
 		order_by_str:	$('#id_order_by_str').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
@@ -210,7 +211,6 @@ function load_data(){
 		lesson_status:	$('#id_lesson_status').val(),
 		assistantid:	$('#id_assistantid').val(),
 		grade:	$('#id_grade').val(),
-		test_seller_id:	$('#id_test_seller_id').val(),
 		test_seller_adminid:	$('#id_test_seller_adminid').val(),
 		has_performance:	$('#id_has_performance').val(),
 		fulltime_flag:	$('#id_fulltime_flag').val(),
@@ -240,6 +240,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_studentid').admin_select_user_new({
 		"user_type"    : "student",
@@ -287,7 +288,6 @@ $(function(){
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
 	});
-	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_test_seller_adminid').val(g_args.test_seller_adminid);
 	$('#id_has_performance').val(g_args.has_performance);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
@@ -330,6 +330,14 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_seller_id</span>
+                <input class="opt-change form-control" id="id_test_seller_id" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["test_seller_id title", "test_seller_id", "th_test_seller_id" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -401,14 +409,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">test_seller_id</span>
-                <input class="opt-change form-control" id="id_test_seller_id" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["test_seller_id title", "test_seller_id", "th_test_seller_id" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
