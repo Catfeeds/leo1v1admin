@@ -90,7 +90,7 @@ $(function(){
             lesson_type : $('#id_lesson_type').val(),
             userid      : $('#id_student').val()
         });
-        oadpopup();
+        loadpopup();
 
     }
 
@@ -1664,7 +1664,9 @@ $(function(){
         return returnvalue;
     }
     function loadpopup() {
+        alert(2);
         if(get_cookie("popped")=='') {
+        alert(3);
             var num = 0;
             $(".lesson_data").each(function(){
                 var lesson_start = $(this).data("lesson_start");
