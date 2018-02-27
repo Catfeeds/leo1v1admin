@@ -47,12 +47,9 @@ class wx_parent_api extends Controller
 
         parent::__construct();
         if (!$this->get_parentid()) {
-            // $id = $this->get_parentid();
-
-            echo $this->output_err("未登录");
-            exit;
+            // echo $this->output_err("未登录");
+            // exit;
         }
-
     }
 
     public function get_parentid(){
@@ -1299,4 +1296,54 @@ class wx_parent_api extends Controller
             return $this->output_err("false");
         }
     }
+
+
+
+    # 处理家长微信端调时间
+
+    # 家长请假功能 || 需要新增字段标记课程取消类别
+    public function leaveByParent(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $parentid = $this->get_parentid();
+        $lessonStartTime = $this->t_lesson_info_b3->get_lesson_start($lessonid);
+        $lessonEndTime   = $this->t_lesson_info_b3->get_lesson_end($lessonid);
+
+        $isSelf = $this->t_parent_child->getParentidByLessonId($lessonid,$parentid);
+
+        if($lessonStartTime<time()+24*60*60){
+            return $this->output_err('只可请假24小时之后的课程!');
+        }else{
+            if($isSelf==1){
+                $this->t_lesson_info_b3->field_update_list($lessonid, [
+                    "lesson_del_flag" => 1
+                ]);
+                return $this->output_succ();
+            }else{
+                return $this->output_err("操作失败,请及时联系助教老师!");
+            }
+        }
+    }
+
+    # 获取调时间选项
+    # 做冲突检测 : 如有连续的时间也不可以
+    #
+    #
+    public function getChangeTimeList(){
+        $lessonid  = $this->get_in_int_val('lessonid');
+        $userid    = $this->t_lesson_info_b3->get_userid($lessonid);
+        $teacherid = $this->t_lesson_info_b3->get_teacherid($lessonid);
+        $limitTimeStart = strtotime('2018-1-27');
+        $limitTimeEnd   = strtotime('2018-3-27');
+        $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
+        $lesson_start   = $this->t_lesson_info_b3->get_lesson_start($lessonid);
+        $lesson_end     = $this->t_lesson_info_b3->get_lesson_start($lessonid);
+        $lessonDuration = $lesson_end-$lesson_start;
+        dd($lessonDuration);
+
+        foreach($lessonTimeList as &$item){
+
+        }
+    }
+
+
 }
