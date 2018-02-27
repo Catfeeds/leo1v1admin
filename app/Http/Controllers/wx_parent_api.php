@@ -1336,7 +1336,7 @@ class wx_parent_api extends Controller
         $limitTimeEnd   = strtotime('2018-3-27');
         $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
         $lesson_start   = $this->t_lesson_info_b3->get_lesson_start($lessonid);
-        $lesson_end     = $this->t_lesson_info_b3->get_lesson_start($lessonid);
+        $lesson_end     = $this->t_lesson_info_b3->get_lesson_end($lessonid);
         $lessonDuration = $lesson_end-$lesson_start;
         dd($lessonDuration);
 
