@@ -915,5 +915,26 @@ function suggest_dele(obj,oEvent){
     var target = e.target || e.srcElement;
     var paper_id = $(target).parents(".paper_edit").find(".edit_box:eq(0) .paper_id").val();
     var cur_obj = $(target).parents(".edit_box").find(".suggest_result");
+    var dimension = cur_obj.find(".suggest_dimension font").attr("dimension");
+    var score_range = $(target).parents("tr").find("td:eq(0)").text();
+    var data = {
+        paper_id : paper_id,
+        dimension_id : dimension,
+        score_range : score_range
+    };
 
+    $.ajax({
+        type     : "post",
+        url      : "/test_paper/dele_suggestion",
+        dataType : "json",
+        data : data,
+        success   : function(result){
+            if(result.ret == 0){
+                BootstrapDialog.alert("删除成功！");
+                $(target).parents("tr").remove();
+            }else{
+                alert(result.info);
+            }
+        }
+    })
 }
