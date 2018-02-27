@@ -81,7 +81,7 @@ class index extends Controller
                     $token_info = $wx->get_token_from_code($code);
                     $openid     = @$token_info["openid"];
                     $to_url=urldecode(hex2bin($this->get_in_str_val("to_url")));
-                    \App\Helper\Utils::logger("WX_to_url2:$to_url");
+                    \App\Helper\Utils::logger("WX_to_url2-1:$to_url");
 
 
                     if (!$openid) {
@@ -196,7 +196,7 @@ class index extends Controller
                     $token_info = $wx->get_token_from_code($code);
                     $openid     = @$token_info["openid"];
                     $to_url=urldecode(hex2bin($this->get_in_str_val("to_url")));
-                    \App\Helper\Utils::logger("WX_to_url2:$to_url");
+                    \App\Helper\Utils::logger("WX_to_url2-2:$to_url");
 
 
                     if (!$openid) {
@@ -228,7 +228,7 @@ class index extends Controller
                         $this->t_admin_users->set_last_ip( $account,$ip );
                         \App\Helper\Utils::logger("XXXLocation: $to_url");
 
-                        header("Location: $to_url");
+                        header("BBBLocation: $to_url");
                         return ;
                     }else{
                         $token=$token_info["access_token"];
