@@ -14,7 +14,9 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
-                $adminid = $this->get_account_id();
+        $list = $this->t_fulltime_teacher_attendance_list->get_list_by_attendance_type(3);
+        dd($list);
+        $adminid = $this->get_account_id();
         $arr=[
             ["tag_name"=>"幽默风趣","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
             ["tag_name"=>"生动活泼","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
