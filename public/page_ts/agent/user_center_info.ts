@@ -31,9 +31,6 @@ $(function(){
             $("#id_all_money_info").text(""+ user. all_money );
             $("#id_child_all_count").text(user.child_all_count);
 
-        },
-        error:function(){
-            alert('fail');
         }
     });
     //@desn:获取用户收入列表
@@ -47,9 +44,6 @@ $(function(){
             $("#id_open_money").text(income_info.open_moeny);
             $("#id_all_have_cash_money").text(income_info.all_have_cush_money);
             $("#id_is_cash_money").text(income_info.is_cash_money);
-        },
-        error:function(){
-            alert('fail');
         }
     });
     //@desn:获取用户邀请奖励[全部]

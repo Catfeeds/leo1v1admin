@@ -22,12 +22,13 @@ tofile:
 /// <reference path="../g_args.d.ts/agent-user_center_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		nickname:	$('#id_nickname').val(),
 		phone:	$('#id_phone').val(),
 		id:	$('#id_id').val()
-    });
+		});
 }
 $(function(){
 
@@ -51,6 +52,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_nickname" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["nickname title", "nickname", "th_nickname" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -58,6 +60,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_phone" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["phone title", "phone", "th_phone" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -65,4 +68,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id title", "id", "th_id" ]])!!}
 */
