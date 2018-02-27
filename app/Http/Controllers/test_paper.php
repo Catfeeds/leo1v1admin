@@ -36,7 +36,7 @@ class test_paper extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180227134439,
+            '_publish_version'    => 20180227144439,
         ]);
     } 
 

@@ -147,6 +147,19 @@ $(function(){
                             action: function(dialog) {
                                 dialog.close();
                             }
+                        },{
+                            label: '确认',
+                            cssClass: 'btn-info',
+                            action: function(dialog) {
+                                BootstrapDialog.confirm(
+                                    "确认后将刷新页面，你确定吗？"  ,
+                                    function(val){
+                                        if (val) {
+                                            window.location.reload();
+                                        }
+                                    });
+
+                            }
                         }]
                     });
                     var info = ret.paper;
@@ -156,7 +169,7 @@ $(function(){
                     paper.find('.paper_grade').val(info.grade);
                     paper.find('.paper_subject').val(info.subject);
                     paper.find('.paper_volume').val(info.volume);
-                    get_book(paper.find('.paper_book'),0,info.subject,info.grade);
+                    get_book(paper.find('.paper_book'),info.book,info.subject,info.grade);
                     paper.find('.paper_book').val(info.book);
                     var answer = info.answer;
                     if(answer != ''){
@@ -678,21 +691,23 @@ function dimension_pub_bind(dimension,obj){
 
                         if( question_bind != "" ){
                             var bind_question = bind_arr[x];
+                            var bind_question_num = 0;
                             //console.log(bind_question);
                             if( bind_question != undefined){
                                 var bind_html = "";
                                 for(var y in bind_question){
                                     bind_html += answer_arr[bind_question[y]][0] + "<br/>";
+                                    bind_question_num += 1;
                                 }
                                 dimension_var.find("td:eq(1)").html(bind_html);
                             }else{
                                 dimension_var.find("td:eq(1)").html("<span style='color:#999'>此维度未绑定题目</span>");
                             }
-                            
+                            dimension_var.find("td:eq(2)").text(bind_question_num); 
                         }else{
                             dimension_var.find("td:eq(1)").html("<span style='color:#999'>此维度未绑定题目</span>");
                         }
-                        dimension_var.find("td:eq(2)").attr({"dimension":x});
+                        dimension_var.find("td:eq(3)").attr({"dimension":x});
                         obj.parents(".paper_edit").find(".edit_box:eq(2) .dimension_var:last").after(dimension_var);
                     }
                     obj.parents(".paper_edit").find(".edit_box:eq(2) .dimension_item").html(option_str);
@@ -842,7 +857,7 @@ function save_suggest(obj,oEvent){
         return false;
     }
 
-    if( parseInt(score_min) >= parseInt(score_max)){
+    if( parseInt(score_min) > parseInt(score_max)){
         BootstrapDialog.alert("最小得分不能大于最大得分");
         return false;
     }
