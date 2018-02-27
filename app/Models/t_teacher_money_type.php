@@ -104,6 +104,8 @@ class t_teacher_money_type extends \App\Models\Zgen\z_t_teacher_money_type
         return $this->main_update($sql);
     }
 
-
-
+    public function get_type_for_money($teacher_money_type, $grade, $level) {
+        $sql = $this->gen_sql_new("select type from %s where teacher_money_type = $teacher_money_type and grade = $grade and level = $level", self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
 }

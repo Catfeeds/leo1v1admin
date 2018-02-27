@@ -5669,6 +5669,9 @@ $page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del
         return $this->output_succ();
     }
 
+    /**
+     * 全职老师转正申请
+     */
     public function fulltime_teacher_assessment_deal(){
         $save_type = $this->get_in_int_val("save_type");
         $positive_type = $this->get_in_int_val("positive_type");
@@ -5761,6 +5764,7 @@ $page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del
 
         return $this->output_succ();
     }
+
     public function fulltime_teacher_positive_require_deal(){
         $positive_type = $this->get_in_int_val("positive_type");
         $adminid   = $this->get_in_int_val("adminid");
@@ -5789,11 +5793,16 @@ $page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del
         ]);
         if($ret){
             $name = $this->t_manager_info->get_name($adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-
-
+            $adminid_list = [349,480,1171,1453,1446];
+            $full_header  = "转正申请通知";
+            $full_title   = "转正申请通知";
+            $full_content = $name."老师的已提交转正申请,请审核!";
+            $full_url     = "http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid;
+            foreach($adminid_list as $a_val){
+                $this->t_manager_info->send_wx_todo_msg_by_adminid($a_val,$full_header,$full_title,$full_content,$full_url);
+            }
         }
+
         return $this->output_succ();
     }
 
@@ -5843,20 +5852,25 @@ $page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del
 
         if($positive_type==3){
             if($main_master_deal_flag==1){
-                //微信通知主管和老师
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $full_header  = "延期转正申请通过";
+                $full_title   = "延期转正申请通过通知";
+                $full_content = $name."老师的延期转正申请经总监审核,已经通过!";
+                $full_content_for_teacher = $name."老师,您的延期转正申请经主管和总监审核,已经通过!";
+                $full_url = "http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid;
+
+                //微信推送给申请人
+                $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,$full_header,$full_title,$full_content_for_teacher);
             }elseif($main_master_deal_flag==2){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $full_header  = "延期转正申请未通过";
+                $full_title   = "延期转正申请驳回通知";
+                $full_content = $name."老师的延期转正申请经总监审核,已经被驳回,请确认!";
+                $full_url     = "http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid;
             }
         }else{
             if($main_master_deal_flag==1){
                 $this->t_manager_info->field_update_list($adminid,[
-                    "become_full_member_flag" =>1,
-                    "become_full_member_time" =>time()
+                    "become_full_member_flag" => 1,
+                    "become_full_member_time" => time()
                 ]);
 
                 //修改老师等级
@@ -5866,8 +5880,11 @@ $page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del
 
                 $this->t_lesson_info_b2->update_teacher_level($teacherid,1);
 
-                //邮件发送给hr
-                $send_email = [$email,"sherry@leoedu.com","low-key@leoedu.com","erick@leoedu.com","cindy@leoedu.com"];
+                //邮件发送
+                $send_email = [
+                    $email,"sherry@leoedu.com","low-key@leoedu.com","erick@leoedu.com","cindy@leoedu.com",
+                    "jiangmin@leoedu.com","dengxin@leoedu.com","xiongyuanli@leoedu.com"
+                ];
 
                 $title = "关于 $name 老师转正申请的批复";
                 $date = date("Y-m-d");
@@ -5876,25 +5893,30 @@ $page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del
                          ."目前教师等级:初级<br>"
                          ."转正后教师等级:中级"
                          ."转正后基本工资:$base_money";
-
                 \App\Helper\Email::SendMailJiaoXue($send_email, $title, $content, true, 2);
-                // \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
-                // foreach($email as $e){
-                //     dispatch( new \App\Jobs\SendEmailNew(
-                //         $e,"全职老师转正通知","Dear all：<br>  ".$name."老师转正考核已通过,请调整该老师底薪,谢谢!!"
-                //     ));
-                // }
 
-                //微信通知主管和老师
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
+                $full_header  = "转正申请通过";
+                $full_title   = "转正申请通过通知";
+                $full_content = $name."老师的转正申请经总监审核,已经通过!";
+                $full_content_for_teacher = $name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!";
+                $full_url = "http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1";
+                //微信推送给申请人
+                $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,$full_header,$full_title,$full_content_for_teacher);
             }elseif($main_master_deal_flag==2){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $full_header  = "转正申请未通过";
+                $full_title   = "转正申请驳回通知";
+                $full_content = $name."老师的转正申请经总监审核,已经被驳回,请确认!";
+                $full_url     = "http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid;
             }
         }
 
+        /**
+         * 发送审核结果给相关人员
+         */
+        $adminid_list = [480,349,1171,1453,1446];
+        foreach($adminid_list as $a_val){
+            $this->t_manager_info->send_wx_todo_msg_by_adminid($a_val,$full_header,$full_title,$full_content,$full_url);
+        }
         return $this->output_succ();
     }
 

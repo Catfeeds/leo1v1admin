@@ -139,7 +139,7 @@ class notice extends Controller
         $user_ip = $this->get_in_user_ip();
         $type    = $this->get_in_type();
         $args    = json_decode($this->get_in_str_val("args"),true);
-        if (!is_array ($args) ) {
+        if (!is_array($args)) {
             return $this->output_err("xx");
         }
         $this->sms_common($phone,$user_ip,$type, $args);

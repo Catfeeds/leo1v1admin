@@ -1468,7 +1468,7 @@ class ss_deal2 extends Controller
         $sub_subject_scour_arr = [];
         foreach($subject_score_arr as $item){
             $subject_arr = explode(':',$item);
-            $sub_subject_scour_arr[$subject_arr[0]] = $subject_arr[1];
+            $sub_subject_scour_arr[$subject_arr[0]] = isset($subject_arr[1])?$subject_arr[1]:'';
         }
         $subject_sore = json_encode($sub_subject_scour_arr);
         $test_stress    = $this->get_in_int_val("test_stress");//学习目标
@@ -1626,6 +1626,7 @@ class ss_deal2 extends Controller
             "new_demand_flag"   =>1,
             "class_num"   =>$class_num,
             "subject_score"   =>$subject_score,
+            "last_edit_time"   =>time(),
         ];
         if ($db_tt_item["seller_student_status"] != $seller_student_status && $ss_item["seller_resource_type"] ==0 ) {
             $ss_arr["first_seller_status"]=$seller_student_status;

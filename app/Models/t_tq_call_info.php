@@ -1051,10 +1051,10 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         $where_arr = [
             ['phone=%u',$phone,''],
             ['adminid=%u',$adminid,-1],
-            ['is_called_phone=%u',$is_called_phone,-1]
+            // ['is_called_phone=%u',$is_called_phone,-1]
         ];
         $sql = $this->gen_sql_new(
-            'select count(*) from %s where %s',
+            'select sum(is_called_phone) from %s where %s',
             self::DB_TABLE_NAME,
             $where_arr
         );
@@ -1092,5 +1092,20 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
 
         return $this->main_get_value($sql);
     }
+
+    public function getAllAudioList($userid){
+        $sql = $this->gen_sql_new("  select tq.start_time, tq.record_url, tq.admin_role, m.account from %s tq"
+                                  ." left join %s m on m.uid=tq.adminid"
+                                  ." left join %s s on s.phone=tq.phone"
+                                  ."  limit 3"
+                                  // ." where s.userid=$userid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 
 }

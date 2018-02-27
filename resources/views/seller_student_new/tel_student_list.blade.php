@@ -12,6 +12,65 @@
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
 
+
+
+        <!-- james-start-->
+
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #3c8dbc;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 style="text-align: center;color:white;" class="modal-title">未拨通电话标注</h4>
+                    </div>
+                    <div class="modal-body" style="text-align:center;">
+                        <p>请设置</p>
+                        <div class="" id="">
+                            <select style="width:35%;" class="invalid_type">
+                                <option value="0">请选择状态</option>
+                                <option value="1001">无效-空号</option>
+                                <option value="1002">无效-停机</option>
+                                <option value="1012">无效-屏蔽音</option>
+                                <option value="1004">无效-不接电话</option>
+                            </select>
+                            <p style="color:red;">请至少拨打3次确认状态</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:center;">
+                        <button type="button" class="btn btn-primary submit_tag">提交</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">再想想</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 此处为模态框-->
+        <div class="modal fade confirm-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #3c8dbc;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 style="text-align: center;color:white;" class="modal-title">未拨通电话标注</h4>
+                    </div>
+                    <div class="modal-body" style="text-align:center;">
+                        <p>是否标注为 <font style="color:red;" class="tip_text">无效-空号？</font></p>
+                        <p style="color:red;">提示：如经核验不符，将被罚款！</p>
+                    </div>
+                    <div class="modal-footer" style="text-align:center;">
+                        <button type="button" class="btn btn-primary confirm_tag">确认</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">再想想</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- james-end-->
+
         <div>
 
             <div class="row  row-query-list" >
@@ -73,7 +132,7 @@
                     <td >科目</td>
                     <td >是否有pad</td>
                     <td >负责人</td>
-                    <td >联系负责人</td>
+                    <td style="display:none;">联系负责人</td>
                     <td style="min-width:130px" >操作</td>
                 </tr>
             </thead>
@@ -123,7 +182,6 @@
                         </td>
 
                         <td>
-                        <td>
                             {{$var["grade_str"]}} <br/>
                         </td>
 
@@ -139,7 +197,8 @@
                             {{$var["sub_assign_admin_2_nick"]}} / {{$var["admin_revisiter_nick"]}}
                             <br/>
                         </td>
-
+                        <td>
+                        </td>
 
                         <td>
                             <div
@@ -153,6 +212,8 @@
 
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 <a class="fa fa-edit opt-edit"  title="编辑" > </a>
+                                <!-- james -->
+                                <!-- <a class="fa fa-trash-o opt-sign"  title="标注无效资源"></a> -->
                             </div>
                         </td>
                     </tr>

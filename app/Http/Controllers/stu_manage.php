@@ -133,10 +133,17 @@ class stu_manage extends Controller
     }
 
     public function __construct() {
+
         parent::__construct();
-        $this->sid=$this->get_in_sid();
-        static::$page_self_view_data["_sid"]= $this->sid;
-        static::$page_self_view_data["_stu_nick"]= $this->cache_get_student_nick($this->sid);
+        $this->middleware(function ($request, $next)
+        {
+            $this->sid=$this->get_in_sid();
+            static::$page_self_view_data["_sid"]= $this->sid;
+            static::$page_self_view_data["_stu_nick"]= $this->cache_get_student_nick($this->sid);
+
+            return $next($request);
+        });
+
     }
 
     public function lesson_plan_edit() {

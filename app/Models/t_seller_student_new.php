@@ -111,7 +111,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_resource_type = 0;
         $tmk_student_status   = 0;
         $orderid              = 0;
-        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid,admin_revisiterid" );
+        $data_item            = $this->field_get_list($userid,"admin_revisiterid,seller_resource_type,tmk_student_status,orderid,tmk_student_status_adminid,admin_revisiterid");
         if ($data_item) {
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
@@ -318,16 +318,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function check_seller_student($userid,$tmk_student_status,$orderid,$phone,$tmk_adminid,$admin_revisiterid){
+        $nick = $this->task->cache_get_student_nick($userid);
         if($orderid>0){
             $contract_status = $this->task->t_order_info->field_get_value($orderid, 'contract_status');
             $contract_status_desc = E\Econtract_status::get_desc($contract_status);
             if($contract_status>1){//释放
                 $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
-                foreach(['tom','应怡莉','林文彬'] as $account){
-                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的已签约[".$contract_status_desc."]例子重进待释放:".$phone."=>orderid:".$orderid);
+                foreach(['tom','应怡莉'] as $account){
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的已签约[".$contract_status_desc."]例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进=>orderid:".$orderid);
                 }
                 if($admin_revisiterid>0){
-                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","已签约[".$contract_status_desc."]例子重进:".$phone);
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","你有一个已签约[".$contract_status_desc."]例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }else{
                     $this->set_seller_student_new($userid);
                 }
@@ -343,11 +344,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if(in_array($tmk_student_status,[0,2])){//释放
                 $tmk_student_status_desc = E\Etmk_student_status::get_desc($tmk_student_status);
                 $account_send = $this->task->cache_get_account_nick($admin_revisiterid);
-                foreach(['tom','应怡莉','林文彬'] as $account){
-                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的tmk状态为[".$tmk_student_status_desc."]的例子重进待释放:".$phone);
+                foreach(['tom','应怡莉'] as $account){
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统",$account_send."的例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }
                 if($admin_revisiterid>0){
-                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","tmk状态为[".$tmk_student_status_desc."]的例子重进:".$phone);
+                    $this->task->t_manager_info->send_wx_todo_msg($account_send,"来自:系统","你有一个例子通过市场渠道重进:".$phone." ".$nick.",重进意味着高意向,请注意跟进");
                 }else{
                     $this->set_seller_student_new($userid);
                 }
@@ -611,12 +612,32 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
         $sql=$this->gen_sql_new(
-            "select   ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,s.is_test_user,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status,sal.seller_student_assign_from_type "
-            .",aga.nickname "
+            "select ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,"
+            ."tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid,"
+            ."competition_call_time,pay_time,tr.test_lesson_order_fail_desc,tr.test_lesson_order_fail_flag,"
+            ."seller_student_sub_status,f.flow_status stu_test_paper_flow_status,f.flowid stu_test_paper_flowid,"
+            ."o.price/100 order_price,s.user_agent,tr.notify_lesson_day1,tr.notify_lesson_day2,"
+            ."tss.confirm_time,tss.confirm_adminid,tss.fail_greater_4_hour_flag,tr.current_lessonid,"
+            ."tss.test_lesson_fail_flag,tss.success_flag,tss.fail_greater_4_hour_flag,tss.fail_reason,"
+            ."t.current_require_id,t.test_lesson_subject_id,add_time,seller_student_status,s.userid,s.nick,"
+            ."s.origin,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid,"
+            ."ss.admin_assign_time,ss.sub_assign_time_2,s.origin_assistantid,s.origin_userid,t.subject,"
+            ."s.grade,ss.user_desc,ss.has_pad,ss.last_revisit_time,ss.last_revisit_msg,global_tq_called_flag,"
+            ."tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag,tr.require_time,l.teacherid,"
+            ."t.stu_test_paper,t.tea_download_paper_time,tr.seller_require_change_flag,tr.seller_require_change_time,"
+            ."accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,"
+            ."l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,"
+            ."s.type study_type,s.lesson_count_all,s.lesson_count_left,s.is_test_user,o.contract_type,o.price,"
+            ."o.lesson_total ,o.discount_price,o.order_status,tr.accept_flag,s.init_info_pdf_url,o.orderid,"
+            ."tss.parent_confirm_time,p.wx_openid parent_wx_openid,t.stu_request_lesson_time_info,"
+            ."t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,"
+            ."tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc,tmk_student_status,"
+            ."sal.seller_student_assign_from_type,aga.nickname,ss.seller_student_assign_type,"
+            ."ss.last_edit_time,ss.first_contact_time "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
             .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid and sal.check_hold_flag = 0 '
-            ."  left join %s s on ss.userid=s.userid   "
+            ." left join %s s on ss.userid=s.userid "
             ." left join %s tr on   t.current_require_id = tr.require_id "
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "
             ." left join %s l on  tss.lessonid = l.lessonid "
@@ -811,7 +832,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                         $where_arr[] = "(".$str_str." or ss.sub_assign_adminid_1=".$self_adminid.")";
                         $where_arr[] = "mm.account_role=1 and s.origin_userid>0";
                     }else{
-                        $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list); 
+                        $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
                     }
 
                 }
@@ -822,7 +843,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         }
 
-       
+
         if ( !$order_by_str ) {
             $order_by_str= " order by $opt_date_str desc";
         }
@@ -1233,14 +1254,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     //@param:$userid_list 分配用户
     //@param:$opt_adminid cc id
     //@param:$opt_type 0
-    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type ,$account="system") {
+    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type ,$account="system",$sys_assign_flag=0) {
         if ( count($userid_list) ==0 ) {
             return false;
         }
         //分配例子
         $this->set_admin_info(
             $opt_type, $userid_list,  $opt_adminid,0 );
-
+        //系统分配统计
+        if($sys_assign_flag>0 && $opt_adminid>0){
+            foreach($userid_list as $userid){
+                $this->field_update_list($userid, ['sys_assign_count'=>$this->field_get_value($userid, 'sys_assign_count')+1]);
+            }
+        }
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
 
         foreach ( $userid_list as $userid ) {
@@ -2412,7 +2438,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
         $where_arr[] =  "last_contact_time <  $last_contact_time " ;
-        $where_arr[]= 's.origin_level in (1,2,3,4)';
+        // $where_arr[]= 's.origin_level in (1,2,3,4)';
+        $where_arr[]= '((s.origin_level in (1,2,3,4)) or (n.seller_student_assign_type=0 and s.origin_level=99 and n.cc_not_exist_count>0) or (n.seller_student_assign_type=0 and s.origin_level=99 and n.cc_invalid_count>2) or (n.seller_student_assign_type=1 and s.origin_level=99 and n.sys_assign_count>2))';
         $where_arr[] = 'n.cc_no_called_count>2';
         // E\Eorigin_level::V_1;
         //if ( $seller_student_status ==2 ) {
@@ -2438,6 +2465,66 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list_by_page($sql,$page_num);
     }
+
+    # 获取无效资源信息
+    public function getTmkInvalidResources( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ){
+
+        $where_arr = [
+            'n.tmk_student_status<>3',
+        ];
+
+        $this->where_arr_add_int_or_idlist($where_arr,"global_tq_called_flag",$global_tq_called_flag);
+        $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
+        $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
+        $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
+
+        $order_by_str= " order by i.tmk_confirm_time desc ";
+        $sql=$this->gen_sql_new(
+            "select tmk_student_status, tmk_next_revisit_time, tmk_desc ,return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, n.add_time,  global_tq_called_flag, seller_student_status,  s.userid,s.nick, s.origin, s.origin_level,n.phone_location,n.phone,n.userid,n.sub_assign_adminid_2,n.admin_revisiterid, n.admin_assign_time, n.sub_assign_time_2 , s.origin_assistantid , s.origin_userid ,  t.subject, s.grade,n.user_desc, n.has_pad,n.tmk_last_revisit_time ".
+            " from %s t "
+            ." left join %s n on n.userid = t.userid "
+            ." left join %s s on n.userid=s.userid "
+            ." left join (select userid from %s ii where ii.cc_confirm_time>0 and ii.tmk_confirm_time>0 group by userid ) as i on i.userid=n.userid"
+            ." where  %s  $order_by_str "
+            , t_test_lesson_subject::DB_TABLE_NAME
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,t_invalid_num_confirm::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
+
+    # QC获取标注的无效资源
+    public function getQcInvalidResources($start_time,$end_time,$seller_student_status,$page_num){
+        $where_arr = [
+            'n.tmk_student_status<>3',
+        ];
+
+        // $this->where_arr_add_int_or_idlist($where_arr,"global_tq_called_flag",$global_tq_called_flag);
+        $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
+        // $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
+        // $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
+
+        // $order_by_str= " order by i.tmk_confirm_time desc ";
+        $sql=$this->gen_sql_new(
+            "select tmk_student_status, tmk_next_revisit_time, tmk_desc ,return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, n.add_time,  global_tq_called_flag, seller_student_status,  s.userid,s.nick, s.origin, s.origin_level,n.phone_location,n.phone,n.userid,n.sub_assign_adminid_2,n.admin_revisiterid, n.admin_assign_time, n.sub_assign_time_2 , s.origin_assistantid , s.origin_userid ,  t.subject, s.grade,n.user_desc, n.has_pad,n.tmk_last_revisit_time ".
+            " from %s t "
+            ." left join %s n on n.userid = t.userid "
+            ." left join %s s on n.userid=s.userid "
+            ." left join (select userid from %s as ii where ii.cc_confirm_time>0 and ii.tmk_confirm_time>0 group by userid ) i on i.userid=n.userid"
+            ." where  %s   "
+            // ." where  %s  $order_by_str "
+            , t_test_lesson_subject::DB_TABLE_NAME
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,t_invalid_num_confirm::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num);
+
+    }
+
 
     public function get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ,$adminid=-1){
 
@@ -3771,6 +3858,37 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   t_manager_info::DB_TABLE_NAME,
                                   $adminid,
                                   $adminid
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_item_seller_list($start_time, $end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            " select n.userid,n.phone,n.add_time,s.origin "
+            ." from %s n "
+            ." left join %s s on s.userid=n.userid "
+            ." where %s order by n.add_time desc "
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_auto_free_list($start_time, $end_time){
+        $where_arr = [
+            "admin_revisiterid>0",
+            "orderid>0",
+        ];
+        $this->where_arr_add_time_range($where_arr, 'admin_assign_time', $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            " select * "
+            ." from %s "
+            ." where %s order by add_time desc "
+            , self::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list($sql);
     }

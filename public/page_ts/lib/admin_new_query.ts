@@ -138,6 +138,7 @@
             "html_power_list": {},
             "item_count" : 10,
             "show_all_item_limit_item_count":4,
+            "other_args_func" : null,
         };
 
         this.options = $.extend({}, this.defaults, opt);
@@ -194,7 +195,7 @@
             +'</div>  '
 
             +'<div class="row used-query-list " >'
-            +'    <div class="col-xs-2 col-md-2 query-list-select-item "  >'
+            +'    <div class="col-xs-6 col-md-2 query-list-select-item "  >'
             +'        <div class="btn-group" style=" width: 120px; float:left;">'
             +'            <button type="button" class="btn btn-default query-meum-select-all">全部条件</button>'
             +'            <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">'
@@ -318,6 +319,9 @@
                 var item=this;
                 args=$.extend(args, item.get_query_args() );
             });
+            if (this.options.other_args_func ) {
+                args=$.extend(args,  this.options.other_args_func() );
+            }
             $.reload_self_page(args);
         },
 
@@ -387,6 +391,7 @@
 
             }
 
+            console.log("list_type:", this.list_type );
 
             if (this.list_type==1 &&  !as_header_query ) {
 
@@ -763,7 +768,7 @@
             'start_time'    :  null,
             'end_time'      : null ,
             date_type_config : null ,
-
+            "auto_hide_flag": false ,
             "join_header" : null,
             "field_name"  :null,
             "title"  :  "",
@@ -822,7 +827,8 @@
         },
 
         get_show_flag:function() {
-            return  true;
+            return  !this.options.auto_hide_flag ;
+            //return  true ;
         },
 
         get_query_args:function () {

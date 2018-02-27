@@ -30,6 +30,7 @@ class reset_student_course_grade extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $this->init_task();
         $task = new \App\Console\Tasks\TaskController();
 
         if($this->type==1){

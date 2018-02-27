@@ -1359,6 +1359,7 @@ class PHPMailer
                 }
             }
         }
+
         // If we get here, all connection attempts have failed, so close connection hard
         $this->smtp->close();
         // As we've caught all exceptions, just report whatever the last one was
