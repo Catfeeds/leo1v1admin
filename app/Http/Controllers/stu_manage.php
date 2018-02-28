@@ -15,16 +15,37 @@ class stu_manage extends Controller
     static $page_self_view_data=[];
     var $sid;
 
-    public function index(){
-        $sid    = $this->get_in_int_val("sid");
-        $ret_db = $this->t_student_info->get_stu_all_info($sid);
+    public function __construct() {
+        parent::__construct();
+        $this->middleware(function ($request, $next)
+        {
+            $this->sid = $this->get_in_sid();
 
+            static::$page_self_view_data["_sid"]      = $this->sid;
+            static::$page_self_view_data["_stu_nick"] = $this->cache_get_student_nick($this->sid);
+
+            if(!$this->sid || $this->sid===null){
+                echo $this->error_view(["学生id出错！请关闭页面，从学生列表处重新进入！"]);
+                exit;
+            }
+
+            return $next($request);
+        });
+    }
+
+    public function index(){
+        // $sid = $this->get_in_int_val("sid");
+        $sid = $this->sid;
+
+        $ret_db = $this->t_student_info->get_stu_all_info($sid);
         if ($ret_db === false) {
-            return $this->output_err("出错") ;
+            return $this->error_view(["用户信息不存在！请在用户列表中重新进入！"]);
         }
+
         if ($ret_db["parentid"]==0) {
             $ret_db["parent_phone"] ="";
         }
+
         if($ret_db['face'] == ""){
             $face = "/images/header_img.jpg";
         }else{
@@ -132,19 +153,6 @@ class stu_manage extends Controller
         ] );
     }
 
-    public function __construct() {
-
-        parent::__construct();
-        $this->middleware(function ($request, $next)
-        {
-            $this->sid=$this->get_in_sid();
-            static::$page_self_view_data["_sid"]= $this->sid;
-            static::$page_self_view_data["_stu_nick"]= $this->cache_get_student_nick($this->sid);
-
-            return $next($request);
-        });
-
-    }
 
     public function lesson_plan_edit() {
         $account_role = $this->get_account_role();
@@ -2000,14 +2008,18 @@ class stu_manage extends Controller
                 "subject_list"=>$subject_arr,
                 "grade_list"=>$grade_arr
             ]);
-
-
-            
         }
 
         return $this->pageView(__METHOD__);
-
     }
 
+    /**
+     * 学生课表
+     */
+    public function stu_schedule(){
+        $userid = $this->sid;
+        if($userid){
 
+        }
+    }
 }

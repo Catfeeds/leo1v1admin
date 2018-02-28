@@ -372,4 +372,31 @@ class common_ex extends Controller
         return $month;
     }
 
+    public function array_sort_by_field($arr,$field='',$sort=0){
+        if($field=='' || count($arr)==0 || $sort==0){
+            return $arr;
+        }else{
+            $num = 0;
+            $arr_new = [];
+            $field_list = [];
+            foreach($arr as $key=>$item){
+                $field_list[$key] = $item[$field];
+            }
+            if($sort==1){
+                asort($field_list);
+            }else{
+                arsort($field_list);
+            }
+            foreach($field_list as $key=>$item){
+                $field_list[$key] = $num;
+                $num++;
+            }
+            foreach($field_list as $key=>$id){
+                $arr_new[$id] = $arr[$key];
+            }
+            return $arr_new;
+        }
+    }
+
+
 }

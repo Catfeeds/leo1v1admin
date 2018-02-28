@@ -53,7 +53,7 @@ if (isset( $_REQUEST["_ctl"] )) {
             exit;
         }
         try {
-            $class = new ReflectionClass("\\App\\Http\\Controllers\\$ctl" ); 
+            $class = new ReflectionClass("\\App\\Http\\Controllers\\$ctl" );
         }catch(\Exception $e) {
             throw $e;
         }

@@ -92,6 +92,7 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
             $where_arr[]=["post_adminid=%u", $adminid, -1 ] ;
             //$this->where_arr_add_time_range($where_arr,"post_time",$start_time,$end_time);
         }else {
+            $where_arr[]=["n.adminid=%u", $adminid, -1 ] ;
             if ($page_type==1) {  //待审批
                 $flow_check_flag=[ 0 ];
             }else if ( $page_type==2 ){ //已审批

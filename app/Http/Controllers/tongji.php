@@ -415,7 +415,7 @@ class tongji extends Controller
     }
     public function admin_card_admin_log_list ( ) {
         //admin_card_admin_log_list
-        list($start_time,$end_time )=$this->get_in_date_range_day(0);
+        list($start_time,$end_time)=$this->get_in_date_range_day(0);
         $end_time=$start_time+86400;
 
         $admin_list=$this->t_admin_card_log->get_admin_list($start_time,$end_time);
@@ -439,16 +439,14 @@ class tongji extends Controller
             if (!@$map[$a_item["adminid"]]) {
                 $admin_list[]=["adminid" =>  $a_item["adminid"] ] ;
             }
-
         }
 
-        $ret_list=\App\Helper\Common::gen_admin_member_data($admin_list,["error_flag_str", "error_flag","start_logtime", "end_logtime", "work_time_str", "work_time" ] );
+        $ret_list = \App\Helper\Common::gen_admin_member_data($admin_list,["error_flag_str", "error_flag","start_logtime", "end_logtime", "work_time_str", "work_time" ] );
         foreach( $ret_list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_list) );
-
     }
 
     public function admin_card_date_log_list_self ( ) {
