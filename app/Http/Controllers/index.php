@@ -81,7 +81,7 @@ class index extends Controller
                     $token_info = $wx->get_token_from_code($code);
                     $openid     = @$token_info["openid"];
                     $to_url=urldecode(hex2bin($this->get_in_str_val("to_url")));
-                    \App\Helper\Utils::logger("WX_to_url2:$to_url");
+                    \App\Helper\Utils::logger("WX_to_url2-1:$to_url");
 
 
                     if (!$openid) {
@@ -154,7 +154,19 @@ class index extends Controller
                 //return redirect("/supervisor/monitor");
                 return "/supervisor/monitor";
             }else{
-                $this->jump_page();
+                $to_url=$this->get_in_str_val("to_url");
+                $bin_to_url= @hex2bin($to_url );
+                if ($bin_to_url ) {
+                    $to_url=$bin_to_url;
+                }
+                if ($to_url) {
+                    \App\Helper\Utils::logger("ACC TO:$to_url ");
+
+                    return redirect($to_url);
+                }else{
+                    $this->jump_page();
+                }
+
             }
         }else{
             //微信浏览器
@@ -187,8 +199,7 @@ class index extends Controller
                     \App\Helper\Utils::logger("home_page3");
                     if ( $_SERVER["HTTP_HOST"] == "wx-parent.leo1v1.com" ) {
                         $url="http://admin.leo1v1.com{$_SERVER["REQUEST_URI"]}";
-                        header("Location: $url");
-                        return ;
+                        return redirect($url);
                     }
 
 
@@ -196,7 +207,7 @@ class index extends Controller
                     $token_info = $wx->get_token_from_code($code);
                     $openid     = @$token_info["openid"];
                     $to_url=urldecode(hex2bin($this->get_in_str_val("to_url")));
-                    \App\Helper\Utils::logger("WX_to_url2:$to_url");
+                    \App\Helper\Utils::logger("WX_to_url2-2:$to_url");
 
 
                     if (!$openid) {
@@ -226,8 +237,9 @@ class index extends Controller
                         $permission = $login->reset_power($account);
                         session($_SESSION) ;
                         $this->t_admin_users->set_last_ip( $account,$ip );
-                        header("Location: $to_url");
-                        return ;
+                        \App\Helper\Utils::logger("LLLXXXLocation: $to_url");
+
+                        return redirect($to_url );
                     }else{
                         $token=$token_info["access_token"];
                         $user_info=$wx->get_user_info_from_token($openid,$token);

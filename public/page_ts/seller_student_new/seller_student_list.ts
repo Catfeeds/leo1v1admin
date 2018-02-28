@@ -278,6 +278,50 @@ function del_subject_score(obj){
 function add0(m){return m<10?'0'+m:m }
 
 $(function(){
+    var starttime = new Date().getTime()/1000; 
+    function actionDo(){
+    	return setInterval(function(){ 
+	$("#id_tbody .time").each(function(){
+            var end_time = $(this).data('endtime')-starttime;
+	    if(end_time>0){
+	        var day = parseInt(end_time/(24*3600)),
+	        hour = parseInt((end_time-day*24*3600)/3600),
+	        minue = parseInt((end_time-day*24*3600-hour*3600)/60),
+		second = parseInt(end_time-day*24*3600-hour*3600-minue*60);
+		$(this).html("");
+		if(day>0){
+		    $(this).append("<span>"+day+"天</span>");
+                    if(hour>0){
+		        $(this).append("<span>"+hour+"时</span>");
+		    }
+                    if(minue>0){
+		        $(this).append("<span>"+minue+"分</span>");
+	            }
+		    if(second>0){
+		        $(this).append("<span>"+second+"秒</span>");
+		    }
+		}else{
+                    if(hour>0){
+		        $(this).append("<span style='color:red'>"+hour+"时</span>");
+		    }
+                    if(minue>0){
+		        $(this).append("<span style='color:red'>"+minue+"分</span>");
+	            }
+		    if(second>0){
+		        $(this).append("<span style='color:red'>"+second+"秒</span>");
+		    }
+		}
+	    }else{
+		$(this).html("过期");
+	    }
+	});
+	starttime++;
+        },1000);
+    }
+    actionDo(); 
+
+    
+
     show_name_key="stu_info_name_"+g_adminid;
     var status_opt_list=[];
     $.each( (""+g_args.status_list_str).split(",") ,function(){
@@ -4571,4 +4615,5 @@ function init_edit() {
     if(g_adminid==540){
         window["download_show"]();
     }
+
 }

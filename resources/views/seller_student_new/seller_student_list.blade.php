@@ -374,7 +374,9 @@
         <table class="common-table">
             <thead>
                 <tr>
-                    <td style="display:none;">剩余时间</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["剩余时间" , "left_end_time"],
+                    ]) !!}
                     <td style="display:none;">时间详情</td>
                     <td >电话</td>
                     <td >渠道</td>
@@ -417,8 +419,7 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td >
-                            {{$var["left_time_desc"]}}
+                        <td class="time" data-endtime='{{$var["left_end_time"]}}'>
                         </td>
                         <td >
                             抢单模式:{{$var["assign_type"]}}

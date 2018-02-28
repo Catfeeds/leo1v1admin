@@ -252,7 +252,7 @@ export default class extends vtable {
 
       });
     }
-    // do_load_args(flow_function);
+     do_load_args(flow_function);
   }
 
   gen_function_args_obj( arg_config,  args ) {
