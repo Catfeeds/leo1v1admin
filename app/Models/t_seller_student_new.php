@@ -535,7 +535,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["require_admin_type=%u",$require_admin_type,-1]
             ];
             if($next_revisit_flag == 1){
-                $where_arr[] = "((n.next_revisit_time>=$start_time and n.next_revisit_time<$end_time) or (n.last_succ_test_lessonid>0 and last_edit_time=0 and n.last_revisit_time=0))";
+                $where_arr[] = "((ss.next_revisit_time>=$start_time and ss.next_revisit_time<$end_time) or (ss.last_succ_test_lessonid>0 and ss.last_edit_time=0 and ss.last_revisit_time=0))";
             }else{
                 $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
             }
