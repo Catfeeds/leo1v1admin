@@ -1773,6 +1773,7 @@ class seller_student_new extends Controller
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         $tquin = $this->t_manager_info->get_tquin($adminid);
         $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($lesson_call_end),['admin_nick'=>$admin_nick]);
     }
 
