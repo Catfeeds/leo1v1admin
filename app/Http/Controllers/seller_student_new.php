@@ -449,7 +449,7 @@ class seller_student_new extends Controller
                 $item['left_end_time'] = strtotime('2018-03-07');
             }
             $item['suc_no_call_flag'] = 0;
-            if($item['last_succ_test_lessonid']>0){
+            if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
                 if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 1;
                 }else{
@@ -1619,12 +1619,12 @@ class seller_student_new extends Controller
             ]);
         }
         //试听成功未回访
-        // $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
-        // if($ret){
-        //     return  $this->error_view([
-        //         "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
-        //     ]);
-        // }
+        $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
+        if($ret){
+            return  $this->error_view([
+                "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
+            ]);
+        }
 
 
         //申明 js 变量

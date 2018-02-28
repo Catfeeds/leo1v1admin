@@ -1987,7 +1987,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $admin_revisiterid);
         $start_time = $today-86400*7;
         $end_time = $today+86400;
-        $where_arr[] = "((next_revisit_time>=$start_time and next_revisit_time < $end_time) or (n.last_succ_test_lessonid>0 and last_edit_time=0 and n.last_revisit_time=0))";
+        $where_arr[] = "((next_revisit_time>=$start_time and next_revisit_time < $end_time) or (n.last_succ_test_lessonid>0 and last_edit_time=0 and n.last_revisit_time=0 and l.lesson_end>1517414400))";
         $sql = $this->gen_sql_new(
             "select count(n.userid) "
             ."from %s n "
@@ -3909,6 +3909,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [
             "last_succ_test_lessonid>0",
             "n.last_revisit_time<l.lesson_end or n.last_edit_time<l.lesson_end",
+            "l.lessen_end>1517414400",
         ];
         $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $adminid);
         $sql=$this->gen_sql_new(
