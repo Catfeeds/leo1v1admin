@@ -24,11 +24,12 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage_new-admin_group_edit.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		main_type:	$('#id_main_type').val(),
 		groupid:	$('#id_groupid').val()
-    });
+		});
 }
 $(function(){
 
@@ -51,6 +52,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_main_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["main_type title", "main_type", "th_main_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -58,4 +60,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_groupid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["groupid title", "groupid", "th_groupid" ]])!!}
 */

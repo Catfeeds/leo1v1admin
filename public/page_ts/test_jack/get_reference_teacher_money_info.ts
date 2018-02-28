@@ -44,11 +44,17 @@ $(function(){
                         });*/
                     $.do_ajax("/test_jack/ajax_deal_jack",{
                         // "teacherid" : teacherid,
-                        "userid": userid,
+                        "start": userid,
                         // "end_time"  : end_time
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
+                        $tr.find(".num1").text(data.num1);
+                        $tr.find(".num2").text(data.num2);
+                        $tr.find(".num3").text(data.num3);
+                        $tr.find(".num4").text(data.num4);
+                        $tr.find(".num5").text(data.num5);
+                        $tr.find(".num6").text(data.num6);
                         $tr.find(".num").text(data.num);
                         // $tr.find(".middle_grade").text(data.middle_grade);
                         // $tr.find(".high_grade").text(data.high_grade);
