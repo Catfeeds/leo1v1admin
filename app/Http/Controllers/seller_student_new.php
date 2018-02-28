@@ -449,7 +449,7 @@ class seller_student_new extends Controller
                 $item['left_end_time'] = strtotime('2018-03-07');
             }
             $item['suc_no_call_flag'] = 0;
-            if($item['last_succ_test_lessonid']>0){
+            if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
                 if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 1;
                 }else{
