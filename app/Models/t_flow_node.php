@@ -38,9 +38,9 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
         \App\Helper\Utils::logger(" XXSEND WX todo :next_adminid=$adminid");
         if (!$auto_pass_flag ) {
             if ($node_type== -2) { //抄送
-                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的抄送:".E\Eflow_type::get_desc($flow_type),$msg,"#/self_manage/flow_list");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的抄送:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
             }else{
-                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批:".E\Eflow_type::get_desc($flow_type),$msg,"#/self_manage/flow_list");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
             }
         }else{
             $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批[自动通过]:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");

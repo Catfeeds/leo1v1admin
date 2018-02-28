@@ -327,7 +327,7 @@ class seller_student_new extends Controller
                 2 => array("last_revisit_time","最后一次回访"),
                 3 => array("require_time","申请时间"),
                 4 => array("admin_assign_time","分配时间"),
-                5 => array("lesson_start","上课时间"),
+                5 => array("l.lesson_start","上课时间"),
                 6 => array("seller_require_change_time","申请更改时间"),
                 7 => array("pay_time","签单时间"),
                 // 8 => array("last_lesson_time","结课时间"),
@@ -493,7 +493,10 @@ class seller_student_new extends Controller
 
 
             \App\Helper\Common::set_item_enum_flow_status($item,"stu_test_paper_flow_status");
-            $item["opt_time"]=$item[$opt_date_str];
+            if($opt_date_str == 'l.lesson_start'){
+                $opt_date_str = 'lesson_start';
+            }
+            $item["opt_time"] = $item[$opt_date_str];
 
             $item["last_revisit_msg_sub"]=mb_substr($item["last_revisit_msg"], 0, 40, "utf-8");
             $item["user_desc_sub"]=mb_substr($item["user_desc"], 0, 40, "utf-8");
@@ -1615,6 +1618,13 @@ class seller_student_new extends Controller
                 "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
             ]);
         }
+        //试听成功未回访
+        // $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
+        // if($ret){
+        //     return  $this->error_view([
+        //         "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
+        //     ]);
+        // }
 
 
         //申明 js 变量
