@@ -42,5 +42,6 @@ abstract class DuskTestCase extends BaseTestCase
         return RemoteWebDriver::create(
             "http://localhost:9515", DesiredCapabilities::chrome()
         );
+        //->manage()->window()->maximize(); 浏览器最大化在Browser对象中有对应实现
     }
 }

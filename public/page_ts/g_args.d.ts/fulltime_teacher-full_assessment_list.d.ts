@@ -23,13 +23,14 @@ tofile:
 /// <reference path="../g_args.d.ts/fulltime_teacher-full_assessment_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		fulltime_adminid:	$('#id_fulltime_adminid').val(),
 		tea_adminid:	$('#id_tea_adminid').val(),
 		time_flag:	$('#id_time_flag').val(),
 		acc:	$('#id_acc').val()
-    });
+		});
 }
 $(function(){
 
@@ -54,6 +55,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_fulltime_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["fulltime_adminid title", "fulltime_adminid", "th_fulltime_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -61,6 +63,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tea_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tea_adminid title", "tea_adminid", "th_tea_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -68,6 +71,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_time_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["time_flag title", "time_flag", "th_time_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -75,4 +79,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_acc" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["acc title", "acc", "th_acc" ]])!!}
 */

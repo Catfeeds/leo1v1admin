@@ -14,6 +14,70 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $list1= $this->t_flow->field_get_list(120,"*");
+
+        $list2 = $this->t_qingjia->field_get_list(42 ,"*");
+        $ret =  $this->t_flow_config->get_next_node(E\Eflow_type::V_QINGJIA,0, $list1, $list2 , 99 );
+        $node_map=\App\Flow\flow::get_flow_class_node_map (E\Eflow_type::V_QINGJIA);
+
+
+        dd($node_map);
+        $list = $this->t_fulltime_teacher_attendance_list->get_list_by_attendance_type(3);
+        foreach($list as $val){
+            $str = $val["holiday_hugh_time"];
+            if($str){
+                $arr = json_decode($str,true);
+                $arr["lesson_count"] = $val["lesson_count"];
+            }else{
+                $arr=[
+                    "start" => $val["attendance_time"],
+                    "end" => ($val["attendance_time"]+86400*($val["day_num"]-1)),
+                    "lesson_count" => $val["lesson_count"]
+                ];
+              
+            }
+            $res = json_encode($arr);
+            $this->t_fulltime_teacher_attendance_list->field_update_list($val["id"],[
+                "holiday_hugh_time" =>  $res
+            ]);
+        }
+        $list2 = $this->t_fulltime_teacher_attendance_list->get_list_by_attendance_type(3);
+
+        dd($list2);
+        $adminid = $this->get_account_id();
+        $arr=[
+            ["tag_name"=>"幽默风趣","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"生动活泼","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"耐心绅士","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"口语标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"经验丰富","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"普通话标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"熟悉考纲","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"激昂热情","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"生动活泼","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"经验丰富","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"丰富有趣","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"游戏相关","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"图片精美","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"嘻嘻哈哈","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"兴趣培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"习惯培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"信心建立","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"学习方法技巧","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"文学素养培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+
+        ];
+        foreach($arr as $var){
+            $this->t_tag_library->row_insert($var);
+ 
+        }
+               // return $this->output_succ();
+
+        // $this->t_student_info->reset_lesson_count(440915);
+        dd(1111);
+
         $lessonid = $this->get_in_int_val('lessonid',549731);
 
         $homework_situation = array_flip(E\Ehomework_situation::$desc_map);
@@ -2545,6 +2609,237 @@ class test_jack  extends Controller
         ]);
 
     }
+
+    //百度有钱花接口(移动端)
+    public function send_baidu_money_charge_move_terminal(){       
+        $orderid = $this->get_in_int_val("orderid",17820);
+
+
+        //期待贷款额度(分单位)
+        $money = $this->t_child_order_info->get_price($orderid);
+
+        //分期期数
+        $period = $this->t_child_order_info->get_period_num($orderid);
+        //成交价格
+        $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
+        $dealmoney = $this->t_order_info->get_price($parent_orderid);
+        //订单id
+        $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+
+        // $url = 'https://umoney.baidu.com/edu/openapi/post';
+        $url = 'http://rdtest.umoney.baidu.com/edu/openapi/post';
+
+        $userid = $this->t_order_info->get_userid($parent_orderid);
+        $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email,grade,parentid");
+        $parent_name = $this->t_parent_info->get_nick($user_info["parentid"]);
+        $competition_flag = $this->t_order_info->get_competition_flag($parent_orderid);
+        $baidu_class_info = $this->t_parent_info->get_baidu_class_info($user_info["parentid"]);
+        if($baidu_class_info){
+            $class_list = json_decode($baidu_class_info,true);
+        }else{
+            $class_list = [];
+        }
+        $courseid="";
+        // if($competition_flag==1){
+        //     $courseid_list=["SHLEOZ3101006","SHLEOZ3101007","SHLEOZ3101008","SHLEOZ3101009","SHLEOZ3101010"];
+        //     foreach($courseid_list as $v){
+        //         if(isset($class_list[4])){
+        //             $cl_list = $class_list[4];
+        //             $i=0;
+        //             foreach($cl_list as $p_item){
+        //                 if($p_item==$v){
+        //                     $i=1;
+        //                 }
+        //             }
+        //             if($i==0){
+        //                 $courseid = $v;
+        //                 break;
+        //             }
+        //         }else{
+        //             $courseid = $v;
+        //             break;
+        //         }
+        //     }
+        //     // $courseid = "SHLEOZ3101006";
+        //     $coursename = "思维拓展在线课程";
+        // }elseif($user_info["grade"] >=100 && $user_info["grade"]<200){
+        //     $courseid_list=["SHLEOZ3101001","SHLEOZ3101002","SHLEOZ3101003","SHLEOZ3101004","SHLEOZ3101005"];
+        //     foreach($courseid_list as $v){
+        //         if(isset($class_list[1])){
+        //             $cl_list = $class_list[1];
+        //             $i=0;
+        //             foreach($cl_list as $p_item){
+        //                 if($p_item==$v){
+        //                     $i=1;
+        //                 }
+        //             }
+        //             if($i==0){
+        //                 $courseid = $v;
+        //                 break;
+        //             }
+        //         }else{
+        //             $courseid = $v;
+        //             break;
+        //         }
+        //     }
+
+        //     //$courseid = "SHLEOZ3101001";
+        //     $coursename = "小学在线课程";
+        // }elseif($user_info["grade"] >=200 && $user_info["grade"]<300){
+        //     $courseid_list=["SHLEOZ3101011","SHLEOZ3101012","SHLEOZ3101013","SHLEOZ3101014","SHLEOZ3101015"];
+        //     foreach($courseid_list as $v){
+        //         if(isset($class_list[2])){
+        //             $cl_list = $class_list[2];
+        //             $i=0;
+        //             foreach($cl_list as $p_item){
+        //                 if($p_item==$v){
+        //                     $i=1;
+        //                 }
+        //             }
+        //             if($i==0){
+        //                 $courseid = $v;
+        //                 break;
+        //             }
+        //         }else{
+        //             $courseid = $v;
+        //             break;
+        //         }
+        //     }
+
+        //     //  $courseid = "SHLEOZ3101012";
+        //     $coursename = "初中在线课程";
+        // }elseif($user_info["grade"] >=300 && $user_info["grade"]<400){
+        //     $courseid_list=["SHLEOZ3101016","SHLEOZ3101017","SHLEOZ3101018","SHLEOZ3101019","SHLEOZ3101020"];
+        //     foreach($courseid_list as $v){
+        //         if(isset($class_list[3])){
+        //             $cl_list = $class_list[3];
+        //             $i=0;
+        //             foreach($cl_list as $p_item){
+        //                 if($p_item==$v){
+        //                     $i=1;
+        //                 }
+        //             }
+        //             if($i==0){
+        //                 $courseid = $v;
+        //                 break;
+        //             }
+        //         }else{
+        //             $courseid = $v;
+        //             break;
+        //         }
+        //     }
+
+        //     // $courseid = "SHLEOZ3101016";
+        //     $coursename = "高中在线课程";
+        // }
+
+        // if(empty($courseid)){
+        //     return $this->output_err("您申请百度有钱花的次数已达上限");
+        // }
+        $courseid = "HXSD0101003";
+        $coursename = "思维拓展在线课程";
+
+        // RSA加密数据
+        $endata = array(
+            'username' => $parent_name,
+            'mobile' => $user_info["phone"],
+            'email' => $user_info["email"],
+        );
+
+        $rsaData = $this->enrsa($endata);
+
+
+        $arrParams = array(
+            'action' => 'sync_order_info',
+            'tpl' => 'leoedu',// 分配的tpl
+            'corpid' => 'leoedu',// 分配的corpid
+            'orderid' => $orderNo,// 机构订单号
+            'money' => $money,// 期望贷款额度（分单位）
+            'dealmoney' => $dealmoney,// 成交价格（分单位）>= 期望额度+首付额度
+            'period' => $period,// 期数
+            'courseid' => $courseid,// 课程id（会分配）
+            'coursename' => $coursename,// 课程名称
+            'oauthid' => $userid,// 用户id 机构方提供
+            'addrtype' =>1,
+            'data' => $rsaData,
+        );
+
+        $strSecretKey = '9v4DvTxOz3';// 分配的key
+        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
+
+
+        // 发送请求post(form)
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $arrParams);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_exec($ch);
+
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $result = json_decode($ret, true);
+        // dd($result);
+
+        // print_r($result);
+
+
+        //返回信息成功后处理
+        if($result["status"]==0){
+            $this->t_orderid_orderno_list->row_insert([
+                "order_no"  =>$orderNo,
+                "orderid"   =>$orderid,
+                "order_type"=>1,
+                "parent_orderid"=>$parent_orderid,
+                "courseid"  =>$courseid
+            ]);
+        }
+
+        return outputjson_success( ["result"=>$result] );
+    }
+        /**
+     * @param $data
+     * @return string
+     * rsa 加密(百度有钱花)
+     */
+    public function enrsa($data){
+        $public_key = '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt
+3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl
+Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
+2n1vP1D+tD3amHsK7QIDAQAB
+-----END PUBLIC KEY-----';
+        $pu_key = openssl_pkey_get_public($public_key);
+        $str = json_encode($data);
+        $encrypted = "";
+        // 公钥加密  padding使用OPENSSL_PKCS1_PADDING这个
+        if (openssl_public_encrypt($str, $encrypted, $pu_key, OPENSSL_PKCS1_PADDING)){
+            $encrypted = base64_encode($encrypted);
+        }
+        return $encrypted;
+    }
+
+
+    /**
+     * @param $param
+     * @param string $strSecretKey
+     * @return bool|string
+     * 生成签名(百度有钱花)
+     */
+    public function createBaseSign($param, $strSecretKey){
+        if (!is_array($param) || empty($param)){
+            return false;
+        }
+        ksort($param);
+        $concatStr = '';
+        foreach ($param as $k=>$v) {
+            $concatStr .= $k.'='.$v.'&';
+        }
+        $concatStr .= 'key='.$strSecretKey;
+        return strtoupper(md5($concatStr));
+    }
+
+
 
 
    

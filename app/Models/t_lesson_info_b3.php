@@ -3889,4 +3889,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd){
+        $where_arr = [
+            "l.userid=$userid",
+            "l.teacherid=$teacherid"
+        ];
+
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $limitTimeStart, $limitTimeEnd);
+        $sql = $this->gen_sql_new("  select lesson_start, lesson_end from %s l"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

@@ -1994,7 +1994,7 @@ var select_no_select_value = -1;
         }
 
         var field_list=[];
-        if (type=="research_teacher" || type=="teacher" || type=="train_through_teacher") {
+        if (type=="research_teacher" || type=="teacher" || type=="train_through_teacher" || type=="research_teacher_zs") {
             field_list= [
                 {
                     title:"id",
