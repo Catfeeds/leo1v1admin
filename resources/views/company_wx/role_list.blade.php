@@ -1,6 +1,7 @@
 
 @extends('layouts.app')
 @section('content')
+    <script src='https://kefu.easemob.com/webim/easemob.js?configId=444c659a-3f92-4719-905e-a2280d9ecd53'></script>
 <section class='content'>
     <div> <!-- search ... -->
         <div class='row  row-query-list' >
