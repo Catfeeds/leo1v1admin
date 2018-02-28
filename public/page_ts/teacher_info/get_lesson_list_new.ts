@@ -168,6 +168,7 @@ $(function(){
         var teacherid = $("teacher").val();
         if(btn_id == 'id_teacher_upload' && (teacherid == 104225 || teacherid == 107325 || teacherid == 107327 
         || teacherid == 107761 || teacherid == 108226 || teacherid == 392077)){
+            alert(2);
             allow_arr = ['pdf','ppt','pptx'];
         }
         var id_item = $(
