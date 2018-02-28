@@ -25,11 +25,11 @@ class wx_teacher_web extends Controller
                 if($action == 'tea'){
                     $url = "http://wx-teacher-web.leo1v1.com/tea.html?reference";
                     header("Location: $url");
-                    return ;
+                    exit ;
                 }elseif($action == 'jack_test'){
                     $url = "http://www.baidu.com";
                     header("Location: $url");
-                    return ;
+                    exit ;
 
                 }
 
