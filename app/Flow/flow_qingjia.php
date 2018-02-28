@@ -10,6 +10,8 @@ class flow_qingjia extends flow_base{
 
     static function get_self_info( $from_key_int,  $from_key_str ) {
         $task= static::get_task_controler();
+        \App\Helper\Utils::logger(222222);
+
         return $task->t_qingjia->field_get_list($from_key_int ,"*");
     }
 

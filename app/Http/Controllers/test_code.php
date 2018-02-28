@@ -15,6 +15,8 @@ class test_code extends Controller
 {
     use CacheNick;
     use TeaPower;
+    //测试通知
+
     var $br;
     var $red;
     var $blue;

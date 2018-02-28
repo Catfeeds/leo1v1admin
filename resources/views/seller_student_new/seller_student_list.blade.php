@@ -370,7 +370,9 @@
         <table class="common-table">
             <thead>
                 <tr>
-                    <td style="display:none;">剩余时间</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["剩余时间" , "left_end_time"],
+                    ]) !!}
                     <td style="display:none;">时间详情</td>
                     <td >电话</td>
                     <td >渠道</td>

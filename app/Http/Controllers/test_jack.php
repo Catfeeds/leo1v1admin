@@ -14,6 +14,14 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $list1= $this->t_flow->field_get_list(120,"*");
+
+        $list2 = $this->t_qingjia->field_get_list(42 ,"*");
+        $ret =  $this->t_flow_config->get_next_node(E\Eflow_type::V_QINGJIA,0, $list1, $list2 , 99 );
+        $node_map=\App\Flow\flow::get_flow_class_node_map (E\Eflow_type::V_QINGJIA);
+
+
+        dd($node_map);
         $list = $this->t_fulltime_teacher_attendance_list->get_list_by_attendance_type(3);
         foreach($list as $val){
             $str = $val["holiday_hugh_time"];

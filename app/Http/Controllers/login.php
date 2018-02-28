@@ -175,7 +175,7 @@ class login extends Controller
                 if (!$icon) {
                     $icon="fa-circle-o";
                 }
-                $url_base= \App\Helper\Config::get_admin_domain_url( $this->get_menu_node_admin_domain_type($node, $admin_domain_type) );
+                $url_base = \App\Helper\Config::get_admin_domain_url( $this->get_menu_node_admin_domain_type($node, $admin_domain_type) );
 
 
                 return '<li> <a href="'.$url_base.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
