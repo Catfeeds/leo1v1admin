@@ -24,11 +24,11 @@ class wx_teacher_web extends Controller
                 if($action == 'tea'){
                     $url = "http://wx-teacher-web.leo1v1.com/tea.html?reference";
                     header("Location: $url");
-                    return ;
+                    exit ;
                 }elseif($action == 'jack_test'){
                     $url = "http://www.baidu.com";
                     header("Location: $url");
-                    return ;
+                    exit ;
                 }
 
                 if (session("login_user_role")==2 && session("login_userid")) {
@@ -57,6 +57,8 @@ class wx_teacher_web extends Controller
                     $redirect_url = urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
                     $wx->goto_wx_login( $redirect_url );
                 }
+
+                return $next($request);
         });
     }
 

@@ -254,6 +254,7 @@ function load_data(){
        // end_class_flag:$("#id_end_class_flag").val(),
         seller_resource_type:   $('#id_seller_resource_type').val(),
         favorite_flag:  $('#id_favorite_flag').val(),
+        left_time_order:$('#id_left_time_order_flag').val(),
     });
 }
 
@@ -1925,7 +1926,182 @@ function init_edit() {
         });
     });
 
+    //评测卷
+    $(".opt-test-paper").on("click",function(){
+         $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" : "select", // or "list"
+            "url"      : "/test_paper/get_papers",
+            //其他参数
+            "args_ex" : {
+                //type  :  "teacher"
+            },
+            select_primary_field   : "paper_id",   //要拿出来的值
+            select_display         : "paper_id",
+            select_no_select_value : -1,
+            select_no_select_title : "[全部]",
+            width:1000,
+            //字段列表
+             'field_list' :[
+                 {
+                 title:"测试卷名称",
+                 width:400,
+                 render:function(val,item) {
+                     var paper_url = "https://ks.wjx.top/jq/" + item.paper_id + ".aspx";
+                     return "<a href='"+paper_url+"' target='_blank'>" + item.paper_name + "</a>";
+                 }
+             },
+                {
+                title:"科目",
+                width:200,
+                render:function(val,item) {
+                    return item.subject_str;
+                }
+            },
+                {
+                title:"年级",
+                width:200,
+                render:function(val,item) {
+                    return item.grade_str;
+                }
+            },
+                {
+                title:"教材版本",
+                width:200,
+                render:function(val,item) {
+                    return item.book_str;
+                }
+            }
+            ] ,
+            //查询列表
+             filter_list:[[
+                 {
+                size_class: "col-md-4 paper_subject" ,
+                title :"科目",
+                type  : "select" ,
+                 'arg_name' :  "subject",
+                 select_option_list: [{
+                     value : -1 ,
+                     text :  "全部"
+                 },{
+                     value : 1 ,
+                     text :  "语文"
+                 },{
+                     value : 2,
+                     text :  "数学"
+                 },{
+                     value : 3,
+                     text :  "英语"
+                 },{
+                     value : 4,
+                     text :  "化学"
+                 },{
+                     value : 5,
+                     text :  "物理"
+                 },{
+                     value : 6,
+                     text :  "生物"
+                 },{
+                     value : 7,
+                     text :  "政治"
+                 },{
+                     value : 8,
+                     text :  "历史"
+                 },{
+                     value : 9,
+                     text :  "地理"
+                 },{
+                     value : 10,
+                     text :  "科学"
+                 },{
+                     value : 11,
+                     text :  "教育学"
+                 }]
+            },{
+                size_class: "col-md-4 paper_grade" ,
+                title :"年级",
+                type  : "select" ,
+                'arg_name' :  "grade"  ,
+                select_option_list: [{
+                    value : -1 ,
+                    text :  "全部"
+                },{
+                    value : 101,
+                    text :  "小一"
+                },{
+                    value : 102,
+                    text :  "小二"
+                },{
+                    value : 103,
+                    text :  "小三"
+                },{
+                    value : 104,
+                    text :  "小四"
+                },{
+                    value : 105,
+                    text :  "小五"
+                },{
+                    value : 106,
+                    text :  "小六"
+                },{
+                    value : 201,
+                    text :  "初一"
+                },{
+                    value : 202,
+                    text :  "初二"
+                },{
+                    value : 203,
+                    text :  "初三"
+                },{
+                    value : 301,
+                    text :  "高一"
+                },{
+                    value : 302,
+                    text :  "高二"
+                },{
+                    value : 303,
+                    text :  "高三"
+                } ]
 
+            }
+                 ]],
+             "auto_close"       : false,
+             "onChange"         : function(require_id,row_data){
+                 var paper = "<div class='paper_info'>"
+                 paper += "<div><span class='paper_font'>评测卷名称</span><span>"+row_data.paper_name+"</span></div>";
+                 var paper_url =  "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx";
+                 paper += "<div><span class='paper_font'>评测卷链接</span><span><a href='"+paper_url+"' target='_blank'>"+paper_url+"</a></span></div>";
+                 paper += "<div><span class='paper_font'>链接标题</span><span>理优教育【学生测评卷】</span></div>";
+                 paper += "<div><span class='paper_font'>链接简介</span><span>"+row_data.paper_name+"，请认真答题，您的测评成绩将帮助我们更好地为您制定课程规划</span></div>";
+                 paper += "<div style='height:250px'><span class='paper_font'>二维码</span><div id='paper_erwei'></div></div>";
+
+                 paper += "</div>";
+                 var dlg= BootstrapDialog.show({
+                     title: "评测卷链接",
+                     message : paper,
+                     buttons: [{
+                         label: '返回',
+                         cssClass: 'btn-warning',
+                         action: function(dialog) {
+                             dialog.close();
+                         }
+                     }],
+                     onshown: function(){
+                         $('#paper_erwei').qrcode(paper_url);
+                     }
+
+                 });
+                 dlg.getModalDialog().css("width", "730px");
+             },
+             "onLoadData"       : function(require_id,data){
+             
+             }
+         });
+    });
+
+    //评测结果
+    $(".opt-test-paper-result").on("click",function(){
+        BootstrapDialog.alert("暂无测评结果");
+    });
 
     $(".opt-edit-new_new").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -4436,6 +4612,15 @@ function init_edit() {
             }, 1000);
         });
     };
+
+    $('#id_left_time_order').click(function(){
+        if($('#id_left_time_order_flag').val() == 1){
+            $('#id_left_time_order_flag').val(2);
+        }else{
+            $('#id_left_time_order_flag').val(1);
+        }
+        load_data();
+    })
 
     if(g_adminid==540){
         window["download_show"]();

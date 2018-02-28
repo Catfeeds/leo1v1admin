@@ -219,4 +219,32 @@ class test_paper extends Controller
             return $this->output_err();
         }
     }
+
+    public function get_papers(){
+        $subject  = $this->get_in_int_val('subject',-1);
+        $grade  = $this->get_in_int_val('grade',-1);
+        $book  = $this->get_in_int_val('book',-1);
+
+        $page_num  = $this->get_in_page_num();
+        $ret_info  = \App\Helper\Utils::list_to_page_info([]);
+
+        $ret_info = $this->t_student_test_paper->get_papers($subject,$grade,$book,$page_num);
+  
+        if($ret_info){
+            foreach($ret_info['list'] as &$item ){
+                E\Egrade::set_item_field_list($item, [
+                    "subject",
+                    "grade"   
+                ]);
+                $item['volume_str'] = E\Eresource_volume::get_desc($item['volume']);
+                $item['book_str'] = E\Eregion_version::get_desc($item['book']);
+                $item["operator"] = $this->t_manager_info->get_name($item["adminid"]);
+            }
+        }
+
+        return $this->output_ajax_table($ret_info, [
+            "subject" => $subject,
+            "grade" => $grade,
+        ]);
+    }
 }
