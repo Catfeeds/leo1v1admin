@@ -331,6 +331,8 @@ class seller_student_new extends Controller
                 // 8 => array("last_lesson_time","结课时间"),
             ], 0
         );
+
+        
         $page_count            = $this->get_in_int_val("page_count",10);
         if ($opt_date_str=="admin_assign_time" && $start_time== strtotime(date("Y-m-d")) ) {
             //新例子页面不要分页
@@ -410,7 +412,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-
+        
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -440,15 +442,9 @@ class seller_student_new extends Controller
                 }
                 $item['assign_type'] = '抢单';
             }
-            $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
-            $item['left_time'] = $left_time;
-            if($left_time>7*24*3600 || $left_time<0){
-                $item['left_time_desc'] = '';
-            }else{
-                $hour = floor($item['left_time']/3600);
-                $min = floor($item['left_time']%3600/60);
-                $sec = floor($item['left_time']%3600%60);
-                $item['left_time_desc'] = $hour.'时'.$min.'分'.$sec.'秒';
+            $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
+            if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
+                $item['left_end_time'] = strtotime('2018-03-07');
             }
 
             \App\Helper\Utils::hide_item_phone($item);
@@ -634,7 +630,6 @@ class seller_student_new extends Controller
         $page_hide_list = $this->get_page_hide_list($cur_page);
         $account        = $this->get_account();
         $account_role   = $this->get_account_role();
-
         $ret_info = $this->seller_student_list_data();
         unset($ret_info["count_info"]);
 
@@ -1627,8 +1622,8 @@ class seller_student_new extends Controller
             $limit_arr=array( [0, 6*60]);
             //$limit_arr=array( [0, 10*60 ] );
         }
-        if(date('Y-m-d',time()) == '2018-02-01'){
-            $limit_arr=array( [0, 14*60]);
+        if(date('Y-m-d',time()) == '2018-02-28'){
+            $limit_arr=array( [0, 10*60+30]);
         }
 
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );

@@ -98,8 +98,6 @@
                     <td>上上级</td>
 
                     {!!\App\Helper\Utils::th_order_gen([
-
-
                         ["总金额" , "all_yxyx_money"],
                         ["当前可提现" , "all_open_cush_money"],
                         ["已提现" , "all_have_cush_money"],
