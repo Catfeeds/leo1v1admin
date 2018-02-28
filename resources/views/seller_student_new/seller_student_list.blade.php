@@ -107,12 +107,16 @@
          background-color: #9CE3FF;
      }
 
-
-
+     .paper_info div{ margin-top:15px;position:relative }
+     .paper_info div .paper_font{ width: 100px;font-weight: bold;display: inline-block;text-align: right; margin-right: 30px;}
+     .paper_info #paper_erwei{ position:absolute;top:-10px;left:134px; }
     </style>
 
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
+
+    <script type="text/javascript" src="/page_js/jquery.qrcode.min.js?v={{@$_publish_version}}"></script>
+
     <section class="content ">
 
         <!-- 此处为模态框-->
@@ -668,6 +672,11 @@
                             @if($env_is_test == 1)
                                 <a title="模拟回访" class=" fa-star  opt-call_back"></a>
                             @endif
+
+                            <a class="fa opt-test-paper fa-file-powerpoint-o" title="评测卷"></a>
+
+                            <a class="fa opt-test-paper-result fa-paste" title="评测结果"></a>
+
                         </div>
 
                     </td>
