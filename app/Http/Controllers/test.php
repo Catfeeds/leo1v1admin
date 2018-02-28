@@ -15,6 +15,8 @@ class test extends Controller
     var $check_login_flag =true;
 
     public function tt() {
+        return redirect("http://www.baidu.com");
+
         \App\Helper\Common::send_mail_leo_com("xcwenn@qq.com", "xcc", "ddfadf" );
         exit;
 
