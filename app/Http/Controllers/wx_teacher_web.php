@@ -14,9 +14,8 @@ class wx_teacher_web extends Controller
     var $check_login_flag = false;
     public function __construct(){
         parent::__construct();
-
-        $this->middleware(function ($request, $next) {
-            $to_url       = $this->get_in_str_val("_url");
+        $this->middleware(function($request,$next){
+            $to_url = $this->get_in_str_val("_url");
                 $goto_url_arr = preg_split("/\//", $to_url);
                 $action       = @$goto_url_arr[2];
 
@@ -30,7 +29,6 @@ class wx_teacher_web extends Controller
                     $url = "http://www.baidu.com";
                     header("Location: $url");
                     exit ;
-
                 }
 
                 if (session("login_user_role")==2 && session("login_userid")) {
