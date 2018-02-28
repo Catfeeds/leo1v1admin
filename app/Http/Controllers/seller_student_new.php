@@ -413,7 +413,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-        
+
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -447,6 +447,14 @@ class seller_student_new extends Controller
             $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
             if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
                 $item['left_end_time'] = strtotime('2018-03-07');
+            }
+            $item['suc_no_call_flag'] = 0;
+            if($item['last_succ_test_lessonid']>0){
+                if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
+                    $item['suc_no_call_flag'] = 1;
+                }else{
+                    $item['suc_no_call_flag'] = 2;
+                }
             }
 
             \App\Helper\Utils::hide_item_phone($item);
