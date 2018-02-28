@@ -3,15 +3,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use App\Helper\Utils;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Cookie ;
 use Illuminate\Support\Facades\Redis ;
 use Illuminate\Support\Facades\Session ;
 use App\Jobs\deal_wx_pic;
 // 引入鉴权类
 use Qiniu\Auth;
-// 引入上传类
-use Qiniu\Storage\UploadManager;
-use Qiniu\Storage\BucketManager;
 require_once app_path("/Libs/Qiniu/functions.php");
 require_once(app_path("/Libs/OSS/autoload.php"));
 use OSS\OssClient;
@@ -73,9 +71,19 @@ class wjx_receive_api extends Controller
 
     //将学生的答案录入并且给出分数
     public function give_scores(){
-        $data = file_get_contents("php://input");
+        $get_data = Input::get();
+        $i = 0;
+        $data = [];
+        foreach($get_data as $k =>$v){
+            if( $i == 1){
+                $data = $v;
+                continue;
+            }
+            $i++;
+        }
         //$data =  '{"activity": "20980136","timetaken":"528","submittime":"2016-08-23 10:01:59", "q1":"A","q2": "B","q3":"A","q4":"C","q5":"A","q6":"C","q7":"B","q8":"A","q9":"C","q10":"D" }'; 
-        \App\Helper\Utils::logger("学生的提交数据: $data");
+        //\App\Helper\Utils::logger("学生的提交数据: $data");
+
         if($data){
             $answers = json_decode($data,true);
             $paper_id = $answers['activity'];
