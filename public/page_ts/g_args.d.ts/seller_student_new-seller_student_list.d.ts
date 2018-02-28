@@ -1,5 +1,6 @@
 interface GargsStatic {
 	cur_page:	number;
+	next_revisit_flag:	number;
 	left_time_order:	number;
 	status_list_str:	string;
 	no_jump:	number;
@@ -195,6 +196,7 @@ function load_data(){
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
 		cur_page:	$('#id_cur_page').val(),
+		next_revisit_flag:	$('#id_next_revisit_flag').val(),
 		left_time_order:	$('#id_left_time_order').val(),
 		status_list_str:	$('#id_status_list_str').val(),
 		no_jump:	$('#id_no_jump').val(),
@@ -250,6 +252,7 @@ $(function(){
 			load_data();
 		});
 	$('#id_cur_page').val(g_args.cur_page);
+	$('#id_next_revisit_flag').val(g_args.next_revisit_flag);
 	$('#id_left_time_order').val(g_args.left_time_order);
 	$('#id_status_list_str').val(g_args.status_list_str);
 	$('#id_no_jump').val(g_args.no_jump);
@@ -417,6 +420,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["cur_page title", "cur_page", "th_cur_page" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">next_revisit_flag</span>
+                <input class="opt-change form-control" id="id_next_revisit_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["next_revisit_flag title", "next_revisit_flag", "th_next_revisit_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
