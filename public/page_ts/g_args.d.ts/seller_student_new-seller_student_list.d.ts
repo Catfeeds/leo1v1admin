@@ -36,7 +36,6 @@ interface GargsStatic {
 	phone_name:	string;
 	current_require_id_flag:	number;//枚举: \App\Enums\Eboolean
 	favorite_flag:	string;
-	order_by_str:	string;
 	env_is_test:	number;
 	jack_flag:	number;
 	account_role:	number;
@@ -229,7 +228,6 @@ function load_data(){
 		phone_name:	$('#id_phone_name').val(),
 		current_require_id_flag:	$('#id_current_require_id_flag').val(),
 		favorite_flag:	$('#id_favorite_flag').val(),
-		order_by_str:	$('#id_order_by_str').val(),
 		env_is_test:	$('#id_env_is_test').val(),
 		jack_flag:	$('#id_jack_flag').val(),
 		account_role:	$('#id_account_role').val(),
@@ -394,7 +392,6 @@ $(function(){
 		"btn_id_config"     : {},
 	});
 	$('#id_favorite_flag').val(g_args.favorite_flag);
-	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_env_is_test').val(g_args.env_is_test);
 	$('#id_jack_flag').val(g_args.jack_flag);
 	$('#id_account_role').val(g_args.account_role);
@@ -666,14 +663,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["favorite_flag title", "favorite_flag", "th_favorite_flag" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">order_by_str</span>
-                <input class="opt-change form-control" id="id_order_by_str" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
