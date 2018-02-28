@@ -45,11 +45,11 @@ class update_company_wx_data extends Command
         $start_time = strtotime(date('Y-m-d', strtotime('-1 month')));
         //$end_time = strtotime(date('Y-m-1', time()));
         $end_time = time();
+        $url = $this->get_url();
+        $token = $this->get_token(); // 获取token
+        $this->flush_tag_data($token,$url,$task); // 刷新tag
+        $this->flush_users_data($token,$url,$task); // 刷新组织用户
         $this->get_approve($task,$start_time, $end_time); // 拉取审批数据
-        //$url = $this->get_url();
-        //$token = $this->get_token(); // 获取token
-        //$this->flush_tag_data($token,$url,$task); // 刷新tag
-        //$this->flush_users_data($token,$url,$task); // 刷新组织用户
         //$this->flush_permission($task); // 刷新权限
     }
 
@@ -129,7 +129,7 @@ class update_company_wx_data extends Command
             $items = "";
             // 1.初始化
             $data_desc = $data_column = $require_reason = $require_time = "";
-
+            
             foreach ($leave as $val) {
                 if ($item['spname'] == "武汉请假流") {
                     if ($val['title'] == '请假类型') {
