@@ -254,6 +254,7 @@ function load_data(){
        // end_class_flag:$("#id_end_class_flag").val(),
         seller_resource_type:   $('#id_seller_resource_type').val(),
         favorite_flag:  $('#id_favorite_flag').val(),
+        left_time_order:$('#id_left_time_order_flag').val(),
     });
 }
 
@@ -4436,6 +4437,15 @@ function init_edit() {
             }, 1000);
         });
     };
+
+    $('#id_left_time_order').click(function(){
+        if($('#id_left_time_order_flag').val() == 1){
+            $('#id_left_time_order_flag').val(2);
+        }else{
+            $('#id_left_time_order_flag').val(1);
+        }
+        load_data();
+    })
 
     if(g_adminid==540){
         window["download_show"]();
