@@ -16,6 +16,9 @@ class LoginTest extends DuskTestCase
     public function testExample()
     {
         $this->browse(function (Browser $browser) {
+            // 可以通过调用driver(Facebook\WebDriver\Remote\RemoteWebDriver)来实现更复杂的逻辑
+            //$browser->driver->manage()->window()->maximize();
+            //$browser->driver->get("https://www.baidu.com");
             $browser->maximize(); // 浏览器窗口最大化 解决元素不可见问题(element not visible)
 
             $browser->visit('/')
@@ -26,7 +29,7 @@ class LoginTest extends DuskTestCase
                     ->visit("/");
 
                 // 页面url click页面元素的单击
-                // ["url" => "", "click" => ""],
+                // 模块 ["url" => "", "click" => ""],
                 $pages = [
                     // cc相关页面
                     ["url" => "/main_page/seller", "click" => ".opt-no-order"], // 排行榜
@@ -55,7 +58,7 @@ class LoginTest extends DuskTestCase
                     // 服务管理
                     ["url" => "/user_manage_new/account_list", "click" => ".opt-set-userid"], // 账号登录管理
                     ["url" => "/user_manage/parent_archive", "click" => ".opt-edit"], // 家长档案
-                    // ["url" => "", "click" => ""],
+                    ["url" => "/user_manage/pc_relationship", "click" => ".opt-set-parentid"], // 家长 <> 学生
                     // ["url" => "", "click" => ""],
                     // ["url" => "", "click" => ""],
                     // ["url" => "", "click" => ""],
@@ -63,7 +66,7 @@ class LoginTest extends DuskTestCase
                     // ["url" => "", "click" => ""],
                     ["url" => "/user_manage/all_users", "click" => ".td-info"],
                     ["url" => "/human_resource/index_new", "click" => ".opt-freeze-list"],
-                    ["url" => "/authority/manager_list", "click" => ".opt-ower-permission"]
+                    ["url" => "/authority/manager_list", "click" => ".opt-ower-permission"] // 用户管理
                 ];
                 
                 foreach($pages as $item) {
