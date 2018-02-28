@@ -18,6 +18,7 @@ class user extends TeaWxController
         $post_data = array(
             "teacherid" => $teacherid,
         );
+
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
@@ -102,7 +103,6 @@ class user extends TeaWxController
     }
 
     public function teacher_complain(){// 协议编号:1024
-
         $report_uid   = $this->get_teacherid();
         $report_msg   = $this->get_in_str_val('report_msg');
         $complaint_type = $this->get_in_int_val('complaint_type');

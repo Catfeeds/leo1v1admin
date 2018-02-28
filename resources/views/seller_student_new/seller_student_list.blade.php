@@ -107,12 +107,16 @@
          background-color: #9CE3FF;
      }
 
-
-
+     .paper_info div{ margin-top:15px;position:relative }
+     .paper_info div .paper_font{ width: 100px;font-weight: bold;display: inline-block;text-align: right; margin-right: 30px;}
+     .paper_info #paper_erwei{ position:absolute;top:-10px;left:134px; }
     </style>
 
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
+
+    <script type="text/javascript" src="/page_js/jquery.qrcode.min.js?v={{@$_publish_version}}"></script>
+
     <section class="content ">
 
         <!-- 此处为模态框-->
@@ -370,7 +374,10 @@
         <table class="common-table">
             <thead>
                 <tr>
-                    <td style="display:none;">剩余时间</td>
+                    <td style="display:none;">剩余时间
+                        <input id="id_left_time_order_flag" type="hidden" value="{{$left_time_order}}"> 
+                        <a class="fa fa-sort td-sort-item" href="javascript:;" id="id_left_time_order" value="0"></a>
+                    </td>
                     <td style="display:none;">时间详情</td>
                     <td >电话</td>
                     <td >渠道</td>
@@ -667,6 +674,11 @@
                             @if($env_is_test == 1)
                                 <a title="模拟回访" class=" fa-star  opt-call_back"></a>
                             @endif
+
+                            <a class="fa opt-test-paper fa-file-powerpoint-o" title="评测卷"></a>
+
+                            <a class="fa opt-test-paper-result fa-paste" title="评测结果"></a>
+
                         </div>
 
                     </td>

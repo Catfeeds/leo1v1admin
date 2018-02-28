@@ -2566,7 +2566,15 @@ class user_manage extends Controller
 
         }
         return $this->pageView(__METHOD__,$ret_info);
+
+
+
     }
+
+
+
+
+
 
     public function complaint_department_deal(){
         $page_info    = $this->get_in_page_info();
@@ -2602,6 +2610,8 @@ class user_manage extends Controller
             $account_id_str = $account_id;
         }
 
+
+
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
@@ -2610,6 +2620,7 @@ class user_manage extends Controller
 
 
         foreach($ret_info['list'] as $index=>&$item){
+
             E\Ecomplaint_type::set_item_value_str($item);
             E\Eaccount_role::set_item_value_str($item,'complained_adminid_type');
             $item['complaint_state_str'] = \App\Helper\Common::get_set_state_color_str($item['complaint_state']);
@@ -2625,15 +2636,19 @@ class user_manage extends Controller
             $current_account_last = reset($current_account_arr);
 
             $item['current_account'] = $current_account_last['account'];
+
             if ($item['current_account']) {
                 $item['follow_state_str'] = '<font color="green">已分配</font>';
             } else {
                 $item['follow_state_str'] = '<font color="blue">未分配</font>';
             }
+
             $item['time_consuming'] = \App\Helper\Common::secsToStr($item['deal_time']-$item['current_admin_assign_time']);
+
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
 
     public function get_nick_phone_by_account_type($account_type,&$item){
         if($account_type == 1){ //家长
@@ -2668,6 +2683,9 @@ class user_manage extends Controller
                 "should_refund_money" => $old_money
             ]);
         }
+
+
+
 
         $ret = $this->t_order_refund->field_update_list_2($orderid,$apply_time,[
             "real_refund" => ($real_refund*100)
@@ -3455,8 +3473,12 @@ class user_manage extends Controller
                 $item['nick'] = str_replace($nick,"<font color=red>$nick</font>",$item['nick']);
             }
         }
+        //dd($ret_arr);
 
         return $this->Pageview(__METHOD__,$ret_arr);
+
+
+
     }
 
 
