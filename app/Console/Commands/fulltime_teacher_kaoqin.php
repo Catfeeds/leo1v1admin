@@ -39,6 +39,89 @@ class fulltime_teacher_kaoqin extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+
+        //临时
+        $start_time = strtotime("2018-02-27");
+        $end_time = strtotime("2018-02-28");
+        $time = $start_time;
+        $lesson_info = $task->t_lesson_info_b2->get_qz_tea_lesson_info($start_time,$end_time);
+        $list=[];
+        foreach($lesson_info as $val){
+            if($val["lesson_type"]==1100 && $val["train_type"]==5){
+                @$list[$val["uid"]] += 0.8;
+            }elseif($val["lesson_type"]==2){
+                @$list[$val["uid"]] += 1.5;
+            }else{
+                @$list[$val["uid"]] += $val["lesson_count"]/100;
+            }
+        }
+        $name_list ="";
+        $num=0;
+        $name_list_research="";
+        $num_research=0;
+        foreach($list as $k=>$item){
+            if($item>=8){
+                $account_role = $task->t_manager_info->get_account_role($k);
+                if($account_role==5 ){
+                                 
+                    $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($k);                   
+                    $teacherid = $teacher_info["teacherid"];
+                    $attendance_day = $start_time+86400;
+                    $id = $task->t_fulltime_teacher_attendance_list->check_is_exist(-1,$attendance_day,-1,$k);
+
+                    if($id<3){
+                        // $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
+                        $realname = $task->t_teacher_info->get_realname($teacherid);
+                        if($id>0){
+                            $task->t_fulltime_teacher_attendance_list->field_update_list($id,[
+                                "attendance_type" =>1,
+                                "attendance_time"  =>$attendance_day,
+                                "day_num"           =>1,
+                                "lesson_count"      =>$item*100
+                            ]);
+
+                        }else{
+                            $task->t_fulltime_teacher_attendance_list->row_insert([
+                                "teacherid"  =>$teacherid,
+                                "add_time"   =>$time,
+                                "attendance_type" =>1,
+                                "attendance_time"  =>$attendance_day,
+                                "day_num"           =>1,
+                                "adminid"           =>$k,
+                                "lesson_count"      =>$item*100
+                            ]);
+ 
+                        }
+                        
+                        $name_list .= $realname.",";
+                        $num++;
+
+                    }
+
+                }elseif($account_role==4){
+                    // $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
+              
+                    $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($k);                   
+                    $teacherid = $teacher_info["teacherid"];
+                    $realname = $task->t_teacher_info->get_realname($teacherid);
+                    $task->t_fulltime_teacher_attendance_list->row_insert([
+                        "teacherid"  =>$teacherid,
+                        "add_time"   =>$time,
+                        "attendance_type" =>1,
+                        "attendance_time"  =>strtotime(date("Y-m-d",$time+86400)),
+                        "day_num"           =>1,
+                        "adminid"           =>$k,
+                        "lesson_count"      =>$item*100
+                    ]);
+
+                    $name_list_research .= $realname.",";
+                    $num_research++;
+                }
+ 
+            }
+        }
+        dd(111);
+
         $time = time();
         $h = date("H");
 
