@@ -159,7 +159,7 @@ class deal_pdf_to_png extends cmd_base
         $is_exit = file_exists($pdf);
 
 
-        \App\Helper\Utils::logger("check_pdf $pdf");
+        \App\Helper\Utils::logger("check_pdf $pdf; is_exit:$is_exit");
 
         if($is_exit){
             $IM->readImage($pdf);
