@@ -147,8 +147,11 @@ interface RowData {
 	seller_student_assign_type	:any;
 	last_edit_time	:any;
 	first_contact_time	:any;
+	last_succ_test_lessonid	:any;
+	suc_lesson_end	:any;
 	assign_type	:any;
 	left_end_time	:any;
+	suc_no_call_flag	:any;
 	phone_hide	:any;
 	lesson_plan_status	:any;
 	editionid_str	:any;
