@@ -59,6 +59,8 @@ class wx_teacher_web extends Controller
                     $redirect_url = urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
                     $wx->goto_wx_login( $redirect_url );
                 }
+
+                return $next($request);
         });
     }
 
