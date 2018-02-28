@@ -61,8 +61,8 @@ class seller_student_auto_free extends cmd_base
                 //     'create_time'=>time(),
                 // ]);
 
-                // $send_account = $this->task->cache_get_account_nick($item['admin_revisiterid']);
-                // $this->send_wx_msg($item['phone'],$item['assign_type'],$send_account,$item['admin_assign_time'],$item['last_revisit_time'],$item['last_edit_time'],$item['first_contact_time'],$first_time,$left_time_desc);
+                $send_account = $this->task->cache_get_account_nick($item['admin_revisiterid']);
+                $this->send_wx_msg($item['phone'],$item['assign_type'],$send_account,$item['admin_assign_time'],$item['last_revisit_time'],$item['last_edit_time'],$item['first_contact_time'],$first_time,$left_time_desc);
             }
         }
     }
