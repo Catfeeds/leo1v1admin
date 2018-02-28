@@ -299,14 +299,14 @@
 
             if (me.options.opt_type=="select") {
                 btns.push ({
-                    label: '选择',
-                    cssClass: 'btn-warning',
-                    action: function(dialog) {
+                    label    : '选择',
+                    cssClass : 'btn-warning',
+                    action   : function(dialog) {
                         var $tbody=me.$body.find("#id_body");
                         var row_data_str=$tbody.find("tr.warning").data("row_data");
                         var $lru_tbody=me.$lru_body.find("#id_lru_body");
                         var lru_row_data_str= $lru_tbody.find("tr.warning").data("row_data");
-                        var is_from_lru_list_flag= !!lru_row_data_str;
+                        var is_from_lru_list_flag = !!lru_row_data_str;
 
                         row_data_str= row_data_str ||  lru_row_data_str;
 
@@ -361,7 +361,7 @@
                                 me.$element.val(me.options.select_no_select_value);
                                 me.$show_input.val(me.options.select_no_select_title );
                             }
-                            if (me.options.onChange ){
+                            if (me.options.onChange){
                                 me.options.onChange( me.options.select_no_select_value , undefined,dialog);
                             }
                         }
@@ -369,17 +369,16 @@
                         if (me.options.auto_close) {
                             dialog.close();
                         };
-
                     }
-                }) ;
+                });
             }
 
-            var $dlg_form=$('<div class="row">'+
-                            '    <div class="col-xs-12 col-md-8 ajax_list">'+
-                            '    </div>'+
-                            '    <div class="col-xs-12 col-md-4 lru_list " >'+
-                            '    </div>'+
-                            '</div>');
+            var $dlg_form = $('<div class="row">'+
+                              '    <div class="col-xs-12 col-md-8 ajax_list">'+
+                              '    </div>'+
+                              '    <div class="col-xs-12 col-md-4 lru_list " >'+
+                              '    </div>'+
+                              '</div>');
             if (me.options.opt_type=="list" ) {
                 $dlg_form=$('<div class="row">'+
                             '    <div class="col-xs-12 col-md-12 ajax_list">'+
@@ -389,12 +388,11 @@
 
             $dlg_form.find( ".ajax_list"  ).append(me.$body);
             $dlg_form.find( ".lru_list"  ).append(me.$lru_body);
-
-            var dlg=BootstrapDialog.show({
-                title: '选择',
-                message : $dlg_form,
-                closable: true,
-                onhide: function(dialogRef){
+            var dlg = BootstrapDialog.show({
+                title    : '选择',
+                message  : $dlg_form,
+                closable : true,
+                onhide   : function(dialogRef){
                 },
                 buttons: btns
             });
