@@ -14,6 +14,7 @@ class wx_teacher_web extends Controller
     var $check_login_flag = false;
     public function __construct(){
         parent::__construct();
+
         $this->middleware(function ($request, $next) {
             $to_url       = $this->get_in_str_val("_url");
                 $goto_url_arr = preg_split("/\//", $to_url);
@@ -58,8 +59,9 @@ class wx_teacher_web extends Controller
                     $redirect_url = urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
                     $wx->goto_wx_login( $redirect_url );
                 }
-        }
+        });
     }
+
 
     public function wage_summary() {}
     public function tea(){}
