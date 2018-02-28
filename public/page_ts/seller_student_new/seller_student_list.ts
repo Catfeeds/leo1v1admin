@@ -181,7 +181,6 @@ function init_today_new()  {
                     // var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
                     // window.location.href = url;
                 }
-                alert('xxx');
                 var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
                 $id_today_new_list.find(".new_list_title").html ($title);
 
