@@ -318,10 +318,10 @@ trait  InputDeal {
         return $this->get_in_unixtime_from_str( "end_time", $def_value)+86400;
     }
 
-
     public function get_in_sid( $def_value=0){
         return  $this->get_in_int_val('sid', $def_value);
     }
+
     public  function set_in_date_range($date_type,$opt_date_type,$start_time,$end_time) {
         $this->set_in_value("date_type",$date_type);
         $this->set_in_value("opt_date_type",$opt_date_type);
@@ -339,6 +339,7 @@ trait  InputDeal {
             throw new \Exception() ;
         }
     }
+
     public function __call($method,$arg )  {
         if ( preg_match("/^get_in_e_(.*)$/",$method,$ret_arr)) {
             $def_value=0;
