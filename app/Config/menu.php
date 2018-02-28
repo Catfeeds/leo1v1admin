@@ -901,7 +901,6 @@ class menu{
                     ["power_id"=>02, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
                     ["power_id"=>06, "name"=>"更换讲义负责人",   "url"=>"/resource_new/admin_manage"],
                     ["power_id"=>03, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
-                    ["power_id"=>07, "name"=>"测评系统",   "url"=>"/test_paper/input_paper"],
                     ["power_id"=>04, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                 ]],
                 ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
@@ -979,8 +978,8 @@ class menu{
 
                 ["power_id"=>6, "name"=>"全职老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],
                 ["power_id"=>7, "name"=>"全职老师转正申请",   "url"=>"/fulltime_teacher/full_assessment_list"],
-                ["power_id"=>8, "name"=>"全职老师转正申请审批-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
-                ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
+                ["power_id"=>8, "name"=>"全职老师转正申请审批-初审",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
+                ["power_id"=>9, "name"=>"全职老师转正申请审批-终审",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>11, "name"=>"全职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
                 ["power_id"=>18, "name"=>"武汉全职老师面试数据","url"=>"/fulltime_teacher/fulltime_teacher_data"],
                 ["power_id"=>31, "name"=>"全职老师学科转化率","url"=>"/tongji2/subject_transfer"],

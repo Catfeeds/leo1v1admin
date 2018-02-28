@@ -177,10 +177,10 @@ function init_today_new()  {
                 }
                 if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type){
                     alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
-                    var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
-                    window.location.href = url;
+                    return false;
+                    // var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
+                    // window.location.href = url;
                 }
-
                 var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
                 $id_today_new_list.find(".new_list_title").html ($title);
 
@@ -255,6 +255,7 @@ function load_data(){
         seller_resource_type:   $('#id_seller_resource_type').val(),
         favorite_flag:  $('#id_favorite_flag').val(),
         left_time_order:$('#id_left_time_order_flag').val(),
+        next_revisit_flag:$('#id_next_revisit').val(),
     });
 }
 
@@ -1460,7 +1461,7 @@ function init_edit() {
         init_noit_btn("id_no_called_count",   resp.not_call_count,    "所有未回访","新例子+公海获取例子" );
         init_noit_btn_ex("id_today_free",   resp.today_free_count,    "今日回流"," 今晚24点自动回流公海, 若需保留 请设置下次回访时间","bg-red" );
 
-        init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count,    "今日需回访"," , 下次回访时间 设置在今日的例子","bg-red" );
+        init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count, "今日需回访","试听成功+7日回访+下次回访时间设置为今日的例子","bg-red" );
         init_noit_btn("id_lesson_today",  resp.today,  "今天上课" ,"今天上课须通知数");
         init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课","明天上课须通知数" );
         init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
@@ -1496,7 +1497,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  1, now,now );
             $("#id_seller_resource_type").val(0);
-
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1505,6 +1506,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 5,  0, now-86400*14,  now);
             $("#id_success_flag").val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1516,6 +1518,7 @@ function init_edit() {
             // $("#id_seller_resource_type").val(0);
             // $("#id_tq_called_flag").val(0);
             $("#id_global_tq_called_flag").val(0);
+            $('#id_next_revisit').val(0);
         });
     });
     $("#id_tmk_new_no_called_count").on("click",function(){
@@ -1523,6 +1526,7 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             $('#id_seller_student_status').val(0);
             $('#id_tmk_student_status').val(3);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1532,25 +1536,22 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             $("#id_global_tq_called_flag").val(-1);
             $('#id_seller_student_status').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
-
-
-
-
 
     $("#id_next_revisit").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  0, now-7*86400,  now);
+            $('#id_next_revisit').val(1);
         });
-
     });
 
     $("#id_today_free").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  1, now-2*86400,   now-2*86400 );
+            $('#id_next_revisit').val(0);
         });
-
     });
 
 
@@ -1558,6 +1559,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(110 );
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1565,29 +1567,17 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  0, now-86400*180 ,  now);
             $('#id_favorite_flag').val(1);
+            $('#id_next_revisit').val(0);
         });
     });
 
     $("#id_require_count").on("click",function(){
-
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(200);
+            $('#id_next_revisit').val(0);
         });
     });
-
-
-
-  /*  $("#id_end_class_stu").on("click",function(){
-        init_and_reload(function(now){
-            $.filed_init_date_range( 8,  0, now-86400*30 ,  now);
-            $('#id_seller_student_status').val(-2);
-            $('#id_end_class_flag').val(1);
-        });
-    });*/
-
-
-
 
     $("#id_lesson_tomorrow ,#id_lesson_today").on("click",function(){
         var me=this;
@@ -1602,6 +1592,7 @@ function init_edit() {
                 end_time= now+86400;
             }
             $.filed_init_date_range( 5,  1, start_time ,  end_time);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1773,6 +1764,7 @@ function init_edit() {
         var opt_data = $(this).get_opt_data();
         $.do_ajax("/stu_manage/set_stu_parent",{
             "studentid" : opt_data.userid,
+            "sid" : opt_data.userid,
             "phone"     : opt_data.phone,
         },function(){
 
@@ -1928,6 +1920,9 @@ function init_edit() {
 
     //评测卷
     $(".opt-test-paper").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var user_id = opt_data.userid;
+        var phone = opt_data.phone;
          $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/test_paper/get_papers",
@@ -1946,7 +1941,8 @@ function init_edit() {
                  title:"测试卷名称",
                  width:400,
                  render:function(val,item) {
-                     var paper_url = "https://ks.wjx.top/jq/" + item.paper_id + ".aspx";
+
+                     var paper_url = "https://ks.wjx.top/jq/" + item.paper_id + ".aspx?sojumpparm="+item.paper_id+"-"+user_id+"-"+phone;
                      return "<a href='"+paper_url+"' target='_blank'>" + item.paper_name + "</a>";
                  }
              },
@@ -2068,7 +2064,7 @@ function init_edit() {
              "onChange"         : function(require_id,row_data){
                  var paper = "<div class='paper_info'>"
                  paper += "<div><span class='paper_font'>评测卷名称</span><span>"+row_data.paper_name+"</span></div>";
-                 var paper_url =  "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx";
+                 var paper_url = "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx?sojumpparm="+row_data.paper_id+"-"+user_id+"-"+phone;
                  paper += "<div><span class='paper_font'>评测卷链接</span><span><a href='"+paper_url+"' target='_blank'>"+paper_url+"</a></span></div>";
                  paper += "<div><span class='paper_font'>链接标题</span><span>理优教育【学生测评卷】</span></div>";
                  paper += "<div><span class='paper_font'>链接简介</span><span>"+row_data.paper_name+"，请认真答题，您的测评成绩将帮助我们更好地为您制定课程规划</span></div>";
