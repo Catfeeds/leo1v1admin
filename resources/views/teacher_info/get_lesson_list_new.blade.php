@@ -63,7 +63,7 @@
                 </select>
             </div>
         </div>
-        <div id="teacherid" display="none">
+        <div id="teacherid" style="display:none">
             {{@$teacherid}}
         </div>
     </div>
