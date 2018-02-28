@@ -627,7 +627,6 @@ class url_power_map {
 			'/resource/resource_count'	=>1327402,
 			'/resource_new/admin_manage'	=>1327406,
 			'/resource/get_all'	=>1327403,
-			'/test_paper/input_paper'	=>1327407,
 			'/resource/get_del'	=>1327404,
 			'/user_manage_new/get_fulltime_teacher_attendance_info'	=>1320500,
 			'/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info'	=>1320700,

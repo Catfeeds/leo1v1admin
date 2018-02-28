@@ -50,11 +50,11 @@
                         <td>
                             @if($var["id"]>0)
                                 @if($var["assess_time"]>0)
-                                    状态:总监已考核 <br>
+                                    状态:初审已考核 <br>
                                     考核时间:{{@$var["assess_time_str"]}}<br>
                                     考核人:{{@$var["assess_admin_nick"]}}
                                 @else
-                                    状态:已自评,总监未考核
+                                    状态:已自评,初审未考核
                                 @endif
                             @else
                                 状态:未提交考核自评
@@ -64,17 +64,17 @@
                             @if(@$var["positive_id"]>0)
                                 转正类型:{{@$var["positive_type_str"]}}<br>
                                 @if(@$var["main_master_deal_flag"]>0)
-                                    状态:总经理已审核 <br>
+                                    状态:终审已审核 <br>
                                     结果:{{@$var["main_master_deal_flag_str"]}}<br>
                                     审核时间:{{@$var["main_master_assess_time_str"]}}<br>
                                     审核人:{{@$var["main_mater_admin_nick"]}}
                                 @elseif(@$var["master_deal_flag"]>0)
-                                    状态:总监已审核 <br>
+                                    状态:初审已审核 <br>
                                     结果:{{@$var["master_deal_flag_str"]}}<br>
                                     审核时间:{{@$var["master_assess_time_str"]}}<br>
                                     审核人:{{@$var["mater_admin_nick"]}}
                                 @else
-                                    状态:已申请,总监未审核<br>
+                                    状态:已申请,初审未审核<br>
                                     申请时间:{{@$var["add_time_str"]}}<br>
                                 @endif
                             @else
@@ -94,11 +94,11 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 @if($main_flag==1)
-                                    <a class="set_fulltime_teacher_assessment_master" title="考核评定">总经理考核评定</a>
-                                    <a class="set_fulltime_teacher_positive_require_master" title="转正申请审核">总经理转正申请审核</a>
+                                    <a class="set_fulltime_teacher_assessment_master" title="考核评定">终审考核评定</a>
+                                    <a class="set_fulltime_teacher_positive_require_master" title="转正申请审核">终审转正申请审核</a>
                                 @else
-                                    <a class="set_fulltime_teacher_assessment" title="考核评定">总监考核评定</a>
-                                    <a class="set_fulltime_teacher_positive_require" title="转正申请审核">总监转正申请审核</a>
+                                    <a class="set_fulltime_teacher_assessment" title="考核评定">初审考核评定</a>
+                                    <a class="set_fulltime_teacher_positive_require" title="转正申请审核">初审转正申请审核</a>
                                 @endif
                             </div>
                         </td>
