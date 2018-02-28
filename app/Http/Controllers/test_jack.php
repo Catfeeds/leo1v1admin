@@ -2035,7 +2035,7 @@ class test_jack  extends Controller
             "num4"=>$num4,
             "num5"=>$num5,
             "num6"=>$num6,
-            "num7"=>$num,
+            "num"=>$num,
         ]);
 
         $num = $this->t_test_lesson_subject_require->check_user_have_require($userid);
