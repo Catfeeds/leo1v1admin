@@ -9,7 +9,8 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	page_type:	number;
-}
+	flow_check_flag:	string;//枚举列表: \App\Enums\Eflow_check_flag
+ }
 declare module "g_args" {
     export = g_args;
 }
@@ -61,7 +62,8 @@ function load_data(){
 		end_time:	$('#id_end_time').val(),
 		post_adminid:	$('#id_post_adminid').val(),
 		flow_type:	$('#id_flow_type').val(),
-		page_type:	$('#id_page_type').val()
+		page_type:	$('#id_page_type').val(),
+		flow_check_flag:	$('#id_flow_check_flag').val()
 		});
 }
 $(function(){
@@ -88,6 +90,16 @@ $(function(){
 		"btn_id_config"     : {},
 	});
 	$('#id_page_type').val(g_args.page_type);
+	$('#id_flow_check_flag').admin_set_select_field({
+		"enum_type"    : "flow_check_flag",
+		"field_name" : "flow_check_flag",
+		"select_value" : g_args.flow_check_flag,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_flow_check_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -129,4 +141,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["page_type title", "page_type", "th_page_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">flow_check_flag</span>
+                <input class="opt-change form-control" id="id_flow_check_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["flow_check_flag title", "flow_check_flag", "th_flow_check_flag" ]])!!}
 */
