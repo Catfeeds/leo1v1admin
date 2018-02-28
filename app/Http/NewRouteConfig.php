@@ -763,7 +763,8 @@ class NewRouteConfig {
         "/test_paper/save_dimension_answer"              =>true,
         "/test_paper/save_suggestion"                    =>true,
         "/test_paper/dele_suggestion"                    =>true,
-        "/test_paper/dele_paper"                         =>true,    
+        "/test_paper/dele_paper"                         =>true,
+        "wjx_receive_api/get_answers"                    =>true,
     ];
 
     static $dev_url_map = [

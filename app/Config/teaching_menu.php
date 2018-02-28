@@ -157,6 +157,7 @@ class teaching_menu{
                             [ "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
                             [ "name"=>"更换讲义负责人",   "url"=>"/resource_new/admin_manage"],
                             [ "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
+                            ["name"=>"测评系统",   "url"=>"/test_paper/input_paper"],
                             [ "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                         ]],
 
