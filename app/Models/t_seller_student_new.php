@@ -3909,7 +3909,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [
             "last_succ_test_lessonid>0",
             "n.last_revisit_time<l.lesson_end or n.last_edit_time<l.lesson_end",
-            "l.lessen_end>1517414400",
+            "l.lesson_end>1517414400",
         ];
         $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $adminid);
         $sql=$this->gen_sql_new(
