@@ -806,7 +806,7 @@ END;
 
     function error_view($errors) {
         $data = ["errors" => $errors];
-        return static::view_with_header_info ("common.errors", $data ,[
+        return static::view_with_header_info("common.errors", $data ,[
             "_ctr"=> "common",
             "_publish_version"=> \App\Config\publish_version::$version ,
             "_act"=> "errors",

@@ -314,6 +314,7 @@ class seller_student_new extends Controller
     }
 
     public function seller_student_list_data(){
+        $left_time_order = $this->get_in_int_val("left_time_order",0);
         $status_list_str = $this->get_in_str_val("status_list_str");
         $no_jump         = $this->get_in_int_val("no_jump",0);
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
@@ -331,6 +332,7 @@ class seller_student_new extends Controller
                 // 8 => array("last_lesson_time","结课时间"),
             ], 0
         );
+
         $page_count            = $this->get_in_int_val("page_count",10);
         if ($opt_date_str=="admin_assign_time" && $start_time== strtotime(date("Y-m-d")) ) {
             //新例子页面不要分页
@@ -410,7 +412,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-
+        
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -440,15 +442,9 @@ class seller_student_new extends Controller
                 }
                 $item['assign_type'] = '抢单';
             }
-            $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
-            $item['left_time'] = $left_time;
-            if($left_time>7*24*3600 || $left_time<0){
-                $item['left_time_desc'] = '';
-            }else{
-                $hour = floor($item['left_time']/3600);
-                $min = floor($item['left_time']%3600/60);
-                $sec = floor($item['left_time']%3600%60);
-                $item['left_time_desc'] = $hour.'时'.$min.'分'.$sec.'秒';
+            $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
+            if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
+                $item['left_end_time'] = strtotime('2018-03-07');
             }
 
             \App\Helper\Utils::hide_item_phone($item);
@@ -592,8 +588,15 @@ class seller_student_new extends Controller
             }else{//未设置
                 $item['test_lesson_order_fail_flag_one'] = 0;
             }
-            
         }
+        $arr = [
+            '1'=>['left_end_time'=>5],
+            '3'=>['left_end_time'=>3],
+            '5'=>['left_end_time'=>1],
+            '9'=>['left_end_time'=>2],
+        ];
+        $common_ex = new \App\Http\Controllers\common_ex;
+        $ret_info['list'] = $common_ex->array_sort_by_field($ret_info['list'],'left_end_time',$left_time_order);
         $count_info =$this->t_seller_student_new->get_seller_count_list(
             $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -602,6 +605,7 @@ class seller_student_new extends Controller
             $seller_require_change_flag,$adminid_list,$tmk_student_status,$require_adminid_list,
             $require_admin_type ) ;
 
+        $ret_info["left_time_order"] = $left_time_order;
         $ret_info["count_info"] = $count_info;
         $ret_info["show_son_flag"] = $show_son_flag;
         return $ret_info;
@@ -634,7 +638,6 @@ class seller_student_new extends Controller
         $page_hide_list = $this->get_page_hide_list($cur_page);
         $account        = $this->get_account();
         $account_role   = $this->get_account_role();
-
         $ret_info = $this->seller_student_list_data();
         unset($ret_info["count_info"]);
 
@@ -670,6 +673,7 @@ class seller_student_new extends Controller
             "account_role"     => $account_role,
             "account"          => $account,
             "show_son_flag"    => $ret_info['show_son_flag'],
+            "left_time_order"  => $ret_info["left_time_order"],
             'seller_student_assign_type' => $seller_student_assign_type,
             'env_is_test' => $env_is_test
         ]);
@@ -1627,8 +1631,8 @@ class seller_student_new extends Controller
             $limit_arr=array( [0, 6*60]);
             //$limit_arr=array( [0, 10*60 ] );
         }
-        if(date('Y-m-d',time()) == '2018-02-01'){
-            $limit_arr=array( [0, 14*60]);
+        if(date('Y-m-d',time()) == '2018-02-28'){
+            $limit_arr=array( [0, 10*60+30]);
         }
 
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );

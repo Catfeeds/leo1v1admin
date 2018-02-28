@@ -1,5 +1,6 @@
 interface GargsStatic {
 	cur_page:	number;
+	left_time_order:	number;
 	status_list_str:	string;
 	no_jump:	number;
 	account_seller_level:	number;
@@ -146,8 +147,7 @@ interface RowData {
 	last_edit_time	:any;
 	first_contact_time	:any;
 	assign_type	:any;
-	left_time	:any;
-	left_time_desc	:any;
+	left_end_time	:any;
 	phone_hide	:any;
 	lesson_plan_status	:any;
 	editionid_str	:any;
@@ -195,6 +195,7 @@ function load_data(){
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
 		cur_page:	$('#id_cur_page').val(),
+		left_time_order:	$('#id_left_time_order').val(),
 		status_list_str:	$('#id_status_list_str').val(),
 		no_jump:	$('#id_no_jump').val(),
 		account_seller_level:	$('#id_account_seller_level').val(),
@@ -249,6 +250,7 @@ $(function(){
 			load_data();
 		});
 	$('#id_cur_page').val(g_args.cur_page);
+	$('#id_left_time_order').val(g_args.left_time_order);
 	$('#id_status_list_str').val(g_args.status_list_str);
 	$('#id_no_jump').val(g_args.no_jump);
 	$('#id_account_seller_level').val(g_args.account_seller_level);
@@ -415,6 +417,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["cur_page title", "cur_page", "th_cur_page" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">left_time_order</span>
+                <input class="opt-change form-control" id="id_left_time_order" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["left_time_order title", "left_time_order", "th_left_time_order" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

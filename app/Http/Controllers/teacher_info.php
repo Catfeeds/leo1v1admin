@@ -163,7 +163,8 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "student_list" => $student_list,
             "is_full_time" => $is_full_time,
-            "_publish_version" => "201801271656"
+            "_publish_version" => "201801271656",
+            "teacherid"    => $teacherid,
         ]);
     }
 
@@ -2644,7 +2645,7 @@ class teacher_info extends Controller
         $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
 
-        if($teacherid == 489187){
+        if($teacherid == 489187 || $teacherid == 50158){
             $tea_info[0]['subject'] = 1;
             $tea_info[0]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
             $tea_info[1]['subject'] = 2;
@@ -2821,7 +2822,7 @@ class teacher_info extends Controller
     public function get_leo_resource_new(){
         $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
-        if($teacherid == 489187){
+        if($teacherid == 489187 || $teacherid == 50158){
             $tea_info[0]['subject'] = 1;
             $tea_info[0]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
             $tea_info[1]['subject'] = 2;
@@ -3488,7 +3489,7 @@ class teacher_info extends Controller
     public function get_leo_train(){
         $teacherid  = $this->get_login_teacher();
         $tea_info = $this->get_rule_range();
-        if($teacherid == 489187){
+        if($teacherid == 489187 || $teacherid == 50158){
             $tea_info[0]['subject'] = 1;
             $tea_info[0]['grade'] = [101,102,103,104,105,106,201,202,203,301,302,303];
             $tea_info[1]['subject'] = 2;

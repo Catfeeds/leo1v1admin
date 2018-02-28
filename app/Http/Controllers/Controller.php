@@ -31,7 +31,6 @@ class Controller extends ControllerEx
 
 
     function __construct()  {
-
         $this->middleware(function ($request, $next) {
             if ($this->check_login_flag ) {
                 $this->check_login();
@@ -465,7 +464,6 @@ class Controller extends ControllerEx
             return 0;
         }
     }
-
 
 
 

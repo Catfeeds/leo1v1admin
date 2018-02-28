@@ -2937,6 +2937,9 @@ class tea_manage extends Controller
         $acc         = $this->get_account();
         $lecture_out_list  = $this->get_in_str_val("lecture_out_list");
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+        if(!$account){
+            $account = $acc;
+        }
         $this->t_teacher_lecture_appointment_info->reset_teacher_identity_by_phone($phone,$identity);
         if($flag==1){
             if(empty($teacher_info)){
@@ -3088,6 +3091,9 @@ class tea_manage extends Controller
         $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
         $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
         $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+        if(!$account){
+            $account = $acc;
+        }
 
 
         if($identity<=0 && $flag <2){

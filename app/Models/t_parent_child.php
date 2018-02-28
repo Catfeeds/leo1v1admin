@@ -162,4 +162,19 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
         $sql = $this->gen_sql_new("  select parentid from %s where userid=$userid",self::DB_TABLE_NAME);
         return $this->main_get_value($sql);
     }
+
+    public function getParentidByLessonId($lessonid,$parentid){
+        $where_arr = [
+            "l.lessonid=$lessonid",
+            "p.parentid=$parentid",
+            ];
+        $sql = $this->gen_sql_new("  select 1 from %s p "
+                                  ." left join %s l on l.userid=p.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

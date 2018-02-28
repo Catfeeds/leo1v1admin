@@ -441,19 +441,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = $this->get_in_int_val('adminid');
-        $start_time = strtotime(date('Y-m-d',time()));
-        $end_time = $start_time+3600*24;
-        $count = $this->get_in_int_val('count');
-        $ret = $this->t_seller_new_count->row_insert([
-            'seller_new_count_type'=>1,
-            'adminid'=>$adminid,
-            'add_time'=>time(),
-            'start_time'=>$start_time,
-            'end_time'=>$end_time,
-            'count'=>$count,
-        ]);
-        dd($ret);
+        return $this->pageView(__METHOD__,null,[]);
     }
 
     public function add_seller_new_count(){

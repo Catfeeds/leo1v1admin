@@ -63,6 +63,9 @@
                 </select>
             </div>
         </div>
+        <div style="display:none">
+            <span id="teacherid" style="display:none">{{@$teacherid}}</span>
+        </div>
     </div>
     <hr/>
     <table class="common-table">

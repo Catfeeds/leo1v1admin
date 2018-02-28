@@ -28,23 +28,32 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-ass_warning_stu_info_new.d.ts" />
 
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		leader_flag:	$('#id_leader_flag').val(),
+		assistantid:	$('#id_assistantid').val(),
+		ass_renw_flag:	$('#id_ass_renw_flag').val(),
+		master_renw_flag:	$('#id_master_renw_flag').val(),
+		renw_week:	$('#id_renw_week').val(),
+		end_week:	$('#id_end_week').val(),
+		done_flag:	$('#id_done_flag').val(),
+		id:	$('#id_id').val()
+		});
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			leader_flag:	$('#id_leader_flag').val(),
-			assistantid:	$('#id_assistantid').val(),
-			ass_renw_flag:	$('#id_ass_renw_flag').val(),
-			master_renw_flag:	$('#id_master_renw_flag').val(),
-			renw_week:	$('#id_renw_week').val(),
-			end_week:	$('#id_end_week').val(),
-			done_flag:	$('#id_done_flag').val(),
-			id:	$('#id_id').val()
-        });
-    }
 
 
 	$('#id_leader_flag').val(g_args.leader_flag);
-	$('#id_assistantid').val(g_args.assistantid);
+	$('#id_assistantid').admin_select_user_new({
+		"user_type"    : "assistant",
+		"select_value" : g_args.assistantid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_assistantid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_ass_renw_flag').val(g_args.ass_renw_flag);
 	$('#id_master_renw_flag').val(g_args.master_renw_flag);
 	$('#id_renw_week').val(g_args.renw_week);
@@ -60,6 +69,8 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -67,6 +78,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_leader_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["leader_flag title", "leader_flag", "th_leader_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -74,6 +86,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_assistantid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["assistantid title", "assistantid", "th_assistantid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -81,6 +94,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_ass_renw_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["ass_renw_flag title", "ass_renw_flag", "th_ass_renw_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -88,6 +102,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_master_renw_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["master_renw_flag title", "master_renw_flag", "th_master_renw_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -95,6 +110,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_renw_week" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["renw_week title", "renw_week", "th_renw_week" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -102,6 +118,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_end_week" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["end_week title", "end_week", "th_end_week" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -109,6 +126,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_done_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["done_flag title", "done_flag", "th_done_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -116,4 +134,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id title", "id", "th_id" ]])!!}
 */
