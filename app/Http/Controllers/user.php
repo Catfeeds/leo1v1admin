@@ -14,7 +14,6 @@ class user extends TeaWxController
 
     public function get_teacher_salary_statistics(){ // 协议编号:1017
         $teacherid = $this->get_teacherid();
-
         $url = "http://admin.leo1v1.com/teacher_money/get_teacher_total_money";
         $post_data = array(
             "teacherid" => $teacherid,
