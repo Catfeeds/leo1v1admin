@@ -1764,6 +1764,7 @@ function init_edit() {
         var opt_data = $(this).get_opt_data();
         $.do_ajax("/stu_manage/set_stu_parent",{
             "studentid" : opt_data.userid,
+            "sid" : opt_data.userid,
             "phone"     : opt_data.phone,
         },function(){
 
