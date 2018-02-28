@@ -2099,7 +2099,7 @@ function init_edit() {
 
     //评测结果
     $(".opt-test-paper-result").on("click",function(){
-        
+        BootstrapDialog.alert("暂无测评结果");
     });
 
     $(".opt-edit-new_new").on("click",function(){
