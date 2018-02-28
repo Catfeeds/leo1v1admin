@@ -327,7 +327,7 @@ class lesson extends TeaWxController
                 $item['is_forbid'] = "1";
             }
         }
-        \App\Helper\Utils::logger('data_gongzi:'.$teacherid.'get_salary_detail_list_james_return_data:'.count($ret_arr['data']).',all_reward_list:'.$ret_arr['all_reward_list']);
+        \App\Helper\Utils::logger('data_gongzi:'.$teacherid.'get_salary_detail_list_james_return_data:'.count($ret_arr['data']).',all_reward_list:'.count($ret_arr['all_reward_list']));
 
 
         if($ret_arr && (!empty($ret_arr['all_reward_list']) || !empty($ret_arr['data']))){
