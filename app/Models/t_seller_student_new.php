@@ -536,6 +536,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ];
             if($next_revisit_flag == 1){
                 $where_arr[] = "((ss.next_revisit_time>=$start_time and ss.next_revisit_time<$end_time) or (ss.last_succ_test_lessonid>0 and ss.last_edit_time=0 and ss.last_revisit_time=0))";
+            }elseif($favorite_flag>0){
+                $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
             }else{
                 $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
             }
@@ -609,10 +611,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]=["ss.admin_revisiterid=%u",$admin_revisiterid, -1];
             $where_arr[]=["t.require_adminid=%u",$admin_revisiterid, -1];
         }
-        if($favorite_flag){
-            $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
-        }
-
 
         $sql=$this->gen_sql_new(
             "select ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,"
