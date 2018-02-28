@@ -99,6 +99,7 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
                 $flow_check_flag=[ 1,2,3,4,5 ];
             }else if ( $page_type==3 ){ //抄送我
                 $node_type=-2;
+            }else if ( $page_type==-1 ){ //抄送我
             }
             $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
             $this->where_arr_add_int_or_idlist($where_arr, "flow_check_flag", $flow_check_flag);
