@@ -68,14 +68,46 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
         $list = $task->t_manager_info->get_zs_work_status_adminid(8);
         $ass_leader_arr=[];
         // $i=1;
+        // foreach($list as $val){
+        //     if($val["uid"]==790 || $val["uid"]==492){
+        //         $key=$val["uid"];
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         $key = $val["uid"]*10;
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         // $key++;
+        //     }elseif($val["uid"]==955){
+        //         $key=$val["uid"];
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         //  $key++;
+        //         $key=$val["uid"]*10;
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         // $key++;
+        //         $key=$val["uid"]*100;
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         // $key++;
+
+        //     }else{
+        //         $key=$val["uid"];
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         // $key++;
+        //         $key=$val["uid"]*10;
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         // $key++;
+        //         $key=$val["uid"]*100;
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         //  $key++;
+        //         $key=$val["uid"]*1000;
+        //         $ass_leader_arr[$key] = $val["uid"];
+        //         // $i++;
+
+        //     }
+        // }
         foreach($list as $val){
-            if($val["uid"]==790 || $val["uid"]==492){
+            if($val["uid"]==955 || $val["uid"]==492){
                 $key=$val["uid"];
                 $ass_leader_arr[$key] = $val["uid"];
-                $key = $val["uid"]*10;
-                $ass_leader_arr[$key] = $val["uid"];
                 // $key++;
-            }elseif($val["uid"]==955){
+            }elseif($val["uid"]==1000){
                 $key=$val["uid"];
                 $ass_leader_arr[$key] = $val["uid"];
                 //  $key++;
@@ -87,21 +119,22 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
                 // $key++;
 
             }else{
-                $key=$val["uid"];
-                $ass_leader_arr[$key] = $val["uid"];
-                // $key++;
-                $key=$val["uid"]*10;
-                $ass_leader_arr[$key] = $val["uid"];
-                // $key++;
-                $key=$val["uid"]*100;
-                $ass_leader_arr[$key] = $val["uid"];
-                //  $key++;
-                $key=$val["uid"]*1000;
-                $ass_leader_arr[$key] = $val["uid"];
+                // $key=$val["uid"];
+                // $ass_leader_arr[$key] = $val["uid"];
+                // // $key++;
+                // $key=$val["uid"]*10;
+                // $ass_leader_arr[$key] = $val["uid"];
+                // // $key++;
+                // $key=$val["uid"]*100;
+                // $ass_leader_arr[$key] = $val["uid"];
+                // //  $key++;
+                // $key=$val["uid"]*1000;
+                // $ass_leader_arr[$key] = $val["uid"];
                 // $i++;
 
             }
         }
+
         // dd($ass_leader_arr);
         // $ass_leader_arr=[1=>955,2=>1000,3=>790,4=>492,5=>513,6=>955,7=>1000,8=>790,9=>492,10=>513,11=>955,12=>1000,13=>790]; 
         $num_all = count($ass_leader_arr);

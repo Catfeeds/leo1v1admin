@@ -568,12 +568,14 @@
                         <br/>
                         家长确认时间: {{$var["parent_confirm_time"]}}
                         <br/>
-                        @if( $var["call_end_time"] )
-                            <font color="green">课后回访:{{$var["call_end_time"]}} </font>
+                        @if($var["suc_no_call_flag"]==1)
+                            <font color="green">课后回访:{{$var["last_revisit_time"]}}</font>
+                            <br/>
+                        @elseif($var["suc_no_call_flag"]==2)
+                            <font color="red">试听成功未回访</font>
+                            <br/>
                         @else
-                            <font color="red">课后回访:{{$var["call_end_time"]}} </font>
                         @endif
-
                         {!! @$var["notify_lesson_flag_str"]!!}
                     </td>
                     <td >
