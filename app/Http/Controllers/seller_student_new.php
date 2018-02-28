@@ -1619,12 +1619,12 @@ class seller_student_new extends Controller
             ]);
         }
         //试听成功未回访
-        $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
-        if($ret){
-            return  $this->error_view([
-                "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
-            ]);
-        }
+        // $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
+        // if($ret){
+        //     return  $this->error_view([
+        //         "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
+        //     ]);
+        // }
 
 
         //申明 js 变量
