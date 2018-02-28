@@ -314,6 +314,7 @@ class seller_student_new extends Controller
     }
 
     public function seller_student_list_data(){
+        $next_revisit_flag = $this->get_in_int_val('next_revisit_flag',0);
         $left_time_order = $this->get_in_int_val("left_time_order",0);
         $status_list_str = $this->get_in_str_val("status_list_str");
         $no_jump         = $this->get_in_int_val("no_jump",0);
@@ -420,7 +421,8 @@ class seller_student_new extends Controller
             $tq_called_flag , $phone, $nick ,$origin_assistant_role ,$success_flag,
             $seller_require_change_flag,$adminid_list, $group_seller_student_status ,$tmk_student_status,$require_adminid_list,
             $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level ,
-            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new) ;
+            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new,
+            $phone_list=[],$next_revisit_flag);
         $now=time(null);
         $notify_lesson_check_end_time=strtotime(date("Y-m-d", $now+86400*2));
         $next_day=$notify_lesson_check_end_time-86400;
@@ -608,6 +610,7 @@ class seller_student_new extends Controller
         $ret_info["left_time_order"] = $left_time_order;
         $ret_info["count_info"] = $count_info;
         $ret_info["show_son_flag"] = $show_son_flag;
+        $ret_info["next_revisit_flag"] = $next_revisit_flag;
         return $ret_info;
 
     }
@@ -674,6 +677,7 @@ class seller_student_new extends Controller
             "account"          => $account,
             "show_son_flag"    => $ret_info['show_son_flag'],
             "left_time_order"  => $ret_info["left_time_order"],
+            "next_revisit_flag"=> $ret_info["next_revisit_flag"],
             'seller_student_assign_type' => $seller_student_assign_type,
             'env_is_test' => $env_is_test
         ]);
