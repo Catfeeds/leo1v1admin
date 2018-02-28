@@ -2014,28 +2014,28 @@ class test_jack  extends Controller
         $this->check_and_switch_tongji_domain();
         $start           = $this->get_in_int_val("start");
         $end = strtotime("+1 months",$start);
-        $list1 = $this->t_lesson_info_b3->get_lesson_count_by_level($start,$end,0);
+        $list1 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,0);
         $num1 = (isset($list1["num"]) && $list1["num"]>0)?round($list1["lesson_count"]/$list1["num"]):0;
-        $list2 = $this->t_lesson_info_b3->get_lesson_count_by_level($start,$end,1);
+        $list2 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,1);
         $num2 = (isset($list2["num"]) && $list2["num"]>0)?round($list2["lesson_count"]/$list2["num"]):0;
-        $list3 = $this->t_lesson_info_b3->get_lesson_count_by_level($start,$end,2);
+        $list3 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,2);
         $num3 = (isset($list3["num"]) && $list3["num"]>0)?round($list3["lesson_count"]/$list3["num"]):0;
-        $list4 = $this->t_lesson_info_b3->get_lesson_count_by_level($start,$end,3);
+        $list4 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,3);
         $num4 = (isset($list4["num"]) && $list4["num"]>0)?round($list4["lesson_count"]/$list4["num"]):0;
-        $list5 = $this->t_lesson_info_b3->get_lesson_count_by_level($start,$end,4);
+        $list5 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,4);
         $num5 = (isset($list5["num"]) && $list5["num"]>0)?round($list5["lesson_count"]/$list5["num"]):0;
-        $list6 = $this->t_lesson_info_b3->get_lesson_count_by_level($start,$end,11);
+        $list6 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,11);
         $num6 = (isset($list6["num"]) && $list6["num"]>0)?round($list6["lesson_count"]/$list6["num"]):0;
-        $list = $this->t_lesson_info_b3->get_lesson_count_by_level($start,$end,-1);
+        $list = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,-1);
         $num = (isset($list["num"]) && $list["num"]>0)?round($list["lesson_count"]/$list["num"]):0;
         return $this->output_succ([
-            "num1"=>$num1,
-            "num2"=>$num2,
-            "num3"=>$num3,
-            "num4"=>$num4,
-            "num5"=>$num5,
-            "num6"=>$num6,
-            "num"=>$num,
+            "num1"=>$num1/100,
+            "num2"=>$num2/100,
+            "num3"=>$num3/100,
+            "num4"=>$num4/100,
+            "num5"=>$num5/100,
+            "num6"=>$num6/100,
+            "num"=>$num/100,
         ]);
 
         $num = $this->t_test_lesson_subject_require->check_user_have_require($userid);
@@ -2155,7 +2155,7 @@ class test_jack  extends Controller
         $level[-1]="全部";
         $list=[];
         $start_time = strtotime("2016-12-01");
-        for($i=1;$i<=12;$i++){
+        for($i=1;$i<=1;$i++){
             $first = strtotime(date("Y-m-01",strtotime("+".$i." months", $start_time)));
             // $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
             $month = date("Y-m-d",$first);
