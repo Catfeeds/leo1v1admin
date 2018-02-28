@@ -1497,7 +1497,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  1, now,now );
             $("#id_seller_resource_type").val(0);
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1506,7 +1506,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 5,  0, now-86400*14,  now);
             $("#id_success_flag").val(0);
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1518,7 +1518,7 @@ function init_edit() {
             // $("#id_seller_resource_type").val(0);
             // $("#id_tq_called_flag").val(0);
             $("#id_global_tq_called_flag").val(0);
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
     $("#id_tmk_new_no_called_count").on("click",function(){
@@ -1526,7 +1526,7 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             $('#id_seller_student_status').val(0);
             $('#id_tmk_student_status').val(3);
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1536,21 +1536,21 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             $("#id_global_tq_called_flag").val(-1);
             $('#id_seller_student_status').val(0);
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
     $("#id_next_revisit").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  0, now-7*86400,  now);
-            $('#id_next_revisit_flag').val(1);
+            $('#id_next_revisit').val(1);
         });
     });
 
     $("#id_today_free").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  1, now-2*86400,   now-2*86400 );
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1559,7 +1559,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(110 );
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1567,7 +1567,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  0, now-86400*180 ,  now);
             $('#id_favorite_flag').val(1);
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1575,7 +1575,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(200);
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1592,7 +1592,7 @@ function init_edit() {
                 end_time= now+86400;
             }
             $.filed_init_date_range( 5,  1, start_time ,  end_time);
-            $('#id_next_revisit_flag').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
