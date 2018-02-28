@@ -331,8 +331,11 @@ class lesson extends TeaWxController
 
 
         if($ret_arr && (!empty($ret_arr['all_reward_list']) || !empty($ret_arr['data']))){
+            \App\Helper\Utils::logger("success_james_111");
+
             return $this->output_succ(['data'=>$ret_arr['data'],'all_reward_list'=>$ret_arr['all_reward_list']]);
         }else{
+            \App\Helper\Utils::logger("error_james_111");
             return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
         }
 
