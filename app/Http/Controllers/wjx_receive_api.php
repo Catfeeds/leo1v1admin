@@ -76,7 +76,7 @@ class wjx_receive_api extends Controller
             }
             $i++;
         }
-        $data =  '{"sojumpparm":"20980136-62721-18731111121","activity": "20980136","timetaken":"528","submittime":"2016-08-23 10:01:59", "q1":"1","q2": "2","q3":"1","q4":"3","q5":"1","q6":"3","q7":"2","q8":"1","q9":"3","q10":"4" }'; 
+        // $data =  '{"sojumpparm":"20980136-62721-18731111121","activity": "20980136","timetaken":"528","submittime":"2016-08-23 10:01:59", "q1":"1","q2": "2","q3":"1","q4":"3","q5":"1","q6":"3","q7":"2","q8":"1","q9":"3","q10":"4" }'; 
         //\App\Helper\Utils::logger("学生的提交数据: $data");
 
         if($data){
