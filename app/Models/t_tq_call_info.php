@@ -1049,10 +1049,11 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
     //@param:$adminid 拨打者电话
     public function get_is_through($phone,$adminid,$is_called_phone=1){
         $where_arr = [
-            ['phone=%u',$phone,''],
+            // ['phone=%u',$phone,''],
             ['adminid=%u',$adminid,-1],
             // ['is_called_phone=%u',$is_called_phone,-1]
         ];
+        $this->where_arr_add_str_field($where_arr, 'phone', $phone);
         $sql = $this->gen_sql_new(
             'select sum(is_called_phone) from %s where %s',
             self::DB_TABLE_NAME,
