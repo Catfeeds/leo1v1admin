@@ -634,7 +634,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,"
             ."tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc,tmk_student_status,"
             ."sal.seller_student_assign_from_type,aga.nickname,ss.seller_student_assign_type,"
-            ."ss.last_edit_time,ss.first_contact_time "
+            ."ss.last_edit_time,ss.first_contact_time,ss.last_succ_test_lessonid,ll.lesson_end suc_lesson_end "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
             .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid and sal.check_hold_flag = 0 '
@@ -642,6 +642,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s tr on   t.current_require_id = tr.require_id "
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "
             ." left join %s l on  tss.lessonid = l.lessonid "
+            ." left join %s ll on  ll.lessonid = ss.last_succ_test_lessonid "
             ." left join %s o on  o.from_test_lesson_id = l.lessonid "
             ." left join %s f on ( f.flow_type=2002  and  f.from_key_int = o.orderid  )"
             ." left join %s tt on l.teacherid = tt.teacherid"
@@ -657,6 +658,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , t_student_info::DB_TABLE_NAME
             , t_test_lesson_subject_require::DB_TABLE_NAME
             , t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            , t_lesson_info::DB_TABLE_NAME
             , t_lesson_info::DB_TABLE_NAME
             , t_order_info::DB_TABLE_NAME
             , t_flow::DB_TABLE_NAME
