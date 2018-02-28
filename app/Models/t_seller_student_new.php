@@ -3905,4 +3905,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_suc_no_call_list($adminid){
+        $where_arr = [
+            "last_succ_test_lessonid>0",
+            "n.last_revisit_time<l.lesson_end or n.last_edit_time<l.lesson_end",
+        ];
+        $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $adminid);
+        $sql=$this->gen_sql_new(
+            " select n.userid,l.lessonid "
+            ." from %s n "
+            ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
+            ." where %s "
+            , self::DB_TABLE_NAME
+            , t_lesson_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
