@@ -141,4 +141,11 @@ class flow_order_exchange extends flow_base{
 
 
 
+    //使用新版.
+    static function get_next_node_info($node_type, $flowid, $adminid ) {
+        return static::get_next_node_info_new($node_type, $flowid, $adminid);
+    }
+
+
+
 }

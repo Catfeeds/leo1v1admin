@@ -254,6 +254,8 @@ function load_data(){
        // end_class_flag:$("#id_end_class_flag").val(),
         seller_resource_type:   $('#id_seller_resource_type').val(),
         favorite_flag:  $('#id_favorite_flag').val(),
+        left_time_order:$('#id_left_time_order_flag').val(),
+        next_revisit_flag:$('#id_next_revisit').val(),
     });
 }
 
@@ -1459,7 +1461,7 @@ function init_edit() {
         init_noit_btn("id_no_called_count",   resp.not_call_count,    "所有未回访","新例子+公海获取例子" );
         init_noit_btn_ex("id_today_free",   resp.today_free_count,    "今日回流"," 今晚24点自动回流公海, 若需保留 请设置下次回访时间","bg-red" );
 
-        init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count,    "今日需回访"," , 下次回访时间 设置在今日的例子","bg-red" );
+        init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count, "今日需回访","试听成功+7日回访+下次回访时间设置为今日的例子","bg-red" );
         init_noit_btn("id_lesson_today",  resp.today,  "今天上课" ,"今天上课须通知数");
         init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课","明天上课须通知数" );
         init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
@@ -1495,7 +1497,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  1, now,now );
             $("#id_seller_resource_type").val(0);
-
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1504,6 +1506,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 5,  0, now-86400*14,  now);
             $("#id_success_flag").val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1515,6 +1518,7 @@ function init_edit() {
             // $("#id_seller_resource_type").val(0);
             // $("#id_tq_called_flag").val(0);
             $("#id_global_tq_called_flag").val(0);
+            $('#id_next_revisit').val(0);
         });
     });
     $("#id_tmk_new_no_called_count").on("click",function(){
@@ -1522,6 +1526,7 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             $('#id_seller_student_status').val(0);
             $('#id_tmk_student_status').val(3);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1531,25 +1536,22 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             $("#id_global_tq_called_flag").val(-1);
             $('#id_seller_student_status').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
-
-
-
-
 
     $("#id_next_revisit").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  0, now-7*86400,  now);
+            $('#id_next_revisit').val(1);
         });
-
     });
 
     $("#id_today_free").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  1, now-2*86400,   now-2*86400 );
+            $('#id_next_revisit').val(0);
         });
-
     });
 
 
@@ -1557,6 +1559,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(110 );
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1564,29 +1567,17 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  0, now-86400*180 ,  now);
             $('#id_favorite_flag').val(1);
+            $('#id_next_revisit').val(0);
         });
     });
 
     $("#id_require_count").on("click",function(){
-
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(200);
+            $('#id_next_revisit').val(0);
         });
     });
-
-
-
-  /*  $("#id_end_class_stu").on("click",function(){
-        init_and_reload(function(now){
-            $.filed_init_date_range( 8,  0, now-86400*30 ,  now);
-            $('#id_seller_student_status').val(-2);
-            $('#id_end_class_flag').val(1);
-        });
-    });*/
-
-
-
 
     $("#id_lesson_tomorrow ,#id_lesson_today").on("click",function(){
         var me=this;
@@ -1601,6 +1592,7 @@ function init_edit() {
                 end_time= now+86400;
             }
             $.filed_init_date_range( 5,  1, start_time ,  end_time);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1772,6 +1764,7 @@ function init_edit() {
         var opt_data = $(this).get_opt_data();
         $.do_ajax("/stu_manage/set_stu_parent",{
             "studentid" : opt_data.userid,
+            "sid" : opt_data.userid,
             "phone"     : opt_data.phone,
         },function(){
 
@@ -1925,7 +1918,182 @@ function init_edit() {
         });
     });
 
+    //评测卷
+    $(".opt-test-paper").on("click",function(){
+         $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" : "select", // or "list"
+            "url"      : "/test_paper/get_papers",
+            //其他参数
+            "args_ex" : {
+                //type  :  "teacher"
+            },
+            select_primary_field   : "paper_id",   //要拿出来的值
+            select_display         : "paper_id",
+            select_no_select_value : -1,
+            select_no_select_title : "[全部]",
+            width:1000,
+            //字段列表
+             'field_list' :[
+                 {
+                 title:"测试卷名称",
+                 width:400,
+                 render:function(val,item) {
+                     var paper_url = "https://ks.wjx.top/jq/" + item.paper_id + ".aspx";
+                     return "<a href='"+paper_url+"' target='_blank'>" + item.paper_name + "</a>";
+                 }
+             },
+                {
+                title:"科目",
+                width:200,
+                render:function(val,item) {
+                    return item.subject_str;
+                }
+            },
+                {
+                title:"年级",
+                width:200,
+                render:function(val,item) {
+                    return item.grade_str;
+                }
+            },
+                {
+                title:"教材版本",
+                width:200,
+                render:function(val,item) {
+                    return item.book_str;
+                }
+            }
+            ] ,
+            //查询列表
+             filter_list:[[
+                 {
+                size_class: "col-md-4 paper_subject" ,
+                title :"科目",
+                type  : "select" ,
+                 'arg_name' :  "subject",
+                 select_option_list: [{
+                     value : -1 ,
+                     text :  "全部"
+                 },{
+                     value : 1 ,
+                     text :  "语文"
+                 },{
+                     value : 2,
+                     text :  "数学"
+                 },{
+                     value : 3,
+                     text :  "英语"
+                 },{
+                     value : 4,
+                     text :  "化学"
+                 },{
+                     value : 5,
+                     text :  "物理"
+                 },{
+                     value : 6,
+                     text :  "生物"
+                 },{
+                     value : 7,
+                     text :  "政治"
+                 },{
+                     value : 8,
+                     text :  "历史"
+                 },{
+                     value : 9,
+                     text :  "地理"
+                 },{
+                     value : 10,
+                     text :  "科学"
+                 },{
+                     value : 11,
+                     text :  "教育学"
+                 }]
+            },{
+                size_class: "col-md-4 paper_grade" ,
+                title :"年级",
+                type  : "select" ,
+                'arg_name' :  "grade"  ,
+                select_option_list: [{
+                    value : -1 ,
+                    text :  "全部"
+                },{
+                    value : 101,
+                    text :  "小一"
+                },{
+                    value : 102,
+                    text :  "小二"
+                },{
+                    value : 103,
+                    text :  "小三"
+                },{
+                    value : 104,
+                    text :  "小四"
+                },{
+                    value : 105,
+                    text :  "小五"
+                },{
+                    value : 106,
+                    text :  "小六"
+                },{
+                    value : 201,
+                    text :  "初一"
+                },{
+                    value : 202,
+                    text :  "初二"
+                },{
+                    value : 203,
+                    text :  "初三"
+                },{
+                    value : 301,
+                    text :  "高一"
+                },{
+                    value : 302,
+                    text :  "高二"
+                },{
+                    value : 303,
+                    text :  "高三"
+                } ]
 
+            }
+                 ]],
+             "auto_close"       : false,
+             "onChange"         : function(require_id,row_data){
+                 var paper = "<div class='paper_info'>"
+                 paper += "<div><span class='paper_font'>评测卷名称</span><span>"+row_data.paper_name+"</span></div>";
+                 var paper_url =  "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx";
+                 paper += "<div><span class='paper_font'>评测卷链接</span><span><a href='"+paper_url+"' target='_blank'>"+paper_url+"</a></span></div>";
+                 paper += "<div><span class='paper_font'>链接标题</span><span>理优教育【学生测评卷】</span></div>";
+                 paper += "<div><span class='paper_font'>链接简介</span><span>"+row_data.paper_name+"，请认真答题，您的测评成绩将帮助我们更好地为您制定课程规划</span></div>";
+                 paper += "<div style='height:250px'><span class='paper_font'>二维码</span><div id='paper_erwei'></div></div>";
+
+                 paper += "</div>";
+                 var dlg= BootstrapDialog.show({
+                     title: "评测卷链接",
+                     message : paper,
+                     buttons: [{
+                         label: '返回',
+                         cssClass: 'btn-warning',
+                         action: function(dialog) {
+                             dialog.close();
+                         }
+                     }],
+                     onshown: function(){
+                         $('#paper_erwei').qrcode(paper_url);
+                     }
+
+                 });
+                 dlg.getModalDialog().css("width", "730px");
+             },
+             "onLoadData"       : function(require_id,data){
+             
+             }
+         });
+    });
+
+    //评测结果
+    $(".opt-test-paper-result").on("click",function(){
+        BootstrapDialog.alert("暂无测评结果");
+    });
 
     $(".opt-edit-new_new").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -4436,6 +4604,15 @@ function init_edit() {
             }, 1000);
         });
     };
+
+    $('#id_left_time_order').click(function(){
+        if($('#id_left_time_order_flag').val() == 1){
+            $('#id_left_time_order_flag').val(2);
+        }else{
+            $('#id_left_time_order_flag').val(1);
+        }
+        load_data();
+    })
 
     if(g_adminid==540){
         window["download_show"]();

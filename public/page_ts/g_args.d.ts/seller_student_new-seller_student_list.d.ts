@@ -1,5 +1,7 @@
 interface GargsStatic {
 	cur_page:	number;
+	next_revisit_flag:	number;
+	left_time_order:	number;
 	status_list_str:	string;
 	no_jump:	number;
 	account_seller_level:	number;
@@ -36,7 +38,6 @@ interface GargsStatic {
 	phone_name:	string;
 	current_require_id_flag:	number;//枚举: \App\Enums\Eboolean
 	favorite_flag:	string;
-	order_by_str:	string;
 	env_is_test:	number;
 	jack_flag:	number;
 	account_role:	number;
@@ -195,6 +196,8 @@ function load_data(){
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
 		cur_page:	$('#id_cur_page').val(),
+		next_revisit_flag:	$('#id_next_revisit_flag').val(),
+		left_time_order:	$('#id_left_time_order').val(),
 		status_list_str:	$('#id_status_list_str').val(),
 		no_jump:	$('#id_no_jump').val(),
 		account_seller_level:	$('#id_account_seller_level').val(),
@@ -229,7 +232,6 @@ function load_data(){
 		phone_name:	$('#id_phone_name').val(),
 		current_require_id_flag:	$('#id_current_require_id_flag').val(),
 		favorite_flag:	$('#id_favorite_flag').val(),
-		order_by_str:	$('#id_order_by_str').val(),
 		env_is_test:	$('#id_env_is_test').val(),
 		jack_flag:	$('#id_jack_flag').val(),
 		account_role:	$('#id_account_role').val(),
@@ -250,6 +252,8 @@ $(function(){
 			load_data();
 		});
 	$('#id_cur_page').val(g_args.cur_page);
+	$('#id_next_revisit_flag').val(g_args.next_revisit_flag);
+	$('#id_left_time_order').val(g_args.left_time_order);
 	$('#id_status_list_str').val(g_args.status_list_str);
 	$('#id_no_jump').val(g_args.no_jump);
 	$('#id_account_seller_level').val(g_args.account_seller_level);
@@ -394,7 +398,6 @@ $(function(){
 		"btn_id_config"     : {},
 	});
 	$('#id_favorite_flag').val(g_args.favorite_flag);
-	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_env_is_test').val(g_args.env_is_test);
 	$('#id_jack_flag').val(g_args.jack_flag);
 	$('#id_account_role').val(g_args.account_role);
@@ -417,6 +420,22 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["cur_page title", "cur_page", "th_cur_page" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">next_revisit_flag</span>
+                <input class="opt-change form-control" id="id_next_revisit_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["next_revisit_flag title", "next_revisit_flag", "th_next_revisit_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">left_time_order</span>
+                <input class="opt-change form-control" id="id_left_time_order" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["left_time_order title", "left_time_order", "th_left_time_order" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -666,14 +685,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["favorite_flag title", "favorite_flag", "th_favorite_flag" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">order_by_str</span>
-                <input class="opt-change form-control" id="id_order_by_str" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
