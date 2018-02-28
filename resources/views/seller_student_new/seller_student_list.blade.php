@@ -374,9 +374,10 @@
         <table class="common-table">
             <thead>
                 <tr>
-                    {!!\App\Helper\Utils::th_order_gen([
-                        ["剩余时间" , "left_end_time"],
-                    ]) !!}
+                    <td style="display:none;">剩余时间
+                        <input id="id_left_time_order_flag" type="hidden" value="{{$left_time_order}}"> 
+                        <a class="fa fa-sort td-sort-item" href="javascript:;" id="id_left_time_order" value="0"></a>
+                    </td>
                     <td style="display:none;">时间详情</td>
                     <td >电话</td>
                     <td >渠道</td>
