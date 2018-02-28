@@ -493,7 +493,10 @@ class seller_student_new extends Controller
 
 
             \App\Helper\Common::set_item_enum_flow_status($item,"stu_test_paper_flow_status");
-            $item["opt_time"]=$item[$opt_date_str];
+            if($opt_date_str == 'l.lesson_start'){
+                $opt_date_str = 'lesson_start';
+            }
+            $item["opt_time"] = $item[$opt_date_str];
 
             $item["last_revisit_msg_sub"]=mb_substr($item["last_revisit_msg"], 0, 40, "utf-8");
             $item["user_desc_sub"]=mb_substr($item["user_desc"], 0, 40, "utf-8");
