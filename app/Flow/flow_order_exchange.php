@@ -5,6 +5,7 @@ class flow_order_exchange extends flow_base{
 
 
     static $type= E\Eflow_type::V_ORDER_EXCHANGE;
+    static $node_map= [];
     static $node_data=[
         //nodeid => next_nodeid(s) name  ,next_node_process
         0=>[ 1 , "申请"  ],
@@ -127,18 +128,18 @@ class flow_order_exchange extends flow_base{
         return 0;
     }
 
+    //使用新版.
+    static function get_next_node_info($node_type, $flowid, $adminid ) {
+        return static::get_next_node_info_new($node_type, $flowid, $adminid);
+    }
+
+
     static function do_succ_end( $flow_info, $self_info ) {
         $orderid=$self_info["orderid"];
         $t_order_info  = new \App\Models\t_order_info();
         $t_order_info->set_order_payed($orderid, 0, 0);
     }
 
-
-
-    //使用新版.
-    static function get_next_node_info($node_type, $flowid, $adminid ) {
-        return static::get_next_node_info_new($node_type, $flowid, $adminid);
-    }
 
 
 

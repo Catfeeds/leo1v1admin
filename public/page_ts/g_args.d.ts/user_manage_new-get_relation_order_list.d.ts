@@ -19,6 +19,7 @@ interface RowData {
 	lesson_total	:any;
 	order_time	:any;
 	from_parent_order_type	:any;
+	from_parent_order_lesson_count	:any;
 	contract_type_str	:any;
 	self_flag_str	:any;
 	student_nick	:any;
@@ -33,13 +34,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-get_relation_order_list.d.ts" />
 
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		orderid:	$('#id_orderid').val(),
+		contract_type:	$('#id_contract_type').val()
+		});
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			orderid:	$('#id_orderid').val(),
-			contract_type:	$('#id_contract_type').val()
-        });
-    }
 
 
 	$('#id_orderid').val(g_args.orderid);
@@ -60,6 +63,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_orderid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["orderid title", "orderid", "th_orderid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -67,4 +71,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_contract_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["contract_type title", "contract_type", "th_contract_type" ]])!!}
 */

@@ -2557,7 +2557,7 @@ class tea_manage extends Controller
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
         $id_train_through_new      = $this->get_in_int_val("id_train_through_new",$id_train_through_new);
 
-        if($fulltime_flag==1){
+        if($fulltime_flag==1 || $is_all==1){
             $full_time=1;
         }
 
@@ -2570,6 +2570,8 @@ class tea_manage extends Controller
             }else{
                 $teacherid=0;
             }
+        }elseif(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿","艾欣","林文彬"]) && $is_all==1){
+            
         }
 
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(

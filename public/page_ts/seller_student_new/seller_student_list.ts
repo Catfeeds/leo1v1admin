@@ -255,6 +255,7 @@ function load_data(){
         seller_resource_type:   $('#id_seller_resource_type').val(),
         favorite_flag:  $('#id_favorite_flag').val(),
         left_time_order:$('#id_left_time_order_flag').val(),
+        next_revisit_flag:$('#id_next_revisit').val(),
     });
 }
 
@@ -1460,7 +1461,7 @@ function init_edit() {
         init_noit_btn("id_no_called_count",   resp.not_call_count,    "所有未回访","新例子+公海获取例子" );
         init_noit_btn_ex("id_today_free",   resp.today_free_count,    "今日回流"," 今晚24点自动回流公海, 若需保留 请设置下次回访时间","bg-red" );
 
-        init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count,    "今日需回访"," , 下次回访时间 设置在今日的例子","bg-red" );
+        init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count, "今日需回访","试听成功+7日回访+下次回访时间设置为今日的例子","bg-red" );
         init_noit_btn("id_lesson_today",  resp.today,  "今天上课" ,"今天上课须通知数");
         init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课","明天上课须通知数" );
         init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
@@ -1496,7 +1497,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  1, now,now );
             $("#id_seller_resource_type").val(0);
-
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1505,6 +1506,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 5,  0, now-86400*14,  now);
             $("#id_success_flag").val(0);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1516,6 +1518,7 @@ function init_edit() {
             // $("#id_seller_resource_type").val(0);
             // $("#id_tq_called_flag").val(0);
             $("#id_global_tq_called_flag").val(0);
+            $('#id_next_revisit').val(0);
         });
     });
     $("#id_tmk_new_no_called_count").on("click",function(){
@@ -1523,6 +1526,7 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             $('#id_seller_student_status').val(0);
             $('#id_tmk_student_status').val(3);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1532,25 +1536,22 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             $("#id_global_tq_called_flag").val(-1);
             $('#id_seller_student_status').val(0);
+            $('#id_next_revisit').val(0);
         });
     });
-
-
-
-
 
     $("#id_next_revisit").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  0, now-7*86400,  now);
+            $('#id_next_revisit').val(1);
         });
-
     });
 
     $("#id_today_free").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  1, now-2*86400,   now-2*86400 );
+            $('#id_next_revisit').val(0);
         });
-
     });
 
 
@@ -1558,6 +1559,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(110 );
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1565,29 +1567,17 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  0, now-86400*180 ,  now);
             $('#id_favorite_flag').val(1);
+            $('#id_next_revisit').val(0);
         });
     });
 
     $("#id_require_count").on("click",function(){
-
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(200);
+            $('#id_next_revisit').val(0);
         });
     });
-
-
-
-  /*  $("#id_end_class_stu").on("click",function(){
-        init_and_reload(function(now){
-            $.filed_init_date_range( 8,  0, now-86400*30 ,  now);
-            $('#id_seller_student_status').val(-2);
-            $('#id_end_class_flag').val(1);
-        });
-    });*/
-
-
-
 
     $("#id_lesson_tomorrow ,#id_lesson_today").on("click",function(){
         var me=this;
@@ -1602,6 +1592,7 @@ function init_edit() {
                 end_time= now+86400;
             }
             $.filed_init_date_range( 5,  1, start_time ,  end_time);
+            $('#id_next_revisit').val(0);
         });
     });
 
@@ -1773,6 +1764,7 @@ function init_edit() {
         var opt_data = $(this).get_opt_data();
         $.do_ajax("/stu_manage/set_stu_parent",{
             "studentid" : opt_data.userid,
+            "sid" : opt_data.userid,
             "phone"     : opt_data.phone,
         },function(){
 

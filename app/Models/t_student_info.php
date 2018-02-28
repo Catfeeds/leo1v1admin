@@ -980,17 +980,20 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_stu_all_info($userid)
     {
-        $sql = sprintf("select userid,realname, s.nick,s.stu_email, s.face, s.birth, s.originid, praise, s.phone,"
+        $where_arr = [
+            ["userid=%u",$userid,-1]
+        ];
+        $sql = $this->gen_sql_new("select userid,realname, s.nick,s.stu_email, s.face, s.birth, s.originid, praise, s.phone,"
                        ." s.stu_phone, s.gender, s.grade, s.operator_note type, parent_name, parent_type, address,"
                        ." school, editionid, region, p.phone as parent_phone, assistantid, seller_adminid,"
                        ." reg_time , init_info_pdf_url, user_agent, guest_code, host_code, s.parentid, s.is_test_user, "
                        ." p.wx_openid as parent_wx_openid,s.province,s.city,s.area "
                        ." from %s as s "
                        ." left join %s as p on s.parentid = p.parentid "
-                       ." where userid = %u  "
+                       ." where %s  "
                        ,self::DB_TABLE_NAME
                        ,t_parent_info::DB_TABLE_NAME
-                       ,$userid
+                       ,$where_arr
         );
         return $this->main_get_row($sql);
     }
