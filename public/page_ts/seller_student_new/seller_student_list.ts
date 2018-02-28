@@ -1920,6 +1920,9 @@ function init_edit() {
 
     //评测卷
     $(".opt-test-paper").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var user_id = opt_data.userid;
+        var phone = opt_data.phone;
          $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/test_paper/get_papers",
@@ -1938,7 +1941,8 @@ function init_edit() {
                  title:"测试卷名称",
                  width:400,
                  render:function(val,item) {
-                     var paper_url = "https://ks.wjx.top/jq/" + item.paper_id + ".aspx";
+
+                     var paper_url = "https://ks.wjx.top/jq/" + item.paper_id + ".aspx?sojumpparm="+item.paper_id+"-"+user_id+"-"+phone;
                      return "<a href='"+paper_url+"' target='_blank'>" + item.paper_name + "</a>";
                  }
              },
@@ -2060,7 +2064,7 @@ function init_edit() {
              "onChange"         : function(require_id,row_data){
                  var paper = "<div class='paper_info'>"
                  paper += "<div><span class='paper_font'>评测卷名称</span><span>"+row_data.paper_name+"</span></div>";
-                 var paper_url =  "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx";
+                 var paper_url = "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx?sojumpparm="+row_data.paper_id+"-"+user_id+"-"+phone;
                  paper += "<div><span class='paper_font'>评测卷链接</span><span><a href='"+paper_url+"' target='_blank'>"+paper_url+"</a></span></div>";
                  paper += "<div><span class='paper_font'>链接标题</span><span>理优教育【学生测评卷】</span></div>";
                  paper += "<div><span class='paper_font'>链接简介</span><span>"+row_data.paper_name+"，请认真答题，您的测评成绩将帮助我们更好地为您制定课程规划</span></div>";
