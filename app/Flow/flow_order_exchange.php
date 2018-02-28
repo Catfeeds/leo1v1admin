@@ -128,6 +128,7 @@ class flow_order_exchange extends flow_base{
         return 0;
     }
 
+    //使用新版.
     static function get_next_node_info($node_type, $flowid, $adminid ) {
         return static::get_next_node_info_new($node_type, $flowid, $adminid);
     }
@@ -139,12 +140,6 @@ class flow_order_exchange extends flow_base{
         $t_order_info->set_order_payed($orderid, 0, 0);
     }
 
-
-
-    //使用新版.
-    static function get_next_node_info($node_type, $flowid, $adminid ) {
-        return static::get_next_node_info_new($node_type, $flowid, $adminid);
-    }
 
 
 
