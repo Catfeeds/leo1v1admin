@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TStudentTestAnswer extends Migration
+class TChangeStudentTestAnswer extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,7 @@ class TStudentTestAnswer extends Migration
 
             t_field($table->increments("id"), "id");
             t_field($table->integer("userid"), "userid");
-            t_field($table->integer("phone"), "手机号");
+            t_field($table->string("phone"), "手机号");
             t_field($table->integer("paper_id"), "试卷id");
             t_field($table->integer("time_token"), "试卷所花时间");
             t_field($table->integer("submittime"),"答案提交时间");
