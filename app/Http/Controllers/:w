@@ -370,8 +370,8 @@ class lesson extends TeaWxController
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }
-        // $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
-        // $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
+        $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
+        $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
 
         $simple_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_type = $simple_info['teacher_type'];
