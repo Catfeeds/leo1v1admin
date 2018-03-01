@@ -433,10 +433,10 @@ where s.is_test_user = 0 and q.is_called_phone =1
         $test = [];
         foreach ($arr_info as $key => $value) {
             $data['userid'] = $key;
-            $data['username'] = $task->cache_get_student_nick($key);
+            $data['username'] = $task->t_student_info->get_nick($key);
             foreach ($value as $kkey => $kvalue) {
                 $data['teacherid'] = $kkey;
-                $data['teacher_name'] = $task->cache_get_teacher_nick($kkey);
+                $data['teacher_name'] = $task->t_teacher_info->get_nick($kkey);
             }
 
             $test[] = $data;
@@ -445,8 +445,7 @@ where s.is_test_user = 0 and q.is_called_phone =1
         $arr_title = ["学生ID","学生姓名","老师ID","老师姓名"];
         $arr_data  = ['userid','username',"teacherid","teacher_name"];
 
-        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
-        dd($test);
+        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$arr_info,$arr_title,$arr_data);
         dd($arr_info);
 
 
