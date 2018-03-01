@@ -48,6 +48,7 @@ class seller_student_auto_free extends cmd_base
             $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
             if($left_time<=0){
                 // $this->set_seller_free($item['phone'],$item['userid']);
+                $left_time = abs($left_time);
                 $this->task->t_seller_auto_free_log->row_insert([
                     'userid'=>$item['userid'],
                     'adminid'=>$item['admin_revisiterid'],
@@ -60,7 +61,6 @@ class seller_student_auto_free extends cmd_base
                     'left_time_long'=>$left_time,
                     'create_time'=>time(),
                 ]);
-                $left_time = abs($left_time);
                 $hour = floor($left_time/3600);
                 $min = floor($left_time%3600/60);
                 $sec = floor($left_time%3600%60);
