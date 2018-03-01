@@ -3117,7 +3117,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_user_split_total($userid,$competition_flag){
+    public function get_user_split_total($userid,$competition_flag=-1){
         $where_arr = [
             ["o1.userid=%u",$userid,-1],
             ["o1.competition_flag=%u",$competition_flag,-1],

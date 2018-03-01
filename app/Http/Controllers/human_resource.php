@@ -2155,7 +2155,7 @@ class human_resource extends Controller
         //检查是否招师组长
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
         if(in_array($adminid,[349,72,186,68,500,897,967,480,944,974,985,994,986,1043])
-           || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])
+           || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key","熊元丽"])
            || $account_role==12
         ){
             $adminid = -1;

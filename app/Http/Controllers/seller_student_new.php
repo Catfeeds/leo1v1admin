@@ -1619,12 +1619,12 @@ class seller_student_new extends Controller
             ]);
         }
         //试听成功未回访
-        $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
-        if($ret){
-            return  $this->error_view([
-                "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
-            ]);
-        }
+        // $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
+        // if($ret){
+        //     return  $this->error_view([
+        //         "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
+        //     ]);
+        // }
 
 
         //申明 js 变量
@@ -1773,6 +1773,7 @@ class seller_student_new extends Controller
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         $tquin = $this->t_manager_info->get_tquin($adminid);
         $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($lesson_call_end),['admin_nick'=>$admin_nick]);
     }
 

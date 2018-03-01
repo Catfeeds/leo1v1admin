@@ -246,7 +246,6 @@ class menu{
                 ]],
             ]],
             ["power_id"=>6, "name"=>"系统设置", "list"=>[
-
                 ["power_id"=>18, "name"=>"用户管理-vue",   "url"=>"/authority/manager_list", "domain_type" =>100 ],
                 ["power_id"=>2, "name"=>"用户管理",   "url"=>"/authority/manager_list"],
                 ["power_id"=>12, "name"=>"邮件组管理",   "url"=>"/admin_manage/group_email_list"],
@@ -994,7 +993,6 @@ class menu{
 
 
             ["power_id"=>42, "name"=>"角色-产品", "list"=>[
-
                 ["power_id"=>2, "name"=>"理优升学帮", "list"=>[
                     ["power_id"=>1, "name"=>"查分数线",   "url"=>"/school_info/search_scores"],
                     ["power_id"=>2, "name"=>"找卷子",   "url"=>"/school_info/search_paper"],

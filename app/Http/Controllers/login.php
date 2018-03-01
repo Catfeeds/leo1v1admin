@@ -275,7 +275,6 @@ class login extends Controller
         $_SESSION['power_set_time']  = time(NULL);
 
         $_SESSION['permission'] = @$permission[$account];
-        //dd($permission[$account]);
         $url_input_define = $this->t_url_input_define->url_input_define_by_gid(@$permission[$account]);
         $_SESSION['url_input_define'] = json_encode($url_input_define);
 
@@ -309,7 +308,6 @@ class login extends Controller
         if( in_array( E\Emain_department::V_2, $menu_config ) || $main_department == 2 ){ // 教学管理事业部
             $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);
         }
-        // if (\App\Helper\Utils::check_env_is_local() ) {
         if( in_array( E\Emain_department::V_1, $menu_config )  ||  $ret_row["account_role"] == 2){ // 销售部
             $menu_html.=$this->gen_account_role_menu( \App\Config\seller_menu::get_config(), $arr,  $url_power_map ,  false);
         }
@@ -332,7 +330,6 @@ class login extends Controller
         $_SESSION['stu_menu_html'] = $stu_menu_html;
         $_SESSION['tea_menu_html'] = $tea_menu_html;
         $_SESSION['power_list']    = json_encode($power_map);
-        //dd($_SESSION);
         session($_SESSION) ;
 
         return @$permission[$account];
