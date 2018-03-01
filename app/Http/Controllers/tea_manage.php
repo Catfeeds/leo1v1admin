@@ -2528,7 +2528,7 @@ class tea_manage extends Controller
         $have_wx          = $this->get_in_int_val("have_wx",-1);
         $lecture_status   = $this->get_in_int_val("lecture_status",-1);
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
-        $is_all           = $this->get_in_int_val("is_all,2");
+        $is_all           = $this->get_in_int_val("is_all",2);
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
 
