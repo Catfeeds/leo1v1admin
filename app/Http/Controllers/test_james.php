@@ -1910,14 +1910,33 @@ class test_james extends Controller
         $lesson_start   = $this->t_lesson_info_b3->get_lesson_start($lessonid);
         $lesson_end     = $this->t_lesson_info_b3->get_lesson_end($lessonid);
         $lessonDuration = $lesson_end-$lesson_start;
-        dd($lessonTimeList);
+        // dd($lessonTimeList);
 
-        $start = strtotime(date('Y-m-d 06:00:00'));
-        $end   = strtotime('+1 day');
         $date_list = [];
-        foreach($lessonTimeList as &$item){
+        $total_list = [];
 
+        # 列出所有时间段
+        $timeNum = (24-6)*2; //每日时间的可选择范围开始时间为6:00，结束时间为24:00; 每半个小时一个节点
+        $six = strtotime(date('Y-m-d 6:0:0'));
+        $twentyFour = strtotime(date('Y-m-d 24:00:00'));
+        $list = [];
+        $lessonDuration = 40*60;//测试
+        for($i=0;$i<=$timeNum;$i++){
+            $list['lesson_start'] = date('Y-m-d H:i:s',$six+$i*30*60);
+            $list['lesson_end']   = date('Y-m-d H:i:s',$six+$i*30*60+$lessonDuration);
+            $total_list[] = $list;
         }
+
+        # 检测并剔除冲突时间
+        foreach($lessonTimeList as $i=>&$item){
+            foreach($total_list as $val){
+                if(($item['lesson_start']>=$val['lesson_start'] && $item['lesson_end']<=$val['lesson_end']) || $item['lesson_end']){
+
+                }
+            }
+        }
+
+        dd($total_list);
     }
 
 
