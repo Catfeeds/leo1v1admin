@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input ;
 class tongji extends Controller
 {
     use  CacheNick;
+    use  TeaPower;
     var $switch_tongji_database_flag = true;
 
     public function contract()
@@ -461,6 +462,9 @@ class tongji extends Controller
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000 );
         $phone=$this->t_manager_info->field_get_value($adminid, 'phone');
         $userid=$this->t_company_wx_users->get_userid_for_adminid($phone);
+
+        //判断是否产品研发事业部
+        $dev_flag = $this->check_is_dev_department($adminid);
 
         $info=$this->t_company_wx_approval->get_info_for_userid($userid, $start_time, $end_time);
         $len = count($info);

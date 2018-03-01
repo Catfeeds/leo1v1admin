@@ -259,10 +259,8 @@ class NewRouteConfig {
         "/user_manage/tongji_check"                             => true,
         "/user_manage/ass_no_test_lesson_kk_list"               => true,
         "/user_manage/stu_all_teacher_all"                      => true,
-        
         "/user_manage/refund_tongji_sys_operator"               => true,
         "/user_manage/refund_tongji_cr"                         => true,
-
         "/authority/get_account_role"                 => true,
         "/authority/set_account_role"                 => true,
         "/authority/get_login_list"                   => true,
@@ -441,6 +439,7 @@ class NewRouteConfig {
         "/stu_manage/user_login_list"          => true,
         "/stu_manage/one_three_grade_student"  => true,
         "/stu_manage/score_list1"              => true,
+        "/stu_manage/stu_schedule"              => true,
         "/stu_manage/student_data_list"        => true,
         "/stu_manage/student_lesson_learning_record"=> true,
 
@@ -764,6 +763,7 @@ class NewRouteConfig {
         "/test_paper/save_suggestion"                    =>true,
         "/test_paper/dele_suggestion"                    =>true,
         "/test_paper/dele_paper"                         =>true,
+        "/test_paper/get_student_scores"                 =>true,
         "/wjx_receive_api/get_answers"                   =>true,
         "/wjx_receive_api/give_scores"                   =>true,
     ];

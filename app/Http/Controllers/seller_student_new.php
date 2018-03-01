@@ -452,8 +452,12 @@ class seller_student_new extends Controller
             if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
                 if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 1;
-                }else{
+                }elseif($item['suc_lesson_end']>$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 2;
+                }elseif($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']>$item['last_edit_time']){
+                    $item['suc_no_call_flag'] = 3;
+                }else{
+                    $item['suc_no_call_flag'] = 4;
                 }
             }
 
@@ -1599,7 +1603,6 @@ class seller_student_new extends Controller
 
     public function deal_new_user(){
         $adminid = $this->get_account_id();
-
         if ($this->t_manager_info->get_seller_student_assign_type($adminid) ==  E\Eseller_student_assign_type::V_1  ) {
            return  $this->error_view([
                 "你的例子分配规则,被设置为:系统分配,可以在 <所有用户> 中看到推送给你的例子",
@@ -1618,22 +1621,15 @@ class seller_student_new extends Controller
                 "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
             ]);
         }
-        //试听成功未回访
-        // $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
-        // if($ret){
-        //     return  $this->error_view([
-        //         "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
-        //     ]);
-        // }
-
 
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
         $this->set_filed_for_js("open_flag",0);
-
         $this->set_filed_for_js("userid",0 );
         $this->set_filed_for_js("test_lesson_subject_id", 0);
         $this->set_filed_for_js("account_seller_level", 0 );
+        $this->set_filed_for_js("start_time",date('Y-m-d',strtotime(date('Y-m-d'))-7*3600*24));
+        $this->set_filed_for_js("end_time",date('Y-m-d'));
 
         $count_info=$this->t_seller_new_count->get_now_count_info($adminid);
         $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
@@ -1969,6 +1965,14 @@ class seller_student_new extends Controller
             'call_end_time' => time(NULL)
         ]);
         return $this->output_succ();
+    }
+
+    public function check_lesson_end(){
+        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_account_id());
+        if($ret){
+            return count($ret);
+        }
+        return 0;
     }
 
 }

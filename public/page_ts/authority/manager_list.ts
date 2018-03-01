@@ -964,7 +964,7 @@ $(function(){
         });
         // alert('wel');
     });
-``
+
     $("#id_flush_power").on("click", function() {
         $.do_ajax("/user_manage_new/flush_power",{
 

@@ -111,6 +111,11 @@ class reset_lesson_online_user_status extends Command
                     if($origin != ''){
                         $this->task->t_seller_student_origin->field_update_list_2($item["userid"], $origin, ['last_suc_lessonid'=>$lessonid]);
                     }
+
+                    $last_succ_test_lessonid = $this->task->t_seller_student_new->field_get_value($item["userid"], "last_succ_test_lessonid");
+                    if($lessonid != $last_succ_test_lessonid){
+                        $this->task->t_seller_student_new->field_update_list($item["userid"],['last_succ_test_lessonid'=>$lessonid]);
+                    }
                 }
             }
 

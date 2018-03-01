@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1
-//__DESC: 测试地址:http://test.api.class.leo1v1.com/ 正式地址:http://api.class.leo1v1.com/  
+//__DESC: 测试地址:http://test-api-class.leo1v1.com/ 正式地址:http://api-class.leo1v1.com/  
 //__TAGS: for_app
 
 
