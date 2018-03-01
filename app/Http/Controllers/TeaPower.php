@@ -5322,18 +5322,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
  
     }
 
-    public function get_all_department_name($info,$department,&$department_list){
+    public function get_all_department_name($info,$department,$department_list){
         $pid=0;
+        $name="";
+        
         foreach($info as $v){
             if($v["id"]==$department){
                 $pid=$v["pId"];
-                $department_list[]=$v["name"];
-                if($pid>0){
-                    $this->get_all_department_name($info,$pid,&$department_list);
-                    // $tt= $this->get_all_department_name($info,$pid,&$department_list);
-                }
+                $name=$v["name"];
             }
         }
+
         return $department_list;
 
     }

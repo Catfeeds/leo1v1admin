@@ -16,9 +16,11 @@ class test_jack  extends Controller
     public function test_ass(){
         $info = $this->t_company_wx_department->get_all_list();
         $users = $this->t_company_wx_users->get_all_list_for_manager(323);
+        $department_list=[];
         foreach($users as $val){
             $department = $val["department"];
             $department_list = $this->get_all_department_name($info,$department);
+
         }
         dd([$info,$users,$department_list]);
  
