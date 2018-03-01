@@ -283,10 +283,6 @@ class lesson extends TeaWxController
         $start_time  = $this->get_in_int_val("start");
         $end_time    = $this->get_in_int_val("end");
 
-        $teacherid = $this->get_in_int_val("_userid",0);
-        if($teacherid == 225427){
-            $teacherid =50278;
-        }
 
         if(!$teacherid){
             return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
@@ -324,11 +320,15 @@ class lesson extends TeaWxController
                 $item['is_forbid'] = "1";
             }
         }
+        \App\Helper\Utils::logger('data_gongzi:'.$teacherid.'get_salary_detail_list_james_return_data:'.count($ret_arr['data']).',all_reward_list:'.count($ret_arr['all_reward_list']));
 
 
         if($ret_arr && (!empty($ret_arr['all_reward_list']) || !empty($ret_arr['data']))){
+            \App\Helper\Utils::logger("success_james_111");
+
             return $this->output_succ(['data'=>$ret_arr['data'],'all_reward_list'=>$ret_arr['all_reward_list']]);
         }else{
+            \App\Helper\Utils::logger("error_james_111");
             return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
         }
 

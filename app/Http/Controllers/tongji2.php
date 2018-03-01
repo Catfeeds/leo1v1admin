@@ -2057,6 +2057,7 @@ class tongji2 extends Controller
             E\Eseller_student_assign_from_type::set_item_value_str($item);
             E\Eboolean::set_item_value_color_str($item, "check_hold_flag");
             E\Eorigin_level:: set_item_value_str($item );
+            E\Eseller_level::set_item_value_str($item);
         }
 
         return $this->pageView(__METHOD__, $ret_info);

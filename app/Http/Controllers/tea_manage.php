@@ -2494,6 +2494,7 @@ class tea_manage extends Controller
 
     public function train_lecture_lesson_fulltime(){
         $this->set_in_value("fulltime_flag",1);
+        $this->set_in_value("is_all",0);
         return $this->train_lecture_lesson_zs();
     }
 
@@ -2503,6 +2504,7 @@ class tea_manage extends Controller
     }
 
     public function train_lecture_lesson_zj(){
+        $this->set_in_value("is_all",0);
         return $this->train_lecture_lesson();
     }
 
@@ -2526,7 +2528,7 @@ class tea_manage extends Controller
         $have_wx          = $this->get_in_int_val("have_wx",-1);
         $lecture_status   = $this->get_in_int_val("lecture_status",-1);
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
-        $is_all           = $this->get_in_int_val("is_all");
+        $is_all           = $this->get_in_int_val("is_all",2);
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
 
@@ -2557,12 +2559,12 @@ class tea_manage extends Controller
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
         $id_train_through_new      = $this->get_in_int_val("id_train_through_new",$id_train_through_new);
 
-        if($fulltime_flag==1){
+        if($fulltime_flag==1 || $is_all==2){
             $full_time=1;
         }
 
         $this->switch_tongji_database();
-        $teacherid = -1;
+        $teacherid = -1;$subject_eg=$grade_eg="";
         if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿","艾欣","林文彬"]) && $is_all==0){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
@@ -2570,6 +2572,8 @@ class tea_manage extends Controller
             }else{
                 $teacherid=0;
             }
+        }elseif(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿","艾欣","林文彬"]) && $is_all==2){
+            list($subject_eg,$grade_eg)  = $this->get_1v1_subject_grade_permit($this->get_account_id());
         }
 
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
@@ -2577,7 +2581,8 @@ class tea_manage extends Controller
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
             $train_email_flag,$full_time,$id_train_through_new_time,
-            $id_train_through_new,$accept_adminid,$identity,$recommend_teacherid_phone
+            $id_train_through_new,$accept_adminid,$identity,$recommend_teacherid_phone,
+            $subject_eg,$grade_eg
         );
 
         foreach($ret_info['list'] as &$val){
@@ -2937,6 +2942,9 @@ class tea_manage extends Controller
         $acc         = $this->get_account();
         $lecture_out_list  = $this->get_in_str_val("lecture_out_list");
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+        if(!$account){
+            $account = $acc;
+        }
         $this->t_teacher_lecture_appointment_info->reset_teacher_identity_by_phone($phone,$identity);
         if($flag==1){
             if(empty($teacher_info)){
@@ -3088,6 +3096,9 @@ class tea_manage extends Controller
         $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
         $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
         $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+        if(!$account){
+            $account = $acc;
+        }
 
 
         if($identity<=0 && $flag <2){

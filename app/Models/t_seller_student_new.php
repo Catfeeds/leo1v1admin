@@ -504,7 +504,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1, $tmk_student_status =-1,
         $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,
         $seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1,
-        $show_son_flag=false,$require_adminid_list_new=[],$phone_list=[]
+        $show_son_flag=false,$require_adminid_list_new=[],$phone_list=[],$next_revisit_flag=-1
     ) {
         if ($userid >0 || $phone || $nick) {
             $where_arr=[
@@ -534,8 +534,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["tmk_student_status = %d " ,$tmk_student_status, -1],
                 ["require_admin_type=%u",$require_admin_type,-1]
             ];
-
-            $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+            if($next_revisit_flag == 1){
+                $where_arr[] = "((ss.next_revisit_time>=$start_time and ss.next_revisit_time<$end_time) or (ss.last_succ_test_lessonid>0 and (ss.last_edit_time=0 or ss.last_revisit_time=0) and ll.lesson_end>1517414400))";
+            }elseif($favorite_flag>0){
+                $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
+            }else{
+                $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+            }
 
             if($seller_student_status==-2){
                 $where_arr[] = "seller_student_status <> 60";
@@ -606,10 +611,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]=["ss.admin_revisiterid=%u",$admin_revisiterid, -1];
             $where_arr[]=["t.require_adminid=%u",$admin_revisiterid, -1];
         }
-        if($favorite_flag){
-            $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
-        }
-
 
         $sql=$this->gen_sql_new(
             "select ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,"
@@ -633,7 +634,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,"
             ."tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc,tmk_student_status,"
             ."sal.seller_student_assign_from_type,aga.nickname,ss.seller_student_assign_type,"
-            ."ss.last_edit_time,ss.first_contact_time "
+            ."ss.last_edit_time,ss.first_contact_time,ss.last_succ_test_lessonid,ll.lesson_end suc_lesson_end "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
             .' left join %s sal on sal.userid = ss.userid and sal.adminid = ss.admin_revisiterid and sal.check_hold_flag = 0 '
@@ -641,6 +642,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s tr on   t.current_require_id = tr.require_id "
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "
             ." left join %s l on  tss.lessonid = l.lessonid "
+            ." left join %s ll on  ll.lessonid = ss.last_succ_test_lessonid "
             ." left join %s o on  o.from_test_lesson_id = l.lessonid "
             ." left join %s f on ( f.flow_type=2002  and  f.from_key_int = o.orderid  )"
             ." left join %s tt on l.teacherid = tt.teacherid"
@@ -656,6 +658,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , t_student_info::DB_TABLE_NAME
             , t_test_lesson_subject_require::DB_TABLE_NAME
             , t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            , t_lesson_info::DB_TABLE_NAME
             , t_lesson_info::DB_TABLE_NAME
             , t_order_info::DB_TABLE_NAME
             , t_flow::DB_TABLE_NAME
@@ -1978,14 +1981,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
     public function get_today_next_revisit_count( $admin_revisiterid )
-    {//
-        $today=strtotime( date("Y-m-d" )) ;
-        $sql = $this->gen_sql(
-            "select count(*) from %s where admin_revisiterid=%u and next_revisit_time>=%u and next_revisit_time < %u  ",
+    {
+        $where_arr = [];
+        $today=strtotime(date("Y-m-d" )) ;
+        $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $admin_revisiterid);
+        $start_time = $today-86400*7;
+        $end_time = $today+86400;
+        $where_arr[] = "((next_revisit_time>=$start_time and next_revisit_time < $end_time) or (n.last_succ_test_lessonid>0 and (last_edit_time=0 or n.last_revisit_time=0) and l.lesson_end>1517414400))";
+        $sql = $this->gen_sql_new(
+            "select count(n.userid) "
+            ."from %s n "
+            ."left join %s l on l.lessonid=n.last_succ_test_lessonid "
+            ."where %s ",
             self::DB_TABLE_NAME,
-            $admin_revisiterid,
-            $today-86400*7,
-            $today+86400
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
         );
         return $this->main_get_value($sql);
     }
@@ -2399,11 +2409,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if($first_test_lessonid > 0){
                 $this->field_update_list($userid,['test_lesson_flag'=>$first_test_lessonid]);
             }
-        }
-        //最后一次试听成功lessonid
-        $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
-        if($last_succ_test_lessonid != $item_arr['last_succ_test_lessonid']){
-            $this->field_update_list($userid,['last_succ_test_lessonid'=>$last_succ_test_lessonid]);
         }
 
         if ( $item_arr['global_tq_called_flag'] == 0 ) {
@@ -3877,17 +3882,38 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_auto_free_list($start_time, $end_time){
+    public function get_auto_free_list(){
         $where_arr = [
-            "admin_revisiterid>0",
-            "orderid>0",
+            "n.admin_revisiterid>0",
+            "n.orderid>0",
+            "m.account_role=2",
         ];
-        $this->where_arr_add_time_range($where_arr, 'admin_assign_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
-            " select * "
-            ." from %s "
-            ." where %s order by add_time desc "
+            " select n.* "
+            ." from %s n "
+            ." left join %s m on m.uid=n.admin_revisiterid "
+            ." where %s order by n.add_time desc "
             , self::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_suc_no_call_list($adminid){
+        $where_arr = [
+            "last_succ_test_lessonid>0",
+            "n.last_revisit_time<l.lesson_end or n.last_edit_time<l.lesson_end",
+            "l.lesson_end>1517414400",
+        ];
+        $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $adminid);
+        $sql=$this->gen_sql_new(
+            " select n.userid,l.lessonid "
+            ." from %s n "
+            ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
+            ." where %s "
+            , self::DB_TABLE_NAME
+            , t_lesson_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

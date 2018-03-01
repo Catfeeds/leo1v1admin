@@ -146,6 +146,7 @@ return array(
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],
     ["db_weiyi_admin","t_id_opt_log","id"],
+    ["db_weiyi_admin","t_seller_auto_free_log","id"],
     ["db_weiyi_admin","t_seller_get_new_log","id"],
     ["db_weiyi_admin","t_seller_new_count","new_count_id"],
     ["db_weiyi_admin","t_seller_new_count_get_detail","id"],
@@ -282,6 +283,8 @@ return array(
     ["db_weiyi","t_sub_grade_book_tag","id"] ,
     ["db_weiyi","t_teacher_spring","id"],
     ["db_weiyi","t_student_test_paper","paper_id"],
+    ["db_weiyi","t_student_test_answer","id"],
+
 
     ["db_weiyi_admin","t_upload_info","postid"] ,
     ["db_weiyi_admin","t_upload_student_info","postid","phone"] ,

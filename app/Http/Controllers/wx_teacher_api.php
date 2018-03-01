@@ -1429,7 +1429,7 @@ class wx_teacher_api extends Controller
      * @使用 此接口为微演示服务商调用, 返回ppt转化状态
      * @状态码 0:代表转化成功 1:代表转化失败
      */
-    public function getConversionStatus_11(){
+    public function getConversionStatus(){
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
         // if($status == 1){
@@ -1471,7 +1471,7 @@ class wx_teacher_api extends Controller
 
             $data=@file_get_contents($fileUrl);
             file_put_contents($saveH5FilePath, $data);
-            $unzipShell = "rar x $saveH5FilePath $unzipFilePath";
+            $unzipShell = "rar x -o+ $saveH5FilePath $unzipFilePath";
             shell_exec($unzipShell);
 
             // canvg.js 替换其中的代码
@@ -1786,9 +1786,6 @@ class wx_teacher_api extends Controller
         $realname         = trim($this->get_in_str_val("realname"));
         $idcard           = $this->get_in_str_val("idcard");
   \App\Helper\Utils::logger("protocol_results: $protocol_results");
-  \App\Helper\Utils::logger("wx_url_new: 111");
-  \App\Helper\Utils::logger("wx_url_new: 222");
-  \App\Helper\Utils::logger("wx_url_new: 333");
 
         if($protocol_results==1){
             if(!$realname){

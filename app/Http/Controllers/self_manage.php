@@ -97,7 +97,7 @@ class self_manage extends Controller
         $page_info    = $this->get_in_page_info();
         $page_type= $this->get_in_int_val("page_type", -1);
 
-        $flow_check_flag = -1;
+        $flow_check_flag = $this->get_in_el_flow_check_flag();
         $node_type= -1 ;
             /*
             0 => "未审核",

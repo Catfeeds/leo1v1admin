@@ -1,6 +1,14 @@
 
 @extends('layouts.app')
 @section('content')
+    <script>
+     window.easemobim = window.easemobim || {};
+     easemobim.config = {
+         configId: '444c659a-3f92-4719-905e-a2280d9ecd53',
+         agentName: 'ricky@leoedu.com'
+     };
+    </script>
+<script src='//kefu.easemob.com/webim/easemob.js'></script>
 <section class='content'>
     <div> <!-- search ... -->
     </div>

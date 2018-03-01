@@ -441,19 +441,20 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = $this->get_in_int_val('adminid');
-        $start_time = strtotime(date('Y-m-d',time()));
-        $end_time = $start_time+3600*24;
-        $count = $this->get_in_int_val('count');
-        $ret = $this->t_seller_new_count->row_insert([
-            'seller_new_count_type'=>1,
-            'adminid'=>$adminid,
-            'add_time'=>time(),
-            'start_time'=>$start_time,
-            'end_time'=>$end_time,
-            'count'=>$count,
-        ]);
-        dd($ret);
+        $main_groupid = $this->t_admin_main_group_name->get_groupid_by_adminid($adminid=869);
+        dd($main_groupid);
+        $now = time(NULL);
+        $user_list = $this->t_seller_student_new->get_user_list_by_add_time( $now-86400*101,$now );
+        foreach ($user_list as $item ) {
+            $userid = $item["userid"];
+            if($userid == 415106){
+                dd($userid);
+                $this->t_seller_student_new->reset_sys_invaild_flag($userid);
+            }
+        }
+        $last_succ_test_lessonid = $this->t_lesson_info_b2->get_last_succ_test_lesson($userid=415106);
+        dd($last_succ_test_lessonid);
+        return $this->pageView(__METHOD__,null,[]);
     }
 
     public function add_seller_new_count(){

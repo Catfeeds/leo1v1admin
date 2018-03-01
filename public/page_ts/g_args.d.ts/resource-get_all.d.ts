@@ -12,6 +12,7 @@ interface GargsStatic {
 	has_comment:	number;
 	has_error:	number;
 	id_order:	number;
+	paper_assort:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -90,7 +91,8 @@ function load_data(){
 		file_title:	$('#id_file_title').val(),
 		has_comment:	$('#id_has_comment').val(),
 		has_error:	$('#id_has_error').val(),
-		id_order:	$('#id_id_order').val()
+		id_order:	$('#id_id_order').val(),
+		paper_assort:	$('#id_paper_assort').val()
 		});
 }
 $(function(){
@@ -109,6 +111,7 @@ $(function(){
 	$('#id_has_comment').val(g_args.has_comment);
 	$('#id_has_error').val(g_args.has_error);
 	$('#id_id_order').val(g_args.id_order);
+	$('#id_paper_assort').val(g_args.paper_assort);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -222,6 +225,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["id_order title", "id_order", "th_id_order" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">paper_assort</span>
+                <input class="opt-change form-control" id="id_paper_assort" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["paper_assort title", "paper_assort", "th_paper_assort" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

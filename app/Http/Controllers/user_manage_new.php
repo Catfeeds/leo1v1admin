@@ -1822,8 +1822,6 @@ class user_manage_new extends Controller
         }
 
         return $this->pageView(__METHOD__, null, ["tr_asc_info"=>$tr_asc_info, "tr_desc_info" =>$tr_desc_info ,"list_tq_asc" => $list_tq_asc, "list_tq_desc" => $list_tq_desc]);
-
-
     }
 
     public function power_group_edit_new() {
@@ -2893,7 +2891,8 @@ class user_manage_new extends Controller
 
     public function lesson_student_grade_list() {
         list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01"));
-        $ret_info=$this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
+
+        $ret_info = $this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
         foreach($ret_info["list"] as &$item ) {
             $this->cache_set_item_student_nick($item);
         }
@@ -4261,9 +4260,11 @@ class user_manage_new extends Controller
                     $holiday_hugh_time_arr = json_decode($item["holiday_hugh_time"],true);
                     $item["holiday_hugh_time_str"] = date("Y.m.d",@$holiday_hugh_time_arr["start"])."-".date("Y.m.d",@$holiday_hugh_time_arr["end"]);
                     $item["holiday_start_time"] = @$holiday_hugh_time_arr["start"];
+                    $item["holiday_lesson_count"] = @$holiday_hugh_time_arr["lesson_count"];
                 }else{
                     $item["holiday_hugh_time_str"]="";
                     $item["holiday_start_time"] =0;
+                    $item["holiday_lesson_count"]=0;
                 }
 
                 if($item["attendance_type"]==5){
@@ -5227,10 +5228,16 @@ class user_manage_new extends Controller
         return $this->Pageview(__METHOD__,$ret_list,[]);
     }
 
+    /**
+     * 用户管理/加载权限
+     */
     public function flush_power() {
         $tea = \App\Helper\Config::get_menu();
-        $filter = ["/user_manage_new/power_group_edit", "/user_manage_new/power_group_edit_new"];
-
+        if(\App\Helper\Utils::check_env_is_release()){
+            $filter = ["/user_manage_new/power_group_edit", "/user_manage_new/power_group_edit_new"];
+        }else{
+            $filter = [];
+        }
         foreach($tea as $item) { // 过滤核心数据
             if ($item["name"] == "核心数据") {
                 if (!isset($item["list"])) continue;
@@ -5247,7 +5254,7 @@ class user_manage_new extends Controller
         }else{
             $groupid = 52; // 非金钱管理账户
         }
-        
+
         $permission = $this->t_authority_group->get_group_authority($groupid);
         $old = $permission;
 

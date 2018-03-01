@@ -117,6 +117,17 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return $this->main_get_list($sql);
     }
 
+    public function get_audio_build_info(){
+        $sql=$this->gen_sql_new("select id,phone,audio,audio_build"
+                                ." from %s"
+                                ." where audio!=''"
+                                ." and audio_build=''"
+                                ." and status=0"
+                                ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_row($sql);
+    }
+
     public function get_lecture_info($id){
         $sql = $this->gen_sql_new("select phone,status,nick,teacher_re_submit_num,subject,grade"
                                   ." from %s "

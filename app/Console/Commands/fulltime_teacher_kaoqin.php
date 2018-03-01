@@ -39,10 +39,11 @@ class fulltime_teacher_kaoqin extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+      
         $time = time();
         $h = date("H");
 
-        if($h<6){
+        if($h<11){
             //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
             $end_time = strtotime(date("Y-m-d",$time));
@@ -94,7 +95,6 @@ class fulltime_teacher_kaoqin extends Command
                 $data[$k] = $date_list;
 
             }
-
             foreach($data as $key=>$p_item){
                 $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($key);
                 $teacherid = $teacher_info["teacherid"];
@@ -113,7 +113,8 @@ class fulltime_teacher_kaoqin extends Command
                             $task->t_fulltime_teacher_attendance_list->field_update_list($id,[
                                 "card_start_time"  =>$card_start_time,
                                 "card_end_time"   =>$card_end_time,
-                                "attendance_type" =>$attendance_type
+                                "attendance_type" =>$attendance_type,
+                                "lesson_count"    =>@$list[$key]*100
                             ]);
                         }else{
                             $task->t_fulltime_teacher_attendance_list->row_insert([
@@ -123,7 +124,8 @@ class fulltime_teacher_kaoqin extends Command
                                 "adminid"           =>$key,
                                 "card_start_time"  =>$card_start_time,
                                 "card_end_time"   =>$card_end_time,
-                                "attendance_type" =>$attendance_type
+                                "attendance_type" =>$attendance_type,
+                                "lesson_count"    =>@$list[$key]*100
                             ]);
                         }
                     }

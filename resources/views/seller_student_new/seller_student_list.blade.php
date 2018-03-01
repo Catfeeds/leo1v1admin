@@ -107,12 +107,26 @@
          background-color: #9CE3FF;
      }
 
-
-
+     .paper_info div{ margin-top:15px;position:relative }
+     .paper_info div .paper_font{ width: 100px;font-weight: bold;display: inline-block;text-align: right; margin-right: 30px;}
+     .paper_info #paper_erwei{ position:absolute;top:-10px;left:134px; }
+     .student_test_score{ width:740px;padding:10px 20px}
+     .hide{ display:none }
+     .student_test_score .student_test_paper{ margin-bottom:20px }
+     .student_test_score .student_test_paper span{ font-weight:bold }
+     .student_test_score .student_test_paper select{ width:400px;height:38px;background:white;}
+     .student_test_score p{ margin-bottom:20px }
+     .student_test_score p span{ font-weight:bold;margin-right:40px;display:inline-block}
+     .student_test_score p span font{ font-weight:normal }
+     .student_test_score table{ width:700px}
+     .student_test_score table thead tr th,.student_test_score table tbody tr td{ border:1px solid #999;padding:10px 5px }
     </style>
 
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
+
+    <script type="text/javascript" src="/page_js/jquery.qrcode.min.js?v={{@$_publish_version}}"></script>
+
     <section class="content ">
 
         <!-- 此处为模态框-->
@@ -350,7 +364,7 @@
                         <button class="btn  " id="id_today_new_count" ></button>
                         <button class="btn  " id="id_new_no_called_count" ></button>
                         <button class="btn  " id="id_no_called_count" ></button>
-                        <button class="btn  " id="id_next_revisit" ></button>
+                        <button class="btn  " id="id_next_revisit" value="{{$next_revisit_flag}}"></button>
                         <button class="btn  " id="id_today_free" ></button>
                         <button  class="btn  " id="id_lesson_today"></button>
                         <button  class="btn  " id="id_lesson_tomorrow" ></button>
@@ -370,7 +384,10 @@
         <table class="common-table">
             <thead>
                 <tr>
-                    <td style="display:none;">剩余时间</td>
+                    <td style="display:none;">剩余时间
+                        <input id="id_left_time_order_flag" type="hidden" value="{{$left_time_order}}"> 
+                        <a class="fa fa-sort td-sort-item" href="javascript:;" id="id_left_time_order" value="0"></a>
+                    </td>
                     <td style="display:none;">时间详情</td>
                     <td >电话</td>
                     <td >渠道</td>
@@ -413,8 +430,7 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td >
-                            {{$var["left_time_desc"]}}
+                        <td class="time" data-endtime='{{$var["left_end_time"]}}'>
                         </td>
                         <td >
                             抢单模式:{{$var["assign_type"]}}
@@ -562,12 +578,20 @@
                         <br/>
                         家长确认时间: {{$var["parent_confirm_time"]}}
                         <br/>
-                        @if( $var["call_end_time"] )
-                            <font color="green">课后回访:{{$var["call_end_time"]}} </font>
+                        @if($var["suc_no_call_flag"]==1)
+                            <font color="green">课后回访:{{$var["last_revisit_time"]}}</font>
+                            <br/>
+                        @elseif($var["suc_no_call_flag"]==2)
+                            <font color="red">试听成功未回访[未拨打]{{$var["last_succ_test_lessonid"]}}</font>
+                            <br/>
+                        @elseif($var["suc_no_call_flag"]==3)
+                            <font color="red">试听成功未回访[未编辑]{{$var["last_succ_test_lessonid"]}}</font>
+                            <br/>
+                        @elseif($var["suc_no_call_flag"]==4)
+                            <font color="red">试听成功未回访[未拨打+未编辑]{{$var["last_succ_test_lessonid"]}}</font>
+                            <br/>
                         @else
-                            <font color="red">课后回访:{{$var["call_end_time"]}} </font>
                         @endif
-
                         {!! @$var["notify_lesson_flag_str"]!!}
                     </td>
                     <td >
@@ -668,6 +692,11 @@
                             @if($env_is_test == 1)
                                 <a title="模拟回访" class=" fa-star  opt-call_back"></a>
                             @endif
+
+                            <a class="fa opt-test-paper fa-file-powerpoint-o" title="评测卷"></a>
+
+                            <a class="fa opt-test-paper-result fa-paste" title="评测结果"></a>
+
                         </div>
 
                     </td>
@@ -1738,8 +1767,34 @@
             </div>
         </div>
 
-
-
     </div>
 
+    <div class="student_test_score hide">
+        <div class="student_test_paper">
+            <span>选择评测卷：</span>
+            <select onchange='get_paper_score(this.options[this.options.selectedIndex].value,event)'></select>
+        </div>
+        <div class="student_test_answer">
+            <p>
+                <span>开始答题时间：<font class="student_start_time"></font></span>
+                <span>结束提交时间：<font class="student_submit_time"></font></span>
+                <span>总时长：<font class="student_take_time"></font>秒</span>
+            </p>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度名称</th>
+                            <th>学生得分</th>
+                            <th>总分</th>
+                            <th>得分范围</th>
+                            <th>评测结果与建议</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection

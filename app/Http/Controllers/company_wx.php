@@ -203,7 +203,7 @@ class company_wx extends Controller
                 $common['type'] = E\Eapproval_type::V_1;
             }
             $leave = json_decode($item['comm']['apply_data'], true);
-            $items = "";
+            $items = [];
             $data_desc = $data_column = $require_reason = $require_time = "";
 
             foreach ($leave as $val) {
@@ -854,10 +854,10 @@ class company_wx extends Controller
         $users = $this->t_company_wx_users->get_all_users();
         // 后台管理用户
         $manager = $this->t_manager_info->get_all_list();
-        $info = '';
+        $info = [];
         foreach($users as $item) {
             $key = $item['mobile'];
-            if (!isset($manager[$key])) {
+            if ($key && !isset($manager[$key])) {
                 $info[$key]['name'] = $item['name'];
                 $info[$key]['phone'] = $item['mobile'];
                 $info[$key]['mobile'] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['mobile']);
@@ -925,6 +925,16 @@ class company_wx extends Controller
         }
 
         $this->t_user_log->add_data($sys_operator."操作退费预警回访,userid:".$userid." 回访时间:".date("Y-m-d H:i:s", time()));
+        return $this->output_succ();
+    }
+
+    // 重置密码
+    public function set_passwd() {
+        $uid = $this->get_in_str_val("uid");
+        $passwd = $this->get_in_str_val("passwd");
+        $this->t_admin_users->field_update_list($uid, [
+            "password" => md5($passwd."#Aaron")
+        ]);
         return $this->output_succ();
     }
 

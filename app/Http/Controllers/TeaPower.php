@@ -5273,5 +5273,87 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return [$channel,$channel_origin];
     }
 
+    public function get_1v1_subject_grade_permit($adminid){
+        $subject=$grade="";
+        if(in_array($adminid,[404,1458])){
+            $subject="(1)";
+            $grade="(100)";
+        }elseif(in_array($adminid,[1401])){
+            $subject="(1)";
+            $grade="(200)";
+        }elseif(in_array($adminid,[1425])){
+            $subject="(1)";
+            $grade="(300)";
+        }elseif(in_array($adminid,[1413])){
+            $subject="(2)";
+            $grade="(100)";
+        }elseif(in_array($adminid,[1454,1325,1249])){
+            $subject="(2)";
+            $grade="(200)";
+        }elseif(in_array($adminid,[1400,310])){
+            $subject="(2)";
+            $grade="(300)";
+        }elseif(in_array($adminid,[1386,1312])){
+            $subject="(3)";
+            $grade="(100)";
+        }elseif(in_array($adminid,[372])){
+            $subject="(3)";
+            $grade="(200)";
+        }elseif(in_array($adminid,[1179])){
+            $subject="(3)";
+            $grade="(300)";
+        }elseif(in_array($adminid,[329])){
+            $subject="(3)";
+            $grade="(200,300)";
+        }elseif(in_array($adminid,[793])){
+            $subject="(4,5)";
+            $grade="(200,300)";
+        }
+
+        return [$subject,$grade];
+    }
+
+    //判断是否产品研发事业部
+    public function check_is_dev_department($adminid){
+        $info = $this->t_company_wx_department->get_all_list();
+        $users = $this->t_company_wx_users->get_all_list_for_manager($adminid);
+        $department_list=[];
+        foreach($users as $val){
+            $department = $val["department"];
+            $department_list = $this->get_all_department_name($info,$department,$department_list);
+        }
+        $str ="产品研发事业部";
+        if(isset($department_list[$str])){
+            $flag=1;
+        }else{
+            $flag=0;
+        }
+        
+
+        // dd([$info,$users]);
+        return $flag;
+ 
+    }
+
+    public function get_all_department_name($info,$department,&$department_list){
+        $pid=0;
+        $name="";
+        
+        foreach($info as $v){
+            if($v["id"]==$department){
+                $pid=$v["pId"];
+                $name=$v["name"];
+                if($pid>0 && !isset($department_list[$name])){
+
+                    $department_list[$name]=$name;
+                }
+                $this->get_all_department_name($info, $pid,$department_list);
+            }
+        }
+
+        return $department_list;
+
+    }
+
 
 }

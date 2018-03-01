@@ -61,16 +61,25 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage-ass_random_revisit.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		grade:	$('#id_grade').val()
-    });
+		});
 }
 $(function(){
 
 
-	$('#id_grade').val(g_args.grade);
-	$.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
+	$('#id_grade').admin_set_select_field({
+		"enum_type"    : "grade",
+		"field_name" : "grade",
+		"select_value" : g_args.grade,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_grade",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -87,4 +96,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 */

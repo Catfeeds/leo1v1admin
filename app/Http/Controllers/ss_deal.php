@@ -4253,7 +4253,31 @@ class ss_deal extends Controller
 
             $objPHPExcel = $objReader->load($realPath);
             $objPHPExcel->setActiveSheetIndex(0);
+            \App\Helper\Utils::logger("eee111");
+
             $arr=$objPHPExcel->getActiveSheet()->toArray();
+            // foreach($arr as $k=>&$val){
+            //     \App\Helper\Utils::logger($k);
+            //     \App\Helper\Utils::logger($val[0]);
+            //     if(empty($val[0]) || $k==0){
+            //         unset($arr[$k]);
+            //     }
+
+            // }
+            // foreach($arr as $v){
+            //     $teacherid = $this->t_teacher_info->get_teacherid_by_phone($v[0]);
+            //     if($teacherid>0){
+            //         $this->t_teacher_info->field_update_list($teacherid,[
+            //            "teacher_type" =>1000
+
+            //         ]);
+            //     }
+            // }
+
+            
+            // dd($arr);
+            // return;
+
             // foreach($arr as $k=>&$val){
             //     if(empty($val[0]) || $k==0){
             //         unset($arr[$k]);

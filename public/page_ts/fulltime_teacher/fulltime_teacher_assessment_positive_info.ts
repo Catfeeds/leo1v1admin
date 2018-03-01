@@ -4,9 +4,9 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-      adminid:	$('#id_adminid').val(),
-      become_full_member_flag:	$('#id_become_full_member_flag').val(),
-      fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+            adminid:	$('#id_adminid').val(),
+            become_full_member_flag:	$('#id_become_full_member_flag').val(),
+            fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -323,11 +323,11 @@ $(function(){
                     +"</td>"
                     +"</tr>"
                     +"<tr>"
-                    +"<td >教学部总监</td>"
+                    +"<td >初审</td>"
                     +"<td colspan=\"3\" id='id_set_fulltime_teacher_positive_require'></td>"
                     +"</tr>"
                     +"<tr>"
-                    +"<td >总经理</td>"
+                    +"<td >终审</td>"
                     +"<td colspan=\"3\" id='id_set_fulltime_teacher_positive_require_master'></td>"
                     +"</tr>"
                     +"</table>"

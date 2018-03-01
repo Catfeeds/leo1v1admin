@@ -252,7 +252,7 @@ export default class extends vtable {
 
       });
     }
-    // do_load_args(flow_function);
+     do_load_args(flow_function);
   }
 
   gen_function_args_obj( arg_config,  args ) {
@@ -409,6 +409,7 @@ export default class extends vtable {
   //@param:attribute 求和的属性
   check_branch_count(data,node_type,attribute){
     var branch_count = 0;
+    console.log(data.nodes);
     $.each( data.nodes, function(i, nodes ){
       if(nodes.type == node_type)
         branch_count += nodes[attribute];
@@ -567,6 +568,8 @@ export default class extends vtable {
     //@desn:保存审批信息
     jquery_body.find(".do-save").on( "click" ,function(e) {
       var data=me.$flow.exportData();
+      console.log(me.$flow);
+      console.log(me.$flow.exportData());
       var json_data= JSON.stringify(data);
       var node_type = 'function mix';
       var attribute = 'flow_function';
@@ -574,8 +577,10 @@ export default class extends vtable {
       var node_id_arr = me.check_type_id(data,node_type);
       //分支个数之和
       var branch_count = me.check_branch_count(data,node_type,attribute);
+      console.log("branch_count:"+branch_count);
       //存在分支结点求出该分支结点下线switch_value个数
       var switch_value_count = me.check_switch_value(data,node_id_arr);
+      console.log("switch_value_count:"+switch_value_count);
       if(branch_count != switch_value_count){
         alert('分支条件必选!');
         return false;

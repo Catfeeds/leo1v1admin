@@ -89,12 +89,12 @@
                         <td>{{@$var["kaoqin_type_str"]}} </td>
                         <td>{{@$var["attendance_type_str"]}} </td>
                         <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" data-flag="1">
-                        @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
-                            <a href="javascript:;"  >
-                                {{@$var["lesson_count"]/100}}
-                            </a>
+                            @if($var["attendance_type"] !=3 && $var["lesson_count"]>0)
+                                <a href="javascript:;"  >
+                                    {{@$var["lesson_count"]/100}}
+                                </a>
 
-                        @endif
+                            @endif
                         </td>
                         <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" data-flag="1">
                             @if($var["attendance_type"] ==2 && $var["delay_work_time"]>0)
@@ -110,8 +110,8 @@
                             
                         </td>
                         <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["holiday_start_time"]}}" data-flag="2">
-                            @if($var["attendance_type"] ==3 && $var["lesson_count"]>0)
-                                {{@$var["lesson_count"]/100}}
+                            @if($var["attendance_type"] ==3 && @$var["holiday_lesson_count"]>0)
+                                {{@$var["holiday_lesson_count"]/100}}
                             @endif
                         </td>
                         <td>

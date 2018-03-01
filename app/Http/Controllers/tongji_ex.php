@@ -758,14 +758,14 @@ class tongji_ex extends Controller
     }
 
     public function get_order_info_list(){
-        $start_time = 1514736000;
-        $end_time = 1517414400;
+        $start_time = strtotime($this->get_in_str_val('start_time','2018-01-01'));
+        $end_time = strtotime($this->get_in_str_val('end_time','2018-02-01'));
         $ret = $this->t_order_info->get_item_list($start_time,$end_time);
         $num = 0;
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h4>1月份签单</h4></caption>';
+        echo '<caption><h4>'.date('Y-m',$start_time).'月份签单</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>序号</th><th>orderid</th><th>下单人</th><th>下单人入职时间</th><th>成交的合同金额</th><th>合同状态</th><th>合同创建时间</th><th>财务确认时间</th>';
+        echo '<th>序号</th><th>orderid</th><th>下单人</th><th>下单人入职时间</th><th>合同金额</th><th>合同状态</th><th>下单时间</th><th>财务确认时间</th>';
         echo '</tr>';
         foreach($ret as $item){
             $num++;

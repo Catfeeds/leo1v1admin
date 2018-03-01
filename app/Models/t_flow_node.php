@@ -38,9 +38,9 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
         \App\Helper\Utils::logger(" XXSEND WX todo :next_adminid=$adminid");
         if (!$auto_pass_flag ) {
             if ($node_type== -2) { //抄送
-                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的抄送:".E\Eflow_type::get_desc($flow_type),$msg,"#/self_manage/flow_list");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的抄送:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
             }else{
-                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批:".E\Eflow_type::get_desc($flow_type),$msg,"#/self_manage/flow_list");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
             }
         }else{
             $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批[自动通过]:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
@@ -92,12 +92,14 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
             $where_arr[]=["post_adminid=%u", $adminid, -1 ] ;
             //$this->where_arr_add_time_range($where_arr,"post_time",$start_time,$end_time);
         }else {
+            $where_arr[]=["n.adminid=%u", $adminid, -1 ] ;
             if ($page_type==1) {  //待审批
                 $flow_check_flag=[ 0 ];
             }else if ( $page_type==2 ){ //已审批
                 $flow_check_flag=[ 1,2,3,4,5 ];
             }else if ( $page_type==3 ){ //抄送我
                 $node_type=-2;
+            }else if ( $page_type==-1 ){ //抄送我
             }
             $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
             $this->where_arr_add_int_or_idlist($where_arr, "flow_check_flag", $flow_check_flag);

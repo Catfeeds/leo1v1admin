@@ -603,7 +603,8 @@ class user_manage extends Controller
         $from_url          = $this->get_in_str_val('from_url');
         $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag = $this->get_in_e_boolean(-1,"spec_flag");
-        $order_adminid          = $this->get_in_adminid(-1);
+        $order_adminid     = $this->get_in_adminid(-1);
+        $origin= $this->get_in_str_val('origin',"-1");
 
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -637,7 +638,7 @@ class user_manage extends Controller
             $page_num,$start_time,$end_time,$contract_type,
             $contract_status,$studentid,$config_courseid,
             $is_test_user, $show_yueyue_flag, $has_money,
-            -1, $assistantid,"",$stu_from_type,$sys_operator,
+            -1, $assistantid,$origin,$stu_from_type,$sys_operator,
             $account_role,$grade,$subject,$tmk_adminid,-1,
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type,
@@ -954,8 +955,6 @@ class user_manage extends Controller
             ]);
         }
 
-        //echo "11";
-        //dd($ret_note);exit;
         if($ret_note === false){
             return outputJson_err();
         }
@@ -1027,6 +1026,8 @@ class user_manage extends Controller
             $ret_list= $this->t_teacher_info->get_jiaoyan_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="research_teacher"){//教研老师
             $ret_list= $this->t_teacher_info->get_research_tea_list_for_select($id,$gender, $nick_phone, $page_num);
+        }else if($type=="research_teacher_zs"){//教研老师(增加招师专用老师帐号)
+            $ret_list= $this->t_teacher_info->get_research_tea_list_for_select_zs($id,$gender, $nick_phone, $page_num);
         }else if($type=="train_through_teacher"){//正式入职的培训通过的老师
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="train_through_teacher_new"){//正式入职的培训通过的老师,老师所带学生超过10个学生人数
@@ -1059,7 +1060,7 @@ class user_manage extends Controller
                 $lru_list=[];
             }
         }
-        if($type=="teacher" || $type=="none_freeze_teacher" || $type=="interview_teacher" || $type=="jiaoyan_teacher" || $type=="research_teacher" || $type=="train_through_teacher"){
+        if($type=="teacher" || $type=="none_freeze_teacher" || $type=="interview_teacher" || $type=="jiaoyan_teacher" || $type=="research_teacher" || $type=="research_teacher_zs" || $type=="train_through_teacher"){
             foreach($ret_list["list"] as &$item){
                 $item["phone"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
                 $item["subject"] = E\Esubject::get_desc($item["subject"]);
@@ -1078,7 +1079,7 @@ class user_manage extends Controller
 
         }
 
-        if($type=="research_teacher"){
+        if($type=="research_teacher" || $type=="research_teacher_zs"){
             foreach($ret_list["list"] as &$item){
                 $item["gender"] = E\Egender::get_desc($item["gender"]);
             }

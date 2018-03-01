@@ -15,16 +15,31 @@ class stu_manage extends Controller
     static $page_self_view_data=[];
     var $sid;
 
-    public function index(){
-        $sid    = $this->get_in_int_val("sid");
-        $ret_db = $this->t_student_info->get_stu_all_info($sid);
+    public function __construct() {
+        parent::__construct();
+        $this->middleware(function ($request, $next)
+        {
+            $this->sid = $this->get_in_sid();
 
+            static::$page_self_view_data["_sid"]      = $this->sid;
+            static::$page_self_view_data["_stu_nick"] = $this->cache_get_student_nick($this->sid);
+
+            return $next($request);
+        });
+    }
+
+    public function index(){
+        $sid = $this->sid;
+
+        $ret_db = $this->t_student_info->get_stu_all_info($sid);
         if ($ret_db === false) {
-            return $this->output_err("出错") ;
+            return $this->error_view(["用户信息不存在！请在用户列表中重新进入！"]);
         }
+
         if ($ret_db["parentid"]==0) {
             $ret_db["parent_phone"] ="";
         }
+
         if($ret_db['face'] == ""){
             $face = "/images/header_img.jpg";
         }else{
@@ -132,19 +147,6 @@ class stu_manage extends Controller
         ] );
     }
 
-    public function __construct() {
-
-        parent::__construct();
-        $this->middleware(function ($request, $next)
-        {
-            $this->sid=$this->get_in_sid();
-            static::$page_self_view_data["_sid"]= $this->sid;
-            static::$page_self_view_data["_stu_nick"]= $this->cache_get_student_nick($this->sid);
-
-            return $next($request);
-        });
-
-    }
 
     public function lesson_plan_edit() {
         $account_role = $this->get_account_role();
@@ -184,6 +186,7 @@ class stu_manage extends Controller
             E\Elevel::set_item_value_str($item);
             E\Eteacher_money_type::set_item_value_str($item);
         }
+
         return $this->pageView(__METHOD__,$ret_info,[
             "course_list"  => $course_list,
         ]);
@@ -1870,13 +1873,6 @@ class stu_manage extends Controller
                     $item["file_upload_str"]="未上传";
                     $item["paper_upload_time_str"]="无";
                 }
-                
-
-
-
-
-
-
             }
 
             $subject_1 = [];
@@ -1936,26 +1932,17 @@ class stu_manage extends Controller
 
                 }elseif($subject==9){
                     $subject_9[]=$arr;
-
                 }elseif($subject==10){
                     $subject_10[]=$arr;
-
                 }
-
-
 
                 // if(!isset($subject_arr[$value["subject"]])){
                 //     $subject_arr[$value["subject"]]=$value["subject"];
                 // }
                 // if(!isset($grade_arr[$value["grade"]])){
                 //     $grade_arr[$value["grade"]]=$value["grade"];
-                // }               
+                // }
 
-
-
-
-
-               
                 $date_list[$month]['title'] = $month;
 
             }
@@ -1967,13 +1954,11 @@ class stu_manage extends Controller
                 }
                 if(!isset($grade_arr[$value["grade"]])){
                     $grade_arr[$value["grade"]]=$value["grade"];
-                }               
-
+                }
             }
 
             $n = round(($max_month-$min_month)/86400/2);
             $middle_month = intval($min_month+$n*86400);
-            
             \App\Helper\Utils::date_list_set_value($date_list,$subject_1,"month","subject_1","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_2,"month","subject_2","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_3,"month","subject_3","count");
@@ -1991,23 +1976,53 @@ class stu_manage extends Controller
             $this->set_filed_for_js("min_month_date",date("Y-m-d H:i",$min_month));
             $this->set_filed_for_js("middle_month_date",date("Y-m-d H:i",$middle_month));
             $this->set_filed_for_js("middle_month",$middle_month);
-           
-
-           
 
             return $this->pageView(__METHOD__,$ret_info,[
-                "pic_data" =>$date_list,
-                "subject_list"=>$subject_arr,
-                "grade_list"=>$grade_arr
+                "pic_data"     => $date_list,
+                "subject_list" => $subject_arr,
+                "grade_list"   => $grade_arr
             ]);
-
-
-            
         }
 
         return $this->pageView(__METHOD__);
-
     }
 
+    /**
+     * 学生课表
+     */
+    public function stu_schedule(){
+        $sid = $this->sid;
 
+        $ret_info = [];
+        //学生购买课时
+        $lesson_total  = $this->t_order_info->get_user_lesson_total($sid);
+        //学生退费课时
+        $lesson_refund = $this->t_order_refund->get_user_lesson_refund($sid);
+        //学生转赠课时
+        $lesson_split  = $this->t_order_info->get_user_split_total($sid);
+        $all_count = $lesson_total-$lesson_refund-$lesson_split;
+        //学生已排课时
+        $has_lesson_count = $this->t_lesson_info_b3->get_stu_all_lesson_count($sid);
+        //学生消耗课时
+        $cost_count = $this->t_lesson_info_b3->get_stu_all_lesson_count($sid,E\Elesson_status::V_2);
+        //学生试听课老师名单
+        $tea_list = $this->t_lesson_info_b3->get_stu_trial_lesson_teacher($sid);
+        //学生常规课所有科目
+        $subject_list = $this->t_lesson_info_b3->get_stu_subject_list($sid);
+        $stu_subject = [];
+        foreach($subject_list as $s_key=>$s_val){
+            $subject = $s_val['subject'];
+            if($s_val['subject']>0){
+                $stu_subject[$subject] = E\Esubject::get_desc($subject);
+            }
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "all_count"        => $all_count,
+            "has_lesson_count" => $has_lesson_count,
+            "cost_count"       => $cost_count,
+            "tea_list"         => $tea_list,
+            "stu_subject"      => $stu_subject,
+        ]);
+    }
 }

@@ -449,6 +449,9 @@ class main_page extends Controller
         $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first,$order_by_str);
         //经理
         $main_groupid = $this->t_admin_main_group_name->get_groupid_by_adminid($adminid);
+        if($main_groupid>0){
+            $is_group_leader_flag = 1;
+        }
         foreach($group_list as $key=>&$item){
             $item['all_price'] = $item['all_price']/100;
             $all_price = $item['all_price'];

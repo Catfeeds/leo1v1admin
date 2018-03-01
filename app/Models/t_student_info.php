@@ -980,17 +980,20 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_stu_all_info($userid)
     {
-        $sql = sprintf("select userid,realname, s.nick,s.stu_email, s.face, s.birth, s.originid, praise, s.phone,"
+        $where_arr = [
+            ["userid=%u",$userid,-1]
+        ];
+        $sql = $this->gen_sql_new("select userid,realname, s.nick,s.stu_email, s.face, s.birth, s.originid, praise, s.phone,"
                        ." s.stu_phone, s.gender, s.grade, s.operator_note type, parent_name, parent_type, address,"
                        ." school, editionid, region, p.phone as parent_phone, assistantid, seller_adminid,"
                        ." reg_time , init_info_pdf_url, user_agent, guest_code, host_code, s.parentid, s.is_test_user, "
                        ." p.wx_openid as parent_wx_openid,s.province,s.city,s.area "
                        ." from %s as s "
                        ." left join %s as p on s.parentid = p.parentid "
-                       ." where userid = %u  "
+                       ." where %s  "
                        ,self::DB_TABLE_NAME
                        ,t_parent_info::DB_TABLE_NAME
-                       ,$userid
+                       ,$where_arr
         );
         return $this->main_get_row($sql);
     }
@@ -1517,7 +1520,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //区分已有助教,但原有组长离职的情况
             $adminid_ass_old = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
             $del_flag = $this->t_manager_info->get_del_flag($adminid_ass_old);
-            if($adminid_ass_old>0 &&  $del_flag!=1 && false){
+            if($adminid_ass_old>0 &&  $del_flag!=1){
                 $master_adminid_arr = $this->t_admin_group_user->get_group_master_adminid($adminid_ass_old);
                 $master_adminid = @$master_adminid_arr["group_adminid"];
             }else{                
@@ -3599,6 +3602,23 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list($sql);
 
+    }
+
+    public function get_stop_student_list($start_time,$end_time){
+        $where_arr=[
+            ["s.type_change_time>=%s",$start_time,0],
+            ["s.type_change_time<%s",$end_time,0],
+            "s.type in (2,4)",
+            "s.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select s.nick,s.userid,a.nick ass_name,s.grade,s.type "
+                                  ." from %s s left join %s a on s.assistantid = a.assistantid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }

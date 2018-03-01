@@ -52,6 +52,9 @@ export default class extends vtable {
       field_name: "admin_nick",
       "title": "分配给cc",
     },{
+      field_name: "seller_level_str",
+      "title": "cc等级",
+    },{
       field_name: "admin_revisiter_nick",
       "title": "当前cc",
     },{

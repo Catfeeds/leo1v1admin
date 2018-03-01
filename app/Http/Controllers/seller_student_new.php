@@ -314,6 +314,8 @@ class seller_student_new extends Controller
     }
 
     public function seller_student_list_data(){
+        $next_revisit_flag = $this->get_in_int_val('next_revisit_flag',0);
+        $left_time_order = $this->get_in_int_val("left_time_order",0);
         $status_list_str = $this->get_in_str_val("status_list_str");
         $no_jump         = $this->get_in_int_val("no_jump",0);
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
@@ -325,12 +327,13 @@ class seller_student_new extends Controller
                 2 => array("last_revisit_time","最后一次回访"),
                 3 => array("require_time","申请时间"),
                 4 => array("admin_assign_time","分配时间"),
-                5 => array("lesson_start","上课时间"),
+                5 => array("l.lesson_start","上课时间"),
                 6 => array("seller_require_change_time","申请更改时间"),
                 7 => array("pay_time","签单时间"),
                 // 8 => array("last_lesson_time","结课时间"),
             ], 0
         );
+
         $page_count            = $this->get_in_int_val("page_count",10);
         if ($opt_date_str=="admin_assign_time" && $start_time== strtotime(date("Y-m-d")) ) {
             //新例子页面不要分页
@@ -418,7 +421,8 @@ class seller_student_new extends Controller
             $tq_called_flag , $phone, $nick ,$origin_assistant_role ,$success_flag,
             $seller_require_change_flag,$adminid_list, $group_seller_student_status ,$tmk_student_status,$require_adminid_list,
             $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level ,
-            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new) ;
+            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new,
+            $phone_list=[],$next_revisit_flag);
         $now=time(null);
         $notify_lesson_check_end_time=strtotime(date("Y-m-d", $now+86400*2));
         $next_day=$notify_lesson_check_end_time-86400;
@@ -440,15 +444,21 @@ class seller_student_new extends Controller
                 }
                 $item['assign_type'] = '抢单';
             }
-            $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
-            $item['left_time'] = $left_time;
-            if($left_time>7*24*3600 || $left_time<0){
-                $item['left_time_desc'] = '';
-            }else{
-                $hour = floor($item['left_time']/3600);
-                $min = floor($item['left_time']%3600/60);
-                $sec = floor($item['left_time']%3600%60);
-                $item['left_time_desc'] = $hour.'时'.$min.'分'.$sec.'秒';
+            $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
+            if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
+                $item['left_end_time'] = strtotime('2018-03-07');
+            }
+            $item['suc_no_call_flag'] = 0;
+            if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
+                if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
+                    $item['suc_no_call_flag'] = 1;
+                }elseif($item['suc_lesson_end']>$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
+                    $item['suc_no_call_flag'] = 2;
+                }elseif($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']>$item['last_edit_time']){
+                    $item['suc_no_call_flag'] = 3;
+                }else{
+                    $item['suc_no_call_flag'] = 4;
+                }
             }
 
             \App\Helper\Utils::hide_item_phone($item);
@@ -487,7 +497,10 @@ class seller_student_new extends Controller
 
 
             \App\Helper\Common::set_item_enum_flow_status($item,"stu_test_paper_flow_status");
-            $item["opt_time"]=$item[$opt_date_str];
+            if($opt_date_str == 'l.lesson_start'){
+                $opt_date_str = 'lesson_start';
+            }
+            $item["opt_time"] = $item[$opt_date_str];
 
             $item["last_revisit_msg_sub"]=mb_substr($item["last_revisit_msg"], 0, 40, "utf-8");
             $item["user_desc_sub"]=mb_substr($item["user_desc"], 0, 40, "utf-8");
@@ -592,8 +605,15 @@ class seller_student_new extends Controller
             }else{//未设置
                 $item['test_lesson_order_fail_flag_one'] = 0;
             }
-            
         }
+        $arr = [
+            '1'=>['left_end_time'=>5],
+            '3'=>['left_end_time'=>3],
+            '5'=>['left_end_time'=>1],
+            '9'=>['left_end_time'=>2],
+        ];
+        $common_ex = new \App\Http\Controllers\common_ex;
+        $ret_info['list'] = $common_ex->array_sort_by_field($ret_info['list'],'left_end_time',$left_time_order);
         $count_info =$this->t_seller_student_new->get_seller_count_list(
             $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -602,8 +622,10 @@ class seller_student_new extends Controller
             $seller_require_change_flag,$adminid_list,$tmk_student_status,$require_adminid_list,
             $require_admin_type ) ;
 
+        $ret_info["left_time_order"] = $left_time_order;
         $ret_info["count_info"] = $count_info;
         $ret_info["show_son_flag"] = $show_son_flag;
+        $ret_info["next_revisit_flag"] = $next_revisit_flag;
         return $ret_info;
 
     }
@@ -634,7 +656,6 @@ class seller_student_new extends Controller
         $page_hide_list = $this->get_page_hide_list($cur_page);
         $account        = $this->get_account();
         $account_role   = $this->get_account_role();
-
         $ret_info = $this->seller_student_list_data();
         unset($ret_info["count_info"]);
 
@@ -670,6 +691,8 @@ class seller_student_new extends Controller
             "account_role"     => $account_role,
             "account"          => $account,
             "show_son_flag"    => $ret_info['show_son_flag'],
+            "left_time_order"  => $ret_info["left_time_order"],
+            "next_revisit_flag"=> $ret_info["next_revisit_flag"],
             'seller_student_assign_type' => $seller_student_assign_type,
             'env_is_test' => $env_is_test
         ]);
@@ -1580,7 +1603,6 @@ class seller_student_new extends Controller
 
     public function deal_new_user(){
         $adminid = $this->get_account_id();
-
         if ($this->t_manager_info->get_seller_student_assign_type($adminid) ==  E\Eseller_student_assign_type::V_1  ) {
            return  $this->error_view([
                 "你的例子分配规则,被设置为:系统分配,可以在 <所有用户> 中看到推送给你的例子",
@@ -1600,14 +1622,14 @@ class seller_student_new extends Controller
             ]);
         }
 
-
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
         $this->set_filed_for_js("open_flag",0);
-
         $this->set_filed_for_js("userid",0 );
         $this->set_filed_for_js("test_lesson_subject_id", 0);
         $this->set_filed_for_js("account_seller_level", 0 );
+        $this->set_filed_for_js("start_time",date('Y-m-d',strtotime(date('Y-m-d'))-7*3600*24));
+        $this->set_filed_for_js("end_time",date('Y-m-d'));
 
         $count_info=$this->t_seller_new_count->get_now_count_info($adminid);
         $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
@@ -1627,8 +1649,8 @@ class seller_student_new extends Controller
             $limit_arr=array( [0, 6*60]);
             //$limit_arr=array( [0, 10*60 ] );
         }
-        if(date('Y-m-d',time()) == '2018-02-01'){
-            $limit_arr=array( [0, 14*60]);
+        if(date('Y-m-d',time()) == '2018-02-28'){
+            $limit_arr=array( [0, 10*60+30]);
         }
 
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
@@ -1747,6 +1769,7 @@ class seller_student_new extends Controller
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         $tquin = $this->t_manager_info->get_tquin($adminid);
         $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($lesson_call_end),['admin_nick'=>$admin_nick]);
     }
 
@@ -1942,6 +1965,14 @@ class seller_student_new extends Controller
             'call_end_time' => time(NULL)
         ]);
         return $this->output_succ();
+    }
+
+    public function check_lesson_end(){
+        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_account_id());
+        if($ret){
+            return count($ret);
+        }
+        return 0;
     }
 
 }
