@@ -1,0 +1,71 @@
+syntax = "proto3";
+package error;
+option php_namespace = "Proto\\class_api\\error"; 
+enum  enum_error {
+  ERR_SUCC  =0;
+  
+  //api已废弃
+  ERR_DEL_API = 3000 ;
+  
+  //密码出错
+  ERR_PASSWD  = 3001 ;
+
+  //用户不存在
+  ERR_USER_NOFIND = 3002 ;
+
+  //用户名已存在
+  ERR_USER_EXISTS = 3003 ;
+
+  //输入角色错误
+  ERR_IN_ROLE = 3004;
+
+  //手机验证码错误
+  ERR_PHONE_CODE = 3005;
+
+  //未找到对应ＣＣ
+  ERR_CC_CODE = 3006;
+
+  //请先登录
+  ERR_SESSION_NOFIND = 3007;
+
+  //输入格式错误
+  ERR_IN_PARAM = 3008;
+
+  //该手机号已被注册
+  PHONE_CODE_BEEN_USED = 3009;
+
+  //例子数已满，不能注册新例子
+  STU_NUM_MAX = 3010;
+
+  //系统错误(调用1v1接口返回非预期)
+  ERR_SYSTEM = 3011;
+
+  //网络错误
+  ERR_NETWORK = 3012;
+
+  //超过每月试听(申请,修改)操作次数
+  ERR_NO_APPLY_NUM = 3013;
+
+  //时间冲突
+  ERR_TIME_CONFLICT = 3014;
+
+  //无效的课程包id
+  ERR_INVALID_COURSE = 3015;
+
+  //已下架
+  ERR_ALREADY_DOWN = 3016;
+
+  //无效的班级id
+  ERR_INVALID_CLASS = 3017;
+
+  //课表中未查到该课程或未到进入课堂时间(提前15分钟可进入)
+  ERR_LESSON_NOFIND = 3018;
+
+  //没有找到对应订单
+  ORDER_NOFIND = 3019;
+
+  //无效的课程包id
+  ERR_INVALID_PACKAGE = 3020;
+
+
+};

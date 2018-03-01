@@ -763,6 +763,7 @@ class NewRouteConfig {
         "/test_paper/save_suggestion"                    =>true,
         "/test_paper/dele_suggestion"                    =>true,
         "/test_paper/dele_paper"                         =>true,
+        "/test_paper/get_student_scores"                 =>true,
         "/wjx_receive_api/get_answers"                   =>true,
         "/wjx_receive_api/give_scores"                   =>true,
     ];

@@ -57,8 +57,8 @@ import { isFunction, isBoolean } from 'util';
 
 export default class admin_table extends Vue {
 
-  table_field_show_config:Object;
-  auto_gen_field_list:Array<any>;
+  table_field_show_config:Object={};
+  auto_gen_field_list:Array<any>=[];
   reset_auto_gen_field_list() {
     var me=this;
     me.auto_gen_field_list=[];
