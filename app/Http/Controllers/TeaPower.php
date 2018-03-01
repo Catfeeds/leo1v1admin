@@ -5273,5 +5273,45 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return [$channel,$channel_origin];
     }
 
+    public function get_1v1_subject_grade_permit($adminid){
+        $subject=$grade="";
+        if(in_array($adminid,[404,1458])){
+            $subject="(1)";
+            $grade="(100)";
+        }elseif(in_array($adminid,[1401])){
+            $subject="(1)";
+            $grade="(200)";
+        }elseif(in_array($adminid,[1425])){
+            $subject="(1)";
+            $grade="(300)";
+        }elseif(in_array($adminid,[1413])){
+            $subject="(2)";
+            $grade="(100)";
+        }elseif(in_array($adminid,[1454,1325,1249])){
+            $subject="(2)";
+            $grade="(200)";
+        }elseif(in_array($adminid,[1400,310])){
+            $subject="(2)";
+            $grade="(300)";
+        }elseif(in_array($adminid,[1386,1312])){
+            $subject="(3)";
+            $grade="(100)";
+        }elseif(in_array($adminid,[372])){
+            $subject="(3)";
+            $grade="(200)";
+        }elseif(in_array($adminid,[1179])){
+            $subject="(3)";
+            $grade="(300)";
+        }elseif(in_array($adminid,[329])){
+            $subject="(3)";
+            $grade="(200,300)";
+        }elseif(in_array($adminid,[793])){
+            $subject="(4,5)";
+            $grade="(200,300)";
+        }
+
+        return [$subject,$grade];
+    }
+
 
 }

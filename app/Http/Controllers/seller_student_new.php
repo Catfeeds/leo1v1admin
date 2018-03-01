@@ -314,6 +314,7 @@ class seller_student_new extends Controller
     }
 
     public function seller_student_list_data(){
+        $next_revisit_flag = $this->get_in_int_val('next_revisit_flag',0);
         $left_time_order = $this->get_in_int_val("left_time_order",0);
         $status_list_str = $this->get_in_str_val("status_list_str");
         $no_jump         = $this->get_in_int_val("no_jump",0);
@@ -326,7 +327,7 @@ class seller_student_new extends Controller
                 2 => array("last_revisit_time","最后一次回访"),
                 3 => array("require_time","申请时间"),
                 4 => array("admin_assign_time","分配时间"),
-                5 => array("lesson_start","上课时间"),
+                5 => array("l.lesson_start","上课时间"),
                 6 => array("seller_require_change_time","申请更改时间"),
                 7 => array("pay_time","签单时间"),
                 // 8 => array("last_lesson_time","结课时间"),
@@ -412,7 +413,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-        
+
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -420,7 +421,8 @@ class seller_student_new extends Controller
             $tq_called_flag , $phone, $nick ,$origin_assistant_role ,$success_flag,
             $seller_require_change_flag,$adminid_list, $group_seller_student_status ,$tmk_student_status,$require_adminid_list,
             $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level ,
-            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new) ;
+            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new,
+            $phone_list=[],$next_revisit_flag);
         $now=time(null);
         $notify_lesson_check_end_time=strtotime(date("Y-m-d", $now+86400*2));
         $next_day=$notify_lesson_check_end_time-86400;
@@ -445,6 +447,14 @@ class seller_student_new extends Controller
             $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
             if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
                 $item['left_end_time'] = strtotime('2018-03-07');
+            }
+            $item['suc_no_call_flag'] = 0;
+            if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
+                if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
+                    $item['suc_no_call_flag'] = 1;
+                }else{
+                    $item['suc_no_call_flag'] = 2;
+                }
             }
 
             \App\Helper\Utils::hide_item_phone($item);
@@ -483,7 +493,10 @@ class seller_student_new extends Controller
 
 
             \App\Helper\Common::set_item_enum_flow_status($item,"stu_test_paper_flow_status");
-            $item["opt_time"]=$item[$opt_date_str];
+            if($opt_date_str == 'l.lesson_start'){
+                $opt_date_str = 'lesson_start';
+            }
+            $item["opt_time"] = $item[$opt_date_str];
 
             $item["last_revisit_msg_sub"]=mb_substr($item["last_revisit_msg"], 0, 40, "utf-8");
             $item["user_desc_sub"]=mb_substr($item["user_desc"], 0, 40, "utf-8");
@@ -608,6 +621,7 @@ class seller_student_new extends Controller
         $ret_info["left_time_order"] = $left_time_order;
         $ret_info["count_info"] = $count_info;
         $ret_info["show_son_flag"] = $show_son_flag;
+        $ret_info["next_revisit_flag"] = $next_revisit_flag;
         return $ret_info;
 
     }
@@ -674,6 +688,7 @@ class seller_student_new extends Controller
             "account"          => $account,
             "show_son_flag"    => $ret_info['show_son_flag'],
             "left_time_order"  => $ret_info["left_time_order"],
+            "next_revisit_flag"=> $ret_info["next_revisit_flag"],
             'seller_student_assign_type' => $seller_student_assign_type,
             'env_is_test' => $env_is_test
         ]);
@@ -1603,6 +1618,13 @@ class seller_student_new extends Controller
                 "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
             ]);
         }
+        //试听成功未回访
+        // $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
+        // if($ret){
+        //     return  $this->error_view([
+        //         "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
+        //     ]);
+        // }
 
 
         //申明 js 变量
@@ -1751,6 +1773,7 @@ class seller_student_new extends Controller
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         $tquin = $this->t_manager_info->get_tquin($adminid);
         $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($lesson_call_end),['admin_nick'=>$admin_nick]);
     }
 

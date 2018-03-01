@@ -19,6 +19,14 @@ class test_jack  extends Controller
         $list2 = $this->t_qingjia->field_get_list(42 ,"*");
         $ret =  $this->t_flow_config->get_next_node(E\Eflow_type::V_QINGJIA,0, $list1, $list2 , 99 );
         $node_map=\App\Flow\flow::get_flow_class_node_map (E\Eflow_type::V_QINGJIA);
+        $adminid =59;
+        $groupid=$this->t_admin_group_user->get_groupid_value($adminid);
+        $item1=$this->t_admin_group_name->field_get_list($groupid, "master_adminid,up_groupid");
+        $up_groupid=$item1["up_groupid"];
+        $master_adminid2=$this->t_admin_main_group_name->get_master_adminid($up_groupid);
+        dd($master_adminid2);
+
+
 
 
         dd($node_map);
@@ -2004,7 +2012,32 @@ class test_jack  extends Controller
     public function ajax_deal_jack(){
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();
-        $userid           = $this->get_in_int_val("userid");
+        $start           = $this->get_in_int_val("start");
+        $end = strtotime("+1 months",$start);
+        $list1 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,0);
+        $num1 = (isset($list1["num"]) && $list1["num"]>0)?round($list1["lesson_count"]/$list1["num"]):0;
+        $list2 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,1);
+        $num2 = (isset($list2["num"]) && $list2["num"]>0)?round($list2["lesson_count"]/$list2["num"]):0;
+        $list3 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,2);
+        $num3 = (isset($list3["num"]) && $list3["num"]>0)?round($list3["lesson_count"]/$list3["num"]):0;
+        $list4 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,3);
+        $num4 = (isset($list4["num"]) && $list4["num"]>0)?round($list4["lesson_count"]/$list4["num"]):0;
+        $list5 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,4);
+        $num5 = (isset($list5["num"]) && $list5["num"]>0)?round($list5["lesson_count"]/$list5["num"]):0;
+        $list6 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,11);
+        $num6 = (isset($list6["num"]) && $list6["num"]>0)?round($list6["lesson_count"]/$list6["num"]):0;
+        $list = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,-1);
+        $num = (isset($list["num"]) && $list["num"]>0)?round($list["lesson_count"]/$list["num"]):0;
+        return $this->output_succ([
+            "num1"=>$num1/100,
+            "num2"=>$num2/100,
+            "num3"=>$num3/100,
+            "num4"=>$num4/100,
+            "num5"=>$num5/100,
+            "num6"=>$num6/100,
+            "num"=>$num/100,
+        ]);
+
         $num = $this->t_test_lesson_subject_require->check_user_have_require($userid);
         $list=[];
         $list["num"] = $num==1?"是":"否";
@@ -2118,6 +2151,33 @@ class test_jack  extends Controller
     public function get_reference_teacher_money_info(){
         //拉数据
         $this->check_and_switch_tongji_domain();
+        $level = E\Enew_level::$simple_desc_map;
+        $level[-1]="全部";
+        $list=[];
+        $start_time = strtotime("2016-12-01");
+        for($i=1;$i<=1;$i++){
+            $first = strtotime(date("Y-m-01",strtotime("+".$i." months", $start_time)));
+            // $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
+            $month = date("Y-m-d",$first);
+            /* $order_money_info = $this->t_order_info->get_order_lesson_money_info($first,$next);
+               $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first,$next);
+               $list[$month]["stu_num"] = @$order_money_info["stu_num"];
+               $list[$month]["all_price"] = @$order_money_info["all_price"];
+               $list[$month]["lesson_count_all"] = @$order_money_info["lesson_count_all"];
+               foreach($order_money_month as $val){
+               $list[$month][$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
+               }*/
+            $list[$month]["time"] = date("Y年m月",$first);
+            $list[$month]["start"] = $first;
+
+
+        }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list,
+            "level" =>$level
+        ]);
+
+
         $ret= $this->t_seller_student_new->get_new_thousand_stu();
         foreach($ret as &$val){          
             E\Egrade::set_item_value_str($val);

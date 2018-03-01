@@ -2557,12 +2557,12 @@ class tea_manage extends Controller
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
         $id_train_through_new      = $this->get_in_int_val("id_train_through_new",$id_train_through_new);
 
-        if($fulltime_flag==1){
+        if($fulltime_flag==1 || $is_all==1){
             $full_time=1;
         }
 
         $this->switch_tongji_database();
-        $teacherid = -1;
+        $teacherid = -1;$subject_eg=$grade_eg="";
         if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿","艾欣","林文彬"]) && $is_all==0){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
@@ -2570,6 +2570,8 @@ class tea_manage extends Controller
             }else{
                 $teacherid=0;
             }
+        }elseif(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿","艾欣","林文彬"]) && $is_all==1){
+            list($subject_eg,$grade_eg)  = $this->get_1v1_subject_grade_permit($this->get_account_id());
         }
 
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
@@ -2577,7 +2579,8 @@ class tea_manage extends Controller
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
             $train_email_flag,$full_time,$id_train_through_new_time,
-            $id_train_through_new,$accept_adminid,$identity,$recommend_teacherid_phone
+            $id_train_through_new,$accept_adminid,$identity,$recommend_teacherid_phone,
+            $subject_eg,$grade_eg
         );
 
         foreach($ret_info['list'] as &$val){
