@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1103
+//__DESC: 收货地址列表 https://api-class.leo1v1.com/student/stu_address_list
+//__TAGS: for_app,for_website
+
+
+message in  {
+}
+
+message out {
+  common.address_list data=1; //地址列表 可能为空
+}
+
