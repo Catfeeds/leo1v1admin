@@ -154,7 +154,7 @@
                         <td>{{@$var["volume_str"]}} </td>
                         <td>{{@$var["book_str"]}} </td>
                         <td>{{@$var['operator']}}</td>
-                        <td>{{@$var['modify_time']}}</td>
+                        <td>{{@$var['edit_time']}}</td>
                         <td>{{@$var['use_number']}}</td>
                         <td style="max-width:150px">
                             <a class="opt-dimension btn color-blue"  title="维度">维度</a>

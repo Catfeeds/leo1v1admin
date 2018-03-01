@@ -33,6 +33,11 @@ class test_paper extends Controller
                 $item['volume_str'] = E\Eresource_volume::get_desc($item['volume']);
                 $item['book_str'] = E\Eregion_version::get_desc($item['book']);
                 $item["operator"] = $this->t_manager_info->get_name($item["adminid"]);
+                $item["edit_time"] = date("Y-m-d H:i",$item["modify_time"]);
+                $item["use_number"] = 0;
+                if($item["use_arr"]){
+                    $item["use_number"] = count(explode(",", $item["use_arr"]));
+                };
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
