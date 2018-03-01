@@ -3502,7 +3502,8 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
 
-    if(g_account=="wenbin" || g_account=="龚隽"){
+    var stu_origin = $("#id_origin").val();
+    if(g_account=="wenbin" || g_account=="龚隽" || (g_account=="班洁" && stu_origin=="转介绍")){
         window.download_show();
     }
 });
