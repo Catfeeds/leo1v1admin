@@ -46,20 +46,20 @@ class seller_student_auto_free extends cmd_base
                 $item['assign_type'] = '抢单';
             }
             $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
-            if($left_time<=0 && time()>=strtotime('2018-03-07')){
+            if($left_time<=0){
                 // $this->set_seller_free($item['phone'],$item['userid']);
-                // $this->task->t_seller_auto_free_log->row_insert([
-                //     'userid'=>$item['userid'],
-                //     'adminid'=>$item['admin_revisiterid'],
-                //     'assign_type'=>$item['seller_student_assign_type'],
-                //     'assign_time'=>$item['admin_assign_time'],
-                //     'last_revisit_time'=>$item['last_revisit_time'],
-                //     'last_edit_time'=>$item['last_edit_time'],
-                //     'first_contact_time'=>$item['first_contact_time'],
-                //     'left_time'=>strtotime(date('Y-m-d',$first_time))+8*24*3600,
-                //     'left_time_long'=>$left_time,
-                //     'create_time'=>time(),
-                // ]);
+                $this->task->t_seller_auto_free_log->row_insert([
+                    'userid'=>$item['userid'],
+                    'adminid'=>$item['admin_revisiterid'],
+                    'assign_type'=>$item['seller_student_assign_type'],
+                    'assign_time'=>$item['admin_assign_time'],
+                    'last_revisit_time'=>$item['last_revisit_time'],
+                    'last_edit_time'=>$item['last_edit_time'],
+                    'first_contact_time'=>$item['first_contact_time'],
+                    'left_time'=>strtotime(date('Y-m-d',$first_time))+8*24*3600,
+                    'left_time_long'=>$left_time,
+                    'create_time'=>time(),
+                ]);
 
                 $send_account = $this->task->cache_get_account_nick($item['admin_revisiterid']);
                 $this->send_wx_msg($item['phone'],$item['assign_type'],$send_account,$item['admin_assign_time'],$item['last_revisit_time'],$item['last_edit_time'],$item['first_contact_time'],$first_time,$left_time_desc);
