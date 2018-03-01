@@ -11,6 +11,11 @@ use \App\Enums as E;
  * @use \App\Http\Controllers\Controller
  */
 trait TeaPower {
+
+    public function test_class(){
+        return 111;
+    }
+
     public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1,$lesson_end=0){
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
 
