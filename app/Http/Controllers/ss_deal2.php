@@ -1634,10 +1634,10 @@ class ss_deal2 extends Controller
 
         //更新首次回访时间
         if (! $ss_item["first_revisit_time"])  {
-            $ss_arr["first_revisit_time"] = time(NULL);
+            // $ss_arr["first_revisit_time"] = time(NULL);
         }
         if ( $user_desc  ) {
-            $ss_arr["last_revisit_time"]=time(NULL);
+            // $ss_arr["last_revisit_time"]=time(NULL);
             $ss_arr["last_revisit_msg"]=$user_desc;
             $this->t_book_revisit->add_book_revisit($phone , $user_desc, $this->get_account());
         }

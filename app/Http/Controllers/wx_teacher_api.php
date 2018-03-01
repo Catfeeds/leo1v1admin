@@ -1471,7 +1471,7 @@ class wx_teacher_api extends Controller
 
             $data=@file_get_contents($fileUrl);
             file_put_contents($saveH5FilePath, $data);
-            $unzipShell = "rar x $saveH5FilePath $unzipFilePath";
+            $unzipShell = "rar x -o+ $saveH5FilePath $unzipFilePath";
             shell_exec($unzipShell);
 
             // canvg.js 替换其中的代码

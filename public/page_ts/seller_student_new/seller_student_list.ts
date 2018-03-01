@@ -2063,6 +2063,10 @@ function init_edit() {
                  ]],
              "auto_close"       : false,
              "onChange"         : function(require_id,row_data){
+                 if(!row_data){
+                     BootstrapDialog.alert("请选择试卷！");
+                     return false;
+                 }
                  var paper = "<div class='paper_info'>"
                  paper += "<div><span class='paper_font'>评测卷名称</span><span>"+row_data.paper_name+"</span></div>";
                  var paper_url = "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx?sojumpparm="+row_data.paper_id+"-"+user_id+"-"+phone;
@@ -2097,7 +2101,62 @@ function init_edit() {
 
     //评测结果
     $(".opt-test-paper-result").on("click",function(){
-        BootstrapDialog.alert("暂无测评结果");
+        var opt_data  = $(this).get_opt_data();
+        var userid = opt_data.userid;
+        var phone = opt_data.phone;
+        var data = {
+            "userid" : userid,
+            "phone"  : phone
+        };
+        $.do_ajax("/test_paper/get_student_scores",data,function(ret){
+            if( ret.ret == 0 && ret.status == 200 && ret.message){
+                //console.log(ret);
+                var info = ret.message;
+                var score = $(".student_test_score").clone().removeClass("hide");
+                var option_html = "";
+                for(var x in info){
+                    //console.log(x);
+                    var student_answer = score.find(".student_test_answer:first").clone();
+                    if( x != 0){
+                        student_answer.addClass("hide");
+                    }
+                    student_answer.attr({"answer_id":info[x].answer_id});
+                    option_html += "<option value='"+info[x].answer_id+"'>" + info[x].name + "</option>";
+                    student_answer.find(".student_start_time").text(info[x].start_time);
+                    student_answer.find(".student_submit_time").text(info[x].subtime);
+                    student_answer.find(".student_take_time").text(info[x].time_token);
+                    if(info[x].item){
+                        var item_arr = info[x].item;
+                        var tr_html = "";
+                        for(var item in item_arr){
+                            tr_html += "<tr><td>" +item_arr[item][0]+ "</td><td>" + item_arr[item][1] + "</td><td>" + item_arr[item][2] + "</td><td>" + item_arr[item][3] + "</td><td>" + item_arr[item][4] + "</td></tr>";
+                        }
+                    }
+                   
+                    student_answer.find("tbody").html(tr_html);
+                    score.append(student_answer);
+                }
+                score.find("select").html(option_html);
+                score.find(".student_test_answer:first").remove();
+                var dlg= BootstrapDialog.show({
+                    title: "查看测评结果",
+                    message : score,
+                    buttons: [{
+                        label: '返回',
+                        cssClass: 'btn-warning',
+                        action: function(dialog) {
+                            dialog.close();
+                        }
+                    }]
+
+                });
+                dlg.getModalDialog().css("width", "760px");
+
+            }else{
+                BootstrapDialog.alert("该学生未答完试卷！");
+            }
+        });
+        
     });
 
     $(".opt-edit-new_new").on("click",function(){
@@ -4609,7 +4668,7 @@ function init_edit() {
             }, 1000);
         });
     };
-
+  
     $('#id_left_time_order').click(function(){
         if($('#id_left_time_order_flag').val() == 1){
             $('#id_left_time_order_flag').val(2);
@@ -4623,4 +4682,15 @@ function init_edit() {
         window["download_show"]();
     }
 
+}
+
+function get_paper_score(answer_id){
+    console.log(answer_id);
+    $(".student_test_score:eq(1) .student_test_answer").each(function(){
+        if($(this).attr("answer_id") == answer_id){
+            $(this).removeClass("hide");
+        }else{
+            $(this).addClass("hide");
+        }
+    })
 }
