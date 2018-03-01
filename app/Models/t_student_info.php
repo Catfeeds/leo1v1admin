@@ -3604,4 +3604,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     }
 
+    public function get_stop_student_list($start_time,$end_time){
+        $where_arr=[
+            ["s.type_change_time>=%s",$start_time,0],
+            ["s.type_change_time<%s",$end_time,0],
+            "s.type in (2,4)",
+            "s.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select s.nick,s.userid,a.nick ass_name,s.grade,s.type "
+                                  ." from %s s left join %s a on s.assistantid = a.assistantid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
