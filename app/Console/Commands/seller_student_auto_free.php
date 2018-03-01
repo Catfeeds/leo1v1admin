@@ -27,7 +27,7 @@ class seller_student_auto_free extends cmd_base
      * @return mixed
      */
     public function do_handle(){
-        // $this->del_seller_auto_free_log();
+        $this->del_seller_auto_free_log();
         $ret = $this->task->t_seller_student_new->get_auto_free_list();
         foreach($ret as $item){
             if($item['seller_student_assign_type']==1 && $item['first_contact_time']>$item['admin_assign_time']){
@@ -60,7 +60,11 @@ class seller_student_auto_free extends cmd_base
                     'left_time_long'=>$left_time,
                     'create_time'=>time(),
                 ]);
-
+                $left_time = abs($left_time);
+                $hour = floor($left_time/3600);
+                $min = floor($left_time%3600/60);
+                $sec = floor($left_time%3600%60);
+                $left_time_desc = $hour.'时'.$min.'分'.$sec.'秒';
                 $send_account = $this->task->cache_get_account_nick($item['admin_revisiterid']);
                 $this->send_wx_msg($item['phone'],$item['assign_type'],$send_account,$item['admin_assign_time'],$item['last_revisit_time'],$item['last_edit_time'],$item['first_contact_time'],$first_time,$left_time_desc);
             }
