@@ -99,6 +99,16 @@ class test_command extends cmd_base
                 \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_free_count'], $lesson_free_count);
             }
         }
+
+        if(!empty($money_list)){
+            foreach($money_list as $m_key=>$m_val){
+                echo $m_key."|".$m_val['lesson_price']."|".$m_val['lesson_pay_count']."|".$m_val['lesson_free_count']
+                           ."|".$m_val['teacher_money'];
+            }
+        }else{
+            echo "this is empty";
+        }
+        echo PHP_EOL;
     }
 
 
