@@ -7,6 +7,7 @@ use \App\Enums as E;
 
 class test_command extends cmd_base
 {
+    use \App\Http\Controllers\TeaPower;
     /**
      * The name and signature of the console command.
      *
@@ -45,9 +46,9 @@ class test_command extends cmd_base
         $start    = strtotime($date_str);
         $end      = strtotime("+1 month",$start);
 
-        $lesson_list = $this->task->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1);
-        $check_num = [];
-        $money_list = [];
+        $lesson_list      = $this->task->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1);
+        $check_num        = [];
+        $money_list       = [];
         $tea_lesson_count = [];
         if(!empty($lesson_list)){
             foreach($lesson_list as $key => &$val){
@@ -60,15 +61,15 @@ class test_command extends cmd_base
                 }
 
                 if(!isset($tea_lesson_count[$teacherid])){
-                    $last_lesson_count = $this->task->get_last_lesson_count_info($start,$end,$teacherid);
+                    $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
                     $tea_lesson_count[$teacherid] = $last_lesson_count;
                 }else{
                     $last_lesson_count = $tea_lesson_count[$teacherid];
                 }
 
-                $val['money']       = $this->task->get_teacher_base_money($teacherid,$val);
+                $val['money']       = $this->get_teacher_base_money($teacherid,$val);
                 $val['lesson_base'] = $val['money']*$lesson_count;
-                $reward = $this->task->get_lesson_reward_money(
+                $reward = $this->get_lesson_reward_money(
                     $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
                 );
                 $val['lesson_reward'] = $reward*$lesson_count;
@@ -76,7 +77,7 @@ class test_command extends cmd_base
                 if(!isset($check_num[$teacherid])){
                     $check_num[$teacherid]=[];
                 }
-                $this->task->get_lesson_cost_info($val,$check_num[$teacherid]);
+                $this->get_lesson_cost_info($val,$check_num[$teacherid]);
                 //老师收入,课时成本
                 $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost']);
                 /**
