@@ -41,7 +41,6 @@
                         <td>{{ @$var["nick"]}}</td>
                         <td>{{ @$var["grade_str"]}}</td>
                         <td>{{ @$var["ass_name"]}}</td>
-                        <td>{{ @$var["tea_name"]}}</td>
                         <td class="tea"></td>
                         <!-- <td class="num1"></td>                       
                              <td class="num2"></td>                       
