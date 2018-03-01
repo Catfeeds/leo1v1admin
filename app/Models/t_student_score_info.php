@@ -430,7 +430,7 @@ left join t_resource r on r.resource_id = f.resource_id";
 // where lesson_start < 1519833600
 // group by l.userid, l.subject
 // order by lesson_start desc";
-      $sql = "select l.userid, l.teacherid ,l.subject,l.lessonid, from_unixtime(l.lesson_start ) from t_lesson_info  l
+      $sql = "select l.userid, l.teacherid ,l.subject,l.lessonid, from_unixtime(l.lesson_start ) as time from t_lesson_info  l
 where lesson_start < 1519833600  and not exists ( select 1 from t_lesson_info where l.userid=userid and l.lesson_start<lesson_start)
 group by l.userid, l.subject";
        return $this->main_get_list($sql);
