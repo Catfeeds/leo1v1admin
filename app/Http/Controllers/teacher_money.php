@@ -1006,12 +1006,5 @@ class teacher_money extends Controller
         $this->set_teacher_all_lesson_money_list($teacherid, $start_time, $end_time);
     }
 
-    /**
-     * 设置老师的上个月的累计课时
-     */
-    public function set_teacher_last_lesson_count($start,$end,$teacherid){
-        $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
-    }
-
 
 }

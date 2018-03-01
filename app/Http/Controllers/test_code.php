@@ -468,38 +468,6 @@ class test_code extends Controller
         ]);
     }
 
-    public function test_tts_notice(){
-        $phone = $this->get_in_int_val("phone","18790256265");
-        $type = "124425073";
-        $data = [
-            "name"        => "乐乐",
-            "lesson_time" => "2018年02月06日18:00:00",
-            "subject"     => "数学",
-        ];
-        $ret = \App\Helper\Utils::tts_common($phone, $type, $data);
-        dd($ret);
-    }
-
-    public function test_email(){
-        $address = "wg392567893@163.com";
-        $title = "test title";
-        $message= "test message";
-
-        \App\Helper\Common::send_mail_leo_com($address,$title,$message);
-
-    }
-
-    public function test_error_email(){
-        $title   = "api测试报错";
-        $message = "api测试报错信息";
-        $data    = [
-            "title"   => $title,
-            "message" => $message,
-        ];
-        $url = "http://admin.leo1v1.com/common_new/send_error_email_for_api";
-        \App\Helper\Net::send_post_data($url,$data);
-    }
-
     public function test_money($year,$month){
         $this->switch_tongji_database();
         // $year  = $this->get_in_int_val("year",2017);
@@ -539,13 +507,13 @@ class test_code extends Controller
 
                 $this->get_lesson_cost_info($val,$check_num[$teacherid]);
                 //老师收入,课时成本
-                $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost']);
+                $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'])/100;
                 /**
                  * 课时收入：当月内，产生课时消耗得到的收入，以实际收入为准；
                  * 付费课时数：当月内实际消耗的课时数，以实际扣除学生的课时数为准；
                  */
                 if(in_array($lesson_type,[0,3]) && $val['confirm_flag'] !=2 && $val['confirm_flag']!=4){
-                    $lesson_price = $val['lesson_price'];
+                    $lesson_price = $val['lesson_price']/100;
                     $lesson_pay_count = $lesson_count;
                 }else{
                     $lesson_price     = 0;
