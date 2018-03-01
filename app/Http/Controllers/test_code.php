@@ -507,7 +507,7 @@ class test_code extends Controller
 
                 $this->get_lesson_cost_info($val,$check_num[$teacherid]);
                 //老师收入,课时成本
-                $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'])/100;
+                $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost']);
                 /**
                  * 课时收入：当月内，产生课时消耗得到的收入，以实际收入为准；
                  * 付费课时数：当月内实际消耗的课时数，以实际扣除学生的课时数为准；
