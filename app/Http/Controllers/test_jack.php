@@ -15,8 +15,12 @@ class test_jack  extends Controller
 
     public function test_ass(){
         $info = $this->t_company_wx_department->get_all_list();
-        $users = $this->t_company_wx_users->get_all_list_for_manager();
-        dd([$info,$users]);
+        $users = $this->t_company_wx_users->get_all_list_for_manager(323);
+        foreach($users as $val){
+            $department = $val["department"];
+            $department_list = $this->get_all_department_name($info,$department);
+        }
+        dd([$info,$users,$department_list]);
  
         $list1= $this->t_flow->field_get_list(120,"*");
 
