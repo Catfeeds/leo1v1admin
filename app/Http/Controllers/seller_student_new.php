@@ -1599,7 +1599,6 @@ class seller_student_new extends Controller
 
     public function deal_new_user(){
         $adminid = $this->get_account_id();
-
         if ($this->t_manager_info->get_seller_student_assign_type($adminid) ==  E\Eseller_student_assign_type::V_1  ) {
            return  $this->error_view([
                 "你的例子分配规则,被设置为:系统分配,可以在 <所有用户> 中看到推送给你的例子",
@@ -1618,8 +1617,6 @@ class seller_student_new extends Controller
                 "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
             ]);
         }
-
-
 
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
@@ -1967,12 +1964,9 @@ class seller_student_new extends Controller
     }
 
     public function check_lesson_end(){
-        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_in_adminid());
+        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_account_id());
         if($ret){
             return count($ret);
-            // return  $this->error_view([
-            //     "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
-            // ]);
         }
         return 0;
     }
