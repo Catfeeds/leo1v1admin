@@ -67,7 +67,7 @@ class wjx_receive_api extends Controller
     //将学生的答案录入并且给出分数
     public function give_scores(){
         $data = Input::get();
-        //$data =  '{"sojumpparm":"20980136-62721-2147483647","activity": "20980136","timetaken":"528","submittime":"2016-08-23 10:01:59", "q1":"1","q2": "2","q3":"1","q4":"3","q5":"1","q6":"3","q7":"2","q8":"1","q9":"3","q10":"4" }';
+        //$data =  '{"sojumpparm":"20980136-62721-2147483647","activity": "20980136","timetaken":"628","submittime":"2016-09-23 10:01:59", "q1":"2","q2": "1","q3":"1","q4":"2","q5":"1","q6":"3","q7":"2","q8":"2","q9":"3","q10":"4" }';
         \App\Helper\Utils::logger("学生的提交数据:".json_encode($data));
 
         if($data){

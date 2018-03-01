@@ -110,6 +110,16 @@
      .paper_info div{ margin-top:15px;position:relative }
      .paper_info div .paper_font{ width: 100px;font-weight: bold;display: inline-block;text-align: right; margin-right: 30px;}
      .paper_info #paper_erwei{ position:absolute;top:-10px;left:134px; }
+     .student_test_score{ width:740px;padding:10px 20px}
+     .hide{ display:none }
+     .student_test_score .student_test_paper{ margin-bottom:20px }
+     .student_test_score .student_test_paper span{ font-weight:bold }
+     .student_test_score .student_test_paper select{ width:300px;height:30px;background:white;}
+     .student_test_score p{ margin-bottom:20px }
+     .student_test_score p span{ font-weight:bold;margin-right:40px;display:inline-block}
+     .student_test_score p span font{ font-weight:normal }
+     .student_test_score table{ width:700px}
+     .student_test_score table thead tr th,.student_test_score table tbody tr td{ border:1px solid #999;padding:10px 5px }
     </style>
 
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
@@ -1757,8 +1767,34 @@
             </div>
         </div>
 
-
-
     </div>
 
+    <div class="student_test_score hide">
+        <div class="student_test_paper">
+            <span>选择评测卷：</span>
+            <select onchange='get_paper_score(this.options[this.options.selectedIndex].value,event)'></select>
+        </div>
+        <div class="student_test_answer">
+            <p>
+                <span>开始答题时间：<font class="student_start_time"></font></span>
+                <span>结束提交时间：<font class="student_submit_time"></font></span>
+                <span>总时长：<font class="student_take_time"></font>秒</span>
+            </p>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度名称</th>
+                            <th>学生得分</th>
+                            <th>总分</th>
+                            <th>得分范围</th>
+                            <th>评测结果与建议</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -261,11 +261,13 @@ class test_paper extends Controller
                 $scores = [];
                 $start_time = date("Y-m-d H:i", ($v['submittime'] - $v['time_token']));
                 $subtime = date("Y-m-d H:i",$v['submittime']);
+                $scores["answer_id"] = $v['id'];
+                $scores["paper_id"] = $v['paper_id'];
                 $scores["name"] = $v['paper_id']."  ".$v['paper_name']."  ".$start_time;
                 $scores["start_time"] = $start_time;
                 $scores["subtime"] = $subtime;
                 $scores["time_token"] = $v['time_token'];
-                $scores["var"] = [];
+                $scores["item"] = [];
                 if($v['dimension_scores']){
                     $tr_show = [];
                     //每个维度的得分情况
@@ -302,12 +304,12 @@ class test_paper extends Controller
                         $tr_show[] = [ @$dimension[$di], $sco ,$all_score,$score_range_have,$dimension_suggest_arr[$di] ];                  
                     }
 
-                    $scores["var"] = $tr_show;
+                    $scores["item"] = $tr_show;
                 }
 
                 $ret[] = $scores;
-                $result['stauts'] = 200;
-                $result['ret'] = $ret;
+                $result['status'] = 200;
+                $result['message'] = $ret;
             }
         }
         //dd($ret);
