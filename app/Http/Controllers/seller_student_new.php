@@ -456,6 +456,8 @@ class seller_student_new extends Controller
                     $item['suc_no_call_flag'] = 2;
                 }elseif($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']>$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 3;
+                }else{
+                    $item['suc_no_call_flag'] = 4;
                 }
             }
 
