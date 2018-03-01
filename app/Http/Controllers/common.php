@@ -1556,7 +1556,7 @@ class common extends Controller
 
         // 构建鉴权对象
 
-        $private_bucket = $qiniu_config["private_url"] ['bucket'];
+        $private_bucket = $qiniu_config["private_url"]['bucket'];
 
         if($file->isValid()){
             //处理列

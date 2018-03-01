@@ -216,16 +216,19 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
-    public function get_user_lesson_refund($userid,$competition_flag){
+    public function get_user_lesson_refund($userid,$competition_flag=-1){
+        $where_arr=[
+            ["r.userid=%u",$userid,0],
+            ["o.competition_flag=%u",$competition_flag,-1],
+        ];
+
         $sql = $this->gen_sql_new("select sum(r.should_refund)/100"
                                   ." from %s r"
                                   ." left join %s o on r.orderid=o.orderid"
-                                  ." where o.competition_flag=%u"
-                                  ." and r.userid=%u"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
-                                  ,$competition_flag
-                                  ,$userid
+                                  ,$where_arr
         );
         return $this->main_get_value($sql);
     }

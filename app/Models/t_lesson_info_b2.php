@@ -972,7 +972,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function train_lecture_lesson(
-        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1,$identity=-1,$recommend_teacherid_phone
+        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1,$identity=-1,$recommend_teacherid_phone=-1,$subject_eg=-1,$grade_eg=-1
     ){
         $where_arr = [
             ["l.lesson_status=%u",$lesson_status,-1],
@@ -1023,12 +1023,20 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }else{
             $where_arr[] =["tli.status= %u",$lecture_status,-1];
         }
+        if($subject_eg){
+            $where_arr[] ="l.subject in ".$subject_eg;
+        }
+        if($grade_eg){
+            $where_arr[] ="l.grade in ".$grade_eg;
+        }
+
 
         if($lessonid >0){
             $where_arr=[
                 ["l.lessonid = %u",$lessonid,-1]
             ];
         }
+       
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,l.lesson_name,l.audio,l.draw,l.grade,l.subject,"
                                   ." l.lesson_status,t.teacherid,t.nick,t.user_agent,l.teacherid as l_teacherid,l.courseid,"
@@ -1505,7 +1513,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ['lesson_status=%d',2],
             ['lesson_type = %d',0],
             ['userid = %d',$userid],
-            'confirm_flag in (0,1)',
+            'confirm_flag not in (2,4)',
             "lesson_start>$order_time",
         ];
         $sql = $this->gen_sql_new("select count(lessonid) count "

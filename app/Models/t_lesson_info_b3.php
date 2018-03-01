@@ -3904,6 +3904,59 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_stu_all_lesson_count($userid,$lesson_status=-1){
+        $where_arr = [
+            ["userid=%u",$userid,0],
+            ["lesson_status=%u",$lesson_status,-1],
+            "lesson_type in (0,1,3)"
+        ];
+        $where_arr = $this->student_effective_lesson_sql('',$where_arr);
+        $sql = $this->gen_sql_new("select cast(sum(lesson_count)/100 as decimal(9,2))"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_stu_trial_lesson_teacher($userid){
+        $where_arr = [
+            ["l.userid=%u",$userid,0],
+            "l.lesson_type=2",
+        ];
+        $where_arr = $this->student_effective_lesson_sql("l",$where_arr);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." group by l.subject"
+                                  ." order by l.lesson_start desc"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
+
+    public function get_stu_subject_list($userid){
+        $where_arr = [
+            ["userid=%u",$userid,0],
+            "lesson_type in (0,1,3)"
+        ];
+        $where_arr = $this->student_effective_lesson_sql("",$where_arr);
+        $sql = $this->gen_sql_new("select subject"
+                                  ." from %s "
+                                  ." where %s"
+                                  ." group by subject"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_lesson_count_by_level($start,$end,$level){
         $where_arr=[
             "t.teacher_money_type=6",
