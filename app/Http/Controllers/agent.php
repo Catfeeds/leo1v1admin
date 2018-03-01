@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = $this->t_seller_student_new->get_suc_no_call_list(1214);
+        dd($ret);
         return $this->pageView(__METHOD__,null,[]);
     }
 
