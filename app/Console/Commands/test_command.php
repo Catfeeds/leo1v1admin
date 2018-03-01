@@ -74,6 +74,9 @@ class test_command extends cmd_base
                 );
                 $val['lesson_reward'] = $reward*$lesson_count;
 
+                if(!isset($check_num[$teacherid])){
+                    $check_num[$teacherid]=[];
+                }
                 $this->task->get_lesson_cost_info($val,$check_num[$teacherid]);
                 //老师收入,课时成本
                 $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost']);
