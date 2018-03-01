@@ -1532,7 +1532,7 @@ class user_deal extends Controller
     }
 
     public function  reload_account_power(){
-        (new  login() )->reset_power($this->get_account());
+        (new  login())->reset_power($this->get_account());
         return $this->output_succ();
     }
 

@@ -1505,7 +1505,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ['lesson_status=%d',2],
             ['lesson_type = %d',0],
             ['userid = %d',$userid],
-            'confirm_flag in (0,1)',
+            'confirm_flag not in (2,4)',
             "lesson_start>$order_time",
         ];
         $sql = $this->gen_sql_new("select count(lessonid) count "
