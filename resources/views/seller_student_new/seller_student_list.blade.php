@@ -572,7 +572,10 @@
                             <font color="green">课后回访:{{$var["last_revisit_time"]}}</font>
                             <br/>
                         @elseif($var["suc_no_call_flag"]==2)
-                            <font color="red">试听成功未回访</font>
+                            <font color="red">试听成功未回访[未拨打]</font>
+                            <br/>
+                        @elseif($var["suc_no_call_flag"]==3)
+                            <font color="red">试听成功未回访[未编辑]</font>
                             <br/>
                         @else
                         @endif

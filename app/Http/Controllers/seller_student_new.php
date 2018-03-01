@@ -452,8 +452,10 @@ class seller_student_new extends Controller
             if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
                 if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 1;
-                }else{
+                }elseif($item['suc_lesson_end']>$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 2;
+                }elseif($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']>$item['last_edit_time']){
+                    $item['suc_no_call_flag'] = 3;
                 }
             }
 
