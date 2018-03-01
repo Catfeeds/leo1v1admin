@@ -5098,11 +5098,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
 
-    public function get_item_list($start_time,$end_time){
+    public function get_item_list($start_time,$end_time,$adminid_list){
         $where_arr=[
             'o.contract_type=0',
             'o.price>0',
         ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'm.uid',$adminid_list);
         $this->where_arr_add_time_range($where_arr, 'o.order_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
             " select o.*,m.create_time become_time "
