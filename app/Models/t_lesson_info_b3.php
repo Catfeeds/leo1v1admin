@@ -2568,7 +2568,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
         );
-
         return $this->main_get_row($sql);
     }
 
@@ -3905,6 +3904,59 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_stu_all_lesson_count($userid,$lesson_status=-1){
+        $where_arr = [
+            ["userid=%u",$userid,0],
+            ["lesson_status=%u",$lesson_status,-1],
+            "lesson_type in (0,1,3)"
+        ];
+        $where_arr = $this->student_effective_lesson_sql('',$where_arr);
+        $sql = $this->gen_sql_new("select cast(sum(lesson_count)/100 as decimal(9,2))"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_stu_trial_lesson_teacher($userid){
+        $where_arr = [
+            ["l.userid=%u",$userid,0],
+            "l.lesson_type=2",
+        ];
+        $where_arr = $this->student_effective_lesson_sql("l",$where_arr);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." group by l.subject"
+                                  ." order by l.lesson_start desc"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
+
+    public function get_stu_subject_list($userid){
+        $where_arr = [
+            ["userid=%u",$userid,0],
+            "lesson_type in (0,1,3)"
+        ];
+        $where_arr = $this->student_effective_lesson_sql("",$where_arr);
+        $sql = $this->gen_sql_new("select subject"
+                                  ." from %s "
+                                  ." where %s"
+                                  ." group by subject"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_lesson_count_by_level($start,$end,$level){
         $where_arr=[
             "t.teacher_money_type=6",
@@ -3912,7 +3964,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_user_online_status in (0,1)",
             "l.lesson_type in (0,1,3)",
             ["t.level = %u",$level,-1],
-
+            "l.lesson_del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
         $sql = $this->gen_sql_new("select count(distinct l.teacherid) num,sum(l.lesson_count) lesson_count"
@@ -3923,5 +3975,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+
+    //按科目统计学生的常规课老师数
+    public function get_tea_num_by_subject($userid){
+        $where_arr=[
+            "t.is_test_user=0",
+            "l.confirm_flag <2",
+            "l.lesson_type in (0,1,3)",
+            ["l.userid = %u",$userid,-1],
+            "l.lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num"
+                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s group by l.subject",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 }

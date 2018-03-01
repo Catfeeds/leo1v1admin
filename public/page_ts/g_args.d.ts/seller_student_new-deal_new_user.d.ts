@@ -4,6 +4,8 @@ interface GargsStatic {
 	userid:	number;
 	test_lesson_subject_id:	number;
 	account_seller_level:	number;
+	start_time:	number;
+	end_time:	number;
 	seller_level:	number;
 }
 declare module "g_args" {
@@ -33,6 +35,8 @@ function load_data(){
 		userid:	$('#id_userid').val(),
 		test_lesson_subject_id:	$('#id_test_lesson_subject_id').val(),
 		account_seller_level:	$('#id_account_seller_level').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
 		seller_level:	$('#id_seller_level').val()
 		});
 }
@@ -51,6 +55,8 @@ $(function(){
 	});
 	$('#id_test_lesson_subject_id').val(g_args.test_lesson_subject_id);
 	$('#id_account_seller_level').val(g_args.account_seller_level);
+	$('#id_start_time').val(g_args.start_time);
+	$('#id_end_time').val(g_args.end_time);
 	$('#id_seller_level').val(g_args.seller_level);
 
 
@@ -101,6 +107,22 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["account_seller_level title", "account_seller_level", "th_account_seller_level" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">start_time</span>
+                <input class="opt-change form-control" id="id_start_time" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">end_time</span>
+                <input class="opt-change form-control" id="id_end_time" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

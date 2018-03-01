@@ -1042,7 +1042,7 @@ class teacher_info extends Controller
                 if($item['status']=="-2"){
                     $item['status_str']="无试讲";
                 }else{
-                    E\Electure_status::set_item_value_str($item,"status");
+                    E\Echeck_status::set_item_value_str($item,"status");
                 }
                 if(!$show_teacher_info){
                     $item['name']  = mb_substr($item['name'],0,1,"utf-8")."老师";

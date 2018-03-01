@@ -246,7 +246,6 @@ class menu{
                 ]],
             ]],
             ["power_id"=>6, "name"=>"系统设置", "list"=>[
-
                 ["power_id"=>18, "name"=>"用户管理-vue",   "url"=>"/authority/manager_list", "domain_type" =>100 ],
                 ["power_id"=>2, "name"=>"用户管理",   "url"=>"/authority/manager_list"],
                 ["power_id"=>12, "name"=>"邮件组管理",   "url"=>"/admin_manage/group_email_list"],
@@ -978,8 +977,8 @@ class menu{
 
                 ["power_id"=>6, "name"=>"全职老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],
                 ["power_id"=>7, "name"=>"全职老师转正申请",   "url"=>"/fulltime_teacher/full_assessment_list"],
-                ["power_id"=>8, "name"=>"全职老师转正申请审批-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
-                ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
+                ["power_id"=>8, "name"=>"全职老师转正申请审批-初审",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
+                ["power_id"=>9, "name"=>"全职老师转正申请审批-终审",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>11, "name"=>"全职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
                 ["power_id"=>18, "name"=>"武汉全职老师面试数据","url"=>"/fulltime_teacher/fulltime_teacher_data"],
                 ["power_id"=>31, "name"=>"全职老师学科转化率","url"=>"/tongji2/subject_transfer"],
@@ -994,7 +993,6 @@ class menu{
 
 
             ["power_id"=>42, "name"=>"角色-产品", "list"=>[
-
                 ["power_id"=>2, "name"=>"理优升学帮", "list"=>[
                     ["power_id"=>1, "name"=>"查分数线",   "url"=>"/school_info/search_scores"],
                     ["power_id"=>2, "name"=>"找卷子",   "url"=>"/school_info/search_paper"],

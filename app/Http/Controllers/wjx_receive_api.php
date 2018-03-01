@@ -3,15 +3,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use App\Helper\Utils;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Cookie ;
 use Illuminate\Support\Facades\Redis ;
 use Illuminate\Support\Facades\Session ;
 use App\Jobs\deal_wx_pic;
 // 引入鉴权类
 use Qiniu\Auth;
-// 引入上传类
-use Qiniu\Storage\UploadManager;
-use Qiniu\Storage\BucketManager;
 require_once app_path("/Libs/Qiniu/functions.php");
 require_once(app_path("/Libs/OSS/autoload.php"));
 use OSS\OssClient;
@@ -61,11 +59,6 @@ class wjx_receive_api extends Controller
             $paper_id = $param_arr[0];
             $user_id = $param_arr[1];
             $phone = $param_arr[2];
-            $this->t_student_test_answer->row_insert([
-                "paper_id"    =>$paper_id,
-                "userid"      =>$user_id,
-                "phone"       =>$phone,
-            ]); 
         }
         print_r($param_arr);
         return "恭喜你啊！答完了";
@@ -73,15 +66,28 @@ class wjx_receive_api extends Controller
 
     //将学生的答案录入并且给出分数
     public function give_scores(){
-        $data = file_get_contents("php://input");
-        //$data =  '{"activity": "20980136","timetaken":"528","submittime":"2016-08-23 10:01:59", "q1":"A","q2": "B","q3":"A","q4":"C","q5":"A","q6":"C","q7":"B","q8":"A","q9":"C","q10":"D" }'; 
-        \App\Helper\Utils::logger("学生的提交数据: $data");
+        $data = Input::get();
+        // $data =  '{"sojumpparm":"20980136-62721-18731111121","activity": "20980136","timetaken":"528","submittime":"2016-08-23 10:01:59", "q1":"1","q2": "2","q3":"1","q4":"3","q5":"1","q6":"3","q7":"2","q8":"1","q9":"3","q10":"4" }';
+        \App\Helper\Utils::logger("学生的提交数据:".json_encode($data));
+
         if($data){
-            $answers = json_decode($data,true);
+            $answers = [];
+            if(is_string($data)){
+                $answers = json_decode($data,true);
+            }
+            if(is_array($data)){
+                $answers = $data;
+            }
+       
             $paper_id = $answers['activity'];
             $time_token = $answers['timetaken'];
             $submittime = $answers['submittime'];
-
+            $params= $answers["sojumpparm"];
+            $param_arr = explode("-", $params);
+            $paper_id = @$param_arr[0];
+            $user_id = @$param_arr[1];
+            $phone = @$param_arr[2];
+    
             //查找该试卷的答案
             $paper = $this->t_student_test_paper->get_paper($paper_id);
             //学生每道题目的答案
@@ -96,7 +102,7 @@ class wjx_receive_api extends Controller
             $dimension_suggest = [];
   
             foreach($answers as $k => $v){
-                if( !in_array($k, ["activity","timetaken","submittime"]) ){
+                if( substr($k,0,1) == "q" ){
                     $question_no = substr($k,1);
                     $content[$question_no] = $v;
                 }
@@ -118,8 +124,10 @@ class wjx_receive_api extends Controller
                             }
                         }
                     }
-                   
-                    if( (string)$v == (string)@$correct[$no][1] ){
+                    $right = @$correct[$no][1];
+                    $stu_answer = $this->get_correct_answer($v);
+
+                    if( $v == $right || $stu_answer == $right){
                         $scores[$no] = (int)$correct[$no][2];
                     }else{
                         $scores[$no] = 0;
@@ -155,25 +163,68 @@ class wjx_receive_api extends Controller
                     }
                 }
             }
-            
-            $last_answer = $this->t_student_test_answer->get_last_answer();
-            if($last_answer){
-                //dd($last_answer);
-                $data = [
-                    //"phone"   => @$last_answer['phone'],
-                    //"userid"   => @$last_answer['userid'],
-                    //"paper_id " => $paper_id ,
-                    "time_token" => $time_token,
-                    "submittime" => strtotime($submittime),
-                    "student_answers" => json_encode($content),
-                    "student_scores"  => json_encode($scores),
-                    "dimension_scores"  => json_encode($dimension_scores),
-                    "dimension_suggest"  => json_encode($dimension_suggest),
-                ];
-                $ret = $this->t_student_test_answer->field_update_list($last_answer['id'],$data);
-            }
+     
+            $data = [
+                "paper_id"    =>$paper_id,
+                "userid"      =>$user_id,
+                "phone"       =>$phone,
+                "time_token" => $time_token,
+                "submittime" => strtotime($submittime),
+                "student_answers" => json_encode($content),
+                "student_scores"  => json_encode($scores),
+                "dimension_scores"  => json_encode($dimension_scores),
+                "dimension_suggest"  => json_encode($dimension_suggest),
+            ];
+
+            $ret = $this->t_student_test_answer->row_insert($data); 
+
             dd("success");
         }
     }
-    
+
+    private function get_correct_answer($answer){
+        $option = "";
+        if(in_array($answer,[1,2,3,4,5,6,7,8,9,10,11,12])){
+            switch($answer){
+            case 1:
+                $option = "A";
+                break;
+            case 2:
+                $option = "B";
+                break;
+            case 3:
+                $option = "C";
+                break;
+            case 4:
+                $option = "D";
+                break;
+            case 5:
+                $option = "E";
+                break;
+            case 6:
+                $option = "F";
+                break;
+            case 7:
+                $option = "G";
+                break;
+            case 8:
+                $option = "H";
+                break;
+            case 9:
+                $option = "I";
+                break;
+            case 10:
+                $option = "J";
+                break;
+            case 11:
+                $option = "K";
+                break;
+            case 12:
+                $option = "L";
+                break;
+
+            }
+        }
+        return $option;
+    }
 }

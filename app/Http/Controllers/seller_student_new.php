@@ -449,7 +449,7 @@ class seller_student_new extends Controller
                 $item['left_end_time'] = strtotime('2018-03-07');
             }
             $item['suc_no_call_flag'] = 0;
-            if($item['last_succ_test_lessonid']>0){
+            if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
                 if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 1;
                 }else{
@@ -1618,22 +1618,17 @@ class seller_student_new extends Controller
                 "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
             ]);
         }
-        //试听成功未回访
-        // $ret = $this->t_seller_student_new->get_suc_no_call_list($adminid);
-        // if($ret){
-        //     return  $this->error_view([
-        //         "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
-        //     ]);
-        // }
+
 
 
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
         $this->set_filed_for_js("open_flag",0);
-
         $this->set_filed_for_js("userid",0 );
         $this->set_filed_for_js("test_lesson_subject_id", 0);
         $this->set_filed_for_js("account_seller_level", 0 );
+        $this->set_filed_for_js("start_time",date('Y-m-d',strtotime(date('Y-m-d'))-7*3600*24));
+        $this->set_filed_for_js("end_time",date('Y-m-d'));
 
         $count_info=$this->t_seller_new_count->get_now_count_info($adminid);
         $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
@@ -1773,6 +1768,7 @@ class seller_student_new extends Controller
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         $tquin = $this->t_manager_info->get_tquin($adminid);
         $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($lesson_call_end),['admin_nick'=>$admin_nick]);
     }
 
@@ -1968,6 +1964,17 @@ class seller_student_new extends Controller
             'call_end_time' => time(NULL)
         ]);
         return $this->output_succ();
+    }
+
+    public function check_lesson_end(){
+        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_in_adminid());
+        if($ret){
+            return count($ret);
+            // return  $this->error_view([
+            //     "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
+            // ]);
+        }
+        return 0;
     }
 
 }
