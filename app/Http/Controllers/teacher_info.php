@@ -668,18 +668,6 @@ class teacher_info extends Controller
                 "title"    => $tea_cw_name
             ]);
         }
-        // if(strtolower($stu_cw_url_arr[1]) == 'ppt' || strtolower($stu_cw_url_arr[1]) == 'pptx'){
-        //     $use_ppt_stu = 1;
-        //     $stu_cw_name = $this->t_lesson_info->get_stu_cw_name($lessonid);
-        //     $this->t_deal_ppt_to_h5->row_insert([
-        //         "add_time" => time(),
-        //         "lessonid" => $lessonid,
-        //         "is_tea"   => 0,
-        //         "ppt_url"  => $stu_cw_url,
-        //         "title"    => $stu_cw_name
-        //     ]);
-        // }
-
 
 
 
