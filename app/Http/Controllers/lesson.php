@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail ;
 class lesson extends TeaWxController
 {
     use CacheNick;
+    use TeaPower;
 
     public function __construct(){
         // session("teacher_wx_use_flag",1);  // 本地测试时使用
