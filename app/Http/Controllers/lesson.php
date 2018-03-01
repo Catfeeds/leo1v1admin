@@ -284,24 +284,43 @@ class lesson extends TeaWxController
         $end_time    = $this->get_in_int_val("end");
 
 
+
         if(!$teacherid){
             return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
         }
 
-        $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
-        $post_data = array(
-            "teacherid" => $teacherid,
-            "start_time" => $start_time,
-            "end_time"   => $end_time
-        );
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL, $url);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        $output = curl_exec($ch);
-        curl_close($ch);
+        if($teacherid == 225427||$teacherid==50281){
+            $output = $this->get_teacher_total_money('wx','current',$teacherid);
+        }else{
+            $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
+            $post_data = array(
+                "teacherid" => $teacherid,
+                "start_time" => $start_time,
+                "end_time"   => $end_time
+            );
+            $ch = curl_init();
+            curl_setopt($ch,CURLOPT_URL, $url);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch,CURLOPT_POST,1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+            $output = curl_exec($ch);
+            curl_close($ch);
+        }
+        // $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
+        // $post_data = array(
+        //     "teacherid" => $teacherid,
+        //     "start_time" => $start_time,
+        //     "end_time"   => $end_time
+        // );
+        // $ch = curl_init();
+        // curl_setopt($ch,CURLOPT_URL, $url);
+        // curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch,CURLOPT_POST,1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        // $output = curl_exec($ch);
+        // curl_close($ch);
 
+        
         $ret_arr = json_decode($output,true);
 
 
@@ -344,6 +363,52 @@ class lesson extends TeaWxController
        //  }
 
     }
+
+
+
+
+    public function get_teacher_total_money($type,$show_type,$teacherid){
+
+        if(!$teacherid){
+            return $this->output_err("老师id错误!");
+        }
+
+        $this->t_lesson_info->switch_tongji_database();
+        if($type=="wx"){
+            $start_time = $this->t_lesson_info->get_first_lesson_start($teacherid);
+            $node_time  = strtotime("2016-12-1");
+            if($start_time<$node_time){
+                $start_time = $node_time;
+            }
+            $now_time = strtotime("+1 month",strtotime(date("Y-m-01",time())));
+        }elseif($type=="admin"){
+            $default_date = date("Y-m-d",time());
+            $start_time   = strtotime($this->get_in_str_val("start_time",$default_date));
+            $end_time     = strtotime($this->get_in_str_val("end_time",$default_date));
+            $now_time     = strtotime("+1 day",strtotime($end_time));
+            $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
+            $check_flag   = $this->check_full_time_teacher($teacherid,$teacher_type);
+            if($check_flag){
+                $now_time   = $start_time;
+                $start_time = strtotime("-1 month",$start_time);
+            }
+
+            if($start_time=='' || $now_time==''){
+                return $this->output_err("时间错误!");
+            }
+        }else{
+            return $this->output_err("参数错误!");
+        }
+
+        $teacher_info = $this->get_teacher_info_for_total_money($teacherid);
+        $list = $this->get_teacher_lesson_money_list($teacherid,$start_time,$now_time,$show_type);
+
+        return $this->output_succ([
+            "teacher_info" => $teacher_info,
+            "data"         => $list,
+        ]);
+    }
+
 
     public function update_comment_pre_listen(){ // 协议编号:1011
         $teacherid    = $this->get_teacherid();
