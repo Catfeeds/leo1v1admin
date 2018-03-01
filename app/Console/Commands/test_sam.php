@@ -433,10 +433,10 @@ where s.is_test_user = 0 and q.is_called_phone =1
         $test = [];
         foreach ($arr_info as $key => $value) {
             $data['userid'] = $key;
-            $data['username'] = $task->cache_get_student_nick($key);
+            $data['username'] = $task->t_student_info->get_nick($key);
             foreach ($value as $kkey => $kvalue) {
                 $data['teacherid'] = $kkey;
-                $data['teacher_name'] = $task->cache_get_teacher_nick($kkey);
+                $data['teacher_name'] = $task->t_teacher_info->get_nick($kkey);
             }
 
             $test[] = $data;
