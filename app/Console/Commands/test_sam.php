@@ -398,23 +398,59 @@ where s.is_test_user = 0 and q.is_called_phone =1
         // $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
 
 
-        $ret = $task->t_student_score_info->get_num();
-        foreach ($ret as $key => $value) {
-            $adminid = $value['adminid'];
-            $file_id = $value['file_id'];
-            $kpi_adminid = $value['kpi_adminid'];
-            $reload_adminid = $value['reload_adminid'];
+        // $ret = $task->t_student_score_info->get_num();
+        // foreach ($ret as $key => $value) {
+        //     $adminid = $value['adminid'];
+        //     $file_id = $value['file_id'];
+        //     $kpi_adminid = $value['kpi_adminid'];
+        //     $reload_adminid = $value['reload_adminid'];
 
-            if($reload_adminid == 0){
-                $task->t_resource_file->field_update_list($file_id,[
-                    "reload_adminid" =>$adminid,
-                ]);
-            }
-            if($kpi_adminid == 0){
-                $task->t_resource_file->field_update_list($file_id,[
-                    "kpi_adminid" =>$adminid,
-                ]);
+        //     if($reload_adminid == 0){
+        //         $task->t_resource_file->field_update_list($file_id,[
+        //             "reload_adminid" =>$adminid,
+        //         ]);
+        //     }
+        //     if($kpi_adminid == 0){
+        //         $task->t_resource_file->field_update_list($file_id,[
+        //             "kpi_adminid" =>$adminid,
+        //         ]);
+        //     }
+
+        $ret = $task->t_student_score_info->get_num_t2();
+        $ret2 = $task->t_student_score_info->get_num_t3();
+        $arr  = [];
+
+        foreach ($ret2 as $key => $value) {
+            $arr[$value['userid']] = 1;
+        }
+        $arr_info = [];
+        foreach ($ret as $key => $value) {
+            if( isset($arr[$value['userid']]) && $value['time'] < 1517414400){
+                $arr_info[$value['userid']][$value['teacherid']] = 1;
             }
         }
+
+        $test = [];
+        foreach ($arr_info as $key => $value) {
+            $data['userid'] = $key;
+            $data['username'] = $task->cache_get_student_nick($key);
+            foreach ($value as $kkey => $kvalue) {
+                $data['teacherid'] = $kkey;
+                $data['teacher_name'] = $task->cache_get_teacher_nick($kkey);
+            }
+
+            $test[] = $data;
+        }
+        $file_name = 'sam_0301';
+        $arr_title = ["学生ID","学生姓名","老师ID","老师姓名"];
+        $arr_data  = ['userid','username',"teacherid","teacher_name"];
+
+        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
+        dd($test);
+        dd($arr_info);
+
+
+
+        
     }     
 }

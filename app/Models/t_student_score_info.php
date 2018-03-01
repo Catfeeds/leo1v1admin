@@ -425,4 +425,19 @@ left join t_resource r on r.resource_id = f.resource_id";
     }
 
 
+    public function get_num_t2(){
+       $sql = "select l.userid, l.teacherid ,l.subject, max(lesson_start) as time  from t_lesson_info  l
+where lesson_start < 1519833600
+group by l.userid, l.subject
+order by lesson_start desc";
+
+       return $this->main_get_list($sql);
+    }
+
+
+    public function get_num_t3(){
+      $sql = "select userid from t_student_info where lesson_count_left > 0 and is_test_user   = 0";
+      return $this->main_get_list($sql);
+    }
+
 }
