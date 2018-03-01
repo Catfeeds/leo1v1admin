@@ -604,7 +604,7 @@ class user_manage extends Controller
         $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag = $this->get_in_e_boolean(-1,"spec_flag");
         $order_adminid     = $this->get_in_adminid(-1);
-        $is_origin= $this->get_in_int_val('is_origin',-1);
+        $origin= $this->get_in_str_val('origin');
 
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -631,11 +631,6 @@ class user_manage extends Controller
                 $show_yueyue_flag = true;
                 $require_adminid_list = $intersect;
             }
-        }
-
-        $origin="";
-        if($is_origin){
-            $origin="转介绍";
         }
 
         $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );

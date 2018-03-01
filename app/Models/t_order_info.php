@@ -2562,7 +2562,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $where_arr[]="o.sys_operator <>'yueyue' ";
         }
 
-        if ($origin) {
+        if ($origin!="" && $origin!="-1") {
             $where_arr[]= [ "s.origin like '%%%s%%'" , $this->ensql($origin) ];
         }
 
@@ -2617,6 +2617,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_child_order_info::DB_TABLE_NAME, //co
             $where_arr
         );
+        echo $sql;exit;
         return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 

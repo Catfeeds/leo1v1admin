@@ -28,7 +28,7 @@ function load_data(){
         origin_userid       : $('#id_origin_userid').val(),
         referral_adminid    :	$('#id_referral_adminid').val(),
         spec_flag           :	$('#id_spec_flag').val(),
-        is_origin           :	$('#id_is_origin').val(),
+        origin           :	$('#id_origin').val(),
     });
 }
 
@@ -43,7 +43,7 @@ function isNumber( s ){
 }
 
 $(function(){
-	  $('#id_is_origin').val(g_args.is_origin);
+	  $('#id_origin').val(g_args.origin);
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
 
