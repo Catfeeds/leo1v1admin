@@ -5329,7 +5329,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $pid=$v["pId"];
                 $department_list[]=$v["name"];
                 if($pid>0){
-                    $this->get_all_department_name($info,$pid,$department_list);
+                    $this->get_all_department_name($info,$pid,&$department_list);
                     // $tt= $this->get_all_department_name($info,$pid,&$department_list);
                 }
             }
