@@ -455,7 +455,7 @@ class main_page extends Controller
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
             $item['finish_per'] = round($item['finish_per']*100,1).'%';
-            if(!in_array($this->get_account(),['班洁','tom','jim']) && $key>4 && $item['groupid']!=$self_groupid && $item['up_groupid'] != $main_groupid){
+            if(!in_array($this->get_account(),['班洁','tom','jim']) && $key>4 && $item['groupid']!=$self_groupid && $main_groupid==0){
                 $item["all_price"] = "***";
             }
         }
