@@ -29,7 +29,21 @@ class t_student_test_answer extends \App\Models\Zgen\z_t_student_test_answer
         return $this->main_get_row($sql);
     }
 
-   
+    public function get_scores($userid,$phone){
+        $where_arr = [
+            ['answer.userid=%u', $userid, -1],
+            ['answer.phone=%u', $phone, -1],
+        ];
+        $sql=$this->gen_sql_new("select answer.*,paper.* from %s answer
+                                 left join %s paper on answer.paper_id = paper.paper_id
+                                 where %s
+                                 order by answer.submittime desc,answer.id desc"
+                                ,self::DB_TABLE_NAME
+                                ,t_student_test_paper::DB_TABLE_NAME
+                                ,$where_arr );
+        return $this->main_get_list($sql);
+
+    }
 }
 
 
