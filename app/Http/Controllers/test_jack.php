@@ -14,6 +14,10 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $info = $this->t_company_wx_department->get_all_list();
+        $users = $this->t_company_wx_users->get_all_list_for_manager();
+        dd([$info,$users]);
+ 
         $list1= $this->t_flow->field_get_list(120,"*");
 
         $list2 = $this->t_qingjia->field_get_list(42 ,"*");

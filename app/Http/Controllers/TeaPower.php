@@ -5313,5 +5313,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return [$subject,$grade];
     }
 
+    //判断是否产品研发事业部
+    public function check_is_dev_department($adminid){
+        // $info = $this->t_company_wx_department->get_all_list();
+        // $users = $this->t_company_wx_users->get_all_list_for_manager();
+        // dd([$info,$users]);
+        return 1;
+ 
+    }
+
 
 }
