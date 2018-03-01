@@ -350,23 +350,10 @@ class lesson extends TeaWxController
             \App\Helper\Utils::logger("error_james_111");
             return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
         }
-
-
-       // if(!$ret_arr){
-       //     return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
-       //  }else if($ret_arr!=null && !empty($ret_arr['data'])){
-       //     return $this->output_succ(['data'=>$ret_arr['data'],'all_reward_list'=>$ret_arr['all_reward_list']]);
-       //  }else{
-       //     // return $this->output_err("工资明细获取失败!");
-       //     return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
-
-       //  }
-
     }
 
 
     public function get_teacher_money_list($start_time,$end_time,$teacherid){
-        $teacherid = $this->get_in_int_val("teacherid");
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }
@@ -494,9 +481,15 @@ class lesson extends TeaWxController
         $this->get_array_data_by_count($all_reward_list,$reward_reference);
         $arr['data'] = $lesson_list;
         $arr['all_reward_list'] = $all_reward_list;
-        return $arr;
-        return $this->output_succ(["data"=>$lesson_list,"all_reward_list"=>$all_reward_list]);
+        return json_encode($arr);
     }
+
+    public function get_array_data_by_count(&$array,$check_array,$num=1){
+        if(count($check_array)>$num){
+            $array[]=$check_array;
+        }
+    }
+
 
 
     public function get_teacher_info_for_total_money($teacherid){
