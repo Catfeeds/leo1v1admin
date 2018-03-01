@@ -38,7 +38,6 @@ class test_command extends cmd_base
      */
     public function handle()
     {
-        $this->task->switch_tongji_database();
         $year     = $this->get_in_value("year",2017);
         $month    = $this->get_in_value("month",1);
 
