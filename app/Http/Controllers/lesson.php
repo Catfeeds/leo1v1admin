@@ -284,11 +284,8 @@ class lesson extends TeaWxController
         $end_time    = $this->get_in_int_val("end");
 
 
-        \App\Helper\Utils::logger('get_salary_detail_list_james:'.$teacherid);
         if($teacherid == 225427){
-            $teacherid =50278;
-            \App\Helper\Utils::logger('get_salary_detail_list_james_111:'.$teacherid);
-
+            return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
         }
 
         if(!$teacherid){
