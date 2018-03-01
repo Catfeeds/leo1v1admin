@@ -3977,6 +3977,27 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
+    public function get_lesson_count_by_level_detail($start,$end,$level){
+        $where_arr=[
+            "t.teacher_money_type=6",
+            "t.is_test_user=0",
+            "l.lesson_user_online_status in (0,1)",
+            "l.lesson_type in (0,1,3)",
+            ["t.level = %u",$level,-1],
+            "l.lesson_del_flag=0"
+        ];
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
+        $sql = $this->gen_sql_new("select count(distinct l.userid) num"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
     //按科目统计学生的常规课老师数
     public function get_tea_num_by_subject($userid){
