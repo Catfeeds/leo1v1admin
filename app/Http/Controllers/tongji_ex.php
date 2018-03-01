@@ -787,7 +787,8 @@ class tongji_ex extends Controller
             echo '<td>'.date('Y-m-d H:i:s',$item['check_money_time']).'</td>';
             echo '</tr>';
         }
-        echo '</table>';
+        echo '</table>'."</br>";
+        echo "签单总金额:".array_sum(array_column($ret, 'price'))/100;
     }
 
     public function get_no_order_stu_list(){
