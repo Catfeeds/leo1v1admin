@@ -2568,7 +2568,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
         );
-
         return $this->main_get_row($sql);
     }
 
