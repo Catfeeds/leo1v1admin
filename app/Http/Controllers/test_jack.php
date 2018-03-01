@@ -2052,6 +2052,9 @@ class test_jack  extends Controller
         
         $start           = $this->get_in_int_val("userid");
         $end = strtotime("+1 months",$start);
+        $start = strtotime("2017-01-01");
+        $end = strtotime("2018-01-01");
+
         $arr=["num1"=>0,"num2"=>1,"num3"=>2,"num4"=>3,"num5"=>4,"num6"=>11,"num"=>-1];
         $list=[];
         foreach($arr as $k=>$val){
