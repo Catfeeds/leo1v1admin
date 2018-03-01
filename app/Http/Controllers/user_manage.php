@@ -604,7 +604,7 @@ class user_manage extends Controller
         $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag = $this->get_in_e_boolean(-1,"spec_flag");
         $order_adminid     = $this->get_in_adminid(-1);
-        $origin= $this->get_in_str_val('origin');
+        $origin= $this->get_in_str_val('origin',"-1");
 
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
