@@ -284,10 +284,6 @@ class lesson extends TeaWxController
         $end_time    = $this->get_in_int_val("end");
 
 
-        if($teacherid == 225427){
-            return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
-        }
-
         if(!$teacherid){
             return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
         }
