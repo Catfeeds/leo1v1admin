@@ -465,6 +465,8 @@ class tongji extends Controller
 
         //判断是否产品研发事业部
         $dev_flag = $this->check_is_dev_department($adminid);
+        \App\Helper\Utils::logger("dev_flag:".$dev_flag);
+
 
         $info=$this->t_company_wx_approval->get_info_for_userid($userid, $start_time, $end_time);
         $len = count($info);
