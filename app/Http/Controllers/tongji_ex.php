@@ -760,6 +760,9 @@ class tongji_ex extends Controller
     public function get_order_info_list(){
         $start_time = strtotime($this->get_in_str_val('start_time','2018-01-01'));
         $end_time = strtotime($this->get_in_str_val('end_time','2018-02-01'));
+        $month = strtotime(date('Y-m-01',$start_time));
+        $adminid_list = $this->t_main_major_group_name_month->get_cc_adminid_list($start_time);
+        dd($adminid_list);
         $ret = $this->t_order_info->get_item_list($start_time,$end_time);
         $num = 0;
         echo '<table border="1" width="600" align="center">';

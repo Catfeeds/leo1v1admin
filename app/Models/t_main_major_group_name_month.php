@@ -56,6 +56,25 @@ class t_main_major_group_name_month extends \App\Models\Zgen\z_t_main_major_grou
         return $this->main_get_value($sql);
     }
 
+    public function get_cc_adminid_list($month){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'mg.month', $month);
+        $sql = $this->gen_sql_new(
+            "select u.adminid,n.master_adminid n_master_adminid,g.master_adminid g_master_adminid,"
+            ."mg.master_adminid mg_master_adminid "
+            ."from %s mg "
+            ."left join %s g on g.up_groupid=mg.groupid and g.month=mg.month "
+            ."left join %s n on n.up_groupid=g.groupid and n.month=g.month "
+            ."left join %s u on u.groupid=n.groupid and u.month=n.month "
+            ."where %s "
+            ,self::DB_TABLE_NAME
+            ,t_main_group_name_month::DB_TABLE_NAME
+            ,t_group_name_month::DB_TABLE_NAME
+            ,t_group_user_month::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
 
 
