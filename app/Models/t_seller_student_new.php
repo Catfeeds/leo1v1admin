@@ -2410,11 +2410,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $this->field_update_list($userid,['test_lesson_flag'=>$first_test_lessonid]);
             }
         }
-        //最后一次试听成功lessonid
-        $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
-        if($last_succ_test_lessonid != $item_arr['last_succ_test_lessonid']){
-            $this->field_update_list($userid,['last_succ_test_lessonid'=>$last_succ_test_lessonid]);
-        }
 
         if ( $item_arr['global_tq_called_flag'] == 0 ) {
             $is_called_and_calltime = $this->task->t_tq_call_info->get_call_info_by_phone($phone);
