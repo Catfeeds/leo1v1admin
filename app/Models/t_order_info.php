@@ -2617,7 +2617,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_child_order_info::DB_TABLE_NAME, //co
             $where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 
