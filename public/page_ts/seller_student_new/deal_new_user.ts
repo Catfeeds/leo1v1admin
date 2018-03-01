@@ -10,7 +10,7 @@ $(function(){
             var start_time = g_args.start_time;
             var end_time = g_args.end_time;
             var url = "http://"+window.location.host+"/seller_student_new/seller_student_list_all?date_type=1&opt_date_type=0&start_time="+start_time+"&end_time="+end_time+"&next_revisit_flag=1&left_time_order=0&group_seller_student_status=-1&seller_groupid_ex=&seller_groupid_ex_new=&userid=-1&success_flag=-1&phone_name=&seller_student_status=-1&phone_location=&subject=-1&origin_assistant_role=-1&has_pad=-1&tq_called_flag=-1&global_tq_called_flag=-1&origin_assistantid=-1&origin_userid=-1&seller_require_change_flag=-1&tmk_student_status=-1&seller_resource_type=-1&favorite_flag=-1";
-            window.location.href = url;
+            // window.location.href = url;
         }
     });
     function load_data(){
