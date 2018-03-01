@@ -1906,11 +1906,26 @@ class test_james extends Controller
         $teacherid = $this->t_lesson_info_b3->get_teacherid($lessonid);
         $limitTimeStart = strtotime(date('Y-m-d'));
         $limitTimeEnd   = $limitTimeStart+86400;
-        $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
+        // $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
+        $lessonTimeList = [
+            [
+                "lesson_start" => "1519862400",
+                "lesson_end" => "1519864200"
+            ],
+            [
+                "lesson_start" => "1519864500",
+                "lesson_end" => "1519866000"
+            ],
+            [
+                "lesson_start" => "1519870800",
+                "lesson_end" => "1519873200"
+            ]
+        ];
+
         $lesson_start   = $this->t_lesson_info_b3->get_lesson_start($lessonid);
         $lesson_end     = $this->t_lesson_info_b3->get_lesson_end($lessonid);
-        $lessonDuration = $lesson_end-$lesson_start;
-        // dd($lessonTimeList);
+        // $lessonDuration = $lesson_end-$lesson_start;
+        $lessonDuration = 40*60;
 
         $date_list = [];
         $total_list = [];
@@ -1930,7 +1945,8 @@ class test_james extends Controller
         # 检测并剔除冲突时间
         foreach($lessonTimeList as $i=>&$item){
             foreach($total_list as $ii=>$val){
-                if(($item['lesson_start']>=$val['lesson_start'] && $item['lesson_start']<=$val['lesson_end']) || ($item['lesson_end']<$val['lesson_end']&&$item['lesson_end']>$val['lesson_start'])){
+                if(($item['lesson_start']>=strtotime($val['lesson_start']) && $item['lesson_start']<=strtotime($val['lesson_end'])) || ($item['lesson_end']<strtotime($val['lesson_end'])&&$item['lesson_end']>strtotime($val['lesson_start']))){
+                    dd(1);
                     unset($total_list[$ii]);
                 }
             }
