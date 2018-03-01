@@ -126,7 +126,7 @@ class update_company_wx_data extends Command
                 $common['type'] = E\Eapproval_type::V_1;
             }
             $leave = json_decode($item['comm']['apply_data'], true);
-            $items = "";
+            $items = [];
             // 1.初始化
             $data_desc = $data_column = $require_reason = $require_time = "";
             
@@ -301,7 +301,9 @@ class update_company_wx_data extends Command
                 // 添加标签用户数据
                 $users = $tag_d_u['userlist'];
                 foreach($users as $val) {
-                    if (!(isset($tag_users[$item['tagid']]) && in_array($val['userid'], $tag_users[$item['tagid']]))) {
+                    $tag_user = $task->t_company_wx_tag_users->get_user($item["tagid"], $val["userid"]);
+                    if (!($tag_user)) {
+                        //if (!(isset($tag_users[$item['tagid']]) && in_array($val['userid'], $tag_users[$item['tagid']]))) {
                         $task->t_company_wx_tag_users->row_insert([
                             "id" => $item['tagid'],
                             'userid' => $val['userid']
