@@ -1,92 +1,100 @@
 @extends('layouts.app')
 @section('content')
-      <script type="text/javascript" src="/js/jquery.md5.js"></script>
-      <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
-      <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-      <script type="text/javascript" src="/js/qiniu/ui.js"></script>
-      <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
-      <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
-      <script type="text/javascript" src="/page_js/lib/flow.js"></script>
-      <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
-      <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
-      <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
-      <section class="content">
-          <div class="row row-query-list">
-              <div class="col-xs-12 col-md-5"  data-title="时间段">
-                  <div  id="id_date_range" >
-                  </div>
-              </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span class="input-group-addon">订单号</span>
-                      <input class="opt-change form-control" id="id_orderid" />
-                  </div>
-              </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span class="input-group-addon">下单人</span>
-                      <input class="opt-change form-control" id="id_adminid" />
-                  </div>
-              </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span class="input-group-addon">类型</span>
-                      <input class="opt-change form-control " id="id_contract_type" /> 
-                  </div>
-              </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span class="input-group-addon">详细分类</span>
-                      <select class="opt-change form-control " id="id_stu_from_type" >
-                      </select>
-                  </div>
-              </div>
-
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">特殊申请</span>
-                <select class="opt-change form-control" id="id_spec_flag" >
-                </select>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
+    <section class="content">
+        <div class="row row-query-list">
+            <div class="col-xs-12 col-md-5"  data-title="时间段">
+                <div  id="id_date_range" >
+                </div>
             </div>
-        </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span class="input-group-addon">测试学员</span>
-                      <select class="opt-change form-control " id="id_test_user" >
-                      </select>
-                  </div>
-              </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span class="input-group-addon">转介绍</span>
-                      <input class="opt-change form-control" id="id_origin_userid" />
-                  </div>
-              </div>
-              <div  class="col-xs-6 col-md-4">
-                  <div class="input-group ">
-                      <span class="input-group-addon">申请人选择</span>
-                      <input class="opt-change form-control" id="id_seller_groupid_ex" />
-                  </div>
-              </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span >学生</span>
-                      <input id="id_studentid"  />
-                  </div>
-              </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span class="input-group-addon">转介绍_组员</span>
-                      <input class="opt-change form-control" id="id_referral_adminid" />
-                  </div>
-              </div>
-              <div class="col-xs-6 col-md-2">
-                  <div class="input-group ">
-                      <span class="input-group-addon">助教</span>
-                      <input class="opt-change form-control" id="id_assistantid" />
-                  </div>
-              </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">订单号</span>
+                    <input class="opt-change form-control" id="id_orderid" />
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">下单人</span>
+                    <input class="opt-change form-control" id="id_adminid" />
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">类型</span>
+                    <input class="opt-change form-control " id="id_contract_type" /> 
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <div class="input-group ">
+                    <span class="input-group-addon">转介绍渠道</span>
+                    <select class="opt-change form-control " id="id_is_origin" >
+                        <option value="-1">[全部]</option>
+                        <option value="1">转介绍渠道</option>
+                    </select>
+                </div>
+            </div>
+            <!-- <div class="col-xs-6 col-md-2">
+                 <div class="input-group ">
+                 <span class="input-group-addon">详细分类</span>
+                 <select class="opt-change form-control " id="id_stu_from_type" >
+                 </select>
+                 </div>
+                 </div>
+            -->
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">特殊申请</span>
+                    <select class="opt-change form-control" id="id_spec_flag" >
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">测试学员</span>
+                    <select class="opt-change form-control " id="id_test_user" >
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">转介绍</span>
+                    <input class="opt-change form-control" id="id_origin_userid" />
+                </div>
+            </div>
+            <div  class="col-xs-6 col-md-4">
+                <div class="input-group ">
+                    <span class="input-group-addon">申请人选择</span>
+                    <input class="opt-change form-control" id="id_seller_groupid_ex" />
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span >学生</span>
+                    <input id="id_studentid"  />
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">转介绍_组员</span>
+                    <input class="opt-change form-control" id="id_referral_adminid" />
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">助教</span>
+                    <input class="opt-change form-control" id="id_assistantid" />
+                </div>
+            </div>
 
 
             <div class="col-xs-6 col-md-2">
@@ -315,7 +323,7 @@
         </div>
         <div style="display:none;" id="id_dlg_change_state">
             <div class="mesg_alertCont">
-              <table border="0" cellspacing="0" width="100%" style="border-collapse:collapse;" class="stu_tab02">
+                <table border="0" cellspacing="0" width="100%" style="border-collapse:collapse;" class="stu_tab02">
                     <tr>
                         <td>合同编号：</td>
                         <td class="align_l orderid"></td>
@@ -410,9 +418,7 @@
                 <li>教材：<span id="id_user_textbook">  </span></li>
             </ul>
         </div>
-        </div>
     </section>
-
     <div style="display:none;" id="id_dlg_add_contract">
         <div class="row">
             <div class="col-xs-12 col-md-6  ">
@@ -626,7 +632,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-xs-12 col-md-6 ">
                 <div class="input-group ">
