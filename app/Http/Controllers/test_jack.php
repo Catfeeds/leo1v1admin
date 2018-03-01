@@ -2012,6 +2012,36 @@ class test_jack  extends Controller
     public function ajax_deal_jack(){
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();
+        $userid           = $this->get_in_int_val("userid");
+        $ass_list = $this->t_ass_stu_change_list->get_stu_ass_list($userid);
+        $ass_num=[];
+        foreach($ass_list as $val){
+            $adminid = $val["adminid"];
+            $adminid_old = $val["old_ass_adminid"];
+            if($adminid>0 && !isset($ass_num[$adminid])){
+                $ass_num[$adminid]=$adminid;
+            }
+            if($adminid_old>0 && !isset($ass_num[$adminid_old])){
+                $ass_num[$adminid_old]=$adminid_old;
+            }
+
+        }
+        $num1 = count($ass_num)>0?count($ass_num):1;
+        $tea_num_list = $this->t_lesson_info_b3->get_tea_num_by_subject($userid);
+        $num2=0;
+        foreach($tea_num_list as $v){
+            if($num2<$v["num"]){
+                $num2 = $v["num"];
+            }
+        }
+        return $this->output_succ([
+            "num1"=>$num1/100,
+            "num2"=>$num2/100,
+        ]);
+
+
+        
+        
         $start           = $this->get_in_int_val("start");
         $end = strtotime("+1 months",$start);
         $list1 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,0);
@@ -2151,8 +2181,17 @@ class test_jack  extends Controller
     public function get_reference_teacher_money_info(){
         //拉数据
         $this->check_and_switch_tongji_domain();
+        $start_time = strtotime("2017-06-01");
+        $end_time = strtotime("2018-03-01");
+
+        $list = $this->t_order_refund->get_order_refund_userid_by_apply_time($start_time,$end_time);
         $level = E\Enew_level::$simple_desc_map;
         $level[-1]="全部";
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list,
+            "level" =>$level
+        ]);
+
         $list=[];
         $start_time = strtotime("2016-12-01");
         for($i=1;$i<=1;$i++){
