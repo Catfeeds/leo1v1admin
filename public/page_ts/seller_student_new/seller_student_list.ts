@@ -1,7 +1,27 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-seller_student_list.d.ts" />
 
+var init_and_reload=function(  set_func ) {
+        $('#id_subject').val(-1);
+        $('#id_grade').val(-1);
+        $('#id_seller_student_status').val(-1);
+        $("#id_phone_name").val("");
+        $("#id_phone_location").val("");
+        $("#id_has_pad").val(-1);
+        $("#id_userid").val(-1);
+        $("#id_global_tq_called_flag").val(-1);
+        $("#id_seller_resource_type").val(-1);
+        $("#id_origin_assistantid").val(-1);
+        $("#id_success_flag").val(-1);
+        $("#id_tmk_student_status").val(-1);
+       // $("#id_end_class_flag").val(-1);
+        $('#id_favorite_flag').val(-1);
+        var now=new Date();
+        var t=now.getTime()/1000;
 
+        set_func(t);
+        load_data();
+};
 var show_name_key="";
 function init_today_new()  {
     if (g_args.date_type==4 && g_args.start_time== $.DateFormat( (new Date()).getTime()/1000 ,"yyyy-MM-dd") ) { //是查看今天的新例子
@@ -176,8 +196,12 @@ function init_today_new()  {
                     hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
                 }
                 if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type){
-                    alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
-                    return false;
+                    init_and_reload(function(now){
+                        $.filed_init_date_range( 1,  0, now-7*86400,  now);
+                        $('#id_next_revisit').val(1);
+                    });
+                    // alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
+                    // return false;
                     // var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
                     // window.location.href = url;
                 }
@@ -1470,27 +1494,7 @@ function init_edit() {
         init_noit_btn("id_test_no_return", resp.test_no_return, "试听未回访","试听成功未回访例子个数" );
     });
 
-    var init_and_reload=function(  set_func ) {
-        $('#id_subject').val(-1);
-        $('#id_grade').val(-1);
-        $('#id_seller_student_status').val(-1);
-        $("#id_phone_name").val("");
-        $("#id_phone_location").val("");
-        $("#id_has_pad").val(-1);
-        $("#id_userid").val(-1);
-        $("#id_global_tq_called_flag").val(-1);
-        $("#id_seller_resource_type").val(-1);
-        $("#id_origin_assistantid").val(-1);
-        $("#id_success_flag").val(-1);
-        $("#id_tmk_student_status").val(-1);
-       // $("#id_end_class_flag").val(-1);
-        $('#id_favorite_flag').val(-1);
-        var now=new Date();
-        var t=now.getTime()/1000;
-
-        set_func(t);
-        load_data();
-    };
+    
 
     $("#id_today_new_count").on("click",function(){
         $.do_ajax("/ajax_deal3/set_work_start_time",{});
