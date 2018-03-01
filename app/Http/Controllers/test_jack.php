@@ -14,6 +14,10 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $info = $this->t_company_wx_department->get_all_list();
+        $users = $this->t_company_wx_users->get_all_list_for_manager();
+        dd([$info,$users]);
+ 
         $list1= $this->t_flow->field_get_list(120,"*");
 
         $list2 = $this->t_qingjia->field_get_list(42 ,"*");
@@ -2012,7 +2016,11 @@ class test_jack  extends Controller
     public function ajax_deal_jack(){
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();
-        // $userid           = $this->get_in_int_val("userid");
+        $userid           = $this->get_in_int_val("userid");
+        $tea_name = $this->t_lesson_info_b3->get_last_class_tea_name($userid);
+        return $this->output_succ(["num1"=>$tea_name]);
+
+
         // $ass_list = $this->t_ass_stu_change_list->get_stu_ass_list($userid);
         // $ass_num=[];
         // foreach($ass_list as $val){
@@ -2181,8 +2189,19 @@ class test_jack  extends Controller
     public function get_reference_teacher_money_info(){
         //拉数据
         $this->check_and_switch_tongji_domain();
+        $start_time = strtotime("2018-02-01");
         // $start_time = strtotime("2017-06-01");
-        // $end_time = strtotime("2018-03-01");
+        $end_time = strtotime("2018-03-01");
+        $list = $this->t_student_info->get_stop_student_list($start_time,$end_time);
+        foreach($list as &$val){
+            E\Estudent_type::set_item_value_str($val);
+            E\Egrade::set_item_value_str($val);
+        }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list
+        ]);
+
+        dd($list);
 
         // $list = $this->t_order_refund->get_order_refund_userid_by_apply_time($start_time,$end_time);
         $level = E\Enew_level::$simple_desc_map;
