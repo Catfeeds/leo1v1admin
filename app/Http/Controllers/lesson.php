@@ -289,8 +289,8 @@ class lesson extends TeaWxController
             return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
         }
 
-        if($teacherid == 225427||$teacherid==50281){
-            $output = $this->get_teacher_money_list($start_time,$end,$teacherid);
+        if($teacherid == 225427||$teacherid==225427){
+            $output = $this->get_teacher_money_list($start_time,$end_time,$teacherid);
         }else{
             $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
             $post_data = array(
@@ -320,7 +320,7 @@ class lesson extends TeaWxController
         // $output = curl_exec($ch);
         // curl_close($ch);
 
-        
+
         $ret_arr = json_decode($output,true);
 
 
@@ -492,7 +492,9 @@ class lesson extends TeaWxController
         $this->get_array_data_by_count($all_reward_list,$reward_ex);
         $this->get_array_data_by_count($all_reward_list,$reward_compensate);
         $this->get_array_data_by_count($all_reward_list,$reward_reference);
-
+        $arr['data'] = $lesson_list;
+        $arr['all_reward_list'] = $all_reward_list;
+        return $arr;
         return $this->output_succ(["data"=>$lesson_list,"all_reward_list"=>$all_reward_list]);
     }
 
