@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1000
-//__DESC: 1.1 登录 http://api.class.leo1v1.com/account/login?role=1&phone=18898881886&passwd=123456&remember_me=1
+//__DESC: 1.1 登录 https://api-class.leo1v1.com/account/login?role=1&phone=13816151820&passwd=123456&remember_me=1
 //__TAGS: for_app
 
 
