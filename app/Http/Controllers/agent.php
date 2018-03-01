@@ -446,6 +446,7 @@ class agent extends Controller
         foreach ($user_list as $item ) {
             $userid = $item["userid"];
             if($userid == 415106){
+                dd($userid);
                 $this->t_seller_student_new->reset_sys_invaild_flag($userid);
             }
         }
