@@ -182,7 +182,7 @@ class tom_do_once extends Command
                 // if(isset($arr['test_lesson_flag'])){
                 //     echo $userid.':'.$cc_test_lesson_flag."=>".$first_test_lessonid."\n";
                 // }
-                if(isset($arr['orderid'])){
+                if(isset($arr['last_succ_test_lessonid'])){
                     echo $userid.':'.$cc_last_succ_test_lessonid."=>".$last_succ_test_lessonid."\n";
                 }
                 $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
