@@ -441,8 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_seller_student_new->get_suc_no_call_list(1214);
-        dd($ret);
+        $last_succ_test_lessonid = $this->t_lesson_info_b2->get_last_succ_test_lesson($userid=415106);
+        dd($last_succ_test_lessonid);
         return $this->pageView(__METHOD__,null,[]);
     }
 
