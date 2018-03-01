@@ -14,6 +14,7 @@ message in  {
 }
 
 message out {
-  int32  id = 1 ;//学生id
+  string  access_token = 1 ;//访问令牌,长期有效
+  //common.get_stu_info data= 2 ;//学生信息
 }
 
