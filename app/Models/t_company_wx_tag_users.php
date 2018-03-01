@@ -15,6 +15,12 @@ class t_company_wx_tag_users extends \App\Models\Zgen\z_t_company_wx_tag_users
         });
     }
 
+    public function get_user($id, $userid) {
+        $sql = $this->gen_sql_new("select id from %s where id=$id and userid='$userid'", self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+                                               
+    }
+
 
 }
 

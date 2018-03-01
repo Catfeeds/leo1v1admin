@@ -2016,9 +2016,9 @@ class test_jack  extends Controller
     public function ajax_deal_jack(){
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();
-        $userid           = $this->get_in_int_val("userid");
-        $tea_name = $this->t_lesson_info_b3->get_last_class_tea_name($userid);
-        return $this->output_succ(["num1"=>$tea_name]);
+        // $userid           = $this->get_in_int_val("userid");
+        // $tea_name = $this->t_lesson_info_b3->get_last_class_tea_name($userid);
+        // return $this->output_succ(["num1"=>$tea_name]);
 
 
         // $ass_list = $this->t_ass_stu_change_list->get_stu_ass_list($userid);
@@ -2052,6 +2052,27 @@ class test_jack  extends Controller
         
         $start           = $this->get_in_int_val("userid");
         $end = strtotime("+1 months",$start);
+        $start = strtotime("2017-01-01");
+        $end = strtotime("2018-01-01");
+
+        $arr=["num1"=>0,"num2"=>1,"num3"=>2,"num4"=>3,"num5"=>4,"num6"=>11,"num"=>-1];
+        $list=[];
+        foreach($arr as $k=>$val){
+            $ret=$this->t_lesson_info_b3->get_lesson_count_by_level($start,$end,$val);
+            $key1 = $k."_tea";$key2=$k."_stu";$key3=$k."_lesson";
+            $list[$key1] = @$ret["num"];
+            $list[$key3] = (@$ret["num"]>0)?round($ret["lesson_count"]/$ret["num"]/100):0;
+            $ret_detail=$this->t_lesson_info_b3->get_lesson_count_by_level_detail($start,$end,$val);
+            $stu_num=0;
+            foreach($ret_detail as $tt){
+                $stu_num +=$tt["num"];
+
+            }
+            $list[$key2] = (@$ret["num"]>0)?round($stu_num/$ret["num"],1):0;
+            
+
+        }
+        return $this->output_succ($list);
         $list1 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,0);
         $num1 = (isset($list1["num"]) && $list1["num"]>0)?round($list1["lesson_count"]/$list1["num"]):0;
         $list2 = $this->t_lesson_info_b3->get_lesson_count_by_level(-1,-1,1);
@@ -2189,19 +2210,19 @@ class test_jack  extends Controller
     public function get_reference_teacher_money_info(){
         //拉数据
         $this->check_and_switch_tongji_domain();
-        $start_time = strtotime("2018-02-01");
-        // $start_time = strtotime("2017-06-01");
-        $end_time = strtotime("2018-03-01");
-        $list = $this->t_student_info->get_stop_student_list($start_time,$end_time);
-        foreach($list as &$val){
-            E\Estudent_type::set_item_value_str($val);
-            E\Egrade::set_item_value_str($val);
-        }
-        return $this->pageView(__METHOD__,null,[
-            "list"  =>$list
-        ]);
+        // $start_time = strtotime("2018-02-01");
+        // // $start_time = strtotime("2017-06-01");
+        // $end_time = strtotime("2018-03-01");
+        // $list = $this->t_student_info->get_stop_student_list($start_time,$end_time);
+        // foreach($list as &$val){
+        //     E\Estudent_type::set_item_value_str($val);
+        //     E\Egrade::set_item_value_str($val);
+        // }
+        // return $this->pageView(__METHOD__,null,[
+        //     "list"  =>$list
+        // ]);
 
-        dd($list);
+        // dd($list);
 
         // $list = $this->t_order_refund->get_order_refund_userid_by_apply_time($start_time,$end_time);
         $level = E\Enew_level::$simple_desc_map;
@@ -2213,7 +2234,7 @@ class test_jack  extends Controller
 
         $list=[];
         $start_time = strtotime("2016-12-01");
-        for($i=1;$i<=1;$i++){
+        for($i=1;$i<=14;$i++){
             $first = strtotime(date("Y-m-01",strtotime("+".$i." months", $start_time)));
             // $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
             $month = date("Y-m-d",$first);

@@ -49,7 +49,14 @@ $(function(){
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".tea").text(data.num1);
+                        var t;
+                        for (t in data) {
+                            var c= "."+t;
+                            console.log(t);
+                             $tr.find(c).text(data[t]);
+                        }
+                        console.log(data);
+                        // $tr.find(".tea").text(data.num1);
                         // $tr.find(".num2").text(data.num2);
                         // $tr.find(".num3").text(data.num3);
                         // $tr.find(".num4").text(data.num4);
