@@ -114,7 +114,7 @@
      .hide{ display:none }
      .student_test_score .student_test_paper{ margin-bottom:20px }
      .student_test_score .student_test_paper span{ font-weight:bold }
-     .student_test_score .student_test_paper select{ width:300px;height:30px;background:white;}
+     .student_test_score .student_test_paper select{ width:400px;height:38px;background:white;}
      .student_test_score p{ margin-bottom:20px }
      .student_test_score p span{ font-weight:bold;margin-right:40px;display:inline-block}
      .student_test_score p span font{ font-weight:normal }

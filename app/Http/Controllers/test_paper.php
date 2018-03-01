@@ -255,8 +255,8 @@ class test_paper extends Controller
 
     //获取学生的分数
     public function get_student_scores(){
-        $userid  = $this->get_in_int_val('userid',62721);
-        $phone   = $this->get_in_int_val('phone',2147483647);
+        $userid  = $this->get_in_int_val('userid');
+        $phone   = $this->get_in_int_val('phone');
         $result  = ["status" => 201];
         $get_scores = $this->t_student_test_answer->get_scores($userid,$phone);
         //dd($get_scores);
