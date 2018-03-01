@@ -30,10 +30,6 @@ class stu_manage extends Controller
 
     public function index(){
         $sid = $this->sid;
-        if(!$this->sid || $this->sid===null){
-            echo $this->error_view(["学生id出错！请关闭页面，从学生列表处重新进入！"]);
-            exit;
-        }
 
         $ret_db = $this->t_student_info->get_stu_all_info($sid);
         if ($ret_db === false) {
