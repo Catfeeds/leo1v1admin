@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $main_groupid = $this->t_admin_main_group_name->get_groupid_by_adminid($adminid=869);
+        dd($main_groupid);
         $now = time(NULL);
         $user_list = $this->t_seller_student_new->get_user_list_by_add_time( $now-86400*101,$now );
         foreach ($user_list as $item ) {
