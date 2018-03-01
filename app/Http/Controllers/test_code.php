@@ -500,10 +500,10 @@ class test_code extends Controller
         \App\Helper\Net::send_post_data($url,$data);
     }
 
-    public function test_money(){
+    public function test_money($year,$month){
         $this->switch_tongji_database();
-        $year  = $this->get_in_int_val("year",2017);
-        $month = $this->get_in_int_val("month",1);
+        // $year  = $this->get_in_int_val("year",2017);
+        // $month = $this->get_in_int_val("month",1);
 
         $date_str = $year."-".$month;
         $start    = strtotime($date_str);
@@ -563,7 +563,9 @@ class test_code extends Controller
                 \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_free_count'], $lesson_free_count);
             }
         }
-        dd($money_list);
+        return $money_list;
     }
+
+
 
 }

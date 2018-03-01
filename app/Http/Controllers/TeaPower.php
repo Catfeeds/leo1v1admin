@@ -11,11 +11,6 @@ use \App\Enums as E;
  * @use \App\Http\Controllers\Controller
  */
 trait TeaPower {
-
-    public function test_class(){
-        return 111;
-    }
-
     public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1,$lesson_end=0){
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
 
@@ -5333,17 +5328,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }else{
             $flag=0;
         }
-        
 
         // dd([$info,$users]);
         return $flag;
- 
     }
 
     public function get_all_department_name($info,$department,&$department_list){
         $pid=0;
         $name="";
-        
+
         foreach($info as $v){
             if($v["id"]==$department){
                 $pid=$v["pId"];
