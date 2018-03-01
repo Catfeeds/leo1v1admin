@@ -113,6 +113,7 @@ class tom_do_once extends Command
             $arr = [];
             $userid = $item['userid'];
             $phone = $item['phone'];
+            $cc_admin_revisiterid = $item['admin_revisiterid'];
             $cc_called_count = $item['cc_called_count'];
             $cc_no_called_count = $item['cc_no_called_count'];
             $cc_no_called_count_new = $item['cc_no_called_count_new'];
@@ -141,7 +142,7 @@ class tom_do_once extends Command
             // $first_test_lessonid = $this->task->t_lesson_info_b2->get_first_test_lesson($userid);
             // $orderid = $this->task->t_order_info->get_last_orderid_by_userid($userid);
             // $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
-            $last_edit_time = $this->task->t_lesson_info_b2->field_get_value($cc_last_succ_test_lessonid, 'lesson_end');
+            // $last_edit_time = $this->task->t_lesson_info_b2->field_get_value($cc_last_succ_test_lessonid, 'lesson_end');
 
             // if($cc_called_count != $called_count){
             //     $arr['cc_called_count'] = $called_count;
@@ -179,9 +180,9 @@ class tom_do_once extends Command
             // if($cc_last_revisit_time != $last_revisit_time){
             //     $arr['last_revisit_time'] = $last_revisit_time;
             // }
-            if($cc_last_succ_test_lessonid>0 && $cc_last_edit_time<$last_edit_time){
-                $arr['last_edit_time'] = $last_edit_time+3600;
-            }
+            // if($cc_admin_revisiterid>0 && $cc_last_succ_test_lessonid>0 && $cc_last_edit_time<$last_edit_time){
+            //     $arr['last_edit_time'] = $last_edit_time+3600;
+            // }
             // $arr['first_contact_time'] = $first_contact_time;
             // $arr['last_contact_time'] = $last_contact_time;
             if(count($arr)>0){
