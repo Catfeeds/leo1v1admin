@@ -1909,17 +1909,17 @@ class test_james extends Controller
         // $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
         $lessonTimeList = [
             [
-                "lesson_start" => "1519862400",
-                "lesson_end" => "1519864200"
+                "lesson_start" => "1519862400",//8
+                "lesson_end" => "1519864200"//8.30
             ],
             [
-                "lesson_start" => "1519864500",
-                "lesson_end" => "1519866000"
+                "lesson_start" => "1519864500",//8.35
+                "lesson_end" => "1519866000"//9.0
             ],
-            [
-                "lesson_start" => "1519870800",
-                "lesson_end" => "1519873200"
-            ]
+            // [
+            //     "lesson_start" => "1519870800",
+            //     "lesson_end" => "1519873200"
+            // ]
         ];
 
         $lesson_start   = $this->t_lesson_info_b3->get_lesson_start($lessonid);
@@ -1931,7 +1931,7 @@ class test_james extends Controller
         $total_list = [];
 
         # 列出所有时间段
-        $timeNum = (24-6)*2; //每日时间的可选择范围开始时间为6:00，结束时间为24:00; 每半个小时一个节点
+        $timeNum = (24-6)*2; //每日时间的可选择范围开始时间为6:00，结束时间为24:00; 每半个小时一个节点 
         $six = strtotime(date('Y-m-d 6:0:0'));
         $twentyFour = strtotime(date('Y-m-d 24:00:00'));
         $list = [];
@@ -1946,7 +1946,6 @@ class test_james extends Controller
         foreach($lessonTimeList as $i=>&$item){
             foreach($total_list as $ii=>$val){
                 if(($item['lesson_start']>=strtotime($val['lesson_start']) && $item['lesson_start']<=strtotime($val['lesson_end'])) || ($item['lesson_end']<strtotime($val['lesson_end'])&&$item['lesson_end']>strtotime($val['lesson_start']))){
-                    dd(1);
                     unset($total_list[$ii]);
                 }
             }

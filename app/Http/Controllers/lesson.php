@@ -284,13 +284,6 @@ class lesson extends TeaWxController
         $end_time    = $this->get_in_int_val("end");
 
 
-        \App\Helper\Utils::logger('get_salary_detail_list_james:'.$teacherid);
-        if($teacherid == 225427){
-            $teacherid =50278;
-            \App\Helper\Utils::logger('get_salary_detail_list_james_111:'.$teacherid);
-
-        }
-
         if(!$teacherid){
             return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
         }
