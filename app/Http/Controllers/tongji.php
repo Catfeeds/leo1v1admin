@@ -517,11 +517,11 @@ class tongji extends Controller
             if (isset ( $d_item["start_logtime"]) ){
                 $d_item["work_time"]=  $d_item["end_logtime"] -  $d_item["start_logtime"] ;
                 $d_item["work_time_str"] =\App\Helper\Common::get_time_format( $d_item["work_time"]  );
+                $day_start = strtotime(date("Y-m-d",$d_item["start_logtime"])." 10:01:00");
+                $day_end = strtotime(date("Y-m-d",$d_item["start_logtime"])." 18:30:00");
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "","H:i:s");
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"", "H:i:s");
                 if($dev_flag==1){
-                    $day_start = strtotime(date("Y-m-d",$d_item["start_logtime"])." 10:01:00");
-                    $day_end = strtotime(date("Y-m-d",$d_item["start_logtime"])." 18:30:00");
                     if($d_item["end_logtime"]<$day_end || $d_item["start_logtime"]>=$day_start || $d_item["work_time"] < 9*3600){
                         $d_item["error_flag"]=1;
                         $d_item["error_flag_str"] ="是";
