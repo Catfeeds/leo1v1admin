@@ -501,6 +501,7 @@ class test_code extends Controller
     }
 
     public function test_money(){
+        $this->check_and_switch_tongji_domain();
         $year  = $this->get_in_int_val("year",2017);
         $month = $this->get_in_int_val("month",1);
 
