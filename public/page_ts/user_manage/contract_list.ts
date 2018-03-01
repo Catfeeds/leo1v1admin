@@ -3,32 +3,32 @@
 
 function load_data(){
     $.reload_self_page({
-		    order_by_str : g_args.order_by_str,
-        orderid:	$('#id_orderid').val(),
-        date_type         : $('#id_date_type').val(),
-        opt_date_type     : $('#id_opt_date_type').val(),
-        seller_groupid_ex :	$('#id_seller_groupid_ex').val(),
-        start_time        : $('#id_start_time').val(),
-        end_time          : $('#id_end_time').val(),
-        assistantid:	$('#id_assistantid').val(),
-        grade             : $('#id_grade').val(),
-        subject           : $('#id_subject').val(),
-        contract_type     : $("#id_contract_type").val(),
+		    order_by_str        : g_args.order_by_str,
+        orderid             :	$('#id_orderid').val(),
+        date_type           : $('#id_date_type').val(),
+        opt_date_type       : $('#id_opt_date_type').val(),
+        seller_groupid_ex   :	$('#id_seller_groupid_ex').val(),
+        start_time          : $('#id_start_time').val(),
+        end_time            : $('#id_end_time').val(),
+        assistantid         :	$('#id_assistantid').val(),
+        grade               : $('#id_grade').val(),
+        subject             : $('#id_subject').val(),
+        contract_type       : $("#id_contract_type").val(),
         order_activity_type : $("#id_order_activity_type").val(),
-        contract_status   : $("#id_contract_status").val(),
-        studentid         : $("#id_studentid").val(),
-        test_user         : $("#id_test_user").val(),
-        sys_operator      : $("#id_sys_operator").val(),
-        stu_from_type     : $("#id_stu_from_type").val(),
-        has_money         : $("#id_has_money").val(),
-        account_role      : $("#id_account_role").val(),
-        teacherid         : $('#id_teacherid').val(),
-		    adminid:	$('#id_adminid').val(),
-        tmk_adminid       : $('#id_tmk_adminid').val(),
-        origin_userid     : $('#id_origin_userid').val(),
-        referral_adminid:	$('#id_referral_adminid').val(),
-        spec_flag:	$('#id_spec_flag').val(),
-
+        contract_status     : $("#id_contract_status").val(),
+        studentid           : $("#id_studentid").val(),
+        test_user           : $("#id_test_user").val(),
+        sys_operator        : $("#id_sys_operator").val(),
+        stu_from_type       : $("#id_stu_from_type").val(),
+        has_money           : $("#id_has_money").val(),
+        account_role        : $("#id_account_role").val(),
+        teacherid           : $('#id_teacherid').val(),
+		    adminid             :	$('#id_adminid').val(),
+        tmk_adminid         : $('#id_tmk_adminid').val(),
+        origin_userid       : $('#id_origin_userid').val(),
+        referral_adminid    :	$('#id_referral_adminid').val(),
+        spec_flag           :	$('#id_spec_flag').val(),
+        is_origin           :	$('#id_is_origin').val(),
     });
 }
 
@@ -43,6 +43,7 @@ function isNumber( s ){
 }
 
 $(function(){
+	  $('#id_is_origin').val(g_args.is_origin);
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
 

@@ -603,7 +603,8 @@ class user_manage extends Controller
         $from_url          = $this->get_in_str_val('from_url');
         $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag = $this->get_in_e_boolean(-1,"spec_flag");
-        $order_adminid          = $this->get_in_adminid(-1);
+        $order_adminid     = $this->get_in_adminid(-1);
+        $is_origin= $this->get_in_int_val('is_origin',-1);
 
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -632,12 +633,17 @@ class user_manage extends Controller
             }
         }
 
+        $origin="";
+        if($is_origin){
+            $origin="转介绍";
+        }
+
         $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );
         $ret_list = $this->t_order_info->get_order_list_require_adminid(
             $page_num,$start_time,$end_time,$contract_type,
             $contract_status,$studentid,$config_courseid,
             $is_test_user, $show_yueyue_flag, $has_money,
-            -1, $assistantid,"",$stu_from_type,$sys_operator,
+            -1, $assistantid,$origin,$stu_from_type,$sys_operator,
             $account_role,$grade,$subject,$tmk_adminid,-1,
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type,
