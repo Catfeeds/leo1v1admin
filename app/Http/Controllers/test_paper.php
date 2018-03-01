@@ -247,4 +247,71 @@ class test_paper extends Controller
             "grade" => $grade,
         ]);
     }
+
+    //获取学生的分数
+    public function get_student_scores(){
+        $userid  = $this->get_in_int_val('userid',62721);
+        $phone   = $this->get_in_int_val('phone',2147483647);
+        $result  = ["status" => 201];
+        $get_scores = $this->t_student_test_answer->get_scores($userid,$phone);
+        //dd($get_scores);
+        $ret = [];
+        if($get_scores){          
+            foreach( $get_scores as $v){
+                $scores = [];
+                $start_time = date("Y-m-d H:i", ($v['submittime'] - $v['time_token']));
+                $subtime = date("Y-m-d H:i",$v['submittime']);
+                $scores["name"] = $v['paper_id']."  ".$v['paper_name']."  ".$start_time;
+                $scores["start_time"] = $start_time;
+                $scores["subtime"] = $subtime;
+                $scores["time_token"] = $v['time_token'];
+                $scores["var"] = [];
+                if($v['dimension_scores']){
+                    $tr_show = [];
+                    //每个维度的得分情况
+                    $dimension_scores_arr = json_decode($v['dimension_scores'],true);
+                    //根据每个维度的得分提供的建议
+                    $dimension_suggest_arr = json_decode($v['dimension_suggest'],true);
+                    //维度名称
+                    $dimension = json_decode($v['dimension'],true);
+                    //维度绑定的题目
+                    $question_bind = json_decode($v['question_bind'],true);
+                    //题目
+                    $answer = json_decode($v['answer'],true);
+                    //所有建议
+                    $suggestion = json_decode($v['suggestion'],true);
+                    foreach( $dimension_scores_arr as $di => $sco){
+                        //该维度总分
+                        $ques_arr = @$question_bind[$di];
+                        $all_score = 0;
+                        if($ques_arr){
+                            foreach( $ques_arr as $q_no ){
+                                $all_score += (int)$answer[$q_no][2];
+                            }
+                        }
+                        $score_range_have = "";
+                        //该分数落在哪个维度得分范围内
+                        $score_range = @$suggestion[$di];
+                        if($score_range){
+                            foreach( $score_range as $s_range => $sug ){
+                                if( $sug == $dimension_suggest_arr[$di]){
+                                    $score_range_have = $s_range;
+                                }
+                            }
+                        }
+                        $tr_show[] = [ @$dimension[$di], $sco ,$all_score,$score_range_have,$dimension_suggest_arr[$di] ];                  
+                    }
+
+                    $scores["var"] = $tr_show;
+                }
+
+                $ret[] = $scores;
+                $result['stauts'] = 200;
+                $result['ret'] = $ret;
+            }
+        }
+        //dd($ret);
+        return $this->output_succ($result);
+
+    }
 }
