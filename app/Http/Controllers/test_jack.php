@@ -19,7 +19,7 @@ class test_jack  extends Controller
         $department_list=[];
         foreach($users as $val){
             $department = $val["department"];
-            $department_list = $this->get_all_department_name($info,$department);
+            $department_list = $this->get_all_department_name($info,$department,$department_list);
 
         }
         dd([$info,$users,$department_list]);
