@@ -33,11 +33,14 @@ interface RowData {
 	dimension	:any;
 	question_bind	:any;
 	suggestion	:any;
+	use_arr	:any;
 	subject_str	:any;
 	grade_str	:any;
 	volume_str	:any;
 	book_str	:any;
 	operator	:any;
+	edit_time	:any;
+	use_number	:any;
 }
 
 /*

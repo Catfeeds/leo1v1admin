@@ -1929,9 +1929,9 @@ class test_james extends Controller
 
         # 检测并剔除冲突时间
         foreach($lessonTimeList as $i=>&$item){
-            foreach($total_list as $val){
-                if(($item['lesson_start']>=$val['lesson_start'] && $item['lesson_end']<=$val['lesson_end']) || $item['lesson_end']){
-
+            foreach($total_list as $ii=>$val){
+                if(($item['lesson_start']>=$val['lesson_start'] && $item['lesson_start']<=$val['lesson_end']) || ($item['lesson_end']<$val['lesson_end']&&$item['lesson_end']>$val['lesson_start'])){
+                    unset($total_list[$ii]);
                 }
             }
         }
