@@ -4,9 +4,9 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-      adminid:	$('#id_adminid').val(),
-      become_full_member_flag:	$('#id_become_full_member_flag').val(),
-      fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+            adminid:	$('#id_adminid').val(),
+            become_full_member_flag:	$('#id_become_full_member_flag').val(),
+            fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 

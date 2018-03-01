@@ -1896,4 +1896,29 @@ class test_james extends Controller
 
 
 
+    # 获取调时间选项
+    # 做冲突检测 : 如有连续的时间也不可以
+    #
+    #
+    public function getChangeTimeList(){
+        $lessonid  = $this->get_in_int_val('lessonid');
+        $userid    = $this->t_lesson_info_b3->get_userid($lessonid);
+        $teacherid = $this->t_lesson_info_b3->get_teacherid($lessonid);
+        $limitTimeStart = strtotime(date('Y-m-d'));
+        $limitTimeEnd   = $limitTimeStart+86400;
+        $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
+        $lesson_start   = $this->t_lesson_info_b3->get_lesson_start($lessonid);
+        $lesson_end     = $this->t_lesson_info_b3->get_lesson_end($lessonid);
+        $lessonDuration = $lesson_end-$lesson_start;
+        dd($lessonTimeList);
+
+        $start = strtotime(date('Y-m-d 06:00:00'));
+        $end   = strtotime('+1 day');
+        $date_list = [];
+        foreach($lessonTimeList as &$item){
+
+        }
+    }
+
+
 }

@@ -22,9 +22,13 @@
             <thead>
                 <tr>
                     <td>月份</td>
-                    @foreach ( $level as $k=>$v )
-                        <td>{{ @$v }}</td>
-                    @endforeach                                                                                   
+                    @foreach ( $level as $k=>$var )
+                        <td>{{$var}}</td>
+                    @endforeach
+
+                    <!-- <td>助教经手次数</td>
+                         <td>单科目老师更换的最大次数</td> -->
+                                                                                      
                     <td> 操作</td>
                 </tr>
             </thead>
@@ -38,8 +42,9 @@
                         <td class="num3"></td>                       
                         <td class="num4"></td>                       
                         <td class="num5"></td>                       
-                        <td class="num6"></td>                       
-                        <td class="num"></td>                       
+                        <td class="num6"></td>                        
+                        <td class="num"></td>                        
+                                 
                         
                         <td>
                             <div class="row-data"  data-userid="{{ @$var["start"] }}" >

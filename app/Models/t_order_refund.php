@@ -663,4 +663,25 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         });
     }
 
+    public function get_order_refund_userid_by_apply_time($start_time,$end_time){
+        $where_arr = [
+            [" r.apply_time > %s",$start_time,-1],
+            [" r.apply_time < %s",$end_time,-1],
+            " r.contract_type  != 1 ",
+            " o.price > 0  ",
+            " o.contract_status IN (1,2,3) ",
+            " s.is_test_user = 0 ",
+        ];
+        $sql = $this->gen_sql_new("select distinct o.userid "
+                                  ." from %s r left join %s o on r.orderid = o.orderid"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

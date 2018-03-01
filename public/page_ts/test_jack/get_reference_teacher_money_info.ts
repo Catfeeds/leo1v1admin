@@ -44,7 +44,7 @@ $(function(){
                         });*/
                     $.do_ajax("/test_jack/ajax_deal_jack",{
                         // "teacherid" : teacherid,
-                        "start": userid,
+                        "userid": userid,
                         // "end_time"  : end_time
                     },function(resp){
                         console.log(resp.data);

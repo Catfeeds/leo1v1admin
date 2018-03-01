@@ -2568,7 +2568,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
         );
-
         return $this->main_get_row($sql);
     }
 
@@ -3965,7 +3964,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_user_online_status in (0,1)",
             "l.lesson_type in (0,1,3)",
             ["t.level = %u",$level,-1],
-
+            "l.lesson_del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start, $end);
         $sql = $this->gen_sql_new("select count(distinct l.teacherid) num,sum(l.lesson_count) lesson_count"
@@ -3976,5 +3975,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+
+    //按科目统计学生的常规课老师数
+    public function get_tea_num_by_subject($userid){
+        $where_arr=[
+            "t.is_test_user=0",
+            "l.confirm_flag <2",
+            "l.lesson_type in (0,1,3)",
+            ["l.userid = %u",$userid,-1],
+            "l.lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num"
+                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s group by l.subject",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 }
