@@ -423,9 +423,14 @@ where s.is_test_user = 0 and q.is_called_phone =1
         foreach ($ret2 as $key => $value) {
             $arr[$value['userid']] = 1;
         }
+        foreach ($ret as $key => $value) {
+            if($value['time'] >= 1517414400){
+                $arr[$value['userid']] = 0;
+            }
+        }
         $arr_info = [];
         foreach ($ret as $key => $value) {
-            if( isset($arr[$value['userid']]) && $value['time'] < 1517414400){
+            if( isset($arr[$value['userid']]) && @$arr[$value['userid']] > 0 && $value['time'] < 1517414400){
                 $arr_info[$value['userid']][$value['teacherid']] = 1;
             }
         }
