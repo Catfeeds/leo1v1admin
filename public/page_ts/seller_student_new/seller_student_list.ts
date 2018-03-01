@@ -2105,7 +2105,8 @@ function init_edit() {
         var userid = opt_data.userid;
         var phone = opt_data.phone;
         var data = {
-            
+            "userid" : userid,
+            "phone"  : phone
         };
         $.do_ajax("/test_paper/get_student_scores",data,function(ret){
             if( ret.ret == 0 && ret.status == 200 && ret.message){
