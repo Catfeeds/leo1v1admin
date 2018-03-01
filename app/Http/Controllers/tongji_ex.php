@@ -760,7 +760,14 @@ class tongji_ex extends Controller
     public function get_order_info_list(){
         $start_time = strtotime($this->get_in_str_val('start_time','2018-01-01'));
         $end_time = strtotime($this->get_in_str_val('end_time','2018-02-01'));
-        $ret = $this->t_order_info->get_item_list($start_time,$end_time);
+        $month = strtotime(date('Y-m-01',$start_time));
+        $adminid_info = $this->t_main_major_group_name_month->get_cc_adminid_list($month);
+        $adminid_list = array_column($adminid_info, 'adminid');
+        $n_master_adminid_list = array_column($adminid_info, 'n_master_adminid');
+        $g_master_adminid_list = array_column($adminid_info, 'g_master_adminid');
+        $mg_master_adminid_list = array_column($adminid_info, 'mg_master_adminid');
+        $adminid_list = array_unique(array_merge($adminid_list,$n_master_adminid_list,$g_master_adminid_list,$mg_master_adminid_list));
+        $ret = $this->t_order_info->get_item_list($start_time,$end_time,$adminid_list);
         $num = 0;
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h4>'.date('Y-m',$start_time).'月份签单</h4></caption>';

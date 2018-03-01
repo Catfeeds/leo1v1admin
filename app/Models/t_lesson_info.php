@@ -1726,6 +1726,7 @@ lesson_type in (0,1) "
         );
         return $this->main_get_list_as_page($sql);
     }
+
     public function get_ass_lesson_info( $start_time,$end_time, $require_adminid_list) {
         $where_arr=[
             "lesson_type in (0,1,3)",
@@ -3115,7 +3116,7 @@ lesson_type in (0,1) "
             ["s.userid=%u",$studentid,-1],
         ];
         if($type=='current'){
-            $where_arr[]="lesson_status=2";
+            $where_arr[] = "lesson_status=2";
         }
         $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
 
@@ -3126,8 +3127,9 @@ lesson_type in (0,1) "
                                   ." lesson_cancel_time_type,lesson_cancel_reason_type,t.teacher_type,"
                                   ." m.money,m.type,m.level,m.teacher_money_type,l.teacher_type as l_teacher_type,"
                                   ." tl.test_lesson_fail_flag,tl.fail_greater_4_hour_flag,"
-                                  ." l.competition_flag"
+                                  ." l.competition_flag,l.teacherid,sum(ol.price) as lesson_price"
                                   ." from %s l "
+                                  ." left join %s ol on l.lessonid=ol.lessonid"
                                   ." left join %s tl on l.lessonid=tl.lessonid "
                                   ." left join %s s on l.userid=s.userid "
                                   ." left join %s o on l.lessonid=o.lessonid "
@@ -3147,6 +3149,7 @@ lesson_type in (0,1) "
                                   ." group by l.lessonid "
                                   ." order by l.lesson_start asc "
                                   ,self::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_order_lesson_list::DB_TABLE_NAME
