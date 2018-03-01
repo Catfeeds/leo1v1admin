@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1110
+//__DESC: 3.2 请假 https://api-class.leo1v1.com/student/get_test_info
+//__TAGS: for_app,for_website
+
+
+message in  {
+}
+
+message out {
+  common.get_test_time data = 1;  // 试听课上课时间
+}
+

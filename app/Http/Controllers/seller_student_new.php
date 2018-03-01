@@ -445,9 +445,9 @@ class seller_student_new extends Controller
                 $item['assign_type'] = '抢单';
             }
             $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
-            if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
-                $item['left_end_time'] = strtotime('2018-03-07');
-            }
+            // if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
+            //     $item['left_end_time'] = strtotime('2018-03-07');
+            // }
             $item['suc_no_call_flag'] = 0;
             if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
                 if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
