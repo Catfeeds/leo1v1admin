@@ -441,6 +441,14 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $now = time(NULL);
+        $user_list = $this->t_seller_student_new->get_user_list_by_add_time( $now-86400*101,$now );
+        foreach ($user_list as $item ) {
+            $userid = $item["userid"];
+            if($userid == 415106){
+                $this->t_seller_student_new->reset_sys_invaild_flag($userid);
+            }
+        }
         $last_succ_test_lessonid = $this->t_lesson_info_b2->get_last_succ_test_lesson($userid=415106);
         dd($last_succ_test_lessonid);
         return $this->pageView(__METHOD__,null,[]);
