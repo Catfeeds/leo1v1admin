@@ -2891,7 +2891,8 @@ class user_manage_new extends Controller
 
     public function lesson_student_grade_list() {
         list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01"));
-        $ret_info=$this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
+
+        $ret_info = $this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
         foreach($ret_info["list"] as &$item ) {
             $this->cache_set_item_student_nick($item);
         }
