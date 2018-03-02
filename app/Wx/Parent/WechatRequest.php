@@ -208,10 +208,10 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
         }elseif($request['content'] == '开学'){
             $filename = "/home/ybai/marketTr.jpg";
             $type = 'image';
-            // $mediaId = 'nd4j0-_5vtIMcrLo2Fxn7iM2hPXqh5MkXNOZnM4mt4q_EGggAT4uxP6dHiHsO48-';
-            $mediaId_arr = Media::upload($filename, $type);
-            $mediaId = $mediaId_arr['media_id'];
-            \App\Helper\Utils::logger("marketTr: ".json_encode($mediaId_arr));
+            $mediaId = 'rghW7mSgnFtDfunfrO9Z8Z-dNxUSQHc-Vbr8d2SwrMJjp2JL3CLqxPTdjjmhKFBC';
+            // $mediaId_arr = Media::upload($filename, $type);
+            // $mediaId = $mediaId_arr['media_id'];
+            // \App\Helper\Utils::logger("marketTr: ".json_encode($mediaId_arr));
 
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
         }
