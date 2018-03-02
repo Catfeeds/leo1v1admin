@@ -177,8 +177,8 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
                 'Accept: application/json',
             ]
         );
-        $this->setRequestTimeout(30000);
-        $this->setConnectionTimeout(30000);
+        $this->setRequestTimeout(5000);
+        $this->setConnectionTimeout(5000);
     }
 
     /**
@@ -233,7 +233,6 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         }
 
         $raw = self::$commands[$command->getName()];
-dd($raw);
         $http_method = $raw['method'];
         $url = $raw['url'];
         $url = str_replace(':sessionId', $command->getSessionID(), $url);

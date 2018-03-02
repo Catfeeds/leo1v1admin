@@ -2119,6 +2119,12 @@ class test_james extends Controller
 
         $ret_info  = $this->t_lesson_time_modify->getChangeTimeInfo($teacherid);
 
+        foreach($ret_info as &$item){
+            $item['subject_str']  = E\Esubject::get_desc($item['subject']);
+            $item['teacher_name'] = $this->cache_get_teacher_nick($item['teacherid']);
+            $item['student_name'] = $this->cache_get_student_nick($item['studentid']);
+        }
+
         dd($ret_info);
 
     }
