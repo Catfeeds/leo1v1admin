@@ -290,7 +290,7 @@ class lesson extends TeaWxController
             return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
         }
 
-        if($teacherid == 225427||$teacherid==225427){
+        if($teacherid == 225427||$teacherid==50281){
             $output = $this->get_teacher_money_list($start_time,$end_time,$teacherid);
         }else{
             $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
