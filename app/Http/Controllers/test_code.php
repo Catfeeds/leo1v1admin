@@ -483,8 +483,9 @@ class test_code extends Controller
                 $teacherid    = $val['teacherid'];
                 $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
                 $lesson_type  = $val['lesson_type'];
+                $lesson_status = $val['lesson_status'];
                 $grade        = \App\Helper\Utils::change_grade_to_grade_part($val['grade']);
-                if($lesson_type==E\Econtract_type::V_2){
+                if($lesson_type==E\Econtract_type::V_2 || $lesson_status!=2 || $val['lesson_del_flag']!=0){
                     continue;
                 }
 
@@ -512,8 +513,8 @@ class test_code extends Controller
                 $lesson_price      = 0;
                 $lesson_pay_count  = 0;
                 $lesson_free_count = 0;
-                if($val['confirm_flag']!=2 && $val['confirm_flag']!=4 && $val['deduct_change_class']==0){
-                    $lesson_price = $val['lesson_price']/100;
+                if(in_array($val['confirm_flag'],[0,1,3]) && $val['deduct_change_class']==0 && in_array($lesson_type,[0,1,3])){
+                    $lesson_price = $val['lesson_price'];
                     if($lesson_price>0){
                         $lesson_pay_count = $lesson_count;
                     }else{

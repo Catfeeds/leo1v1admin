@@ -885,7 +885,6 @@ jQuery.fn.extend({
 
 jQuery.extend({
     custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ){
-
         var html_node=$('        <div class="row">'+
                         '            <div class="progress">'+
                         '                <div class="progress-bar" role="progressbar" aria-valuenow="60" '+
