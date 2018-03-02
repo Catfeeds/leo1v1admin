@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1100
-//__DESC: 添加收货地址 https://api-class.leo1v1.com/student/add_stu_address
+//__DESC: 添加收货地址 https://api-class.leo1v1.com/student/add_stu_address?province=广东&city=广州&county=天河&address=谁谁谁XX街道&phone=13838389438&username=张三&is_default=0
 //__TAGS: for_app,for_website
 
 
@@ -13,7 +13,7 @@ message in  {
    	string address = 4; //  具体地址 
    	string phone = 5; //  电话 
    	string username = 6; //  姓名 
-   	string is_default = 7; //  是否设为默认地址 
+   	string is_default = 7; //  是否设为默认地址 0是 1否
 }
 
 message out {

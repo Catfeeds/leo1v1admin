@@ -596,7 +596,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      , t_flow::DB_TABLE_NAME
                      , t_course_order::DB_TABLE_NAME
                      ,$cond_str
-        );
+        ); 
         return $this->main_get_list_by_page($sql, $page_num, 10);
     }
 
@@ -3107,14 +3107,24 @@ lesson_type in (0,1) "
 
     /**
      * 老师工资相关的课程
+     * @param int teacherid 老师id
+     * @param int start  开始时间
+     * @param int end    结束时间
+     * @param int studentit 学生id
+     * @param string type  current 当前为止，所有结束课程；all 所有课程；
+     * @param int has_test_data 0 去掉测试用户的数据;1 包含测试用户的数据
      */
-    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='current'){
+    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='current',$has_test_data=1){
         $where_arr = [
             ["l.teacherid=%u",$teacherid,-1],
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
         ];
+        if($has_test_data==0){
+            $where_arr[] = "s.is_test_user=0";
+            $where_arr[] = "t.is_test_user=0";
+        }
         if($type=='current'){
             $where_arr[] = "lesson_status=2";
         }
@@ -3127,9 +3137,8 @@ lesson_type in (0,1) "
                                   ." lesson_cancel_time_type,lesson_cancel_reason_type,t.teacher_type,"
                                   ." m.money,m.type,m.level,m.teacher_money_type,l.teacher_type as l_teacher_type,"
                                   ." tl.test_lesson_fail_flag,tl.fail_greater_4_hour_flag,"
-                                  ." l.competition_flag,l.teacherid,sum(ol.price) as lesson_price"
+                                  ." l.competition_flag,l.teacherid"
                                   ." from %s l "
-                                  ." left join %s ol on l.lessonid=ol.lessonid"
                                   ." left join %s tl on l.lessonid=tl.lessonid "
                                   ." left join %s s on l.userid=s.userid "
                                   ." left join %s o on l.lessonid=o.lessonid "
@@ -3149,7 +3158,6 @@ lesson_type in (0,1) "
                                   ." group by l.lessonid "
                                   ." order by l.lesson_start asc "
                                   ,self::DB_TABLE_NAME
-                                  ,t_order_lesson_list::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_order_lesson_list::DB_TABLE_NAME
