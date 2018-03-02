@@ -454,13 +454,18 @@ where s.is_test_user = 0 and q.is_called_phone =1
         // dd($test);
 
         $ret = $task->t_student_score_info->get_data1();
+        foreach ($ret as $kkey => &$kvalue) {
+            $value['subject_str'] = E\Esubject::get_desc($value['subject']);
+            $value['grade_str']   = E\Egrade::get_desc($value['grade']);
+        }
         $file_name = 'sam_030201';
         $arr_title = ["学生ID","学生姓名","学科","年级","省份"];
-        $arr_data  = ['userid','username',"subject","grade","phone_province"];
+        $arr_data  = ['userid','nick',"subject_str","grade_str","phone_province"];
         $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
 
         $ret_info = $task->t_student_score_info->get_data2();
         foreach ($ret_info as $key => &$value) {
+            $value['subject_str'] = E\Esubject::get_desc($value['subject']);
             $value['grade_str'] = E\Egrade_range::get_desc($value['grade_start']).'-'.E\Egrade_range::get_desc($value['grade_end']);
         }
         $file_name = 'sam_030202';
