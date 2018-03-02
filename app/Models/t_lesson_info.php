@@ -3120,6 +3120,9 @@ lesson_type in (0,1) "
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
+            "lesson_type<1000",
+            "lesson_del_flag=0",
+            "(confirm_flag!=2 or deduct_change_class>0)"
         ];
         if($has_test_data==0){
             $where_arr[] = "s.is_test_user=0";
@@ -3150,9 +3153,6 @@ lesson_type in (0,1) "
                                   ." end )"
                                   ." and %s "
                                   ." where %s "
-                                  ." and (confirm_flag!=2 or deduct_change_class>0) "
-                                  ." and lesson_type<1000 "
-                                  ." and lesson_del_flag=0 "
                                   ." and (tl.test_lesson_fail_flag<100 or tl.test_lesson_fail_flag is null"
                                   ." or (tl.test_lesson_fail_flag in (101,102) and tl.fail_greater_4_hour_flag=0))"
                                   ." group by l.lessonid "
