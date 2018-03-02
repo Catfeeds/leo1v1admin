@@ -477,9 +477,7 @@ $(function(){
                         "issue_file_id"      : issue_file_id,
                         "use_res_id_list"    :  JSON.stringify(use_res_id_list),
                         "new_res_id_list"    : JSON.stringify(new_res_id_list),
-
                     });
-
                 }
             },function(){
                 id_student["onshown_init"]();
@@ -1006,21 +1004,18 @@ $(function(){
                             res_type_list.push(parseInt(val));
                         });
                     }
-
                     if(ret.tea_sub!=undefined){
                         var tea_sub_arr = ret.tea_sub.split(',');
                         $.each($(tea_sub_arr),function(i,val){
                             tea_sub_info.push(parseInt(val));
                         });
                     }
-
                     if(ret.tea_gra!=undefined){
                         var tea_gra_arr = ret.tea_gra.split(',');
                         $.each($(tea_gra_arr),function(i,val){
                             tea_gra_info.push(parseInt(val));
                         });
                     }
-
                     if(ret.book!=undefined){
                         var book_arr = ret.book.split(',');
                         $.each($(book_arr),function(i,val){
@@ -1041,11 +1036,8 @@ $(function(){
                     args.grade = grade;
                     args.tag_one = book;
                     get_public_tag_show(res_type_list,tea_sub_info,tea_gra_info,book_info,resource,subject,grade,book);
-
                 },"onshown" : function(dlg){
-
                     if(opt_type == 'my'){
-
                         $('.my-mark').empty();
                         var cru_str = '<div class="col-xs-12">';
                         $.each($(dlg_tr), function(i,val){
@@ -1176,7 +1168,6 @@ $(function(){
 
         $('.opt-leo-res,.opt-my-res').unbind('click');
         $('.opt-leo-res').on('click',function(){
-            //console.log(search_args);
             var data = {
                 'subject':search_args["subject"],
                 'grade' : search_args["grade"],
@@ -1197,7 +1188,6 @@ $(function(){
             };
             get_res('/teacher_info/tea_resource', 'my',$(this).attr('upload_id'),null,data);
         });
-
     };
 
     var search_args = {};
@@ -1207,13 +1197,11 @@ $(function(){
         upload_info(opt_data,false);
     });
 
-
     $(".opt-teacher-pdf-back").on("click", function( ){
         var opt_data = $(this).get_opt_data();
         search_args = opt_data;
         upload_info(opt_data,false);
     });
-
 
     var isArray = function(obj) {
         return Object.prototype.toString.call(obj) === '[object Array]';

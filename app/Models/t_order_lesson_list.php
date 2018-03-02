@@ -77,17 +77,20 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
             "lesson_type in (0,1,3)",
             "lesson_del_flag = 0",
             "confirm_flag in (0,1,3)",
-            "t.is_test_user=0"
+            "t.is_test_user=0",
+            "s.is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select l.lessonid,sum(ol.price)/100 as lesson_money"
                                   ." from %s l force index(lesson_type_and_start)"
                                   ." left join %s ol on l.lessonid=ol.lessonid"
                                   ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s s on l.userid=s.userid"
                                   ." where %s"
                                   ." group by l.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

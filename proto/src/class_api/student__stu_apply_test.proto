@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1111
-//__DESC: 3.2 申请试听 https://api-class.leo1v1.com/student/stu_apply_test
+//__DESC: 3.2 申请试听 https://api-class.leo1v1.com/student/stu_apply_test?lesson_time=2018-03-03
 //__TAGS: for_app,for_website
 
 
@@ -12,5 +12,6 @@ message in  {
 
 message out {
   // common.get_test_time data = 1;  // 试听课上课时间
+  string sur_num = 1;//剩余申请次数
 }
 

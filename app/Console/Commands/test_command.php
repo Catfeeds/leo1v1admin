@@ -44,7 +44,20 @@ class test_command extends cmd_base
 
         $test_code = new \App\Http\Controllers\test_code();
         $ret = $test_code->test_money($year,$month);
-        dd($ret);
+        $x= $ret[100];
+        $c= $ret[200];
+        $g= $ret[300];
+        $lesson_price = $x["lesson_price"]+$c["lesson_price"]+$g['lesson_price'];
+        $lesson_pay_count = $x["lesson_pay_count"]+$c["lesson_pay_count"]+$g['lesson_pay_count'];
+        $lesson_free_count = $x["lesson_free_count"]+$c["lesson_free_count"]+$g['lesson_free_count'];
+        $teacher_money = $x["teacher_money"]+$c["teacher_money"]+$g['teacher_money'];
+
+        echo $x["lesson_price"]."|".$c["lesson_price"]."|".$g['lesson_price']."|".$lesson_price
+                               ."|".$x["lesson_pay_count"]."|".$c["lesson_pay_count"]."|".$g["lesson_pay_count"]."|".$lesson_pay_count
+                               ."|".$x["lesson_free_count"]."|".$c["lesson_free_count"]."|".$g["lesson_free_count"]."|".$lesson_free_count
+                               ."|".$x["teacher_money"]."|".$c["teacher_money"]."|".$g["teacher_money"]."|".$teacher_money
+                               ;
+        echo PHP_EOL;
     }
 
 

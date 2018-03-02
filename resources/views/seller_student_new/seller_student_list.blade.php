@@ -126,6 +126,7 @@
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
 
     <script type="text/javascript" src="/page_js/jquery.qrcode.min.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax_second.js?v={{@$_publish_version}}"></script>
 
     <section class="content ">
 
@@ -143,7 +144,7 @@
                         <p>请设置</p>
                         <div class="" id="">
                             <select style="width:35%;" class="invalid_type">
-                                 <option value="0">请选择状态</option>
+                                <option value="0">请选择状态</option>
                             </select>
                             <p style="color:red;">请至少拨打3次确认状态</p>
                         </div>
@@ -446,7 +447,7 @@
                         <td  class="td-phone">
                             <div class="phone-data">
                                 @if($var["seller_student_assign_from_type"])
-                                   (奖)
+                                    (奖)
                                 @endif
                                 @if($account == 'jim' || $account_role == 12 || $account == 'tom')
                                     {{$var["phone"]}}
@@ -579,7 +580,7 @@
                         家长确认时间: {{$var["parent_confirm_time"]}}
                         <br/>
                         @if($var["suc_no_call_flag"]==1)
-                            <font color="green">课后回访:{{$var["last_revisit_time"]}}</font>
+                            <font color="green">试听成功课后回访:{{$var["last_revisit_time"]}}</font>
                             <br/>
                         @elseif($var["suc_no_call_flag"]==2)
                             <font color="red">试听成功未回访[未拨打]{{$var["last_succ_test_lessonid"]}}</font>

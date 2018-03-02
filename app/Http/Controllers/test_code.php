@@ -470,15 +470,12 @@ class test_code extends Controller
 
     public function test_money($year,$month){
         $this->switch_tongji_database();
-        // $year  = $this->get_in_int_val("year",2017);
-        // $month = $this->get_in_int_val("month",1);
-
         $date_str = $year."-".$month;
         $start    = strtotime($date_str);
         $end      = strtotime("+1 month",$start);
 
-        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1);
-        $check_num = [];
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1,"current",1);
+        $check_num  = [];
         $money_list = [];
         $tea_lesson_count = [];
         if(!empty($lesson_list)){
@@ -512,19 +509,19 @@ class test_code extends Controller
                  * 课时收入：当月内，产生课时消耗得到的收入，以实际收入为准；
                  * 付费课时数：当月内实际消耗的课时数，以实际扣除学生的课时数为准；
                  */
-                if(in_array($lesson_type,[0,3]) && $val['confirm_flag'] !=2 && $val['confirm_flag']!=4){
+                $lesson_price      = 0;
+                $lesson_pay_count  = 0;
+                $lesson_free_count = 0;
+                if($val['confirm_flag']!=2 && $val['confirm_flag']!=4 && $val['deduct_change_class']==0){
                     $lesson_price = $val['lesson_price']/100;
-                    $lesson_pay_count = $lesson_count;
-                }else{
-                    $lesson_price     = 0;
-                    $lesson_pay_count = 0;
+                    if($lesson_price>0){
+                        $lesson_pay_count = $lesson_count;
+                    }else{
+                        $lesson_free_count = $lesson_count;
+                    }
                 }
+
                 //赠送课时数
-                if($lesson_type==E\Econtract_type::V_1){
-                    $lesson_free_count = $lesson_count;
-                }else{
-                    $lesson_free_count = 0;
-                }
                 \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
                 \App\Helper\Utils::check_isset_data($money_list[$grade]['teacher_money'], $teacher_money);
                 \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_pay_count'], $lesson_pay_count);

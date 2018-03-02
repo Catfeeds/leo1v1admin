@@ -33,6 +33,8 @@ interface RowData {
 	dimension	:any;
 	question_bind	:any;
 	suggestion	:any;
+	paper_type	:any;
+	paper_question_num	:any;
 	use_arr	:any;
 	subject_str	:any;
 	grade_str	:any;

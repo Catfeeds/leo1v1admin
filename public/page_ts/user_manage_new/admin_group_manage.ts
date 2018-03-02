@@ -514,6 +514,41 @@ $(function(){
         );
     });
 
+    $(".opt-change-admin").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id_group_name=$("<input/>");
+        var id_master_adminid=$("<input/>");
+
+
+        var  arr=[
+            ["组名" ,  id_group_name],
+            ["助长" ,  id_master_adminid]
+        ];
+
+        id_master_adminid.val(opt_data.master_adminid);
+        id_group_name.val(opt_data.group_name );
+
+        $.show_key_value_table("修改分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/user_deal/admin_group_edit",{
+                    "groupid" : opt_data.groupid,
+                    "group_name" : id_group_name.val(),
+                    "master_adminid" : id_master_adminid.val()
+                });
+            }
+        },function(){
+            $.admin_select_user(
+                id_master_adminid ,
+                "admin", null,true, {
+                    "main_type": 2 //分配用户
+                }
+            );
+
+        });
+
+    });
 
     $(".opt-assign-group-user").on("click",function(){
         var opt_data = $(this).get_opt_data();

@@ -65,11 +65,11 @@ $(function(){
             });
         }
 
-        // if(g_args.tq_called_flag != 2){
-        //     $('#id_edit').attr('disabled','disabled');
-        // }else{
-        //     $('#id_edit').removeAttr('disabled');
-        // }
+        if(g_args.tq_called_flag != 2){
+            $('#id_edit').attr('disabled','disabled');
+        }else{
+            $('#id_edit').removeAttr('disabled');
+        }
     }
 
 

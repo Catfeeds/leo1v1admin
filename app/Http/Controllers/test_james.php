@@ -393,16 +393,15 @@ class test_james extends Controller
 
     public function installNew(){ // 新建表单
         // Schema::dropIfExists('db_weiyi.t_activity_usually');
-        Schema::create('db_weiyi.t_seller_student_do_tag_log', function(Blueprint $table) {
-            t_comment($table, "CC 标记资源日志表");
+        Schema::create('db_weiyi.t_leave_lesson_log', function(Blueprint $table) {
+            t_comment($table, "家长请假日志表");
             t_field($table->increments("id"), "");
-            t_field($table->integer("add_time"), "标记时间");
-            t_field($table->integer("adminid"), "销售ID");
-            t_field($table->integer("userid"), "学生ID");
-            t_field($table->integer("tag_flag"), "标记类别");
+            t_field($table->integer("lessonid"), "课程ID");
+            t_field($table->integer("parentid"), "请假人");
+            t_field($table->integer("leave_time"), "请假时间");
 
-            $table->index('userid');
-            $table->index('adminid');
+            $table->index('lessonid');
+            $table->index('parentid');
         });
         /**
            1、记录CC/CR获取转发链接的次数、名单、家长点击次数，家长ID、制作海报次数，最终获得常规课人数，通过此海报注册试听课人数；
@@ -2011,6 +2010,108 @@ class test_james extends Controller
         }
 
         return $total_list;
+    }
+
+    # 调课功能
+    # 只有申请拒绝后，可继续申请
+    # 只可以申请24小时后的课程
+    public function changeLessonTime(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $parentid = $this->get_parentid();
+        $lesson_time_str = $this->get_in_str_val('lesson_time_str');
+        $lesson_start    = $this->t_lesson_info->get_lesson_start($lessonid);
+        $lesson_end      = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $original_lesson_time = $lesson_start.','.$lesson_end;
+        if($lesson_start-time()<86400){
+            return $this->output_err('只可以申请24小时以后的课程!');
+        }
+        $checkHad = $this->t_lesson_time_modify->checkHasExist($lessonid);
+        $is_modify_time_flag = $this->t_lesson_time_modify->get_is_modify_time_flag($lessonid);
+        if($is_modify_time_flag == 2 || $checkHad == 0){
+            if($checkHad == 0){
+                $this->t_lesson_time_modify->row_insert([
+                    "lessonid" => $lessonid,
+                    "parentid" => $parentid,
+                    "parent_deal_time"     => time(),
+                    "parent_modify_time"   => $lesson_time_str,
+                    "original_lesson_time" => $original_lesson_time,
+                    "backstage_type"       => 1
+                ]);
+            }
+
+            if($is_modify_time_flag == 2){
+                $this->t_lesson_time_modify->field_update_list($lessonid,[
+                    "parentid" => $parentid,
+                    "parent_deal_time"     => time(),
+                    "parent_modify_time"   => $lesson_time_str,
+                    "original_lesson_time" => $original_lesson_time,
+                    "is_modify_time_flag"  => 0
+                ]);
+            }
+
+
+            # 给老师发送微信推送
+            $stu_name = $this->t_student_info->get_nick($userid);
+            $data = [
+                'first'    => "$stu_name 同学的常规课调课，请尽快完成确认",
+                // 'keyword1' =>
+
+            ];
+
+            $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+            $data['keyword1']   = $lesson_name;
+            $data['keyword2']   = $lesson_new_time;
+            $data['keyword3']   = $stu_nick;
+            $data['remark']     = "感谢老师的支持!";
+
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+
+
+            return $this->output_succ();
+        }else{
+            if($checkHad == 1 && $is_modify_time_flag==0){
+                $error = '本课程待老师确认';
+            }elseif($is_modify_time_flag == 1){
+                $error = '本节课时间调整已完成,不可重新申请!';
+            }
+            return $this->output_err($error);
+        }
+    }
+
+    # 课程请假接口
+    #　只可请假24H之后的课程
+
+    public function leaveLesson(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $parentid = $this->get_parentid();
+        $lesson_start = $this->t_lesson_info_b3->get_lesson_start($lessonid);
+        $checkHad = $this->t_leave_lesson_log->getCheckFlag($lessonid);
+        if($lesson_start-time()<86400){
+            return $this->output_err('只可以请假24小时以后的课程!');
+        }
+        if($checkHad){
+            return $this->output_err('本课程请假已完成!');
+        }else{
+            $this->t_lesson_info_b3->field_update_list($lessonid, [
+                "lesson_del_flag" => 1,
+                "confirm_flag"    => 2,
+                "lesson_cancel_reason_type" => E\Elesson_cancel_reason_type::V_11,
+                "lesson_cancel_time_type"   => 2,
+                "confirm_reason"  => '家长微信端请假'
+            ]);
+            $this->t_leave_lesson_log->row_insert([
+                "lessonid" => $lessonid,
+                "parentid" => $parentid,
+                "leave_time" => time()
+            ]);
+            return $this->output_succ();
+        }
+    }
+
+    public function get_parentid(){
+        return 111;
     }
 
 

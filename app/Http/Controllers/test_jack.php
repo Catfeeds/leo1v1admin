@@ -14,6 +14,28 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $orderNo="1798399505210";
+        $channel = $this->t_orderid_orderno_list->get_channel($orderNo);
+        if(empty($channel)){
+            $channel="baidu";
+        }
+        dd($channel);
+
+        $old_list = $this->t_child_order_info->field_get_list($orderid,"pay_status,pay_time,channel");
+        if($old_list["pay_status"]==1 && $old_list["pay_time"]>0 && in_array($old_list["channel"],["baidu","baidu_app"])){
+            return $this->output_succ(["status"=>0,"msg"=>"success"]);
+        }
+        $parentid= $this->t_student_info->get_parentid($userid);
+        $parent_name = $this->t_parent_info->get_nick($parentid);
+        $this->t_child_order_info->field_update_list($orderid,[
+            "pay_status"  =>1,
+            "pay_time"    =>time(),
+            "channel"     =>$channel,
+            "from_orderno"=>$orderNo,
+            "period_num"  =>$period_new,
+            "parent_name" =>$parent_name
+        ]);
+
         $info = $this->t_company_wx_department->get_all_list();
         $users = $this->t_company_wx_users->get_all_list_for_manager(323);
         $department_list=[];
