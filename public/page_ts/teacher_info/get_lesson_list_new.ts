@@ -90,7 +90,9 @@ $(function(){
             lesson_type : $('#id_lesson_type').val(),
             userid      : $('#id_student').val()
         });
+
         window["loadpopup"]();
+
 
     }
 
@@ -288,6 +290,8 @@ $(function(){
             );
             var id_teacher_list      = [];
             var id_teacher_desc_list = [];
+            console.log("生成其他资料");
+           
             for (var i=0;i<11;i++) {
 
                 var gen_item = function  ( i ) {
@@ -333,7 +337,7 @@ $(function(){
                 var item=gen_item(i);
                 id_teacher_list.push(item);
             }
-
+            console.log(id_teacher_list);
 
             console.log(id_teacher_desc_list);
             var id_teacher=gen_upload_item(
@@ -378,11 +382,9 @@ $(function(){
 
             var red_tip = '<span style="color:red;">&nbsp;*</span>';
             var arr= [
-                ["----","课堂信息"],
                 ["课堂标题"+red_tip,  id_lesson_name],
                 ["知识点1",  id_point1],
                 ["知识点2",  id_point2],
-                ["----","上传课堂讲义"],
                 ["授课课件"+red_tip, id_teacher],
                 ["授课课件平铺状态", id_change],
                 ["授课课件上传时间", id_change_time],
@@ -398,7 +400,6 @@ $(function(){
             arr.push(['学生讲义'+red_tip, id_student]);
 
             if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
-                arr.push(["----","上传课堂作业"]);
                 arr.push(["学生作业",id_issue]);
                 arr.push(["作业题目数",id_pdf_question_count]);
             }

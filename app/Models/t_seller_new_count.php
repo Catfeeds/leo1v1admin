@@ -138,7 +138,7 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
             ["seller_new_count_type=%d",$seller_new_count_type ,-1],
         ];
         $sql=$this->gen_sql_new(
-            "select n.adminid,  add_time, start_time, end_time, seller_new_count_type ,"
+            "select n.adminid, n.new_count_id, add_time, start_time, end_time, seller_new_count_type ,"
             ."value_ex, count , sum(get_time>0) as get_count,nd.detail_id "
             ."from %s n "
             ."left join %s nd on nd.new_count_id=n.new_count_id"
