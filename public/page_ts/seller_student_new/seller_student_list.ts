@@ -1926,6 +1926,13 @@ function init_edit() {
         var phone = opt_data.phone;
         var default_subject = opt_data.subject;
         var default_grade = opt_data.grade;
+        if( opt_data.subject == 0){
+            default_subject = -1
+        }
+        if( opt_data.grade == 0){
+            default_grade = -1
+        }
+
          $("<div></div>").admin_select_dlg_ajax_second({
             "opt_type" : "select", // or "list"
             "url"      : "/test_paper/get_papers",
