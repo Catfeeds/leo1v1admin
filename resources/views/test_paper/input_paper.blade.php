@@ -50,6 +50,8 @@
      .check_dimension span{ margin-right:10px;font-size:16px }
      .check_dimension .dimension_item{ width:200px;height: 32px;background: white; }
      .dimension_box table tr th, .dimension_box table tr td,.dimension_bind table tr th, .dimension_bind table tr td,.suggestion_info table tr th, .suggestion_info table tr td,.suggest_result table tr th, .suggest_result table tr td,.dimension_look table tr th, .dimension_look table tr td { border:1px solid #4b5d6a;padding:10px 5px }
+     .dimension_have{ color:#999 }
+     .dimension_have input{ color:#999 }
      .dimension_bind input[type=checkbox]{ width :18px;height :18px;}
      .dimension_box .dimension_var a{ cursor:pointer}
      .suggest_result{ padding : 10px 15px;background:rgba(200, 196, 196, 0.15)}
@@ -218,7 +220,7 @@
                 <div class="paper_info_right fl">
                     <div class="paper_info_input">
                         <span><font>*</font>题目数量</span>
-                        <input type="text" class="paper_question" />
+                        <input type="text" class="paper_question_num" onkeypress="keyPressCheck(this)" onkeyup="keyUpCheck(this)"/>
                     </div>
 
                     <div class="paper_info_input">
@@ -229,6 +231,11 @@
                     <div class="paper_info_input">
                         <span><font>*</font>教材</span>
                         <select class="paper_book"></select>
+                    </div>
+
+                    <div class="paper_info_input">
+                        <span><font>*</font>测评分类</span>
+                        <select class="paper_type"></select>
                     </div>
 
                 </div>
@@ -250,7 +257,7 @@
                             <td><input type="text"></td>
                             <td><input type="text"></td>
                             <td><input type="text"></td>
-                            <td><input type="text"></td>
+                            <td><input type="text" onkeypress="keyPressCheck(this)" onkeyup="keyUpCheck(this)" ></td>
                             <td>
                                 <a class="answer-insert" onclick="answer_insert(this,event)" title="插入">插入</a>
                                 <a class="answer-dele" onclick="answer_dele(this,event)" title="删除">删除</a>
@@ -259,8 +266,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="add_answer" onclick="add_answer(this,event)">
-                                <i class="fa fa-plus"></i>增加题目
+                            <td colspan="5" class="add_answer">
+                                <span onclick="add_answer(this,event)"><i class="fa fa-plus"></i>增加题目</span>
                             </td>
                         </tr>
                     </tbody>
@@ -291,8 +298,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="add_answer" onclick="add_dimension(this,event)">
-                                <i class="fa fa-plus"></i>增加维度
+                            <td colspan="3" class="add_answer">
+                                <span onclick="add_dimension(this,event)"><i class="fa fa-plus"></i>增加维度</span>
                             </td>
                         </tr>
                     </tbody>

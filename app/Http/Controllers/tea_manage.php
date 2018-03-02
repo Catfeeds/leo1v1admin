@@ -382,8 +382,6 @@ class tea_manage extends Controller
         }else{
             $is_group_leader_flag = 0;
         }
-
-
         $ret_str  = $this->pageView(__METHOD__,$ret_info, [
             "lesson_count_all"      => $lesson_count_all,
             "lesson_count_fail_all" => $lesson_count_fail_all,
