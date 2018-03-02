@@ -953,38 +953,38 @@ $(function(){
 
 
     // james-start [暂时隐藏]
-    var set_user_free = function(opt_data){
-        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
-            if(ret){
-                alert("回流前签单失败原因不能为'考虑中',请重新设置!");
-                window.location.href = 'http://admin.leo1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+opt_data.userid;
-            }
-        });
+    // var set_user_free = function(opt_data){
+    //     $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
+    //         if(ret){
+    //             alert("回流前签单失败原因不能为'考虑中',请重新设置!");
+    //             window.location.href = 'http://admin.leo1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+opt_data.userid;
+    //         }
+    //     });
 
-        BootstrapDialog.confirm(
-            "设置释放到公海:" + opt_data.phone ,
-            function(val){
-                if (val) {
-                    $.do_ajax("/ss_deal2/set_user_free",{
-                        "userid" :  opt_data.userid
-                    });
-                }
-            });
-    }
+    //     BootstrapDialog.confirm(
+    //         "设置释放到公海:" + opt_data.phone ,
+    //         function(val){
+    //             if (val) {
+    //                 $.do_ajax("/ss_deal2/set_user_free",{
+    //                     "userid" :  opt_data.userid
+    //                 });
+    //             }
+    //         });
+    // }
 
-    var do_submit = function(){
-        var invalid_type = $('.invalid_type_new').val();
-        if(invalid_type == 0){
-            alert(1);
-            $('.submit_type').attr('disabled','disabled');
-        }else{
-            $('.submit_type').removeAttr('disabled');
-        }
-    }
+    // var do_submit = function(){
+    //     var invalid_type = $('.invalid_type_new').val();
+    //     if(invalid_type == 0){
+    //         alert(1);
+    //         $('.submit_type').attr('disabled','disabled');
+    //     }else{
+    //         $('.submit_type').removeAttr('disabled');
+    //     }
+    // }
 
-    $('.invalid_type_new').on("change",function(){
-        do_submit();
-    });
+    // $('.invalid_type_new').on("change",function(){
+    //     do_submit();
+    // });
     // james-end
 
 
@@ -995,56 +995,56 @@ $(function(){
 
     var test_arr = ['99','684','1173','1273','1408','1383','1384','1393','1394','1399','1404','1405','1406','1407','1408'];
 
-    if($.inArray(g_adminid,test_arr)>=0){// 测试功能 [james]
-        return ; // 临时终止
-        $(".opt-set_user_free").on("click",function(){
-            var opt_data=$(this).get_opt_data();
+    // if($.inArray(g_adminid,test_arr)>=0){// 测试功能 [james]
+    //     return ; // 临时终止
+    //     $(".opt-set_user_free").on("click",function(){
+    //         var opt_data=$(this).get_opt_data();
 
-            var table_obj=$('<div style="text-align:center;"><div>请设置</div><select style="width:35%;" class="invalid_type_new"><option value="0">请选择状态</option><option value="1001">无效-空号</option><option value="1002">无效-停机</option><option value="1012">无效-屏蔽音</option><option value="1004">无效-不接电话</option><option value="1005">无效-秒挂</option><option value="1006">无效-无意向</option><option value="1007">无效-没时间</option><option value="1008">无效-价格贵</option><option value="1009">无效-设备问题</option><option value="1010">无效-网络问题</option><option value="1011">无效-其他</option></select><div style="color:red">回流公海需要设为无效资源</div></div>');
+    //         var table_obj=$('<div style="text-align:center;"><div>请设置</div><select style="width:35%;" class="invalid_type_new"><option value="0">请选择状态</option><option value="1001">无效-空号</option><option value="1002">无效-停机</option><option value="1012">无效-屏蔽音</option><option value="1004">无效-不接电话</option><option value="1005">无效-秒挂</option><option value="1006">无效-无意向</option><option value="1007">无效-没时间</option><option value="1008">无效-价格贵</option><option value="1009">无效-设备问题</option><option value="1010">无效-网络问题</option><option value="1011">无效-其他</option></select><div style="color:red">回流公海需要设为无效资源</div></div>');
 
-            function set_flow_check_flag(dialog,opt_data) {
-                var checkText=$(".invalid_type_new").find("option:selected").text();
-                $.show_input("无效资源标注", "",function( v){
-                    $.do_ajax("/ajax_deal3/sign_phone", {
-                        "userid" : opt_data.userid,
-                        "adminid": g_adminid,
-                        "type"   : 1,
-                        "confirm_type" : $('.invalid_type_new').val()
-                    },function(ret){
-                        set_user_free(opt_data);
-                    });
-                } , $("<div style='text-align:center;'><div>是否标注为 <span style='color:red'>"+checkText+"?</span></div><div style='color:red'>提示：如经核验不符，将被罚款！</div></div>"));
-            }
+    //         function set_flow_check_flag(dialog,opt_data) {
+    //             var checkText=$(".invalid_type_new").find("option:selected").text();
+    //             $.show_input("无效资源标注", "",function( v){
+    //                 $.do_ajax("/ajax_deal3/sign_phone", {
+    //                     "userid" : opt_data.userid,
+    //                     "adminid": g_adminid,
+    //                     "type"   : 1,
+    //                     "confirm_type" : $('.invalid_type_new').val()
+    //                 },function(ret){
+    //                     set_user_free(opt_data);
+    //                 });
+    //             } , $("<div style='text-align:center;'><div>是否标注为 <span style='color:red'>"+checkText+"?</span></div><div style='color:red'>提示：如经核验不符，将被罚款！</div></div>"));
+    //         }
 
-            var all_btn_config=[{
-                label: '再想想',
-                cssClass: 'btn-default ',
+    //         var all_btn_config=[{
+    //             label: '再想想',
+    //             cssClass: 'btn-default ',
 
-                action: function(dialog) {
-                    dialog.close();
-                }
-            },{
-                label: '提交',
-                cssClass: 'btn-primary submit_type',
-                action: function(dialog) {
-                    var invalid_type = $('.invalid_type_new').val();
-                    if(invalid_type != 0){
-                        set_flow_check_flag(dialog,opt_data );
-                    }else{
-                        alert('请选择状态类型!');
-                        return ;
-                    }
-                }
-            }];
+    //             action: function(dialog) {
+    //                 dialog.close();
+    //             }
+    //         },{
+    //             label: '提交',
+    //             cssClass: 'btn-primary submit_type',
+    //             action: function(dialog) {
+    //                 var invalid_type = $('.invalid_type_new').val();
+    //                 if(invalid_type != 0){
+    //                     set_flow_check_flag(dialog,opt_data );
+    //                 }else{
+    //                     alert('请选择状态类型!');
+    //                     return ;
+    //                 }
+    //             }
+    //         }];
 
-            BootstrapDialog.show({
-                title: "无效资源标注",
-                message :  table_obj ,
-                closable: true,
-                buttons: all_btn_config
-            });
-        });
-    }else{ // 原有功能
+    //         BootstrapDialog.show({
+    //             title: "无效资源标注",
+    //             message :  table_obj ,
+    //             closable: true,
+    //             buttons: all_btn_config
+    //         });
+    //     });
+    // }else{ // 原有功能
         $(".opt-set_user_free").on("click",function(){
             var opt_data = $(this).get_opt_data();
             $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
@@ -1064,7 +1064,7 @@ $(function(){
                     }
                 });
         });
-    }
+    // }
 
 
 
