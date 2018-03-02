@@ -18,6 +18,8 @@ class test_a extends Controller
 
     public function tt() {
         //$this->check_login_flag
+        \App\Helper\Utils::ch_json_encode($data);
+        Utils::ch_json_encode($data);
 
     }
 

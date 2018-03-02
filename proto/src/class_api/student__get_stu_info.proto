@@ -3,7 +3,7 @@ import "class_api/common.proto";
 
 //__CMD: 1107
 //__DESC: 2.0 获取学生个人信息,学习信息 https://api-class.leo1v1.com/student/get_stu_info
-//__TAGS: for_app,for_website
+//__TAGS: for_website
 
 
 message in  {

@@ -20,7 +20,7 @@ $(function(){
 
     // 待测试功能
     // 处理标记空号功能 [james]
-    // var test_arr = ['99','684','1173','1273'];
+    var test_arr = ['99','684','1173','1273'];
     // if($.inArray(g_adminid,test_arr)>=0){
     //     $('#id_tip_no_call').show();
     //     var hasCalledNum = g_args.hasCalledNum;

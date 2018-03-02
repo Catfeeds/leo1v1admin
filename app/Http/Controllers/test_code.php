@@ -474,7 +474,7 @@ class test_code extends Controller
         $start    = strtotime($date_str);
         $end      = strtotime("+1 month",$start);
 
-        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1,1);
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1,"current",1);
         $check_num  = [];
         $money_list = [];
         $tea_lesson_count = [];
