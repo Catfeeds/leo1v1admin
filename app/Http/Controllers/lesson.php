@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail ;
 class lesson extends TeaWxController
 {
     use CacheNick;
+    use TeaPower;
 
     public function __construct(){
         // session("teacher_wx_use_flag",1);  // 本地测试时使用
@@ -289,7 +290,7 @@ class lesson extends TeaWxController
             return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
         }
 
-        if($teacherid == 225427||$teacherid==225427){
+        if($teacherid == 225427||$teacherid==50281){
             $output = $this->get_teacher_money_list($start_time,$end_time,$teacherid);
         }else{
             $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
@@ -350,23 +351,10 @@ class lesson extends TeaWxController
             \App\Helper\Utils::logger("error_james_111");
             return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
         }
-
-
-       // if(!$ret_arr){
-       //     return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
-       //  }else if($ret_arr!=null && !empty($ret_arr['data'])){
-       //     return $this->output_succ(['data'=>$ret_arr['data'],'all_reward_list'=>$ret_arr['all_reward_list']]);
-       //  }else{
-       //     // return $this->output_err("工资明细获取失败!");
-       //     return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
-
-       //  }
-
     }
 
 
     public function get_teacher_money_list($start_time,$end_time,$teacherid){
-        $teacherid = $this->get_in_int_val("teacherid");
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }
@@ -494,71 +482,13 @@ class lesson extends TeaWxController
         $this->get_array_data_by_count($all_reward_list,$reward_reference);
         $arr['data'] = $lesson_list;
         $arr['all_reward_list'] = $all_reward_list;
-        return $arr;
-        return $this->output_succ(["data"=>$lesson_list,"all_reward_list"=>$all_reward_list]);
+        return json_encode($arr);
     }
 
-
-    public function get_teacher_info_for_total_money($teacherid){
-        $info  = $this->t_teacher_info->get_teacher_info($teacherid);
-        $level_str = \App\Helper\Utils::get_teacher_level_str($info);
-
-        $teacher_type = $info['teacher_type']==32?32:0;
-        $bank_status  = $info['bankcard']==""?"未绑定":"已绑定";
-        $teacher_info = [
-            "nick"         => $info['nick'],
-            "face"         => $info['face'],
-            "level"        => $level_str,
-            "teacher_type" => $teacher_type,
-            "bank_status"  => $bank_status,
-            "train_through_new_time" => $info['train_through_new_time']
-        ];
-        return $teacher_info;
-    }
-
-
-
-
-    public function get_teacher_total_money($type,$show_type,$teacherid){
-
-        if(!$teacherid){
-            return $this->output_err("老师id错误!");
+    public function get_array_data_by_count(&$array,$check_array,$num=1){
+        if(count($check_array)>$num){
+            $array[]=$check_array;
         }
-
-        $this->t_lesson_info->switch_tongji_database();
-        if($type=="wx"){
-            $start_time = $this->t_lesson_info->get_first_lesson_start($teacherid);
-            $node_time  = strtotime("2016-12-1");
-            if($start_time<$node_time){
-                $start_time = $node_time;
-            }
-            $now_time = strtotime("+1 month",strtotime(date("Y-m-01",time())));
-        }elseif($type=="admin"){
-            $default_date = date("Y-m-d",time());
-            $start_time   = strtotime($this->get_in_str_val("start_time",$default_date));
-            $end_time     = strtotime($this->get_in_str_val("end_time",$default_date));
-            $now_time     = strtotime("+1 day",strtotime($end_time));
-            $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
-            $check_flag   = $this->check_full_time_teacher($teacherid,$teacher_type);
-            if($check_flag){
-                $now_time   = $start_time;
-                $start_time = strtotime("-1 month",$start_time);
-            }
-
-            if($start_time=='' || $now_time==''){
-                return $this->output_err("时间错误!");
-            }
-        }else{
-            return $this->output_err("参数错误!");
-        }
-
-        $teacher_info = $this->get_teacher_info_for_total_money($teacherid);
-        $list = $this->get_teacher_lesson_money_list($teacherid,$start_time,$now_time,$show_type);
-
-        return $this->output_succ([
-            "teacher_info" => $teacher_info,
-            "data"         => $list,
-        ]);
     }
 
 
