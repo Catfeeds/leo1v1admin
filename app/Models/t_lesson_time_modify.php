@@ -101,5 +101,11 @@ class t_lesson_time_modify extends \App\Models\Zgen\z_t_lesson_time_modify
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function checkHasExist($lessonid){
+        $sql = $this->gen_sql_new("  select 1 from %s where lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
 
 }
