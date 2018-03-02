@@ -41,7 +41,7 @@ class test_paper extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180227134439,
+            '_publish_version'    => 20180302134439,
         ]);
     } 
 
@@ -57,6 +57,8 @@ class test_paper extends Controller
         $question_bind       = $this->get_in_str_val("question_bind");
         $suggestion       = $this->get_in_str_val("suggestion");
         $save_type   = $this->get_in_int_val('save_type');
+        $paper_type   = $this->get_in_int_val('paper_type');
+        $paper_question_num   = $this->get_in_int_val('paper_question_num');
 
         $adminid = $this->get_account_id();
         $data = [];
@@ -69,7 +71,9 @@ class test_paper extends Controller
                 "volume"     => $volume,
                 "book"       => $book,
                 "modify_time" => time(),
-                "adminid"    => $adminid
+                "adminid"    => $adminid,
+                "paper_type"    => $paper_type,
+                "paper_question_num"    => $paper_question_num
             ];
 
             if(!empty($answer)){
@@ -106,11 +110,24 @@ class test_paper extends Controller
                 $new_dimension[$v[0]] = $v[1];
             }
             $data['dimension'] = json_encode($new_dimension);
-        }
 
-        if( !empty($data)){
-            $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
-            return $this->output_succ('添加成功');
+            $paper = $this->t_student_test_paper->get_paper($paper_id);
+            if($paper["question_bind"] ){
+                $question_bind = json_decode($paper["question_bind"],true);
+                foreach($question_bind as $di => $que_arr){
+                    $dimension_arr = array_keys($new_dimension);
+                    if(!in_array($di, $dimension_arr)){
+                        unset($question_bind[$di]);
+                    }
+                }
+           
+                $data['question_bind'] = json_encode($question_bind);
+            }
+
+            if( !empty($data)){
+                $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
+                return $this->output_succ('添加成功');
+            }
         }
 
     }
@@ -207,8 +224,19 @@ class test_paper extends Controller
     public function get_paper(){
         $paper_id  = trim($this->get_in_int_val('paper_id'));
         $paper = $this->t_student_test_paper->get_paper($paper_id);
-      
+        
         if($paper){
+            $paper['question_dimension'] = "";
+            $question_dimension = [];
+            if($paper['question_bind']){
+                $question_bind = json_decode($paper['question_bind'],true);
+                foreach( $question_bind as $di => $que_arr){
+                    foreach( $que_arr as $que){
+                        $question_dimension[$que] = $di;
+                    }
+                }
+            }
+            $paper['question_dimension'] = json_encode($question_dimension);
             return $this->output_succ(["paper"=>$paper,'status'=>200]);
         }else{
             return $this->output_succ(['status'=>201]);
