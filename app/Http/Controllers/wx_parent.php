@@ -22,7 +22,6 @@ class wx_parent extends Controller
 
                 $wx_config = \App\Helper\Config::get_config("wx");
                 $to_url = bin2hex($this->get_in_str_val("_url"));
-                dd($to_url);
                 $goto_url_arr=preg_split("/\//", $to_url);
                 $action=@$goto_url_arr[2];
                 if($action=="zhishiku"){

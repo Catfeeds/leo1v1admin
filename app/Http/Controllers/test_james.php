@@ -1956,8 +1956,6 @@ class test_james extends Controller
 
     # 获取可选日期
     public function getAvailableDate(){
-        $six = strtotime(date('Y-m-d 6:0:0',1519920000));
-        dd($six);
         $time      = time();
         $lessonid  = $this->get_in_int_val('lessonid');
         $userid    = $this->t_lesson_info_b3->get_userid($lessonid);
@@ -1978,7 +1976,6 @@ class test_james extends Controller
             $ret[][$limitTimeStart] = $this->getCheckTime($lessonid,$userid,$teacherid,$limitTimeStart,$lessonDuration);
         }
 
-        dd($ret);
         return $this->output_succ(['data'=>$ret]);
     }
 
@@ -1986,27 +1983,16 @@ class test_james extends Controller
     # 检查每天的课程有无空闲时间
     public function getCheckTime($lessonid,$userid,$teacherid,$limitTimeStart,$lessonDuration){
         $limitTimeEnd   = $limitTimeStart+86400;
-        // $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
-        $lessonTimeList = [
-            [
-                "lesson_start" => "1519862400",//8
-                "lesson_end" => "1519864200"//8.30
-            ],
-            [
-                "lesson_start" => "1519864500",//8.35
-                "lesson_end" => "1519866000"//9.0
-            ],
-        ];
+        $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
 
-        $lessonDuration = 40*60;
 
-        $date_list = [];
+        $date_list  = [];
         $total_list = [];
 
         # 列出所有时间段
-        $timeNum = (24-6)*2; //每日时间的可选择范围开始时间为6:00，结束时间为24:00; 每半个小时一个节点
-        $six = strtotime(date('Y-m-d 6:0:0',$limitTimeStart));
-        $twentyFour = strtotime(date('Y-m-d 24:00:00'));
+        $timeNum    = (24-6)*2; //每日时间的可选择范围开始时间为6:00，结束时间为24:00; 每半个小时一个节点
+        $six        = strtotime(date('Y-m-d 6:0:0',$limitTimeStart));
+        $twentyFour = strtotime(date('Y-m-d 24:00:00',$limitTimeStart));
         $list = [];
         $lessonDuration = 40*60;//测试
         for($i=0;$i<=$timeNum;$i++){
