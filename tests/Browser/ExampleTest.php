@@ -16,11 +16,11 @@ class ExampleTest extends DuskTestCase
     public function testBasicExample()
     {
         $this->browse(function (Browser $browser) {
-            /*
+            
               $browser->visit('/')
                     ->pause(2000)
                     ->assertSee('后台登录');
-            */
+            
 
                             // 页面 url, 是否有All按钮, select 选择框
                 // 模板 ["url" => "", "select" => ["name" => "", "value" => ""]]
