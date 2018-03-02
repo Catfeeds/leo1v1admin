@@ -529,14 +529,14 @@ class get_ass_stu_info_update extends Command
                     $registered_student_list = $tt["registered_student_list"];
                     $revisit_reword_per = $this->get_ass_revisit_reword_value($tt["account"],$k,$start_time,$end_time,$first_lesson_stu_list,$read_student_list,$registered_student_list);//回访绩效比例
                     $seller_week_stu_num = round(@$registered_student_num[$k]/$n,1);//销售月周平均学生数
-                    $seller_month_lesson_count = @$seller_month_lesson_count[$k]["lesson_count"];//销售月总课时
+                    $seller_month_lesson_count_per = @$seller_month_lesson_count[$k]["lesson_count"];//销售月总课时
                     $registered_student_list_last = @$last_ass_month[$k]["registered_student_list"];
-                    list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
+                    list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count_per);
                    
                     $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
                         "revisit_reword_per"          =>$revisit_reword_per*100,
                         "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per*100,
-                        "seller_month_lesson_count"   =>$seller_month_lesson_count,
+                        "seller_month_lesson_count"   =>$seller_month_lesson_count_per,
                         "seller_week_stu_num"         =>$seller_week_stu_num,
                         "first_lesson_stu_list"       => $first_lesson_stu_list
                     ]);
