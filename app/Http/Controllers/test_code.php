@@ -532,8 +532,8 @@ class test_code extends Controller
 
         $lesson_price_list = $this->t_order_lesson_list->get_all_lesson_money($start,$end);
         foreach($lesson_price_list as $l_val){
-            $grade = \App\Helper\Utils::change_grade_to_grade_part($val['grade']);
-            $lesson_price = $l_val['lesson_money'];
+            $grade = \App\Helper\Utils::change_grade_to_grade_part($l_val['grade']);
+            $lesson_price = $l_val['lesson_price'];
             \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
         }
 
