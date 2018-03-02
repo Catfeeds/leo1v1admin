@@ -80,7 +80,7 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
             "t.is_test_user=0",
             "s.is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select l.lessonid,sum(ol.price)/100 as lesson_money"
+        $sql = $this->gen_sql_new("select l.lessonid,sum(ol.price)/100 as lesson_money,l.grade"
                                   ." from %s l force index(lesson_type_and_start)"
                                   ." left join %s ol on l.lessonid=ol.lessonid"
                                   ." left join %s t on l.teacherid=t.teacherid"
