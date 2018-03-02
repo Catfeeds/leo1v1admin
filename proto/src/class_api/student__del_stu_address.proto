@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1102
+//__DESC: 删除收货地址 https://api-class.leo1v1.com/student/del_stu_address
+//__TAGS: for_app,for_website
+
+
+message in  {
+  	uint32 address_id = 1; // 地址id
+}
+
+message out {
+}
+

@@ -7,12 +7,13 @@ use \App\Enums as E;
 
 class test_command extends cmd_base
 {
+    use \App\Http\Controllers\TeaPower;
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:test_command';
+    protected $signature = 'command:test_command {--year=}{--month=}';
 
     /**
      * The console command description.
@@ -38,30 +39,14 @@ class test_command extends cmd_base
      */
     public function handle()
     {
-        $email = "2769730432@qq.com";
-        $title = "test_title";
-        $html  = "测试内容";
-        $ret   = \App\Helper\Common::send_paper_mail($email,$title,$html);
+        $year  = $this->get_in_value("year",2017);
+        $month = $this->get_in_value("month",1);
 
-        // $start_time = strtotime("2017-11-2 18:00");
-        // $end_time = strtotime("2017-11-2 23:59");
-        // $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(-1,$start_time,$end_time);
-        // foreach($lesson_list as $l_val){
-        //     if($l_val['confirm_flag']==4){
-        //         $diff_time = $l_val['lesson_end']-$l_val['lesson_start'];
-        //         if($diff_time==5400){
-        //             $real_lesson_count = 100;
-        //         }else{
-        //             $real_lesson_count = $diff_time/2400*100/2;
-        //         }
-        //         if($real_lesson_count!=$l_val['lesson_count']){
-        //             echo $l_val['lessonid']."|".$l_val['lesson_count']."|".$real_lesson_count;
-        //             echo PHP_EOL;
-        //             $this->task->t_lesson_info->field_update_list($l_val['lessonid'],[
-        //                 "lesson_count"=>$real_lesson_count
-        //             ]);
-        //         }
-        //     }
-        // }
+        $test_code = new \App\Http\Controllers\test_code();
+        $ret = $test_code->test_money($year,$month);
+        dd($ret);
     }
+
+
+
 }

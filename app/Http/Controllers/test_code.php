@@ -468,36 +468,72 @@ class test_code extends Controller
         ]);
     }
 
-    public function test_tts_notice(){
-        $phone = $this->get_in_int_val("phone","18790256265");
-        $type = "124425073";
-        $data = [
-            "name"        => "乐乐",
-            "lesson_time" => "2018年02月06日18:00:00",
-            "subject"     => "数学",
-        ];
-        $ret = \App\Helper\Utils::tts_common($phone, $type, $data);
-        dd($ret);
+    public function test_money($year,$month){
+        $this->switch_tongji_database();
+        // $year  = $this->get_in_int_val("year",2017);
+        // $month = $this->get_in_int_val("month",1);
+
+        $date_str = $year."-".$month;
+        $start    = strtotime($date_str);
+        $end      = strtotime("+1 month",$start);
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1);
+        $check_num = [];
+        $money_list = [];
+        $tea_lesson_count = [];
+        if(!empty($lesson_list)){
+            foreach($lesson_list as $key => &$val){
+                $teacherid    = $val['teacherid'];
+                $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
+                $lesson_type  = $val['lesson_type'];
+                $grade        = \App\Helper\Utils::change_grade_to_grade_part($val['grade']);
+                if($lesson_type==E\Econtract_type::V_2){
+                    continue;
+                }
+
+                if(!isset($tea_lesson_count[$teacherid])){
+                    $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
+                    $tea_lesson_count[$teacherid] = $last_lesson_count;
+                }else{
+                    $last_lesson_count = $tea_lesson_count[$teacherid];
+                }
+
+                $val['money']       = $this->get_teacher_base_money($teacherid,$val);
+                $val['lesson_base'] = $val['money']*$lesson_count;
+                $reward = $this->get_lesson_reward_money(
+                    $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
+                );
+                $val['lesson_reward'] = $reward*$lesson_count;
+
+                $this->get_lesson_cost_info($val,$check_num[$teacherid]);
+                //老师收入,课时成本
+                $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost']);
+                /**
+                 * 课时收入：当月内，产生课时消耗得到的收入，以实际收入为准；
+                 * 付费课时数：当月内实际消耗的课时数，以实际扣除学生的课时数为准；
+                 */
+                if(in_array($lesson_type,[0,3]) && $val['confirm_flag'] !=2 && $val['confirm_flag']!=4){
+                    $lesson_price = $val['lesson_price']/100;
+                    $lesson_pay_count = $lesson_count;
+                }else{
+                    $lesson_price     = 0;
+                    $lesson_pay_count = 0;
+                }
+                //赠送课时数
+                if($lesson_type==E\Econtract_type::V_1){
+                    $lesson_free_count = $lesson_count;
+                }else{
+                    $lesson_free_count = 0;
+                }
+                \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
+                \App\Helper\Utils::check_isset_data($money_list[$grade]['teacher_money'], $teacher_money);
+                \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_pay_count'], $lesson_pay_count);
+                \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_free_count'], $lesson_free_count);
+            }
+        }
+        return $money_list;
     }
 
-    public function test_email(){
-        $address = "wg392567893@163.com";
-        $title = "test title";
-        $message= "test message";
 
-        \App\Helper\Common::send_mail_leo_com($address,$title,$message);
-
-    }
-
-    public function test_error_email(){
-        $title   = "api测试报错";
-        $message = "api测试报错信息";
-        $data    = [
-            "title"   => $title,
-            "message" => $message,
-        ];
-        $url = "http://admin.leo1v1.com/common_new/send_error_email_for_api";
-        \App\Helper\Net::send_post_data($url,$data);
-    }
 
 }

@@ -758,14 +758,21 @@ class tongji_ex extends Controller
     }
 
     public function get_order_info_list(){
-        $start_time = 1514736000;
-        $end_time = 1517414400;
-        $ret = $this->t_order_info->get_item_list($start_time,$end_time);
+        $start_time = strtotime($this->get_in_str_val('start_time','2018-01-01'));
+        $end_time = strtotime($this->get_in_str_val('end_time','2018-02-01'));
+        $month = strtotime(date('Y-m-01',$start_time));
+        $adminid_info = $this->t_main_major_group_name_month->get_cc_adminid_list($month);
+        $adminid_list = array_column($adminid_info, 'adminid');
+        $n_master_adminid_list = array_column($adminid_info, 'n_master_adminid');
+        $g_master_adminid_list = array_column($adminid_info, 'g_master_adminid');
+        $mg_master_adminid_list = array_column($adminid_info, 'mg_master_adminid');
+        $adminid_list = array_unique(array_merge($adminid_list,$n_master_adminid_list,$g_master_adminid_list,$mg_master_adminid_list));
+        $ret = $this->t_order_info->get_item_list($start_time,$end_time,$adminid_list);
         $num = 0;
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h4>1月份签单</h4></caption>';
+        echo '<caption><h4>'.date('Y-m',$start_time).'月份签单</h4></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>序号</th><th>orderid</th><th>下单人</th><th>下单人入职时间</th><th>成交的合同金额</th><th>合同状态</th><th>合同创建时间</th><th>财务确认时间</th>';
+        echo '<th>序号</th><th>orderid</th><th>下单人</th><th>下单人入职时间</th><th>合同金额</th><th>合同状态</th><th>下单时间</th><th>财务确认时间</th>';
         echo '</tr>';
         foreach($ret as $item){
             $num++;
@@ -780,7 +787,8 @@ class tongji_ex extends Controller
             echo '<td>'.date('Y-m-d H:i:s',$item['check_money_time']).'</td>';
             echo '</tr>';
         }
-        echo '</table>';
+        echo '</table>'."</br>";
+        echo "签单总金额:".array_sum(array_column($ret, 'price'))/100;
     }
 
     public function get_no_order_stu_list(){

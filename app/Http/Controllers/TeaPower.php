@@ -5328,17 +5328,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }else{
             $flag=0;
         }
-        
 
         // dd([$info,$users]);
         return $flag;
- 
     }
 
     public function get_all_department_name($info,$department,&$department_list){
         $pid=0;
         $name="";
-        
+
         foreach($info as $v){
             if($v["id"]==$department){
                 $pid=$v["pId"];

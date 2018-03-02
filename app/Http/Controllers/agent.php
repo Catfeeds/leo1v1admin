@@ -441,6 +441,17 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $start_time = strtotime($this->get_in_str_val('start_time','2018-01-01'));
+        $end_time = strtotime($this->get_in_str_val('end_time','2018-02-01'));
+        $month = strtotime(date('Y-m-01',$start_time));
+
+        $adminid_info = $this->t_main_major_group_name_month->get_cc_adminid_list($month);
+        $adminid_list = array_column($adminid_info, 'adminid');
+        $n_master_adminid_list = array_column($adminid_info, 'n_master_adminid');
+        $g_master_adminid_list = array_column($adminid_info, 'g_master_adminid');
+        $mg_master_adminid_list = array_column($adminid_info, 'mg_master_adminid');
+        $adminid_list = array_unique(array_merge($adminid_list,$n_master_adminid_list,$g_master_adminid_list,$mg_master_adminid_list));
+        dd($adminid_list);
         $main_groupid = $this->t_admin_main_group_name->get_groupid_by_adminid($adminid=869);
         dd($main_groupid);
         $now = time(NULL);

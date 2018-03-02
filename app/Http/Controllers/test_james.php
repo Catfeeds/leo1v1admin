@@ -1909,17 +1909,17 @@ class test_james extends Controller
         // $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
         $lessonTimeList = [
             [
-                "lesson_start" => "1519862400",
-                "lesson_end" => "1519864200"
+                "lesson_start" => "1519862400",//8
+                "lesson_end" => "1519864200"//8.30
             ],
             [
-                "lesson_start" => "1519864500",
-                "lesson_end" => "1519866000"
+                "lesson_start" => "1519864500",//8.35
+                "lesson_end" => "1519866000"//9.0
             ],
-            [
-                "lesson_start" => "1519870800",
-                "lesson_end" => "1519873200"
-            ]
+            // [
+            //     "lesson_start" => "1519870800",
+            //     "lesson_end" => "1519873200"
+            // ]
         ];
 
         $lesson_start   = $this->t_lesson_info_b3->get_lesson_start($lessonid);
@@ -1946,13 +1946,85 @@ class test_james extends Controller
         foreach($lessonTimeList as $i=>&$item){
             foreach($total_list as $ii=>$val){
                 if(($item['lesson_start']>=strtotime($val['lesson_start']) && $item['lesson_start']<=strtotime($val['lesson_end'])) || ($item['lesson_end']<strtotime($val['lesson_end'])&&$item['lesson_end']>strtotime($val['lesson_start']))){
-                    dd(1);
                     unset($total_list[$ii]);
                 }
             }
         }
 
         dd($total_list);
+    }
+
+    # 获取可选日期
+    public function getAvailableDate(){
+        $six = strtotime(date('Y-m-d 6:0:0',1519920000));
+        dd($six);
+        $time      = time();
+        $lessonid  = $this->get_in_int_val('lessonid');
+        $userid    = $this->t_lesson_info_b3->get_userid($lessonid);
+        $teacherid = $this->t_lesson_info_b3->get_teacherid($lessonid);
+
+        # 获取可选日期
+        $lesson_start   = $this->t_lesson_info_b3->get_lesson_start($lessonid);
+        $lesson_end     = $this->t_lesson_info_b3->get_lesson_end($lessonid);
+        $lessonDuration = $lesson_end-$lesson_start;
+
+        $today = strtotime(date('Y-m-d'));
+        $dateNum = 2;// 检查获取20天以内的课时[待定]
+
+        $ret = [];
+        for($i=0;$i<=$dateNum;$i++){
+            // 检查该天的可选性
+            $limitTimeStart = $today+$i*86400;
+            $ret[][$limitTimeStart] = $this->getCheckTime($lessonid,$userid,$teacherid,$limitTimeStart,$lessonDuration);
+        }
+
+        dd($ret);
+        return $this->output_succ(['data'=>$ret]);
+    }
+
+
+    # 检查每天的课程有无空闲时间
+    public function getCheckTime($lessonid,$userid,$teacherid,$limitTimeStart,$lessonDuration){
+        $limitTimeEnd   = $limitTimeStart+86400;
+        // $lessonTimeList = $this->t_lesson_info_b3->getLessonTimeList($userid,$teacherid,$limitTimeStart,$limitTimeEnd);
+        $lessonTimeList = [
+            [
+                "lesson_start" => "1519862400",//8
+                "lesson_end" => "1519864200"//8.30
+            ],
+            [
+                "lesson_start" => "1519864500",//8.35
+                "lesson_end" => "1519866000"//9.0
+            ],
+        ];
+
+        $lessonDuration = 40*60;
+
+        $date_list = [];
+        $total_list = [];
+
+        # 列出所有时间段
+        $timeNum = (24-6)*2; //每日时间的可选择范围开始时间为6:00，结束时间为24:00; 每半个小时一个节点
+        $six = strtotime(date('Y-m-d 6:0:0',$limitTimeStart));
+        $twentyFour = strtotime(date('Y-m-d 24:00:00'));
+        $list = [];
+        $lessonDuration = 40*60;//测试
+        for($i=0;$i<=$timeNum;$i++){
+            $list['lesson_start'] = date('Y-m-d H:i:s',$six+$i*30*60);
+            $list['lesson_end']   = date('Y-m-d H:i:s',$six+$i*30*60+$lessonDuration);
+            $total_list[] = $list;
+        }
+
+        # 检测并剔除冲突时间
+        foreach($lessonTimeList as $i=>&$item){
+            foreach($total_list as $ii=>$val){
+                if(($item['lesson_start']>=strtotime($val['lesson_start']) && $item['lesson_start']<=strtotime($val['lesson_end'])) || ($item['lesson_end']<strtotime($val['lesson_end'])&&$item['lesson_end']>strtotime($val['lesson_start']))){
+                    unset($total_list[$ii]);
+                }
+            }
+        }
+
+        return $total_list;
     }
 
 
