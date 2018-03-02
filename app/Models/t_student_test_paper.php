@@ -54,12 +54,12 @@ class t_student_test_paper extends \App\Models\Zgen\z_t_student_test_paper
         return $this->main_update($sql);
     }
 
-    public function get_papers($subject,$grade,$book,$page_num){
+    public function get_papers($subject,$grade,$book,$paper_type,$page_num){
         $where_arr = [
             ['subject=%u', $subject, -1],
             ['grade=%u', $grade, -1],
             ['book=%u', $book, -1],
-
+            ['paper_type=%u', $paper_type, -1],
         ];
         $sql = $this->gen_sql_new("select * from %s where %s order by paper_id desc",
                                   self::DB_TABLE_NAME,$where_arr);
