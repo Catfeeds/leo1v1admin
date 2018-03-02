@@ -5100,7 +5100,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function get_item_list($start_time,$end_time,$adminid_list){
         $where_arr=[
             'o.contract_type=0',
-            'o.price>0',
+            'o.contract_status<>0',
+            'is_test_user = 0',
         ];
         $this->where_arr_add_int_or_idlist($where_arr, 'm.uid',$adminid_list);
         $this->where_arr_add_time_range($where_arr, 'o.order_time', $start_time, $end_time);
@@ -5108,9 +5109,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             " select o.*,m.create_time become_time "
             ." from %s o "
             ." left join %s m on m.account=o.sys_operator "
+            ." left join %s s on s.userid=o.userid "
             ." where %s",
             self::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
