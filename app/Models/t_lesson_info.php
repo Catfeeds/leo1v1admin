@@ -3140,7 +3140,7 @@ lesson_type in (0,1) "
                                   ." lesson_cancel_time_type,lesson_cancel_reason_type,t.teacher_type,"
                                   ." m.money,m.type,m.level,m.teacher_money_type,l.teacher_type as l_teacher_type,"
                                   ." tl.test_lesson_fail_flag,tl.fail_greater_4_hour_flag,"
-                                  ." l.competition_flag,l.teacherid"
+                                  ." l.competition_flag,l.teacherid,l.lesson_status,l.lesson_del_flag"
                                   ." from %s l "
                                   ." left join %s tl on l.lessonid=tl.lessonid "
                                   ." left join %s s on l.userid=s.userid "
@@ -3166,6 +3166,7 @@ lesson_type in (0,1) "
                                   ,$teacher_money_type_str
                                   ,$where_arr
         );
+        // echo $sql;echo PHP_EOL;exit;
         return $this->main_get_list($sql);
     }
 

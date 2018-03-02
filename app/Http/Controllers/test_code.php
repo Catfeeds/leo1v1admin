@@ -483,51 +483,60 @@ class test_code extends Controller
                 $teacherid    = $val['teacherid'];
                 $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
                 $lesson_type  = $val['lesson_type'];
+                $lesson_status = $val['lesson_status'];
                 $grade        = \App\Helper\Utils::change_grade_to_grade_part($val['grade']);
-                if($lesson_type==E\Econtract_type::V_2){
+                if(!in_array($lesson_type,[0,1,3])){
                     continue;
-                }
-
-                if(!isset($tea_lesson_count[$teacherid])){
-                    $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
-                    $tea_lesson_count[$teacherid] = $last_lesson_count;
                 }else{
-                    $last_lesson_count = $tea_lesson_count[$teacherid];
-                }
-
-                $val['money']       = $this->get_teacher_base_money($teacherid,$val);
-                $val['lesson_base'] = $val['money']*$lesson_count;
-                $reward = $this->get_lesson_reward_money(
-                    $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
-                );
-                $val['lesson_reward'] = $reward*$lesson_count;
-
-                $this->get_lesson_cost_info($val,$check_num[$teacherid]);
-                //老师收入,课时成本
-                $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost']);
-                /**
-                 * 课时收入：当月内，产生课时消耗得到的收入，以实际收入为准；
-                 * 付费课时数：当月内实际消耗的课时数，以实际扣除学生的课时数为准；
-                 */
-                $lesson_price      = 0;
-                $lesson_pay_count  = 0;
-                $lesson_free_count = 0;
-                if($val['confirm_flag']!=2 && $val['confirm_flag']!=4 && $val['deduct_change_class']==0){
-                    $lesson_price = $val['lesson_price']/100;
-                    if($lesson_price>0){
-                        $lesson_pay_count = $lesson_count;
+                    if(!isset($tea_lesson_count[$teacherid])){
+                        $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
+                        $tea_lesson_count[$teacherid] = $last_lesson_count;
                     }else{
-                        $lesson_free_count = $lesson_count;
+                        $last_lesson_count = $tea_lesson_count[$teacherid];
                     }
-                }
 
-                //赠送课时数
-                \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
-                \App\Helper\Utils::check_isset_data($money_list[$grade]['teacher_money'], $teacher_money);
-                \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_pay_count'], $lesson_pay_count);
-                \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_free_count'], $lesson_free_count);
+                    $val['money']       = $this->get_teacher_base_money($teacherid,$val);
+                    $val['lesson_base'] = $val['money']*$lesson_count;
+                    $reward = $this->get_lesson_reward_money(
+                        $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
+                    );
+                    $val['lesson_reward'] = $reward*$lesson_count;
+
+                    $this->get_lesson_cost_info($val,$check_num[$teacherid]);
+                    //老师收入,课时成本
+                    $teacher_money = ($val['lesson_base']+$val['lesson_reward']-$val['lesson_cost']);
+                    /**
+                     * 课时收入：当月内，产生课时消耗得到的收入，以实际收入为准；
+                     * 付费课时数：当月内实际消耗的课时数，以实际扣除学生的课时数为准；
+                     */
+                    $lesson_price      = 0;
+                    $lesson_pay_count  = 0;
+                    $lesson_free_count = 0;
+                    if(in_array($val['confirm_flag'],[0,1,3]) && $val['deduct_change_class']==0 && $lesson_count>0){
+                        $lesson_price = $val['lesson_price'];
+                        if($lesson_price>0){
+                            $lesson_pay_count = $lesson_count;
+                        }else{
+                            $lesson_free_count = $lesson_count;
+                        }
+                    }
+
+                    //赠送课时数
+                    // \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
+                    \App\Helper\Utils::check_isset_data($money_list[$grade]['teacher_money'], $teacher_money);
+                    \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_pay_count'], $lesson_pay_count);
+                    \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_free_count'], $lesson_free_count);
+                }
             }
         }
+
+        $lesson_price_list = $this->t_order_lesson_list->get_all_lesson_money($start,$end);
+        foreach($lesson_price_list as $l_val){
+            $grade = \App\Helper\Utils::change_grade_to_grade_part($val['grade']);
+            $lesson_price = $l_val['lesson_price'];
+            \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
+        }
+
         return $money_list;
     }
 

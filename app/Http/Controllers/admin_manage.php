@@ -311,6 +311,10 @@ class admin_manage extends Controller
         $flow_type  = $this->get_in_e_flow_type();
         // $flow_type  = $this->get_in_int_val('flow_type');
         $flow_function = $this->get_in_e_flow_function();
+        \App\Helper\Utils::logger("flow_function".$flow_function);
+
+        if($flow_function==0) $flow_function=1;
+
         // $flow_function = $this->get_in_int_val('flow_funciton');
         $flow_class=\App\Flow\flow::get_flow_class($flow_type);
         if ($flow_class ){

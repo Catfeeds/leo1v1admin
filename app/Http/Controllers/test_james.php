@@ -2054,8 +2054,8 @@ class test_james extends Controller
             $stu_name = $this->t_student_info->get_nick($userid);
             $data = [
                 'first'    => "$stu_name 同学的常规课调课，请尽快完成确认",
-                // 'keyword1' =>
-
+                'keyword1' => "调课申请",
+                // 'keyword2' => "\"
             ];
 
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
