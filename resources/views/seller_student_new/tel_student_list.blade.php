@@ -213,7 +213,7 @@
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 <a class="fa fa-edit opt-edit"  title="编辑" > </a>
                                 <!-- james -->
-                                <a class="fa fa-trash-o opt-sign"  title="标注无效资源"></a>
+                                <!-- <a class="fa fa-trash-o opt-sign"  title="标注无效资源"></a> -->
                             </div>
                         </td>
                     </tr>
