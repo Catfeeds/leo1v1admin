@@ -522,13 +522,21 @@ class test_code extends Controller
                     }
 
                     //赠送课时数
-                    \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
+                    // \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
                     \App\Helper\Utils::check_isset_data($money_list[$grade]['teacher_money'], $teacher_money);
                     \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_pay_count'], $lesson_pay_count);
                     \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_free_count'], $lesson_free_count);
                 }
             }
         }
+
+        $lesson_price_list = $this->t_order_lesson_list->get_all_lesson_money($start,$end);
+        foreach($lesson_price_list as $l_val){
+            $grade = \App\Helper\Utils::change_grade_to_grade_part($val['grade']);
+            $lesson_price = $l_val['lesson_price'];
+            \App\Helper\Utils::check_isset_data($money_list[$grade]['lesson_price'], $lesson_price);
+        }
+
         return $money_list;
     }
 
