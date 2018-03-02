@@ -410,10 +410,22 @@ export default class extends vtable {
   check_branch_count(data,node_type,attribute){
     var branch_count = 0;
     console.log(data.nodes);
+    var arr=new Array();
     $.each( data.nodes, function(i, nodes ){
-      if(nodes.type == node_type)
-        branch_count += nodes[attribute];
+      if(nodes.type == node_type){
+        arr.push(i);
+      }
     });
+    for(var ele of arr){
+      console.log("第四种遍历方式\t"+ele+arr[ele]);
+      $.each( data.lines, function(i, nodes ){
+        if(nodes.from == ele){
+          branch_count += 1;
+        }
+      });
+
+    }
+    console.log(arr);
     return branch_count;
 
   }
