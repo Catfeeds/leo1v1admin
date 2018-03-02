@@ -2389,7 +2389,7 @@ $(function(){
                     id_change_teacher_reason_type.parent().parent().css('display','table-row');
                     id_change_reason.parent().parent().css('display','table-row');
                     id_change_reason_url.parent().parent().css('display','table-row');
-                    $("font[class='required fields']").hide();
+                    // $("font[class='required fields']").hide();
                 }else{
                     id_change_teacher_reason_type.parent().parent().css('display','none');
                     id_change_reason.parent().parent().css('display','none');
@@ -2398,6 +2398,14 @@ $(function(){
                     id_change_teacher_reason_type.val(0);
                     id_change_reason.val('');
                     id_change_reason_url.val('');
+                    // $("font[class='required fields']").show();
+                }
+            });
+
+            id_green_channel_teacherid.on("change",function(){
+                if(id_green_channel_teacherid.val() != ''){
+                    $("font[class='required fields']").hide();
+                }else{
                     $("font[class='required fields']").show();
                 }
             });
@@ -2454,7 +2462,7 @@ $(function(){
                                 add_tag += $(this).attr('value')+',';
                             }
                         });
-                        
+
                         if(html_node.find("#id_stu_nick_new_two").val() == ''){
                             html_node.find("#id_stu_nick_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
@@ -2491,7 +2499,7 @@ $(function(){
                         }else{
                             html_node.find("#id_stu_subject_new_two").parent().attr('style','');
                         }
-                        
+
                         if(html_node.find("#id_stu_editionid_new_two").val() <= 0){
                             html_node.find("#id_stu_editionid_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
@@ -2729,7 +2737,7 @@ $(function(){
             if (res.data) {
                 var data = res.data;
                 var arr = [];
-                
+
                 for (var key in data) {
                     var val = data[key];
                     if ((key == "单科上课次数" && parseInt(val) < 3) || (key == "退费预警级别" && val == "一级")) {val = "<span style='color:#0099FF'>" + val + "</span>";}
