@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1106
-//__DESC: 6.1 学生修改信息 https://api-class.leo1v1.com/student/change_stu_info
+//__DESC: 6.1 学生修改信息 https://api-class.leo1v1.com/student/change_stu_info?head_img=http://ebtestpub.qiniudn.com/acff9d3e5274dcef5f981d4f57aaf82c1519960193303.jpg&nick=微微&gender=1&address_id=2
 //__TAGS: for_app,for_website
 
 
