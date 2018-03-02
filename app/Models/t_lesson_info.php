@@ -3166,6 +3166,7 @@ lesson_type in (0,1) "
                                   ,$teacher_money_type_str
                                   ,$where_arr
         );
+        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 

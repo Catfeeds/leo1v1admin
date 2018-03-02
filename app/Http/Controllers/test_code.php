@@ -512,8 +512,8 @@ class test_code extends Controller
                 $lesson_price      = 0;
                 $lesson_pay_count  = 0;
                 $lesson_free_count = 0;
-                if($val['confirm_flag']!=2 && $val['confirm_flag']!=4 && $val['deduct_change_class']==0){
-                    $lesson_price = $val['lesson_price']/100;
+                if(in_array($val['confirm_flag'],[0,1,3]) && $val['deduct_change_class']==0){
+                    $lesson_price = $val['lesson_price'];
                     if($lesson_price>0){
                         $lesson_pay_count = $lesson_count;
                     }else{
