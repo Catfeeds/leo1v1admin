@@ -1652,6 +1652,9 @@ class seller_student_new extends Controller
         if(date('Y-m-d',time()) == '2018-02-28'){
             $limit_arr=array( [0, 10*60+30]);
         }
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            $limit_arr=array( [0, 7*60]);
+        }
 
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $this->set_filed_for_js("seller_level",$seller_level);
