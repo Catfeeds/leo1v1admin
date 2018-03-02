@@ -2404,8 +2404,7 @@ $(function(){
 
             html_node.find(".upload_change_reason_url").attr("id","id_upload_change_reason_url");
             Enum_map.append_option_list("change_teacher_reason_type",id_change_teacher_reason_type,true);
-            $.admin_select_user(id_green_channel_teacherid,"teacher");
-            id_green_channel_teacherid.on("change",function(){
+            $.admin_select_user(id_green_channel_teacherid,"teacher",function(){
                 if(id_green_channel_teacherid.val() > 0){
                     $("font[class='required fields']").hide();
                 }else{
