@@ -2075,7 +2075,11 @@ class test_james extends Controller
         }
 
         $this->t_lesson_info_b3->field_update_list($lessonid, [
-            "lesson_del_flag" => 1
+            "lesson_del_flag" => 1,
+            "confirm_flag"    => 2,
+            "lesson_cancel_reason_type" => E\Elesson_cancel_reason_type::V_11,
+            "lesson_cancel_time_type"   => 2,
+            "confirm_reason"  => '家长微信端请假'
         ]);
         $this->t_leave_lesson_log->row_insert([
             "lessonid" => $lessonid,
