@@ -512,7 +512,7 @@ class get_ass_stu_info_update extends Command
             list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);//新版薪资 助教续费新签合同/销售转介绍合同 金额/个数计算
             list($first_week,$last_week,$n) = $task->get_seller_week_info($start_time, $end_time);//销售月拆解       
           
-            if(date("d",time())=="01" || date("d",time())=="02"){
+            if(in_array(date("d",time()),["01","02","03","04","05","06"])){
                 $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
                 $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
                 //$first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time);//生成助教学生第一次课信息(按科目)
