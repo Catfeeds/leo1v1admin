@@ -2389,7 +2389,6 @@ $(function(){
                     id_change_teacher_reason_type.parent().parent().css('display','table-row');
                     id_change_reason.parent().parent().css('display','table-row');
                     id_change_reason_url.parent().parent().css('display','table-row');
-                    // $("font[class='required fields']").hide();
                 }else{
                     id_change_teacher_reason_type.parent().parent().css('display','none');
                     id_change_reason.parent().parent().css('display','none');
@@ -2398,19 +2397,17 @@ $(function(){
                     id_change_teacher_reason_type.val(0);
                     id_change_reason.val('');
                     id_change_reason_url.val('');
-                    // $("font[class='required fields']").show();
                 }
             });
 
             html_node.find(".upload_change_reason_url").attr("id","id_upload_change_reason_url");
             Enum_map.append_option_list("change_teacher_reason_type",id_change_teacher_reason_type,true);
             $.admin_select_user(id_green_channel_teacherid,"teacher",function(){
-                if(id_green_channel_teacherid.val() > 0){
+                if(id_green_channel_teacherid.val() > 0 && id_ass_test_lesson_type.val() == 2){
                     $("font[class='required fields']").hide();
                 }else{
                     $("font[class='required fields']").show();
                 }
-                alert(id_green_channel_teacherid.val());
             });
 
             var dlg=BootstrapDialog.show({
@@ -2525,7 +2522,7 @@ $(function(){
                             html_node.find("#city_new_two").parent().attr('style','');
                         }
 
-                        if(html_node.find('#id_ass_test_lesson_type_new_two').val()!=2){
+                        if(id_ass_test_lesson_type.val()!=2 || id_green_channel_teacherid.val()==0){
                             var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
                             if(html_node.find("#id_main_subject_score_one_new_two").val() == ''){
                                 html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
