@@ -2562,20 +2562,19 @@ $(function(){
                             }else{
                                 html_node.find("#id_pro_ability_new_two").parent().attr('style','');
                             }
-                            alert(html_node.find("#id_tea_status_new_two").val());
-                            if(html_node.find("#id_tea_status_new_two").val() == ''){
+                            if(html_node.find("#id_tea_status_new_two").val() == null){
                                 html_node.find("#id_tea_status_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 return false;
                             }else{
                                 html_node.find("#id_tea_status_new_two").parent().attr('style','');
                             }
-                            if(html_node.find("#id_tea_age_new_two").val() == ''){
+                            if(html_node.find("#id_tea_age_new_two").val() == null){
                                 html_node.find("#id_tea_age_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 return false;
                             }else{
                                 html_node.find("#id_tea_age_new_two").parent().attr('style','');
                             }
-                            if(html_node.find("#id_tea_gender_new_two").val() == ''){
+                            if(html_node.find("#id_tea_gender_new_two").val() == null){
                                 html_node.find("#id_tea_gender_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 return false;
                             }else{
