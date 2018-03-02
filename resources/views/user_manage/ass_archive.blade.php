@@ -275,11 +275,10 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon">&nbsp绿色通道：</span>
-                            <input type="text" class=" form-control "  id="id_green_channel_teacherid_new_two"  />
+                            <input type="text" class=" form-control "  id="id_green_channel_teacherid_new_two" />
                         </div>
                     </div>
 
-                    
                     <div class="col-xs-12 col-md-3 " style="display:none;">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp学情反馈：</span>

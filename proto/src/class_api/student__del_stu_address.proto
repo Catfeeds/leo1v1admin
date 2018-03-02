@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1102
-//__DESC: 删除收货地址 https://api-class.leo1v1.com/student/del_stu_address
+//__DESC: 删除收货地址 https://api-class.leo1v1.com/student/del_stu_address?address_id=2
 //__TAGS: for_app,for_website
 
 

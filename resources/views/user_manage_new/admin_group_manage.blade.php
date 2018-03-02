@@ -119,6 +119,7 @@
                                    <a class="opt-edit-group">修改</a>
                                    <a class="opt-del-group">删除</a>
                                    <a class="opt-del-admin">删除成员</a>
+                                   <a class="opt-change-admin">换队</a>
                                    @if($var["main_type"]==4 && $var["level"]=="l-3")
                                        <a class="opt-set-subject">配置科目</a>
                                    @endif

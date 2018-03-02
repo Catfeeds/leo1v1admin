@@ -44,7 +44,8 @@ $(function(){
     Enum_map.append_option_list("subject", $(".paper_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
     Enum_map.append_option_list("grade", $(".paper_grade"),false, [101,102,103,104,105,106,201,202,203,301,302,303]);
     Enum_map.append_option_list("resource_volume", $(".paper_volume"));
-
+    Enum_map.append_option_list("paper_type", $(".paper_type"));
+    
     $('.paper_subject').val(g_args.subject);
     $('.paper_grade').val(g_args.grade);
     $('.paper_volume').val(g_args.volume);    
@@ -183,6 +184,8 @@ $(function(){
                     paper.find('.paper_grade').val(info.grade);
                     paper.find('.paper_subject').val(info.subject);
                     paper.find('.paper_volume').val(info.volume);
+                    paper.find('.paper_type').val(info.paper_type);
+                    paper.find('.paper_question_num').val(info.paper_question_num);
                     get_book(paper.find('.paper_book'),info.book,info.subject,info.grade);
                     paper.find('.paper_book').val(info.book);
                     var answer = info.answer;
@@ -579,7 +582,8 @@ function save_answer(obj,oEvent){
     var grade = cur_obj.find(".paper_grade").val();
     var volume = cur_obj.find(".paper_volume").val();
     var book = cur_obj.find(".paper_book").val();
-    
+    var paper_question_num = cur_obj.find(".paper_question_num").val();
+    var paper_type = cur_obj.find(".paper_type").val();
     var answer = [];
     var could_save = 1;
     var could_answer = 1;
@@ -596,6 +600,12 @@ function save_answer(obj,oEvent){
         answer.push(item);
     });
 
+    if( paper_question_num != answer.length){
+        BootstrapDialog.alert("题目数和题目实际录入数量不一致！");
+        could_save == 0;
+        return false;
+    }
+
     if( paper_id == "" || paper_name == "" ){
         BootstrapDialog.alert("试卷id，试卷名字填写完整");
         could_save == 0;
@@ -604,6 +614,12 @@ function save_answer(obj,oEvent){
     
     if( subject == -1 || grade == -1 || volume == -1 || book == -1){
         BootstrapDialog.alert("年级，科目，上下册，教材填写完整");
+        could_save == 0;
+        return false;
+    }
+
+    if( paper_type == -1){
+        BootstrapDialog.alert("测评分类是必填");
         could_save == 0;
         return false;
     }
@@ -622,8 +638,10 @@ function save_answer(obj,oEvent){
         'book'       : book,
         'answer'     : answer,
         'save_type'  : 1,
+        'paper_type' : paper_type,
+        'paper_question_num' : paper_question_num,
     };
-
+  
     console.log(data);
 
     if( could_answer == 1 && could_save == 1){
@@ -712,10 +730,13 @@ function dimension_pub_bind(dimension,obj){
         obj.find(".dimension_bind").removeClass("hide");
         do_ajax('/test_paper/get_paper',{'paper_id':paper_id},function(ret){
             if( ret.ret == 0 && ret.status == 200){
+                console.log(ret.paper);
                 var answer_arr = ret.paper.answer;
                 var dimension_arr = ret.paper.dimension;
                 var bind_arr = ret.paper.question_bind;
+                var question_dimension = ret.paper.question_dimension;
                 var have_bind = [];
+                var question_di_arr = [];
                 var have_dimension_name = "";
                 if( dimension_arr != "" ){
                     var dimension_str = $.parseJSON(dimension_arr);
@@ -727,14 +748,8 @@ function dimension_pub_bind(dimension,obj){
                     }
                 }
                 
-                if( bind_arr != ""){
-                    var bind_str = $.parseJSON(bind_arr);
-                    for(var x in bind_str){
-                        if( parseInt(x) == parseInt(dimension) ){
-                            have_bind =  bind_str[x];
-                            continue;
-                        }
-                    }
+                if( question_dimension != ""){
+                    question_di_arr = $.parseJSON(question_dimension);
                 }
 
                 if( answer_arr != ""){
@@ -743,11 +758,17 @@ function dimension_pub_bind(dimension,obj){
                     for(var x in answer_str){
                         var answer_tr = obj.find(".dimension_answer:first").clone().removeClass("hide");
                         answer_tr.find("td:eq(0) input").attr({"id":x});
-                        if( have_bind.length > 0 && $.inArray(x,have_bind) >= 0 ){
-                            answer_tr.find("td:eq(0) input").attr({"checked":"checked"});
-                            answer_tr.find("td:eq(2)").html("<span>"+have_dimension_name+"</span>");
-                        }else{
-                            answer_tr.find("td:eq(2)").html("<span class='hide'>"+have_dimension_name+"</span>");
+ 
+                        if( question_di_arr[x] != undefined){
+                            //console.log(dimension_str[question_di_arr[x]]);                            
+                            if( question_di_arr[x] == dimension ){
+                                answer_tr.find("td:eq(0) input").attr({"checked":"checked"});
+                                answer_tr.find("td:eq(2)").html("<span>"+dimension_str[question_di_arr[x]]+"</span>");
+                            }else{
+                                answer_tr.addClass("dimension_have");
+                                answer_tr.find("td:eq(0) input").attr({"checked":"checked","disabled":"disabled"});
+                                answer_tr.find("td:eq(2)").html("<span>"+dimension_str[question_di_arr[x]]+"</span>");                   
+                            }
                         }
                         answer_tr.find("td:eq(1)").text(answer_str[x][0]);
                         
@@ -831,7 +852,7 @@ function save_bind(obj,oEvent){
     var could_save = 1;
     var item = [];
     var dimension_id = $(cur_obj).find(".dimension_item").val();
-    cur_obj.find("table tbody tr.dimension_answer:gt(0)").each(function(){
+    cur_obj.find("table tbody tr.dimension_answer:gt(0)[class!='dimension_answer dimension_have']").each(function(){
         var checked_obj = $(this).find("td:eq(0) input");
         if( checked_obj.is(':checked') ){
             item.push(checked_obj.attr("id"));
@@ -843,6 +864,7 @@ function save_bind(obj,oEvent){
         dimension_id:dimension_id,
         bind:item,
     };
+
     $.ajax({
         type     : "post",
         url      : "/test_paper/save_dimension_answer",
@@ -1045,4 +1067,12 @@ function suggest_dele(obj,oEvent){
             }
         }
     })
+}
+
+function keyPressCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+}
+
+function keyUpCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
 }

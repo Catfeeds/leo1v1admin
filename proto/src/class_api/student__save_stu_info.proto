@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1104
-//__DESC: 1.2 学生登录后填写保存个人信息 https://api-class.leo1v1.com/student/save_stu_info
+//__DESC: 1.2 学生登录后填写保存个人信息 https://api-class.leo1v1.com/student/save_stu_info?nick=赵四&brith=2010-10-10&gender=1
 //__TAGS: for_app,for_website
 
 

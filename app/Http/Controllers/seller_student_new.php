@@ -1647,10 +1647,12 @@ class seller_student_new extends Controller
             $limit_arr=array( [0, 13*60+30]);
         }else{//周二 00:00~06:00
             $limit_arr=array( [0, 6*60]);
-            //$limit_arr=array( [0, 10*60 ] );
         }
         if(date('Y-m-d',time()) == '2018-02-28'){
             $limit_arr=array( [0, 10*60+30]);
+        }
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            $limit_arr=array( [0, 7*60]);
         }
 
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );

@@ -4285,7 +4285,7 @@ class user_deal extends Controller
         case "201704" :
             $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
-                 $month, $adminid, $start_time, $end_time ) ;
+                 $month, $adminid, $start_time, $end_time);
             break;
         case "201705" :
         case "201706" :
@@ -4293,32 +4293,32 @@ class user_deal extends Controller
         case "201708" :
             $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
-                "201705", $adminid, $start_time, $end_time ) ;
+                "201705", $adminid, $start_time, $end_time);
             break;
         case "201709" :
             $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
-                "201709", $adminid, $start_time, $end_time );
+                "201709", $adminid, $start_time, $end_time);
             break;
         case "201710" :
             $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
-                "201710", $adminid, $start_time, $end_time );
+                "201710", $adminid, $start_time, $end_time);
             break;
         case "201711" :
             $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
-                "201711", $adminid, $start_time, $end_time );
+                "201711", $adminid, $start_time, $end_time);
             break;
         case "201712" :
             $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
-                "201712", $adminid, $start_time, $end_time );
+                "201712", $adminid, $start_time, $end_time);
             break;
         default:
             $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_info_by_type("201801",$adminid,$start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
-                $adminid, $start_time, $end_time ) ;
+                $adminid, $start_time, $end_time);
             break;
         }
         //试听成功数
