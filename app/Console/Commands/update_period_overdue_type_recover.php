@@ -53,29 +53,42 @@ class update_period_overdue_type_recover extends Command
         }
        
         //逾期预警学员
-        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3,5);
-        if(count($list)>0){
-            foreach($list as $val){
-                $orderid = $val["orderid"];
-                $data = $task->get_baidu_money_charge_pay_info($orderid);
-                if($data["status"]==0 && isset($data["data"]) && is_array($data["data"])){
-                    $ret = $data["data"];
-                    foreach($ret as $item){
-                        $period = $item["period"];                       
+        //获取预警学员列表
+        $warn_stu_list = $task->t_student_info->get_stu_detail_list_by_type(5);
+        if(!empty($warn_stu_list)){
+            foreach($warn_stu_list as $tt){
+               
+                $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3,5,-1,$tt["userid"]);
+                if(count($list)>0){
+                    $warn_num=0;
+                    foreach($list as $val){
+                        $orderid = $val["orderid"];
+                        $data = $task->get_baidu_money_charge_pay_info($orderid);
+                        if($data["status"]==0 && isset($data["data"]) && is_array($data["data"])){
+                            $ret = $data["data"];
+                            foreach($ret as $item){
+                                $period = $item["period"];                       
 
-                        if($due_date==$item["dueDate"] && $item["bStatus"]==48){
-                            $task->t_period_repay_list->field_update_list_2($orderid,$period,[
-                                "bid"     =>$item["bid"],
-                                "b_status"=>$item["bStatus"],
-                                "paid_time"=>$item["paidTime"],
-                                "due_date" =>$item["dueDate"],
-                                "money"    =>$item["money"],
-                                "paid_money"=>$item["paidMoney"],
-                                "un_paid_money"=>$item["unpaidMoney"],
-                                "repay_status" =>2
-                            ]);
+                                if($due_date==$item["dueDate"] && $item["bStatus"]==48){
+                                    $task->t_period_repay_list->field_update_list_2($orderid,$period,[
+                                        "bid"     =>$item["bid"],
+                                        "b_status"=>$item["bStatus"],
+                                        "paid_time"=>$item["paidTime"],
+                                        "due_date" =>$item["dueDate"],
+                                        "money"    =>$item["money"],
+                                        "paid_money"=>$item["paidMoney"],
+                                        "un_paid_money"=>$item["unpaidMoney"],
+                                        "repay_status" =>2
+                                    ]);
+                                    $warn_num++;
 
-                            $userid = $val["userid"];
+                                   
+                                }
+                            }
+ 
+                        }
+                        if(count($list)==$warn_num){
+                            $userid = $tt["userid"];
                             $old_type= $task->t_student_info->get_type($userid);
                             $target_type_info = $task->t_student_type_change_list->get_info_by_userid_last($userid);
                             $target_type = $target_type_info["type_before"];
@@ -90,10 +103,9 @@ class update_period_overdue_type_recover extends Command
                                 "reason"      =>"系统更新"
                             ]);
                             $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期预警状态变更","学员预警逾期状态变更通知",$userid."学生逾期预警已还款,状态已恢复","");
-
+ 
                         }
                     }
- 
                 }
             }
         }
@@ -101,51 +113,66 @@ class update_period_overdue_type_recover extends Command
 
 
         //逾期停课学员
-        $ret_info = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,-1,6);
-        if(count($ret_info)>0){
-            foreach($ret_info as $val){
-                $orderid = $val["orderid"];
-                $data = $task->get_baidu_money_charge_pay_info($orderid);
-                if($data["status"]==0 && isset($data["data"]) && is_array($data["data"])){
-                    $ret = $data["data"];
+        $stop_stu_list = $task->t_student_info->get_stu_detail_list_by_type(6);
+        if(!empty($stop_stu_list)){
+            foreach($stop_stu_list as $yy){            
+                $ret_info = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,-1,6,-1,$yy["userid"]);
+                if(count($ret_info)>0){
                     $i=0;
-                    foreach($ret as $item){
-                        $period = $item["period"];                       
-                        if($item["bStatus"] != 48){
-                            $item["paidTime"]=0; 
-                        }
-                        if($item["bStatus"] == 48 && $item["paidTime"]>$item["dueDate"]){
-                            $repay_status = 2;
-                        }elseif($item["bStatus"] == 48 && $item["paidTime"]<=$item["dueDate"]){
-                            $repay_status = 1;
-                        }elseif($item["bStatus"] == 144 || ($item["bStatus"] == 112 && $item["dueDate"] < strtotime(date("Y-m-d",time())))){
-                            $repay_status = 3;
-                        }else{
-                            $repay_status = 0;
-                        }
-                        $task->t_period_repay_list->field_update_list_2($orderid,$period,[
-                            "bid"     =>$item["bid"],
-                            "b_status"=>$item["bStatus"],
-                            "paid_time"=>$item["paidTime"],
-                            "due_date" =>$item["dueDate"],
-                            "money"    =>$item["money"],
-                            "paid_money"=>$item["paidMoney"],
-                            "un_paid_money"=>$item["unpaidMoney"],
-                            "repay_status" =>$repay_status
-                        ]);
-                        if($due_date>$item["dueDate"] && in_array($item["bStatus"],[112,144])){
-                            $i++;
-                        }
-                        if($due_date==$item["dueDate"] && in_array($item["bStatus"],[112,144])){
-                            $range_time = time()-$due_date;
-                            if($range_time>4*86400){
-                                $i++;
-                            }
-                        }
+                    $openid="";
+                    $ass_uid=0;
+                    foreach($ret_info as $val){
+                        $orderid = $val["orderid"];
+                        $openid = $val["wx_openid"];
+                        $ass_uid = $val["uid"];
+                        $data = $task->get_baidu_money_charge_pay_info($orderid);
+                        if($data["status"]==0 && isset($data["data"]) && is_array($data["data"])){
+                            $ret = $data["data"];
+                            foreach($ret as $item){
+                                $period = $item["period"];                       
+                                if($item["bStatus"] != 48){
+                                    $item["paidTime"]=0; 
+                                }
+                                if($item["bStatus"] == 48 && $item["paidTime"]>$item["dueDate"]){
+                                    $repay_status = 2;
+                                }elseif($item["bStatus"] == 48 && $item["paidTime"]<=$item["dueDate"]){
+                                    $repay_status = 1;
+                                }elseif($item["bStatus"] == 144 || ($item["bStatus"] == 112 && $item["dueDate"] < strtotime(date("Y-m-d",time())))){
+                                    $repay_status = 3;
+                                }else{
+                                    $repay_status = 0;
+                                }
+                                $task->t_period_repay_list->field_update_list_2($orderid,$period,[
+                                    "bid"     =>$item["bid"],
+                                    "b_status"=>$item["bStatus"],
+                                    "paid_time"=>$item["paidTime"],
+                                    "due_date" =>$item["dueDate"],
+                                    "money"    =>$item["money"],
+                                    "paid_money"=>$item["paidMoney"],
+                                    "un_paid_money"=>$item["unpaidMoney"],
+                                    "repay_status" =>$repay_status
+                                ]);
+                                if($due_date>$item["dueDate"] && in_array($item["bStatus"],[112,144])){
+                                    $i++;
+                                }
+                                if($due_date==$item["dueDate"] && in_array($item["bStatus"],[112,144])){
+                                    $range_time = time()-$due_date;
+                                    if($range_time>4*86400){
+                                        $i++;
+                                    }
+                                }
                                               
+                            }
+                            
+ 
+                        }
+                
+
+                              
                     }
+
                     if($i==0){
-                        $userid = $val["userid"];
+                        $userid = $yy["userid"];
                         //无逾期,变更状态
                         $target_type_info = $task->t_student_type_change_list->get_info_by_userid_type_before_last($userid);
                         $target_type = $target_type_info["type_before"];
@@ -164,8 +191,7 @@ class update_period_overdue_type_recover extends Command
 
                         //微信推送家长
                         $wx = new \App\Helper\Wx();
-                        $openid = $val["wx_openid"];
-                       // $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+                        // $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
                         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
 
                         $data=[
@@ -182,13 +208,14 @@ class update_period_overdue_type_recover extends Command
 
 
                         //微信推送助教
-                        $ass_oponid = $task->t_manager_info->get_wx_openid($val["uid"]);
+                        $ass_oponid = $task->t_manager_info->get_wx_openid($ass_uid);
                         //$ass_oponid = $task->t_manager_info->get_wx_openid(349);
-                        $account = $task->t_manager_info->get_account($val["uid"]);
+                        $account = $task->t_manager_info->get_account($ass_uid);
+                        $nick = $task->t_student_info->get_nick($userid);
                         $data=[
                             "first"    => "逾期停课恢复通知",
                             "keyword1" => "逾期停课恢复通知",
-                            "keyword2" => $account."老师，您好！您的".$val["nick"]."学员已完成逾期补缴款，即已解除停课处理，麻烦老师尽快联系家长，并为家长进行排课，谢谢！",
+                            "keyword2" => $account."老师，您好！您的".$nick."学员已完成逾期补缴款，即已解除停课处理，麻烦老师尽快联系家长，并为家长进行排课，谢谢！",
                             "keyword3" => date("Y-m-d H:i:s"),
                             "remark"   => "",
                         ];
@@ -207,13 +234,9 @@ class update_period_overdue_type_recover extends Command
                             
                     }
 
- 
-                }
-                
-
-                              
-            }
             
+                }
+            }
         }
  
        

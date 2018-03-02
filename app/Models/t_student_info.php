@@ -3622,4 +3622,15 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
+    //根据学员类型获取学生列表
+    public function get_stu_detail_list_by_type($type){
+        $where_arr=[
+            ["type=%s",$type,0],
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select userid from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+
+    }
+
 }
