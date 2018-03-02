@@ -1,4 +1,5 @@
 	adminid	:any;
+	new_count_id	:any;
 	add_time	:any;
 	start_time	:any;
 	end_time	:any;

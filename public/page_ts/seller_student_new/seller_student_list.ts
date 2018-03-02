@@ -993,7 +993,7 @@ $(function(){
 
 
 
-    var test_arr = ['99','684','1173','1273'];
+    var test_arr = ['99','684','1173','1273','1408','1383','1384','1393','1394','1399','1404','1405','1406','1407','1408'];
 
     // if($.inArray(g_adminid,test_arr)>=0){// 测试功能 [james]
     //     return ; // 临时终止
@@ -2071,13 +2071,13 @@ function init_edit() {
                  paper += "<div><span class='paper_font'>评测卷名称</span><span>"+row_data.paper_name+"</span></div>";
                  var paper_url = "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx?sojumpparm="+row_data.paper_id+"-"+user_id+"-"+phone;
                  paper += "<div><span class='paper_font'>评测卷链接</span><span><a href='"+paper_url+"' target='_blank'>"+paper_url+"</a></span></div>";
-                 paper += "<div><span class='paper_font'>链接标题</span><span>理优教育【学生测评卷】</span></div>";
-                 paper += "<div><span class='paper_font'>链接简介</span><span>"+row_data.paper_name+"，请认真答题，您的测评成绩将帮助我们更好地为您制定课程规划</span></div>";
+                 paper += "<div><span class='paper_font'>友情提示</span><span>请微信扫一扫下面的二维码，转发给家长</span></div>";
+              
                  paper += "<div style='height:250px'><span class='paper_font'>二维码</span><div id='paper_erwei'></div></div>";
 
                  paper += "</div>";
                  var dlg= BootstrapDialog.show({
-                     title: "评测卷链接",
+                     title: "测评卷链接 -> 测评卷二维码 ",
                      message : paper,
                      buttons: [{
                          label: '返回',
@@ -2094,7 +2094,6 @@ function init_edit() {
                  dlg.getModalDialog().css("width", "730px");
              },
              "onLoadData"       : function(require_id,data){
-             
              }
          });
     });

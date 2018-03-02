@@ -215,7 +215,7 @@ $(function(){
     gen_data( g_phone_count_map,"","id_phone_pic_count");
 
     $('.opt-change').set_input_change_event(load_data);
-    if(g_account=='龚隽'){
+    if(g_account=='龚隽' || g_account=="班洁"){
         download_show();
     }
 });

@@ -160,4 +160,18 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
         );
         return $this->main_get_list($sql);
     }
+
+    public function update_month_groupid($adminid,$month,$groupid_old,$groupid){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'adminid', $adminid);
+        $this->where_arr_add_int_field($where_arr, 'groupid', $groupid_old);
+        $this->where_arr_add_int_field($where_arr, 'month', $month);
+        $sql = $this->gen_sql_new(
+            "update %s set groupid=%u where %s ",
+            self::DB_TABLE_NAME,
+            $groupid,
+            $where_arr
+        );
+        return $this->main_update($sql);
+    }
 }

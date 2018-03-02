@@ -484,6 +484,7 @@ class agent extends Controller
         dd($ret);
     }
 
+
     public function del_detailid(){
         $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174354);
         $ret_new = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174355);

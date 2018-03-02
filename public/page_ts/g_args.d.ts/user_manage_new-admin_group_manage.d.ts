@@ -6,6 +6,7 @@ interface GargsStatic {
 	end_time:	string;
 	monthtime_flag:	number;
 	main_type_flag:	number;
+	group_list:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -54,7 +55,8 @@ function load_data(){
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		monthtime_flag:	$('#id_monthtime_flag').val(),
-		main_type_flag:	$('#id_main_type_flag').val()
+		main_type_flag:	$('#id_main_type_flag').val(),
+		group_list:	$('#id_group_list').val()
 		});
 }
 $(function(){
@@ -71,6 +73,7 @@ $(function(){
 		});
 	$('#id_monthtime_flag').val(g_args.monthtime_flag);
 	$('#id_main_type_flag').val(g_args.main_type_flag);
+	$('#id_group_list').val(g_args.group_list);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -101,4 +104,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["main_type_flag title", "main_type_flag", "th_main_type_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">group_list</span>
+                <input class="opt-change form-control" id="id_group_list" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["group_list title", "group_list", "th_group_list" ]])!!}
 */

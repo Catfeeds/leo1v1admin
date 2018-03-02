@@ -65,7 +65,7 @@ class seller_new_count_day_gen extends cmd_base
             $modify_count=$this->check_last_day_list($last_day_list,$check_base_time);
             $count+=  $modify_count;
             */
-            //echo "adminid $adminid, $count, $modify_count\n";
+            echo "adminid $adminid, $count \n";
             if ($count<0) {
                 $count=0;
             }
