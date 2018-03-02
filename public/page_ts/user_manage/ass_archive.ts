@@ -2592,7 +2592,7 @@ $(function(){
                             }else{
                                 html_node.find("#id_courseware_new_two").parent().attr('style','');
                             }
-                            if(html_node.find("#id_teacher_type_new_two").val() == ''){
+                            if(html_node.find("#id_teacher_type_new_two").val() == null){
                                 html_node.find("#id_teacher_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 return false;
                             }else{
