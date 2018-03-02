@@ -761,14 +761,21 @@ class tongji_ex extends Controller
         $start_time = strtotime($this->get_in_str_val('start_time','2018-01-01'));
         $end_time = strtotime($this->get_in_str_val('end_time','2018-02-01'));
         $month = strtotime(date('Y-m-01',$start_time));
-        $adminid_info = $this->t_main_major_group_name_month->get_cc_adminid_list($month);
-        $adminid_list = array_column($adminid_info, 'adminid');
-        $n_master_adminid_list = array_column($adminid_info, 'n_master_adminid');
-        $g_master_adminid_list = array_column($adminid_info, 'g_master_adminid');
-        $mg_master_adminid_list = array_column($adminid_info, 'mg_master_adminid');
-        $adminid_list = array_unique(array_merge($adminid_list,$n_master_adminid_list,$g_master_adminid_list,$mg_master_adminid_list));
+        // $adminid_info = $this->t_main_major_group_name_month->get_cc_adminid_list($month);
+        // $adminid_list = array_column($adminid_info, 'adminid');
+        // $n_master_adminid_list = array_column($adminid_info, 'n_master_adminid');
+        // $g_master_adminid_list = array_column($adminid_info, 'g_master_adminid');
+        // $mg_master_adminid_list = array_column($adminid_info, 'mg_master_adminid');
+        // $adminid_list = array_unique(array_merge($adminid_list,$n_master_adminid_list,$g_master_adminid_list,$mg_master_adminid_list));
+        $adminid_list = [];
         $list=\App\Helper\Common_new::gen_admin_member_data_new([],[],$monthtime_flag=2,$start_time); // 开发中
-        dd($list);
+        foreach($list as $item){
+            if(isset($item['adminid'])){
+                if($item['main_type'] == 2 && $item['adminid']>0 && $item['level'] == 'l-5'){
+                    $adminid_list[] = $item['adminid'];
+                }
+            }
+        }
         $ret = $this->t_order_info->get_item_list($start_time,$end_time,$adminid_list);
         $num = 0;
         echo '<table border="1" width="600" align="center">';
