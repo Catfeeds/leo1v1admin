@@ -205,6 +205,15 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
                 $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
             }
             return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+        }elseif($request['content'] == '开学'){
+            $filename = "/home/ybai/marketTr.jpg";
+            $type = 'image';
+            // $mediaId = 'nd4j0-_5vtIMcrLo2Fxn7iM2hPXqh5MkXNOZnM4mt4q_EGggAT4uxP6dHiHsO48-';
+            $mediaId_arr = Media::upload($filename, $type);
+            $mediaId = $mediaId_arr['media_id'];
+            \App\Helper\Utils::logger("marketTr: ".json_encode($mediaId_arr));
+
+            return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
         }
 
 

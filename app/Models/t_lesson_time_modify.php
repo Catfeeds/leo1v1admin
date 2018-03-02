@@ -108,4 +108,18 @@ class t_lesson_time_modify extends \App\Models\Zgen\z_t_lesson_time_modify
         return $this->main_get_value($sql);
     }
 
+    public function getChangeTimeInfo($teacherid){
+        $where_arr = [
+            "l.teacherid=$teacherid"
+        ];
+        $sql = $this->gen_sql_new("  select l.lesson_start, l.lesson_end, t.teacherid, s.userid, l.subject, tm.original_time"
+                                  ." tm.is_modify_time_flag from %s tm "
+                                  ." left join %s l on l.lessonid=tm.lessonid"
+                                  ." where %s order by tm.parent_deal_time desc, tm.is_modify_time_flag desc "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
