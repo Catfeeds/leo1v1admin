@@ -363,7 +363,7 @@ class test_sam  extends Controller
         $month = date("Y-m",$start_time);
         foreach ($ret_info['list'] as $key => $value) {
             if($value['level'] == 'l-5'){
-
+                echo "<tr>";
                 echo "<td width='30'>";echo @$month; echo "</td>";
                 echo "<td width='30'>";echo @$value['key0']; echo "</td>";
                 echo "<td width='30'>";echo @$value['key1']; echo "</td>";
@@ -378,6 +378,7 @@ class test_sam  extends Controller
                 echo "<td width='30'>";echo @$value['distinct_succ_count']; echo "</td>";
                 echo "<td width='30'>";echo @$value['user_count']; echo "</td>";
                 echo "<td width='30'>";echo @$value['order_all_money']; echo "</td>";
+                echo "</tr>";
             }
         }
         echo "</table>";
