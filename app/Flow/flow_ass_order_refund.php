@@ -179,9 +179,9 @@ class flow_ass_order_refund  extends flow_base{
     }
 
     //使用新版.
-    static function get_next_node_info($node_type, $flowid, $adminid ) {
-        return static::get_next_node_info_new($node_type, $flowid, $adminid);
-    }
+    // static function get_next_node_info($node_type, $flowid, $adminid ) {
+    //     return static::get_next_node_info_new($node_type, $flowid, $adminid);
+    // }
 
 
     static function do_succ_end( $flow_info, $self_info ) {
