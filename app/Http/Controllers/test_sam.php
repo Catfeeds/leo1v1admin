@@ -363,21 +363,21 @@ class test_sam  extends Controller
         $month = date("Y-m",$start_time);
         foreach ($ret_info['list'] as $key => $value) {
             if($value['level'] == 'l-5'){
-                echo 1;
-                // echo "<td width='30'>";echo $month; echo "</td>";
-                // echo "<td width='30'>";echo $value['key0']; echo "</td>";
-                // echo "<td width='30'>";echo $value['key1']; echo "</td>";
-                // echo "<td width='30'>";echo $value['key2']; echo "</td>";
-                // echo "<td width='30'>";echo $value['key3']; echo "</td>";
-                // echo "<td width='30'>";echo $value['key4']; echo "</td>";
 
-                // echo "<td width='30'>";echo $value['heavy_count']; echo "</td>";
-                // echo "<td width='30'>";echo $value['tq_called_count']; echo "</td>";
-                // echo "<td width='30'>";echo $value['called_num']; echo "</td>";
-                // echo "<td width='30'>";echo $value['distinct_test_count']; echo "</td>";
-                // echo "<td width='30'>";echo $value['distinct_succ_count']; echo "</td>";
-                // echo "<td width='30'>";echo @$value['user_count']; echo "</td>";
-                // echo "<td width='30'>";echo @$value['order_all_money']; echo "</td>";
+                echo "<td width='30'>";echo @$month; echo "</td>";
+                echo "<td width='30'>";echo @$value['key0']; echo "</td>";
+                echo "<td width='30'>";echo @$value['key1']; echo "</td>";
+                echo "<td width='30'>";echo @$value['key2']; echo "</td>";
+                echo "<td width='30'>";echo @$value['key3']; echo "</td>";
+                echo "<td width='30'>";echo @$value['key4']; echo "</td>";
+
+                echo "<td width='30'>";echo @$value['heavy_count']; echo "</td>";
+                echo "<td width='30'>";echo @$value['tq_called_count']; echo "</td>";
+                echo "<td width='30'>";echo @$value['called_num']; echo "</td>";
+                echo "<td width='30'>";echo @$value['distinct_test_count']; echo "</td>";
+                echo "<td width='30'>";echo @$value['distinct_succ_count']; echo "</td>";
+                echo "<td width='30'>";echo @$value['user_count']; echo "</td>";
+                echo "<td width='30'>";echo @$value['order_all_money']; echo "</td>";
             }
         }
         echo "</table>";
