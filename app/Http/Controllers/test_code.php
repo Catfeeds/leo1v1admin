@@ -509,6 +509,9 @@ class test_code extends Controller
                  * 课时收入：当月内，产生课时消耗得到的收入，以实际收入为准；
                  * 付费课时数：当月内实际消耗的课时数，以实际扣除学生的课时数为准；
                  */
+                $lesson_price      = 0;
+                $lesson_pay_count  = 0;
+                $lesson_free_count = 0;
                 if($val['confirm_flag']!=2 && $val['confirm_flag']!=4){
                     $lesson_price = $val['lesson_price']/100;
                     if($lesson_price>0){
@@ -516,10 +519,6 @@ class test_code extends Controller
                     }else{
                         $lesson_free_count = $lesson_count;
                     }
-                }else{
-                    $lesson_price      = 0;
-                    $lesson_pay_count  = 0;
-                    $lesson_free_count = 0;
                 }
 
                 //赠送课时数
