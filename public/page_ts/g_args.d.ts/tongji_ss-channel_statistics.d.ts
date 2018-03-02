@@ -1,6 +1,4 @@
 interface GargsStatic {
-	is_history:	number;
-	sta_data_type:	number;
 	origin:	string;
 	origin_ex:	string;
 	seller_groupid_ex:	string;
@@ -8,6 +6,8 @@ interface GargsStatic {
 	groupid:	number;
 	tmk_adminid:	number;
 	check_field_id:	number;
+	is_history:	number;
+	sta_data_type:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -49,8 +49,6 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
-		is_history:	$('#id_is_history').val(),
-		sta_data_type:	$('#id_sta_data_type').val(),
 		origin:	$('#id_origin').val(),
 		origin_ex:	$('#id_origin_ex').val(),
 		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
@@ -58,6 +56,8 @@ function load_data(){
 		groupid:	$('#id_groupid').val(),
 		tmk_adminid:	$('#id_tmk_adminid').val(),
 		check_field_id:	$('#id_check_field_id').val(),
+		is_history:	$('#id_is_history').val(),
+		sta_data_type:	$('#id_sta_data_type').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -78,8 +78,6 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_is_history').val(g_args.is_history);
-	$('#id_sta_data_type').val(g_args.sta_data_type);
 	$('#id_origin').val(g_args.origin);
 	$('#id_origin_ex').val(g_args.origin_ex);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
@@ -87,6 +85,8 @@ $(function(){
 	$('#id_groupid').val(g_args.groupid);
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
 	$('#id_check_field_id').val(g_args.check_field_id);
+	$('#id_is_history').val(g_args.is_history);
+	$('#id_sta_data_type').val(g_args.sta_data_type);
 	$('#id_is_show_pie_flag').val(g_args.is_show_pie_flag);
 
 
@@ -97,22 +97,6 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">is_history</span>
-                <input class="opt-change form-control" id="id_is_history" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["is_history title", "is_history", "th_is_history" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">sta_data_type</span>
-                <input class="opt-change form-control" id="id_sta_data_type" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["sta_data_type title", "sta_data_type", "th_sta_data_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -169,6 +153,22 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["check_field_id title", "check_field_id", "th_check_field_id" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_history</span>
+                <input class="opt-change form-control" id="id_is_history" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["is_history title", "is_history", "th_is_history" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">sta_data_type</span>
+                <input class="opt-change form-control" id="id_sta_data_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["sta_data_type title", "sta_data_type", "th_sta_data_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
