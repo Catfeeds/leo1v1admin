@@ -2403,7 +2403,7 @@ $(function(){
             html_node.find(".upload_change_reason_url").attr("id","id_upload_change_reason_url");
             Enum_map.append_option_list("change_teacher_reason_type",id_change_teacher_reason_type,true);
             $.admin_select_user(id_green_channel_teacherid,"teacher",function(){
-                if(id_green_channel_teacherid.val() > 0 && id_ass_test_lesson_type.val() == 2){
+                if(id_green_channel_teacherid.val()>0){
                     $("font[class='required fields']").hide();
                 }else{
                     $("font[class='required fields']").show();
@@ -2522,7 +2522,7 @@ $(function(){
                             html_node.find("#city_new_two").parent().attr('style','');
                         }
 
-                        if(id_ass_test_lesson_type.val()!=2 || id_green_channel_teacherid.val()==0){
+                        if(id_green_channel_teacherid.val()==0){
                             var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
                             if(html_node.find("#id_main_subject_score_one_new_two").val() == ''){
                                 html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
