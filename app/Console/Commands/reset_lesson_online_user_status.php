@@ -99,7 +99,9 @@ class reset_lesson_online_user_status extends Command
                     "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
                 ]);
 
+                \App\Helper\Utils::logger("last_succ_test_lessonid_start:".time());
                 if($lesson_online_user_status){
+                    \App\Helper\Utils::logger("last_succ_test_lessonid_end:".time());
                     //优学优享
                     $agent_id= $this->task->t_agent->get_agentid_by_userid($studentid);
                     if ($agent_id) {
