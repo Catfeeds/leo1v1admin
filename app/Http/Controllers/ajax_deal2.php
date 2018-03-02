@@ -916,7 +916,8 @@ class ajax_deal2 extends Controller
         $this->t_teacher_info->field_update_list($teacherid,[
             "train_through_new"   =>1,
             "train_through_new_time"=>$create_time,
-            "trial_lecture_is_pass"=>1
+            "trial_lecture_is_pass"=>1,
+            "wx_use_flag" =>1
         ]);
 
         // $new_train_flag = $this->t_teacher_info->get_new_train_flag($teacherid);

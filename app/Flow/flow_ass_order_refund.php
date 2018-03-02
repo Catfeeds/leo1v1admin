@@ -5,6 +5,7 @@ class flow_ass_order_refund  extends flow_base{
 
 
     static $type= E\Eflow_type::V_ASS_ORDER_REFUND ;
+    static $node_map= [] ;
 
     static $node_data=[
 
