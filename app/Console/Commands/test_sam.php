@@ -455,8 +455,8 @@ where s.is_test_user = 0 and q.is_called_phone =1
 
         $ret = $task->t_student_score_info->get_data1();
         foreach ($ret as $kkey => &$kvalue) {
-            $value['subject_str'] = E\Esubject::get_desc($value['subject']);
-            $value['grade_str']   = E\Egrade::get_desc($value['grade']);
+            $kvalue['subject_str'] = E\Esubject::get_desc($kvalue['subject']);
+            $kvalue['grade_str']   = E\Egrade::get_desc($kvalue['grade']);
         }
         $file_name = 'sam_030201';
         $arr_title = ["学生ID","学生姓名","学科","年级","省份"];
