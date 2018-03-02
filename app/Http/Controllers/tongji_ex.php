@@ -767,6 +767,8 @@ class tongji_ex extends Controller
         $g_master_adminid_list = array_column($adminid_info, 'g_master_adminid');
         $mg_master_adminid_list = array_column($adminid_info, 'mg_master_adminid');
         $adminid_list = array_unique(array_merge($adminid_list,$n_master_adminid_list,$g_master_adminid_list,$mg_master_adminid_list));
+        $list=\App\Helper\Common_new::gen_admin_member_data_new([],[],$monthtime_flag=2,$start_time); // 开发中
+        dd($list);
         $ret = $this->t_order_info->get_item_list($start_time,$end_time,$adminid_list);
         $num = 0;
         echo '<table border="1" width="600" align="center">';
