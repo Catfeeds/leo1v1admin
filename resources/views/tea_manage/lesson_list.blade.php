@@ -301,7 +301,7 @@
                         <td > {!!  $var["lesson_user_online_status_str"]!!} </td>
                         <td > {!!  $var["require_lesson_success_flow_status_str"]!!} </td>
                         @if($var["lesson_type"]==2)
-                            <td > {{$var["success_flag_str"]}} </td>
+                            <td > {{$var["success_flag_str"]}}</td>
                             <td > {{$var["test_lesson_fail_flag_str"]}} </td>
                             <td > {{$var["test_confirm_admin_nick"]}} </td>
                             <td > {{$var["test_confirm_time"]}} </td>

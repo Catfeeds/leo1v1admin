@@ -1274,6 +1274,10 @@ class common_new extends Controller
         if(empty($check_exist)){
             if($status==8){
                 $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
+                $channel = $this->t_orderid_orderno_list->get_channel($orderNo);
+                if(empty($channel)){
+                    $channel="baidu";
+                }
                 $userid = $this->t_order_info->get_userid($parent_orderid);
 
                 //更新家长课程信息
@@ -1289,7 +1293,7 @@ class common_new extends Controller
                         "");
                     $this->t_orderid_orderno_list->field_update_list($orderNo,[
                         "pay_flag" =>1,
-                        "channel"  =>"baidu",
+                        "channel"  =>$channel,
                         "pay_time" =>time()
                     ]);
 
@@ -1321,8 +1325,13 @@ class common_new extends Controller
                 return $this->output_succ(["status"=>2,"msg"=>"参数错误"]);
             }else{
                 if($status==8){
+                    $channel = $this->t_orderid_orderno_list->get_channel($orderNo);
+                    if(empty($channel)){
+                        $channel="baidu";
+                    }
+
                     $old_list = $this->t_child_order_info->field_get_list($orderid,"pay_status,pay_time,channel");
-                    if($old_list["pay_status"]==1 && $old_list["pay_time"]>0 && $old_list["channel"]=="baidu"){
+                    if($old_list["pay_status"]==1 && $old_list["pay_time"]>0 && in_array($old_list["channel"],["baidu","baidu_app"])){
                         return $this->output_succ(["status"=>0,"msg"=>"success"]);
                     }
                     $parentid= $this->t_student_info->get_parentid($userid);
@@ -1330,7 +1339,7 @@ class common_new extends Controller
                     $this->t_child_order_info->field_update_list($orderid,[
                         "pay_status"  =>1,
                         "pay_time"    =>time(),
-                        "channel"     =>"baidu",
+                        "channel"     =>$channel,
                         "from_orderno"=>$orderNo,
                         "period_num"  =>$period_new,
                         "parent_name" =>$parent_name

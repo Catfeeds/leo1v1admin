@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1107
+//__DESC: 2.0 获取学生个人信息,学习信息 https://api-class.leo1v1.com/student/get_stu_info
+//__TAGS: for_website
+
+
+message in  {
+}
+
+message out {
+  common.get_stu_info data=1; //个人信息
+  common.stu_lesson_info lesson_info=2;//课表信息
+}
+

@@ -14,10 +14,10 @@ class test_sam  extends Controller
     use TeaPower;
 
     public function kk(){
-        $teacherid = 60024;
-        $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
-        dd($info);
-        // phpinfo();
+        // $teacherid = 60024;
+        // $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
+        // dd($info);
+        phpinfo();
     }
     
     
