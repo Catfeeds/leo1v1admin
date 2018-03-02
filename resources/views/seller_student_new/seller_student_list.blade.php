@@ -126,6 +126,7 @@
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
 
     <script type="text/javascript" src="/page_js/jquery.qrcode.min.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax_second.js?v={{@$_publish_version}}"></script>
 
     <section class="content ">
 
@@ -143,7 +144,7 @@
                         <p>请设置</p>
                         <div class="" id="">
                             <select style="width:35%;" class="invalid_type">
-                                 <option value="0">请选择状态</option>
+                                <option value="0">请选择状态</option>
                             </select>
                             <p style="color:red;">请至少拨打3次确认状态</p>
                         </div>
@@ -446,7 +447,7 @@
                         <td  class="td-phone">
                             <div class="phone-data">
                                 @if($var["seller_student_assign_from_type"])
-                                   (奖)
+                                    (奖)
                                 @endif
                                 @if($account == 'jim' || $account_role == 12 || $account == 'tom')
                                     {{$var["phone"]}}
