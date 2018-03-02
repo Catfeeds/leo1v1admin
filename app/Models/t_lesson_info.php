@@ -3114,7 +3114,7 @@ lesson_type in (0,1) "
      * @param string type  current 当前为止，所有结束课程；all 所有课程；
      * @param int has_test_data 0 去掉测试用户的数据;1 包含测试用户的数据
      */
-    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='current',$has_test_data=1){
+    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='current',$has_test_data=0){
         $where_arr = [
             ["l.teacherid=%u",$teacherid,-1],
             ["lesson_start>%u",$start,0],
@@ -3124,7 +3124,7 @@ lesson_type in (0,1) "
             "lesson_del_flag=0",
             "(confirm_flag!=2 or deduct_change_class>0)"
         ];
-        if($has_test_data==0){
+        if($has_test_data==1){
             $where_arr[] = "s.is_test_user=0";
             $where_arr[] = "t.is_test_user=0";
         }
