@@ -474,7 +474,7 @@ class test_code extends Controller
         $start    = strtotime($date_str);
         $end      = strtotime("+1 month",$start);
 
-        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1,0);
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages(-1,$start,$end,-1,1);
         $check_num  = [];
         $money_list = [];
         $tea_lesson_count = [];
@@ -512,7 +512,7 @@ class test_code extends Controller
                 $lesson_price      = 0;
                 $lesson_pay_count  = 0;
                 $lesson_free_count = 0;
-                if($val['confirm_flag']!=2 && $val['confirm_flag']!=4){
+                if($val['confirm_flag']!=2 && $val['confirm_flag']!=4 && $val['deduct_change_class']==0){
                     $lesson_price = $val['lesson_price']/100;
                     if($lesson_price>0){
                         $lesson_pay_count = $lesson_count;
