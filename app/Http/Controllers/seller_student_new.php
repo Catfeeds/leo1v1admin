@@ -1647,7 +1647,6 @@ class seller_student_new extends Controller
             $limit_arr=array( [0, 13*60+30]);
         }else{//周二 00:00~06:00
             $limit_arr=array( [0, 6*60]);
-            //$limit_arr=array( [0, 10*60 ] );
         }
         if(date('Y-m-d',time()) == '2018-02-28'){
             $limit_arr=array( [0, 10*60+30]);

@@ -596,7 +596,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      , t_flow::DB_TABLE_NAME
                      , t_course_order::DB_TABLE_NAME
                      ,$cond_str
-        );
+        ); 
         return $this->main_get_list_by_page($sql, $page_num, 10);
     }
 
