@@ -141,7 +141,7 @@ class tom_do_once extends Command
             // $first_get_cc = $this->task->t_tq_call_info->get_first_get_cc($phone,$desc='asc');
             // $first_test_lessonid = $this->task->t_lesson_info_b2->get_first_test_lesson($userid);
             // $orderid = $this->task->t_order_info->get_last_orderid_by_userid($userid);
-            // $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
+            $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
             // $last_edit_time = $this->task->t_lesson_info_b2->field_get_value($cc_last_succ_test_lessonid, 'lesson_end');
 
             // if($cc_called_count != $called_count){
@@ -171,9 +171,9 @@ class tom_do_once extends Command
             // if($orderid>0){
             //     $arr['orderid'] = $orderid;
             // }
-            // if($last_succ_test_lessonid != $cc_last_succ_test_lessonid){
-            //     $arr['last_succ_test_lessonid'] = $last_succ_test_lessonid;
-            // }
+            if($last_succ_test_lessonid != $cc_last_succ_test_lessonid){
+                $arr['last_succ_test_lessonid'] = $last_succ_test_lessonid;
+            }
             // if($cc_first_revisit_time != $first_revisit_time){
             //     $arr['first_revisit_time'] = $first_revisit_time;
             // }
@@ -192,18 +192,18 @@ class tom_do_once extends Command
                 // if(isset($arr['test_lesson_flag'])){
                 //     echo $userid.':'.$cc_test_lesson_flag."=>".$first_test_lessonid."\n";
                 // }
-                // if(isset($arr['last_succ_test_lessonid'])){
-                //     echo $userid.':'.$cc_last_succ_test_lessonid."=>".$last_succ_test_lessonid."\n";
-                // }
+                if(isset($arr['last_succ_test_lessonid'])){
+                    echo $userid.':'.$cc_last_succ_test_lessonid."=>".$last_succ_test_lessonid."\n";
+                }
                 // if(isset($arr['first_revisit_time'])){
                 //     echo $userid.':'.$cc_first_revisit_time."=>".$first_revisit_time."\n";
                 // }
                 // if(isset($arr['last_revisit_time'])){
                 //     echo $userid.':'.$cc_last_revisit_time."=>".$last_revisit_time."\n";
                 // }
-                if(isset($arr['last_edit_time'])){
-                    echo $userid.':'.$cc_last_edit_time."=>".$last_edit_time."\n";
-                }
+                // if(isset($arr['last_edit_time'])){
+                //     echo $userid.':'.$cc_last_edit_time."=>".$last_edit_time."\n";
+                // }
                 $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
             }
         }
