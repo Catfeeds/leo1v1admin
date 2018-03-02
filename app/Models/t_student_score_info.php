@@ -442,4 +442,28 @@ group by l.userid, l.subject";
       return $this->main_get_list($sql);
     }
 
+
+    public function get_data1(){
+      $sql = "select l.userid, l.teacherid , l.subject, l.grade, lesson_user_online_status , success_flag ,s.nick ,s.phone_province
+from t_lesson_info l 
+left join t_student_info s on l.userid = s.userid
+LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list as tts
+ ON tts.lessonid = l.lessonid
+where lesson_start > 1512057600 and lesson_start < 1519833600 and lesson_type = 2 and (s.is_test_user = 0 or s.is_test_user is null) and (success_flag = 1 or  (success_flag = 0 and  lesson_user_online_status = 1))
+group by l.userid, l.subject, l.grade";
+      return $this->main_get_list($sql);
+    }
+
+    public function get_data2(){
+      $sql = "select l.userid, l.teacherid , l.subject, l.grade, lesson_user_online_status , success_flag ,t.nick,t.subject as first_subject, t.grade_start, t.grade_end,t.phone_province
+from t_lesson_info l 
+left join t_student_info s on l.userid = s.userid
+left join t_teacher_info t on l.teacherid = t.teacherid
+LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list as tts
+ ON tts.lessonid = l.lessonid
+where lesson_start > 1512057600 and lesson_start < 1519833600 and lesson_type = 2 and (s.is_test_user = 0 or s.is_test_user is null) and (success_flag = 1 or  (success_flag = 0 and  lesson_user_online_status = 1))
+group by l.teacherid";
+      return $this->main_get_list($sql);
+    }
+
 }
