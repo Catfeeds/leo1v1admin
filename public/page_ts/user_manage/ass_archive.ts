@@ -2523,29 +2523,32 @@ $(function(){
                         }
 
                         if(id_green_channel_teacherid.val()==0){
+                            if(html_node.find("#id_class_rank_new_two").val() == ''){
+                                html_node.find("#id_class_rank_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            }else{
+                                html_node.find("#id_class_rank_new_two").parent().attr('style','');
+                            }
                             var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
                             if(html_node.find("#id_main_subject_score_one_new_two").val() == ''){
                                 html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             }else{
                                 html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','');
                             }
+                            if(html_node.find('#id_test_stress_new_two').val() == ''){
+                                html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            }else{
+                                html_node.find("#id_test_stress_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find('#id_entrance_school_type_new_two').val() == ''){
+                                html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            }else{
+                                html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
+                            }
                             if(html_node.find("#id_cultivation_new_two").val() == ''){
                                 html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 return false;
                             }else{
                                 html_node.find("#id_cultivation_new_two").parent().attr('style','');
-                            }
-                            if(html_node.find("#id_stu_request_test_lesson_demand_new_two").val() == ''){
-                                html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                return false;
-                            }else{
-                                html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','');
-                            }
-                            if(html_node.find("#id_stu_request_test_lesson_time_new_two").val() == ''){
-                                html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                return false;
-                            }else{
-                                html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','');
                             }
                             if(html_node.find("#id_teacher_nature_new_two").val() == ''){
                                 html_node.find("#id_teacher_nature_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
@@ -2559,6 +2562,24 @@ $(function(){
                             }else{
                                 html_node.find("#id_pro_ability_new_two").parent().attr('style','');
                             }
+                            if(html_node.find("#id_tea_status_new_two").val() == ''){
+                                html_node.find("#id_tea_status_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_tea_status_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_tea_age_new_two").val() == ''){
+                                html_node.find("#id_tea_age_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_tea_age_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_tea_gender_new_two").val() == ''){
+                                html_node.find("#id_tea_gender_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_tea_gender_new_two").parent().attr('style','');
+                            }
                             if(html_node.find("#id_class_env_new_two").val() == ''){
                                 html_node.find("#id_class_env_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 return false;
@@ -2571,17 +2592,23 @@ $(function(){
                             }else{
                                 html_node.find("#id_courseware_new_two").parent().attr('style','');
                             }
-                            if(html_node.find("#id_quotation_reaction_new_two").val() <= 0){
-                                html_node.find("#id_quotation_reaction_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            if(html_node.find("#id_teacher_type_new_two").val() == ''){
+                                html_node.find("#id_teacher_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 return false;
                             }else{
-                                html_node.find("#id_quotation_reaction_new_two").parent().attr('style','');
+                                html_node.find("#id_teacher_type_new_two").parent().attr('style','');
                             }
-                            if(html_node.find("#id_intention_level_new_two").val() <= 0){
-                                html_node.find("#id_intention_level_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            if(html_node.find("#id_stu_request_test_lesson_demand_new_two").val() == ''){
+                                html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 return false;
                             }else{
-                                html_node.find("#id_intention_level_new_two").parent().attr('style','');
+                                html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','');
+                            }
+                            if(html_node.find("#id_stu_request_test_lesson_time_new_two").val() == ''){
+                                html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }else{
+                                html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','');
                             }
                         }
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
