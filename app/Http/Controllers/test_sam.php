@@ -376,7 +376,7 @@ class test_sam  extends Controller
                 echo "<td width='30'>";echo $value['distinct_test_count']; echo "</td>";
                 echo "<td width='30'>";echo $value['distinct_succ_count']; echo "</td>";
                 echo "<td width='30'>";echo @$value['user_count']; echo "</td>";
-                echo "<td width='30'>";echo $value['order_all_money']; echo "</td>";
+                echo "<td width='30'>";echo @$value['order_all_money']; echo "</td>";
             }
         }
         echo "</table>";
