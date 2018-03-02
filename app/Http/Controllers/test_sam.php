@@ -375,12 +375,12 @@ class test_sam  extends Controller
                 echo "<td width='30'>";echo $value['called_num']; echo "</td>";
                 echo "<td width='30'>";echo $value['distinct_test_count']; echo "</td>";
                 echo "<td width='30'>";echo $value['distinct_succ_count']; echo "</td>";
-                echo "<td width='30'>";echo $value['user_count']; echo "</td>";
+                echo "<td width='30'>";echo @$value['user_count']; echo "</td>";
                 echo "<td width='30'>";echo $value['order_all_money']; echo "</td>";
             }
         }
         echo "</table>";
-        dd(1);
+        dd($ret_info);
         //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map"      => $subject_map,
