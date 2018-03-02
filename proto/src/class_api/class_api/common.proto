@@ -119,6 +119,16 @@ message get_stu_info {
   uint32 hour_total=6 ;  //完成课时
   uint32 time_total=7 ;  //累计学习时间
 }
+message get_stu_info_app {
+  string nickname=1 ;  //昵称
+  uint32 gender=2 ;  //性别
+  string head_img=3 ;  //头像
+  string difficlty=4 ;  //级别
+  uint32 score=5 ;  //积分
+  uint32 hour_total=6 ;  //完成课时
+  uint32 time_total=7 ;  //累计学习时间
+  uint32 userid=8 ;  //用户id
+}
 message address_list {
   uint32 id = 1; // 地址id
   string province = 2; // 省
