@@ -29,12 +29,7 @@
      #cal_week .overtime {
          background-color : orange;
      }
-
-
     </style>
-
-
-
 
     <section class="content ">
 
@@ -119,7 +114,9 @@
                                    <a class="opt-edit-group">修改</a>
                                    <a class="opt-del-group">删除</a>
                                    <a class="opt-del-admin">删除成员</a>
+                                   @if($var["main_type"]==2 && $var["level"]=="l-5")
                                    <a class="opt-change-admin">换队</a>
+                                   @endif
                                    @if($var["main_type"]==4 && $var["level"]=="l-3")
                                        <a class="opt-set-subject">配置科目</a>
                                    @endif
@@ -142,6 +139,9 @@
                                    <a class="opt-edit-group-new">修改</a>
                                    <a class="opt-del-group-new">删除</a>
                                    <a class="opt-del-admin-new">删除成员</a>
+                                   @if($var["main_type"]==2 && $var["level"]=="l-5")
+                                   <a class="opt-change-admin">换队</a>
+                                   @endif
                                @endif
 
 

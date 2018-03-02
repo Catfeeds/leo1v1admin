@@ -6476,4 +6476,18 @@ $page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del
 
         return $this->output_succ();
     }
+
+    public function seller_change_group(){
+        $adminid = $this->get_in_int_val('adminid');
+        $month = strtotime(date('Y-m-01',strtotime($this->get_in_str_val('month'))));
+        $monthtime_flag = $this->get_in_int_val('monthtime_flag');
+        $groupid = $this->get_in_int_val('groupid');
+        $groupid_old = $this->get_in_int_val('groupid_old');
+        if($monthtime_flag == 1){
+            $this->t_admin_group_user->field_update_list_2($groupid_old, $adminid, ['groupid'=>$groupid]);
+        }else{
+            $this->t_group_user_month->update_month_groupid($adminid,$month,$groupid_old,$groupid);
+        }
+        return $this->output_succ();
+    }
 }

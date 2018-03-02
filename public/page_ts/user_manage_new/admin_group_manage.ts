@@ -515,39 +515,34 @@ $(function(){
     });
 
     $(".opt-change-admin").on("click",function(){
+        var group_list = JSON.parse(g_args.group_list);
         var opt_data = $(this).get_opt_data();
-        var id_group_name=$("<input/>");
-        var id_master_adminid=$("<input/>");
-
-
+        var id_group_name = $("<select><select/>");
         var  arr=[
             ["组名" ,  id_group_name],
-            ["助长" ,  id_master_adminid]
         ];
 
-        id_master_adminid.val(opt_data.master_adminid);
         id_group_name.val(opt_data.group_name );
-
+        $.each(group_list, function (groupid,group_name){
+            if(opt_data.groupid == groupid){
+                id_group_name.append("<option value='"+groupid+"' selected='selected' >"+group_name+"</option>");
+            }else{
+                id_group_name.append("<option value='"+groupid+"'>"+group_name+"</option>");
+            }
+        });
         $.show_key_value_table("修改分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax("/user_deal/admin_group_edit",{
-                    "groupid" : opt_data.groupid,
-                    "group_name" : id_group_name.val(),
-                    "master_adminid" : id_master_adminid.val()
+                $.do_ajax("/user_deal/seller_change_group",{
+                    "monthtime_flag" : g_args.monthtime_flag,
+                    "adminid" : opt_data.adminid,
+                    "month" : $('#id_start_time').val(),
+                    "groupid_old" : opt_data.groupid,
+                    "groupid" : id_group_name.val(),
                 });
             }
-        },function(){
-            $.admin_select_user(
-                id_master_adminid ,
-                "admin", null,true, {
-                    "main_type": 2 //分配用户
-                }
-            );
-
         });
-
     });
 
     $(".opt-assign-group-user").on("click",function(){
