@@ -86,6 +86,11 @@ class test_sam  extends Controller
             4 => array("li.lesson_end","成功试听时间"),
             5 => array("oi.order_time","签单时间"),
         ] );
+
+        $is_history=2;
+        $sta_data_type = 1;
+
+        //
         //初始化画图用数据
         $subject_map = $grade_map = $has_pad_map = $origin_level_map = $area_map = $test_grade_map = array();
         $order_area_map = $order_subject_map = $order_grade_map = $test_area_map = $test_subject_map = array();
@@ -340,7 +345,43 @@ class test_sam  extends Controller
 
         //将显示饼图标识发送到js
         $this->set_filed_for_js('is_show_pie_flag', $is_show_pie_flag);
-        dd($ret_info);
+        echo "<table>";
+        echo "<th>月份</th>";
+        echo "<th>k0</th>";
+        echo "<th>k1</th>";
+        echo "<th>k2</th>";
+        echo "<th>k3</th>";
+        echo "<th>渠道</th>";
+
+        echo "<th>例子总数(去重) </th>";
+        echo "<th>已拨打</th>";
+        echo "<th>已拨通 </th>";
+        echo "<th>上课数(去重)</th>";
+        echo "<th>上课成功数(去重)</th>";
+        echo "<th>合同人数</th>";
+        echo "<th>合同金额</th>";
+        $month = date("Y-m",$start_time);
+        foreach ($ret_info['list'] as $key => $value) {
+            if($value['level'] == 'l-5'){
+                echo "<td width='30'>";echo $month; echo "</td>";
+                echo "<td width='30'>";echo $value['key0']; echo "</td>";
+                echo "<td width='30'>";echo $value['key1']; echo "</td>";
+                echo "<td width='30'>";echo $value['key2']; echo "</td>";
+                echo "<td width='30'>";echo $value['key3']; echo "</td>";
+                echo "<td width='30'>";echo $value['key4']; echo "</td>";
+
+                echo "<td width='30'>";echo $value['heavy_count']; echo "</td>";
+                echo "<td width='30'>";echo $value['tq_called_count']; echo "</td>";
+                echo "<td width='30'>";echo $value['called_num']; echo "</td>";
+                echo "<td width='30'>";echo $value['distinct_test_count']; echo "</td>";
+                echo "<td width='30'>";echo $value['distinct_succ_count']; echo "</td>";
+                echo "<td width='30'>";echo $value['user_count']; echo "</td>";
+                echo "<td width='30'>";echo $value['order_all_money']; echo "</td>";
+            }
+        }
+        echo "</table>";
+        dd(1);
+        //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map"      => $subject_map,
             "grade_map"        => $grade_map,
