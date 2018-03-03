@@ -3699,7 +3699,6 @@ class teacher_info extends Controller
             $url = "http://7tszue.com2.z0.glb.qiniucdn.com".$pdf.".pdf?e=".$e."&token=".$token;
         }
 
-        //dd($url);
         $ret_info['url'] = $url;
         return $this->view(__METHOD__,$ret_info,[
             'url' => $url,
