@@ -441,12 +441,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time = strtotime(date('Y-m-d',time()))+3600*24;
-        $end_time = $start_time-3600*24*8;
-        // list($start_time,$end_time) = $this->get_in_date_range(-7, 0);
-        dd($start_time,$end_time);
-
-        $no_call_test_list = $this->t_seller_student_new->get_suc_no_call_list($adminid=1077);
+        $end_time = strtotime(date('Y-m-d',time()))+3600*24;
+        $start_time = $end_time-3600*24*8;
+        $no_call_test_list = $this->t_seller_student_new->get_suc_no_call_list($adminid=1077,$start_time,$end_time);
         dd($no_call_test_list);
         $start_time = strtotime($this->get_in_str_val('start_time','2018-01-01'));
         $end_time = strtotime($this->get_in_str_val('end_time','2018-02-01'));
