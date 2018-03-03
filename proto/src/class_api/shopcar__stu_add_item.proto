@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1112
+//__DESC: 添加到购物车 https://api-class.leo1v1.com/shopcar/stu_add_item?item_id=1
+//__TAGS: for_app,for_website
+
+
+message in  {
+  string item_id = 1;//商品id
+}
+
+message out {
+}
+
