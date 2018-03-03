@@ -168,8 +168,10 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
 
         if($search){
             if(is_numeric($search))
-                $where_arr[] = " and (si.phone = '$phone' or psi.phone = '$phone'".
-                             " or imi.phone = '$phone' or rmi.phone = '$phone' or gmi.phone = '')";
+                $this->where_arr_add_str_field($where_arr, 'si.phone', $search);
+            else
+                $where_arr[] = " (si.nick = '$search' or psi.nick = '$search' or rmi.account = '$search'".
+                             " or gmi.account = '$search' or smi.account = '$search')";
         }
 
         $sql = $this->gen_sql_new(

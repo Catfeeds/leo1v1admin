@@ -2683,7 +2683,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         ];
         $this->where_arr_add_time_range($where_arr,"si.reg_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            'select  ssn.admin_revisiterid,si.origin_assistantid,tlsr.current_lessonid,'.
+            'select  si.userid example_userid,ssn.admin_revisiterid,si.origin_assistantid,tlsr.current_lessonid,'.
             'tlsr.accept_flag,tlssl.success_flag,oi.orderid,oi.userid,oi.price,omi.account_role '.
             'from %s si '.
             'join %s ssn on si.userid = ssn.userid '.

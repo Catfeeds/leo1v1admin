@@ -30,11 +30,8 @@ $(function(){
         }
     });
 
-    // $.enum_multi_select( $('#id_type'), 'referral_type', function(){load_data();} )
 
     Enum_map.append_option_list("referral_type",$("#id_type"));
-    // $.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
-    // Enum_map.append_option_list("grade", $grade,true);
     $('.opt-change').set_input_change_event(load_data);
     $('#id_principal').val(g_args.principal);
     $('#id_group').val(g_args.groupid);

@@ -1267,6 +1267,7 @@ class seller_student_new extends Controller
 
             $sta_arr = [];
             $order_user_arr = [];
+            $example_userid = [];
             //统计数据[累加]
             foreach($referral_type_info as &$item){
                 $adminid = $item['admin_revisiterid'];
@@ -1285,11 +1286,16 @@ class seller_student_new extends Controller
                     ];
                 }
 
-                $sta_arr[$adminid][$referral_type]['referral_num'] ++;
+                if(!in_array($item['userid'],$example_userid)){
+                    $sta_arr[$adminid][$referral_type]['referral_num'] ++;
+                    $order_user_arr[] = $item['userid'];
+                }
                 if($item['current_lessonid'])
                     $sta_arr[$adminid][$referral_type]['test_lesson_require'] ++;
+                //试听成功
                 if(in_array($item['success_flag'],[0,1]) && $item['current_lessonid'])
                     $sta_arr[$adminid][$referral_type]['test_lesson_succ'] ++;
+
                 if($item['orderid'])
                     $sta_arr[$adminid][$referral_type]['orderid_num'] ++;
                 if(!in_array($item['userid'],$order_user_arr) && $item['userid']){

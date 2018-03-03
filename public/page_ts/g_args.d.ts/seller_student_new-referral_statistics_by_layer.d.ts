@@ -14,12 +14,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	referral_type	:any;
 	referral_num	:any;
-	test_lesson_succ	:any;
-	admin_revisiterid	:any;
 	test_lesson_require	:any;
+	test_lesson_succ	:any;
 	orderid_num	:any;
 	userid_num	:any;
+	price_num	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -30,7 +31,6 @@ interface RowData {
 	account_class	:any;
 	level	:any;
 	main_type_str	:any;
-	price_num	:any;
 }
 
 /*
