@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/info_support-get_examination.d.ts" />
+/// <reference path="../g_args.d.ts/info_support-get_books.d.ts" />
 
 
 $(function(){
