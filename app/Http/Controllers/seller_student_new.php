@@ -626,7 +626,6 @@ class seller_student_new extends Controller
         $ret_info["count_info"] = $count_info;
         $ret_info["show_son_flag"] = $show_son_flag;
         $ret_info["next_revisit_flag"] = $next_revisit_flag;
-        $ret_info["no_lesson_call_flag"] = $no_lesson_call_flag;
         return $ret_info;
 
     }
@@ -694,7 +693,6 @@ class seller_student_new extends Controller
             "show_son_flag"    => $ret_info['show_son_flag'],
             "left_time_order"  => $ret_info["left_time_order"],
             "next_revisit_flag"=> $ret_info["next_revisit_flag"],
-            "no_lesson_call_flag"=> $ret_info["no_lesson_call_flag"],
             'seller_student_assign_type' => $seller_student_assign_type,
             'env_is_test' => $env_is_test
         ]);
