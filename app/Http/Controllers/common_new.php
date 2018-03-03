@@ -1748,7 +1748,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     public function set_xingye_notify_callbanck(){
         $data = $_REQUEST;
-        \App\Helper\Utils::logger("set_xingye_notify_callbanck");
+        $tt= $this->get_in_str_val("return_code");
+        \App\Helper\Utils::logger("return_code".$return_code);
+
+        \App\Helper\Utils::logger("set_xingye_notify_callbanck_test");
         \App\Helper\Utils::logger(json_encode($data));
 
     }

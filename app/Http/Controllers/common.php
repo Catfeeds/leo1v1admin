@@ -2306,7 +2306,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $input->SetGoods_tag("test");
         $input->SetNotify_url("http://p.admin.leo1v1.com/common_new/set_xingye_notify_callbanck");
         $input->SetTrade_type("NATIVE");
-        $input->SetProduct_id("123456789");
+        $input->SetProduct_id("1234567890");
 
         if($input->GetTrade_type() == "NATIVE")
 		{
