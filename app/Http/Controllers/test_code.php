@@ -470,13 +470,14 @@ class test_code extends Controller
 
 
     public function test_tts_notice(){
-        $phone = $this->get_in_int_val("phone","18790256265");
-        $type = "124425073";
-        $data = [
+        $phone = $this->get_in_int_val("phone","18790256265"); // 可变
+        $data = [ // 可变
             "name"        => "乐乐",
             "lesson_time" => "2018年02月06日18:00:00",
             "subject"     => "数学",
         ];
+        //打电话方法
+        $type = "124425073"; // 固定
         $ret = \App\Helper\Utils::tts_common($phone, $type, $data);
         dd($ret);
     }
