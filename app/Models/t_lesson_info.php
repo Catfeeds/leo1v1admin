@@ -3090,7 +3090,7 @@ lesson_type in (0,1) "
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        if ($type == 3) echo $sql;
+        
         return $this->main_get_list($sql);
     }
 
