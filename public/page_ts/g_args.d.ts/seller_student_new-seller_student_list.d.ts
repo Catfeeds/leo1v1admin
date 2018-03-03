@@ -1,6 +1,7 @@
 interface GargsStatic {
 	cur_page:	number;
 	next_revisit_flag:	number;
+	no_lesson_call_flag:	number;
 	left_time_order:	number;
 	status_list_str:	string;
 	no_jump:	number;
@@ -200,6 +201,7 @@ function load_data(){
 		order_by_str : g_args.order_by_str,
 		cur_page:	$('#id_cur_page').val(),
 		next_revisit_flag:	$('#id_next_revisit_flag').val(),
+		no_lesson_call_flag:	$('#id_no_lesson_call_flag').val(),
 		left_time_order:	$('#id_left_time_order').val(),
 		status_list_str:	$('#id_status_list_str').val(),
 		no_jump:	$('#id_no_jump').val(),
@@ -256,6 +258,7 @@ $(function(){
 		});
 	$('#id_cur_page').val(g_args.cur_page);
 	$('#id_next_revisit_flag').val(g_args.next_revisit_flag);
+	$('#id_no_lesson_call_flag').val(g_args.no_lesson_call_flag);
 	$('#id_left_time_order').val(g_args.left_time_order);
 	$('#id_status_list_str').val(g_args.status_list_str);
 	$('#id_no_jump').val(g_args.no_jump);
@@ -431,6 +434,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["next_revisit_flag title", "next_revisit_flag", "th_next_revisit_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">no_lesson_call_flag</span>
+                <input class="opt-change form-control" id="id_no_lesson_call_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["no_lesson_call_flag title", "no_lesson_call_flag", "th_no_lesson_call_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
