@@ -1746,6 +1746,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
+    public function set_xingye_notify_callbanck(){
+        $data = $_REQUEST;
+        \App\Helper\Utils::logger("set_xingye_notify_callbanck");
+        \App\Helper\Utils::logger(json_encode($data));
+
+    }
+
     public function set_lesson_end() {
         $lessonid=$this->get_in_lessonid();
         $lesson_end= $this->t_lesson_info_b3->get_lesson_end($lessonid);

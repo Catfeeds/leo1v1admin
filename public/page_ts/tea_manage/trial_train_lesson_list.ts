@@ -805,6 +805,219 @@ $(function(){
         
     });
 
+    $(".opt-edit-new-1").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        console.log(opt_data.stu_comment);
+        var teacherid = opt_data.teacherid;
+
+        $.do_ajax('/ajax_deal2/get_teacher_tag_info',{
+        },function(resp) {
+            var list = resp.data;
+            var teacher_related_labels=$("<div><div class=\"col-xs-6 col-md-3\"><font style=\"color:red\">*</font>风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"></div><div class=\"col-xs-6 col-md-3\"><font style=\"color:red\">*</font>专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"professional_ability\"> </div><div>");
+            var class_related_labels=$("<div><div class=\"col-xs-6 col-md-3\"><font style=\"color:red\">*</font>课堂气氛:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"classroom_atmosphere\"></div><div class=\"col-xs-6 col-md-3\"><font style=\"color:red\">*</font>课件要求:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"courseware_requirements\"> </div><div>");
+            var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\"><font style=\"color:red\">*</font>素质培养:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"diathesis_cultivation\"></div>");
+
+
+            $.each(list,function(i,item){
+                var str="";
+                $.each(item,function(ii,item_p){
+                    console.log(item_p);
+                    str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                });
+                if(i=="风格性格"){
+                    teacher_related_labels.find("#style_character").append(str);
+                }else if(i=="专业能力"){
+                    teacher_related_labels.find("#professional_ability").append(str);
+                }else if(i=="课堂气氛"){
+                    class_related_labels.find("#classroom_atmosphere").append(str);
+                }else if(i=="课件要求"){
+                    class_related_labels.find("#courseware_requirements").append(str);
+                }else if(i=="素质培养"){
+                    teaching_related_labels.find("#diathesis_cultivation").append(str);
+                }
+            });
+
+            console.log(teaching_related_labels);
+            var id_jysj = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button  '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button></div></div>");
+            var id_yybd = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button></div></div>");
+            var id_zyzs = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button></div></div>");
+            var id_jxjz = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button></div></div>");
+            var id_hdqk = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button></div></div>");
+            var id_bsqk = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button></div></div>");
+            var id_rjcz = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button></div></div>");
+            var id_skhj = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button></div></div>");
+           
+            var id_lcgf = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button><button class='col-xs-6 col-md-1   score_button '>6</button><button class='col-xs-6 col-md-1   score_button '>7</button><button class='col-xs-6 col-md-1   score_button '>8</button><button class='col-xs-6 col-md-1   score_button '>9</button><button class='col-xs-6 col-md-1   score_button '>10</button><button class='col-xs-6 col-md-1   score_button '>11</button><button class='col-xs-6 col-md-1   score_button '>12</button><button class='col-xs-6 col-md-1   score_button '>13</button><button class='col-xs-6 col-md-1   score_button '>14</button><button class='col-xs-6 col-md-1   score_button '>15</button></div></div>");
+
+               var id_khfk = $("<div ><div class='col-xs-6 col-md-1'><span class='class_score'></span>分</div><div class='col-xs-6 col-md-11'><button class='col-xs-6 col-md-1   score_button '>0</button><button class='col-xs-6 col-md-1   score_button '>1</button><button class='col-xs-6 col-md-1   score_button '>2</button><button class='col-xs-6 col-md-1   score_button '>3</button><button class='col-xs-6 col-md-1   score_button '>4</button><button class='col-xs-6 col-md-1   score_button '>5</button></div></div>");
+
+            
+            // Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            // Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            // Enum_map.append_option_list("teacher_lecture_score",id_zyzs,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            // Enum_map.append_option_list("teacher_lecture_score",id_jxjz,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            // Enum_map.append_option_list("teacher_lecture_score",id_hdqk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            // Enum_map.append_option_list("teacher_lecture_score",id_bsqk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            // Enum_map.append_option_list("teacher_lecture_score",id_rjcz,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            // Enum_map.append_option_list("teacher_lecture_score",id_skhj,true,[0,1,2,3,4,5]);
+            // Enum_map.append_option_list("teacher_lecture_score",id_khfk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            // Enum_map.append_option_list("test_lesson_score",id_lcgf,true,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+            var id_score        = $("<input readonly/>");
+            var id_no_tea_score = $("<input readonly/>");
+            var id_record       = $("<textarea />");
+            var id_jkqk         = $("<textarea />");
+            var id_trial_train_status  = $("<select/>");
+            var trial_train_status_html="<option value='2'>未通过</option><option value='1'>通过</option>";
+            id_trial_train_status.append(trial_train_status_html);
+
+            var arr = [
+                ["<font style=\"color:red\">*</font>&nbsp讲义设计情况评分", id_jysj],
+                ["<font style=\"color:red\">*</font>&nbsp语言表达能力评分", id_yybd],
+                ["<font style=\"color:red\">*</font>&nbsp专业知识技能评分", id_zyzs],
+                ["<font style=\"color:red\">*</font>&nbsp教学节奏把握评分", id_jxjz],
+                ["<font style=\"color:red\">*</font>&nbsp互动情况评分", id_hdqk],
+                ["<font style=\"color:red\">*</font>&nbsp板书情况评分", id_bsqk],
+                ["<font style=\"color:red\">*</font>&nbsp软件操作评分", id_rjcz],
+                ["<font style=\"color:red\">*</font>&nbsp授课环境评分", id_skhj],
+                ["<font style=\"color:red\">*</font>&nbsp课后反馈评分", id_khfk],
+                ["<font style=\"color:red\">*</font>&nbsp流程规范情况评分", id_lcgf],
+                ["总分",id_score],
+                ["非教学相关得分",id_no_tea_score],
+                ["模拟试听是否通过",id_trial_train_status],
+                ["监课情况",id_jkqk],
+                ["<font style=\"color:red\">*</font>&nbsp意见或建议",id_record],
+                ["<font style=\"color:red\">*</font>&nbsp教师相关标签",teacher_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp课堂相关标签",class_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp教学相关标签",teaching_related_labels],
+            ];
+
+            $.show_key_value_table("试听评价", arr,{
+                label    : '确认',
+                cssClass : 'btn-warning',
+                action   : function(dialog) {
+
+                    var style_character=[];
+                    teacher_related_labels.find("#style_character").find("input:checkbox[name='风格性格']:checked").each(function(i) {
+                        style_character.push($(this).val());
+                    });
+                    var professional_ability=[];
+                    teacher_related_labels.find("#professional_ability").find("input:checkbox[name='专业能力']:checked").each(function(i) {
+                        professional_ability.push($(this).val());
+                    });
+                    var classroom_atmosphere=[];
+                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂气氛']:checked").each(function(i) {
+                        classroom_atmosphere.push($(this).val());
+                    });
+                    var courseware_requirements=[];
+                    class_related_labels.find("#courseware_requirements").find("input:checkbox[name='课件要求']:checked").each(function(i) {
+                        courseware_requirements.push($(this).val());
+                    });
+                    var diathesis_cultivation=[];
+                    teaching_related_labels.find("#diathesis_cultivation").find("input:checkbox[name='素质培养']:checked").each(function(i) {
+                        diathesis_cultivation.push($(this).val());
+                    });
+                    if(courseware_requirements.length ==0 || style_character.length==0 || professional_ability.length==0 || classroom_atmosphere.length==0 || diathesis_cultivation.length==0){
+                        BootstrapDialog.alert("请填写标签内容");
+                        return ;
+
+                    }
+
+
+                    var not_grade = "";
+                    $("input[name='not_grade']:checked").each(function(){
+                        if(not_grade==""){
+                            not_grade = $(this).val();
+                        }else{
+                            not_grade += ","+$(this).val();
+                        }
+                    });
+                    
+                    var record_info = id_record.val();
+                    if(record_info==""){
+                        BootstrapDialog.alert("请填写意见或建议内容!");
+                        return ;
+                    }
+
+                    if(record_info.length>150){
+                        BootstrapDialog.alert("评价内容不能超过150字!");
+                        return ;
+                    }
+
+                    var score_num=0;
+                    arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").each(function(){
+                        if($(this).text()==""){
+                            score_num+=1;
+
+                        }
+                    });
+                    if(score_num>0){
+                        alert(score_num);
+                        BootstrapDialog.alert("请打分");
+                        return ;
+
+                    }
+
+
+                    
+                    var trial_train_status = id_trial_train_status.val();
+                    $.do_ajax("/human_resource/set_trial_train_lesson",{
+                        "teacherid"                        : teacherid,
+                        "lessonid"                         : opt_data.lessonid,
+                        "id"                               : opt_data.id,
+                        "status"                           : trial_train_status,
+                        "tea_process_design_score"         : id_jysj.val(),
+                        "language_performance_score"       : id_yybd.val(),
+                        "knw_point_score"                  : id_zyzs.val(),
+                        "tea_rhythm_score"                 : id_jxjz.val(),
+                        "tea_concentration_score"          : id_hdqk.val(),
+                        "teacher_blackboard_writing_score" : id_bsqk.val(),
+                        "tea_operation_score"              : id_rjcz.val(),
+                        "tea_environment_score"            : id_skhj.val(),
+                        "answer_question_cre_score"        : id_khfk.val(),
+                        "class_abnormality_score"          : id_lcgf.val(),
+                        "score"                            : id_score.val(),
+                        "no_tea_related_score"             : id_no_tea_score.val(),
+                        "record_info"                      : id_record.val(),
+                        "record_monitor_class"             : id_jkqk.val(),
+                        "record_lesson_list"               : JSON.stringify(opt_data.lessonid),
+                        "style_character"                  : JSON.stringify(style_character),
+                        "professional_ability"             : JSON.stringify(professional_ability),
+                        "classroom_atmosphere"             : JSON.stringify(classroom_atmosphere),
+                        "courseware_requirements"          : JSON.stringify(courseware_requirements),
+                        "diathesis_cultivation"            : JSON.stringify(diathesis_cultivation),
+                        "new_tag_flag" : 1
+                    });
+                }
+            },function(){
+                id_score.attr("placeholder","满分100分");
+                id_record.attr("placeholder","字数不能超过150字");
+
+            });
+            arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".score_button").on("click",function(){
+                $(this).addClass('btn-primary');
+                $(this).siblings().removeClass('btn-primary');
+                $(this).parent().parent().find(".class_score").text($(this).text());
+              //  alert($(this).text());
+
+                //alert(id_jysj.find(".class_score").text());
+                
+                id_score.val(parseInt(id_jysj.find(".class_score").text()==""?0:id_jysj.find(".class_score").text())+parseInt(id_yybd.find(".class_score").text()==""?0:id_yybd.find(".class_score").text())+parseInt(id_zyzs.find(".class_score").text()==""?0:id_zyzs.find(".class_score").text())+parseInt(id_jxjz.find(".class_score").text()==""?0:id_jxjz.find(".class_score").text())+parseInt(id_hdqk.find(".class_score").text()==""?0:id_hdqk.find(".class_score").text())+parseInt(id_bsqk.find(".class_score").text()==""?0:id_bsqk.find(".class_score").text())+parseInt(id_rjcz.find(".class_score").text()==""?0:id_rjcz.find(".class_score").text())+parseInt(id_skhj.find(".class_score").text()==""?0:id_skhj.find(".class_score").text())+parseInt(id_khfk.find(".class_score").text()==""?0:id_khfk.find(".class_score").text())+parseInt(id_lcgf.find(".class_score").text()==""?0:id_lcgf.find(".class_score").text()));
+                if(id_score.val() <60){
+                    id_trial_train_status.val(2);
+                }else{
+                    id_trial_train_status.val(1);
+                }
+                id_no_tea_score.val(parseInt(id_hdqk.find(".class_score").text()==""?0:id_hdqk.find(".class_score").text())+parseInt(id_bsqk.find(".class_score").text()==""?0:id_bsqk.find(".class_score").text())+parseInt(id_rjcz.find(".class_score").text()==""?0:id_rjcz.find(".class_score").text())+parseInt(id_skhj.find(".class_score").text()==""?0:id_skhj.find(".class_score").text())+parseInt(id_khfk.find(".class_score").text()==""?0:id_khfk.find(".class_score").text())+parseInt(id_lcgf.find(".class_score").text()==""?0:id_lcgf.find(".class_score").text()));
+            });
+            arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("width",970);
+            arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("left",-200);
+
+
+        });
+
+    });
+
+
 
 
     $('.opt-change').set_input_change_event(load_data);
