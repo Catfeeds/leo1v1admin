@@ -76,34 +76,35 @@ class NoticeStudent extends Command
                 // $phone = "13585593461";
                 // $ret = \App\Helper\Utils::tts_common($phone, $type, $data);
                 // dd($ret);
+            } else {
+                echo '调用这里' ;
+                //f($val['assistantid']>0 && $type==1){
+            //     $account     = $task->t_assistant_info->get_account_by_id($val['assistantid']);
+            //     $url         = "/supervisor/monitor_ass?date=".$now."&userid=".$val['userid'];
+            //     $account_str = "助教-".$account;
+            // }elseif($val['lesson_type']==2){
+            //     $account = $task->t_test_lesson_subject_sub_list->get_lesson_admin($val['lessonid']);
+            //     $url         = "/supervisor/monitor_seller?date=".$now."&userid=".$val['userid'];
+            //     $account_str = "申请人-".$account;
+            // }
 
-                continue;
-            }
-            if($val['assistantid']>0 && $type==1){
-                $account     = $task->t_assistant_info->get_account_by_id($val['assistantid']);
-                $url         = "/supervisor/monitor_ass?date=".$now."&userid=".$val['userid'];
-                $account_str = "助教-".$account;
-            }elseif($val['lesson_type']==2){
-                $account = $task->t_test_lesson_subject_sub_list->get_lesson_admin($val['lessonid']);
-                $url         = "/supervisor/monitor_seller?date=".$now."&userid=".$val['userid'];
-                $account_str = "申请人-".$account;
-            }
+            // if(isset($account_str)){
+            //     $stu_nick   = $val['realname'];
+            //     $from_user  = "学生-$stu_nick";
+            //     $header_msg = $val['lessonid'].$first_str;
+            //     $msg        = $account_str;
+            //     // $ret         = $task->t_manager_info->send_template_msg($account,$template_id,[
+            //     //     "first"    => $val['lessonid'].$first_str,
+            //     //     "keyword1" => "学生-$stu_nick",
+            //     //     "keyword2" => $account_str,
+            //     //     "keyword3" => date("Y-m-d H:i:s"),
+            //     // ],$url);
+            //     $task->t_manager_info->send_wx_todo_msg($account,$from_user,$header_msg,$msg,$url);
+            //     \App\Helper\Utils::logger("student late for lesson, notice:".$account_str." this lessonid is".$val['lessonid']);
+            // }else{
+            //     \App\Helper\Utils::logger("student late for lesson, this lessonid is".$val['lessonid']." and not notice");
+            // }
 
-            if(isset($account_str)){
-                $stu_nick   = $val['realname'];
-                $from_user  = "学生-$stu_nick";
-                $header_msg = $val['lessonid'].$first_str;
-                $msg        = $account_str;
-                // $ret         = $task->t_manager_info->send_template_msg($account,$template_id,[
-                //     "first"    => $val['lessonid'].$first_str,
-                //     "keyword1" => "学生-$stu_nick",
-                //     "keyword2" => $account_str,
-                //     "keyword3" => date("Y-m-d H:i:s"),
-                // ],$url);
-                $task->t_manager_info->send_wx_todo_msg($account,$from_user,$header_msg,$msg,$url);
-                \App\Helper\Utils::logger("student late for lesson, notice:".$account_str." this lessonid is".$val['lessonid']);
-            }else{
-                \App\Helper\Utils::logger("student late for lesson, this lessonid is".$val['lessonid']." and not notice");
             }
         }
     }
