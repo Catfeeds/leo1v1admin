@@ -16,12 +16,24 @@
      }
     </style>
     <section class="content">
-        <div>签约课时:{{ $all_count }}</div>
-        <div>已排课时:{{ $has_lesson_count }}</div>
-        <div>未排课时:{{ $all_count-$has_lesson_count}}</div>
-        <div>已消耗课时:{{ $cost_count }}</div>
-        <div>剩余课时:{{ $all_count-$cost_count}}</div>
-
+        @if(@$all_normal_count>0)
+            <div class="lesson_count">
+                <div>签约常规课时:{{ $all_normal_count}}</div>
+                <div>已排常规课时:{{ $lesson_normal_count}}</div>
+                <div>未排常规课时:{{ $all_normal_count-$lesson_normal_count}}</div>
+                <div>已消常规耗课时:{{ $lesson_normal_cost}}</div>
+                <div>剩余常规课时:{{ $all_normal_count-$lesson_normal_cost}}</div>
+            </div>
+        @endif
+        @if(@$all_competition_count>0)
+            <div class="lesson_count">
+                <div>签约竞赛课时:{{ $all_competition_count}}</div>
+                <div>已排竞赛课时:{{ $lesson_competition_count}}</div>
+                <div>未排竞赛课时:{{ $all_competition_count-$lesson_competition_count}}</div>
+                <div>已消竞赛耗课时:{{ $lesson_competition_cost}}</div>
+                <div>剩余竞赛课时:{{ $all_competition_count-$lesson_competition_cost}}</div>
+            </div>
+        @endif
         <div class="row"  >
             <div class="col-xs-6 col-md-2 ">
                 <div class="input-group ">

@@ -950,24 +950,24 @@ jQuery.extend({
             var domain_name=ret.domain;
             var token=ret.token;
             var uploader = Qiniu.uploader({
-                runtimes: 'html5, flash, html4',
-                browse_button: btn_id , //choose files id
-                uptoken: token,
-                domain: "http://"+domain_name,
-                max_file_size: '30mb',
-                dragdrop: true,
-                flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
-                chunk_size: '4mb',
-                unique_names: false,
-                save_key: false,
-                auto_start: true,
-                multi_selection: false,
-                filters: {
+                runtimes        : 'html5, flash, html4',
+                browse_button   : btn_id, //choose files id
+                uptoken         : token,
+                domain          : "http://"+domain_name,
+                max_file_size   : '30mb',
+                dragdrop        : true,
+                flash_swf_url   : '/js/qiniu/plupload/Moxie.swf',
+                chunk_size      : '4mb',
+                unique_names    : false,
+                save_key        : false,
+                auto_start      : true,
+                multi_selection : false,
+                filters         : {
                     mime_types: [
                         {title: "", extensions: ext_file_list.join(",") }
                     ]
                 },
-                init: {
+                init : {
                     'FilesAdded': function(up, files) {
                         plupload.each(files, function(file) {
                             console.log('waiting...'+file.name );
@@ -992,7 +992,6 @@ jQuery.extend({
                             before_upload();
                         }
                         return true;
-
                     },
                     'UploadProgress': function(up,file) {
                         if(noti_process) {
@@ -1033,7 +1032,6 @@ jQuery.extend({
                         var file_name=$.md5(file.name) +time +'.' + match[1];
                         console.log('gen file_name:'+file_name);
                         return file_name;
-
                     }
                 }
             });
