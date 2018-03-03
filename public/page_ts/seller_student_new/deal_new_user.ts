@@ -1304,11 +1304,13 @@ $(function(){
             show_status_list.push(status);
 
             //[james] 将show_status_list 中的1去除 即可 去除[无效资源]选项
+            /*
             $.each(show_status_list,function(index,value){
                 if(value == 1){
                     show_status_list.splice(index, 1);
                 }
             });
+            */
 
             Enum_map.append_option_list("seller_student_status", id_status ,true , show_status_list );
             Enum_map.append_option_list("gender", id_gender, true);
