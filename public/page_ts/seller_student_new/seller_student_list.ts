@@ -16,6 +16,7 @@ var init_and_reload=function(  set_func ) {
         $("#id_tmk_student_status").val(-1);
        // $("#id_end_class_flag").val(-1);
         $('#id_favorite_flag').val(-1);
+        $('#id_next_revisit').val(-1);
         var now=new Date();
         var t=now.getTime()/1000;
 
