@@ -25,8 +25,8 @@ class ajax_deal3 extends Controller
         $new_count=0;
         $no_connected_count=0;
         //试听成功,未回访用户数量
-        // $no_call_test_list = $this->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
-        $no_call_test_list = $this->t_seller_student_new->get_suc_no_call_list($adminid);
+        $no_call_test_list = $this->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
+        // $no_call_test_list = $this->t_seller_student_new->get_suc_no_call_list($adminid);
         $no_call_test_succ = count($no_call_test_list);
         // $no_call_test_succ =$this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
 

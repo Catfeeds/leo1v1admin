@@ -196,11 +196,13 @@ function init_today_new()  {
                     hold_msg=' <span  style="color:red;">例子库空间过少，请尽快清理 已使用'+resp.hold_count+'/'+resp.max_hold_count+'</span> ';
                 }
                 if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type){
-                    // alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
+                    alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
                     // init_and_reload(function(now){
-                    //     $.filed_init_date_range( 1,  0, now-7*86400,  now);
-                    //     $('#id_next_revisit').val(1);
+                        // $.filed_init_date_range( 1,  0, now-7*86400,  now);
+                        // $('#id_next_revisit').val(1);
                     // });
+                    var url = "http://"+window.location.host+"/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
+                    window.location.href = url;
                 }
                 var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
                 $id_today_new_list.find(".new_list_title").html ($title);
@@ -1928,18 +1930,31 @@ function init_edit() {
         var opt_data  = $(this).get_opt_data();
         var user_id = opt_data.userid;
         var phone = opt_data.phone;
-         $("<div></div>").admin_select_dlg_ajax({
+        var default_subject = opt_data.subject;
+        var default_grade = opt_data.grade;
+        if( default_subject == 0 ){
+            default_subject = -1;
+        }
+        if( default_grade == 0 ){
+            default_grade = -1;
+        }
+
+         $("<div></div>").admin_select_dlg_ajax_second({
             "opt_type" : "select", // or "list"
             "url"      : "/test_paper/get_papers",
             //其他参数
             "args_ex" : {
                 //type  :  "teacher"
             },
+
+             title : "选择生成的链接",
+             btn_title : "生成链接",
+             is_lru_show : false,
             select_primary_field   : "paper_id",   //要拿出来的值
             select_display         : "paper_id",
             select_no_select_value : -1,
             select_no_select_title : "[全部]",
-            width:1000,
+            width:800,
             //字段列表
              'field_list' :[
                  {
@@ -1980,90 +1995,24 @@ function init_edit() {
                 title :"科目",
                 type  : "select" ,
                  'arg_name' :  "subject",
-                 select_option_list: [{
-                     value : -1 ,
-                     text :  "全部"
-                 },{
-                     value : 1 ,
-                     text :  "语文"
-                 },{
-                     value : 2,
-                     text :  "数学"
-                 },{
-                     value : 3,
-                     text :  "英语"
-                 },{
-                     value : 4,
-                     text :  "化学"
-                 },{
-                     value : 5,
-                     text :  "物理"
-                 },{
-                     value : 6,
-                     text :  "生物"
-                 },{
-                     value : 7,
-                     text :  "政治"
-                 },{
-                     value : 8,
-                     text :  "历史"
-                 },{
-                     value : 9,
-                     text :  "地理"
-                 },{
-                     value : 10,
-                     text :  "科学"
-                 },{
-                     value : 11,
-                     text :  "教育学"
-                 }]
+                 select_option_list: [],
+                 default_selected : default_subject,
             },{
                 size_class: "col-md-4 paper_grade" ,
                 title :"年级",
                 type  : "select" ,
                 'arg_name' :  "grade"  ,
-                select_option_list: [{
-                    value : -1 ,
-                    text :  "全部"
-                },{
-                    value : 101,
-                    text :  "小一"
-                },{
-                    value : 102,
-                    text :  "小二"
-                },{
-                    value : 103,
-                    text :  "小三"
-                },{
-                    value : 104,
-                    text :  "小四"
-                },{
-                    value : 105,
-                    text :  "小五"
-                },{
-                    value : 106,
-                    text :  "小六"
-                },{
-                    value : 201,
-                    text :  "初一"
-                },{
-                    value : 202,
-                    text :  "初二"
-                },{
-                    value : 203,
-                    text :  "初三"
-                },{
-                    value : 301,
-                    text :  "高一"
-                },{
-                    value : 302,
-                    text :  "高二"
-                },{
-                    value : 303,
-                    text :  "高三"
-                } ]
-
+                select_option_list: [],
+                default_selected : default_grade,
+            },{
+                size_class: "col-md-4 paper_type" ,
+                title :"试卷类型",
+                type  : "select" ,
+                'arg_name' :  "paper_type"  ,
+                select_option_list: [],
+                default_selected : -1,
             }
+
                  ]],
              "auto_close"       : false,
              "onChange"         : function(require_id,row_data){
@@ -2098,7 +2047,16 @@ function init_edit() {
                  dlg.getModalDialog().css("width", "730px");
              },
              "onLoadData"       : function(require_id,data){
-             }
+             },
+              "onshown"       : function(dlg){
+                  Enum_map.append_option_list("subject",  $(dlg).find(".paper_subject select"),false,[1,2,3,4,5,6,7,8,9,10,11]);
+                  $(dlg).find(".paper_subject select").val(default_subject);
+                  Enum_map.append_option_list("grade",  $(dlg).find(".paper_grade select"),false,[101,102,103,104,105,106,201,202,203,301,302,303]);
+                  $(dlg).find(".paper_grade select").val(default_grade);
+                  Enum_map.append_option_list("paper_type",  $(dlg).find(".paper_type select"));
+                  $(dlg).find(".paper_type select").val(-1);                
+            }
+
          });
     });
 

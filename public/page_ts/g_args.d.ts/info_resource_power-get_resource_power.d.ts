@@ -1,6 +1,4 @@
 interface GargsStatic {
-	page_num:	number;
-	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -15,10 +13,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../user_manage; vi  ../user_manage/stu_all_teacher.ts
+	 mkdir -p ../info_resource_power; vi  ../info_resource_power/get_resource_power.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage-stu_all_teacher.d.ts" />
+/// <reference path="../g_args.d.ts/info_resource_power-get_resource_power.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
@@ -39,6 +37,4 @@ $(function(){
 
 */
 /* HTML ...
-{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

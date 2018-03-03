@@ -199,6 +199,7 @@ $(function(){
         upload_status_show(id_item,status);
         id_item["onshown_init"]=function () {
             if ( back_flag ) {
+
                 $.self_upload_process(btn_id,"/common/upload_qiniu",[] ,allow_arr,{
                     "file_name_fix":file_name_fix
                 }, function( ret,ctminfo){
@@ -290,7 +291,9 @@ $(function(){
             var id_teacher_list      = [];
             var id_teacher_desc_list = [];
             console.log("生成其他资料");
+           
             for (var i=0;i<11;i++) {
+
                 var gen_item = function  ( i ) {
                     var id_teacher_desc = $("<div class=\"tea_cw_ex col-md-4\" >"
                                             +"<div class=\"input-group\">"
@@ -334,7 +337,9 @@ $(function(){
                 var item=gen_item(i);
                 id_teacher_list.push(item);
             }
+            console.log(id_teacher_list);
 
+            console.log(id_teacher_desc_list);
             var id_teacher=gen_upload_item(
                 btn_teacher_upload_id,
                 tea_status,
@@ -362,6 +367,7 @@ $(function(){
             var id_change = $("<input disabled='disabled' />");
             var id_change_time = $("<input disabled='disabled' />");
 
+            // id_teacher.append("是否启用批量平铺功能");
             id_teacher.append(id_tea_cw_pic);
 
             Enum_map.append_option_list("boolean",id_tea_cw_pic,true);
@@ -610,6 +616,7 @@ $(function(){
         };
 
         var get_pdf_info = function(is_tea_flag, file_url, res_id, tea_flag){
+            //console.log(file_url);
             var ret_func = function(ret){
                  if(ret.ret == 0){
                      if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){
@@ -802,6 +809,7 @@ $(function(){
         }
 
         var look_pdf = function(btn_id){
+            //console.log(btn_id);
             if(btn_id == 'id_teacher_upload') {
                 get_pdf_info(tea_cw_origin,tea_cw_url,tea_cw_file_id,tea_cw_origin);
             } else if(btn_id == 'id_student_upload'){
@@ -1177,6 +1185,7 @@ $(function(){
             var data = {
                 'subject':search_args["subject"],
                 'grade' : search_args["grade"],
+
             };
             get_res('/teacher_info/tea_resource', 'my',$(this).attr('upload_id'),null,data);
         });
@@ -1652,8 +1661,8 @@ $(function(){
             $(this).parents("tr").addClass("bg_train_lesson");
             num = num + 1;
         }
-    });
 
+    });
     if(num > 0){
         if(get_cookie("popped")=='') {
             var info = "您有"+num+"节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)"
@@ -1730,7 +1739,9 @@ $(function(){
                 })
             }
         });
+
     });
+
 
     $('body').on('click', function(){
         $('.look-pdf').hide().children().children().empty();
