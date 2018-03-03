@@ -17,6 +17,7 @@ var init_and_reload=function(  set_func ) {
        // $("#id_end_class_flag").val(-1);
         $('#id_favorite_flag').val(-1);
         $('#id_next_revisit').val(-1);
+        $('#id_no_lesson_call_flag').val(-1);
         var now=new Date();
         var t=now.getTime()/1000;
 
@@ -198,9 +199,9 @@ function init_today_new()  {
                 }
                 if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type){
                     alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
-                    // init_and_reload(function(now){
-                    //     $('#id_no_lesson_call_flag').val(1);
-                    // });
+                    init_and_reload(function(now){
+                        $('#id_no_lesson_call_flag').val(1);
+                    });
                 }
                 var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
                 $id_today_new_list.find(".new_list_title").html ($title);
@@ -1552,6 +1553,12 @@ function init_edit() {
             $.filed_init_date_range( 1,  0, now-7*86400,  now);
             $('#id_next_revisit').val(1);
             $('#id_no_lesson_call_flag').val(0);
+        });
+    });
+    $("#id_no_lesson_call_flag").on("click",function(){
+        init_and_reload(function(now){
+            $('#id_no_lesson_call_flag').val(1);
+            $('#id_next_revisit').val(0);
         });
     });
 
