@@ -665,7 +665,7 @@ class tongji2 extends Controller
             if(!isset($ret_map[$adminid])){
                 $ret_map[$adminid] = $week_item_list;
             }
-            $ret_map[$adminid][$lesson_date]["lesson_count"] ++;
+            $ret_map[$adminid][$lesson_date]["lesson_count"]++;
         }
         foreach($require_list as $require_item ) {
             $adminid  = $require_item['adminid'];

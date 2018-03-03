@@ -535,7 +535,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["require_admin_type=%u",$require_admin_type,-1]
             ];
             if($next_revisit_flag == 1){
-                $where_arr[] = "((ss.next_revisit_time>=$start_time and ss.next_revisit_time<$end_time) or (ss.last_succ_test_lessonid>0 and (ss.last_edit_time=0 or ss.last_revisit_time=0) and ll.lesson_end>1517414400))";
+                $where_arr[] = "((ss.next_revisit_time>=$start_time and ss.next_revisit_time<$end_time) or (ss.last_succ_test_lessonid>0 and (ss.last_edit_time<ll.lesson_end or ss.last_revisit_time<ll.lesson_end)))";
             }elseif($favorite_flag>0){
                 $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
             }else{
@@ -1477,7 +1477,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         $order_by_src="desc";
-        if ($seller_level_flag>=4)   {
+        if ($seller_level_flag>=4){
             $order_by_src="asc";
         }
 
@@ -1987,7 +1987,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $admin_revisiterid);
         $start_time = $today-86400*7;
         $end_time = $today+86400;
-        $where_arr[] = "((next_revisit_time>=$start_time and next_revisit_time < $end_time) or (n.last_succ_test_lessonid>0 and (last_edit_time=0 or n.last_revisit_time=0) and l.lesson_end>1517414400))";
+        $where_arr[] = "((next_revisit_time>=$start_time and next_revisit_time < $end_time) or (n.last_succ_test_lessonid>0 and (last_edit_time<l.lesson_end or n.last_revisit_time<l.lesson_end)))";
         $sql = $this->gen_sql_new(
             "select count(n.userid) "
             ."from %s n "
@@ -3904,11 +3904,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [
             "last_succ_test_lessonid>0",
             "n.last_revisit_time<l.lesson_end or n.last_edit_time<l.lesson_end",
-            "l.lesson_end>1517414400",
         ];
         $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $adminid);
         $sql=$this->gen_sql_new(
-            " select n.userid,l.lessonid "
+            " select n.userid,l.lessonid,n.phone "
             ." from %s n "
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." where %s "
