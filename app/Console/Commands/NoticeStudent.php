@@ -76,9 +76,7 @@ class NoticeStudent extends Command
                 // $phone = "13585593461";
                 // $ret = \App\Helper\Utils::tts_common($phone, $type, $data);
                 // dd($ret);
-
-                continue;
-            }
+            } else {
             if($val['assistantid']>0 && $type==1){
                 $account     = $task->t_assistant_info->get_account_by_id($val['assistantid']);
                 $url         = "/supervisor/monitor_ass?date=".$now."&userid=".$val['userid'];
@@ -104,6 +102,8 @@ class NoticeStudent extends Command
                 \App\Helper\Utils::logger("student late for lesson, notice:".$account_str." this lessonid is".$val['lessonid']);
             }else{
                 \App\Helper\Utils::logger("student late for lesson, this lessonid is".$val['lessonid']." and not notice");
+            }
+
             }
         }
     }
