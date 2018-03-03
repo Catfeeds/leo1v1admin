@@ -95,7 +95,7 @@
                      <h4 style="text-align: center;color:white;" class="modal-title">未拨通电话标注</h4>
                      </div>
                      <div class="modal-body" style="text-align:center;">
-                     <p>是否标注为 <font style="color:red;" class="tip_text">无效-空号？</font></p>
+                     <p>是否标注为 <font style="color:red;" class="tip_text">无效-空号</font>?</p>
                      <p style="color:red;">提示：如经核验不符，将被罚款！</p>
                      </div>
                      <div class="modal-footer" style="text-align:center;">

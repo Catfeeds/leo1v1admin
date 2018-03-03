@@ -1020,7 +1020,7 @@ class ajax_deal3 extends Controller
             ]);
             // 更新例子表中的cc标记次数
         }else{
-            $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
+            //$this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
         }
         # 进入tmk库
         # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
@@ -1034,6 +1034,7 @@ class ajax_deal3 extends Controller
             }
             */
             $adminid = $this->get_account_id();
+            $arr = [];
             $cc_confirm_type = $this->t_invalid_num_confirm->get_row_by_adminid($adminid,$confirm_type);
             $field_list = $this->t_seller_student_new->field_get_list($userid, 'cc_not_exist_count,cc_invalid_count');
             if($cc_confirm_type==0 && $confirm_type>0){
@@ -1056,7 +1057,7 @@ class ajax_deal3 extends Controller
         $adminid = $this->get_in_int_val('adminid');
 
         $is_sign = $this->t_invalid_num_confirm->checkHasSign($userid,$adminid);
-        return $this->output_succ(['is_sign'=>1]);
+        return $this->output_succ(['is_sign'=>$is_sign]);
     }
 
     # qc页面获取录音数据
