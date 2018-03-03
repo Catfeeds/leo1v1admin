@@ -1747,11 +1747,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     public function set_xingye_notify_callbanck(){
-        $data = $_REQUEST;
-        $tt= $this->get_in_str_val("return_code");
-        \App\Helper\Utils::logger("return_code".$return_code);
+        //接收传送的数据
+        $fileContent = file_get_contents("php://input"); 
 
-        \App\Helper\Utils::logger("set_xingye_notify_callbanck_test");
+
+        ### 把xml转换为数组
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        //先把xml转换为simplexml对象，再把simplexml对象转换成 json，再将 json 转换成数组。
+        $data = json_decode(json_encode(simplexml_load_string($fileContent, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        // $data = $_REQUEST;
+        // $tt= $this->get_in_str_val("return_code");
+        \App\Helper\Utils::logger("return_code");
+
+        \App\Helper\Utils::logger("set_xingye_notify_callbanck_test2");
         \App\Helper\Utils::logger(json_encode($data));
 
     }
