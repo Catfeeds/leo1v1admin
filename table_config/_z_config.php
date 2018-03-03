@@ -284,7 +284,7 @@ return array(
     ["db_weiyi","t_teacher_spring","id"],
     ["db_weiyi","t_student_test_paper","paper_id"],
     ["db_weiyi","t_student_test_answer","id"],
-
+    ["db_weiyi","t_info_resource_power","id"],
 
     ["db_weiyi_admin","t_upload_info","postid"] ,
     ["db_weiyi_admin","t_upload_student_info","postid","phone"] ,
