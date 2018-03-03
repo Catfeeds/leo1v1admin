@@ -3904,10 +3904,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
-    public function get_stu_all_lesson_count($userid,$lesson_status=-1){
+    public function get_stu_all_lesson_count($userid,$lesson_status=-1,$competition_flag=-1){
         $where_arr = [
             ["userid=%u",$userid,0],
             ["lesson_status=%u",$lesson_status,-1],
+            ["competition_flag=%u",$competition_flag,-1],
             "lesson_type in (0,1,3)"
         ];
         $where_arr = $this->student_effective_lesson_sql('',$where_arr);

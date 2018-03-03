@@ -1534,3 +1534,5 @@ PHP Fatal error:  method_exists(): The script tried to execute a method or acces
 [2018-02-22 17:41:20] Processed:  App\Jobs\send_error_mail
 [2018-02-23 12:09:44] Processing: App\Jobs\send_error_mail
 [2018-02-23 12:09:44] Processed:  App\Jobs\send_error_mail
+[2018-03-03 11:13:07] Processing: App\Jobs\StdentResetLessonCount
+[2018-03-03 11:13:07] Processed:  App\Jobs\StdentResetLessonCount
