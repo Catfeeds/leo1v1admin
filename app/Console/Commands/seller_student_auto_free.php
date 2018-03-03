@@ -47,26 +47,30 @@ class seller_student_auto_free extends cmd_base
             }
             $left_time = strtotime(date('Y-m-d',$first_time))+8*24*3600-time();
             if($left_time<=0){
-                // $this->set_seller_free($item['phone'],$item['userid']);
                 $left_time = abs($left_time);
-                // $this->task->t_seller_auto_free_log->row_insert([
-                //     'userid'=>$item['userid'],
-                //     'adminid'=>$item['admin_revisiterid'],
-                //     'assign_type'=>$item['seller_student_assign_type'],
-                //     'assign_time'=>$item['admin_assign_time'],
-                //     'last_revisit_time'=>$item['last_revisit_time'],
-                //     'last_edit_time'=>$item['last_edit_time'],
-                //     'first_contact_time'=>$item['first_contact_time'],
-                //     'left_time'=>strtotime(date('Y-m-d',$first_time))+8*24*3600,
-                //     'left_time_long'=>$left_time,
-                //     'create_time'=>time(),
-                // ]);
                 $hour = floor($left_time/3600);
                 $min = floor($left_time%3600/60);
                 $sec = floor($left_time%3600%60);
                 $left_time_desc = $hour.'时'.$min.'分'.$sec.'秒';
                 $send_account = $this->task->cache_get_account_nick($item['admin_revisiterid']);
-                // $this->send_wx_msg($item['phone'],$item['assign_type'],$send_account,$item['admin_assign_time'],$item['last_revisit_time'],$item['last_edit_time'],$item['first_contact_time'],$first_time,$left_time_desc);
+
+                if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+                    echo "测试"."\n";
+                    // $this->set_seller_free($item['phone'],$item['userid']);
+                    // $this->send_wx_msg($item['phone'],$item['assign_type'],$send_account,$item['admin_assign_time'],$item['last_revisit_time'],$item['last_edit_time'],$item['first_contact_time'],$first_time,$left_time_desc);
+                    // $this->task->t_seller_auto_free_log->row_insert([
+                    //     'userid'=>$item['userid'],
+                    //     'adminid'=>$item['admin_revisiterid'],
+                    //     'assign_type'=>$item['seller_student_assign_type'],
+                    //     'assign_time'=>$item['admin_assign_time'],
+                    //     'last_revisit_time'=>$item['last_revisit_time'],
+                    //     'last_edit_time'=>$item['last_edit_time'],
+                    //     'first_contact_time'=>$item['first_contact_time'],
+                    //     'left_time'=>strtotime(date('Y-m-d',$first_time))+8*24*3600,
+                    //     'left_time_long'=>$left_time,
+                    //     'create_time'=>time(),
+                    // ]);
+                }
             }
         }
     }

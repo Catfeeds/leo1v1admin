@@ -25,7 +25,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table class="common-table"  > 
             <thead>
                 <tr>
                     <td>教材 </td>
