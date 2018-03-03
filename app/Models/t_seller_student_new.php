@@ -504,7 +504,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1, $tmk_student_status =-1,
         $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,
         $seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1,
-        $show_son_flag=false,$require_adminid_list_new=[],$phone_list=[],$next_revisit_flag=-1
+        $show_son_flag=false,$require_adminid_list_new=[],$phone_list=[],$next_revisit_flag=-1,$no_lesson_call_flag=-1
     ) {
         if ($userid >0 || $phone || $nick) {
             $where_arr=[
@@ -536,6 +536,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ];
             if($next_revisit_flag == 1){
                 $where_arr[] = "((ss.next_revisit_time>=$start_time and ss.next_revisit_time<$end_time) or (ss.last_succ_test_lessonid>0 and (ss.last_edit_time=0 or ss.last_revisit_time=0)))";
+            }elseif($no_lesson_call_flag>0){
+                $where_arr[] = "((ss.last_succ_test_lessonid>0 and (ss.last_edit_time=0 or ss.last_revisit_time=0)))";
             }elseif($favorite_flag>0){
                 $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
             }else{

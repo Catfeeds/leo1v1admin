@@ -198,8 +198,7 @@ function init_today_new()  {
                 if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type){
                     alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
                     init_and_reload(function(now){
-                        $.filed_init_date_range( 1,  0, now-7*86400,  now);
-                        $('#id_next_revisit').val(1);
+                        $('#id_no_lesson_call_flag').val(1);
                     });
                 }
                 var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+hold_msg);
@@ -277,6 +276,7 @@ function load_data(){
         favorite_flag:  $('#id_favorite_flag').val(),
         left_time_order:$('#id_left_time_order_flag').val(),
         next_revisit_flag:$('#id_next_revisit').val(),
+        no_lesson_call_flag:$('#id_no_lesson_call_flag').val(),
     });
 }
 
@@ -1499,6 +1499,7 @@ function init_edit() {
             $.filed_init_date_range( 4,  1, now,now );
             $("#id_seller_resource_type").val(0);
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1508,6 +1509,7 @@ function init_edit() {
             $.filed_init_date_range( 5,  0, now-86400*14,  now);
             $("#id_success_flag").val(0);
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1520,6 +1522,7 @@ function init_edit() {
             // $("#id_tq_called_flag").val(0);
             $("#id_global_tq_called_flag").val(0);
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
     $("#id_tmk_new_no_called_count").on("click",function(){
@@ -1528,6 +1531,7 @@ function init_edit() {
             $('#id_seller_student_status').val(0);
             $('#id_tmk_student_status').val(3);
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1538,6 +1542,7 @@ function init_edit() {
             $("#id_global_tq_called_flag").val(-1);
             $('#id_seller_student_status').val(0);
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1545,6 +1550,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  0, now-7*86400,  now);
             $('#id_next_revisit').val(1);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1552,6 +1558,7 @@ function init_edit() {
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  1, now-2*86400,   now-2*86400 );
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1561,6 +1568,7 @@ function init_edit() {
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(110 );
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1569,6 +1577,7 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*180 ,  now);
             $('#id_favorite_flag').val(1);
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1577,6 +1586,7 @@ function init_edit() {
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(200);
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
@@ -1594,6 +1604,7 @@ function init_edit() {
             }
             $.filed_init_date_range( 5,  1, start_time ,  end_time);
             $('#id_next_revisit').val(0);
+            $('#id_no_lesson_call_flag').val(0);
         });
     });
 
