@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1113
+//__DESC: 删除购物车商品 https://api-class.leo1v1.com/shopcar/stu_del_item?shop_car_id=1
+//__TAGS: for_app,for_website
+
+
+message in  {
+  string shop_car_id = 1;//购物车id
+}
+
+message out {
+}
+
