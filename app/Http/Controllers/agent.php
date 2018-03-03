@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $no_call_test_list = $this->t_seller_student_new->get_suc_no_call_list($adminid=1077);
+        dd($no_call_test_list);
         $start_time = strtotime($this->get_in_str_val('start_time','2018-01-01'));
         $end_time = strtotime($this->get_in_str_val('end_time','2018-02-01'));
         $month = strtotime(date('Y-m-01',$start_time));
