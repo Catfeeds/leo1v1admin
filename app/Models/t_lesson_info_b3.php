@@ -4038,5 +4038,14 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_value($sql);
     }
+
+    public function getLessonInfoForChangeTime($lessonid){
+        $this->gen_sql_new("  select l.userid, l.teacherid, l.lesson_start, l.lesson_end, l.subject, l.assistantid from %s l "
+                           ." where l.lessonid=$lessonid"
+                           ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
 }
 

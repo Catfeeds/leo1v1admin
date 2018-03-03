@@ -2550,4 +2550,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 t_teacher_info::DB_TABLE_NAME);
         return $this->main_get_value($sql);
     }
+
+    public function getOpenidByAssId($assistantid){
+        $sql = $this->gen_sql_new("  select m.wx_openid from %s m "
+                                  ." left join %s a on a.phone=m.phone"
+                                  ." where a.assistantid=$assistantid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
 }

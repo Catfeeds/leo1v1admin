@@ -767,6 +767,9 @@ class NewRouteConfig {
         "/wjx_receive_api/get_answers"                   =>true,
         "/wjx_receive_api/give_scores"                   =>true,
         "/info_resource_power/get_resource_power"        =>true,
+        "/info_resource_power/save_resource_power"       =>true,
+        "/info_resource_power/dele_resource"             =>true,
+        "/info_resource_power/dele_type"                 =>true,
     ];
 
     static $dev_url_map = [
