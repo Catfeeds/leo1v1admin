@@ -159,9 +159,9 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             ['ssn.admin_assignerid = %u',$allocation,-1],
         ];
 
-        if($type == 3)
+        if($type == 1)
             $this->where_arr_add_int_field($where_arr, 'imi.account_role', E\Eaccount_role::V_2);
-        elseif(in_array($type,[1,2]))
+        elseif(in_array($type,[2,3]))
             $this->where_arr_add_int_field($where_arr, 'imi.account_role', E\Eaccount_role::V_1);
 
         $this->where_arr_add_time_range($where_arr, 'si.reg_time', $start_time, $end_time);

@@ -1,15 +1,15 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/agent-agent_group_statistics.d.ts" />
+/// <reference path="../g_args.d.ts/seller_student_new-referral_statistics_by_layer.d.ts" />
 
 $(function(){
-
     function load_data(){
         $.reload_self_page ( {
-            date_type_config:	$('#id_date_type_config').val(),
-            date_type:	$('#id_date_type').val(),
-            opt_date_type:	$('#id_opt_date_type').val(),
-            start_time:	$('#id_start_time').val(),
-            end_time:	$('#id_end_time').val(),
+			      date_type_config:	$('#id_date_type_config').val(),
+			      date_type:	$('#id_date_type').val(),
+			      opt_date_type:	$('#id_opt_date_type').val(),
+			      start_time:	$('#id_start_time').val(),
+			      end_time:	$('#id_end_time').val(),
+            show_type:$('#id_show_type').val()
         });
     }
 
@@ -24,8 +24,13 @@ $(function(){
             load_data();
         }
     });
+    $('#id_show_type').val(g_args.show_type);
 
- 	$(".common-table" ).table_admin_level_4_init();
+    $('.opt-change').set_input_change_event(load_data);
+	  $(".common-table" ).table_admin_level_4_init();
+    // $('#id_jump')
 
-	$('.opt-change').set_input_change_event(load_data);
+    $("#id_jump").on("click",function(){
+        window.location.href = '/seller_student_new/referral_statistics';
+    });
 });

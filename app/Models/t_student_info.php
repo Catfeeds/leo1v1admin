@@ -2620,15 +2620,16 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_referral_order_info($start_time,$end_time){
         $where_arr = [
             'si.origin_userid>0',
-            'si.is_test_user = 0'
+            'si.is_test_user = 0',
+            'ssn.admin_revisiterid <> 0'
         ];
         $this->where_arr_add_time_range($where_arr,"si.reg_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(
             "select sum(oi.price) price_num,count(distinct oi.userid) userid_num,".
             "ssn.admin_revisiterid,sum(oi.orderid <> '') orderid_num ".
             "from %s si ".
-            "left join %s oi on (oi.userid = si.userid and oi.contract_status>0 and oi.contract_type in (0,3)) ".
-            "left join %s ssn on ssn.userid = ssn.userid ".
+            "left join %s oi on (oi.userid = si.userid and oi.contract_status>0 and oi.contract_type = 0) ".
+            "left join %s ssn on ssn.userid = si.userid ".
             "where %s ".
             "group by ssn.admin_revisiterid",
             self::DB_TABLE_NAME,
@@ -2645,19 +2646,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_referral_test_lesson($start_time,$end_time){
         $where_arr = [
             'si.origin_userid>0',
-            'si.is_test_user = 0'
+            'si.is_test_user = 0',
+            'ssn.admin_revisiterid <> 0'
         ];
         $this->where_arr_add_time_range($where_arr,"si.reg_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(
             'select count(*) referral_num,sum(tlssl.success_flag in (0,1 )) test_lesson_succ,'.
-            'ssn.admin_revisiterid,count(tlsr.require_id <> 0) test_lesson_require '.
+            'ssn.admin_revisiterid,count(tlsr.require_id <> 0) test_lesson_require,ssn.admin_revisiterid adminid '.
             'from %s si '.
             'join %s ssn on si.userid = ssn.userid '.
             'join %s tls on tls.userid = si.userid '.
             'left join %s tlsr using(test_lesson_subject_id) '.
             'left join %s tlssl on tlsr.require_id = tlssl.require_id '.
             'left join %s li on tlsr.current_lessonid = li.lessonid and li.lesson_type = 2 '.
-            'where %s',
+            'where %s '.
+            "group by ssn.admin_revisiterid",
             self::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -2669,6 +2672,40 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql,function($item){
             return $item['admin_revisiterid'];
         });
+    }
+    //@desn:获取转介绍信息
+    //@param:$start_time,$end_time 开始时间,结束时间
+    public function get_referral_type_info($start_time,$end_time){
+        $where_arr = [
+            'si.origin_userid>0',
+            'si.is_test_user = 0',
+            'ssn.admin_revisiterid <> 0'
+        ];
+        $this->where_arr_add_time_range($where_arr,"si.reg_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            'select  ssn.admin_revisiterid,si.origin_assistantid,tlsr.current_lessonid,'.
+            'tlsr.accept_flag,tlssl.success_flag,oi.orderid,oi.userid,oi.price,omi.account_role '.
+            'from %s si '.
+            'join %s ssn on si.userid = ssn.userid '.
+            'join %s tls on tls.userid = si.userid '.
+            'left join %s tlsr using(test_lesson_subject_id) '.
+            'left join %s tlssl on tlsr.require_id = tlssl.require_id '.
+            'left join %s li on tlsr.current_lessonid = li.lessonid and li.lesson_type = 2 '.
+            'left join %s oi on si.userid = oi.userid and oi.contract_status>0 and oi.contract_type = 0 '.
+            'join %s omi on omi.uid = si.origin_assistantid '.
+            'where %s ',
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_test_lesson_subject_require::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 
     public function get_all_stu_num(){

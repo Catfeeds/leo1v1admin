@@ -63,12 +63,6 @@
                     <div class="input-group ">
                         <span class="input-group-addon">分配类型</span>
                         <select class="opt-change form-control" id="id_type" >
-                            <option value="-1">全部</option>
-                            <option value="1">助教自跟</option>
-                            <option value="2">助转销</option>
-                            <option value="3">销售自产</option>
-                            <option value="4">系统转销</option>
-                            <option value="5">系统转助</option>
                         </select>
                     </div>
                 </div>

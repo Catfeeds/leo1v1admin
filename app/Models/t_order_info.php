@@ -5150,7 +5150,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function get_order_info_for_referral($userid){
         $where_arr = [
             'si.is_test_user = 0',
-            'oi.contract_type in (0,3)',
+            'oi.contract_type = 0',
             "oi.contract_status >0 ",
             ['oi.userid = %u',$userid,0]
         ];

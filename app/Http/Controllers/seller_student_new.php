@@ -412,7 +412,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-        
+
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -1235,10 +1235,8 @@ class seller_student_new extends Controller
     public function referral_statistics_by_layer(){
         list($start_time, $end_time) =$this->get_in_date_range_month(0);
         $show_type = $this->get_in_int_val('show_type',1);
-
         if($show_type == 1){//按下单人角色
             $test_lesson = $this->t_student_info->get_referral_test_lesson($start_time,$end_time);
-            dd($test_lesson);
             $order_info = $this->t_student_info->get_referral_order_info($start_time,$end_time);
             foreach($order_info as $order_item){
                 $principal_id=$order_item["admin_revisiterid"];
@@ -1247,36 +1245,80 @@ class seller_student_new extends Controller
                 $test_lesson[$principal_id]["orderid_num"] = $order_item["orderid_num"];
                 $test_lesson[$principal_id]["userid_num"] = $order_item["orderid_num"];
             }
-
-            //获取所有管理员信息
-            $admin_info = $this->t_manager_info->get_admin_member_list();
-            $admin_list = &$admin_info['list'] ;
-            foreach ($admin_list as $vk=>&$val){
-                $adminid=$val['adminid'];
-                if (!isset($ret_info[$adminid])){
-                    unset($admin_list[$vk]);
-                }else{
-                    $val['admin_revisiterid'] = $adminid ;
-                    $ret_item=@$test_lesson[$adminid];
-                    $val['referral_num'] = @$ret_item['referral_num'];
-                    $val['test_lesson_require'] = @$ret_item['test_lesson_require'];
-                    $val['test_lesson_succ'] = @$ret_item['test_lesson_succ'];
-                    $val['price_num'] = @$ret_item['price_num'];
-                    $val['orderid_num'] = @$ret_item['orderid_num'];
-                    $val['userid_num'] = @$ret_item['userid_num'];
-                }
-            }
-            $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list']);
-            dd($ret_info);
+            $ret_info=\App\Helper\Common::gen_admin_member_data($test_lesson);
             foreach( $ret_info as &$item ) {
                 E\Emain_type::set_item_value_str($item);
                 $item['price_num']  = @$item['price_num']/100;
             }
-            return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["data_ex_list"=>$ret_info]);
-
+            // dd($ret_info);
         }elseif($show_type == 2){//按分配类型
-            
+            $referral_type_info = $this->t_student_info->get_referral_type_info($start_time,$end_time);
+            //判断分配类型
+            foreach($referral_type_info as &$item){
+                if($item['account_role'] == E\Eaccount_role::V_2)
+                    $item['referral_type'] = E\Ereferral_type::V_1;
+                else{
+                    if($item['admin_revisiterid'] != $item['origin_assistantid'])
+                        $item['referral_type'] = E\Ereferral_type::V_2;
+                    else
+                        $item['referral_type'] = E\Ereferral_type::V_3;
+                }
+            }
+
+            $sta_arr = [];
+            $order_user_arr = [];
+            //统计数据[累加]
+            foreach($referral_type_info as &$item){
+                $adminid = $item['admin_revisiterid'];
+                $referral_type = $item['referral_type'];
+                //--init--
+                if(!@$sta_arr[$adminid][$referral_type]){
+                    $sta_arr[$adminid][$referral_type] = [
+                        'adminid' => $adminid,
+                        'referral_type' => $referral_type,
+                        'referral_num' => 0,
+                        'test_lesson_require' => 0,
+                        'test_lesson_succ' => 0,
+                        'orderid_num' => 0,
+                        'userid_num' => 0,
+                        'price_num' => 0
+                    ];
+                }
+
+                $sta_arr[$adminid][$referral_type]['referral_num'] ++;
+                if($item['current_lessonid'])
+                    $sta_arr[$adminid][$referral_type]['test_lesson_require'] ++;
+                if(in_array($item['success_flag'],[0,1]) && $item['current_lessonid'])
+                    $sta_arr[$adminid][$referral_type]['test_lesson_succ'] ++;
+                if($item['orderid'])
+                    $sta_arr[$adminid][$referral_type]['orderid_num'] ++;
+                if(!in_array($item['userid'],$order_user_arr) && $item['userid']){
+                    $sta_arr[$adminid][$referral_type]['userid_num'] ++;
+                    $order_user_arr[] = $item['userid'];
+                }
+                if($item['price']>0)
+                    $sta_arr[$adminid][$referral_type]['price'] ++;
+            }
+
+            $data_arr = [];
+            //三维数组转一维数组
+            foreach($sta_arr as $item){
+                foreach($item as $val){
+                    $data_arr[] = $val;
+                }
+            }
+
+            $ret_info = \App\Helper\Common::gen_admin_member_data(
+                $data_arr,$no_need_sum_list=[],$monthtime_flag=1,$month=0,$show_type=1
+            );
+            foreach( $ret_info as &$item ) {
+                $item['price_num']  = @$item['price_num']/100;
+                E\Ereferral_type::set_item_value_str($item,'main_type');
+            }
+            // dd($ret_info);
         }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
     public  function get_hold_list() {
