@@ -4594,7 +4594,6 @@ class ss_deal extends Controller
 
     }
     public function seller_noti_info()  {
-
         $adminid=$this->get_account_id();
         $next_revisit_count = $this->t_seller_student_new->get_today_next_revisit_count($adminid);
         $today_free_count= $this->t_seller_student_new-> get_today_next_revisit_need_free_count($adminid);
