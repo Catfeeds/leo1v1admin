@@ -59,11 +59,14 @@ class NoticeStudent extends Command
         } elseif($type == 3) {
             $end_time   = time()-300;
             $start_time = $end_time-60;
+            $start_time = strtotime("2018-3-2");
+            $end_time = time();
         }
         $now         = date("Y-m-d",time());
         $lesson_list = $task->t_lesson_info->get_lesson_stu_late($start_time,$end_time,$type);
         foreach($lesson_list as $val){
             if ($type == 3) {
+                echo $task->cache_get_teacher_nick($val["userid"]);
                 $data = [ // 可变
                     "name"        => $val["realname"],
                     "lesson_time" => date("y年m月d日h:i:s", $val["lesson_start"]),
