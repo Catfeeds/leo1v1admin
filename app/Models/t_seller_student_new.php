@@ -3900,6 +3900,24 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_auto_free_list_item(){
+        $where_arr = [
+            "n.admin_revisiterid=1408",
+            "n.orderid>0",
+            "m.account_role=2",
+        ];
+        $sql=$this->gen_sql_new(
+            " select n.* "
+            ." from %s n "
+            ." left join %s m on m.uid=n.admin_revisiterid "
+            ." where %s order by n.add_time desc "
+            , self::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_suc_no_call_list($adminid){
         $where_arr = [
             "last_succ_test_lessonid>0",
