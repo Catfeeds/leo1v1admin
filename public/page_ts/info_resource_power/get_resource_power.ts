@@ -117,12 +117,16 @@ function add_type(data_obj){
     var tr_no = $(".power_table tbody tr").length;
     var resource_name = $obj.find("td:eq(1) input").val();
     var resource_id = $obj.find("td:eq(1) input").attr("resource_id");
+    var style = $obj.attr("style");
+
+    $tr_obj.attr({"style":style});
     $tr_obj.find("td:eq(0)").text($obj.find("td:eq(0)").text());
     $tr_obj.find("td:eq(1) input").val(resource_name);
     $tr_obj.find("td:eq(1) input").attr({"resource_id":resource_id});
     $tr_obj.find("td:eq(1)").removeAttr("data-contextify-id");
     $tr_obj.find("td:eq(1)").contextify(options);
-    $obj.after($tr_obj);
+    $(".power_table tbody tr[data-resource_id='"+resource_id+"']:last").after($tr_obj);
+    //$obj.after($tr_obj);
 
 }
 
@@ -220,6 +224,10 @@ function dele_type(oEvent){
     var target = e.target || e.srcElement; 
     var obj = $(target).parents("tr");
     var id = obj.attr("power_id");
+    if( id == 0 ){
+        obj.remove();
+        return false;
+    }
     var title = "删除后，绑定在该标签下的文件一起删除，你确定？";
     console.log(id);
     BootstrapDialog.confirm(title,function(ret){
