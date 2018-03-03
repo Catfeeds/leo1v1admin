@@ -55,7 +55,6 @@ class seller_student_auto_free extends cmd_base
                 $send_account = $this->task->cache_get_account_nick($item['admin_revisiterid']);
 
                 if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
-                    echo "测试"."\n";
                     // $this->set_seller_free($item['phone'],$item['userid']);
                     // $this->send_wx_msg($item['phone'],$item['assign_type'],$send_account,$item['admin_assign_time'],$item['last_revisit_time'],$item['last_edit_time'],$item['first_contact_time'],$first_time,$left_time_desc);
                     // $this->task->t_seller_auto_free_log->row_insert([
