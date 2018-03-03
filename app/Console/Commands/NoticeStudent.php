@@ -59,6 +59,10 @@ class NoticeStudent extends Command
         } elseif($type == 3) {
             $end_time   = time()-300;
             $start_time = $end_time-60;
+            echo "运行开始运行...";
+            echo "current ".date("Y-m-d H:i:s", time());
+            echo " start ".date("Y-m-d H:i:s", $start_time);
+            echo " end ".date("Y-m-d H:i:s", $end_time).PHP_EOL;
         }
         $now         = date("Y-m-d",time());
         $lesson_list = $task->t_lesson_info->get_lesson_stu_late($start_time,$end_time,$type);
