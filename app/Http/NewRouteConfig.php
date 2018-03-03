@@ -169,6 +169,7 @@ class NewRouteConfig {
         "/common/get_city_textbook_info"          => true,
         "/common/baidu_callback_return_info_test" => true,
         "/common/baidu_callback_return_info"      => true,
+        "/common/get_xingye_wx_url"               => true,
 
         "/user_manage/qc_invalid_resources"           => true,
         "/user_manage/get_nick"                       => true,
