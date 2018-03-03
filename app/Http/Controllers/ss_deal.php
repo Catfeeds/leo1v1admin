@@ -5985,7 +5985,7 @@ class ss_deal extends Controller
 
         if(\App\Helper\Utils::check_env_is_test()){
             $userid = $this->t_phone_to_user->get_userid($phone);
-            $admind = $this->get_account_id();
+            $adminid = $this->get_account_id();
             //判断该例子是否还是当前cc的[已自动释放]
             $current_adminid = $this->t_seller_student_new->field_get_value($userid, 'admin_revisiterid');
             if($current_adminid != $adminid)
