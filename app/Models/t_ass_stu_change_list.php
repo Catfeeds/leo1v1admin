@@ -29,6 +29,11 @@ class t_ass_stu_change_list extends \App\Models\Zgen\z_t_ass_stu_change_list
         return $this->main_get_list($sql);
     }
 
+    public function get_stu_ass_list($userid){
+        $sql = $this->gen_sql_new("select adminid ,old_ass_adminid from %s where userid= %u",self::DB_TABLE_NAME,$userid);
+        return $this->main_get_list($sql);
+    }
+
 }
 
 

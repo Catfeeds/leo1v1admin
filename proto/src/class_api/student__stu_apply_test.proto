@@ -1,18 +1,17 @@
 syntax = "proto3";
 import "class_api/common.proto";
 
-//__CMD: 1022
-//__DESC: 3.2 http://api.class.leo1v1.com/student/stu_apply_test?subject=2&grade=2&lesson_time=2018-02-02%2010:00:00 学生申请试听课接口
+//__CMD: 1111
+//__DESC: 3.2 申请试听 https://api-class.leo1v1.com/student/stu_apply_test?lesson_time=2018-03-03
 //__TAGS: for_app,for_website
 
 
 message in  {
-  	int32  grade= 1; //年级
-  	int32  subject= 2; //科目
-  	string  lesson_time= 3; //选择的上课时间 例如: 2018-01-01 10:00:00
+  string lesson_time = 1;//试听课时间 2018-02-02
 }
 
 message out {
-  common.test_lesson data=1;
+  // common.get_test_time data = 1;  // 试听课上课时间
+  string sur_num = 1;//剩余申请次数
 }
 

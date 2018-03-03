@@ -31,6 +31,7 @@ interface GargsStatic {
 	order_activity_type:	number;//枚举: \App\Enums\Eorder_activity_type
 	spec_flag:	number;//枚举: \App\Enums\Eboolean
 	adminid:	number;
+	origin:	string;
 	account_role_self:	number;
 	acc:	number;
 	ass_master_flag:	number;
@@ -188,6 +189,7 @@ function load_data(){
 		order_activity_type:	$('#id_order_activity_type').val(),
 		spec_flag:	$('#id_spec_flag').val(),
 		adminid:	$('#id_adminid').val(),
+		origin:	$('#id_origin').val(),
 		account_role_self:	$('#id_account_role_self').val(),
 		acc:	$('#id_acc').val(),
 		ass_master_flag:	$('#id_ass_master_flag').val(),
@@ -322,6 +324,7 @@ $(function(){
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
 	});
+	$('#id_origin').val(g_args.origin);
 	$('#id_account_role_self').val(g_args.account_role_self);
 	$('#id_acc').val(g_args.acc);
 	$('#id_ass_master_flag').val(g_args.ass_master_flag);
@@ -545,6 +548,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">origin</span>
+                <input class="opt-change form-control" id="id_origin" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["origin title", "origin", "th_origin" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

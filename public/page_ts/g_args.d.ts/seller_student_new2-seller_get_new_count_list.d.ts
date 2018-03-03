@@ -18,6 +18,7 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	adminid	:any;
+	new_count_id	:any;
 	add_time	:any;
 	start_time	:any;
 	end_time	:any;

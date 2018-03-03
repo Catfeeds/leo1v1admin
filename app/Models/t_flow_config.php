@@ -106,7 +106,8 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
             if ($type =="admin") { //设置给某人
                 return [  $id, $check_node["adminid"], false];
             }else if ($type =="uplevel_admin") {//上级
-                $uplevel_adminid= $this->get_uplevel_adminid($adminid);
+                $post_adminid = $flow_info["post_adminid"];
+                $uplevel_adminid= $this->get_uplevel_adminid($post_adminid,$check_node["uplevel_type"]);
                 return [  $id, $uplevel_adminid  , false];
             }else if ($type =="end") {
                 return  [ -1 , 0, false ];
@@ -118,8 +119,20 @@ class t_flow_config extends \App\Models\Zgen\z_t_flow_config
         return null;
     }
 
-    public function get_uplevel_adminid ( $adminid ) {
+    public function get_uplevel_adminid ( $adminid,$uplevel_type ) {
         //TODO
-        return 99;
+        $acc = "jim";
+        $adm = $this->task->t_manager_info->get_id_by_account($acc);
+        $groupid=$this->task->t_admin_group_user->get_groupid_value($adminid);
+        $item1=$this->task->t_admin_group_name->field_get_list($groupid, "master_adminid,up_groupid");
+        $up_groupid=$item1["up_groupid"];
+        $master_adminid2=$this->task->t_admin_main_group_name->get_master_adminid($up_groupid);
+
+        if($uplevel_type==1){
+            $adm= $item1["master_adminid"]?$item1["master_adminid"]:$adm;
+        }elseif($uplevel_type==2){
+            $adm= $master_adminid2?$master_adminid2:$adm;
+        }
+        return $adm;
     }
 }

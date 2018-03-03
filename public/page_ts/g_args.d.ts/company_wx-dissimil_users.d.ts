@@ -19,10 +19,11 @@ tofile:
 /// <reference path="../g_args.d.ts/company_wx-dissimil_users.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 
-    });
+		});
 }
 $(function(){
 

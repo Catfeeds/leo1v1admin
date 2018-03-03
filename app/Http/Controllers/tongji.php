@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input ;
 class tongji extends Controller
 {
     use  CacheNick;
+    use  TeaPower;
     var $switch_tongji_database_flag = true;
 
     public function contract()
@@ -422,15 +423,27 @@ class tongji extends Controller
 
         $map=[];
         foreach( $admin_list as  &$d_item ) {
+            //判断是否产品研发事业部
+            $dev_flag = $this->check_is_dev_department($d_item["adminid"]);
+
             $d_item["work_time"]=  $d_item["end_logtime"] -  $d_item["start_logtime"] ;
             $d_item["work_time_str"] =\App\Helper\Common::get_time_format( $d_item["work_time"]  );
+            $day_start = strtotime(date("Y-m-d",$d_item["start_logtime"])." 10:01:00");
+            $day_end = strtotime(date("Y-m-d",$d_item["start_logtime"])." 18:30:00");
+            if($dev_flag==1){
+                if($d_item["end_logtime"]<$day_end || $d_item["start_logtime"]>=$day_start || $d_item["work_time"] < 9*3600){
+                    $d_item["error_flag"]=true;
+                    $d_item["error_flag_str"] ="是";
+                }
+            }else{
+                $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
+                if ($d_item["error_flag"]) {
+                    $d_item["error_flag_str"] ="是";
+                } 
+            }
             \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "","H:i:s");
             \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"", "H:i:s");
 
-            $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
-            if ($d_item["error_flag"]) {
-                $d_item["error_flag_str"] ="是";
-            }
 
             $map[$d_item["adminid"]]=true ;
         }
@@ -461,6 +474,11 @@ class tongji extends Controller
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000 );
         $phone=$this->t_manager_info->field_get_value($adminid, 'phone');
         $userid=$this->t_company_wx_users->get_userid_for_adminid($phone);
+
+        //判断是否产品研发事业部
+        $dev_flag = $this->check_is_dev_department($adminid);
+        \App\Helper\Utils::logger("dev_flag:".$dev_flag);
+
 
         $info=$this->t_company_wx_approval->get_info_for_userid($userid, $start_time, $end_time);
         $len = count($info);
@@ -511,13 +529,22 @@ class tongji extends Controller
             if (isset ( $d_item["start_logtime"]) ){
                 $d_item["work_time"]=  $d_item["end_logtime"] -  $d_item["start_logtime"] ;
                 $d_item["work_time_str"] =\App\Helper\Common::get_time_format( $d_item["work_time"]  );
+                $day_start = strtotime(date("Y-m-d",$d_item["start_logtime"])." 10:01:00");
+                $day_end = strtotime(date("Y-m-d",$d_item["start_logtime"])." 18:30:00");
+                if($dev_flag==1){
+                    if($d_item["end_logtime"]<$day_end || $d_item["start_logtime"]>=$day_start || $d_item["work_time"] < 9*3600){
+                        $d_item["error_flag"]=1;
+                        $d_item["error_flag_str"] ="是";
+                    }
+                }else{
+                    $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
+                    if ($d_item["error_flag"]) {
+                        $d_item["error_flag_str"] ="是";
+                    } 
+                }
+
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "","H:i:s");
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"", "H:i:s");
-
-                $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
-                if ($d_item["error_flag"]) {
-                    $d_item["error_flag_str"] ="是";
-                }
             }
             if (!isset($d_item["work_time"]) )  {
                 $d_item["work_time"]="";

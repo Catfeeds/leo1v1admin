@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail ;
 class lesson extends TeaWxController
 {
     use CacheNick;
+    use TeaPower;
 
     public function __construct(){
         // session("teacher_wx_use_flag",1);  // 本地测试时使用
@@ -284,30 +285,42 @@ class lesson extends TeaWxController
         $end_time    = $this->get_in_int_val("end");
 
 
-        \App\Helper\Utils::logger('get_salary_detail_list_james:'.$teacherid);
-        if($teacherid == 225427){
-            $teacherid =50278;
-            \App\Helper\Utils::logger('get_salary_detail_list_james_111:'.$teacherid);
-
-        }
 
         if(!$teacherid){
             return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
         }
 
-        $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
-        $post_data = array(
-            "teacherid" => $teacherid,
-            "start_time" => $start_time,
-            "end_time"   => $end_time
-        );
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL, $url);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        $output = curl_exec($ch);
-        curl_close($ch);
+        if($teacherid == 225427||$teacherid==50281){
+            $output = $this->get_teacher_money_list($start_time,$end_time,$teacherid);
+        }else{
+            $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
+            $post_data = array(
+                "teacherid" => $teacherid,
+                "start_time" => $start_time,
+                "end_time"   => $end_time
+            );
+            $ch = curl_init();
+            curl_setopt($ch,CURLOPT_URL, $url);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch,CURLOPT_POST,1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+            $output = curl_exec($ch);
+            curl_close($ch);
+        }
+        // $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
+        // $post_data = array(
+        //     "teacherid" => $teacherid,
+        //     "start_time" => $start_time,
+        //     "end_time"   => $end_time
+        // );
+        // $ch = curl_init();
+        // curl_setopt($ch,CURLOPT_URL, $url);
+        // curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch,CURLOPT_POST,1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        // $output = curl_exec($ch);
+        // curl_close($ch);
+
 
         $ret_arr = json_decode($output,true);
 
@@ -331,23 +344,153 @@ class lesson extends TeaWxController
 
 
         if($ret_arr && (!empty($ret_arr['all_reward_list']) || !empty($ret_arr['data']))){
+            \App\Helper\Utils::logger("success_james_111");
+
             return $this->output_succ(['data'=>$ret_arr['data'],'all_reward_list'=>$ret_arr['all_reward_list']]);
         }else{
+            \App\Helper\Utils::logger("error_james_111");
             return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
         }
-
-
-       // if(!$ret_arr){
-       //     return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
-       //  }else if($ret_arr!=null && !empty($ret_arr['data'])){
-       //     return $this->output_succ(['data'=>$ret_arr['data'],'all_reward_list'=>$ret_arr['all_reward_list']]);
-       //  }else{
-       //     // return $this->output_err("工资明细获取失败!");
-       //     return $this->output_succ(['data'=>[],'all_reward_list'=>[]]);
-
-       //  }
-
     }
+
+
+    public function get_teacher_money_list($start_time,$end_time,$teacherid){
+        if(!$teacherid){
+            return $this->output_err("老师id错误!");
+        }
+        // $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
+        // $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
+
+        $simple_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_type = $simple_info['teacher_type'];
+
+        //拉取上个月的课时信息
+        $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
+        $time_list   = [];
+        $lesson_list = [];
+        $lesson_info = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+        $check_num   = [];
+        if(!empty($lesson_info)){
+            foreach($lesson_info as $key=>&$val){
+                $base_list   = [];
+                $reward_list = [];
+                $full_list   = [];
+
+                $val['lesson_base']        = "0";
+                $val['lesson_reward']      = "0";
+                $val['lesson_full_reward'] = "0";
+                $lesson_count = $val['lesson_count']/100;
+                if($val['confirm_flag'] != 2){
+                    if($val['lesson_type'] != 2){
+                        $val['money']       = $this->get_teacher_base_money($teacherid,$val);
+                        $val['lesson_base'] = $val['money']*$lesson_count;
+
+                        $lesson_reward = $this->get_lesson_reward_money(
+                            $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type,$val['type']
+                        );
+
+                        $val['lesson_reward'] = $lesson_reward*$lesson_count;
+                        $reward_list['type']  = 2;
+                        $reward_list['info']  = "累计课时奖励";
+                        $reward_list['money'] = strval($val['lesson_reward']);
+                    }else{
+                        if($val['fail_greater_4_hour_flag']==0 &&
+                           $val['test_lesson_fail_flag']==101 || $val['test_lesson_fail_flag']==102){
+                            $val['lesson_base'] = "0";
+                        }else{
+                            $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
+                                $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
+                            );
+                        }
+                        $val['lesson_reward'] = "0";
+                    }
+
+                    if($val['lesson_base']!=0){
+                        $base_list['type']  = 1;
+                        $base_list['info']  = "老师基本工资";
+                        $base_list['money'] = strval($val['lesson_base']);
+                    }
+
+                    $val['lesson_full_reward'] = 0;
+                    if($val['lesson_full_reward']>0){
+                        $full_list['type']  = 2;
+                        $full_list['info']  = "全勤奖";
+                        $full_list['money'] = $val['lesson_full_reward'];
+                    }
+
+                    if(!empty($base_list)){
+                        $val['list'][] = $base_list;
+                    }
+                    if(!empty($reward_list)){
+                        $val['list'][] = $reward_list;
+                    }
+                    if(!empty($full_list)){
+                        $val['list'][] = $full_list;
+                    }
+                }
+
+                $this->get_lesson_cost_info($val,$check_num);
+                $lesson_price = $val['lesson_base']+$val['lesson_reward']+$val['lesson_full_reward']-$val['lesson_cost'];
+                $lesson_list[$key]['lesson_base']   = strval($val['lesson_base']);
+                $lesson_list[$key]['lesson_reward'] = strval($val['lesson_reward']+$val['lesson_full_reward']);
+                $lesson_list[$key]['lesson_cost']   = $val['lesson_cost'];
+                $lesson_list[$key]['lesson_price']  = strval($lesson_price);
+                $lesson_list[$key]['stu_nick']      = $val['stu_nick'];
+                $lesson_list[$key]['lesson_time']   = date("m.d H:i",$val['lesson_start'])."-".date("H:i",$val['lesson_end']);
+                $lesson_list[$key]['late_status']   = $val['deduct_come_late'];
+                $lesson_list[$key]['lesson_type']   = $val['lesson_type'];
+                $lesson_list[$key]['lessonid']      = $val['lessonid'];
+                if(isset($val['list'])){
+                    $lesson_list[$key]['list'] = $val['list'];
+                }
+                $time_list[$key]['time'] = $val['lesson_start'];
+            }
+            array_multisort($time_list,SORT_DESC,$lesson_list);
+        }
+
+        $teacher_reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$start_time,$end_time);
+        $reward_ex['name']         = "奖金";
+        $reward_compensate['name'] = "补偿";
+        $reward_reference['name']  = "推荐";
+        foreach($teacher_reward_list as $r_val){
+            $reward['add_time_str'] = \App\Helper\Utils::unixtime2date($r_val["add_time"],"Y-m-d");
+            $reward['money']        = (float)$r_val['money']/100;
+            $reward['money_info']   = E\Ereward_type::get_desc($r_val['type']);
+            if(in_array($r_val['type'],[E\Ereward_type::V_1,E\Ereward_type::V_2,E\Ereward_type::V_5])){
+                \App\Helper\Utils::check_isset_data($reward_ex['price'],$reward['money']);
+
+                if($r_val['type']==E\Ereward_type::V_2 && $r_val['userid']>0){
+                    $stu_nick = $this->cache_get_student_nick($r_val['userid']);
+                    $reward['money_info'] .= "|".$stu_nick;
+                }
+
+                $reward["type"] = 1;
+                $reward_ex["reward_list"][] = $reward;
+            }elseif(in_array($r_val['type'],[E\Ereward_type::V_3,E\Ereward_type::V_4])){
+                \App\Helper\Utils::check_isset_data($reward_compensate['price'],$reward['money']);
+                $reward["type"] = 2;
+                $reward_compensate["reward_list"][] = $reward;
+            }elseif(in_array($r_val['type'],[E\Ereward_type::V_6])){
+                \App\Helper\Utils::check_isset_data($reward_reference['price'],$reward['money']);
+                $reward['money_info'] = $this->t_teacher_info->get_nick($r_val['money_info']);
+                $reward["type"] = 1;
+                $reward_reference["reward_list"][] = $reward;
+            }
+        }
+        $this->get_array_data_by_count($all_reward_list,$reward_ex);
+        $this->get_array_data_by_count($all_reward_list,$reward_compensate);
+        $this->get_array_data_by_count($all_reward_list,$reward_reference);
+        $arr['data'] = $lesson_list;
+        $arr['all_reward_list'] = $all_reward_list;
+        return json_encode($arr);
+    }
+
+    public function get_array_data_by_count(&$array,$check_array,$num=1){
+        if(count($check_array)>$num){
+            $array[]=$check_array;
+        }
+    }
+
 
     public function update_comment_pre_listen(){ // 协议编号:1011
         $teacherid    = $this->get_teacherid();

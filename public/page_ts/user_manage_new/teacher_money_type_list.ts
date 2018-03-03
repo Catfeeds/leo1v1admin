@@ -3,7 +3,7 @@
 
 $(function(){
     function load_data(){
-        $.reload_self_page ( {
+        $.reload_self_page({
 			      teacher_money_type : $('#id_teacher_money_type').val(),
 			      level              : $('#id_level').val()
         });

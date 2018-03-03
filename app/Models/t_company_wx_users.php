@@ -28,12 +28,16 @@ class t_company_wx_users extends \App\Models\Zgen\z_t_company_wx_users
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list_for_manager() {
+    public function get_all_list_for_manager($uid=-1) {
+        $where_arr=[
+            ["m.uid=%u",$uid,-1]  
+        ];
         $sql = $this->gen_sql_new("select m.uid,m.account,m.phone,u.userid,m.power,u.department,u.isleader "
                                   ."from %s u left join %s m on u.mobile=m.phone "
-                                  ."where m.uid != ''",
+                                  ."where m.uid != '' and %s",
                                   self::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }

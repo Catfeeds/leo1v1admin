@@ -23,15 +23,16 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     {
         parent::__construct();
     }
+
     public function get_test_list( $page_info, $order_by_str,  $grade ) {
         $where_arr=[] ;
         // int , 枚举, 枚举列表 ,都用这个
         $this->where_arr_add_int_or_idlist($where_arr,"grade", $grade );
 
         $sql = $this->gen_sql_new("select  userid, nick,realname,  phone, grade "
-                              ." from %s ".
+                                  ." from %s ".
                                   "  where  %s  $order_by_str ",
-                              self::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
                                   $where_arr
         );
 
@@ -3600,6 +3601,34 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_stop_student_list($start_time,$end_time){
+        $where_arr=[
+            ["s.type_change_time>=%s",$start_time,0],
+            ["s.type_change_time<%s",$end_time,0],
+            "s.type in (2,4)",
+            "s.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select s.nick,s.userid,a.nick ass_name,s.grade,s.type "
+                                  ." from %s s left join %s a on s.assistantid = a.assistantid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    //根据学员类型获取学生列表
+    public function get_stu_detail_list_by_type($type){
+        $where_arr=[
+            ["type=%s",$type,0],
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select userid from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
 
     }

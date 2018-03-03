@@ -915,7 +915,9 @@ class ajax_deal2 extends Controller
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
         $this->t_teacher_info->field_update_list($teacherid,[
             "train_through_new"   =>1,
-            "train_through_new_time"=>$create_time
+            "train_through_new_time"=>$create_time,
+            "trial_lecture_is_pass"=>1,
+            "wx_use_flag" =>1
         ]);
 
         // $new_train_flag = $this->t_teacher_info->get_new_train_flag($teacherid);
@@ -2689,7 +2691,14 @@ class ajax_deal2 extends Controller
         $cc_flag = 0;
         if($admin_revisiterid>0){
             $del_flag = $this->t_manager_info->get_del_flag($admin_revisiterid);
-            if($del_flag==0){
+            $cc_account = $this->t_manager_info->get_account($admin_revisiterid);
+            $new_account = $cc_account.".";
+            $admin_new  = $this->t_manager_info->get_id_by_account( $new_account);
+            $del_flag_new=1;
+            if($admin_new>0){
+                $del_flag_new = $this->t_manager_info->get_del_flag($admin_new);
+            }
+            if($del_flag==0 || $del_flag_new==0){
                 $cc_flag=1;
             }
         }

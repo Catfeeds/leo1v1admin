@@ -1403,9 +1403,13 @@ class user_manage_new extends Controller
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-
+        $group_list = json_encode($this->get_group_list($list));
         $this->set_filed_for_js("main_type_flag",$main_type_flag);
-        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),["monthtime_flag"=>$monthtime_flag]);
+        $this->set_filed_for_js("monthtime_flag",$monthtime_flag);
+        $this->set_filed_for_js("group_list",$group_list);
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),[
+            "monthtime_flag"=>$monthtime_flag,
+        ]);
     }
 
     public function admin_group_manage_fulltime(){
@@ -1414,7 +1418,15 @@ class user_manage_new extends Controller
 
     }
 
-
+    public function get_group_list($list){
+        $group_arr = [];
+        foreach($list as $key=>$item){
+            if($item['level'] == 'l-4' && $item['main_type']==2){
+                $group_arr[$item['groupid']] = $item['group_name'];
+            }
+        }
+        return $group_arr;
+    }
 
     public function edit_seller_time(){
 
@@ -1822,8 +1834,6 @@ class user_manage_new extends Controller
         }
 
         return $this->pageView(__METHOD__, null, ["tr_asc_info"=>$tr_asc_info, "tr_desc_info" =>$tr_desc_info ,"list_tq_asc" => $list_tq_asc, "list_tq_desc" => $list_tq_desc]);
-
-
     }
 
     public function power_group_edit_new() {
@@ -2893,7 +2903,8 @@ class user_manage_new extends Controller
 
     public function lesson_student_grade_list() {
         list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01"));
-        $ret_info=$this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
+
+        $ret_info = $this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
         foreach($ret_info["list"] as &$item ) {
             $this->cache_set_item_student_nick($item);
         }
@@ -5229,10 +5240,16 @@ class user_manage_new extends Controller
         return $this->Pageview(__METHOD__,$ret_list,[]);
     }
 
+    /**
+     * 用户管理/加载权限
+     */
     public function flush_power() {
         $tea = \App\Helper\Config::get_menu();
-        $filter = ["/user_manage_new/power_group_edit", "/user_manage_new/power_group_edit_new"];
-
+        if(\App\Helper\Utils::check_env_is_release()){
+            $filter = ["/user_manage_new/power_group_edit", "/user_manage_new/power_group_edit_new"];
+        }else{
+            $filter = [];
+        }
         foreach($tea as $item) { // 过滤核心数据
             if ($item["name"] == "核心数据") {
                 if (!isset($item["list"])) continue;
@@ -5249,7 +5266,7 @@ class user_manage_new extends Controller
         }else{
             $groupid = 52; // 非金钱管理账户
         }
-        
+
         $permission = $this->t_authority_group->get_group_authority($groupid);
         $old = $permission;
 

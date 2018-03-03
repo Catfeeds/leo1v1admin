@@ -113,7 +113,50 @@ message order_detail {
 message get_stu_info {
   string nickname=1 ;  //昵称
   uint32 gender=2 ;  //性别
-  string birth=3 ;  //生日
-  uint32 age=4 ;  //年龄
+  string head_img=3 ;  //头像
+  string difficlty=4 ;  //级别
+  uint32 score=5 ;  //积分
+  uint32 hour_total=6 ;  //完成课时
+  uint32 time_total=7 ;  //累计学习时间
 }
+message get_stu_info_app {
+  string nickname=1 ;  //昵称
+  uint32 gender=2 ;  //性别
+  string head_img=3 ;  //头像
+  string difficlty=4 ;  //级别
+  uint32 score=5 ;  //积分
+  uint32 hour_total=6 ;  //完成课时
+  uint32 time_total=7 ;  //累计学习时间
+  uint32 userid=8 ;  //用户id
+}
+message address_list {
+  uint32 id = 1; // 地址id
+  string province = 2; // 省
+  string city = 3; // 市
+  string county = 4; // 县  
+  string address = 5; //  具体地址 
+  string phone = 6; //  电话 
+  string username = 7; //  姓名 
+  string is_default = 8; //  是否设为默认地址 
+}
+message get_stu_info_for_change {
+  string head_img = 1; // 头像地址
+  string nickname = 2; // 昵称
+  string birth = 3; // 出生日期
+  string age = 4; // 年龄
+
+  string address = 5; //  默认的收货地址 可能为空
+  string address_id = 6; //  默认的收货地址id 可能为空
+}
+
+message get_test_time {
+  string day = 1; // 日期
+  string week = 2; // 星期
+  common.time_list time_list= 3; 
+}
+
+message time_list{
+  string start_time = 1; //上课时间
+}
+
 

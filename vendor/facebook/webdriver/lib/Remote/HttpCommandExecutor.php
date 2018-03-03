@@ -151,7 +151,6 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
     {
         $this->url = $url;
         $this->curl = curl_init();
-
         if (!empty($http_proxy)) {
             curl_setopt($this->curl, CURLOPT_PROXY, $http_proxy);
             if (!empty($http_proxy_port)) {
@@ -178,8 +177,8 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
                 'Accept: application/json',
             ]
         );
-        $this->setRequestTimeout(30000);
-        $this->setConnectionTimeout(30000);
+        $this->setRequestTimeout(5000);
+        $this->setConnectionTimeout(5000);
     }
 
     /**
@@ -269,11 +268,9 @@ class HttpCommandExecutor implements WebDriverCommandExecutor
         if ($http_method === 'POST' && $params && is_array($params)) {
             $encoded_params = json_encode($params);
         }
-
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $encoded_params);
 
         $raw_results = trim(curl_exec($this->curl));
-
         if ($error = curl_error($this->curl)) {
             $msg = sprintf(
                 'Curl error thrown for http %s to %s',

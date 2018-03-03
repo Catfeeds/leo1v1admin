@@ -1,0 +1,119 @@
+syntax = "proto3";
+package common;
+option php_namespace = "Proto\\class_api\\common"; 
+
+
+
+message get_check_lesson_end_item_t {
+  string room_id =1 ;  //  like : l_42623y23y0
+  uint32 lessonid =2 ;  //  课程id 
+  uint32 teacherid =3 ;  //  老师id 
+}
+
+message get_office_cmd_item_t {
+  /*
+        $= @$cmd_arr["office_device_type"];
+        $= @$cmd_arr["device_opt_type"];
+        $= @$cmd_arr["device_sub_type"];
+        $= @$cmd_arr["device_id"];
+        $ = @$cmd_arr[""];
+        */
+
+  uint32 office_device_type=1 ;  //  
+  uint32 device_opt_type=2 ;  //  
+  uint32 device_sub_type=3 ;  //  
+  uint32 device_id =4 ;  //  
+  uint32  value = 5 ;  //  
+}
+
+message stu_get_course_list {
+  string subject_str=1 ;  //科目  
+  string grade_str=2 ;  //年级
+  string course_name=3 ;  //课程包名称
+  string begin_time=4 ;  //开课时间
+  uint32 lesson_total=5 ;  //总课时数
+  uint32 course_id=6 ;  //课程包id
+  uint32 remain_lesson_num=7 ;  //剩余最大课时数
+  uint32 stu_left_num=8 ;  //学生可以用课时
+ 
+}
+
+message stu_study_progress {
+  uint32 lesson_num=1 ;  //课程总数
+  uint32 lessoned_num=2 ;  //已上课程数
+  uint32 week_lesson_num=3 ;  //本周课程总数
+  uint32 week_lessoned_num=4 ;  //本周已上课程数
+  string nickname=5 ;  //昵称
+  uint32 gender=6 ;  //性别
+  string birth=7 ;  //生日
+  uint32 age=8 ;  //年龄
+
+}
+
+message stu_lesson_info {
+  string course_type_str=1 ;  //课程包类型
+  string subject_str=2 ;  //科目
+  string course_name=3 ;  //课程包名称
+  string nick=4 ;  //老师昵称
+  string face=5 ;  //老师头像链接
+  string begin_time=6 ;  //上课时间格式 例如:2018-01-11 10:00:00
+  string week_hour=7 ;  //上课时间 星期和时间组合 例如: 110 周一十点  ; 周日上课 则为: 090 周日九点
+}
+
+message stu_course_info {
+  string course_name=1 ;  //课程包名称
+  string all_num=2 ;  //课包总课时
+  string over_num=3 ;  //已上课时
+}
+message test_lesson {
+  uint32 sur_num=1 ;  //剩余试听课申请和修改次数
+}
+message package_list {
+  string name=1 ;  //套餐名称
+  string content=2 ;  //套餐描述
+  uint32 sale_num=3 ;  //课时数
+  string course_type_str=4 ;  //课程类型
+  uint32 give_num=5 ;  //赠送课时数
+  string give_course_type_str=6 ;  //赠送课程类型
+  uint32 sale_money=7 ;  //总金额
+  uint32 give_money=8 ;  //优惠金额
+  uint32 total_money=9 ;  //实际金额
+  string give_money_reason=10 ;  //优惠原因
+  string valid_period_desc=11 ;  //有效期
+}
+
+message stu_apply_list {
+  string course_name=1 ;  //课程包名称
+  uint32 lesson_total=2 ;  //完整课包总课时数
+  string subject_str=3 ;  //科目
+  string grade_str=4 ;  //年级
+  string apply_time=5 ;  //用户申请时间
+  string status_str=6 ;  //处理状态
+  uint32 consume_lesson_num=7 ;  //学生兑换时消耗的课时数
+  string lesson_time=8 ;  //学生开课时间
+}
+
+message order_detail {
+  uint32 id=1; //订单id,唯一标识
+  string contractid=2; //合同编号
+  string order_time=3; //下单时间 Y-m-d H:i:s类型(下同)
+  string pay_time=4; //付款时间
+  string expired_time=5;//订单过期时间
+  string price=6 ;  //订单总金额 单位元(下同)
+  uint32 contract_status=7 ;  //合同状态 0 未付款 1执行中 2 已结束 3 提前终止
+  uint32 package_id=8 ;  //(以下为套餐信息) 套餐id 
+  string package_sale_money=9 ;  //套餐销售价格
+  string package_give_money=10 ;  //套餐折扣价格
+  string package_name=11 ;  //套餐名称
+  string package_desc=12 ;  //套餐描述
+  string poster=13 ;  //海报
+  string package_lesson_num=14;//套餐总课时数
+}
+
+message get_stu_info {
+  string nickname=1 ;  //昵称
+  uint32 gender=2 ;  //性别
+  string birth=3 ;  //生日
+  uint32 age=4 ;  //年龄
+}
+

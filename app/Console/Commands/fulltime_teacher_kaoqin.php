@@ -39,6 +39,7 @@ class fulltime_teacher_kaoqin extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+      
         $time = time();
         $h = date("H");
 

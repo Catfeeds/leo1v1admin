@@ -63,10 +63,10 @@ class update_company_wx_data extends Job implements ShouldQueue
                 $redis->lPush('flush_company_wx_data', date('Y-m-d H:i:s',time()).'加载部门为'.$department.'下的用户数据开始');
                 $users = $this->get_company_wx_data($url, 'userlist');
                 if ($users) {
-                    //$t_company_wx_users->row_delete_for_department($department); // 删除以前的数据
+                    $t_company_wx_users->row_delete_for_department($department); // 删除以前的数据
                     foreach($users as $item) {
                         $depart = array_flip($item['department']);
-                        if (in_array($department.$item['userid'], $peo)) continue; //判断当前用户是否已存在
+                        //if (in_array($department.$item['userid'], $peo)) continue; //判断当前用户是否已存在
                         $t_company_wx_users->row_insert([ // 加载用户数据
                             "userid" => $item['userid'],
                             "name" => $item['name'],

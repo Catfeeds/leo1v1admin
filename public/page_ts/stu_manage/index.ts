@@ -36,6 +36,7 @@ $(function(){
                         dataType: 'json',
                         data : {
                             'studentid' : studentid,
+                            'sid' : studentid,
                             'phone'     : $phone.val(),
                             'parent_name'     : $parent_name.val(),
                             'parent_type'     : $parent_type.val()

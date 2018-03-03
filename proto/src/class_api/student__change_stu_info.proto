@@ -1,15 +1,17 @@
 syntax = "proto3";
 import "class_api/common.proto";
 
-//__CMD: 1016
-//__DESC: 1.2 提交个人信息 http://api.class.leo1v1.com/student/change_stu_info?nick=张三&birth=2010-10-10&gender=1
+//__CMD: 1106
+//__DESC: 6.1 学生修改信息 https://api-class.leo1v1.com/student/change_stu_info?head_img=http://ebtestpub.qiniudn.com/acff9d3e5274dcef5f981d4f57aaf82c1519960193303.jpg&nick=微微&gender=1&address_id=2
 //__TAGS: for_app,for_website
 
 
 message in  {
-   	string nick = 1; //昵称
-   	string birth = 2; //生日
-   	uint32 gender = 3; //性别 1 男  2 女
+  	string head_img = 1; // 头像
+  	string nick = 2; // 昵称
+  	string birth = 3; // 生日日期 如: 2010-10-10
+   	uint32 gender = 4; // 性别  
+   	uint32 address_id = 5; // 默认地址的id  
 }
 
 message out {

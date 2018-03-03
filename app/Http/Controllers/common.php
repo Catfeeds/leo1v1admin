@@ -1516,15 +1516,15 @@ class common extends Controller
 
         if ($is_public) {
             $ret_arr = [
+                "domain" => $qiniu_config["public"] ["url"],
                 "bucket" => $public_bucket,
-                "domain" =>  $qiniu_config["public"] ["url"],
                 "token"  => $this->get_token($public_bucket),
             ];
         }else{
             $ret_arr = [
                 "domain" => $qiniu_config["private_url"] ["url"],
-                "token"  => $this->get_token($private_bucket),
                 "bucket" => $private_bucket,
+                "token"  => $this->get_token($private_bucket),
             ];
         }
         return $this->output_succ($ret_arr);
@@ -1543,8 +1543,6 @@ class common extends Controller
         return $this->output_succ($ret_arr);
     }
 
-
-
     public function upload_qiniu() {
         $file = Input::file('file');
         $file_name_fix=$this->get_in_str_val("file_name_fix");
@@ -1555,8 +1553,7 @@ class common extends Controller
         $secretKey = $qiniu_config['secret_key'];
 
         // 构建鉴权对象
-
-        $private_bucket = $qiniu_config["private_url"] ['bucket'];
+        $private_bucket = $qiniu_config["private_url"]['bucket'];
 
         if($file->isValid()){
             //处理列
@@ -1622,9 +1619,6 @@ class common extends Controller
 
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-
-
-
 
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';

@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1000
-//__DESC: 1.1 登录 http://api.class.leo1v1.com/account/login?role=1&phone=18898881886&passwd=123456&remember_me=1
+//__DESC: 1.1 登录 https://api-class.leo1v1.com/account/login?role=1&phone=13816151820&passwd=123456&remember_me=1
 //__TAGS: for_app
 
 
@@ -14,6 +14,7 @@ message in  {
 }
 
 message out {
-  int32  id = 1 ;//学生id
+  string  access_token = 1 ;//访问令牌,长期有效
+  //common.get_stu_info data= 2 ;//学生信息
 }
 

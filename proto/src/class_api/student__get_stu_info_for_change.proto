@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1105
+//__DESC: 6.0 修改页-获取个人信息 https://api-class.leo1v1.com/student/get_stu_info_for_change
+//__TAGS: for_app,for_website
+
+
+message in  {
+}
+
+message out {
+  common.get_stu_info_for_change data = 1;// 个人信息
+}
+
