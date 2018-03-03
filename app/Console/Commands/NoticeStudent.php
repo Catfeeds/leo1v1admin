@@ -59,54 +59,47 @@ class NoticeStudent extends Command
         } elseif($type == 3) {
             $end_time   = time()-300;
             $start_time = $end_time-60;
-            $start_time = strtotime("2018-3-2");
-            $end_time = time();
         }
         $now         = date("Y-m-d",time());
         $lesson_list = $task->t_lesson_info->get_lesson_stu_late($start_time,$end_time,$type);
         foreach($lesson_list as $val){
             if ($type == 3) {
-                echo $task->cache_get_teacher_nick($val["userid"]);
                 $data = [ // 可变
                     "name"        => $val["realname"],
                     "lesson_time" => date("y年m月d日h:i:s", $val["lesson_start"]),
                     "subject"     => E\Esubject::get_desc($val["subject"]),
-                    'phone' => $val["phone"]
                 ];
-                var_dump($data);
-                // //打电话方法
-                // $type = "125735110"; // 固定
-                // $phone = "13585593461";
-                // $ret = \App\Helper\Utils::tts_common($phone, $type, $data);
-                // dd($ret);
+                //打电话方法
+                $type = "125735110"; // 固定
+                $phone = $val["phone"];
+                \App\Helper\Utils::tts_common($phone, $type, $data);
             } else {
-                echo '调用这里' ;
-                //f($val['assistantid']>0 && $type==1){
-            //     $account     = $task->t_assistant_info->get_account_by_id($val['assistantid']);
-            //     $url         = "/supervisor/monitor_ass?date=".$now."&userid=".$val['userid'];
-            //     $account_str = "助教-".$account;
-            // }elseif($val['lesson_type']==2){
-            //     $account = $task->t_test_lesson_subject_sub_list->get_lesson_admin($val['lessonid']);
-            //     $url         = "/supervisor/monitor_seller?date=".$now."&userid=".$val['userid'];
-            //     $account_str = "申请人-".$account;
-            // }
+                if($val['assistantid']>0 && $type==1){
+                    $account     = $task->t_assistant_info->get_account_by_id($val['assistantid']);
+                    $url         = "/supervisor/monitor_ass?date=".$now."&userid=".$val['userid'];
+                    $account_str = "助教-".$account;
+                }elseif($val['lesson_type']==2){
+                    $account = $task->t_test_lesson_subject_sub_list->get_lesson_admin($val['lessonid']);
+                    $url         = "/supervisor/monitor_seller?date=".$now."&userid=".$val['userid'];
+                    $account_str = "申请人-".$account;
+                }
 
-            // if(isset($account_str)){
-            //     $stu_nick   = $val['realname'];
-            //     $from_user  = "学生-$stu_nick";
-            //     $header_msg = $val['lessonid'].$first_str;
-            //     $msg        = $account_str;
-            //     // $ret         = $task->t_manager_info->send_template_msg($account,$template_id,[
-            //     //     "first"    => $val['lessonid'].$first_str,
-            //     //     "keyword1" => "学生-$stu_nick",
-            //     //     "keyword2" => $account_str,
-            //     //     "keyword3" => date("Y-m-d H:i:s"),
-            //     // ],$url);
-            //     $task->t_manager_info->send_wx_todo_msg($account,$from_user,$header_msg,$msg,$url);
-            //     \App\Helper\Utils::logger("student late for lesson, notice:".$account_str." this lessonid is".$val['lessonid']);
-            // }else{
-            //     \App\Helper\Utils::logger("student late for lesson, this lessonid is".$val['lessonid']." and not notice");
-            // }
+                if(isset($account_str)){
+                    $stu_nick   = $val['realname'];
+                    $from_user  = "学生-$stu_nick";
+                    $header_msg = $val['lessonid'].$first_str;
+                    $msg        = $account_str;
+                    // $ret         = $task->t_manager_info->send_template_msg($account,$template_id,[
+                    //     "first"    => $val['lessonid'].$first_str,
+                    //     "keyword1" => "学生-$stu_nick",
+                    //     "keyword2" => $account_str,
+                    //     "keyword3" => date("Y-m-d H:i:s"),
+                    // ],$url);
+                    $task->t_manager_info->send_wx_todo_msg($account,$from_user,$header_msg,$msg,$url);
+                    \App\Helper\Utils::logger("student late for lesson, notice:".$account_str." this lessonid is".$val['lessonid']);
+                }else{
+                    \App\Helper\Utils::logger("student late for lesson, this lessonid is".$val['lessonid']." and not notice");
+                }
 
             }
         }
