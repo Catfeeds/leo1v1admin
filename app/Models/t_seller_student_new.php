@@ -535,7 +535,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["require_admin_type=%u",$require_admin_type,-1]
             ];
             if($next_revisit_flag == 1){
-                $where_arr[] = "((ss.next_revisit_time>=$start_time and ss.next_revisit_time<$end_time) or (ss.last_succ_test_lessonid>0 and (ss.last_edit_time=0 or ss.last_revisit_time=0)))";
+                $where_arr[] = "((ss.next_revisit_time>=$start_time and ss.next_revisit_time<$end_time) or (ss.last_succ_test_lessonid>0 and (ss.last_edit_time=0 or ss.last_revisit_time=0)) and ll.lesson_end>=$start_time and ll.lesson_end<$end_time )";
             }elseif($favorite_flag>0){
                 $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
             }else{
@@ -3900,12 +3900,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_suc_no_call_list($adminid){
+    public function get_suc_no_call_list($adminid,$start_time,$end_time){
         $where_arr = [
             "last_succ_test_lessonid>0",
             "n.last_revisit_time<l.lesson_end or n.last_edit_time<l.lesson_end",
-            "l.lesson_end>1517414400",
         ];
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_end', $start_time, $end_time);
         $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $adminid);
         $sql=$this->gen_sql_new(
             " select n.userid,l.lessonid,n.phone "
