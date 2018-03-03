@@ -14,6 +14,11 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $qiniu_file_name=\App\Helper\Utils::qiniu_upload("/home/ybai/period_order_001.pdf");
+
+        //$ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");
+        return Config::get_qiniu_public_url()."/". $qiniu_file_name;
+
         $teacherid = 453296;
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         // $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
@@ -754,7 +759,7 @@ class test_jack  extends Controller
         // //$ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");
         // $pdf_file_url= \App\Helper\Config::get_qiniu_public_url()."/". $qiniu_file_name;
 
-        // //  $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
+        $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
 
         // dd($pdf_file_url);
         $time=strtotime("2017-12-01");
@@ -3034,6 +3039,34 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return strtoupper(md5($concatStr));
     }
 
+    // 兴业银行微信扫码支付
+    public function get_xingye_wx_url(){
+        ini_set('date.timezone','Asia/Shanghai');
+        require_once  app_path("Libs/WxpayAPI/lib/init.php");
+        // $input = new WxPayUnifiedOrder();
+        $input= new \WxpayAPI\WxPayUnifiedOrder();
+        $input->SetBody("test");
+        $input->SetAttach("test");
+        $input->SetOut_trade_no(\WxpayAPI\WxPayConfig::MCHID.date("YmdHis"));
+        $input->SetTotal_fee("1");
+        $input->SetTime_start(date("YmdHis"));
+        $input->SetTime_expire(date("YmdHis", time() + 600));
+        $input->SetGoods_tag("test");
+        $input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
+        $input->SetTrade_type("NATIVE");
+        $input->SetProduct_id("123456789");
+
+        if($input->GetTrade_type() == "NATIVE")
+		{
+			$result = \WxpayAPI\WxPayApi::unifiedOrder($input);
+		}
+
+        $url2 = $result["code_url"];
+        dd($url2);
+
+
+
+    }
 
 
 
