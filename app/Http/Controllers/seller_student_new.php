@@ -1969,7 +1969,8 @@ class seller_student_new extends Controller
     }
 
     public function check_lesson_end(){
-        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_account_id());
+        list($start_time,$end_time) = $this->get_in_date_range(-7, 0);
+        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_account_id(),$start_time,$end_time);
         if($ret){
             return count($ret);
         }
