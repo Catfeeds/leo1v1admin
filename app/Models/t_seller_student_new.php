@@ -3885,7 +3885,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_auto_free_list(){
         $where_arr = [
             "n.admin_revisiterid>0",
-            "n.orderid>0",
+            "n.orderid=0",
             "m.account_role=2",
         ];
         $sql=$this->gen_sql_new(
@@ -3903,7 +3903,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_auto_free_list_item(){
         $where_arr = [
             "n.admin_revisiterid=1408",
-            "n.orderid>0",
+            "n.orderid=0",
             "m.account_role=2",
         ];
         $sql=$this->gen_sql_new(
