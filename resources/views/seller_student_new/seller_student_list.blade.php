@@ -366,6 +366,7 @@
                         <button class="btn  " id="id_new_no_called_count" ></button>
                         <button class="btn  " id="id_no_called_count" ></button>
                         <button class="btn  " id="id_next_revisit" value="{{$next_revisit_flag}}"></button>
+                        <button class="btn  " id="id_no_lesson_call_flag" value="{{$no_lesson_call_flag}}"></button>
                         <button class="btn  " id="id_today_free" ></button>
                         <button  class="btn  " id="id_lesson_today"></button>
                         <button  class="btn  " id="id_lesson_tomorrow" ></button>
