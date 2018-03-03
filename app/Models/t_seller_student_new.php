@@ -3908,7 +3908,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         ];
         $this->where_arr_add_int_field($where_arr, 'n.admin_revisiterid', $adminid);
         $sql=$this->gen_sql_new(
-            " select n.userid,l.lessonid "
+            " select n.userid,l.lessonid,n.phone "
             ." from %s n "
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." where %s "

@@ -54,7 +54,8 @@ class seller_student_system_assign extends cmd_base
             $seller_level=$item["seller_level"];
             $def_new_count=@$config[$seller_level]; //每日抢新配额
             // $no_return_call_num = $item['no_return_call_num'];//试听成功未回访数量
-            $no_return_call_list = $this->task->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
+            // $no_return_call_list = $this->task->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
+            $no_call_test_list = $this->task->t_seller_student_new->get_suc_no_call_list($adminid);
             $no_return_call_num = count($no_return_call_list);
             $no_return_call_arr = array_column($no_return_call_list, 'phone');
             $no_return_call_str = join(',', $no_return_call_arr);
