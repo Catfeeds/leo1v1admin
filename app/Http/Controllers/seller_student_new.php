@@ -1156,6 +1156,129 @@ class seller_student_new extends Controller
         return $this->seller_student_list();
     }
 
+    //@desn:转介绍统计
+    //@param:
+    public function referral_statistics(){
+        list($start_time, $end_time  ) =$this->get_in_date_range_day(0);
+        $principal = $this->get_in_int_val('principal',-1);
+        $groupid = $this->get_in_int_val('groupid',-1);
+        $create = $this->get_in_int_val('create',-1);
+        $allocation = $this->get_in_int_val('allocation',-1);
+        $type = $this->get_in_int_val('type',-1);
+        $search = $this->get_in_str_val('search');
+        $page_info= $this->get_in_page_info();
+        $main_group = [];
+        $allocation_list = [];
+        //获取所有销售和助教大区
+        $main_group = $this->t_admin_main_group_name->get_list_by_main_type([1,2]);
+        $ret_info = $this->t_seller_student_new_b2->get_referral_statistics(
+            $start_time, $end_time,$principal,$groupid,$create,$allocation,$type,$search,$page_info
+        );
+        //获取所有分配人
+        $allocation_list = $this->t_seller_student_new_b2->get_allocation_list();
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
+            E\Eaccount_role::set_item_value_str($item,'create_role');
+            E\Eaccount_role::set_item_value_str($item,'admin_revisiter_role');
+            if($item['create_role']){
+                //项目上线之后存在创建人
+                if($item['create_role'] == E\Eaccount_role::V_2){
+                    //销售自产
+                    $item['allocation_type'] = '销售自产';
+                }elseif($item['create_role'] == E\Eaccount_role::V_1){
+                    //助教创建
+                    if($item['origin_assistantid'] == $item['admin_revisiterid'])
+                        $item['allocation_type'] = '助教自跟';
+                    else
+                        $item['allocation_type'] = '助转销';
+                }
+            }else{
+                $item['allocation_type'] = '未设置';
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info,[
+            'main_group' => $main_group,
+            'allocation_list' => $allocation_list
+        ]);
+    }
+
+    //@desn:获取转介绍试听及签单情况
+    public function get_referral_info(){
+        $userid = $this->get_in_userid();
+        $is_test_lesson = '否';
+        $is_test_succ = '否';
+        $is_order = '否';
+        $order_money = '无';
+        if($userid){
+            $test_lesson_info = $this->t_test_lesson_subject_require->get_test_lesson_info_by_userid($userid);
+            if($test_lesson_info['test_lesson_count'])
+                $is_test_lesson = '是';
+            if($test_lesson_info['test_lesson_succ'])
+                $is_test_succ = '是';
+
+            $order_info = $this->t_order_info->get_order_info_for_referral($userid);
+            if($order_info['order_count'])
+                $is_order = '是';
+            if($order_info['order_money'])
+                $order_money = $order_info['order_money']/100;
+        }
+
+        return $this->output_succ([
+            'is_test_lesson' => $is_test_lesson,
+            'is_test_succ' => $is_test_succ,
+            'is_order' => $is_order,
+            'order_money' => $order_money
+        ]);
+    }
+
+    //@desn:转介绍统计-按层级展示
+    public function referral_statistics_by_layer(){
+        list($start_time, $end_time) =$this->get_in_date_range_month(0);
+        $show_type = $this->get_in_int_val('show_type',1);
+
+        if($show_type == 1){//按下单人角色
+            $test_lesson = $this->t_student_info->get_referral_test_lesson($start_time,$end_time);
+            dd($test_lesson);
+            $order_info = $this->t_student_info->get_referral_order_info($start_time,$end_time);
+            foreach($order_info as $order_item){
+                $principal_id=$order_item["admin_revisiterid"];
+                $principal_id=\App\Helper\Utils::array_item_init_if_nofind($test_lesson,$principal_id,["check_value" =>$principal_id]);
+
+                $test_lesson[$principal_id]["orderid_num"] = $order_item["orderid_num"];
+                $test_lesson[$principal_id]["userid_num"] = $order_item["orderid_num"];
+            }
+
+            //获取所有管理员信息
+            $admin_info = $this->t_manager_info->get_admin_member_list();
+            $admin_list = &$admin_info['list'] ;
+            foreach ($admin_list as $vk=>&$val){
+                $adminid=$val['adminid'];
+                if (!isset($ret_info[$adminid])){
+                    unset($admin_list[$vk]);
+                }else{
+                    $val['admin_revisiterid'] = $adminid ;
+                    $ret_item=@$test_lesson[$adminid];
+                    $val['referral_num'] = @$ret_item['referral_num'];
+                    $val['test_lesson_require'] = @$ret_item['test_lesson_require'];
+                    $val['test_lesson_succ'] = @$ret_item['test_lesson_succ'];
+                    $val['price_num'] = @$ret_item['price_num'];
+                    $val['orderid_num'] = @$ret_item['orderid_num'];
+                    $val['userid_num'] = @$ret_item['userid_num'];
+                }
+            }
+            $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list']);
+            dd($ret_info);
+            foreach( $ret_info as &$item ) {
+                E\Emain_type::set_item_value_str($item);
+                $item['price_num']  = @$item['price_num']/100;
+            }
+            return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["data_ex_list"=>$ret_info]);
+
+        }elseif($show_type == 2){//按分配类型
+            
+        }
+    }
+
     public  function get_hold_list() {
         $hold_flag=$this->get_in_int_val("hold_flag",0, E\Eboolean::class );
         $phone_name = trim($this->get_in_str_val("phone_name"));

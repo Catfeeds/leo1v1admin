@@ -612,6 +612,7 @@ class tongji2 extends Controller
                 $val['userid_num']        = @$ret_item['userid_num'];
             }
         }
+        // dd($admin_info['list']);
         $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list']);
         // dd($ret_info);
         foreach( $ret_info as &$item ) {
