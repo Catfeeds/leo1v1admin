@@ -2691,7 +2691,14 @@ class ajax_deal2 extends Controller
         $cc_flag = 0;
         if($admin_revisiterid>0){
             $del_flag = $this->t_manager_info->get_del_flag($admin_revisiterid);
-            if($del_flag==0){
+            $cc_account = $this->t_manager_info->get_account($admin_revisiterid);
+            $new_account = $cc_account.".";
+            $admin_new  = $this->t_manager_info->get_id_by_account( $new_account);
+            $del_flag_new=1;
+            if($admin_new>0){
+                $del_flag_new = $this->t_manager_info->get_del_flag($admin_new);
+            }
+            if($del_flag==0 || $del_flag_new==0){
                 $cc_flag=1;
             }
         }
