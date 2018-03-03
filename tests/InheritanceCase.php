@@ -1,8 +1,26 @@
 <?php
 namespace Tests;
 use Tests\TestCase;
+use App\Models\NewDB;
 
 class InheritanceCase extends TestCase{
+    function __construct() {
+        $this->afterApplicationCreated (
+            function(){
+                $this->beginTransaction();
+            }
+        );
+    }
+
+    public function beginTransaction() {
+        $arr=["" ];
+        foreach($arr as $item ) {
+            $db=NewDB::get($item);
+            $db->resetTransation();
+            $db->beginTransaction();
+        }
+    }
+
 
     public function noSeeInNewDB( $table, $where_arr ){
         $count=$this->getCountFromDB( $table,$where_arr);

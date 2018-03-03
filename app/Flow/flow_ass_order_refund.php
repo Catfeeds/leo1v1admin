@@ -5,6 +5,8 @@ class flow_ass_order_refund  extends flow_base{
 
 
     static $type= E\Eflow_type::V_ASS_ORDER_REFUND ;
+    static $node_map= [];
+
 
     static $node_data=[
 
@@ -175,6 +177,11 @@ class flow_ass_order_refund  extends flow_base{
         $flag=\App\Helper\Utils::check_env_is_release() ;
         return [10, $flag?"班洁":"jim" , 1 ]; //自动通过
     }
+
+    //使用新版.
+    // static function get_next_node_info($node_type, $flowid, $adminid ) {
+    //     return static::get_next_node_info_new($node_type, $flowid, $adminid);
+    // }
 
 
     static function do_succ_end( $flow_info, $self_info ) {
