@@ -210,6 +210,21 @@ class flow_base{
             return 1;
         }
     }
+    static function check_is_master ( $args,  $flow_info, $self_info , $adminid ) {
+        $t_manager_info =  new \App\Models\t_manager_info();
+        $t_admin_group_user =  new \App\Models\t_admin_group_user();
+        $t_admin_group_name =  new \App\Models\t_admin_group_name();
+        $post_adminid=$flow_info["post_adminid"];
+        $groupid=$t_admin_group_user->get_groupid_value($post_adminid);
+        $item1=$t_admin_group_name->field_get_list($groupid, "master_adminid,up_groupid");
+
+        if ( $post_adminid==$item1["master_adminid"]){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
 
     static function do_function( $flow_function, $args , $flow_type,$node_type, $flow_info, $self_info , $adminid   ) {
         $flow_class  = \App\Flow\flow::get_flow_class($flow_type);
@@ -228,7 +243,15 @@ class flow_base{
                     "1" => "助教",
                     "2" => "销售",
                 ]
-            ]
+            ],
+            E\Eflow_function::V_CHECK_IS_MASTER => [
+                "arg_config" => [
+                ],
+                "return_config"  => [
+                    "1" => "是",
+                    "0" => "否",
+                ]
+            ]          
         ];
         /*
         return [

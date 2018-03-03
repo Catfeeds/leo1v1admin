@@ -14,6 +14,34 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $teacherid = 453296;
+        $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        // $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
+        //新版,发送入职前在线签订入职协议
+        /**
+         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+         * 标题课程 : 待办事项提醒
+         * {{first.DATA}}
+         * 待办主题：{{keyword1.DATA}}
+         * 待办内容：{{keyword2.DATA}}
+         * 日期：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+
+        $data=[];
+        $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        $data['first']    = $teacher_info["nick"]."老师您好，恭喜您通过模拟试听课考核，为了保护您的利益，请您签订《理优平台兼职老师入职协议》，之后您将正式成为理优平台兼职老师。";
+        $data['keyword1'] = "签订入职协议";
+        $data['keyword2'] = "签订《理优平台老师兼职协议》 ";
+        $data['keyword3'] = date("Y-m-d",time());
+        $data['remark']   = "点击此链接，签订入职协议";
+        $url = "http://wx-teacher.leo1v1.com/wx_teacher_web/agreement";
+        $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+        if($wx_openid){
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+        dd(111);
+
         $orderNo="1798399505210";
         $channel = $this->t_orderid_orderno_list->get_channel($orderNo);
         if(empty($channel)){
@@ -2793,8 +2821,8 @@ class test_jack  extends Controller
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 
-        // $url = 'https://umoney.baidu.com/edu/openapi/post';
-        $url = 'http://rdtest.umoney.baidu.com/edu/openapi/post';
+        $url = 'https://umoney.umoney.baidu.com/edu/openapi/post';
+        // $url = 'http://rdtest.umoney.baidu.com/edu/openapi/post';
 
         $userid = $this->t_order_info->get_userid($parent_orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email,grade,parentid");
@@ -2807,104 +2835,104 @@ class test_jack  extends Controller
             $class_list = [];
         }
         $courseid="";
-        // if($competition_flag==1){
-        //     $courseid_list=["SHLEOZ3101006","SHLEOZ3101007","SHLEOZ3101008","SHLEOZ3101009","SHLEOZ3101010"];
-        //     foreach($courseid_list as $v){
-        //         if(isset($class_list[4])){
-        //             $cl_list = $class_list[4];
-        //             $i=0;
-        //             foreach($cl_list as $p_item){
-        //                 if($p_item==$v){
-        //                     $i=1;
-        //                 }
-        //             }
-        //             if($i==0){
-        //                 $courseid = $v;
-        //                 break;
-        //             }
-        //         }else{
-        //             $courseid = $v;
-        //             break;
-        //         }
-        //     }
-        //     // $courseid = "SHLEOZ3101006";
-        //     $coursename = "思维拓展在线课程";
-        // }elseif($user_info["grade"] >=100 && $user_info["grade"]<200){
-        //     $courseid_list=["SHLEOZ3101001","SHLEOZ3101002","SHLEOZ3101003","SHLEOZ3101004","SHLEOZ3101005"];
-        //     foreach($courseid_list as $v){
-        //         if(isset($class_list[1])){
-        //             $cl_list = $class_list[1];
-        //             $i=0;
-        //             foreach($cl_list as $p_item){
-        //                 if($p_item==$v){
-        //                     $i=1;
-        //                 }
-        //             }
-        //             if($i==0){
-        //                 $courseid = $v;
-        //                 break;
-        //             }
-        //         }else{
-        //             $courseid = $v;
-        //             break;
-        //         }
-        //     }
+        if($competition_flag==1){
+            $courseid_list=["SHLEOZ3101006","SHLEOZ3101007","SHLEOZ3101008","SHLEOZ3101009","SHLEOZ3101010"];
+            foreach($courseid_list as $v){
+                if(isset($class_list[4])){
+                    $cl_list = $class_list[4];
+                    $i=0;
+                    foreach($cl_list as $p_item){
+                        if($p_item==$v){
+                            $i=1;
+                        }
+                    }
+                    if($i==0){
+                        $courseid = $v;
+                        break;
+                    }
+                }else{
+                    $courseid = $v;
+                    break;
+                }
+            }
+            // $courseid = "SHLEOZ3101006";
+            $coursename = "思维拓展在线课程";
+        }elseif($user_info["grade"] >=100 && $user_info["grade"]<200){
+            $courseid_list=["SHLEOZ3101001","SHLEOZ3101002","SHLEOZ3101003","SHLEOZ3101004","SHLEOZ3101005"];
+            foreach($courseid_list as $v){
+                if(isset($class_list[1])){
+                    $cl_list = $class_list[1];
+                    $i=0;
+                    foreach($cl_list as $p_item){
+                        if($p_item==$v){
+                            $i=1;
+                        }
+                    }
+                    if($i==0){
+                        $courseid = $v;
+                        break;
+                    }
+                }else{
+                    $courseid = $v;
+                    break;
+                }
+            }
 
-        //     //$courseid = "SHLEOZ3101001";
-        //     $coursename = "小学在线课程";
-        // }elseif($user_info["grade"] >=200 && $user_info["grade"]<300){
-        //     $courseid_list=["SHLEOZ3101011","SHLEOZ3101012","SHLEOZ3101013","SHLEOZ3101014","SHLEOZ3101015"];
-        //     foreach($courseid_list as $v){
-        //         if(isset($class_list[2])){
-        //             $cl_list = $class_list[2];
-        //             $i=0;
-        //             foreach($cl_list as $p_item){
-        //                 if($p_item==$v){
-        //                     $i=1;
-        //                 }
-        //             }
-        //             if($i==0){
-        //                 $courseid = $v;
-        //                 break;
-        //             }
-        //         }else{
-        //             $courseid = $v;
-        //             break;
-        //         }
-        //     }
+            //$courseid = "SHLEOZ3101001";
+            $coursename = "小学在线课程";
+        }elseif($user_info["grade"] >=200 && $user_info["grade"]<300){
+            $courseid_list=["SHLEOZ3101011","SHLEOZ3101012","SHLEOZ3101013","SHLEOZ3101014","SHLEOZ3101015"];
+            foreach($courseid_list as $v){
+                if(isset($class_list[2])){
+                    $cl_list = $class_list[2];
+                    $i=0;
+                    foreach($cl_list as $p_item){
+                        if($p_item==$v){
+                            $i=1;
+                        }
+                    }
+                    if($i==0){
+                        $courseid = $v;
+                        break;
+                    }
+                }else{
+                    $courseid = $v;
+                    break;
+                }
+            }
 
-        //     //  $courseid = "SHLEOZ3101012";
-        //     $coursename = "初中在线课程";
-        // }elseif($user_info["grade"] >=300 && $user_info["grade"]<400){
-        //     $courseid_list=["SHLEOZ3101016","SHLEOZ3101017","SHLEOZ3101018","SHLEOZ3101019","SHLEOZ3101020"];
-        //     foreach($courseid_list as $v){
-        //         if(isset($class_list[3])){
-        //             $cl_list = $class_list[3];
-        //             $i=0;
-        //             foreach($cl_list as $p_item){
-        //                 if($p_item==$v){
-        //                     $i=1;
-        //                 }
-        //             }
-        //             if($i==0){
-        //                 $courseid = $v;
-        //                 break;
-        //             }
-        //         }else{
-        //             $courseid = $v;
-        //             break;
-        //         }
-        //     }
+            //  $courseid = "SHLEOZ3101012";
+            $coursename = "初中在线课程";
+        }elseif($user_info["grade"] >=300 && $user_info["grade"]<400){
+            $courseid_list=["SHLEOZ3101016","SHLEOZ3101017","SHLEOZ3101018","SHLEOZ3101019","SHLEOZ3101020"];
+            foreach($courseid_list as $v){
+                if(isset($class_list[3])){
+                    $cl_list = $class_list[3];
+                    $i=0;
+                    foreach($cl_list as $p_item){
+                        if($p_item==$v){
+                            $i=1;
+                        }
+                    }
+                    if($i==0){
+                        $courseid = $v;
+                        break;
+                    }
+                }else{
+                    $courseid = $v;
+                    break;
+                }
+            }
 
-        //     // $courseid = "SHLEOZ3101016";
-        //     $coursename = "高中在线课程";
-        // }
+            // $courseid = "SHLEOZ3101016";
+            $coursename = "高中在线课程";
+        }
 
         // if(empty($courseid)){
         //     return $this->output_err("您申请百度有钱花的次数已达上限");
         // }
-        $courseid = "HXSD0101003";
-        $coursename = "思维拓展在线课程";
+        // $courseid = "HXSD0101003";
+        // $coursename = "思维拓展在线课程";
 
         // RSA加密数据
         $endata = array(

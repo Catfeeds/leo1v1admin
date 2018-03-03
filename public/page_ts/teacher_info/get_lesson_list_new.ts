@@ -36,7 +36,7 @@ $(function(){
         if(opt_data.lesson_type == 2){
             $cc_id.val(opt_data.cc_account);
         }else{
-            $cc_id.val(opt_data.ass_nick);
+            $cc_id.val(opt_data["ass_nick"]);
         }
         $lesson_id.val(opt_data.lessonid);
         //TODO
@@ -55,7 +55,7 @@ $(function(){
                           {
                               //TODO
                               //"cc_id"            : opt_data.cc_id,
-                              "stu_nick"         : opt_data.stu_nick,
+                              "stu_nick"         : opt_data["stu_nick"],
                               "lesson_time"      : opt_data.lesson_time,
                               "lesson_type"      : opt_data.lesson_type,
                               "lessonid"         : $lesson_id.val(),
@@ -90,7 +90,9 @@ $(function(){
             lesson_type : $('#id_lesson_type').val(),
             userid      : $('#id_student').val()
         });
-        loadpopup();
+
+        window["loadpopup"]();
+
 
     }
 
@@ -135,22 +137,22 @@ $(function(){
                     obj.parent().find('span.tag_warn').remove();
                     //console.log(result);
                     var tag_info = result.tag;
-             
-                    if($(tag_info).length == 0) {                      
+
+                    if($(tag_info).length == 0) {
                         if( subject > 0 && grade > 0){
                             obj.append('<option value="-1">暂无标签</option>');
                         }else{
                             obj.append('<option value="-1">资源类型、科目和年级是必选</option>');
                             $('#id_tag_four').css({'color':"#a2a2a2"});
-                        }                        
-                    } else {           
-                        var tag_str = '<option value="-1">全部</option>';                                               
-                        $.each($(tag_info),function(i,item){                        
+                        }
+                    } else {
+                        var tag_str = '<option value="-1">全部</option>';
+                        $.each($(tag_info),function(i,item){
                             tag_str = tag_str + '<option value='+item.id+'>'+item.tag+'</option>';
                         });
                         obj.append(tag_str);
                         if(opt_type == 1){
-                            obj.val(g_args.tag_four);
+                            obj.val(g_args["tag_four"]);
                         }
                     }
                 } else {
@@ -165,8 +167,8 @@ $(function(){
         if(!allow_arr ) {
             allow_arr = ['pdf'];
         }
-        var teacherid = $("#teacherid").text();
-        if(btn_id == 'id_teacher_upload' && (teacherid == 104225 || teacherid == 107325 || teacherid == 107327 
+        var teacherid = parseInt( $("#teacherid").text());
+        if(btn_id == 'id_teacher_upload' && (teacherid == 104225 || teacherid == 107325 || teacherid == 107327
         || teacherid == 107761 || teacherid == 108226 || teacherid == 392077)){
             allow_arr = ['pdf','ppt','pptx'];
         }
@@ -284,10 +286,12 @@ $(function(){
                 "l_stu_"+opt_data.lessonid,
                 function(){return stu_cw_url; },
                 function(url) {stu_cw_url=url;}, ret ,function(file_name) {
-                },back_flag,clear_file_id,look_pdf
+                },back_flag,clear_file_id,look_pdf,null
             );
             var id_teacher_list      = [];
             var id_teacher_desc_list = [];
+            console.log("生成其他资料");
+           
             for (var i=0;i<11;i++) {
 
                 var gen_item = function  ( i ) {
@@ -302,10 +306,10 @@ $(function(){
                     }
                     id_teacher_desc.find("input").val(tea_cw_url_list[i][1]);
 
-                    var type_arr = '';
+                    var type_arr = [];
                     if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
                         if(i>0) {
-                            var type_arr = ['pdf','mp3','mp4'];
+                            type_arr = ['pdf','mp3','mp4'];
                         }
                     }
                     //if(lesson_type <= 2000){
@@ -333,7 +337,7 @@ $(function(){
                 var item=gen_item(i);
                 id_teacher_list.push(item);
             }
-
+            console.log(id_teacher_list);
 
             console.log(id_teacher_desc_list);
             var id_teacher=gen_upload_item(
@@ -345,13 +349,13 @@ $(function(){
                 },function(url) {
                     tea_cw_url=url;
                 },ret,function(origin_file_name) {
-                },back_flag,clear_file_id,look_pdf
+                },back_flag,clear_file_id,look_pdf,null
             );
             var id_issue = gen_upload_item(
                 btn_issue_upload_id ,homework_status, "l_hw_" + opt_data.lessonid,
                 function(){return issue_url; },
                 function(url){issue_url=url;},ret,function(origin_file_name) {
-                },back_flag,clear_file_id,look_pdf
+                },back_flag,clear_file_id,look_pdf,null
             );
             var id_lesson_name        = $("<input/>");
             var id_point1             = $("<input/>");
@@ -378,11 +382,9 @@ $(function(){
 
             var red_tip = '<span style="color:red;">&nbsp;*</span>';
             var arr= [
-                ["----","课堂信息"],
                 ["课堂标题"+red_tip,  id_lesson_name],
                 ["知识点1",  id_point1],
                 ["知识点2",  id_point2],
-                ["----","上传课堂讲义"],
                 ["授课课件"+red_tip, id_teacher],
                 ["授课课件平铺状态", id_change],
                 ["授课课件上传时间", id_change_time],
@@ -398,7 +400,6 @@ $(function(){
             arr.push(['学生讲义'+red_tip, id_student]);
 
             if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
-                arr.push(["----","上传课堂作业"]);
                 arr.push(["学生作业",id_issue]);
                 arr.push(["作业题目数",id_pdf_question_count]);
             }
@@ -421,7 +422,7 @@ $(function(){
                         // check_lesson_info(id_pdf_question_count,'0');
                     // }
                     // if (lesson_type<1000) {
-                    check_lesson_info(id_lesson_name,"");
+                    check_lesson_info(id_lesson_name,"",null);
                     // }
 
                     //检查教师讲义
@@ -429,9 +430,9 @@ $(function(){
                     // check_lesson_info($('#id_teacher_upload_0'),'',1);
 
                     id_teacher.val(tea_cw_url);
-                    check_lesson_info(id_teacher,'');
+                    check_lesson_info(id_teacher,'',null);
                     id_student.val(stu_cw_url);
-                    check_lesson_info(id_student,'');
+                    check_lesson_info(id_student,'',null);
                     if ($(".false").length>0) {
                         BootstrapDialog.alert("请完善信息");
                         return false;
@@ -454,8 +455,6 @@ $(function(){
                     });
 
                     var tea_more_cw_url = JSON.stringify(tmp_arr);
-                    use_res_id_list = JSON.stringify(use_res_id_list);
-                    new_res_id_list = JSON.stringify(new_res_id_list);
                     tea_cw_pic_flag = id_tea_cw_pic.val();
                     $.do_ajax("/teacher_info/update_teacher_student_pdf",{
                         "lessonid"           : opt_data.lessonid,
@@ -477,8 +476,8 @@ $(function(){
                         "tea_cw_file_id"     : tea_cw_file_id,
                         "stu_cw_file_id"     : stu_cw_file_id,
                         "issue_file_id"      : issue_file_id,
-                        "use_res_id_list"    : use_res_id_list,
-                        "new_res_id_list"    : new_res_id_list,
+                        "use_res_id_list"    :  JSON.stringify(use_res_id_list),
+                        "new_res_id_list"    : JSON.stringify(new_res_id_list),
                     });
                 }
             },function(){
@@ -598,7 +597,7 @@ $(function(){
                                  return false;
                              }
                          });
-                         PDFObject.embed(ret.url, ".look-pdf-son");
+                         window["PDFObject"].embed(ret.url, ".look-pdf-son");
                          $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
                      // } else {
                      //     $.wopen(ret.url);
@@ -610,9 +609,9 @@ $(function(){
             }
 
             if(is_tea_flag > 0){
-                do_ajax('/teacher_info/tea_look_resource', {'tea_res_id':res_id,'tea_flag':tea_flag}, ret_func);
+                $.do_ajax('/teacher_info/tea_look_resource', {'tea_res_id':res_id,'tea_flag':tea_flag}, ret_func);
             } else {
-                do_ajax('/teacher_info/get_pdf_download_url_new',{'file_url':file_url},ret_func);
+                $.do_ajax('/teacher_info/get_pdf_download_url_new',{'file_url':file_url},ret_func);
             }
         };
 
@@ -621,7 +620,7 @@ $(function(){
             var ret_func = function(ret){
                  if(ret.ret == 0){
                      if( ret.url.toLowerCase().indexOf(".mp4") > 0 || ret.url.toLowerCase().indexOf(".mp3") > 0){
-                        newTab = window.open('about:blank');
+                        var newTab = window.open('about:blank');
                         newTab.location.href = ret.url;
                     }else{
                         var arr_url = ret.url.split("?");
@@ -632,7 +631,7 @@ $(function(){
                         var type = 0;
                         if(ret.url.indexOf("7tszue.com2.z0.glb.qiniucdn.com")!=-1){
                             type = 4;
-                        }   
+                        }
                         if(ret.url.indexOf("ebtest.qiniudn.com")!=-1){
                             type = 3;
                         }
@@ -648,9 +647,9 @@ $(function(){
             }
 
             if(is_tea_flag > 0){
-                do_ajax('/teacher_info/tea_look_resource', {'tea_res_id':res_id,'tea_flag':tea_flag}, ret_func);
+                $.do_ajax('/teacher_info/tea_look_resource', {'tea_res_id':res_id,'tea_flag':tea_flag}, ret_func);
             } else {
-                do_ajax('/teacher_info/get_pdf_download_url_new',{'file_url':file_url},ret_func);
+                $.do_ajax('/teacher_info/get_pdf_download_url_new',{'file_url':file_url},ret_func);
             }
         };
 
@@ -687,7 +686,7 @@ $(function(){
                 var leo_sub = $('.leo-subject select').val();
                 var leo_gra = $('.leo-grade select').val();
 
-                get_sub_grade_tag(leo_sub, leo_gra,-1,1,-1,$('.leo-tag_four select') );
+                get_sub_grade_tag(leo_sub, leo_gra,-1,1,-1,$('.leo-tag_four select'),null );
                 $('.leo-tag_four').show();
 
             }
@@ -710,10 +709,10 @@ $(function(){
                 var leo_sub = $('.leo-subject select').val();
                 var leo_gra = $('.leo-grade select').val();
 
-                get_sub_grade_tag(leo_sub, leo_gra,-1,3,-1,$('.leo-tag_four select') );
+                get_sub_grade_tag(leo_sub, leo_gra,-1,3,-1,$('.leo-tag_four select'),null );
                 $('.leo-tag_four').show();
 
-            
+
             }
 
             //电子教材
@@ -768,7 +767,7 @@ $(function(){
                     var leo_gra = $('.leo-grade select').val();
                     var leo_book = $('.leo-tag_one select').val();
                     var leo_season = $('.leo-tag_two select').val();
-                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,1,leo_season,$('.leo-tag_four select') );
+                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,1,leo_season,$('.leo-tag_four select'),null );
 
                 }
 
@@ -778,9 +777,9 @@ $(function(){
                     var leo_sub = $('.leo-subject select').val();
                     var leo_gra = $('.leo-grade select').val();
                     var leo_book = $('.leo-tag_one select').val();
-                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,3,-1,$('.leo-tag_four select') );
+                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,3,-1,$('.leo-tag_four select'),null );
                 }
-                
+
             });
 
         }
@@ -889,10 +888,10 @@ $(function(){
                 $('.modal-dialog').mouseenter(function(){
                     $('.opt-my-res').parent().hide();
                 });
-                $('.opt-my-res,.opt-leo-res').attr('disabled', true);
+                $('.opt-my-res,.opt-leo-res').attr('disabled', "true");
                 $('.opt-my-res,.opt-leo-res').css({'background': '#aaa', 'opacity':1});
             } else {
-                $('.opt-my-res,.opt-leo-res').attr('disabled', false);
+                $('.opt-my-res,.opt-leo-res').attr('disabled', "false");
                 $('.opt-my-res,.opt-leo-res').css('background','#fff');
                 $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
             }
@@ -1024,7 +1023,11 @@ $(function(){
                             book_info.push(parseInt(val));
                         });
                     }
+
+                    console.log(1);
                     $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').empty();
+                    console.log(2);
+
                     var resource =  ret.resource_type > 0 ? ret.resource_type : res_type_list[0];
                     var subject =  ret.subject > 0  ? ret.subject : tea_sub_info[0];
                     var grade = ret.grade != undefined ? ret.grade : tea_gra_info[0];
@@ -1058,14 +1061,14 @@ $(function(){
                         });
                     } else {
                         get_public_tag_show(res_type_list,tea_sub_info,tea_gra_info,book_info,args.resource_type,args.subject,args.grade,args.tag_one);
-                        
+
                         get_resource_type_show(args.resource_type);
 
                         get_tag_by_select();
 
                         $('.leo-resource_type select').change(function(){
                             console.log('变动'+$(this).val());
-                            get_resource_type_show($(this).val());                          
+                            get_resource_type_show($(this).val());
                         });
                     }
                 },
@@ -1167,8 +1170,9 @@ $(function(){
         $('.opt-leo-res,.opt-my-res').unbind('click');
         $('.opt-leo-res').on('click',function(){
             var data = {
-                'subject':search_args.subject,
-                'grade' : search_args.grade,
+                'subject':search_args["subject"],
+                'grade' : search_args["grade"],
+
             };
             if($(this).hasClass('unbind')){
                 get_res('/teacher_info/get_leo_resource_new', 'leo_one',$(this).attr('upload_id'),null,data);
@@ -1179,8 +1183,9 @@ $(function(){
 
         $('.opt-my-res').on('click',function(){
             var data = {
-                'subject':search_args.subject,
-                'grade' : search_args.grade,
+                'subject':search_args["subject"],
+                'grade' : search_args["grade"],
+
             };
             get_res('/teacher_info/tea_resource', 'my',$(this).attr('upload_id'),null,data);
         });
@@ -1234,7 +1239,7 @@ $(function(){
         var opt_data    = $(this).get_opt_data();
         var lessonid    = opt_data.lessonid;
         var lesson_type = opt_data.lesson_type;
-        var tea_comment = opt_data.tea_comment;
+        var tea_comment = opt_data["tea_comment"];
 
         if(opt_data.lesson_type==1100 && opt_data.train_type==4){
             set_stu_performance_for_seller(lessonid,tea_comment);
@@ -1633,14 +1638,14 @@ $(function(){
         var search = name+"=";
         var returnvalue = "";
         if(document.cookie.length>0) {
-            offset = document.cookie.indexOf(search);
+            var offset = document.cookie.indexOf(search);
             if(offset!=-1) {
                 offset = search.length;
-                end = document.cookie.indexOf(";",offset);
+                var end = document.cookie.indexOf(";",offset);
                 if(end==-1) {
                     end = document.cookie.length;
                 }
-                returnvalue = unescape(document.cookie.substring(offset,end));
+                returnvalue = window["unescape"] (document.cookie.substring(offset,end));
             }
         }
         return returnvalue;
@@ -1651,24 +1656,24 @@ $(function(){
         var lesson_start = $(this).data("lesson_start");
         var lesson_type  = $(this).data("lesson_type");
         var train_type   = $(this).data("train_type");
-        
+
         if(train_type==4 && lesson_type==1100 && lesson_start==0 ){
             $(this).parents("tr").addClass("bg_train_lesson");
             num = num + 1;
         }
-        
+
     });
     if(num > 0){
         if(get_cookie("popped")=='') {
             var info = "您有"+num+"节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)"
             BootstrapDialog.alert(info);
-            var date=new Date(); 
-            date.setTime(date.getTime()+60*60*12*1000); 
-            document.cookie = "popped=yes" + ';expires=' + date.toGMTString();
+            var date=new Date();
+            date.setTime(date.getTime()+60*60*12*1000);
+            document.cookie = "popped=yes" + ';expires=' + date["toGMTString"]();
         }
     }
 
-    
+
     $(".opt-complaint").on("click",function(){
         var data                = $(this).get_opt_data();
         var id_complaint_info   = $("<textarea>");

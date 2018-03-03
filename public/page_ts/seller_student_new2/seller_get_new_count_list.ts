@@ -98,13 +98,13 @@ $(function(){
 
     $(".opt-del").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        alert(opt_data.detail_id);
+        alert(opt_data.new_count_id );
         BootstrapDialog.confirm(
             "要删除吗？",
             function(val) {
                 if (val) {
                     $.do_ajax("/ajax_deal/del_seller_new_detail", {
-                        "id": opt_data.detail_id,
+                        "new_count_id": opt_data.new_count_id ,
                     })
                 }
             })

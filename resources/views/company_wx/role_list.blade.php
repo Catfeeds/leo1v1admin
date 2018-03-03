@@ -2,16 +2,16 @@
 @extends('layouts.app')
 @section('content')
     <!-- <script src='https://kefu.easemob.com/webim/easemob.js?configId=444c659a-3f92-4719-905e-a2280d9ecd53'></script> -->
-    <!-- <script src='//kefu.easemob.com/webim/easemob.js?configId=444c659a-3f92-4719-905e-a2280d9ecd5'></script> -->
+    <script src='//kefu.easemob.com/webim/easemob.js?configId=444c659a-3f92-4719-905e-a2280d9ecd5'></script>
     <section class='content'>
-        <!-- <script>
-             window.easemobim = window.easemobim || {};
-             easemobim.config = {
+        <script>
+         window.easemobim = window.easemobim || {};
+         easemobim.config = {
              configId: '444c659a-3f92-4719-905e-a2280d9ecd53',
              agentName: 'ricky@leoedu.com'
-             };
-             </script>
-             <script src='//kefu.easemob.com/webim/easemob.js'></script> -->
+         };
+        </script>
+        <script src='//kefu.easemob.com/webim/easemob.js'></script>
     <div> <!-- search ... -->
         <div class='row  row-query-list' >
             <div class='col-xs-12 col-md-5' data-title='时间段'>
