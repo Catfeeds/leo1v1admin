@@ -164,7 +164,21 @@ class tongji_ex extends Controller
         $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_seller_student_new->get_master_detail_list($start_time,$end_time,$page_info);
+        $phone_province = $this->get_in_str_val('phone_province','');
+        $origin_level = $this->get_in_int_val('origin_level',-1);
+        $key0         = $this->get_in_str_val('key0','');
+        $key1         = $this->get_in_str_val('key1','');
+        $key2         = $this->get_in_str_val('key2','');
+        $key3         = $this->get_in_str_val('key3','');
+        $value        = $this->get_in_str_val('value','');
+        $ret_info = $this->t_seller_student_new->get_master_detail_list($start_time,$end_time,$page_info,$phone_province,$origin_level,$key0,$key1,$key2,$key3,$value);
+        $phone_province = [];
+        $origin_level_list = [];
+        $key0_list = [];
+        $key1_list = [];
+        $key2_list = [];
+        $key3_list = [];
+        $value_list = [];
         foreach($ret_info['list'] as &$item){
             E\Eorigin_level::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
@@ -179,8 +193,31 @@ class tongji_ex extends Controller
             $item["suc_test_flag"] = \App\Helper\Common::get_set_boolean_color_str($item["test_lesson_count"]>0?1:2);
             $item['order_flag'] = \App\Helper\Common::get_set_boolean_color_str($item["orderid"]>0?1:2);
             $item['price'] = $item['price']/100;
+            array_push($phone_province,$item['phone_province']);
+            $origin_level_data = [$item['origin_level'] => $item['origin_level_str']];
+            array_push($origin_level_list, $origin_level_data);
+            array_push($key0_list,$item['key0']);
+            array_push($key1_list,$item['key1']);
+            array_push($key2_list,$item['key2']);
+            array_push($key3_list,$item['key3']);
+            array_push($value_list,$item['value']);
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        $phone_province = array_unique($phone_province);
+        $origin_level_list = array_unique($origin_level_list);
+        $key0_list      = array_unique($key0_list);
+        $key1_list      = array_unique($key1_list);
+        $key2_list      = array_unique($key2_list);
+        $key3_list      = array_unique($key3_list);
+        $value_list      = array_unique($value_list);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "phone_province" => $phone_province,
+            "origin_level_list" => $origin_level_list,
+            "key0_list"      => $key0_list,
+            "key1_list"      => $key1_list,
+            "key2_list"      => $key2_list,
+            "key3_list"      => $key3_list,
+            "value_list"      => $value_list,
+        ]);
     }
 
     public function seller_student_distribution(){
