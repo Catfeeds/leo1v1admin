@@ -194,15 +194,13 @@ class tongji_ex extends Controller
             $item['order_flag'] = \App\Helper\Common::get_set_boolean_color_str($item["orderid"]>0?1:2);
             $item['price'] = $item['price']/100;
             array_push($phone_province,$item['phone_province']);
-            $origin_level_data = [$item['origin_level'] => $item['origin_level_str']];
-            array_push($origin_level_list, $origin_level_data);
+            $origin_level_list[$item['origin_level']] = $item['origin_level_str'];
             array_push($key0_list,$item['key0']);
             array_push($key1_list,$item['key1']);
             array_push($key2_list,$item['key2']);
             array_push($key3_list,$item['key3']);
             array_push($value_list,$item['value']);
         }
-        dd($origin_level_list);
         $phone_province = array_unique($phone_province);
         $origin_level_list = array_unique($origin_level_list);
         $key0_list      = array_unique($key0_list);
