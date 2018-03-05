@@ -27,7 +27,7 @@
                         <select id="id_origin_level_list" class="opt-change">
                             <option value="-1">[全部]</option>
                             @foreach($origin_level_list as $key => $val)
-                                <option value="{{$key}}">{{$val[$key]}}</option>
+                                <option value="{{$key}}">{{$val}}</option>
                             @endforeach
                         </select>
                     </div>
