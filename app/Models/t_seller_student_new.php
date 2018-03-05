@@ -3674,13 +3674,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_master_detail_list($start_time,$end_time,$page_info,$phone_province = '',$origin_level=-1,$key0='',$key1='',$key2='',$key3='',$value=''){
         // $where_arr = [];
         $where_arr = [
-            [" phone_province = %s",$phone_province,''],
+            [" phone_province = '%s'",$phone_province,''],
             [" s.origin_level = %s",$origin_level,-1],
-            [" k.key0 = %s",$key0,''],
-            [" k.key1 = %s",$key1,''],
-            [" k.key2 = %s",$key2,''],
-            [" k.key3 = %s",$key3,''],
-            [" k.value = %s",$value,''],
+            [" k.key0 = '%s'",$key0,''],
+            [" k.key1 = '%s'",$key1,''],
+            [" k.key2 = '%s'",$key2,''],
+            [" k.key3 = '%s'",$key3,''],
+            [" k.value = '%s'",$value,''],
         ];
         $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
