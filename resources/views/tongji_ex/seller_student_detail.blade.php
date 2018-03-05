@@ -9,10 +9,84 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group">
+                        <span >省份</span>
+                        <select id="id_phone_province" class="opt-change">
+                            <option value="">[全部]</option>
+                            @foreach($phone_province as $val)
+                                <option value="{{$val}}">{{$val}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group">
+                        <span >渠道等级</span>
+                        <select id="id_origin_level_list" class="opt-change">
+                            <option value="-1">[全部]</option>
+                            @foreach($origin_level_list as $key => $val)
+                                <option value="{{$key}}">{{$val[$key]}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group">
+                        <span >key0</span>
+                        <select id="id_key0_list" class="opt-change">
+                            <option value="">[全部]</option>
+                            @foreach($key0_list as $val)
+                                <option value="{{$val}}">{{$val}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group">
+                        <span >key1</span>
+                        <select id="id_key1_list" class="opt-change">
+                            <option value="">[全部]</option>
+                            @foreach($key1_list as $val)
+                                <option value="{{$val}}">{{$val}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group">
+                        <span >key2</span>
+                        <select id="id_key2_list" class="opt-change">
+                            <option value="">[全部]</option>
+                            @foreach($key2_list as $val)
+                                <option value="{{$val}}">{{$val}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group">
+                        <span >key3</span>
+                        <select id="id_key3_list" class="opt-change">
+                            <option value="">[全部]</option>
+                            @foreach($key3_list as $val)
+                                <option value="{{$val}}">{{$val}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group">
+                        <span >渠道</span>
+                        <select id="id_value_list" class="opt-change">
+                            <option value="">[全部]</option>
+                            @foreach($value_list as $val)
+                                <option value="{{$val}}">{{$val}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
