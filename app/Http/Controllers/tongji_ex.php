@@ -202,6 +202,7 @@ class tongji_ex extends Controller
             array_push($key3_list,$item['key3']);
             array_push($value_list,$item['value']);
         }
+        dd($origin_level_list);
         $phone_province = array_unique($phone_province);
         $origin_level_list = array_unique($origin_level_list);
         $key0_list      = array_unique($key0_list);
