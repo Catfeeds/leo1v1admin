@@ -480,12 +480,14 @@ where s.is_test_user = 0 and q.is_called_phone =1
             $value['transfer'] = $task->t_student_score_info->get_m($value['userid']);
             $value['count'] = $value['count'] - 1;
             $value['student_type'] = E\Estudent_type::get_desc($value['type']);
+            $value['max_price']    = $value['max_price'] / 100;
+            $value['total_price']  = $value['total_price'] / 100;
         }
 
         $ret_info = [];
 
         foreach ($ret as $vkey => $vvalue) {
-            if($vvalue['max_price'] > 5000000 && $vvalue['count'] > 0 && $vvalue['transfer'] > 0){
+            if($vvalue['max_price'] > 5000000 || $vvalue['count'] > 0 || $vvalue['transfer'] > 0){
                 $ret_info[] = $vvalue;
             }
         }
