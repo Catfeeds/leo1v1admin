@@ -3682,7 +3682,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick,"
             ." s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,"
             ." ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2,s.origin_assistantid,"
-            ." s.phone_province,k.key0, k.key1, k.key2, k.key3, k.key4,  "
+            ." s.phone_province,k.key0, k.key1, k.key2, k.key3, k.key4,k.value,  "
             ." s.origin_userid,t.subject,s.grade,ss.user_desc,ss.has_pad,t.require_adminid ,tmk_student_status,"
             ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
             ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"

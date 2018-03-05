@@ -29,6 +29,7 @@
                     <td>key1</td>
                     <td>key2</td>
                     <td>key3</td>
+                    <td>渠道</td>
                     <td>回访状态 </td>
                     <td>全局tq状态 </td>
                     <td>负责人 </td>
@@ -52,6 +53,7 @@
                         <td>{{@$var["key1"]}} </td>
                         <td>{{@$var["key2"]}} </td>
                         <td>{{@$var["key3"]}} </td>
+                        <td>{{@$var['value']}}</td>
                         <td>{!! @$var["seller_student_status_str"] !!}</td>
                         <td>{{@$var["global_tq_called_flag_str"]}} </td>
                         <td>{{@$var["cc_nick"]}} </td>
