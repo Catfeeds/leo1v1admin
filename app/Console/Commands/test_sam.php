@@ -487,7 +487,7 @@ where s.is_test_user = 0 and q.is_called_phone =1
         $ret_info = [];
 
         foreach ($ret as $vkey => $vvalue) {
-            if($vvalue['max_price'] > 5000000 || $vvalue['count'] > 0 || $vvalue['transfer'] > 0){
+            if($vvalue['max_price'] >= 5000000 || $vvalue['count'] > 0 || $vvalue['transfer'] > 0){
                 $ret_info[] = $vvalue;
             }
         }
