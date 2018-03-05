@@ -15,7 +15,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	key0	:any;
 	seller_resource_type	:any;
 	first_call_time	:any;
 	first_contact_time	:any;
@@ -47,6 +46,12 @@ interface RowData {
 	admin_assign_time	:any;
 	sub_assign_time_2	:any;
 	origin_assistantid	:any;
+	phone_province	:any;
+	key0	:any;
+	key1	:any;
+	key2	:any;
+	key3	:any;
+	key4	:any;
 	origin_userid	:any;
 	subject	:any;
 	grade	:any;
@@ -70,6 +75,7 @@ interface RowData {
 	test_lesson_flag	:any;
 	orderid	:any;
 	price	:any;
+	origin_level_str	:any;
 	seller_student_status_str	:any;
 	global_tq_called_flag_str	:any;
 	cc_nick	:any;
