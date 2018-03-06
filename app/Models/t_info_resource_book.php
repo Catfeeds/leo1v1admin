@@ -35,7 +35,9 @@ class t_info_resource_book extends \App\Models\Zgen\z_t_info_resource_book
         return $this->main_get_list($sql);
     }
 
-
+    public function get_old_books($subject,$province,$city,$grade_range){
+        
+    }
 }
 
 

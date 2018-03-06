@@ -66,15 +66,11 @@ class info_support extends Controller
             "city" => $city,
             "city_name" => $city_name
         ];
+
+
         if($low){
             $low_arr = explode(",",$low);
-            if($low_arr){
-                foreach($low_arr as $book_1){
-                    $public_data["grade"] = 100;
-                    $public_data["book"] = $book_1;
-                    $this->t_info_resource_book->row_insert($public_data);
-                }
-            }
+            $this->save_or_del_books($subject,$province,$city,100,$low);
         }
 
         if($middle){
@@ -100,5 +96,19 @@ class info_support extends Controller
         }
 
         return $this->output_succ();
+    }
+
+    private function save_or_del_books($subject,$province,$city,$grade_range,$book_str){
+        if($book_str){
+            if(is_array($book_str)){
+                $book_arr = $book_str;
+            }else{
+                $book_arr = explode(",", $book_str);
+            }
+
+            if(count($book_arr) > 0){
+                $get_old_books = $this->t_info_resource_book->get_old_books($subject,$province,$city,$grade_range);
+            }
+        }
     }
 }

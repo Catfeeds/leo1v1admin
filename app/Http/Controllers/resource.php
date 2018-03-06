@@ -125,7 +125,7 @@ class resource extends Controller
         if($this->get_account_role() == 4){
             $is_teacher = 1;
             if( $sub_grade_info['subject'] == 0 && $sub_grade_info['grade'] == 0 ){
-                $err_mg = "你是教研老师，但没有所教科目，无法查看当前页面，请找孙瞿开启相关权限";
+                $err_mg = "你是教研老师，但没有所教科目，无法查看当前页面，请找相关人员开启该权限";
                 return $this->view_with_header_info ( "common.resource_no_power", [],[
                     "_ctr"          => "xx",
                     "_act"          => "xx",
