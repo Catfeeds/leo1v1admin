@@ -115,6 +115,7 @@ $(function(){
     $(".opt-flow-node-list").on("click",function(){
         var opt_data=$(this).get_opt_data();
         $.flow_show_node_list( opt_data.flowid);
+       //  $.flow_show_all_info( opt_data.flowid);
 
     });
 

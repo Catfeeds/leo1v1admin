@@ -1096,4 +1096,22 @@ class ajax_deal3 extends Controller
         $base_url=$auth->privateDownloadUrl($file_url );
         return $this->output_succ(['url'=>$base_url,'base_name'=>$base_name]);
     }
+
+    //更改年级申请
+    public function change_student_grade_apply(){
+        $userid = $this->get_in_int_val('userid');
+        $grade = $this->get_in_int_val('grade');
+        $reason = $this->get_in_str_val('reason');
+        $old_grade = $this->t_student_info->get_grade($userid);
+        $arr = ["old"=>$old_grade,"new"=>$grade];
+        $str = json_encode( $arr);
+        $nick = $this->t_student_info->get_nick($userid);
+        $msg = "学生:".$nick." 原年级:".E\Egrade::get_desc($old_grade)."目标年级:".E\Egrade::get_desc($grade)." 说明:".$reason;
+        $ret=$this->t_flow->add_flow(
+            1,$this->get_account_id(),$msg,$userid,$str,0
+        );
+        return $this->output_succ();
+
+ 
+    }
 }

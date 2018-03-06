@@ -2819,4 +2819,32 @@ $(function(){
         });
     });
 
+    $(".opt-apply-change-grade").on("click",function(){
+        var userid = $(this).parent().data("userid");
+        var id_grade = $("<select />");
+        var id_reason = $("<textarea />");
+
+        Enum_map.append_option_list("grade",id_grade,true);
+
+        var arr = [
+            ["目标年级", id_grade],
+            ["说明", id_reason] ,
+        ];
+        $.show_key_value_table("申请更改学生年级", arr, {
+            label : "确定",
+            cssClass : "btn-warning",
+            action : function(dialog) {
+                $.do_ajax("/ajax_deal3/change_student_grade_apply", {
+                    "userid" : userid,
+                    "grade" : id_grade.val(),
+                    "reason" : id_reason.val(),
+                    
+                });
+            }
+
+        });
+
+
+    });
+
 });
