@@ -106,13 +106,17 @@ class test_sam  extends Controller
         if($is_history == 1 && $sta_data_type == 1){
             //漏斗形存档数据
             $ret_info = $this->t_channel_funnel_archive_data->get_list($month_begin,$origin_ex);
+
         }elseif($is_history == 1 && $sta_data_type == 2){
             //节点型存档数据
             $ret_info = $this->t_channel_node_type_statistics->get_list($month_begin,$origin_ex);
         }elseif($is_history == 2 && $sta_data_type == 2){
+
             //节点型实时数据
             //例子总量
             $ret_info = $this->t_test_lesson_subject->get_example_num_now($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+            
+
             $data_map=&$ret_info["list"];
             //试听预约数
             $test_lesson_require_data = $this->t_test_lesson_subject_require->get_test_lesson_quire_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
@@ -270,7 +274,7 @@ class test_sam  extends Controller
 
                 //饼图用数据 --end--
 
-
+            
             }elseif(in_array($opt_date_str,['tlsr.require_time','tlsr.accept_time'])){
                 //时间检索[试听申请时间][试听排课时间]用
 
@@ -311,7 +315,6 @@ class test_sam  extends Controller
                 $ret_info = $this->t_order_info->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
                 $data_map=&$ret_info["list"];
             }
-
             
         }
 
@@ -335,12 +338,14 @@ class test_sam  extends Controller
             }
             //重组分层数组
             if ($field_name=="origin"){
+                
                 $ret_info["list"]= $this->gen_origin_data_level5(
                     $ret_info["list"],
                     ['avg_first_time','consumption_rate','called_rate','effect_rate','audition_rate'],
                     $origin_ex
                 );
             } 
+
         }
 
         //将显示饼图标识发送到js
@@ -414,6 +419,7 @@ class test_sam  extends Controller
     //@param:$origin_ex 渠道字符串
     public function gen_origin_data_level5($old_list,$no_sum_list=[] ,$origin_ex="")
     {
+
         $value_map=$this->t_origin_key->get_list( $origin_ex);
         //组织分层用类标识
         $cur_key_index=1;

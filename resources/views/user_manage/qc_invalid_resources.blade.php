@@ -12,6 +12,26 @@
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
 
+        <!-- 此处为模态框-->
+        <!-- 录音记录 -->
+        <div class="modal fade record_list" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #3c8dbc;">
+                        <tr class="show_list">
+                        </tr>
+                    </div>
+                    <div class="modal-body" style="text-align:center;">
+                        <!-- <p>是否标注为 <font style="color:red;" class="tip_text">无效-空号？</font></p>
+                             <p style="color:red;">提示：如经核验不符，将被罚款！</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- james-end-->
+
+
+
         <div>
 
             <div class="row  row-query-list" >
@@ -98,8 +118,26 @@
                                 转介绍: {{$var["origin_assistant_nick"]}} <br/>
                             @endif
                         </td>
-                        <td>{{@$var['cc_mark']}}</td>
-                        <td>{{@$var['tmk_mark']}}</td>
+                        <td>
+                            @if($var['cc_mark'])
+                                <?php foreach(explode('|',$var['cc_mark']) as $v){
+                                echo $v.'<br>';
+                                } ?>
+                            @else
+
+                            @endif
+                        </td>
+                        <td>
+                            @if($var['tmk_mark'])
+                                <?php
+                                  foreach(explode('|',$var['tmk_mark']) as $v){
+                                    echo $v.'<br>';
+                                  }
+                                ?>
+                            @else
+
+                            @endif
+                        </td>
                         <td>
                             {{$var["seller_student_status_str"]}} <br/>
                         </td>

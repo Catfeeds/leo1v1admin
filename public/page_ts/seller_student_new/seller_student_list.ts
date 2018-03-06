@@ -1018,7 +1018,7 @@ $(function(){
                     },function(ret){
                         set_user_free(opt_data);
                     });
-                } , $("<div style='text-align:center;'><div>是否标注为 <span style='color:red'>"+checkText+"?</span></div><div style='color:red'>提示：如经核验不符，将被罚款！</div></div>"));
+                } , $("<div style='text-align:center;'><div>是否标注为 <span style='color:red'>"+checkText+"</span>?</div><div style='color:red'>提示：如经核验不符，将被罚款！</div></div>"));
             }
 
             var all_btn_config=[{

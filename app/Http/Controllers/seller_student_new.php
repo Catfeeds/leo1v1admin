@@ -1702,16 +1702,6 @@ class seller_student_new extends Controller
             );
         }
 
-        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
-            # 处理该学生的通话状态 [james]
-            $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
-            // $cc_called_count 
-            $hasCalledNum = $this->t_seller_student_new->get_cc_called_count($userid);
-            // $hasCalledNum = $this->t_tq_call_info->getAdminidCalledNum($adminid);
-            $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
-            $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
-            # 处理该学生的通话状态 [james-end]
-        }
 
 
 
@@ -1721,6 +1711,22 @@ class seller_student_new extends Controller
         $this->set_filed_for_js("test_lesson_subject_id", $test_lesson_subject_id);
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
+
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            # 处理该学生的通话状态 [james]
+            $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
+            $hasCalledNum = $this->t_seller_student_new->get_cc_called_count($userid);
+            $cc_no_called_count_new  = $this->t_seller_student_new->get_cc_no_called_count_new ($userid);
+            $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
+            $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
+            $this->set_filed_for_js("cc_no_called_count_new", $cc_no_called_count_new);
+
+
+            # 处理该学生的通话状态 [james-end]
+        }
+
+
+
         $user_info= @$ret_info["list"][0];
         if (!$user_info) {
             return $this->pageView(

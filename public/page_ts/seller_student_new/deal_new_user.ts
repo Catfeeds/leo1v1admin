@@ -25,7 +25,7 @@ $(function(){
     if($.inArray(g_adminid,test_arr)>=0){
         $('#id_tip_no_call').show();
         var hasCalledNum = g_args.hasCalledNum;
-        if(hasCalledNum>=3 && g_args.ccNoCalledNum>0){
+        if(g_args.cc_no_called_count_new>=3 && g_args.ccNoCalledNum>0){
             $('#id_tip_no_call').addClass('btn-warning').css('color','white').removeAttr('disabled');
         }else{
             $('#id_tip_no_call').attr('disabled','disabled').removeClass('btn-warning');
@@ -65,7 +65,7 @@ $(function(){
                 $.do_ajax("/ajax_deal3/sign_phone",{
                     "adminid" : g_adminid,
                     "cc_confirm_type" : invalid_type,
-                    "userid"  : opt_data.userid,
+                    "userid"  : g_args.userid,
                     "type"    : 1 // 1:CC标注 2:TMK 3:QC
                 });
 
@@ -73,7 +73,7 @@ $(function(){
             });
         }
 
-        if(g_args.global_tq_called_flag != 2){
+        if(g_args.hasCalledNum == 0){
             $('#id_edit').attr('disabled','disabled');
         }else{
             $('#id_edit').removeAttr('disabled');
@@ -622,18 +622,18 @@ $(function(){
     if($.inArray(g_adminid,test_arr)>=0){ // 测试环境
         $("#id_get_new").on("click",function(){
             var opt_data=$(this).get_opt_data();
-            if(g_args.hasCalledNum < 3 && g_args.ccNoCalledNum>0){
+            if(g_args.cc_no_called_count_new < 3 && g_args.ccNoCalledNum>0){
                 alert("请先提交未拨通电话标注后才能继续抢新");
                 return ;
             }
 
             $.do_ajax_t("/ajax_deal3/checkHasSign", {
-                "userid"  : opt_data.userid,
+                "userid"  : g_args.userid,
                 "adminid" : g_adminid
             },function(ret){
                 var is_sign = ret.is_sign;
 
-                if(!is_sign && g_args.hasCalledNum>3 && g_args.ccNoCalledNum>0){
+                if(!is_sign && g_args.cc_no_called_count_new>=3 && g_args.ccNoCalledNum>0){
                     $('.bs-example-modal-sm').modal('toggle');
                     return;
                 }else{
@@ -715,7 +715,7 @@ $(function(){
         var click_type=1;
 
          //james
-         // if(opt_data.tq_called_flag != 2){
+         // if(g_args.hasCalledNum ==0){
          //     return ;
          // }
 
