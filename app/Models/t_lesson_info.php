@@ -3078,7 +3078,7 @@ lesson_type in (0,1) "
         }elseif($type==2){
             $where_arr[]="lesson_type=2";
         } elseif($type==3) {
-            $where_arr[]="stu_attend=0 and lesson_status=1 and lesson_type in (0,1,3) s.is_test_user=1"; 
+            $where_arr[]="stu_attend=0 and lesson_status=1 and lesson_type in (0,1,3) and s.is_test_user=1"; 
         }
         $sql = $this->gen_sql_new("select lessonid,l.assistantid,l.userid,lesson_type,lesson_start,subject,s.phone,if(s.nick='',s.nick,s.realname) as realname"
                                   ." from %s l"
