@@ -1995,16 +1995,37 @@ class stu_manage extends Controller
 
         $ret_info = [];
         //学生购买课时
-        $lesson_total  = $this->t_order_info->get_user_lesson_total($sid);
+        $pay_normal_order = $this->t_order_info->get_user_lesson_total($sid,E\Ecompetition_flag::V_0);
         //学生退费课时
-        $lesson_refund = $this->t_order_refund->get_user_lesson_refund($sid);
+        $refund_normal = $this->t_order_refund->get_user_lesson_refund($sid,E\Ecompetition_flag::V_0);
         //学生转赠课时
-        $lesson_split  = $this->t_order_info->get_user_split_total($sid);
-        $all_count = $lesson_total-$lesson_refund-$lesson_split;
+        $split_normal = $this->t_order_info->get_user_split_total($sid,E\Ecompetition_flag::V_0);
+        $all_normal_count = $pay_normal_order-$refund_normal-$split_normal;
         //学生已排课时
-        $has_lesson_count = $this->t_lesson_info_b3->get_stu_all_lesson_count($sid);
+        $lesson_normal_count = $this->t_lesson_info_b3->get_stu_all_lesson_count(
+            $sid,-1,E\Ecompetition_flag::V_0
+        );
         //学生消耗课时
-        $cost_count = $this->t_lesson_info_b3->get_stu_all_lesson_count($sid,E\Elesson_status::V_2);
+        $lesson_normal_cost = $this->t_lesson_info_b3->get_stu_all_lesson_count(
+            $sid,E\Elesson_status::V_2,E\Ecompetition_flag::V_0
+        );
+
+        //学生竞赛购买课时
+        $pay_competition_order = $this->t_order_info->get_user_lesson_total($sid,E\Ecompetition_flag::V_1);
+        //学生竞赛退费课时
+        $refund_competition = $this->t_order_refund->get_user_lesson_refund($sid,E\Ecompetition_flag::V_1);
+        //学生竞赛转赠课时
+        $split_competition = $this->t_order_info->get_user_split_total($sid,E\Ecompetition_flag::V_1);
+        $all_competition_count = $pay_competition_order-$refund_competition-$split_competition;
+        //学生竞赛已排课时
+        $lesson_competition_count = $this->t_lesson_info_b3->get_stu_all_lesson_count(
+            $sid,-1,E\Ecompetition_flag::V_1
+        );
+        //学生竞赛消耗课时
+        $lesson_competition_cost = $this->t_lesson_info_b3->get_stu_all_lesson_count(
+            $sid,E\Elesson_status::V_2,E\Ecompetition_flag::V_1
+        );
+
         //学生试听课老师名单
         $tea_list = $this->t_lesson_info_b3->get_stu_trial_lesson_teacher($sid);
         //学生常规课所有科目
@@ -2018,11 +2039,31 @@ class stu_manage extends Controller
         }
 
         return $this->pageView(__METHOD__,$ret_info,[
-            "all_count"        => $all_count,
-            "has_lesson_count" => $has_lesson_count,
-            "cost_count"       => $cost_count,
+            "all_normal_count"    => $all_normal_count,
+            "lesson_normal_count" => $lesson_normal_count==null?0:$lesson_normal_count,
+            "lesson_normal_cost"  => $lesson_normal_cost==null?0:$lesson_normal_cost,
+
+            "all_competition_count"    => $all_competition_count,
+            "lesson_competition_count" => $lesson_competition_count==null?0:$lesson_competition_count,
+            "lesson_competition_cost"  => $lesson_competition_cost==null?0:$lesson_competition_cost,
+
             "tea_list"         => $tea_list,
             "stu_subject"      => $stu_subject,
         ]);
     }
+
+    /**
+     * 学生个人中心-学生课表
+     * 获取学生的课表信息
+     */
+    public function get_stu_schedule_lesson_list(){
+        $timestamp = $this->get_in_int_val("timestamp",-1);
+        $type      = $this->get_in_int_val("type",-1);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $subject   = $this->get_in_int_val("subject",-1);
+
+
+    }
+
+
 }

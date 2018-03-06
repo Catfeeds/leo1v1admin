@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1108
+//__DESC: 2.5 调课申请 https://api-class.leo1v1.com/student/stu_apply_change_lesson?phone=13030303030
+//__TAGS: for_app,for_website
+
+
+message in  {
+  string phone = 1;//申请电话
+}
+
+message out {
+}
+

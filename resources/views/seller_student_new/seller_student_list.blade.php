@@ -110,12 +110,23 @@
      .paper_info div{ margin-top:15px;position:relative }
      .paper_info div .paper_font{ width: 100px;font-weight: bold;display: inline-block;text-align: right; margin-right: 30px;}
      .paper_info #paper_erwei{ position:absolute;top:-10px;left:134px; }
+     .student_test_score{ width:740px;padding:10px 20px}
+     .hide{ display:none }
+     .student_test_score .student_test_paper{ margin-bottom:20px }
+     .student_test_score .student_test_paper span{ font-weight:bold }
+     .student_test_score .student_test_paper select{ width:400px;height:38px;background:white;}
+     .student_test_score p{ margin-bottom:20px }
+     .student_test_score p span{ font-weight:bold;margin-right:40px;display:inline-block}
+     .student_test_score p span font{ font-weight:normal }
+     .student_test_score table{ width:700px}
+     .student_test_score table thead tr th,.student_test_score table tbody tr td{ border:1px solid #999;padding:10px 5px }
     </style>
 
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
 
     <script type="text/javascript" src="/page_js/jquery.qrcode.min.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax_second.js?v={{@$_publish_version}}"></script>
 
     <section class="content ">
 
@@ -133,7 +144,7 @@
                         <p>请设置</p>
                         <div class="" id="">
                             <select style="width:35%;" class="invalid_type">
-                                 <option value="0">请选择状态</option>
+                                <option value="0">请选择状态</option>
                             </select>
                             <p style="color:red;">请至少拨打3次确认状态</p>
                         </div>
@@ -436,7 +447,7 @@
                         <td  class="td-phone">
                             <div class="phone-data">
                                 @if($var["seller_student_assign_from_type"])
-                                   (奖)
+                                    (奖)
                                 @endif
                                 @if($account == 'jim' || $account_role == 12 || $account == 'tom')
                                     {{$var["phone"]}}
@@ -569,10 +580,16 @@
                         家长确认时间: {{$var["parent_confirm_time"]}}
                         <br/>
                         @if($var["suc_no_call_flag"]==1)
-                            <font color="green">课后回访:{{$var["last_revisit_time"]}}</font>
+                            <font color="green">试听成功课后回访:{{$var["last_revisit_time"]}}</font>
                             <br/>
                         @elseif($var["suc_no_call_flag"]==2)
-                            <font color="red">试听成功未回访</font>
+                            <font color="red">试听成功未回访[未拨打]{{$var["last_succ_test_lessonid"]}}</font>
+                            <br/>
+                        @elseif($var["suc_no_call_flag"]==3)
+                            <font color="red">试听成功未回访[未编辑]{{$var["last_succ_test_lessonid"]}}</font>
+                            <br/>
+                        @elseif($var["suc_no_call_flag"]==4)
+                            <font color="red">试听成功未回访[未拨打+未编辑]{{$var["last_succ_test_lessonid"]}}</font>
                             <br/>
                         @else
                         @endif
@@ -1751,8 +1768,34 @@
             </div>
         </div>
 
-
-
     </div>
 
+    <div class="student_test_score hide">
+        <div class="student_test_paper">
+            <span>选择评测卷：</span>
+            <select onchange='get_paper_score(this.options[this.options.selectedIndex].value,event)'></select>
+        </div>
+        <div class="student_test_answer">
+            <p>
+                <span>开始答题时间：<font class="student_start_time"></font></span>
+                <span>结束提交时间：<font class="student_submit_time"></font></span>
+                <span>总时长：<font class="student_take_time"></font>秒</span>
+            </p>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>维度名称</th>
+                            <th>学生得分</th>
+                            <th>总分</th>
+                            <th>得分范围</th>
+                            <th>评测结果与建议</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection

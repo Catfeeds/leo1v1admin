@@ -49,13 +49,20 @@ $(function(){
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".num1").text(data.num1);
-                        $tr.find(".num2").text(data.num2);
-                        $tr.find(".num3").text(data.num3);
-                        $tr.find(".num4").text(data.num4);
-                        $tr.find(".num5").text(data.num5);
-                        $tr.find(".num6").text(data.num6);
-                        $tr.find(".num").text(data.num);
+                        var t;
+                        for (t in data) {
+                            var c= "."+t;
+                            console.log(t);
+                             $tr.find(c).text(data[t]);
+                        }
+                        console.log(data);
+                        // $tr.find(".tea").text(data.num1);
+                        // $tr.find(".num2").text(data.num2);
+                        // $tr.find(".num3").text(data.num3);
+                        // $tr.find(".num4").text(data.num4);
+                        // $tr.find(".num5").text(data.num5);
+                        // $tr.find(".num6").text(data.num6);
+                        // $tr.find(".num").text(data.num);
                         // $tr.find(".middle_grade").text(data.middle_grade);
                         // $tr.find(".high_grade").text(data.high_grade);
                         // $tr.find(".test_kk_num").text(data.test_kk_num);

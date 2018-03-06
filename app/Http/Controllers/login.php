@@ -434,10 +434,10 @@ class login extends Controller
     }
 
     public function login_other() {
-        if(!$this->check_account_in_arr(["jim","adrian","seven","ricky", "james","jack","michael","ted","夏宏东",'tom',"boby","sam","孙瞿","顾培根","alan",'abner']) ) {
+        if(!$this->check_account_in_arr(["jim","adrian","seven","ricky", "james","jack","michael","ted","夏宏东",'tom',"boby","sam","孙瞿","顾培根","alan",'abner',"崔海洋"]) ) {
             return $this->output_err("没权限");
         }
-        
+
         $login_adminid=$this->get_in_int_val("login_adminid");
         $ret_db = $this->t_admin_users->field_get_list($login_adminid,"*");
 

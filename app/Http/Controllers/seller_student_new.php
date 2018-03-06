@@ -445,15 +445,19 @@ class seller_student_new extends Controller
                 $item['assign_type'] = '抢单';
             }
             $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
-            if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
-                $item['left_end_time'] = strtotime('2018-03-07');
-            }
+            // if(time()<strtotime('2018-03-07') && $item['left_end_time']-time()<0){
+            //     $item['left_end_time'] = strtotime('2018-03-07');
+            // }
             $item['suc_no_call_flag'] = 0;
             if($item['last_succ_test_lessonid']>0 && $item['suc_lesson_end']>1517414400){
                 if($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 1;
-                }else{
+                }elseif($item['suc_lesson_end']>$item['last_revisit_time'] && $item['suc_lesson_end']<=$item['last_edit_time']){
                     $item['suc_no_call_flag'] = 2;
+                }elseif($item['suc_lesson_end']<=$item['last_revisit_time'] && $item['suc_lesson_end']>$item['last_edit_time']){
+                    $item['suc_no_call_flag'] = 3;
+                }else{
+                    $item['suc_no_call_flag'] = 4;
                 }
             }
 
@@ -1171,6 +1175,177 @@ class seller_student_new extends Controller
         return $this->seller_student_list();
     }
 
+    //@desn:转介绍统计
+    //@param:
+    public function referral_statistics(){
+        list($start_time, $end_time  ) =$this->get_in_date_range_day(0);
+        $principal = $this->get_in_int_val('principal',-1);
+        $groupid = $this->get_in_int_val('groupid',-1);
+        $create = $this->get_in_int_val('create',-1);
+        $allocation = $this->get_in_int_val('allocation',-1);
+        $type = $this->get_in_int_val('type',-1);
+        $search = $this->get_in_str_val('search');
+        $page_info= $this->get_in_page_info();
+        $main_group = [];
+        $allocation_list = [];
+        //获取所有销售和助教大区
+        $main_group = $this->t_admin_main_group_name->get_list_by_main_type([1,2]);
+        $ret_info = $this->t_seller_student_new_b2->get_referral_statistics(
+            $start_time, $end_time,$principal,$groupid,$create,$allocation,$type,$search,$page_info
+        );
+        //获取所有分配人
+        $allocation_list = $this->t_seller_student_new_b2->get_allocation_list();
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
+            E\Eaccount_role::set_item_value_str($item,'create_role');
+            E\Eaccount_role::set_item_value_str($item,'admin_revisiter_role');
+            if($item['create_role']){
+                //项目上线之后存在创建人
+                if($item['create_role'] == E\Eaccount_role::V_2){
+                    //销售自产
+                    $item['allocation_type'] = '销售自产';
+                }elseif($item['create_role'] == E\Eaccount_role::V_1){
+                    //助教创建
+                    if($item['origin_assistantid'] == $item['admin_revisiterid'])
+                        $item['allocation_type'] = '助教自跟';
+                    else
+                        $item['allocation_type'] = '助转销';
+                }
+            }else{
+                $item['allocation_type'] = '未设置';
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info,[
+            'main_group' => $main_group,
+            'allocation_list' => $allocation_list
+        ]);
+    }
+
+    //@desn:获取转介绍试听及签单情况
+    public function get_referral_info(){
+        $userid = $this->get_in_userid();
+        $is_test_lesson = '否';
+        $is_test_succ = '否';
+        $is_order = '否';
+        $order_money = '无';
+        if($userid){
+            $test_lesson_info = $this->t_test_lesson_subject_require->get_test_lesson_info_by_userid($userid);
+            if($test_lesson_info['test_lesson_count'])
+                $is_test_lesson = '是';
+            if($test_lesson_info['test_lesson_succ'])
+                $is_test_succ = '是';
+
+            $order_info = $this->t_order_info->get_order_info_for_referral($userid);
+            if($order_info['order_count'])
+                $is_order = '是';
+            if($order_info['order_money'])
+                $order_money = $order_info['order_money']/100;
+        }
+
+        return $this->output_succ([
+            'is_test_lesson' => $is_test_lesson,
+            'is_test_succ' => $is_test_succ,
+            'is_order' => $is_order,
+            'order_money' => $order_money
+        ]);
+    }
+
+    //@desn:转介绍统计-按层级展示
+    public function referral_statistics_by_layer(){
+        list($start_time, $end_time) =$this->get_in_date_range_month(0);
+        $show_type = $this->get_in_int_val('show_type',1);
+        if($show_type == 1){//按下单人角色
+            $test_lesson = $this->t_student_info->get_referral_test_lesson($start_time,$end_time);
+            $order_info = $this->t_student_info->get_referral_order_info($start_time,$end_time);
+            foreach($order_info as $order_item){
+                $principal_id=$order_item["admin_revisiterid"];
+                $principal_id=\App\Helper\Utils::array_item_init_if_nofind($test_lesson,$principal_id,["check_value" =>$principal_id]);
+
+                $test_lesson[$principal_id]["orderid_num"] = $order_item["orderid_num"];
+                $test_lesson[$principal_id]["userid_num"] = $order_item["orderid_num"];
+            }
+            $ret_info=\App\Helper\Common::gen_admin_member_data($test_lesson);
+            foreach( $ret_info as &$item ) {
+                E\Emain_type::set_item_value_str($item);
+                $item['price_num']  = @$item['price_num']/100;
+            }
+            // dd($ret_info);
+        }elseif($show_type == 2){//按分配类型
+            $referral_type_info = $this->t_student_info->get_referral_type_info($start_time,$end_time);
+            //判断分配类型
+            foreach($referral_type_info as &$item){
+                if($item['account_role'] == E\Eaccount_role::V_2)
+                    $item['referral_type'] = E\Ereferral_type::V_1;
+                else{
+                    if($item['admin_revisiterid'] != $item['origin_assistantid'])
+                        $item['referral_type'] = E\Ereferral_type::V_2;
+                    else
+                        $item['referral_type'] = E\Ereferral_type::V_3;
+                }
+            }
+
+            $sta_arr = [];
+            $order_user_arr = [];
+            $example_userid = [];
+            //统计数据[累加]
+            foreach($referral_type_info as &$item){
+                $adminid = $item['admin_revisiterid'];
+                $referral_type = $item['referral_type'];
+                //--init--
+                if(!@$sta_arr[$adminid][$referral_type]){
+                    $sta_arr[$adminid][$referral_type] = [
+                        'adminid' => $adminid,
+                        'referral_type' => $referral_type,
+                        'referral_num' => 0,
+                        'test_lesson_require' => 0,
+                        'test_lesson_succ' => 0,
+                        'orderid_num' => 0,
+                        'userid_num' => 0,
+                        'price_num' => 0
+                    ];
+                }
+
+                if(!in_array($item['userid'],$example_userid)){
+                    $sta_arr[$adminid][$referral_type]['referral_num'] ++;
+                    $order_user_arr[] = $item['userid'];
+                }
+                if($item['current_lessonid'])
+                    $sta_arr[$adminid][$referral_type]['test_lesson_require'] ++;
+                //试听成功
+                if(in_array($item['success_flag'],[0,1]) && $item['current_lessonid'])
+                    $sta_arr[$adminid][$referral_type]['test_lesson_succ'] ++;
+
+                if($item['orderid'])
+                    $sta_arr[$adminid][$referral_type]['orderid_num'] ++;
+                if(!in_array($item['userid'],$order_user_arr) && $item['userid']){
+                    $sta_arr[$adminid][$referral_type]['userid_num'] ++;
+                    $order_user_arr[] = $item['userid'];
+                }
+                if($item['price']>0)
+                    $sta_arr[$adminid][$referral_type]['price'] ++;
+            }
+
+            $data_arr = [];
+            //三维数组转一维数组
+            foreach($sta_arr as $item){
+                foreach($item as $val){
+                    $data_arr[] = $val;
+                }
+            }
+
+            $ret_info = \App\Helper\Common::gen_admin_member_data(
+                $data_arr,$no_need_sum_list=[],$monthtime_flag=1,$month=0,$show_type=1
+            );
+            foreach( $ret_info as &$item ) {
+                $item['price_num']  = @$item['price_num']/100;
+                E\Ereferral_type::set_item_value_str($item,'main_type');
+            }
+            // dd($ret_info);
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+    }
+
     public  function get_hold_list() {
         $hold_flag=$this->get_in_int_val("hold_flag",0, E\Eboolean::class );
         $phone_name = trim($this->get_in_str_val("phone_name"));
@@ -1599,7 +1774,6 @@ class seller_student_new extends Controller
 
     public function deal_new_user(){
         $adminid = $this->get_account_id();
-
         if ($this->t_manager_info->get_seller_student_assign_type($adminid) ==  E\Eseller_student_assign_type::V_1  ) {
            return  $this->error_view([
                 "你的例子分配规则,被设置为:系统分配,可以在 <所有用户> 中看到推送给你的例子",
@@ -1618,8 +1792,6 @@ class seller_student_new extends Controller
                 "当日满6次通话未满60s主动挂断电话，禁止继续抢新"
             ]);
         }
-
-
 
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
@@ -1646,10 +1818,12 @@ class seller_student_new extends Controller
             $limit_arr=array( [0, 13*60+30]);
         }else{//周二 00:00~06:00
             $limit_arr=array( [0, 6*60]);
-            //$limit_arr=array( [0, 10*60 ] );
         }
         if(date('Y-m-d',time()) == '2018-02-28'){
             $limit_arr=array( [0, 10*60+30]);
+        }
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            $limit_arr=array( [0, 7*60]);
         }
 
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
@@ -1700,15 +1874,6 @@ class seller_student_new extends Controller
         }
 
 
-        # 处理该学生的通话状态 [james]
-        // $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
-        // $hasCalledNum = $this->t_tq_call_info->getAdminidCalledNum($adminid);
-        // $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
-        // $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
-
-        # 处理该学生的通话状态 [james-end]
-
-
 
 
         $this->set_filed_for_js("userid", $userid);
@@ -1717,6 +1882,22 @@ class seller_student_new extends Controller
         $this->set_filed_for_js("test_lesson_subject_id", $test_lesson_subject_id);
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
+
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            # 处理该学生的通话状态 [james]
+            $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
+            $hasCalledNum = $this->t_seller_student_new->get_cc_called_count($userid);
+            $cc_no_called_count_new  = $this->t_seller_student_new->get_cc_no_called_count_new ($userid);
+            $this->set_filed_for_js("hasCalledNum", $hasCalledNum);
+            $this->set_filed_for_js("ccNoCalledNum", $ccNoCalledNum);
+            $this->set_filed_for_js("cc_no_called_count_new", $cc_no_called_count_new);
+
+
+            # 处理该学生的通话状态 [james-end]
+        }
+
+
+
         $user_info= @$ret_info["list"][0];
         if (!$user_info) {
             return $this->pageView(
@@ -1967,12 +2148,9 @@ class seller_student_new extends Controller
     }
 
     public function check_lesson_end(){
-        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_in_adminid());
+        $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_account_id());
         if($ret){
             return count($ret);
-            // return  $this->error_view([
-            //     "有".count($ret)."个试听成功用户未回访,不能获得新例子,请尽快完成回访"
-            // ]);
         }
         return 0;
     }

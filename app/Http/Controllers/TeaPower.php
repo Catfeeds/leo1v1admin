@@ -5313,5 +5313,45 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return [$subject,$grade];
     }
 
+    //判断是否产品研发事业部
+    public function check_is_dev_department($adminid){
+        $info = $this->t_company_wx_department->get_all_list();
+        $users = $this->t_company_wx_users->get_all_list_for_manager($adminid);
+        $department_list=[];
+        foreach($users as $val){
+            $department = $val["department"];
+            $department_list = $this->get_all_department_name($info,$department,$department_list);
+        }
+        $str ="产品研发事业部";
+        if(isset($department_list[$str])){
+            $flag=1;
+        }else{
+            $flag=0;
+        }
+
+        // dd([$info,$users]);
+        return $flag;
+    }
+
+    public function get_all_department_name($info,$department,&$department_list){
+        $pid=0;
+        $name="";
+
+        foreach($info as $v){
+            if($v["id"]==$department){
+                $pid=$v["pId"];
+                $name=$v["name"];
+                if($pid>0 && !isset($department_list[$name])){
+
+                    $department_list[$name]=$name;
+                }
+                $this->get_all_department_name($info, $pid,$department_list);
+            }
+        }
+
+        return $department_list;
+
+    }
+
 
 }

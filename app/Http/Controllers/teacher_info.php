@@ -653,7 +653,7 @@ class teacher_info extends Controller
             ]);
         }elseif(strtolower($tea_cw_url_arr[1]) == 'ppt' || strtolower($tea_cw_url_arr[1]) == 'pptx'){
             // 增加限制目前只对测试人员开放
-            $test_arr = [104225,107325,107327,107761,108226,392077];
+            $test_arr = [104225,107325,107327,107761,108226,392077,50158];
             if(!in_array($teacherid,$test_arr)){ // 针对卫彬开放
                 return $this->output_err('您好,目前暂不支持PPT格式课件!');
             }
@@ -668,18 +668,6 @@ class teacher_info extends Controller
                 "title"    => $tea_cw_name
             ]);
         }
-        // if(strtolower($stu_cw_url_arr[1]) == 'ppt' || strtolower($stu_cw_url_arr[1]) == 'pptx'){
-        //     $use_ppt_stu = 1;
-        //     $stu_cw_name = $this->t_lesson_info->get_stu_cw_name($lessonid);
-        //     $this->t_deal_ppt_to_h5->row_insert([
-        //         "add_time" => time(),
-        //         "lessonid" => $lessonid,
-        //         "is_tea"   => 0,
-        //         "ppt_url"  => $stu_cw_url,
-        //         "title"    => $stu_cw_name
-        //     ]);
-        // }
-
 
 
 
@@ -3711,7 +3699,6 @@ class teacher_info extends Controller
             $url = "http://7tszue.com2.z0.glb.qiniucdn.com".$pdf.".pdf?e=".$e."&token=".$token;
         }
 
-        //dd($url);
         $ret_info['url'] = $url;
         return $this->view(__METHOD__,$ret_info,[
             'url' => $url,

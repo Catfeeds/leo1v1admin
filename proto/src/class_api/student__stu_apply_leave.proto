@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1109
+//__DESC: 2.7 请假 https://api-class.leo1v1.com/student/stu_apply_leave?lesson_id=21
+//__TAGS: for_app,for_website
+
+
+message in  {
+  uint32 lesson_id = 1;//课程id
+}
+
+message out {
+}
+

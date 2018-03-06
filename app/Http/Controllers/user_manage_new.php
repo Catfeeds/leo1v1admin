@@ -1403,9 +1403,13 @@ class user_manage_new extends Controller
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-
+        $group_list = json_encode($this->get_group_list($list));
         $this->set_filed_for_js("main_type_flag",$main_type_flag);
-        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),["monthtime_flag"=>$monthtime_flag]);
+        $this->set_filed_for_js("monthtime_flag",$monthtime_flag);
+        $this->set_filed_for_js("group_list",$group_list);
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),[
+            "monthtime_flag"=>$monthtime_flag,
+        ]);
     }
 
     public function admin_group_manage_fulltime(){
@@ -1414,7 +1418,15 @@ class user_manage_new extends Controller
 
     }
 
-
+    public function get_group_list($list){
+        $group_arr = [];
+        foreach($list as $key=>$item){
+            if($item['level'] == 'l-4' && $item['main_type']==2){
+                $group_arr[$item['groupid']] = $item['group_name'];
+            }
+        }
+        return $group_arr;
+    }
 
     public function edit_seller_time(){
 
@@ -2891,7 +2903,8 @@ class user_manage_new extends Controller
 
     public function lesson_student_grade_list() {
         list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01"));
-        $ret_info=$this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
+
+        $ret_info = $this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
         foreach($ret_info["list"] as &$item ) {
             $this->cache_set_item_student_nick($item);
         }

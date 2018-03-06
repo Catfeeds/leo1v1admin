@@ -141,7 +141,7 @@ $(function(){
                     $.each(data, function (i, item) {
                         var cls = "success";
 
-                        html_str += "<tr class=\"" + cls + "\" > <td>" + item.ass_date + "<td>" + item.assign_str + "<td>" + item.accept_str + "<td>" + item.assign_remarks+ "</tr>";
+                        html_str += "<tr class=\"" + cls + "\" > <td class='test'>" + item.ass_date + "<td>" + item.assign_str + "<td>" + item.accept_str + "<td>" + item.assign_remarks+ "</tr>";
                     });
 
                     html_node.find(".data-body").html(html_str);
@@ -149,7 +149,6 @@ $(function(){
                 }
             }
         });
-
     });
 
 

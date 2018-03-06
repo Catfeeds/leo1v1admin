@@ -398,23 +398,105 @@ where s.is_test_user = 0 and q.is_called_phone =1
         // $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
 
 
-        $ret = $task->t_student_score_info->get_num();
-        foreach ($ret as $key => $value) {
-            $adminid = $value['adminid'];
-            $file_id = $value['file_id'];
-            $kpi_adminid = $value['kpi_adminid'];
-            $reload_adminid = $value['reload_adminid'];
+        // $ret = $task->t_student_score_info->get_num();
+        // foreach ($ret as $key => $value) {
+        //     $adminid = $value['adminid'];
+        //     $file_id = $value['file_id'];
+        //     $kpi_adminid = $value['kpi_adminid'];
+        //     $reload_adminid = $value['reload_adminid'];
 
-            if($reload_adminid == 0){
-                $task->t_resource_file->field_update_list($file_id,[
-                    "reload_adminid" =>$adminid,
-                ]);
-            }
-            if($kpi_adminid == 0){
-                $task->t_resource_file->field_update_list($file_id,[
-                    "kpi_adminid" =>$adminid,
-                ]);
+        //     if($reload_adminid == 0){
+        //         $task->t_resource_file->field_update_list($file_id,[
+        //             "reload_adminid" =>$adminid,
+        //         ]);
+        //     }
+        //     if($kpi_adminid == 0){
+        //         $task->t_resource_file->field_update_list($file_id,[
+        //             "kpi_adminid" =>$adminid,
+        //         ]);
+        //     }
+
+        // $ret = $task->t_student_score_info->get_num_t2();
+        // $ret2 = $task->t_student_score_info->get_num_t3();
+        // $arr  = [];
+
+        // foreach ($ret2 as $key => $value) {
+        //     $arr[$value['userid']] = 1;
+        // }
+        // foreach ($ret as $key => $value) {
+        //     if($value['time'] >= 1517414400){
+        //         $arr[$value['userid']] = 0;
+        //     }
+        // }
+        // $arr_info = [];
+        // foreach ($ret as $key => $value) {
+        //     if( isset($arr[$value['userid']]) && @$arr[$value['userid']] > 0 && $value['time'] < 1517414400){
+        //         $arr_info[$value['userid']][$value['teacherid']] = 1;
+        //     }
+        // }
+
+        // $test = [];
+        // foreach ($arr_info as $key => $value) {
+        //     $data['userid'] = $key;
+        //     $data['username'] = $task->t_student_info->get_nick($key);
+        //     foreach ($value as $kkey => $kvalue) {
+        //         $data['teacherid'] = $kkey;
+        //         $data['teacher_name'] = $task->t_teacher_info->get_nick($kkey);
+        //     }
+
+        //     $test[] = $data;
+        // }
+        // $file_name = 'sam_0301';
+        // $arr_title = ["学生ID","学生姓名","老师ID","老师姓名"];
+        // $arr_data  = ['userid','username',"teacherid","teacher_name"];
+
+        // $ret_file_name = \App\Helper\Utils::download_txt($file_name,$test,$arr_title,$arr_data);
+        // dd($test);
+
+        // $ret = $task->t_student_score_info->get_data1();
+        // foreach ($ret as $kkey => &$kvalue) {
+        //     $kvalue['subject_str'] = E\Esubject::get_desc($kvalue['subject']);
+        //     $kvalue['grade_str']   = E\Egrade::get_desc($kvalue['grade']);
+        // }
+        // $file_name = 'sam_030201';
+        // $arr_title = ["学生ID","学生姓名","学科","年级","省份"];
+        // $arr_data  = ['userid','nick',"subject_str","grade_str","phone_province"];
+        // $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
+
+        // $ret_info = $task->t_student_score_info->get_data2();
+        // foreach ($ret_info as $key => &$value) {
+        //     $value['first_subject_str'] = E\Esubject::get_desc($value['first_subject']);
+        //     $value['grade_str'] = E\Egrade_range::get_desc($value['grade_start']).'-'.E\Egrade_range::get_desc($value['grade_end']);
+        // }
+        // $file_name = 'sam_030202';
+        // $arr_title = ["老师ID","老师姓名","第一科目","年级段","省份"];
+        // $arr_data  = ['teacherid','nick',"first_subject_str","grade_str","phone_province"];
+        // $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        // dd($ret,$ret_info);
+
+        $ret = $task->t_student_score_info->get_data_num1();
+        foreach ($ret as $key => &$value) {
+            $value['assistantid_nick'] = $task->t_assistant_info->get_nick($value['assistantid']);
+            $value['transfer'] = $task->t_student_score_info->get_m($value['userid']);
+            $value['count'] = $value['count'] - 1;
+            $value['student_type'] = E\Estudent_type::get_desc($value['type']);
+            $value['max_price']    = $value['max_price'] / 100;
+            $value['total_price']  = $value['total_price'] / 100;
+        }
+
+        $ret_info = [];
+
+        foreach ($ret as $vkey => $vvalue) {
+            if($vvalue['max_price'] >= 5000000 || $vvalue['count'] > 0 || $vvalue['transfer'] > 0){
+                $ret_info[] = $vvalue;
             }
         }
+
+        $file_name = 'sam_0305';
+        $arr_title = ["学生ID","姓名","学员类型","助教ID","助教","续费次数","转介绍个数","单笔合同实付最大金额","合同实付总金额"];
+        $arr_data  = ['userid','nick',"student_type","assistantid","assistantid_nick","count","transfer","max_price","total_price"];
+        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        dd($ret_info);
+
     }     
 }

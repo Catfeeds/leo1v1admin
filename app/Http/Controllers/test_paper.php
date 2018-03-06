@@ -33,10 +33,15 @@ class test_paper extends Controller
                 $item['volume_str'] = E\Eresource_volume::get_desc($item['volume']);
                 $item['book_str'] = E\Eregion_version::get_desc($item['book']);
                 $item["operator"] = $this->t_manager_info->get_name($item["adminid"]);
+                $item["edit_time"] = date("Y-m-d H:i",$item["modify_time"]);
+                $item["use_number"] = 0;
+                if($item["use_arr"]){
+                    $item["use_number"] = count(explode(",", $item["use_arr"]));
+                };
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180227134439,
+            '_publish_version'    => 20180302134439,
         ]);
     } 
 
@@ -52,6 +57,8 @@ class test_paper extends Controller
         $question_bind       = $this->get_in_str_val("question_bind");
         $suggestion       = $this->get_in_str_val("suggestion");
         $save_type   = $this->get_in_int_val('save_type');
+        $paper_type   = $this->get_in_int_val('paper_type');
+        $paper_question_num   = $this->get_in_int_val('paper_question_num');
 
         $adminid = $this->get_account_id();
         $data = [];
@@ -64,7 +71,9 @@ class test_paper extends Controller
                 "volume"     => $volume,
                 "book"       => $book,
                 "modify_time" => time(),
-                "adminid"    => $adminid
+                "adminid"    => $adminid,
+                "paper_type"    => $paper_type,
+                "paper_question_num"    => $paper_question_num
             ];
 
             if(!empty($answer)){
@@ -101,11 +110,24 @@ class test_paper extends Controller
                 $new_dimension[$v[0]] = $v[1];
             }
             $data['dimension'] = json_encode($new_dimension);
-        }
 
-        if( !empty($data)){
-            $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
-            return $this->output_succ('添加成功');
+            $paper = $this->t_student_test_paper->get_paper($paper_id);
+            if($paper["question_bind"] ){
+                $question_bind = json_decode($paper["question_bind"],true);
+                foreach($question_bind as $di => $que_arr){
+                    $dimension_arr = array_keys($new_dimension);
+                    if(!in_array($di, $dimension_arr)){
+                        unset($question_bind[$di]);
+                    }
+                }
+           
+                $data['question_bind'] = json_encode($question_bind);
+            }
+
+            if( !empty($data)){
+                $ret = $this->t_student_test_paper->field_update_list($paper_id,$data);
+                return $this->output_succ('添加成功');
+            }
         }
 
     }
@@ -202,8 +224,19 @@ class test_paper extends Controller
     public function get_paper(){
         $paper_id  = trim($this->get_in_int_val('paper_id'));
         $paper = $this->t_student_test_paper->get_paper($paper_id);
-      
+        
         if($paper){
+            $paper['question_dimension'] = "";
+            $question_dimension = [];
+            if($paper['question_bind']){
+                $question_bind = json_decode($paper['question_bind'],true);
+                foreach( $question_bind as $di => $que_arr){
+                    foreach( $que_arr as $que){
+                        $question_dimension[$que] = $di;
+                    }
+                }
+            }
+            $paper['question_dimension'] = json_encode($question_dimension);
             return $this->output_succ(["paper"=>$paper,'status'=>200]);
         }else{
             return $this->output_succ(['status'=>201]);
@@ -224,17 +257,19 @@ class test_paper extends Controller
         $subject  = $this->get_in_int_val('subject',-1);
         $grade  = $this->get_in_int_val('grade',-1);
         $book  = $this->get_in_int_val('book',-1);
+        $paper_type  = $this->get_in_int_val('paper_type',-1);
 
         $page_num  = $this->get_in_page_num();
         $ret_info  = \App\Helper\Utils::list_to_page_info([]);
 
-        $ret_info = $this->t_student_test_paper->get_papers($subject,$grade,$book,$page_num);
+        $ret_info = $this->t_student_test_paper->get_papers($subject,$grade,$book,$paper_type,$page_num);
   
         if($ret_info){
             foreach($ret_info['list'] as &$item ){
                 E\Egrade::set_item_field_list($item, [
                     "subject",
-                    "grade"   
+                    "grade",
+                    "paper_type"
                 ]);
                 $item['volume_str'] = E\Eresource_volume::get_desc($item['volume']);
                 $item['book_str'] = E\Eregion_version::get_desc($item['book']);
@@ -246,5 +281,74 @@ class test_paper extends Controller
             "subject" => $subject,
             "grade" => $grade,
         ]);
+    }
+
+    //获取学生的分数
+    public function get_student_scores(){
+        $userid  = $this->get_in_int_val('userid');
+        $phone   = $this->get_in_int_val('phone');
+        $result  = ["status" => 201];
+        $get_scores = $this->t_student_test_answer->get_scores($userid,$phone);
+        //dd($get_scores);
+        $ret = [];
+        if($get_scores){          
+            foreach( $get_scores as $v){
+                $scores = [];
+                $start_time = date("Y-m-d H:i", ($v['submittime'] - $v['time_token']));
+                $subtime = date("Y-m-d H:i",$v['submittime']);
+                $scores["answer_id"] = $v['id'];
+                $scores["paper_id"] = $v['paper_id'];
+                $scores["name"] = $v['paper_id']."  ".$v['paper_name']."  ".$start_time;
+                $scores["start_time"] = $start_time;
+                $scores["subtime"] = $subtime;
+                $scores["time_token"] = $v['time_token'];
+                $scores["item"] = [];
+                if($v['dimension_scores']){
+                    $tr_show = [];
+                    //每个维度的得分情况
+                    $dimension_scores_arr = json_decode($v['dimension_scores'],true);
+                    //根据每个维度的得分提供的建议
+                    $dimension_suggest_arr = json_decode($v['dimension_suggest'],true);
+                    //维度名称
+                    $dimension = json_decode($v['dimension'],true);
+                    //维度绑定的题目
+                    $question_bind = json_decode($v['question_bind'],true);
+                    //题目
+                    $answer = json_decode($v['answer'],true);
+                    //所有建议
+                    $suggestion = json_decode($v['suggestion'],true);
+                    foreach( $dimension_scores_arr as $di => $sco){
+                        //该维度总分
+                        $ques_arr = @$question_bind[$di];
+                        $all_score = 0;
+                        if($ques_arr){
+                            foreach( $ques_arr as $q_no ){
+                                $all_score += (int)$answer[$q_no][2];
+                            }
+                        }
+                        $score_range_have = "";
+                        //该分数落在哪个维度得分范围内
+                        $score_range = @$suggestion[$di];
+                        if($score_range){
+                            foreach( $score_range as $s_range => $sug ){
+                                if( $sug == $dimension_suggest_arr[$di]){
+                                    $score_range_have = $s_range;
+                                }
+                            }
+                        }
+                        $tr_show[] = [ @$dimension[$di], $sco ,$all_score,$score_range_have,$dimension_suggest_arr[$di] ];                  
+                    }
+
+                    $scores["item"] = $tr_show;
+                }
+
+                $ret[] = $scores;
+                $result['status'] = 200;
+                $result['message'] = $ret;
+            }
+        }
+        //dd($ret);
+        return $this->output_succ($result);
+
     }
 }

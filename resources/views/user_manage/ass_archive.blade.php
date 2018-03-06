@@ -201,6 +201,7 @@
                                -->
                             @if($acc=="jim" || $acc=="jack" || $acc=="michael")
                                 <a class="fa-comment opt-return-back-new " title="回访" ></a>
+                                <a class="opt-apply-change-grade " title="更改年级申请" >改年级</a>
                             @endif
                             <!-- <a class="refund_return_back_new" title="回访-new">退费预警回访</a> -->
                             <!-- <a class="refund_warn_reason" title="退费预警级别详情">详情</a> -->
@@ -275,11 +276,10 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon">&nbsp绿色通道：</span>
-                            <input type="text" class=" form-control "  id="id_green_channel_teacherid_new_two"  />
+                            <input type="text" class=" form-control "  id="id_green_channel_teacherid_new_two" />
                         </div>
                     </div>
 
-                    
                     <div class="col-xs-12 col-md-3 " style="display:none;">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp学情反馈：</span>

@@ -94,22 +94,28 @@ class reset_lesson_online_user_status extends Command
                 $lesson_online_user_status = $check_teacher_online_flag && $check_student_online_flag  ;
                 $lesson_login_flag = $tea_logintime && $stu_logintime;
 
-                if ($lesson_online_user_status ==1 ) {
+                $this->task->t_lesson_info->field_update_list($lessonid,[
+                    "lesson_user_online_status" =>  $lesson_online_user_status ? 1:2  ,
+                    "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
+                ]);
+
+                \App\Helper\Utils::logger("last_succ_test_lessonid_start:".time());
+                if($lesson_online_user_status){
+                    \App\Helper\Utils::logger("last_succ_test_lessonid_end:".time());
                     //优学优享
                     $agent_id= $this->task->t_agent->get_agentid_by_userid($studentid);
                     if ($agent_id) {
                         dispatch( new \App\Jobs\agent_reset($agent_id) );
                     }
-                }
 
-                $this->task->t_lesson_info->field_update_list($lessonid,[
-                    "lesson_user_online_status" =>  $lesson_online_user_status ? 1:2  ,
-                    "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
-                ]);
-                if($lesson_online_user_status == 1){
                     $origin = $this->task->t_seller_student_origin->get_last_origin($item["userid"],$item["lesson_start"]);
                     if($origin != ''){
                         $this->task->t_seller_student_origin->field_update_list_2($item["userid"], $origin, ['last_suc_lessonid'=>$lessonid]);
+                    }
+
+                    $last_succ_test_lessonid = $this->task->t_seller_student_new->field_get_value($item["userid"], "last_succ_test_lessonid");
+                    if($lessonid != $last_succ_test_lessonid){
+                        $this->task->t_seller_student_new->field_update_list($item["userid"],['last_succ_test_lessonid'=>$lessonid]);
                     }
                 }
             }

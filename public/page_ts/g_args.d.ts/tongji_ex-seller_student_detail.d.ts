@@ -6,6 +6,13 @@ interface GargsStatic {
 	end_time:	string;
 	page_num:	number;
 	page_count:	number;
+	phone_province:	string;
+	origin_level:	number;
+	key0:	string;
+	key1:	string;
+	key2:	string;
+	key3:	string;
+	value:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -15,7 +22,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	key0	:any;
 	seller_resource_type	:any;
 	first_call_time	:any;
 	first_contact_time	:any;
@@ -47,6 +53,13 @@ interface RowData {
 	admin_assign_time	:any;
 	sub_assign_time_2	:any;
 	origin_assistantid	:any;
+	phone_province	:any;
+	key0	:any;
+	key1	:any;
+	key2	:any;
+	key3	:any;
+	key4	:any;
+	value	:any;
 	origin_userid	:any;
 	subject	:any;
 	grade	:any;
@@ -70,6 +83,7 @@ interface RowData {
 	test_lesson_flag	:any;
 	orderid	:any;
 	price	:any;
+	origin_level_str	:any;
 	seller_student_status_str	:any;
 	global_tq_called_flag_str	:any;
 	cc_nick	:any;
@@ -93,7 +107,14 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		phone_province:	$('#id_phone_province').val(),
+		origin_level:	$('#id_origin_level').val(),
+		key0:	$('#id_key0').val(),
+		key1:	$('#id_key1').val(),
+		key2:	$('#id_key2').val(),
+		key3:	$('#id_key3').val(),
+		value:	$('#id_value').val()
 		});
 }
 $(function(){
@@ -108,6 +129,13 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_phone_province').val(g_args.phone_province);
+	$('#id_origin_level').val(g_args.origin_level);
+	$('#id_key0').val(g_args.key0);
+	$('#id_key1').val(g_args.key1);
+	$('#id_key2').val(g_args.key2);
+	$('#id_key3').val(g_args.key3);
+	$('#id_value').val(g_args.value);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -124,4 +152,60 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">phone_province</span>
+                <input class="opt-change form-control" id="id_phone_province" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["phone_province title", "phone_province", "th_phone_province" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">origin_level</span>
+                <input class="opt-change form-control" id="id_origin_level" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["origin_level title", "origin_level", "th_origin_level" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">key0</span>
+                <input class="opt-change form-control" id="id_key0" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["key0 title", "key0", "th_key0" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">key1</span>
+                <input class="opt-change form-control" id="id_key1" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["key1 title", "key1", "th_key1" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">key2</span>
+                <input class="opt-change form-control" id="id_key2" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["key2 title", "key2", "th_key2" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">key3</span>
+                <input class="opt-change form-control" id="id_key3" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["key3 title", "key3", "th_key3" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">value</span>
+                <input class="opt-change form-control" id="id_value" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["value title", "value", "th_value" ]])!!}
 */

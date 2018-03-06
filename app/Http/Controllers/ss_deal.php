@@ -3828,6 +3828,14 @@ class ss_deal extends Controller
 
             //分配给原来的销售
             $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+            $del_flag = $this->t_manager_info->get_del_flag($admin_revisiterid);
+            if($del_flag==1){
+             
+                $cc_account = $this->t_manager_info->get_account($admin_revisiterid);
+                $new_account = $cc_account.".";
+                $admin_revisiterid  = $this->t_manager_info->get_id_by_account( $new_account);
+            }
+
             //$admin_revisiterid= $origin_assistantid;
 
             if ($admin_revisiterid) {
@@ -3839,6 +3847,13 @@ class ss_deal extends Controller
             }
 
         }
+
+        //添加完成  添加转介绍例子添加记录
+        $this->t_student_introduce_create->row_insert([
+            'userid' => $userid,
+            'adminid' => $this->get_account_id(),
+            'add_time' => time(NULL)
+        ]);
         // $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         // if($account_role==1){
         //     //分配销售总监
@@ -4586,7 +4601,6 @@ class ss_deal extends Controller
 
     }
     public function seller_noti_info()  {
-
         $adminid=$this->get_account_id();
         $next_revisit_count = $this->t_seller_student_new->get_today_next_revisit_count($adminid);
         $today_free_count= $this->t_seller_student_new-> get_today_next_revisit_need_free_count($adminid);
@@ -5977,8 +5991,8 @@ class ss_deal extends Controller
         $ytx_phone=session("ytx_phone");
 
         if(\App\Helper\Utils::check_env_is_test()){
-            $userid = $this->get_in_userid();
-            $admind = $this->get_in_adminid();
+            $userid = $this->t_phone_to_user->get_userid($phone);
+            $adminid = $this->get_account_id();
             //判断该例子是否还是当前cc的[已自动释放]
             $current_adminid = $this->t_seller_student_new->field_get_value($userid, 'admin_revisiterid');
             if($current_adminid != $adminid)

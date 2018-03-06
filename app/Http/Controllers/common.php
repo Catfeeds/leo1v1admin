@@ -1516,15 +1516,15 @@ class common extends Controller
 
         if ($is_public) {
             $ret_arr = [
+                "domain" => $qiniu_config["public"] ["url"],
                 "bucket" => $public_bucket,
-                "domain" =>  $qiniu_config["public"] ["url"],
                 "token"  => $this->get_token($public_bucket),
             ];
         }else{
             $ret_arr = [
                 "domain" => $qiniu_config["private_url"] ["url"],
-                "token"  => $this->get_token($private_bucket),
                 "bucket" => $private_bucket,
+                "token"  => $this->get_token($private_bucket),
             ];
         }
         return $this->output_succ($ret_arr);
@@ -1543,8 +1543,6 @@ class common extends Controller
         return $this->output_succ($ret_arr);
     }
 
-
-
     public function upload_qiniu() {
         $file = Input::file('file');
         $file_name_fix=$this->get_in_str_val("file_name_fix");
@@ -1555,7 +1553,6 @@ class common extends Controller
         $secretKey = $qiniu_config['secret_key'];
 
         // 构建鉴权对象
-
         $private_bucket = $qiniu_config["private_url"]['bucket'];
 
         if($file->isValid()){
@@ -1622,9 +1619,6 @@ class common extends Controller
 
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-
-
-
 
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
@@ -2296,6 +2290,34 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
 
         return $this->output_succ(['data'=>$list]);
+    }
+
+    public function get_xingye_wx_url(){
+        ini_set('date.timezone','Asia/Shanghai');
+        require_once  app_path("Libs/WxpayAPI/lib/init.php");
+        // $input = new WxPayUnifiedOrder();
+        $input= new \WxpayAPI\WxPayUnifiedOrder();
+        $input->SetBody("test");
+        $input->SetAttach("test");
+        $input->SetOut_trade_no(\WxpayAPI\WxPayConfig::MCHID.date("YmdHis"));
+        $input->SetTotal_fee("1");
+        $input->SetTime_start(date("YmdHis"));
+        $input->SetTime_expire(date("YmdHis", time() + 600));
+        $input->SetGoods_tag("test");
+        $input->SetNotify_url("http://p.admin.leo1v1.com/common_new/set_xingye_notify_callbanck");
+        $input->SetTrade_type("NATIVE");
+        $input->SetProduct_id("1234567890");
+
+        if($input->GetTrade_type() == "NATIVE")
+		{
+			$result = \WxpayAPI\WxPayApi::unifiedOrder($input);
+		}
+
+        $url2 = $result["code_url"];
+        dd($url2);
+
+
+
     }
 
 

@@ -1,0 +1,22 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1101
+//__DESC: 修改收货地址 https://api-class.leo1v1.com/student/change_stu_address?address_id=1&province=广东&city=广州&county=天河&address=谁谁谁XX街道&phone=13838389438&username=张三&is_default=1
+//__TAGS: for_app,for_website
+
+
+message in  {
+  	uint32 address_id = 1; // 地址id
+  	string province = 2; // 省
+  	string city = 3; // 市
+   	string county = 4; // 县  
+   	string address = 5; //  具体地址 
+   	string phone = 6; //  电话 
+   	string username = 7; //  姓名 
+   	string is_default = 8; //  是否设为默认地址 
+}
+
+message out {
+}
+

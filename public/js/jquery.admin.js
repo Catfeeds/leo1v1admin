@@ -885,7 +885,6 @@ jQuery.fn.extend({
 
 jQuery.extend({
     custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ){
-
         var html_node=$('        <div class="row">'+
                         '            <div class="progress">'+
                         '                <div class="progress-bar" role="progressbar" aria-valuenow="60" '+
@@ -951,24 +950,24 @@ jQuery.extend({
             var domain_name=ret.domain;
             var token=ret.token;
             var uploader = Qiniu.uploader({
-                runtimes: 'html5, flash, html4',
-                browse_button: btn_id , //choose files id
-                uptoken: token,
-                domain: "http://"+domain_name,
-                max_file_size: '30mb',
-                dragdrop: true,
-                flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
-                chunk_size: '4mb',
-                unique_names: false,
-                save_key: false,
-                auto_start: true,
-                multi_selection: false,
-                filters: {
+                runtimes        : 'html5, flash, html4',
+                browse_button   : btn_id, //choose files id
+                uptoken         : token,
+                domain          : "http://"+domain_name,
+                max_file_size   : '30mb',
+                dragdrop        : true,
+                flash_swf_url   : '/js/qiniu/plupload/Moxie.swf',
+                chunk_size      : '4mb',
+                unique_names    : false,
+                save_key        : false,
+                auto_start      : true,
+                multi_selection : false,
+                filters         : {
                     mime_types: [
                         {title: "", extensions: ext_file_list.join(",") }
                     ]
                 },
-                init: {
+                init : {
                     'FilesAdded': function(up, files) {
                         plupload.each(files, function(file) {
                             console.log('waiting...'+file.name );
@@ -993,7 +992,6 @@ jQuery.extend({
                             before_upload();
                         }
                         return true;
-
                     },
                     'UploadProgress': function(up,file) {
                         if(noti_process) {
@@ -1034,7 +1032,6 @@ jQuery.extend({
                         var file_name=$.md5(file.name) +time +'.' + match[1];
                         console.log('gen file_name:'+file_name);
                         return file_name;
-
                     }
                 }
             });
@@ -2247,22 +2244,24 @@ var select_no_select_value = -1;
         }
         return ret;
     },
-
-
     show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag, width ){
-
         var table_obj=$("<table class=\"table table-bordered table-striped\"  > <tr> <thead> <td style=\"text-align:right;\">属性  </td>  <td> 值 </td> </thead></tr></table>");
 
         $.each(arr , function( index,element){
             var row_obj=$("<tr> </tr>" );
-            var td_obj=$( "<td style=\"text-align:right; width:30%;\"></td>" );
-            var v=element[0] ;
-            td_obj.append(v);
-            row_obj.append(td_obj);
-            td_obj=$( "<td ></td>" );
+            var td_obj_left=$( "<td style=\"text-align:right; width:30%;\"></td>" );
+            var td_obj_right=$( "<td ></td>" );
 
-            td_obj.append( element[1] );
-            row_obj.append(td_obj);
+            $.each(element,function(dom_key,dom_value){
+                if(dom_key==0){
+                    td_obj_left.append(dom_value);
+                }else{
+                    td_obj_right.append(dom_value);
+                }
+            });
+            row_obj.append(td_obj_left);
+            row_obj.append(td_obj_right);
+
             table_obj.append(row_obj);
         });
         var all_btn_config=[{

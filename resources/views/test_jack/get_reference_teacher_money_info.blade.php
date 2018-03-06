@@ -21,29 +21,75 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>月份</td>
+                    <td rowspan="2">月份</td>
                     @foreach ( $level as $k=>$var )
-                        <td>{{$var}}</td>
+                        <td colspan="3">{{$var}}</td>
                     @endforeach
 
+                    <!-- <td>学生名字</td>
+                         <td>年级</td>
+                         <td>助教</td>
+                         <td>对应老师</td> -->
+                   
                     <!-- <td>助教经手次数</td>
                          <td>单科目老师更换的最大次数</td> -->
                                                                                       
-                    <td> 操作</td>
+                    <td rowspan="2"> 操作</td>
+                </tr>
+                <tr>
+                    <td>老师数</td>
+                    <td>学生数</td>
+                    <td>课时</td>
+                    <td>老师数</td>
+                    <td>学生数</td>
+                    <td>课时</td>
+                    <td>老师数</td>
+                    <td>学生数</td>
+                    <td>课时</td>
+                    <td>老师数</td>
+                    <td>学生数</td>
+                    <td>课时</td>
+                    <td>老师数</td>
+                    <td>学生数</td>
+                    <td>课时</td>
+                    <td>老师数</td>
+                    <td>学生数</td>
+                    <td>课时</td>
+                    <td>老师数</td>
+                    <td>学生数</td>
+                    <td>课时</td>
+
                 </tr>
             </thead>
             <tbody id="id_tbody">
                 @foreach ( $list as $k=>$var )
                     <tr>
                         
-                        <td>{{ @$k }}</td>
-                        <td class="num1"></td>                       
-                        <td class="num2"></td>                       
-                        <td class="num3"></td>                       
-                        <td class="num4"></td>                       
-                        <td class="num5"></td>                       
-                        <td class="num6"></td>                        
-                        <td class="num"></td>                        
+                        <td>{{ @$k}}</td>
+                        <td class="num1_tea"></td>                       
+                        <td class="num1_stu"></td>                       
+                        <td class="num1_lesson"></td>
+                        <td class="num2_tea"></td>                       
+                        <td class="num2_stu"></td>                       
+                        <td class="num2_lesson"></td>                       
+                        <td class="num3_tea"></td>                       
+                        <td class="num3_stu"></td>                       
+                        <td class="num3_lesson"></td>                       
+                        <td class="num4_tea"></td>                       
+                        <td class="num4_stu"></td>                       
+                        <td class="num4_lesson"></td>                       
+                        <td class="num5_tea"></td>                       
+                        <td class="num5_stu"></td>                       
+                        <td class="num5_lesson"></td>                       
+                        <td class="num6_tea"></td>                       
+                        <td class="num6_stu"></td>                       
+                        <td class="num6_lesson"></td>                       
+                        <td class="num_tea"></td>                       
+                        <td class="num_stu"></td>                       
+                        <td class="num_lesson"></td>                       
+
+                                 
+
                                  
                         
                         <td>

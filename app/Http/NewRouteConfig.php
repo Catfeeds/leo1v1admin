@@ -112,6 +112,7 @@ class NewRouteConfig {
         "/teacher_info/do_collect"                => true,
         "/lesson_manage/stu_status_count"         => true,
         "/lesson_manage/change_lesson_info"       => true,
+        "/lesson_manage/get_lesson_count_for_stu_schedule" => true,
         "/admin_join/get_apply_info"              => true,
         "/supervisor/lesson_all_info"             => true,
         "/supervisor/monitor"                     => true,
@@ -169,6 +170,7 @@ class NewRouteConfig {
         "/common/get_city_textbook_info"          => true,
         "/common/baidu_callback_return_info_test" => true,
         "/common/baidu_callback_return_info"      => true,
+        "/common/get_xingye_wx_url"               => true,
 
         "/user_manage/qc_invalid_resources"           => true,
         "/user_manage/get_nick"                       => true,
@@ -747,8 +749,8 @@ class NewRouteConfig {
         "/resource/total_del_file"                       =>true,
         "/test_bacon/modify_res_agree_info"              =>true,
         "/test_bacon/luru_tag"                           =>true,
-        "/test_bacon/modify_resource"                    =>true,
-        "/test_bacon/change_tag"                         =>true,
+        "/test_bacon/test_select"                        =>true,
+        "/test_bacon/get_books"                          =>true,
         "/teacher_info/get_leo_resource_new"             =>true,
         "/teacher_info/get_sub_grade_book_tag"           =>true,
         "/user_manage_new/set_power_with_groupid_list_new" => true,
@@ -763,8 +765,13 @@ class NewRouteConfig {
         "/test_paper/save_suggestion"                    =>true,
         "/test_paper/dele_suggestion"                    =>true,
         "/test_paper/dele_paper"                         =>true,
+        "/test_paper/get_student_scores"                 =>true,
         "/wjx_receive_api/get_answers"                   =>true,
         "/wjx_receive_api/give_scores"                   =>true,
+        "/info_resource_power/get_resource_power"        =>true,
+        "/info_resource_power/save_resource_power"       =>true,
+        "/info_resource_power/dele_resource"             =>true,
+        "/info_resource_power/dele_type"                 =>true,
     ];
 
     static $dev_url_map = [

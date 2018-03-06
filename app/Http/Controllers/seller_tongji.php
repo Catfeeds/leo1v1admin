@@ -73,7 +73,6 @@ class seller_tongji extends Controller
             $res[$k]['month_work_day_now_real'] = $j+$l;
             $res[$k]['target_personal_money'] = $item['personal_money'];
         }
-   
         $this->check_and_switch_tongji_domain();
         // $this->t_admin_group_user->switch_tongji_database();
         $group_money_info = $this->t_admin_group_user->get_seller_month_money_info($start_first,$group_adminid_list);

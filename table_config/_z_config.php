@@ -1,6 +1,8 @@
 <?php
 return array(
+    ["db_weiyi","t_leave_lesson_log","id"],
     ["db_weiyi","t_invalid_num_confirm","id"],
+    ["db_weiyi","t_student_introduce_create","id"],
     ["db_weiyi","t_deal_ppt_to_h5","id"],
     ["db_weiyi","t_cc_no_return_call","uid"],
     ["db_weiyi","t_seller_student_do_tag_log","id"],
@@ -284,8 +286,9 @@ return array(
     ["db_weiyi","t_teacher_spring","id"],
     ["db_weiyi","t_student_test_paper","paper_id"],
     ["db_weiyi","t_student_test_answer","id"],
-
-
+    ["db_weiyi","t_info_resource_power","id"],
+    ["db_weiyi","t_info_resource_book","id"],
+    
     ["db_weiyi_admin","t_upload_info","postid"] ,
     ["db_weiyi_admin","t_upload_student_info","postid","phone"] ,
 

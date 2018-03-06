@@ -32,10 +32,11 @@ tofile:
 /// <reference path="../g_args.d.ts/rule_txt-rule_detail.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		rule_id:	$('#id_rule_id').val()
-    });
+		});
 }
 $(function(){
 
@@ -57,4 +58,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_rule_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["rule_id title", "rule_id", "th_rule_id" ]])!!}
 */

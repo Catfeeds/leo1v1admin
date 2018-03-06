@@ -346,4 +346,16 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 
         return $this->main_get_value($sql);
     }
+
+    public function getOpenidByLessonid($lessonid){
+        $sql = $this->gen_sql_new("  select wx_openid from %s p"
+                                  ." left join %s pc on pc.parentid=p.parentid"
+                                  ." left join %s l on l.userid=pc.userid"
+                                  ." where l.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
 }

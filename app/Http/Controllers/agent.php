@@ -441,7 +441,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        return $this->pageView(__METHOD__,null,[]);
+        return $this->pageView(__METHOD__,NULL);
     }
 
     public function add_seller_new_count(){
@@ -459,6 +459,7 @@ class agent extends Controller
         ]);
         dd($ret);
     }
+
 
     public function del_detailid(){
         $ret = $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=174354);

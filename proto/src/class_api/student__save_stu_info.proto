@@ -1,0 +1,17 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1104
+//__DESC: 1.2 学生登录后填写保存个人信息 https://api-class.leo1v1.com/student/save_stu_info?nick=赵四&birth=2010-10-10&gender=1
+//__TAGS: for_app,for_website
+
+
+message in  {
+  	string nick = 1; // 昵称
+  	string birth = 2; // 生日日期 如: 2010-10-10
+   	uint32 gender = 3; // 性别  
+}
+
+message out {
+}
+

@@ -159,5 +159,126 @@ $(function(){
         }) ;
  
     })
+
+    $("#opt-test-paper").on("click",function(){
+        
+        var opt_data  = $(this).get_opt_data();
+        var user_id = 542755;
+        var phone = 18021110908;
+        $("<div></div>").admin_select_dlg_ajax_second({
+            "opt_type" : "select", // or "list"
+            "url"      : "/test_paper/get_papers",
+            //其他参数
+            "args_ex" : {
+                //type  :  "teacher"
+            },
+            title : "选择生成的链接",
+            btn_title : "生成链接",
+            is_lru_show : false,
+            select_primary_field   : "paper_id",   //要拿出来的值
+            select_display         : "paper_id",
+            select_no_select_value : -1,
+            select_no_select_title : "[全部]",
+            width:600,
+            //字段列表
+             'field_list' :[
+                 {
+                 title:"测试卷名称",
+                 width:400,
+                 render:function(val,item) {
+
+                     var paper_url = "https://ks.wjx.top/jq/" + item.paper_id + ".aspx?sojumpparm="+item.paper_id+"-"+user_id+"-"+phone;
+                     return "<a href='"+paper_url+"' target='_blank'>" + item.paper_name + "</a>";
+                 }
+             },
+                {
+                title:"科目",
+                width:200,
+                render:function(val,item) {
+                    return item.subject_str;
+                }
+            },
+                {
+                title:"年级",
+                width:200,
+                render:function(val,item) {
+                    return item.grade_str;
+                }
+            },
+                {
+                title:"教材版本",
+                width:200,
+                render:function(val,item) {
+                    return item.book_str;
+                }
+            }
+            ] ,
+            //查询列表
+            filter_list:[[
+                {
+                size_class: "col-md-4 paper_subject" ,
+                title :"科目",
+                type  : "select" ,
+                'arg_name' :  "subject",
+                select_option_list: [],
+                default_selected : "2",
+            },{
+                size_class: "col-md-4 paper_grade" ,
+                title :"年级",
+                type  : "select" ,
+                'arg_name' :  "grade"  ,
+                select_option_list: [],
+                default_selected : "103",
+            }
+                 ]],
+             "auto_close"       : false,
+             "onChange"         : function(require_id,row_data){
+                 if(!row_data){
+                     BootstrapDialog.alert("请选择试卷！");
+                     return false;
+                 }
+                 var paper = "<div class='paper_info'>"
+                 paper += "<div><span class='paper_font'>评测卷名称</span><span>"+row_data.paper_name+"</span></div>";
+                 var paper_url = "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx?sojumpparm="+row_data.paper_id+"-"+user_id+"-"+phone;
+                 paper += "<div><span class='paper_font'>评测卷链接</span><span><a href='"+paper_url+"' target='_blank'>"+paper_url+"</a></span></div>";
+                 paper += "<div><span class='paper_font'>友情提示</span><span>请微信扫一扫下面的二维码，转发给家长</span></div>";
+                      
+
+                 paper += "</div>";
+                 var dlg= BootstrapDialog.show({
+                     title: "测评卷链接 -> 测评卷二维码 ",
+                     message : paper,
+                     buttons: [{
+                         label: '返回',
+                         cssClass: 'btn-warning',
+                         action: function(dialog) {
+                             dialog.close();
+                         }
+                     }],
+                     onshown: function(){
+                        
+                     }
+
+                 });
+                 dlg.getModalDialog().css("width", "730px");
+             },
+             "onLoadData"       : function(require_id,data){
+             },
+            "onshown"       : function(dlg){
+                var hehe = $(dlg).find(".paper_subject select").html();
+                // var dede = $(dlg).html();
+                //console.log(dlg.$modalBody[0].find(".paper_subject select"));
+                Enum_map.append_option_list("subject",  $(dlg).find(".paper_subject select"),false,[1,2,3,4,5,6,7,8,9,10,11]);
+                $(dlg).find(".paper_subject select").val(2);
+                Enum_map.append_option_list("grade",  $(dlg).find(".paper_grade select"));
+                $(dlg).find(".paper_grade select").val(103);
+
+                console.log(hehe);
+                console.log(dlg);
+            }
+
+         });
+    });
+
 });
     

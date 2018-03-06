@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1114
+//__DESC: 购物车商品列表 https://api-class.leo1v1.com/shopcar/get_stu_item_list
+//__TAGS: for_app,for_website
+
+
+message in  {
+}
+
+message out {
+}
+

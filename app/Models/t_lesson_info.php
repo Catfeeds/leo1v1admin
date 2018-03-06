@@ -596,7 +596,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      , t_flow::DB_TABLE_NAME
                      , t_course_order::DB_TABLE_NAME
                      ,$cond_str
-        );
+        ); 
         return $this->main_get_list_by_page($sql, $page_num, 10);
     }
 
@@ -1726,6 +1726,7 @@ lesson_type in (0,1) "
         );
         return $this->main_get_list_as_page($sql);
     }
+
     public function get_ass_lesson_info( $start_time,$end_time, $require_adminid_list) {
         $where_arr=[
             "lesson_type in (0,1,3)",
@@ -3076,8 +3077,10 @@ lesson_type in (0,1) "
             $where_arr[]="stu_attend=0 and lesson_status=1 and lesson_type in (0,1,3)";
         }elseif($type==2){
             $where_arr[]="lesson_type=2";
+        } elseif($type==3) {
+            $where_arr[]="stu_attend=0 and lesson_status=1 and lesson_type in (0,1,3) and s.is_test_user=1"; 
         }
-        $sql = $this->gen_sql_new("select lessonid,l.assistantid,l.userid,lesson_type,if(s.nick='',s.nick,s.realname) as realname"
+        $sql = $this->gen_sql_new("select lessonid,l.assistantid,l.userid,lesson_type,lesson_start,subject,s.phone,if(s.nick='',s.nick,s.realname) as realname"
                                   ." from %s l"
                                   ." left join %s s on s.userid=l.userid "
                                   ." where %s "
@@ -3087,6 +3090,7 @@ lesson_type in (0,1) "
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+        
         return $this->main_get_list($sql);
     }
 
@@ -3106,16 +3110,29 @@ lesson_type in (0,1) "
 
     /**
      * 老师工资相关的课程
+     * @param int teacherid 老师id
+     * @param int start  开始时间
+     * @param int end    结束时间
+     * @param int studentit 学生id
+     * @param string type  current 当前为止，所有结束课程；all 所有课程；
+     * @param int has_test_data 0 去掉测试用户的数据;1 包含测试用户的数据
      */
-    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='current'){
+    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='current',$has_test_data=0){
         $where_arr = [
             ["l.teacherid=%u",$teacherid,-1],
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
+            "lesson_type<1000",
+            "lesson_del_flag=0",
+            "(confirm_flag!=2 or deduct_change_class>0)"
         ];
+        if($has_test_data==1){
+            $where_arr[] = "s.is_test_user=0";
+            $where_arr[] = "t.is_test_user=0";
+        }
         if($type=='current'){
-            $where_arr[]="lesson_status=2";
+            $where_arr[] = "lesson_status=2";
         }
         $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
 
@@ -3126,7 +3143,7 @@ lesson_type in (0,1) "
                                   ." lesson_cancel_time_type,lesson_cancel_reason_type,t.teacher_type,"
                                   ." m.money,m.type,m.level,m.teacher_money_type,l.teacher_type as l_teacher_type,"
                                   ." tl.test_lesson_fail_flag,tl.fail_greater_4_hour_flag,"
-                                  ." l.competition_flag"
+                                  ." l.competition_flag,l.teacherid,l.lesson_status,l.lesson_del_flag"
                                   ." from %s l "
                                   ." left join %s tl on l.lessonid=tl.lessonid "
                                   ." left join %s s on l.userid=s.userid "
@@ -3139,9 +3156,6 @@ lesson_type in (0,1) "
                                   ." end )"
                                   ." and %s "
                                   ." where %s "
-                                  ." and (confirm_flag!=2 or deduct_change_class>0) "
-                                  ." and lesson_type<1000 "
-                                  ." and lesson_del_flag=0 "
                                   ." and (tl.test_lesson_fail_flag<100 or tl.test_lesson_fail_flag is null"
                                   ." or (tl.test_lesson_fail_flag in (101,102) and tl.fail_greater_4_hour_flag=0))"
                                   ." group by l.lessonid "
@@ -3155,6 +3169,7 @@ lesson_type in (0,1) "
                                   ,$teacher_money_type_str
                                   ,$where_arr
         );
+        // echo $sql;echo PHP_EOL;exit;
         return $this->main_get_list($sql);
     }
 

@@ -1274,6 +1274,10 @@ class common_new extends Controller
         if(empty($check_exist)){
             if($status==8){
                 $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
+                $channel = $this->t_orderid_orderno_list->get_channel($orderNo);
+                if(empty($channel)){
+                    $channel="baidu";
+                }
                 $userid = $this->t_order_info->get_userid($parent_orderid);
 
                 //更新家长课程信息
@@ -1289,7 +1293,7 @@ class common_new extends Controller
                         "");
                     $this->t_orderid_orderno_list->field_update_list($orderNo,[
                         "pay_flag" =>1,
-                        "channel"  =>"baidu",
+                        "channel"  =>$channel,
                         "pay_time" =>time()
                     ]);
 
@@ -1321,8 +1325,13 @@ class common_new extends Controller
                 return $this->output_succ(["status"=>2,"msg"=>"参数错误"]);
             }else{
                 if($status==8){
+                    $channel = $this->t_orderid_orderno_list->get_channel($orderNo);
+                    if(empty($channel)){
+                        $channel="baidu";
+                    }
+
                     $old_list = $this->t_child_order_info->field_get_list($orderid,"pay_status,pay_time,channel");
-                    if($old_list["pay_status"]==1 && $old_list["pay_time"]>0 && $old_list["channel"]=="baidu"){
+                    if($old_list["pay_status"]==1 && $old_list["pay_time"]>0 && in_array($old_list["channel"],["baidu","baidu_app"])){
                         return $this->output_succ(["status"=>0,"msg"=>"success"]);
                     }
                     $parentid= $this->t_student_info->get_parentid($userid);
@@ -1330,7 +1339,7 @@ class common_new extends Controller
                     $this->t_child_order_info->field_update_list($orderid,[
                         "pay_status"  =>1,
                         "pay_time"    =>time(),
-                        "channel"     =>"baidu",
+                        "channel"     =>$channel,
                         "from_orderno"=>$orderNo,
                         "period_num"  =>$period_new,
                         "parent_name" =>$parent_name
@@ -1734,6 +1743,26 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $this->output_succ(["status"=>1,"msg"=>"验证失败"]);
         }
 
+
+    }
+
+    //兴业银行微信扫码支付回调函数
+    public function set_xingye_notify_callbanck(){
+        //接收传送的数据
+        $fileContent = file_get_contents("php://input"); 
+
+
+        ### 把xml转换为数组
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        //先把xml转换为simplexml对象，再把simplexml对象转换成 json，再将 json 转换成数组。
+        $data = json_decode(json_encode(simplexml_load_string($fileContent, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+        // $data = $_REQUEST;
+        // $tt= $this->get_in_str_val("return_code");
+        \App\Helper\Utils::logger("return_code");
+
+        \App\Helper\Utils::logger("set_xingye_notify_callbanck_test2");
+        \App\Helper\Utils::logger(json_encode($data));
 
     }
 

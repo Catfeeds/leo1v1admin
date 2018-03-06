@@ -25,8 +25,8 @@ class ajax_deal3 extends Controller
         $new_count=0;
         $no_connected_count=0;
         //试听成功,未回访用户数量
-        // $no_call_test_list = $this->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
-        $no_call_test_list = $this->t_seller_student_new->get_suc_no_call_list($adminid);
+        $no_call_test_list = $this->t_lesson_info_b2->get_call_end_time_num_by_adminid($adminid);
+        // $no_call_test_list = $this->t_seller_student_new->get_suc_no_call_list($adminid);
         $no_call_test_succ = count($no_call_test_list);
         // $no_call_test_succ =$this->t_cc_no_return_call->field_get_value($adminid, 'no_return_call_num');
 
@@ -993,9 +993,10 @@ class ajax_deal3 extends Controller
         $userid  = $this->get_in_int_val('userid');
         $adminid = $this->get_in_int_val('adminid');
         $account_type = $this->get_in_int_val('type');
-        $confirm_type = $this->get_in_int_val('confirm_type');
+        $confirm_type = $this->get_in_int_val('cc_confirm_type');
         $qc_mark = $this->get_in_str_val('mark');
         # account_type:1:CC 2:TMK 3:QC
+        $set_field_arr = [];
         if($account_type == 2){
             $set_field_arr=[
                 "tmk_confirm_time" => time(),
@@ -1020,20 +1021,21 @@ class ajax_deal3 extends Controller
             ]);
             // 更新例子表中的cc标记次数
         }else{
-            $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
+            if(!empty($set_field_arr)){
+                $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
+            }
         }
         # 进入tmk库
         # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
         if($account_type == 1){
-            /*
             $hasSignNum = $this->t_invalid_num_confirm->getHasSignNum($userid);
             if($confirm_type == 1001 || $hasSignNum == 3){
                 $this->t_seller_student_new->field_update_list($userid, [
-                    'tmk_student_status' => 2
+                    // 'tmk_student_status' => 2
                 ]);
             }
-            */
             $adminid = $this->get_account_id();
+            $arr = [];
             $cc_confirm_type = $this->t_invalid_num_confirm->get_row_by_adminid($adminid,$confirm_type);
             $field_list = $this->t_seller_student_new->field_get_list($userid, 'cc_not_exist_count,cc_invalid_count');
             if($cc_confirm_type==0 && $confirm_type>0){
@@ -1056,7 +1058,7 @@ class ajax_deal3 extends Controller
         $adminid = $this->get_in_int_val('adminid');
 
         $is_sign = $this->t_invalid_num_confirm->checkHasSign($userid,$adminid);
-        return $this->output_succ(['is_sign'=>1]);
+        return $this->output_succ(['is_sign'=>$is_sign]);
     }
 
     # qc页面获取录音数据
@@ -1067,7 +1069,7 @@ class ajax_deal3 extends Controller
         $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("leoAa123456" )."seed1")."&seed=seed1"  ;
         $now=time(NULL);
 
-        dd($ret_info);
+        // dd($ret_info);
         foreach(@$ret_info as &$item){
             $record_url= $item["record_url"] ;
             if ($now-$item["start_time"] >1*86400 && (preg_match("/saas.yxjcloud.com/", $record_url  )|| preg_match("/121.196.236.95/", $record_url  ) ) ){
@@ -1095,5 +1097,23 @@ class ajax_deal3 extends Controller
         $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$base_name;
         $base_url=$auth->privateDownloadUrl($file_url );
         return $this->output_succ(['url'=>$base_url,'base_name'=>$base_name]);
+    }
+
+    //更改年级申请
+    public function change_student_grade_apply(){
+        $userid = $this->get_in_int_val('userid');
+        $grade = $this->get_in_int_val('grade');
+        $reason = $this->get_in_str_val('reason');
+        $old_grade = $this->t_student_info->get_grade($userid);
+        $arr = ["old"=>$old_grade,"new"=>$grade];
+        $str = json_encode( $arr);
+        $nick = $this->t_student_info->get_nick($userid);
+        $msg = "学生:".$nick." 原年级:".E\Egrade::get_desc($old_grade)."目标年级:".E\Egrade::get_desc($grade)." 说明:".$reason;
+        $ret=$this->t_flow->add_flow(
+            1,$this->get_account_id(),$msg,$userid,$str,0
+        );
+        return $this->output_succ();
+
+ 
     }
 }

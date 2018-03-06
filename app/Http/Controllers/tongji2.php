@@ -612,6 +612,7 @@ class tongji2 extends Controller
                 $val['userid_num']        = @$ret_item['userid_num'];
             }
         }
+        // dd($admin_info['list']);
         $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list']);
         // dd($ret_info);
         foreach( $ret_info as &$item ) {
@@ -665,7 +666,7 @@ class tongji2 extends Controller
             if(!isset($ret_map[$adminid])){
                 $ret_map[$adminid] = $week_item_list;
             }
-            $ret_map[$adminid][$lesson_date]["lesson_count"] ++;
+            $ret_map[$adminid][$lesson_date]["lesson_count"]++;
         }
         foreach($require_list as $require_item ) {
             $adminid  = $require_item['adminid'];

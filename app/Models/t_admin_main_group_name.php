@@ -403,5 +403,17 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $this->main_get_value($sql);
 
     }
+    //@desn:获取某类型的大区groupid、group_name
+    //@desn:$main_type  大区类型
+    public function get_list_by_main_type($main_type){
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr, 'main_type', $main_type);
+        $sql = $this->gen_sql_new(
+            'select groupid,group_name from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

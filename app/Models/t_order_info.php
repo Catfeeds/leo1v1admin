@@ -1109,7 +1109,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   $where_arr
         );
         return $this->main_get_list($sql);
-
     }
 
     public function get_1v1_order_seller_list_group( $start_time,$end_time,$groupid=-1,$start_first,$order_by_str) {
@@ -2562,7 +2561,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $where_arr[]="o.sys_operator <>'yueyue' ";
         }
 
-        if ($origin) {
+        if ($origin!="" && $origin!="-1") {
             $where_arr[]= [ "s.origin like '%%%s%%'" , $this->ensql($origin) ];
         }
 
@@ -5098,19 +5097,23 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
 
-    public function get_item_list($start_time,$end_time){
+    public function get_item_list($start_time,$end_time,$adminid_list){
         $where_arr=[
             'o.contract_type=0',
-            'o.price>0',
+            'o.contract_status<>0',
+            'is_test_user = 0',
         ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'm.uid',$adminid_list);
         $this->where_arr_add_time_range($where_arr, 'o.order_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
             " select o.*,m.create_time become_time "
             ." from %s o "
             ." left join %s m on m.account=o.sys_operator "
+            ." left join %s s on s.userid=o.userid "
             ." where %s",
             self::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
@@ -5145,6 +5148,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function get_item_month_list(){
         $sql = "select m.uid,m.account,o.sys_operator,o.orderid,o.price/100 price  from db_weiyi.t_order_info o , db_weiyi.t_student_info s , db_weiyi_admin.t_manager_info m,  db_weiyi_admin.t_group_user_month gu,   db_weiyi_admin.t_group_name_month g   where  o.userid = s.userid   and    o.sys_operator =m.account   and    m.uid=gu.adminid  and    gu.groupid =g.groupid and     order_time>=1514736000 and order_time<=1517414400 and is_test_user=0 and g.groupid=111 and g.month=1514736000 and gu.month=1514736000 and contract_type in(0,3) and contract_status in(1,2) and stu_from_type=0 and m.account_role=2 order by sys_operator,price desc";
         return $this->main_get_list($sql);
+    }
+    //@desn:获取用户是否签约及签单的合同金额
+    public function get_order_info_for_referral($userid){
+        $where_arr = [
+            'si.is_test_user = 0',
+            'oi.contract_type = 0',
+            "oi.contract_status >0 ",
+            ['oi.userid = %u',$userid,0]
+        ];
+        $sql = $this->gen_sql_new(
+            'select count(*) order_count,sum(oi.price) order_money '.
+            'from %s oi '.
+            'join %s si using(userid) '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
     }
 }
 
