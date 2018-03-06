@@ -39,13 +39,23 @@ $(function(){
     });
 
     $("#opt-test-enum").click(function(){
-        var id_resource = $("#opt-test-paper");
+        var id_resource = $("#opt-test-enum");
+        var books  = id_resource.attr('books');
+        var select_list = [];
+        if(books){
+            var book_arr = books.split(',');
+            for(var x in book_arr){
+                select_list.push(book_arr[x]);
+            };
+        }
+        console.log(select_list);
         $(this).admin_select_dlg_second({
             header_list     : [ "id","名称" ],
             data_list       : [],
+            select_search   : id_resource.val(),
             enum_name   : "region_version",
             multi_selection : true,
-            select_list     : [],
+            select_list     : select_list,
             onChange        : function( select_list,dlg) {
                 var str = '';
                 var str_id = '';

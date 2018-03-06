@@ -19,83 +19,86 @@ class info_support extends Controller
         $subject      = $this->get_in_int_val('subject', 1);       
         $province = $this->get_in_int_val('province', -1);
         $city       = $this->get_in_int_val('city', -1);
-        $page_info     = $this->get_in_page_info();
-        $page_num = $page_info['page_num'];
+
 
         $province_range = "";
-        if(!$province){
-            $province_all = $this->t_info_resource_book->get_province_range();
-            if($province_all){
-                $page_start = $page_num*5 - 1;
-                $page_end = $page_num*5 + 4;
-               
-                $province_range_str = "";
-                for($i = $page_start;$i <= $page_end;$i++){
-                    if($province_all[$i]['province']){
-                        $province_range_str .= $province_all[$i]['province'].',';
-                    }
-                }
-                if($province_range_str){
-                    $province_range = "(".substr($province_range_str,0,-1).")";
-                }
-            }
-            
+        if($province > 0){
+                   
         }
 
-        $ret_info = $this->t_info_resource_book->get_books($subject,$province,$city,$province_range,$page_info);
+        $ret_info = $this->t_info_resource_book->get_books($subject,$province,$city,$province_range);
 
         $city_have = 0;
         $list = [];
-        $i = 0;
-        foreach($ret_info['list'] as $k => $item) {
-            $list[$k] = $item;
-           
+        $i = -1;
+        foreach($ret_info as $k => $item) {           
             if($item['city'] != $city_have){
+                $i ++;
                 $city_have = $item['city'];
                 $list[$i] = $item;
-                $list[$i]['subjec_str'] = E\Esubject::get_desc($item['subject']);        
-                //$list[$i]['grade_str'] = E\Egrade::get_desc($item['grade']);  
-                $list[$i]['book_arr'][$item['grade']][$item['book']] = E\Eregion_version::get_desc($item['book']);                
-                $i ++;
-
+                $list[$i]['subject_str'] = E\Esubject::get_desc($item['subject']);         
+                $list[$i]['book_arr'][$item['grade']][$item['book']] = E\Eregion_version::get_desc($item['book']);                                
             }else{
                 $list[$i]['book_arr'][$item['grade']][$item['book']] = E\Eregion_version::get_desc($item['book']);
             }
         }
-
-        return $this->pageView(__METHOD__, $ret_info,[
-            '_publish_version'    => 20180303171440,
+        //dd($list);
+        return $this->pageView(__METHOD__,null,[
+            '_publish_version'    => 20180306161440,
+            'list' => $list
         ]);
     }
 
-    private function upload_books($upfile){
-        //获取数组里面的值
-        $name=$upfile["name"];//上传文件的文件名 
-        $type=$upfile["type"];//上传文件的类型 
-        $size=$upfile["size"];//上传文件的大小 
-        $tmp_name=$upfile["tmp_name"];//上传文件的临时存放路径   
- 
-        $new_root = dirname(dirname(dirname(dirname(__FILE__))))."/public";
-        $file_name = $new_root."/".$name;
-        move_uploaded_file($tmp_name,$file_name);//将上传到服务器临时文件夹的文件重新移动到新位置
-
-        $error=$upfile["error"];//上传后系统返回的值 
-        if($error==0){ 
-            echo "文件上传成功啦！";
-        }else{
-            echo "上传失败";
+    public function save_books(){
+        $subject         = $this->get_in_int_val('subject', 1);       
+        $province        = $this->get_in_int_val('province', -1);
+        $city            = $this->get_in_int_val('city', -1);
+        $province_name   = $this->get_in_str_val('province_name');
+        $city_name       = $this->get_in_str_val('city_name');
+        $low             = $this->get_in_str_val('low');       
+        $middle          = $this->get_in_str_val('middle');
+        $high            = $this->get_in_str_val('high');
+        $data = [];
+        $public_data = [
+            "subject" => $subject,
+            "province" => $province,
+            "province_name" => $province_name,
+            "city" => $city,
+            "city_name" => $city_name
+        ];
+        if($low){
+            $low_arr = explode(",",$low);
+            if($low_arr){
+                foreach($low_arr as $book_1){
+                    $public_data["grade"] = 100;
+                    $public_data["book"] = $book_1;
+                    $this->t_info_resource_book->row_insert($public_data);
+                }
+            }
         }
-        //文件名为文件路径和文件名的拼接字符串
-        $objReader = \PHPExcel_IOFactory::createReader('Excel5');//创建读取实例
-        /*
-         * log()//方法参数
-         * $file_name excal文件的保存路径
-         */
-        $objPHPExcel = $objReader->load($file_name,$encode='utf-8');//加载文件
-        $sheet = $objPHPExcel->getSheet(0);//取得sheet(0)表
-        $highestRow = $sheet->getHighestRow(); // 取得总行数
-        $highestColumn = $sheet->getHighestColumn(); // 取得总列数
-        echo $highestRow;
-        echo $highestColumn;
+
+        if($middle){
+            $middle_arr = explode(",",$middle);
+            if($middle_arr){
+                foreach($middle_arr as $book_2){
+                    $public_data["grade"] = 200;
+                    $public_data["book"] = $book_2;
+                    $this->t_info_resource_book->row_insert($public_data);
+                }
+            }
+        }
+
+        if($high){
+            $high_arr = explode(",",$high);
+            if($high_arr){
+                foreach($high_arr as $book_3){
+                    $public_data["grade"] = 300;
+                    $public_data["book"] = $book_3;
+                    $this->t_info_resource_book->row_insert($public_data);
+                }
+            }
+        }
+
+        return $this->output_succ();
     }
 }

@@ -2297,8 +2297,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         require_once  app_path("Libs/WxpayAPI/lib/init.php");
         // $input = new WxPayUnifiedOrder();
         $input= new \WxpayAPI\WxPayUnifiedOrder();
-        $input->SetBody("test");
-        $input->SetAttach("test");
+        $input->SetBody("理优在线学习课程");
+        $input->SetAttach("理优在线学习课程");
         $input->SetOut_trade_no(\WxpayAPI\WxPayConfig::MCHID.date("YmdHis"));
         $input->SetTotal_fee("1");
         $input->SetTime_start(date("YmdHis"));

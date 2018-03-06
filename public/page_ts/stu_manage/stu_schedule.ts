@@ -25,14 +25,6 @@ $(function(){
         +"<option value='1'>每周</option>"
         +"<option value='2'>隔周</option>";
 
-    var get_lesson_count = function(lesson_start,lesson_end){
-        $.do_ajax("/lesson_manage/get_lesson_count_for_stu_schedule",{
-            "lesson_start" : lesson_start,
-            "lesson_end"   : lesson_end,
-        },function(result){
-            return result;
-        });
-    }
 
 
     //排课
@@ -94,19 +86,17 @@ $(function(){
  	              var lesson_start = id_lesson_start.val();
                 var lesson_end   = id_lesson_end.val();
                 if(lesson_start!="" && lesson_end!=""){
-                    var lesson_ret = get_lesson_count(lesson_start,lesson_end);
-                    if(lesson_ret.ret==0){
-
-                    }else{
-
-                    }
-
-                    if(typeof(lesson_count) ){
-                        id_lesson_count.val(lesson_count);
-                    }else{
-                        id_lesson_end.empty();
-                        BootstrapDialog.alert(lesson_count);
-                    }
+                    $.do_ajax("/lesson_manage/get_lesson_count_for_stu_schedule",{
+                        "lesson_start" : lesson_start,
+                        "lesson_end"   : lesson_end,
+                    },function(result){
+                        if(result.ret==0){
+                            id_lesson_count.val(result.data);
+                        }else{
+                            id_lesson_end.empty();
+                            BootstrapDialog.alert(result.info);
+                        }
+                    });
                 }
             }
 
