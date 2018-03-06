@@ -1013,6 +1013,7 @@ class ajax_deal3 extends Controller
                 "qc_mark"         => $qc_mark
             ];
         }
+        $field_list = $this->t_seller_student_new->field_get_list($userid, "cc_not_exist_count,cc_invalid_count");
 
         // 处理无效资源标记次数累加
         if($account_type == 1){
@@ -1028,7 +1029,6 @@ class ajax_deal3 extends Controller
             }else{ // 其他无效资源
                 $arr['cc_invalid_count'] = $field_list['cc_invalid_count']+1;
             }
-
         }else{
             if($account_type == 2){
                 $arr['tmk_student_status_adminid'] = $adminid;
