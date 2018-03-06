@@ -2120,6 +2120,7 @@ class test_jack  extends Controller
         
         $adminid           = $this->get_in_int_val("userid");
         $start_time      = strtotime("2018-02-01");
+        $end_time      = strtotime("2018-03-01");
         $item1=$this->t_month_ass_student_info->get_ass_month_info($start_time,$adminid);
         $item=$item1[$adminid];
         $read_student_list = $item["userid_list"];
