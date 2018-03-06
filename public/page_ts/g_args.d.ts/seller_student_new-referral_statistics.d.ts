@@ -35,9 +35,11 @@ interface RowData {
 	create_role	:any;
 	admin_assigner_nick	:any;
 	userid	:any;
+	origin_role	:any;
 	create_role_str	:any;
 	admin_revisiter_role_str	:any;
 	allocation_type	:any;
+	allocation_type_str	:any;
 }
 
 /*

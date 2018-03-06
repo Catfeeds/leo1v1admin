@@ -178,12 +178,13 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             'select si.phone,si.nick,psi.nick origin_nick,si.reg_time,si.origin_assistantid,'.
             'ssn.admin_revisiterid,ssn.admin_assignerid,rmi.account admin_revisiter_nick,'.
             'rmi.account_role admin_revisiter_role,smi.account sd_nick,imi.account create_nick,'.
-            'imi.account_role create_role,gmi.account admin_assigner_nick,si.userid '.
+            'imi.account_role create_role,gmi.account admin_assigner_nick,si.userid,'.
+            'ami.account_role origin_role '.
             'from %s si '.
             'left join %s sic on sic.userid = si.userid '.
             'join %s psi on si.origin_userid = psi.userid '.
             'join %s ssn on ssn.userid = si.userid '.
-            'join %s ami on si.origin_assistantid = ami.uid '.         //转介绍销售信息
+            'join %s ami on si.origin_assistantid = ami.uid '.         //转介绍负责人信息
             'left join %s imi on sic.adminid = imi.uid '.              //转介绍添加人信息
             'left join %s rmi on ssn.admin_revisiterid = rmi.uid '.    //转介绍销售信息
             'left join %s smi on ssn.sub_assign_adminid_1 = rmi.uid '. //转介绍SD
