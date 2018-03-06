@@ -59,10 +59,6 @@ class NoticeStudent extends Command
         } elseif($type == 3) {
             $end_time   = time()-300;
             $start_time = $end_time-60;
-            echo "程序开始运行...";
-            echo "current ".date("Y-m-d H:i:s", time());
-            echo " start ".date("Y-m-d H:i:s", $start_time);
-            echo " end ".date("Y-m-d H:i:s", $end_time).PHP_EOL;
         }
         $now         = date("Y-m-d",time());
         $lesson_list = $task->t_lesson_info->get_lesson_stu_late($start_time,$end_time,$type);
@@ -76,8 +72,8 @@ class NoticeStudent extends Command
                 //打电话方法
                 $type = "125735110"; // 固定
                 $phone = $val["phone"];
-                echo $val["userid"]." ".$data["lesson_time"]." ".$data["subject"]." ".$phone.PHP_EOL;
-                \App\Helper\Utils::tts_common($phone, $type, $data);
+                echo $val["userid"]." ".date("Y-m-d H:i:s", $data["lesson_start"])." ".$data["subject"]." ".$phone.PHP_EOL;
+                //\App\Helper\Utils::tts_common($phone, $type, $data);
             } else {
                 if($val['assistantid']>0 && $type==1){
                     $account     = $task->t_assistant_info->get_account_by_id($val['assistantid']);

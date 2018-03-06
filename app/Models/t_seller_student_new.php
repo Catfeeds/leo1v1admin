@@ -3671,8 +3671,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
 
-    public function get_master_detail_list($start_time,$end_time,$page_info){
-        $where_arr = [];
+    public function get_master_detail_list($start_time,$end_time,$page_info,$phone_province = '',$origin_level=-1,$key0='',$key1='',$key2='',$key3='',$value=''){
+        // $where_arr = [];
+        $where_arr = [
+            [" phone_province = '%s'",$phone_province,''],
+            [" s.origin_level = %s",$origin_level,-1],
+            [" k.key0 = '%s'",$key0,''],
+            [" k.key1 = '%s'",$key1,''],
+            [" k.key2 = '%s'",$key2,''],
+            [" k.key3 = '%s'",$key3,''],
+            [" k.value = '%s'",$value,''],
+        ];
         $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
             " select seller_resource_type ,first_call_time,first_contact_time,test_lesson_count,"
@@ -3682,6 +3691,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick,"
             ." s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,"
             ." ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2,s.origin_assistantid,"
+            ." s.phone_province,k.key0, k.key1, k.key2, k.key3, k.key4,k.value,  "
             ." s.origin_userid,t.subject,s.grade,ss.user_desc,ss.has_pad,t.require_adminid ,tmk_student_status,"
             ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
             ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"
@@ -3692,14 +3702,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s s on ss.userid=s.userid "
             ." left join %s m on  ss.admin_revisiterid =m.uid "
             ." left join %s o on  o.orderid =ss.orderid "
+            ." left join %s k on k.value = s.origin "
             ." where %s order by ss.add_time desc "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
             , t_manager_info::DB_TABLE_NAME
             , t_order_info::DB_TABLE_NAME
+            , t_origin_key::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
@@ -3885,7 +3898,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_auto_free_list(){
         $where_arr = [
             "n.admin_revisiterid>0",
-            "n.orderid>0",
+            "n.orderid=0",
             "m.account_role=2",
         ];
         $sql=$this->gen_sql_new(

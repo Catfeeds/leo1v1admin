@@ -441,7 +441,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        return $this->pageView(__METHOD__,null,[]);
+        return $this->pageView(__METHOD__,NULL);
     }
 
     public function add_seller_new_count(){
