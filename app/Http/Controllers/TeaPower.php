@@ -3753,7 +3753,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $year = date("Y",$start_time);
         $m = date("m",$start_time);
-        $md = date("m",$start_time+100*86400);
+        $md = date("m",$start_time+85*86400);
         $list[$start_time]=$year." ".$m."-".$md;
 
 
@@ -3763,7 +3763,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $year = date("Y",$start_time);
         $m = date("m",$start_time);
-        $md = date("m",$start_time+100*86400);
+        $md = date("m",$start_time+85*86400);
         $list[$start_time]=$year." ".$m."-".$md;
 
         //上上季度
@@ -3780,7 +3780,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $start_time_se = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season_se*3-3+1,1,date('Y'))));
         $year = date("Y",$start_time_se);
         $m = date("m",$start_time_se);
-        $md = date("m",$start_time_se+100*86400);
+        $md = date("m",$start_time_se+85*86400);
         $list[$start_time_se]=$year." ".$m."-".$md;
 
 
