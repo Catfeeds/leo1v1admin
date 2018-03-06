@@ -2244,22 +2244,24 @@ var select_no_select_value = -1;
         }
         return ret;
     },
-
-
     show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag, width ){
-
         var table_obj=$("<table class=\"table table-bordered table-striped\"  > <tr> <thead> <td style=\"text-align:right;\">属性  </td>  <td> 值 </td> </thead></tr></table>");
 
         $.each(arr , function( index,element){
             var row_obj=$("<tr> </tr>" );
-            var td_obj=$( "<td style=\"text-align:right; width:30%;\"></td>" );
-            var v=element[0] ;
-            td_obj.append(v);
-            row_obj.append(td_obj);
-            td_obj=$( "<td ></td>" );
+            var td_obj_left=$( "<td style=\"text-align:right; width:30%;\"></td>" );
+            var td_obj_right=$( "<td ></td>" );
 
-            td_obj.append( element[1] );
-            row_obj.append(td_obj);
+            $.each(element,function(dom_key,dom_value){
+                if(dom_key==0){
+                    td_obj_left.append(dom_value);
+                }else{
+                    td_obj_right.append(dom_value);
+                }
+            });
+            row_obj.append(td_obj_left);
+            row_obj.append(td_obj_right);
+
             table_obj.append(row_obj);
         });
         var all_btn_config=[{

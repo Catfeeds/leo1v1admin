@@ -1,14 +1,10 @@
 interface JQueryStatic {
-
     self_upload_process(id,url,ctminfo,ext_file_list,ex_args,complete_func ):void;
-
-    custom_upload_file_process (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ):void;
-
-    enum_multi_select ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
+    custom_upload_file_process(btn_id,is_public_bucket,complete_func,ctminfo,ext_file_list,bucket_info,noti_origin_file_func):void;
+    enum_multi_select($element,enum_name,onChange,id_list?,select_group_list?):void;
     enum_multi_select_new ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
     intval_range_select ( $element,  onChange  ):void ;
-
-    reload( ):void;
+    reload():void;
     isWeiXin():boolean;
     do_ajax( url:string,data: Object ,succ_call_back?: (result :any )=>void, jsonp_flag? ):void;
     do_ajax_t( url:string,data: Object ,succ_call_back?: (result :any )=>void   ):void;
@@ -19,44 +15,37 @@ interface JQueryStatic {
     get_page_select_date_str(has_date_type?):string;
     plupload_Uploader(config:any):any;
     get_action_str():string;
-
-    flow_dlg_show(title, add_func , flow_type, from_key_int,  from_key2_int?, from_key_str? ):void;
-
+    flow_dlg_show(title,add_func,flow_type,from_key_int,from_key2_int?,from_key_str?):void;
     /*
-        $.show_key_value_table("新增申请", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
-            }
-        });
-            */
-
-
+      $.show_key_value_table("新增申请", arr ,{
+      label: '确认',
+      cssClass: 'btn-warning',
+      action: function(dialog) {
+      }
+      });
+    */
     show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
-
-
     /*
-    $.admin_enum_select( {
-        "join_header"  : $header_query_info,
-        "enum_type" : null,
-        "field_name" : "contract_type",
-        "option_map" : {
-            1: "xx",
-            2:"kkk 2 ",
-            3:"nnn3  ",
-        },
-        "title" : "合同类型",
-        "select_value" :g_args.contract_type,
-    }) ;
+      $.admin_enum_select( {
+      "join_header"  : $header_query_info,
+      "enum_type" : null,
+      "field_name" : "contract_type",
+      "option_map" : {
+      1: "xx",
+      2:"kkk 2 ",
+      3:"nnn3  ",
+      },
+      "title" : "合同类型",
+      "select_value" :g_args.contract_type,
+      }) ;
 
-    $.admin_enum_select( {
-        "join_header"  : $header_query_info,
-        "enum_type" : "subject",
-        "title" : "科目",
-        "select_value" :g_args.subject,
-        "id_list" :[1,2,3,4,5,6],
-    }) ;
-
+      $.admin_enum_select( {
+      "join_header"  : $header_query_info,
+      "enum_type" : "subject",
+      "title" : "科目",
+      "select_value" :g_args.subject,
+      "id_list" :[1,2,3,4,5,6],
+      }) ;
     */
     admin_enum_select (options):any;
     admin_query_input ( options):any;

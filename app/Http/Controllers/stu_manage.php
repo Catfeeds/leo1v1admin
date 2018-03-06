@@ -2040,15 +2040,30 @@ class stu_manage extends Controller
 
         return $this->pageView(__METHOD__,$ret_info,[
             "all_normal_count"    => $all_normal_count,
-            "lesson_normal_count" => $lesson_normal_count,
-            "lesson_normal_cost"  => $lesson_normal_cost,
+            "lesson_normal_count" => $lesson_normal_count==null?0:$lesson_normal_count,
+            "lesson_normal_cost"  => $lesson_normal_cost==null?0:$lesson_normal_cost,
 
             "all_competition_count"    => $all_competition_count,
-            "lesson_competition_count" => $lesson_competition_count,
-            "lesson_competition_cost"  => $lesson_competition_cost,
+            "lesson_competition_count" => $lesson_competition_count==null?0:$lesson_competition_count,
+            "lesson_competition_cost"  => $lesson_competition_cost==null?0:$lesson_competition_cost,
 
             "tea_list"         => $tea_list,
             "stu_subject"      => $stu_subject,
         ]);
     }
+
+    /**
+     * 学生个人中心-学生课表
+     * 获取学生的课表信息
+     */
+    public function get_stu_schedule_lesson_list(){
+        $timestamp = $this->get_in_int_val("timestamp",-1);
+        $type      = $this->get_in_int_val("type",-1);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $subject   = $this->get_in_int_val("subject",-1);
+
+
+    }
+
+
 }

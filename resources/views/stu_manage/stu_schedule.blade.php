@@ -4,15 +4,32 @@
     <link rel='stylesheet' href='/css/fullcalendar.css' />
     <script type="text/javascript" src='/page_js/select_teacher_free_time.js'></script>
     <script type="text/javascript" src='/page_js/set_lesson_time.js'></script>
-
-
     <script src='/js/fullcalendar.js'></script>
     <script src='/js/lang-all.js'></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <style>
-     .fc-event {
-         border-radius:0px;
+     .lesson_count{
+         float:left;
+         width:100%;
+         text-align:center;
+     }
+     .lesson_count div{
+         float:left;
+         line-height:50px;
+         background-color:gray;
+         width:200px;
+         height:50px;
+         margin:10px 20px;
+     }
+     .trial_teacher{
+         margin:10px 20px 5px 0px;
+         background-color:gray;
+         padding:0 10px;
+         float:left;
+         height:30px;
+         line-height:30px;
+         cursor:pointer;
      }
     </style>
     <section class="content">
@@ -34,6 +51,7 @@
                 <div>剩余竞赛课时:{{ $all_competition_count-$lesson_competition_cost}}</div>
             </div>
         @endif
+        <div style="clear:both"></div>
         <div class="row"  >
             <div class="col-xs-6 col-md-2 ">
                 <div class="input-group ">
@@ -42,15 +60,15 @@
                 </div>
             </div>
             <div class="col-md-1 col-xs-3">
-                <button class="btn btn-primary add_player " >排课</button>
+                <button class="btn btn-primary" id="set_lesson">排课</button>
             </div>
             <div class="col-md-2 col-xs-3">
-                <button class="btn btn-primary  add_player " >周模板课表</button>
+                <button class="btn btn-primary" id="set_lesson_for_week">周模板课表</button>
             </div>
             <div class="col-md-2 col-xs-0">
                 <div class="input-group ">
                     <span>科目</span>
-                    <select id="id_lesson_subject" class="course_select_type">
+                    <select id="id_subject" class="course_select_type">
                         <option value="-1">全部</option>
                         @foreach($stu_subject as $sub_key=>$sub_val)
                             <option value="{{ $sub_key }}">{{ $sub_val }}</option>
@@ -61,18 +79,18 @@
             <div class="col-md-2 col-xs-0">
                 <div class="input-group ">
                     <span>类型</span>
-                    <select id="id_has_question_user" class="course_select_type">
-                        <option value="-1">全部</option>
-                        <option value="0">常规课</option>
-                        <option value="1">奥数课</option>
+                    <select id="id_competition_flag" class="course_select_type">
                     </select>
                 </div>
             </div>
         </div>
         <div>
-            @foreach($tea_list as $tea_key=>$tea_val)
-                <div class="trial_teacher" data-teacherid="{{ $tea_key }}">{{ $tea_val['realname'] }}</div>
-            @endforeach
+            @if(is_array($tea_list) && !empty($tea_list))
+                @foreach($tea_list as $tea_key=>$tea_val)
+                    <div class="trial_teacher" data-teacherid="{{ $tea_key }}">{{ $tea_val['realname'] }}</div>
+                @endforeach
+                <div style="clear:both"></div>
+            @endif
         </div>
         <hr/>
         <div id='id_calendar'></div>
