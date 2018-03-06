@@ -32,7 +32,7 @@ class LoginTest extends DuskTestCase
                 // 模块 ["url" => "", "click" => ""],
                 $pages = [
                     // cc相关页面
-                    ["url" => "/main_page/seller", "click" => ".opt-no-order"], // 排行榜
+                    // ["url" => "/main_page/seller", "click" => ".opt-no-order"], // 排行榜
                     ["url" => "/seller_student_new/seller_student_list_all", "click" => ".opt-edit-new_new_two"], // 所有用户
                     ["url" => "/seller_student_new/assign_member_list", "click" => ".opt-return-back-list"], // 分配例子-主管
                     ["url" => "/seller_student_new/ass_master_seller_student_list", "click" => ".opt-edit-new_new_two"], // 转介绍例子
