@@ -2305,7 +2305,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $input->SetBody("理优1v1课程");
         $input->SetAttach("理优课程");
         $input->SetOut_trade_no($orderNo);
-        $input->SetTotal_fee("1");
+        $input->SetTotal_fee($payment);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetGoods_tag("test");
