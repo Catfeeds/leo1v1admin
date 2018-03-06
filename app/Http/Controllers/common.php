@@ -1306,7 +1306,12 @@ class common extends Controller
                     "学生:".$nick." 合同付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
                     "");
                 $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
+                $total_price = $this->t_child_order_info->get_total_price_by_parent_orderid($parent_orderid);
+                $parent_price = $this->t_order_info->get_price($parent_orderid);
+
                 if(empty($all_order_pay)){
+                    if($total_price==$parent_price){
+                       
                     $this->t_order_info->field_update_list($parent_orderid,[
                         "order_status" =>1,
                         "contract_status"=>1,
@@ -1337,6 +1342,15 @@ class common extends Controller
                         "合同已支付全款",
                         "学生:".$nick." 合同已支付全款",
                         "");
+                    }else{
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款异常通知",
+                            "合同全款金额不对",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+ 
+                    }
 
 
                 }

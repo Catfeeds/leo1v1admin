@@ -173,6 +173,15 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_total_price_by_parent_orderid($parent_orderid){
+        $sql = $this->gen_sql_new("select sum(price) from %s where parent_orderid = %u and price>0",
+                                  self::DB_TABLE_NAME,
+                                  $parent_orderid
+        );
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_period_list($pay_status,$channel){
         $where_arr=[
             ["c.pay_status=%u",$pay_status,-1],
