@@ -1108,9 +1108,9 @@ class ajax_deal3 extends Controller
         $arr = ["old"=>$old_grade,"new"=>$grade];
         $str = json_encode( $arr);
         $nick = $this->t_student_info->get_nick($userid);
-        $msg = "学生:".$nick." 原年级:".E\Egrade::get_desc($old_grade)."目标年级:".E\Egrade::get_desc($grade)." 说明:".$reason;
+        //  $msg = "学生:".$nick." 原年级:".E\Egrade::get_desc($old_grade)."目标年级:".E\Egrade::get_desc($grade)." 说明:".$reason;
         $ret=$this->t_flow->add_flow(
-            1,$this->get_account_id(),$msg,$userid,$str,0
+            E\Eflow_type::V_STUDENT_CHANGE_GRADE,$this->get_account_id(),$reason,$userid,$str,0           
         );
         return $this->output_succ();
 
