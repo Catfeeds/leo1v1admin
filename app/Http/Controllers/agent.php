@@ -468,8 +468,8 @@ class agent extends Controller
             }
         }
         foreach($free_list as $userid=>$item){
-            // $this->set_seller_free($item['phone'],$item['userid']);
-            echo $item['phone']."<br>";
+            $this->set_seller_free($item['phone'],$item['userid']);
+            // echo $item['phone']."<br>";
         }
         dd('a');
         return $this->pageView(__METHOD__,NULL);
