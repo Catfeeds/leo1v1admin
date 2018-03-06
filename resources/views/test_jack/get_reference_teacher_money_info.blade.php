@@ -21,9 +21,6 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td >月份</td>
-                    
-
                     <td>id</td>
                     <td>名字</td>
                     <td>原绩效(回访)</td>
