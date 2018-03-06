@@ -2906,7 +2906,7 @@ class Utils  {
      * @return boolean 是否可执行相关操作 true 可以 false 不可以
      */
     static public function check_teacher_salary_time($time){
-        $check_time = strtotime("+1 month",strtotime(date("Y-m-06",$time)));
+        $check_time = strtotime("+1 month",strtotime(date("Y-m-07",$time)));
         $now_time   = time();
         if($now_time>$check_time){
             return false;

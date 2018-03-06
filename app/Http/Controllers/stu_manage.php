@@ -1538,7 +1538,7 @@ class stu_manage extends Controller
             ]);
         }elseif($current_id==2){          
             $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
-            $list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            $list     = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
             foreach($ret_info["list"] as &$item){
                 E\Egrade::set_item_value_str($item);
                 E\Esubject::set_item_value_str($item);
@@ -1552,7 +1552,6 @@ class stu_manage extends Controller
                     $item["tea_attend_str"] = "—";
                     $item["stu_attend_str"] = "—";
                 }else{
-
                     if(in_array($item["lesson_cancel_reason_type"],[2,12,21]) && $item["confirm_flag"]>=2){
                         $item["tea_attend_str"] = E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
                         $item["stu_attend_str"] = "—";
@@ -1560,7 +1559,6 @@ class stu_manage extends Controller
                         $item["stu_login_num"] = "—";
                         $item["parent_login_num"] = "—";
                         $item["stu_praise"] = "—";
-
                     }elseif(in_array($item["lesson_cancel_reason_type"],[1,11,20]) && $item["confirm_flag"]>=2){
                         $item["stu_attend_str"] = E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
                         $item["tea_attend_str"] = "—";
@@ -1634,22 +1632,18 @@ class stu_manage extends Controller
 
 
             return $this->pageView(__METHOD__,$ret_info,[
-                "attend_rate"=>@$attend_rate,
-                "subject_list"=>$subject_arr,
-                "grade_list"=>$grade_arr,
+                "attend_rate"  => @$attend_rate,
+                "subject_list" => $subject_arr,
+                "grade_list"   => $grade_arr,
             ]);
-
-
         }elseif($current_id==3){
             $ret_info = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
             $list = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
             foreach($ret_info["list"] as &$item){
                 E\Egrade::set_item_value_str($item);
                 E\Esubject::set_item_value_str($item);
-                \App\Helper\Utils::unixtime2date_range($item);             
+                \App\Helper\Utils::unixtime2date_range($item);
                 $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
-
-                         
                 $item['stu_intro']   = json_decode($item['stu_performance'],true);
                 $item['stu_point_performance']='';
                 if(isset($item['stu_intro']['point_note_list']) && is_array($item['stu_intro']['point_note_list'])){
@@ -1711,12 +1705,9 @@ class stu_manage extends Controller
                     if(!empty($comment)){
                         $tea_comment++;
                     }
-
-
                 }
-
-
             }
+
             $record_rate = $all_num==0?0:round($tea_comment/$all_num*100,2);
             return $this->pageView(__METHOD__,$ret_info,[
                 "record_rate"=>$record_rate,
@@ -2040,15 +2031,30 @@ class stu_manage extends Controller
 
         return $this->pageView(__METHOD__,$ret_info,[
             "all_normal_count"    => $all_normal_count,
-            "lesson_normal_count" => $lesson_normal_count,
-            "lesson_normal_cost"  => $lesson_normal_cost,
+            "lesson_normal_count" => $lesson_normal_count==null?0:$lesson_normal_count,
+            "lesson_normal_cost"  => $lesson_normal_cost==null?0:$lesson_normal_cost,
 
             "all_competition_count"    => $all_competition_count,
-            "lesson_competition_count" => $lesson_competition_count,
-            "lesson_competition_cost"  => $lesson_competition_cost,
+            "lesson_competition_count" => $lesson_competition_count==null?0:$lesson_competition_count,
+            "lesson_competition_cost"  => $lesson_competition_cost==null?0:$lesson_competition_cost,
 
             "tea_list"         => $tea_list,
             "stu_subject"      => $stu_subject,
         ]);
     }
+
+    /**
+     * 学生个人中心-学生课表
+     * 获取学生的课表信息
+     */
+    public function get_stu_schedule_lesson_list(){
+        $timestamp = $this->get_in_int_val("timestamp",-1);
+        $type      = $this->get_in_int_val("type",-1);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $subject   = $this->get_in_int_val("subject",-1);
+
+
+    }
+
+
 }

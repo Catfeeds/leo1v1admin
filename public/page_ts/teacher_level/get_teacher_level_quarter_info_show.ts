@@ -5,7 +5,8 @@ function load_data(){
         order_by_str: g_args.order_by_str,
         advance_require_flag:	$('#id_advance_require_flag').val(),
             withhold_require_flag:	$('#id_withhold_require_flag').val(),
-        teacherid:	$('#id_teacherid').val()
+        teacherid:	$('#id_teacherid').val(),
+        start_time:	$('#id_start_time').val()
     });
 }
 
@@ -16,6 +17,7 @@ $(function(){
       $('#id_withhold_require_flag').val(g_args.withhold_require_flag);
 
     $('#id_teacherid').val(g_args.teacherid);
+    $('#id_start_time').val(g_args.start_time);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
     $("#id_select_all").on("click", function() {
@@ -658,7 +660,7 @@ $(function(){
             action   : function(dialog) {
                 $.do_ajax( '/teacher_level/update_level_after', {
                     'teacherid' : teacherid,
-                    'start_time' :g_args.quarter_start,
+                    'start_time' :g_args.start_time,
                     'level_after':id_level_after.val(),
                 });
             }
@@ -686,7 +688,7 @@ $(function(){
             action   : function(dialog) {
                 $.do_ajax( '/teacher_level/update_level_record_info', {
                     'teacherid' : teacherid,
-                    'start_time' :g_args.quarter_start,
+                    'start_time' :g_args.start_time,
                     'record_score_avg':id_record_score_avg.val(),
                     'record_num':id_record_num.val(),
                 });
@@ -730,13 +732,13 @@ $(function(){
     $(".opt-add-hand").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var realname = opt_data.realname;
-        var start_time = g_args.quarter_start;
+        var start_time = g_args.start_time;
         var teacherid = opt_data.teacherid;
         BootstrapDialog.confirm("确定刷新数据吗？", function(val){
             if (val) {
                 $.do_ajax( '/teacher_level/update_teacher_advance_info_hand', {
                     'teacherid' : teacherid,
-                    'start_time' :g_args.quarter_start,
+                    'start_time' :g_args.start_time,
                     'realname':opt_data.realname
                 });
             }
@@ -760,13 +762,13 @@ $(function(){
     $(".opt-del").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var realname = opt_data.realname;
-        var start_time = g_args.quarter_start;
+        var start_time = g_args.start_time;
         var teacherid = opt_data.teacherid;
         BootstrapDialog.confirm("确定删除数据吗？", function(val){
             if (val) {
                 $.do_ajax( '/teacher_level/del_advance_info', {
                     'teacherid' : teacherid,
-                    'start_time' :g_args.quarter_start,
+                    'start_time' :g_args.start_time,
                 });
             }
         });

@@ -63,6 +63,7 @@ class NoticeStudent extends Command
         $now         = date("Y-m-d",time());
         $lesson_list = $task->t_lesson_info->get_lesson_stu_late($start_time,$end_time,$type);
         foreach($lesson_list as $val){
+            if (!$val["realname"]) $val["realname"] = $task->cache_get_student_nick($val["userid"]);
             if ($type == 3) {
                 $data = [ // 可变
                     "name"        => $val["realname"],
@@ -72,7 +73,7 @@ class NoticeStudent extends Command
                 //打电话方法
                 $type = "125735110"; // 固定
                 $phone = $val["phone"];
-                //echo $val["userid"]." ".date("Y-m-d H:i:s", $val["lesson_start"])." ".$data["subject"]." ".$phone.PHP_EOL;
+                echo $val["userid"]." ".date("Y-m-d H:i:s", $val["lesson_start"])." ".$data["subject"]." ".$phone.PHP_EOL;
                 \App\Helper\Utils::tts_common($phone, $type, $data);
             } else {
                 if($val['assistantid']>0 && $type==1){

@@ -1,3 +1,9 @@
+	account_role	:any;
+	admin_revisiterid	:any;
+	total_num	:any;
+	price_num	:any;
+	orderid_num	:any;
+	userid_num	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -8,4 +14,3 @@
 	account_class	:any;
 	level	:any;
 	main_type_str	:any;
-	price_num	:any;

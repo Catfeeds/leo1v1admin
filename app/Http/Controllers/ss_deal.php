@@ -3847,6 +3847,13 @@ class ss_deal extends Controller
             }
 
         }
+
+        //添加完成  添加转介绍例子添加记录
+        $this->t_student_introduce_create->row_insert([
+            'userid' => $userid,
+            'adminid' => $this->get_account_id(),
+            'add_time' => time(NULL)
+        ]);
         // $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         // if($account_role==1){
         //     //分配销售总监

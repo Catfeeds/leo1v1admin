@@ -198,8 +198,8 @@ function init_today_new()  {
                 if(resp.no_call_test_succ > 0 && resp.seller_student_assign_type){
                     alert('有'+resp.no_call_test_succ+'个试听成功用户未回访,不能获得新例子,请尽快完成回访,【回访后15分钟内自动分配新例子】');
                     // init_and_reload(function(now){
-                        // $.filed_init_date_range( 1,  0, now-7*86400,  now);
-                        // $('#id_next_revisit').val(1);
+                    //     $.filed_init_date_range( 1,  0, now-7*86400,  now);
+                    //     $('#id_next_revisit').val(1);
                     // });
                     var url = "http://"+window.location.host+"/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
                     window.location.href = url;
@@ -305,47 +305,45 @@ function add0(m){return m<10?'0'+m:m }
 $(function(){
     var starttime = new Date().getTime()/1000; 
     function actionDo(){
-    	return setInterval(function(){ 
-	$("#id_tbody .time").each(function(){
-            var end_time = $(this).data('endtime')-starttime;
-	    if(end_time>0){
-	        var day = parseInt(end_time/(24*3600)),
-	        hour = parseInt((end_time-day*24*3600)/3600),
-	        minue = parseInt((end_time-day*24*3600-hour*3600)/60),
-		second = parseInt(end_time-day*24*3600-hour*3600-minue*60);
-		$(this).html("");
-		if(day>0){
-		    $(this).append("<span>"+day+"天</span>");
-                    if(hour>0){
-		        $(this).append("<span>"+hour+"时</span>");
-		    }
-                    if(minue>0){
-		        $(this).append("<span>"+minue+"分</span>");
-	            }
-		    if(second>0){
-		        $(this).append("<span>"+second+"秒</span>");
-		    }
-		}else{
-                    if(hour>0){
-		        $(this).append("<span style='color:red'>"+hour+"时</span>");
-		    }
-                    if(minue>0){
-		        $(this).append("<span style='color:red'>"+minue+"分</span>");
-	            }
-		    if(second>0){
-		        $(this).append("<span style='color:red'>"+second+"秒</span>");
-		    }
-		}
-	    }else{
-		$(this).html("过期");
-	    }
-	});
-	starttime++;
+    	  return setInterval(function(){ 
+	          $("#id_tbody .time").each(function(){
+                var end_time = $(this).data('endtime')-starttime;
+	              if(end_time>0){
+	                  var day = parseInt(end_time/(24*3600)),
+	                  hour = parseInt((end_time-day*24*3600)/3600),
+	                  minue = parseInt((end_time-day*24*3600-hour*3600)/60),
+		                second = parseInt(end_time-day*24*3600-hour*3600-minue*60);
+		                $(this).html("");
+		                if(day>0){
+		                    $(this).append("<span>"+day+"天</span>");
+                        if(hour>0){
+		                        $(this).append("<span>"+hour+"时</span>");
+		                    }
+                        if(minue>0){
+		                        $(this).append("<span>"+minue+"分</span>");
+	                      }
+		                    if(second>0){
+		                        $(this).append("<span>"+second+"秒</span>");
+		                    }
+		                }else{
+                        if(hour>0){
+		                        $(this).append("<span style='color:red'>"+hour+"时</span>");
+		                    }
+                        if(minue>0){
+		                        $(this).append("<span style='color:red'>"+minue+"分</span>");
+	                      }
+		                    if(second>0){
+		                        $(this).append("<span style='color:red'>"+second+"秒</span>");
+		                    }
+		                }
+	              }else{
+		                $(this).html("过期");
+	              }
+	          });
+	          starttime++;
         },1000);
     }
     actionDo(); 
-
-    
 
     show_name_key="stu_info_name_"+g_adminid;
     var status_opt_list=[];

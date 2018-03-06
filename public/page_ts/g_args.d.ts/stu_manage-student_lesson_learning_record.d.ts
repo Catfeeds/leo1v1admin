@@ -13,12 +13,6 @@ interface GargsStatic {
 	current_table_id:	number;
 	cw_status:	number;
 	preview_status:	number;
-	max_month:	number;
-	max_month_date:	number;
-	min_month:	number;
-	min_month_date:	number;
-	middle_month_date:	number;
-	middle_month:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -31,23 +25,26 @@ interface RowData {
 	lesson_start	:any;
 	lesson_end	:any;
 	subject	:any;
+	confirm_flag	:any;
 	grade	:any;
 	teacherid	:any;
 	lessonid	:any;
 	realname	:any;
 	userid	:any;
 	lesson_num	:any;
-	tea_cw_upload_time	:any;
-	tea_cw_url	:any;
-	preview_status	:any;
-	cw_status	:any;
+	teacher_effect	:any;
+	teacher_quality	:any;
+	stu_score	:any;
+	teacher_interact	:any;
+	stu_stability	:any;
+	teacher_comment	:any;
+	stu_comment	:any;
+	stu_performance	:any;
 	grade_str	:any;
 	subject_str	:any;
 	lesson_time	:any;
-	cw_url	:any;
-	cw_status_str	:any;
-	cw_status_flag	:any;
-	preview_status_str	:any;
+	stu_intro	:any;
+	stu_point_performance	:any;
 }
 
 /*
@@ -73,13 +70,7 @@ function load_data(){
 		current_id:	$('#id_current_id').val(),
 		current_table_id:	$('#id_current_table_id').val(),
 		cw_status:	$('#id_cw_status').val(),
-		preview_status:	$('#id_preview_status').val(),
-		max_month:	$('#id_max_month').val(),
-		max_month_date:	$('#id_max_month_date').val(),
-		min_month:	$('#id_min_month').val(),
-		min_month_date:	$('#id_min_month_date').val(),
-		middle_month_date:	$('#id_middle_month_date').val(),
-		middle_month:	$('#id_middle_month').val()
+		preview_status:	$('#id_preview_status').val()
 		});
 }
 $(function(){
@@ -97,12 +88,6 @@ $(function(){
 	$('#id_current_table_id').val(g_args.current_table_id);
 	$('#id_cw_status').val(g_args.cw_status);
 	$('#id_preview_status').val(g_args.preview_status);
-	$('#id_max_month').val(g_args.max_month);
-	$('#id_max_month_date').val(g_args.max_month_date);
-	$('#id_min_month').val(g_args.min_month);
-	$('#id_min_month_date').val(g_args.min_month_date);
-	$('#id_middle_month_date').val(g_args.middle_month_date);
-	$('#id_middle_month').val(g_args.middle_month);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -210,52 +195,4 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["preview_status title", "preview_status", "th_preview_status" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">max_month</span>
-                <input class="opt-change form-control" id="id_max_month" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["max_month title", "max_month", "th_max_month" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">max_month_date</span>
-                <input class="opt-change form-control" id="id_max_month_date" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["max_month_date title", "max_month_date", "th_max_month_date" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">min_month</span>
-                <input class="opt-change form-control" id="id_min_month" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["min_month title", "min_month", "th_min_month" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">min_month_date</span>
-                <input class="opt-change form-control" id="id_min_month_date" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["min_month_date title", "min_month_date", "th_min_month_date" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">middle_month_date</span>
-                <input class="opt-change form-control" id="id_middle_month_date" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["middle_month_date title", "middle_month_date", "th_middle_month_date" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">middle_month</span>
-                <input class="opt-change form-control" id="id_middle_month" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["middle_month title", "middle_month", "th_middle_month" ]])!!}
 */

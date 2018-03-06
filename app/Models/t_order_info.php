@@ -5149,5 +5149,24 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $sql = "select m.uid,m.account,o.sys_operator,o.orderid,o.price/100 price  from db_weiyi.t_order_info o , db_weiyi.t_student_info s , db_weiyi_admin.t_manager_info m,  db_weiyi_admin.t_group_user_month gu,   db_weiyi_admin.t_group_name_month g   where  o.userid = s.userid   and    o.sys_operator =m.account   and    m.uid=gu.adminid  and    gu.groupid =g.groupid and     order_time>=1514736000 and order_time<=1517414400 and is_test_user=0 and g.groupid=111 and g.month=1514736000 and gu.month=1514736000 and contract_type in(0,3) and contract_status in(1,2) and stu_from_type=0 and m.account_role=2 order by sys_operator,price desc";
         return $this->main_get_list($sql);
     }
+    //@desn:获取用户是否签约及签单的合同金额
+    public function get_order_info_for_referral($userid){
+        $where_arr = [
+            'si.is_test_user = 0',
+            'oi.contract_type = 0',
+            "oi.contract_status >0 ",
+            ['oi.userid = %u',$userid,0]
+        ];
+        $sql = $this->gen_sql_new(
+            'select count(*) order_count,sum(oi.price) order_money '.
+            'from %s oi '.
+            'join %s si using(userid) '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }
 
