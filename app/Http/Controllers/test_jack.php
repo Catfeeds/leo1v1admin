@@ -2302,8 +2302,9 @@ class test_jack  extends Controller
         if($revisit_reword_per <0){
             $revisit_reword_per=0;
         }
-        return $this->output_succ(["num"=>$revisit_reword_per*1500]);
-        return $revisit_reword_per;
+        $tt = $revisit_reword_per;
+        return $this->output_succ(["num"=>$tt]);
+        // return $revisit_reword_per;
 
 
         $arr=["num1"=>0,"num2"=>1,"num3"=>2,"num4"=>3,"num5"=>4,"num6"=>11,"num"=>-1];
