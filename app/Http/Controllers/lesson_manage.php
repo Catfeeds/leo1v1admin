@@ -104,4 +104,24 @@ class lesson_manage extends Controller
 
         return $this->output_succ($ret_list);
     }
+
+    /**
+     * @param string lesson_start  格式 ：周3 2018-03-21 17:46
+     * @param string lesson_end 格式：20:30
+     */
+    public function get_lesson_count_for_stu_schedule(){
+        $lesson_start = $this->get_in_str_val("lesson_start");
+        $lesson_end   = $this->get_in_str_val("lesson_end");
+
+        $lesson_start = strtotime(mb_substr($lesson_start,2,strlen($lesson_start)));
+        $lesson_end = strtotime(date("Y-m-d",$lesson_start)." ".$lesson_end);
+        if($lesson_end<$lesson_start){
+            return $this->output_err("课程结束时间不能比开始时间小！");
+        }else{
+            $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
+
+            return $this->output_succ(["data"=>$lesson_count/100]);
+        }
+    }
+
 }

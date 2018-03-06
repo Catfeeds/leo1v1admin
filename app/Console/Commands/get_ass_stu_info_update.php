@@ -88,7 +88,11 @@ class get_ass_stu_info_update extends Command
         $warning_list = $task->t_student_info->get_warning_stu_list();
         
         foreach($warning_list as $item){
-            @$ass_list[$item["uid"]]["warning_student"]++;
+            if(isset($ass_list[$item["uid"]])){
+
+                $ass_list[$item["uid"]]["warning_student"]++;
+
+            }
         }
 
         $stu_info_all = $task->t_student_info->get_ass_stu_info_new();
@@ -187,6 +191,7 @@ class get_ass_stu_info_update extends Command
         list($first_week_next,$last_week_next,$n_next) = $task->get_seller_week_info($end_time, strtotime("+1 months",$end_time));//销售月拆解     
         $seller_month_lesson_count_next = $task->t_manager_info->get_assistant_lesson_count_info($first_week_next,$last_week_next+7*86400);//销售月总课时
 
+        
         foreach($ass_list as $k=>$item){
             if(!isset($item["warning_student"])){
                 $item["warning_student"]=0;

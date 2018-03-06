@@ -1746,6 +1746,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
+    //兴业银行微信扫码支付回调函数
     public function set_xingye_notify_callbanck(){
         //接收传送的数据
         $fileContent = file_get_contents("php://input"); 

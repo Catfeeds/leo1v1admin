@@ -72,8 +72,8 @@ class NoticeStudent extends Command
                 //打电话方法
                 $type = "125735110"; // 固定
                 $phone = $val["phone"];
-                echo $val["userid"]." ".date("Y-m-d H:i:s", $data["lesson_time"])." ".$data["subject"]." ".$phone.PHP_EOL;
-                //\App\Helper\Utils::tts_common($phone, $type, $data);
+                echo $val["userid"]." ".date("Y-m-d H:i:s", $val["lesson_start"])." ".$data["subject"]." ".$phone.PHP_EOL;
+                \App\Helper\Utils::tts_common($phone, $type, $data);
             } else {
                 if($val['assistantid']>0 && $type==1){
                     $account     = $task->t_assistant_info->get_account_by_id($val['assistantid']);

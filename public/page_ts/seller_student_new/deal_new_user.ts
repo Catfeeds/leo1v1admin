@@ -65,7 +65,7 @@ $(function(){
                 $.do_ajax("/ajax_deal3/sign_phone",{
                     "adminid" : g_adminid,
                     "cc_confirm_type" : invalid_type,
-                    "userid"  : opt_data.userid,
+                    "userid"  : g_args.userid,
                     "type"    : 1 // 1:CC标注 2:TMK 3:QC
                 });
 
@@ -628,7 +628,7 @@ $(function(){
             }
 
             $.do_ajax_t("/ajax_deal3/checkHasSign", {
-                "userid"  : opt_data.userid,
+                "userid"  : g_args.userid,
                 "adminid" : g_adminid
             },function(ret){
                 var is_sign = ret.is_sign;

@@ -201,6 +201,7 @@
                                -->
                             @if($acc=="jim" || $acc=="jack" || $acc=="michael")
                                 <a class="fa-comment opt-return-back-new " title="回访" ></a>
+                                <a class="opt-apply-change-grade " title="更改年级申请" >改年级</a>
                             @endif
                             <!-- <a class="refund_return_back_new" title="回访-new">退费预警回访</a> -->
                             <!-- <a class="refund_warn_reason" title="退费预警级别详情">详情</a> -->

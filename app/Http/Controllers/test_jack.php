@@ -14,6 +14,13 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $str = ["old"=>303,"new"=>401];
+        $str = json_encode( $str);
+        $ret=$this->t_flow->add_flow(
+            1,$this->get_account_id(),"",1234,$str,0
+        );
+        dd($ret);
+
         $qiniu_file_name=\App\Helper\Utils::qiniu_upload("/home/ybai/period_order_001.pdf");
 
         //$ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");

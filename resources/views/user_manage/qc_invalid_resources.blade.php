@@ -12,6 +12,10 @@
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
 
+        <!-- 此处为模态框-->
+
+
+
         <div>
 
             <div class="row  row-query-list" >
@@ -19,37 +23,37 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">状态</span>
-                        <select class="opt-change form-control" id="id_seller_student_status" >
-                        </select>
-                    </div>
-                </div>
+                <!-- <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span class="input-group-addon">状态</span>
+                     <select class="opt-change form-control" id="id_seller_student_status" >
+                     </select>
+                     </div>
+                     </div>
 
-                <div class="col-xs-6 col-md-3">
-                    <div class="input-group ">
-                        <span class="input-group-addon">TQ状态</span>
-                        <input class="opt-change form-control" id="id_global_tq_called_flag" />
-                    </div>
-                </div>
-
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">年级</span>
-                        <input class="opt-change form-control" id="id_grade" />
-                    </div>
-                </div>
+                     <div class="col-xs-6 col-md-3">
+                     <div class="input-group ">
+                     <span class="input-group-addon">TQ状态</span>
+                     <input class="opt-change form-control" id="id_global_tq_called_flag" />
+                     </div>
+                     </div>
 
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">科目</span>
-                        <input class="opt-change form-control" id="id_subject" />
-                    </div>
-                </div>
+                     <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span class="input-group-addon">年级</span>
+                     <input class="opt-change form-control" id="id_grade" />
+                     </div>
+                     </div>
 
+
+                     <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span class="input-group-addon">科目</span>
+                     <input class="opt-change form-control" id="id_subject" />
+                     </div>
+                     </div>
+                -->
             </div>
         </div>
         <hr/>
@@ -98,8 +102,26 @@
                                 转介绍: {{$var["origin_assistant_nick"]}} <br/>
                             @endif
                         </td>
-                        <td>{{@$var['cc_mark']}}</td>
-                        <td>{{@$var['tmk_mark']}}</td>
+                        <td>
+                            @if($var['cc_mark'])
+                                <?php foreach(explode('|',$var['cc_mark']) as $v){
+                                echo $v.'<br>';
+                                } ?>
+                            @else
+
+                            @endif
+                        </td>
+                        <td>
+                            @if($var['tmk_mark'])
+                                <?php
+                                  foreach(explode('|',$var['tmk_mark']) as $v){
+                                    echo $v.'<br>';
+                                  }
+                                ?>
+                            @else
+
+                            @endif
+                        </td>
                         <td>
                             {{$var["seller_student_status_str"]}} <br/>
                         </td>

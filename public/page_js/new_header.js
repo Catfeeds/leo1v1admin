@@ -1219,15 +1219,16 @@ function show_key_value_table(title,arr ,btn_config,onshownfunc){
     $.each(arr , function( index,element){
         var row_obj=$("<tr> </tr>" );
         var td_obj=$( "<td style=\"text-align:right; width:30%;\"></td>" );
-        var v=element[0] ;
+        var v=element[0];
         td_obj.append(v);
         row_obj.append(td_obj);
         td_obj=$( "<td ></td>" );
 
-        td_obj.append( element[1] );
+        td_obj.append(element[1]);
         row_obj.append(td_obj);
         table_obj.append(row_obj);
     });
+
     var all_btn_config=[{
         label: '返回',
         action: function(dialog) {
