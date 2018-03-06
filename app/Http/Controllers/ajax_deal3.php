@@ -998,6 +998,15 @@ class ajax_deal3 extends Controller
         $adminid = $this->get_account_id();
         $set_field_arr = [];
         $arr = [];
+
+
+        $sign_adminid = $this->t_invalid_num_confirm->checkHadSignByAdminid($adminid);
+        if($sign_adminid == 1){
+            $key="DEAL_NEW_USER_$adminid";
+            $old_userid=\App\Helper\Common::redis_del($key);
+            return $this->output_err("此例子不可重复标注!");
+        }
+
         # account_type:1:CC 2:TMK 3:QC
         if($account_type == 2){
             $set_field_arr=[
@@ -1038,6 +1047,10 @@ class ajax_deal3 extends Controller
                 $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
             }
         }
+
+        $key="DEAL_NEW_USER_$adminid";
+        $old_userid=\App\Helper\Common::redis_del($key);
+
         # 进入tmk库
         # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
         if(count($arr)>0){

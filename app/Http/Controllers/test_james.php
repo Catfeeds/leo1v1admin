@@ -2281,5 +2281,15 @@ class test_james extends Controller
     }
 
 
+    public function cc(){
+        $userid = $this->get_in_int_val('u');
+        $set_field_arr = [
+            "cc_adminid" =>0,
+            "cc_confirm_type" => 0
+        ];
+        $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
+
+    }
+
 
 }

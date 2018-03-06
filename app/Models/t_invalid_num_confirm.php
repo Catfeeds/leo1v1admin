@@ -74,6 +74,12 @@ class t_invalid_num_confirm extends \App\Models\Zgen\z_t_invalid_num_confirm
         return $this->main_get_list($sql);
     }
 
+    public function checkHadSignByAdminid($adminid,$userid){
+        $sql = $this->gen_sql_new("  select 1 from %s where cc_adminid=$adminid and userid=$userid"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
 
