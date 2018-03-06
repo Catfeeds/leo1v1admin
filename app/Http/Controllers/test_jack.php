@@ -2175,6 +2175,7 @@ class test_jack  extends Controller
                 if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                     if($assign_time < $month_half){
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
+                        
                         if($month_lesson_flag==1){
                             if($revisit_num <$revisit_max){
                                 $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
