@@ -13,22 +13,6 @@
     <section class="content ">
 
         <!-- 此处为模态框-->
-        <!-- 录音记录 -->
-        <div class="modal fade record_list" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #3c8dbc;">
-                        <tr class="show_list">
-                        </tr>
-                    </div>
-                    <div class="modal-body" style="text-align:center;">
-                        <!-- <p>是否标注为 <font style="color:red;" class="tip_text">无效-空号？</font></p>
-                             <p style="color:red;">提示：如经核验不符，将被罚款！</p> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- james-end-->
 
 
 
@@ -39,37 +23,37 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">状态</span>
-                        <select class="opt-change form-control" id="id_seller_student_status" >
-                        </select>
-                    </div>
-                </div>
+                <!-- <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span class="input-group-addon">状态</span>
+                     <select class="opt-change form-control" id="id_seller_student_status" >
+                     </select>
+                     </div>
+                     </div>
 
-                <div class="col-xs-6 col-md-3">
-                    <div class="input-group ">
-                        <span class="input-group-addon">TQ状态</span>
-                        <input class="opt-change form-control" id="id_global_tq_called_flag" />
-                    </div>
-                </div>
-
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">年级</span>
-                        <input class="opt-change form-control" id="id_grade" />
-                    </div>
-                </div>
+                     <div class="col-xs-6 col-md-3">
+                     <div class="input-group ">
+                     <span class="input-group-addon">TQ状态</span>
+                     <input class="opt-change form-control" id="id_global_tq_called_flag" />
+                     </div>
+                     </div>
 
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">科目</span>
-                        <input class="opt-change form-control" id="id_subject" />
-                    </div>
-                </div>
+                     <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span class="input-group-addon">年级</span>
+                     <input class="opt-change form-control" id="id_grade" />
+                     </div>
+                     </div>
 
+
+                     <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span class="input-group-addon">科目</span>
+                     <input class="opt-change form-control" id="id_subject" />
+                     </div>
+                     </div>
+                -->
             </div>
         </div>
         <hr/>

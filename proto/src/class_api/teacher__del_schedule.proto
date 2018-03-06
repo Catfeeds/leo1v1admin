@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1205
+//__DESC:  /teacher/del_schedule　删除指定lessonid的老师课程
+//__TAGS: for_admin
+
+
+message in  {
+  	int32 ids = 1; //需要删除的lessonid列表
+
+}
+
+message out {
+	int32 nums=1;//删除数量
+}

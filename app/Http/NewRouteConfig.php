@@ -112,6 +112,7 @@ class NewRouteConfig {
         "/teacher_info/do_collect"                => true,
         "/lesson_manage/stu_status_count"         => true,
         "/lesson_manage/change_lesson_info"       => true,
+        "/lesson_manage/get_lesson_count_for_stu_schedule" => true,
         "/admin_join/get_apply_info"              => true,
         "/supervisor/lesson_all_info"             => true,
         "/supervisor/monitor"                     => true,

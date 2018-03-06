@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1001
+//__DESC: http://api-class.leo1v1.com/order/package_list 4.0报名课程(课程列表)
+//__TAGS: for_web/mobile
+
+
+message in  {
+}
+
+message out {
+  common.package_list data=1;//课程列表
+}
+
