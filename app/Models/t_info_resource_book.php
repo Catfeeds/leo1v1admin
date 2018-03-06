@@ -17,7 +17,7 @@ class t_info_resource_book extends \App\Models\Zgen\z_t_info_resource_book
         return $this->main_get_list($sql);
     }
 
-    public function get_books($subject,$province,$city,$province_range,$page_info){
+    public function get_books($subject,$province,$city,$province_range){
         $where_arr = [
             ['subject=%u', $subject, -1],
             ['province=%u', $province, -1],
@@ -32,10 +32,12 @@ class t_info_resource_book extends \App\Models\Zgen\z_t_info_resource_book
                                   ,self::DB_TABLE_NAME,$where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_info,10,true);
+        return $this->main_get_list($sql);
     }
 
-
+    public function get_old_books($subject,$province,$city,$grade_range){
+        
+    }
 }
 
 

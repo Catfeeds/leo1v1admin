@@ -7,6 +7,7 @@
         this.defaults = {
             'data_list': [],
             'showSelect' : 1, //搜索框是input 还是textarea
+            'select_search' : null, //搜索框中初始化搜索的内容
             'searchNo' : 1, //搜索tr中第几个td的值
             "enum_name" : null,  //不用ajax请求，直接枚举名称如subject
             "header_list":["id","属性"] ,
@@ -20,7 +21,7 @@
 
         var search_html = "";
         if(this.defaults.showSelect == 1){
-            search_html = '<div style="margin-bottom:10px"><span style="width:14%">选择搜索：</span><input type="text" style="padding:0px;width:86%;text-indent:5px" id="search_node" placeholder="搜索多个词用分号或者顿号隔开"></div>';
+            search_html = '<div style="margin-bottom:10px"><span style="width:14%">选择搜索：</span><input type="text" style="padding:0px;width:86%;text-indent:5px" id="search_node" placeholder="搜索多个词用分号或者顿号隔开"></div>';          
         }else{
             search_html = '<div style="margin-bottom:10px"><span style="width:14%">选择搜索：</span><textarea style="padding:0px;width:86%;text-indent:5px" id="search_node" placeholder="搜索多个词用分号或者顿号隔开"></textarea></div>';
         }
@@ -72,6 +73,10 @@
                 }
                 me.options.data_list = new_select_list;
             }
+
+            if(me.options.select_search){
+                html_node.find("#search_node").val(me.options.select_search);
+            }
             //console.log(me.options.data_list);
             $.each( me.options.data_list,function(i,row_item){
                 var td_list_str="";
@@ -87,7 +92,26 @@
                     class_str="warning";
                 }
 
-                $tbody.append("<tr class=\""+class_str+"\" data-id=\""+cur_id+"\"  >" + td_list_str+ "</tr>");
+                var $tr_html = "<tr class=\""+class_str+"\" data-id=\""+cur_id+"\"  >" + td_list_str+ "</tr>";
+                if(me.options.select_search){
+                    var int_key_arr = [];
+                    var init_keywords = me.options.select_search;
+                    var searchNo = me.defaults.searchNo;
+                    if(init_keywords.indexOf(';') > 0){
+                        int_key_arr = init_keywords.split(';');
+                    };
+                    if(init_keywords.indexOf('；') > 0){
+                        int_key_arr = init_keywords.split('；');
+                    };
+                    if(init_keywords.indexOf('、') > 0){
+                        int_key_arr = init_keywords.split('、');
+                    };
+                    if($.inArray(row_item[searchNo],int_key_arr) == -1){
+                        var $tr_html = "<tr class=\""+class_str+"\" data-id=\""+cur_id+"\"  style= 'display:none'>" + td_list_str+ "</tr>";
+
+                    }
+                }
+                $tbody.append($tr_html);
             });
 
             $tbody.find("tr").on("click",function(){
