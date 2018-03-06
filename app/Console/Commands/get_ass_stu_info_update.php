@@ -187,7 +187,7 @@ class get_ass_stu_info_update extends Command
         list($first_week_next,$last_week_next,$n_next) = $task->get_seller_week_info($end_time, strtotime("+1 months",$end_time));//销售月拆解     
         $seller_month_lesson_count_next = $task->t_manager_info->get_assistant_lesson_count_info($first_week_next,$last_week_next+7*86400);//销售月总课时
 
-        foreach($ass as $k=>$item){
+        foreach($ass_list as $k=>$item){
             echo $k."-".$item["account"]."<br>";
         }
         dd(111);
