@@ -56,7 +56,8 @@ class test_ricky extends Command
             // 月份、老师ID、老师姓名、等级、工资总额
             $info = $ret_info["list"];
             foreach($info as $val) {
-                echo $item."月,".$val["teacherid"].",".$val["realname"].",";
+                $teacherid = $val["teacherid"];
+                echo $item."月,".$teacherid.",".$val["realname"].",";
                 $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
                 $level = implode(",", $level);
                 echo $level.",";
