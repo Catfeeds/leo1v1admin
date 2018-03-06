@@ -1,7 +1,7 @@
 syntax = "proto3";
 import "class_api/common.proto";
 
-//__CMD: 1009
+//__CMD: 1203
 //__DESC:  /teacher/set_free_time　重新上传某个老师的所有空闲时间
 //__TAGS: for_admin
 
