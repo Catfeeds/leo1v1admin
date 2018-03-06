@@ -2293,12 +2293,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     public function get_xingye_wx_url(){
+        $orderid = $this->get_in_int_val("orderid",18315);
+        $payment = $this->t_child_order_info->get_price($orderid);
+        //订单id
+        $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+
         ini_set('date.timezone','Asia/Shanghai');
         require_once  app_path("Libs/WxpayAPI/lib/init.php");
         // $input = new WxPayUnifiedOrder();
         $input= new \WxpayAPI\WxPayUnifiedOrder();
-        $input->SetBody("test");
-        $input->SetAttach("test");
+        $input->SetBody("理优1v1课程");
+        $input->SetAttach("理优课程");
         $input->SetOut_trade_no(\WxpayAPI\WxPayConfig::MCHID.date("YmdHis"));
         $input->SetTotal_fee("1");
         $input->SetTime_start(date("YmdHis"));
@@ -2306,7 +2311,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $input->SetGoods_tag("test");
         $input->SetNotify_url("http://p.admin.leo1v1.com/common_new/set_xingye_notify_callbanck");
         $input->SetTrade_type("NATIVE");
-        $input->SetProduct_id("1234567890");
+        $input->SetProduct_id($orderNo);
 
         if($input->GetTrade_type() == "NATIVE")
 		{
@@ -2314,6 +2319,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 		}
 
         $url2 = $result["code_url"];
+        $this->t_orderid_orderno_list->row_insert([
+            "order_no"  =>$orderNo,
+            "orderid"   =>$orderid,
+            "order_type"=>1,
+            "parent_orderid"=>$this->t_child_order_info->get_parent_orderid($orderid)
+        ]);
+
         dd($url2);
 
 

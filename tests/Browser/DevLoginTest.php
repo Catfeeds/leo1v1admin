@@ -71,7 +71,7 @@ class DevLoginTest extends DuskTestCase
                 
                 foreach($pages as $item) {
                     echo PHP_EOL."当前页面:".$item["url"];
-                    $browser->visit($url.$item["url"])->pause(3000)->click($item["click"])->pause(300);
+                    $browser->visit($url.$item["url"])->click($item["click"])->pause(300);
                     $text = $browser->text(".modal-header");
                     //$text = $browser->text(".bootstrap-dialog-title");
                 }
