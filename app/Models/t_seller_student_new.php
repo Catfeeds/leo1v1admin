@@ -2445,10 +2445,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[] =  "last_contact_time <  $last_contact_time " ;
         // $where_arr[]= 's.origin_level in (1,2,3,4)';
         $where_arr[]= '((s.origin_level in (1,2,3,4)) or (n.seller_student_assign_type=0 and s.origin_level=99 and n.cc_not_exist_count>0) or (n.seller_student_assign_type=0 and s.origin_level=99 and n.cc_invalid_count>2) or (n.seller_student_assign_type=1 and s.origin_level=99 and n.sys_assign_count>2)) ';
-        // $where_arr[] = 'n.tmk_student_status_time = 0'; //显示无效资源标注
 
         //or n.cc_invalid_count>=1 or cc_not_exist_count>=3 //显示无效资源标注
-        $where_arr[] = 'n.cc_no_called_count>2';
+        $where_arr[] = 'n.tmk_student_status_time = 0'; //显示无效资源标注
+        $where_arr[] = 'n.cc_no_called_count>2 or n.cc_invalid_count>=1 or cc_not_exist_count>=3';
+        // $where_arr[] = 'n.cc_no_called_count>2';//备份
         // E\Eorigin_level::V_1;
         //if ( $seller_student_status ==2 ) {
         //$where_arr[] =  'n.call_admin_count>0 ';
