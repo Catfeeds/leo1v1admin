@@ -2300,10 +2300,11 @@ class test_jack  extends Controller
             
 
         }
-        if($revisit_reword_per <0){
+        if($revisit_reword_per <0 || $revisit_reword_per>1){
             $revisit_reword_per=0;
         }
-        $tt = $revisit_reword_per;
+        $tt = $revisit_reword_per*1500;
+
         return $this->output_succ(["num"=>$tt]);
         // return $revisit_reword_per;
 
