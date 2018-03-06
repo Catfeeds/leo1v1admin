@@ -29,6 +29,15 @@ class check_office_require_time extends cmd_base
     {
         parent::__construct();
     }
+    public function check_kaoqin() {
+        $machine_id=11;
+        $opt_time=$this->task->t_kaoqin_machine->get_last_post_time($machine_id);
+        if ( $opt_time< time(NULL)-120   ) {//
+            $time_str=\App\Helper\Utils::unixtime2date($opt_time);
+            $this->task->t_manager_info->send_wx_todo_msg("jim","sys","后面考勤 最后一次上报时间 $time_str");
+        }
+
+    }
 
     /**
      * Execute the console command.
@@ -37,6 +46,8 @@ class check_office_require_time extends cmd_base
      */
     public function do_handle()
     {
+        $this->check_kaoqin();
+
         $last_require_time= \App\Helper\office_cmd::get_last_require_time();
         if ($last_require_time < time(NULL)-120   ) {//
             $last_require_time_str=\App\Helper\Utils::unixtime2date($last_require_time);

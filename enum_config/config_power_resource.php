@@ -1,6 +1,6 @@
 <?php
 return array (
-    array(0,"","无" ),
-    array(1,"","仅查看" ),
-    array(2,"","可下载" ),
+    array(1,"","无" ),
+    array(2,"","仅查看" ),
+    array(3,"","可下载" ),
 );

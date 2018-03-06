@@ -12,8 +12,6 @@
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
 
-
-
         <!-- james-start-->
 
         <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -69,7 +67,9 @@
             </div>
         </div>
 
-        <!-- james-end-->
+
+
+
 
         <div>
 

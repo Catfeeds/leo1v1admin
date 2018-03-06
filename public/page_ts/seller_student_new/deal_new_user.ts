@@ -9,7 +9,7 @@ $(function(){
             // alert('有'+resp+'个试听成功用户未回访,不能获得新例子,请尽快完成回访');
             var start_time = g_args.start_time;
             var end_time = g_args.end_time;
-            var url = "http://"+window.location.host+"/seller_student_new/seller_student_list_all?date_type=1&opt_date_type=0&start_time="+start_time+"&end_time="+end_time+"&next_revisit_flag=1&left_time_order=0&group_seller_student_status=-1&seller_groupid_ex=&seller_groupid_ex_new=&userid=-1&success_flag=-1&phone_name=&seller_student_status=-1&phone_location=&subject=-1&origin_assistant_role=-1&has_pad=-1&tq_called_flag=-1&global_tq_called_flag=-1&origin_assistantid=-1&origin_userid=-1&seller_require_change_flag=-1&tmk_student_status=-1&seller_resource_type=-1&favorite_flag=-1";
+            var url = "http://"+window.location.host+"/seller_student_new/seller_student_list_all?date_type=1&opt_date_type=0&start_time="+start_time+"&end_time="+end_time+"&no_lesson_call_flag=1&left_time_order=0&group_seller_student_status=-1&seller_groupid_ex=&seller_groupid_ex_new=&userid=-1&success_flag=-1&phone_name=&seller_student_status=-1&phone_location=&subject=-1&origin_assistant_role=-1&has_pad=-1&tq_called_flag=-1&global_tq_called_flag=-1&origin_assistantid=-1&origin_userid=-1&seller_require_change_flag=-1&tmk_student_status=-1&seller_resource_type=-1&favorite_flag=-1";
             // window.location.href = url;
         }
     });
@@ -20,66 +20,67 @@ $(function(){
 
     // 待测试功能
     // 处理标记空号功能 [james]
-    // var test_arr = ['99','684','1173','1273','1408','1383','1384','1393','1394','1399','1404','1405','1406','1407','1408'];
-    // if($.inArray(g_adminid,test_arr)>=0){
-    //     $('#id_tip_no_call').show();
-    //     var hasCalledNum = g_args.hasCalledNum;
-    //     if(hasCalledNum>=3 && g_args.ccNoCalledNum>0){
-    //         $('#id_tip_no_call').addClass('btn-warning').css('color','white').removeAttr('disabled');
-    //     }else{
-    //         $('#id_tip_no_call').attr('disabled','disabled').removeClass('btn-warning');
-    //     }
+    /*
+    var test_arr = ['99','684','1173','1273','1408','1383','1384','1393','1394','1399','1404','1405','1406','1407','1408'];
+    if($.inArray(g_adminid,test_arr)>=0){
+        $('#id_tip_no_call').show();
+        var hasCalledNum = g_args.hasCalledNum;
+        if(g_args.cc_no_called_count_new>=3 && g_args.ccNoCalledNum>0){
+            $('#id_tip_no_call').addClass('btn-warning').css('color','white').removeAttr('disabled');
+        }else{
+            $('#id_tip_no_call').attr('disabled','disabled').removeClass('btn-warning');
+        }
 
 
-    //     $('#id_tip_no_call').on('click',function(){
-    //         $('.bs-example-modal-sm').modal('toggle');
-    //         do_submit();
-    //     });
+        $('#id_tip_no_call').on('click',function(){
+            $('.bs-example-modal-sm').modal('toggle');
+            do_submit();
+        });
 
-    //     $('.submit_tag').on("click",function(){
-    //         sign_func();
-    //     });
+        $('.submit_tag').on("click",function(){
+            sign_func();
+        });
 
-    //     $('.invalid_type').on("change",function(){
-    //         do_submit();
-    //     });
+        $('.invalid_type').on("change",function(){
+            do_submit();
+        });
 
-    //     var do_submit = function(){
-    //         var invalid_type = $('.invalid_type').val();
-    //         if(invalid_type == 0){
-    //             $('.submit_tag').attr('disabled','disabled');
-    //         }else{
-    //             $('.submit_tag').removeAttr('disabled');
-    //         }
-    //     }
+        var do_submit = function(){
+            var invalid_type = $('.invalid_type').val();
+            if(invalid_type == 0){
+                $('.submit_tag').attr('disabled','disabled');
+            }else{
+                $('.submit_tag').removeAttr('disabled');
+            }
+        }
 
-    //     var sign_func = function(){
-    //         var opt_data=$(this).get_opt_data();
-    //         var invalid_type = $('.invalid_type').val();
-    //         var checkText=$(".invalid_type").find("option:selected").text();
+        var sign_func = function(){
+            var opt_data=$(this).get_opt_data();
+            var invalid_type = $('.invalid_type').val();
+            var checkText=$(".invalid_type").find("option:selected").text();
 
-    //         $('.tip_text').text(checkText);
-    //         $('.confirm-sm').modal('toggle');
-    //         $('.confirm_tag').on("click",function(){
-    //             $.do_ajax("/ajax_deal3/sign_phone",{
-    //                 "adminid" : g_adminid,
-    //                 "cc_confirm_type" : invalid_type,
-    //                 "userid"  : opt_data.userid,
-    //                 "type"    : 1 // 1:CC标注 2:TMK 3:QC
-    //             });
+            $('.tip_text').text(checkText);
+            $('.confirm-sm').modal('toggle');
+            $('.confirm_tag').on("click",function(){
+                $.do_ajax("/ajax_deal3/sign_phone",{
+                    "adminid" : g_adminid,
+                    "cc_confirm_type" : invalid_type,
+                    "userid"  : g_args.userid,
+                    "type"    : 1 // 1:CC标注 2:TMK 3:QC
+                });
 
-    //             window.location.reload();
-    //         });
-    //     }
+                window.location.reload();
+            });
+        }
 
-    //     if(g_args.global_tq_called_flag != 2){
-    //         $('#id_edit').attr('disabled','disabled');
-    //     }else{
-    //         $('#id_edit').removeAttr('disabled');
-    //     }
+        if(g_args.hasCalledNum == 0){
+            $('#id_edit').attr('disabled','disabled');
+        }else{
+            $('#id_edit').removeAttr('disabled');
+        }
 
-    // }
-
+    }
+    */
     // 处理标记空号功能 [james-end]
 
 
@@ -617,53 +618,55 @@ $(function(){
     }
 
     // james
-    // if($.inArray(g_adminid,test_arr)>=0){ // 测试环境
-    //     $("#id_get_new").on("click",function(){
-    //         var opt_data=$(this).get_opt_data();
-    //         if(g_args.hasCalledNum < 3 && g_args.ccNoCalledNum>0){
-    //             alert("请先提交未拨通电话标注后才能继续抢新");
-    //             return ;
-    //         }
+    /*
+    if($.inArray(g_adminid,test_arr)>=0){ // 测试环境
+        $("#id_get_new").on("click",function(){
+            var opt_data=$(this).get_opt_data();
+            if(g_args.cc_no_called_count_new < 3 && g_args.ccNoCalledNum>0){
+                alert("请先提交未拨通电话标注后才能继续抢新");
+                return ;
+            }
 
-    //         $.do_ajax_t("/ajax_deal3/checkHasSign", {
-    //             "userid"  : opt_data.userid,
-    //             "adminid" : g_adminid
-    //         },function(ret){
-    //             var is_sign = ret.is_sign;
+            $.do_ajax_t("/ajax_deal3/checkHasSign", {
+                "userid"  : g_args.userid,
+                "adminid" : g_adminid
+            },function(ret){
+                var is_sign = ret.is_sign;
 
-    //             if(!is_sign && g_args.hasCalledNum>3 && g_args.ccNoCalledNum>0){
-    //                 $('.bs-example-modal-sm').modal('toggle');
-    //                 return;
-    //             }else{
-    //                 $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
-    //                     if (resp.ret==0) {
-    //                         var phone=resp.phone;
+                if(!is_sign && g_args.cc_no_called_count_new>=3 && g_args.ccNoCalledNum>0){
+                    $('.bs-example-modal-sm').modal('toggle');
+                    return;
+                }else{
+                    $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
+                        if (resp.ret==0) {
+                            var phone=resp.phone;
 
-    //                         try{
-    //                             window.navigate(
-    //                                 "app:1234567@"+phone+"");
-    //                         } catch(e){
+                            try{
+                                window.navigate(
+                                    "app:1234567@"+phone+"");
+                            } catch(e){
 
-    //                         };
-    //                         $.do_ajax_t("/ss_deal/call_ytx_phone", {
-    //                             "phone": phone
-    //                         } );
-    //                         $.reload();
+                            };
+                            $.do_ajax_t("/ss_deal/call_ytx_phone", {
+                                "phone": phone
+                            } );
+                            $.reload();
 
-    //                     }else{
-    //                         alert(resp.info);
-    //                         if(resp.userid){
-    //                             var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
-    //                             window.location.href = url;
-    //                         }
-    //                     }
-    //                 });
-    //             }
+                        }else{
+                            alert(resp.info);
+                            if(resp.userid){
+                                var url = "http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid="+resp.adminid;
+                                window.location.href = url;
+                            }
+                        }
+                    });
+                }
 
-    //         } );
-    //     });
+            } );
+        });
 
-    // }else{ // 原有环境
+    }else{ // 原有环境
+*/
         $("#id_get_new").on("click",function(){
             $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
                 if (resp.ret==0 ) {
@@ -712,7 +715,7 @@ $(function(){
         var click_type=1;
 
          //james
-         // if(opt_data.tq_called_flag != 2){
+         // if(g_args.hasCalledNum ==0){
          //     return ;
          // }
 
@@ -1301,6 +1304,14 @@ $(function(){
             show_status_list.push(status);
 
             //[james] 将show_status_list 中的1去除 即可 去除[无效资源]选项
+            /*
+            $.each(show_status_list,function(index,value){
+                if(value == 1){
+                    show_status_list.splice(index, 1);
+                }
+            });
+            */
+
             Enum_map.append_option_list("seller_student_status", id_status ,true , show_status_list );
             Enum_map.append_option_list("gender", id_gender, true);
             Enum_map.append_option_list("region_version", id_editionid, true);

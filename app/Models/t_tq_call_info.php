@@ -1098,8 +1098,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         $sql = $this->gen_sql_new("  select tq.start_time, tq.record_url, tq.admin_role, m.account from %s tq"
                                   ." left join %s m on m.uid=tq.adminid"
                                   ." left join %s s on s.phone=tq.phone"
-                                  ."  limit 3"
-                                  // ." where s.userid=$userid"
+                                  ." where s.userid=$userid"
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_seller_student_new::DB_TABLE_NAME

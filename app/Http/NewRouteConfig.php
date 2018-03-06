@@ -170,6 +170,7 @@ class NewRouteConfig {
         "/common/get_city_textbook_info"          => true,
         "/common/baidu_callback_return_info_test" => true,
         "/common/baidu_callback_return_info"      => true,
+        "/common/get_xingye_wx_url"               => true,
 
         "/user_manage/qc_invalid_resources"           => true,
         "/user_manage/get_nick"                       => true,
@@ -748,8 +749,8 @@ class NewRouteConfig {
         "/resource/total_del_file"                       =>true,
         "/test_bacon/modify_res_agree_info"              =>true,
         "/test_bacon/luru_tag"                           =>true,
-        "/test_bacon/modify_resource"                    =>true,
-        "/test_bacon/change_tag"                         =>true,
+        "/test_bacon/test_select"                        =>true,
+        "/test_bacon/get_books"                          =>true,
         "/teacher_info/get_leo_resource_new"             =>true,
         "/teacher_info/get_sub_grade_book_tag"           =>true,
         "/user_manage_new/set_power_with_groupid_list_new" => true,
@@ -768,6 +769,9 @@ class NewRouteConfig {
         "/wjx_receive_api/get_answers"                   =>true,
         "/wjx_receive_api/give_scores"                   =>true,
         "/info_resource_power/get_resource_power"        =>true,
+        "/info_resource_power/save_resource_power"       =>true,
+        "/info_resource_power/dele_resource"             =>true,
+        "/info_resource_power/dele_type"                 =>true,
     ];
 
     static $dev_url_map = [
