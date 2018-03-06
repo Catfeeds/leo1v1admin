@@ -2319,15 +2319,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 		}
 
         $url2 = $result["code_url"];
-        $orderid = $this->t_orderid_orderno_list->get_orderid($orderNo);
-        if(!$orderid){            
-            $this->t_orderid_orderno_list->row_insert([
-                "order_no"  =>$orderNo,
-                "orderid"   =>$orderid,
-                "order_type"=>1,
-                "parent_orderid"=>$this->t_child_order_info->get_parent_orderid($orderid)
-            ]);
-        }
+                   
+        $this->t_orderid_orderno_list->row_insert([
+            "order_no"  =>$orderNo,
+            "orderid"   =>$orderid,
+            "order_type"=>1,
+            "parent_orderid"=>$this->t_child_order_info->get_parent_orderid($orderid)
+        ]);
 
         dd($url2);
 
