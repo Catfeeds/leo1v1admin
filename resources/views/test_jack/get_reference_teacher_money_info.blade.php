@@ -40,7 +40,7 @@
                         <td>{{ @$var["adminid"]}}</td>
                         <td>{{ @$var["name"]}}</td>
                         <td>{{ @$var["revisit_reword"]}}</td>
-                        <td id ="num"></td>
+                        <td class ="num"></td>
                                        
 
                                  

@@ -2302,7 +2302,7 @@ class test_jack  extends Controller
         if($revisit_reword_per <0){
             $revisit_reword_per=0;
         }
-        return $this->output_succ(["num"=>$revisit_reword_per]);
+        return $this->output_succ(["num"=>$revisit_reword_per*1500]);
         return $revisit_reword_per;
 
 
