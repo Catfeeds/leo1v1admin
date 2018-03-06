@@ -995,62 +995,58 @@ class ajax_deal3 extends Controller
         $account_type = $this->get_in_int_val('type');
         $confirm_type = $this->get_in_int_val('cc_confirm_type');
         $qc_mark = $this->get_in_str_val('mark');
-        # account_type:1:CC 2:TMK 3:QC
+        $adminid = $this->get_account_id();
         $set_field_arr = [];
+        $arr = [];
+        # account_type:1:CC 2:TMK 3:QC
         if($account_type == 2){
             $set_field_arr=[
                 "tmk_confirm_time" => time(),
-                "tmk_adminid"      => $this->get_account_id(),
+                "tmk_adminid"      => $adminid,
                 "tmk_confirm_type" => $confirm_type
             ];
         }elseif($account_type == 3){
             $set_field_arr=[
                 "qc_confirm_time" => time(),
-                "qc_adminid"      => $this->get_account_id(),
+                "qc_adminid"      => $adminid,
                 "qc_confirm_type" => $confirm_type,
                 "qc_mark"         => $qc_mark
             ];
         }
+        $field_list = $this->t_seller_student_new->field_get_list($userid, "cc_not_exist_count,cc_invalid_count");
 
+        // 处理无效资源标记次数累加
         if($account_type == 1){
             $this->t_invalid_num_confirm->row_insert([
                 "userid"          => $userid,
-                "cc_adminid"      => $this->get_account_id(),
+                "cc_adminid"      => $adminid,
                 "cc_confirm_time" => time(),
                 "cc_confirm_type" => $confirm_type
             ]);
             // 更新例子表中的cc标记次数
+            if($confirm_type == 1001){ //空号
+                $arr['cc_not_exist_count'] = $field_list['cc_not_exist_count']+1;
+            }else{ // 其他无效资源
+                $arr['cc_invalid_count'] = $field_list['cc_invalid_count']+1;
+            }
         }else{
+            if($account_type == 2){
+                $arr['tmk_student_status_adminid'] = $adminid;
+                $arr['tmk_student_status_time'] = time();
+            }
             if(!empty($set_field_arr)){
                 $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
             }
         }
         # 进入tmk库
         # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
-        if($account_type == 1){
-            $hasSignNum = $this->t_invalid_num_confirm->getHasSignNum($userid);
-            if($confirm_type == 1001 || $hasSignNum == 3){
-                $this->t_seller_student_new->field_update_list($userid, [
-                    // 'tmk_student_status' => 2
-                ]);
-            }
-            $adminid = $this->get_account_id();
-            $arr = [];
-            $cc_confirm_type = $this->t_invalid_num_confirm->get_row_by_adminid($adminid,$confirm_type);
-            $field_list = $this->t_seller_student_new->field_get_list($userid, 'cc_not_exist_count,cc_invalid_count');
-            if($cc_confirm_type==0 && $confirm_type>0){
-                if($confirm_type == E\Eseller_student_sub_status::V_1001){
-                    $arr['cc_not_exist_count'] = $field_list['cc_not_exist_count']+1;
-                }elseif($confirm_type>1001){
-                    $arr['cc_invalid_count'] = $field_list['cc_invalid_count']+1;
-                }
-            }
-            if(count($arr)>0){
-                $this->t_seller_student_new->field_update_list($userid,$arr);
-            }
+        if(count($arr)>0){
+            $this->t_seller_student_new->field_update_list($userid,$arr);
         }
         return $this->output_succ();
     }
+
+
 
     # 检查是否提交
     public function checkHasSign(){
@@ -1114,6 +1110,6 @@ class ajax_deal3 extends Controller
         );
         return $this->output_succ();
 
- 
+
     }
 }

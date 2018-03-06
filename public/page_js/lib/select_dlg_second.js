@@ -106,11 +106,24 @@
                     if(init_keywords.indexOf('、') > 0){
                         int_key_arr = init_keywords.split('、');
                     };
-                    if($.inArray(row_item[searchNo],int_key_arr) == -1){
-                        var $tr_html = "<tr class=\""+class_str+"\" data-id=\""+cur_id+"\"  style= 'display:none'>" + td_list_str+ "</tr>";
+                    var this_display = 0;
+                    if(int_key_arr.length > 0){
+                        for(var x in int_key_arr ){
+                            if( row_item[searchNo].indexOf(int_key_arr[x]) >= 0){
+                                this_display = 1;
+                            }
+                        }
+                    }else{
+                        if( row_item[searchNo].indexOf(init_keywords) >= 0){
+                            this_display = 1;
+                        }
+                    }
 
+                    if( this_display == 0){
+                        var $tr_html = "<tr class=\""+class_str+"\" data-id=\""+cur_id+"\"  style= 'display:none'>" + td_list_str+ "</tr>";
                     }
                 }
+
                 $tbody.append($tr_html);
             });
 

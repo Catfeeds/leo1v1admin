@@ -5,14 +5,14 @@
 $(function(){
     Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
     $("#id_subject").val(g_args.subject);
-    var provice_pro = "<option value='-1'>全部</option>";
+    var provice_pro = "<option value='-1'>全部</option><option value='0'>未设置</option>";
     $.each(ChineseDistricts[86],function(i,val){
         provice_pro = provice_pro + '<option value='+i+'>'+val+'</option>'
     });
     $("#id_province").html(provice_pro);
     $("#id_province").val(g_args.province);
 
-    var city_pro = "<option value='-1'>全部</option>";
+    var city_pro = "<option value='-1'>全部</option><option value='0'>未设置</option>";
     if(g_args.province > 0 ){
         $.each(ChineseDistricts[g_args.province],function(i,val){
             city_pro = city_pro + '<option value='+i+'>'+val+'</option>'
@@ -30,13 +30,13 @@ $(function(){
         Enum_map.append_option_list("subject", id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
         var id_province = $("<select style='width:90%' onchange='get_city(this.options[this.options.selectedIndex].value,event)'/>");
-        var pro = "<option value='0'>全部</option>";
+        var pro = "<option value='0'>未设置</option>";
         $.each(ChineseDistricts[86],function(i,val){
             pro = pro + '<option value='+i+'>'+val+'</option>'
         });
         id_province.html(pro);
 
-        var id_city = $("<select style='width:90%'><option value='0'>全部</option></select>");
+        var id_city = $("<select style='width:90%'><option value='0'>未设置</option></select>");
 
         var id_little = $("<input style='width:90%' onclick='get_books(event)'/>");
         var id_middle = $("<input style='width:90%' onclick='get_books(event)'/>");
@@ -73,7 +73,7 @@ $(function(){
                     "high"  : high
                 }
                 console.log(data);
-                if(!subject || !province || !city){
+                if(!subject){
                     BootstrapDialog.alert("科目或者省份或者城市不能为空");
                     return false;
                 }   
@@ -101,7 +101,7 @@ $(function(){
         id_subject.val(obj.find(".subject").attr('subject'));
 
         var id_province = $("<select style='width:90%' onchange='get_city(this.options[this.options.selectedIndex].value,event)'/>");
-        var pro = "<option value='0'>全部</option>";
+        var pro = "<option value='0'>未设置</option>";
         $.each(ChineseDistricts[86],function(i,val){
             pro = pro + '<option value='+i+'>'+val+'</option>'
         });
@@ -110,7 +110,7 @@ $(function(){
         id_province.val(province);
 
         var id_city = $("<select style='width:90%' />");
-        var city_pro = "<option value='0'>全部</option>";
+        var city_pro = "<option value='0'>未设置</option>";
         $.each(ChineseDistricts[province],function(i,val){
             city_pro = city_pro + '<option value='+i+'>'+val+'</option>'
         });
@@ -156,7 +156,7 @@ $(function(){
                     "high"  : high
                 }
                 console.log(data);
-                if(!subject || !province || !city){
+                if(!subject ){
                     BootstrapDialog.alert("科目或者省份或者城市不能为空");
                     return false;
                 }   
@@ -167,8 +167,9 @@ $(function(){
                     dataType :"json",
                     data     :data,
                     success : function(res){
-                        BootstrapDialog.alert(res.msg);
-                        window.location.reload();
+                        BootstrapDialog.alert("编辑成功");
+                        var new_url = "/info_support/get_books?subject="+subject+"&province="+province+"&city="+city;
+                        window.location = new_url;
                     }
                 });
             }
@@ -243,11 +244,11 @@ function get_books(oEvent){
             var str = '';
             var str_id = '';
             $('#id_body .warning').each(function(){
-                str += $(this).find('td:eq(1)').text() + ',';
+                str += $(this).find('td:eq(1)').text() + '、';
                 str_id += $(this).find('td:eq(0)').text() + ',';
-            })
+            });
 
-                str_id != '' ? str_id = str_id.substring(0,str_id.length-1) : '' ;
+            str_id != '' ? str_id = str_id.substring(0,str_id.length-1) : '' ;
             str != '' ? str = str.substring(0,str.length-1) : '' ;
             
             $(target).val(str);
