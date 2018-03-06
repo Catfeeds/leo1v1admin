@@ -1031,8 +1031,8 @@ class ajax_deal3 extends Controller
             }
         }else{
             if($account_type == 2){
-                $arr['tmk_student_status_adminid'] = $adminid;
-                $arr['tmk_student_status_time'] = time();
+                $arr['tmk_sign_invalid_adminid'] = $adminid;
+                $arr['tmk_sign_invalid_time'] = time();
             }
             if(!empty($set_field_arr)){
                 $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
