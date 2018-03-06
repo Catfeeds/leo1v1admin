@@ -2163,7 +2163,7 @@ class seller_student_new extends Controller
 
     public function check_lesson_end(){
         $ret = $this->t_seller_student_new->get_suc_no_call_list($this->get_account_id());
-        if($ret && $this->get_account() == '陈九龙'){
+        if($ret){
             return count($ret);
         }
         return 0;

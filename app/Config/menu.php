@@ -899,8 +899,16 @@ class menu{
                     ["power_id"=>02, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
                     ["power_id"=>06, "name"=>"更换讲义负责人",   "url"=>"/resource_new/admin_manage"],
                     ["power_id"=>03, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
+                    ["power_id"=>07,"name"=>"测评系统",   "url"=>"/test_paper/input_paper"],
                     ["power_id"=>04, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                 ]],
+
+                [ 'power_id'=>75,"name"=>"信息支持系统", "list" => [
+                    [ "power_id"=>02,"name"=>"信息支持主页",   "url"=>"/info_support/get_info"],
+                    [ "power_id"=>03,"name"=>"资源分类权限管理",   "url"=>"/info_resource_power/get_resource_power"],
+                    [ "power_id"=>04,"name"=>"教材版本管理",   "url"=>"/info_support/get_books"],
+                ]],
+
                 ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                 ["power_id"=>7,"name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
                 ["power_id"=>23,"name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],

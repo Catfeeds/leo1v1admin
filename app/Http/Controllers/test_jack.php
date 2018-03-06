@@ -2118,10 +2118,196 @@ class test_jack  extends Controller
 
         
         
-        $start           = $this->get_in_int_val("userid");
-        $end = strtotime("+1 months",$start);
-        $start = strtotime("2017-01-01");
-        $end = strtotime("2018-01-01");
+        $adminid           = $this->get_in_int_val("userid");
+        $start_time      = strtotime("2018-02-01");
+        $end_time      = strtotime("2018-03-01");
+        $item1=$this->t_month_ass_student_info->get_ass_month_info($start_time,$adminid);
+        $item=$item1[$adminid];
+        $read_student_list = $item["userid_list"];
+        $registered_student_list = $item["registered_student_list"];
+        $first_lesson_stu_list = $item["first_lesson_stu_list"];
+        $account = $this->t_manager_info->get_account($adminid);
+
+        // $item["revisit_reword_per"] = $this->get_ass_revisit_reword_value($item["account"],$k,$start_time,$end_time,$item["first_lesson_stu_list"],$read_student_list,$registered_student_list);//回访绩效比例
+
+        $month_half = $start_time+15*86400;
+
+        //临时设置,2月份回访次数最多1次
+        if($start_time==strtotime("2018-02-01")){
+            $revisit_max =1;
+        }else{
+            $revisit_max =2;
+        }
+
+        /*回访*/
+        $revisit_reword_per = 0.2;//初始值
+
+        //先看第一课回访信息
+        if($first_lesson_stu_list){                                    
+            $first_lesson_stu_arr = json_decode($first_lesson_stu_list,true);
+            foreach($first_lesson_stu_arr as $val){
+                $first_userid = $val["userid"];
+                $lesson_start = $val["lesson_start"];
+                $revisit_end = $lesson_start+86400;                           
+                $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($first_userid,$lesson_start,$revisit_end,$account,-2);
+                if($revisit_num <=0){
+                    $revisit_reword_per -=0.05;
+                }
+                if($revisit_reword_per <=0){
+                    break;
+                }
+
+                        
+            }
+        }
+
+        //当前在读学员
+        if($read_student_list && $revisit_reword_per >0){
+            $read_student_arr = json_decode($read_student_list,true);
+            foreach($read_student_arr as $val){
+                //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
+                $first_regular_lesson_time = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
+                $assign_time = $this->t_student_info->get_ass_assign_time($val);                        
+
+                //检查本月是否上过课
+                $month_lesson_flag = $this->t_lesson_info_b3->check_have_lesson_stu($val,$start_time,$end_time);
+
+                if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
+                    if($assign_time < $month_half){
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
+                        
+                        if($month_lesson_flag==1){
+                            if($revisit_num <$revisit_max){
+                                $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
+                            }
+ 
+                        }else{
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
+                        }
+                    }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$account,-2);
+                        if($revisit_num <1){
+                            $revisit_reword_per -=0.05;
+                        }
+
+                    }
+                }elseif($first_regular_lesson_time>0 && $first_regular_lesson_time>=$month_half &&  $first_regular_lesson_time<=$end_time){                       
+                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$account,-2);
+                    if($revisit_num <1){
+                        $revisit_reword_per -=0.05;
+                    }
+
+                }
+                if($revisit_reword_per <=0){
+                    break;
+                }                   
+            }
+        }
+        if($revisit_reword_per >0){
+            //检查本月带过的历史学生 
+            $history_list = $this->t_ass_stu_change_list->get_ass_history_list($adminid,$start_time,$end_time);
+                       
+            foreach($history_list as $val){
+                //检查本月是否上过课
+                $month_lesson_flag = $this->t_lesson_info_b3->check_have_lesson_stu($val["userid"],$start_time,$end_time);
+
+                $add_time = $val["add_time"];
+                if($add_time<$month_half){
+                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$account,-2);
+                    if($revisit_num <1){
+                        $revisit_reword_per -=0.05;
+                    }
+
+                }else{
+                    $assign_time = $val["assign_ass_time"];
+                    if($assign_time <$month_half){
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
+                        if($month_lesson_flag==1){
+                            if($revisit_num <$revisit_max){
+                                $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
+                            }
+ 
+                        }else{
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
+                        }                      
+
+                    }else{
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$account,-2);
+                        if($revisit_num <1){
+                            $revisit_reword_per -=0.05;
+                        }
+
+                    }
+                }
+                if($revisit_reword_per <=0){
+                    break;
+                }
+
+            
+            }
+
+        }
+
+        if($revisit_reword_per>0 && $registered_student_list){
+            //检查未结课学生回访状态(需要剔除在读学员)
+            $registered_student_arr = json_decode($registered_student_list,true);
+            if($read_student_list){
+                $read_student_arr = json_decode($read_student_list,true);
+                $registered_student_arr = array_diff($registered_student_arr, $read_student_arr);//获得去除在读学员的数组
+            }
+
+            foreach($registered_student_arr as $val){
+                //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
+                $first_regular_lesson_time = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
+                $assign_time = $this->t_student_info->get_ass_assign_time($val);                        
+
+
+                if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
+                    if($assign_time < $month_half){
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
+                        if($revisit_num <1){
+                            $revisit_reword_per -=0.05;
+                        }                                   
+
+                    }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$account,-2);
+                        if($revisit_num <1){
+                            $revisit_reword_per -=0.05;
+                        }
+
+                    }
+                }elseif($first_regular_lesson_time>0 && $first_regular_lesson_time>=$month_half &&  $first_regular_lesson_time<=$end_time){                       
+                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$account,-2);
+                    if($revisit_num <1){
+                        $revisit_reword_per -=0.05;
+                    }
+
+                }
+                if($revisit_reword_per <=0){
+                    break;
+                }
+
+
+
+                    
+            }
+            
+
+        }
+        if($revisit_reword_per <0 || $revisit_reword_per>1){
+            $revisit_reword_per=0;
+        }
+        $tt = $revisit_reword_per*1500;
+
+        return $this->output_succ(["num"=>$tt]);
+        // return $revisit_reword_per;
+
 
         $arr=["num1"=>0,"num2"=>1,"num3"=>2,"num4"=>3,"num5"=>4,"num6"=>11,"num"=>-1];
         $list=[];
@@ -2278,6 +2464,17 @@ class test_jack  extends Controller
     public function get_reference_teacher_money_info(){
         //拉数据
         $this->check_and_switch_tongji_domain();
+        $start_time = strtotime("2018-02-01");        
+        
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        foreach($ass_month as &$item){
+            $item["revisit_reword"] = $item["revisit_reword_per"]*1500/100;
+        }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$ass_month
+        ]);
+
+
         // $start_time = strtotime("2018-02-01");
         // // $start_time = strtotime("2017-06-01");
         // $end_time = strtotime("2018-03-01");

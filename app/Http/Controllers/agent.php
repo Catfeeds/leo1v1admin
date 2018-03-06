@@ -441,30 +441,47 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_seller_student_new->get_item_list_new();
-        foreach ($ret as $item) {
-            if($item['seller_student_assign_type']==1 && $item['first_contact_time']>$item['admin_assign_time']){
-                if($item['last_revisit_time']>$item['first_contact_time'] && $item['last_edit_time']>$item['first_contact_time']){
-                    $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
+        $free_list = [];
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+            $ret = $this->t_seller_student_new->get_item_list_new();
+            foreach ($ret as $key=>$item) {
+                if($item['seller_student_assign_type']==1 && $item['first_contact_time']>$item['admin_assign_time']){
+                    if($item['last_revisit_time']>$item['first_contact_time'] && $item['last_edit_time']>$item['first_contact_time']){
+                        $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
+                    }else{
+                        $first_time = $item['first_contact_time'];
+                    }
+                    $item['assign_type'] = '系统分配';
                 }else{
-                    $first_time = $item['first_contact_time'];
+                    if($item['last_revisit_time']>$item['admin_assign_time'] && $item['last_edit_time']>$item['admin_assign_time']){
+                        $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
+                    }else{
+                        $first_time = $item['admin_assign_time'];
+                    }
+                    $item['assign_type'] = '抢单';
                 }
-                $item['assign_type'] = '系统分配';
-            }else{
-                if($item['last_revisit_time']>$item['admin_assign_time'] && $item['last_edit_time']>$item['admin_assign_time']){
-                    $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
-                }else{
-                    $first_time = $item['admin_assign_time'];
+                $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
+                if(($item['left_end_time']-time())<0){
+                    $free_list[$item['userid']]['userid'] = $item['userid'];
+                    $free_list[$item['userid']]['phone'] = $item['phone'];
                 }
-                $item['assign_type'] = '抢单';
-            }
-            $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
-            if($item['left_end_time']){
-                
             }
         }
-
+        foreach($free_list as $userid=>$item){
+            $this->set_seller_free($item['phone'],$item['userid']);
+            // echo $item['phone']."<br>";
+        }
+        dd('a');
         return $this->pageView(__METHOD__,NULL);
+    }
+
+    public function set_seller_free($phone,$userid){
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者:系统 状态: 过期回到公海",
+            "system"
+        );
+        $this->t_seller_student_new->set_user_free($userid);
     }
 
     public function add_seller_new_count(){

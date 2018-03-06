@@ -161,6 +161,12 @@ class teaching_menu{
                             [ "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                         ]],
 
+                        [ "name"=>"信息支持系统", "list" => [
+                            [ "name"=>"信息支持主页",   "url"=>"/info_support/get_info"],
+                            [ "name"=>"资源分类权限管理",   "url"=>"/info_resource_power/get_resource_power"],
+                            [ "name"=>"教材版本管理",   "url"=>"/info_support/get_books"],
+                        ]],
+
                     ]],
 
                     [ "name"=>"班课组",  "list"=>[

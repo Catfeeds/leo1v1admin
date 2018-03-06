@@ -42,6 +42,31 @@ class test_ricky extends Command
         $task = new \App\Console\Tasks\TaskController();
         $money = new \App\Http\Controllers\teacher_money();
 
+        $month = [12, 1];
+        foreach($month as $item) {
+            if ($item == 12) { // 处理12月
+                $start_time = strtotime("2017-12-1");
+                $end_time = strtotime("2018-1-1");
+
+            } else {
+                $start_time = strtotime("2018-".$item."-1");
+                $end_time = strtotime("2018-".($item + 1)."-1");
+            }
+            $ret_info = $task->t_teacher_salary_list->get_salary_list($start_time, $end_time, 1);
+            // 月份、老师ID、老师姓名、等级、工资总额
+            $info = $ret_info["list"];
+            foreach($info as $val) {
+                $teacherid = $val["teacherid"];
+                //echo $item."月,".$teacherid.",".$val["realname"].",";
+                $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
+                var_dump($level);
+                //$level = implode(",", $level);
+                //echo $level.",";
+                //echo ($val["money"] / 100).PHP_EOL;
+            }
+        }
+        exit;
+
         // 老师ID、老师姓名、12月份授课课时数
         $rules1 = [[16, 17, 18, 20, 28], [26, 30, 36, 39, 46], [34, 38, 44, 49, 54], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
         $rules2 = [[18, 22, 28, 32, 38], [26, 28, 36, 39, 46], [30, 33, 40, 43, 50], [36, 38, 46, 48, 55], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
