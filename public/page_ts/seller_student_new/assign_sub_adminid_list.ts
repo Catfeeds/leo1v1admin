@@ -827,11 +827,9 @@ $(function(){
     });
 
 
-
-
     $(".opt-publish-flag").on("click",function(){
         var opt_data               = $(this).get_opt_data();
-        var $seller_student_status = $("<select></selelct>");
+        var $seller_student_status = $("<select id='select_seller_student_status'></selelct>");
         var $wx_invaild_flag       = $("<select></selelct>");
         var $seller_student_assign_type = $("<select></selelct>");
         //var res = JSON.stringify(opt_data);
@@ -847,18 +845,6 @@ $(function(){
         }else{
             need_list=[ opt_data.seller_student_status, 50];
         }
-
-
-        // james-start 删除枚举中出现的[无效资源]|[无效-公海/试听未签不出现]
-        // var remove = function(val) {
-        //     var index = this.indexOf(val);
-        //     if (index > -1) {
-        //         this.splice(index, 1);
-        //     }
-        // };
-        // need_list.remove(1);
-        // need_list.remove(50);
-        // james-end
 
 
         $seller_student_status.val(opt_data.seller_student_status );
@@ -893,6 +879,12 @@ $(function(){
 
                 });
             }
+        },function(){
+            //james
+            /*
+             $("#select_seller_student_status option[value='1']").remove();
+             $("#select_seller_student_status option[value='50']").remove();
+             */
         });
     });
 
