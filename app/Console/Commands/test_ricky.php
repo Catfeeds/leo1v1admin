@@ -57,11 +57,12 @@ class test_ricky extends Command
             $info = $ret_info["list"];
             foreach($info as $val) {
                 $teacherid = $val["teacherid"];
-                echo $item."月,".$teacherid.",".$val["realname"].",";
+                //echo $item."月,".$teacherid.",".$val["realname"].",";
                 $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
-                $level = implode(",", $level);
-                echo $level.",";
-                echo ($val["money"] / 100).PHP_EOL;
+                var_dump($level);
+                //$level = implode(",", $level);
+                //echo $level.",";
+                //echo ($val["money"] / 100).PHP_EOL;
             }
         }
         exit;
