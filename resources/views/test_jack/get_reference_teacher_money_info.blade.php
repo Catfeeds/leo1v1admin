@@ -40,9 +40,9 @@
                 @foreach ( $list as $k=>$var )
                     <tr>
                         
-                        <td>{{ @${{$var["adminid"]}}</td>
-                        <td>{{ @${{$var["name"]}}</td>
-                        <td>{{ @${{$var["revisit_reword"]}}</td>
+                        <td>{{ @$var["adminid"]}}</td>
+                        <td>{{ @$var["name"]}}</td>
+                        <td>{{ @$var["revisit_reword"]}}</td>
                         <td id ="num"></td>
                                        
 
