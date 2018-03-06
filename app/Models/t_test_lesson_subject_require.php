@@ -4265,4 +4265,30 @@ ORDER BY require_time ASC";
         return $this->main_get_list($sql);
     }
 
+    //@desn:根据用户id获取是否申请试听及试听是否成功
+    //@param:$userid 用户id
+    public function get_test_lesson_info_by_userid($userid){
+        $where_arr = [
+            'si.is_test_user = 0',
+            'tlsr.accept_flag = 1',
+            ['li.lesson_type = %u',2],
+            ['li.userid = %u',$userid,0]
+        ];
+        
+        $sql = $this->gen_sql_new(
+            'select count(*) test_lesson_count,sum(tlssl.success_flag in (0,1 )) test_lesson_succ '.
+            'from %s tlsr '.
+            'join %s tlssl on tlsr.require_id = tlssl.require_id '.
+            'left join %s li on tlsr.current_lessonid = li.lessonid '.
+            'join %s si on li.userid = si.userid '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 }

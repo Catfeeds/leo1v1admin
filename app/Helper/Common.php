@@ -1121,8 +1121,13 @@ class Common {
         return $str;
     }
 
-
-    static function gen_admin_member_data($old_list,$no_need_sum_list=[],$monthtime_flag=1,$month=0)
+    //@desn:按后台分组组织架构
+    //@param:$old_list 需要架构的数组
+    //@param:$no_need_sum_list  数组中不需要累加的字段
+    //@param:$monthtime_flag 
+    //@param:$month
+    //@param:$show_type 通过改变main_type  修改组织第一层 0:默认不修改 1:修改为转接绍分配类型
+    static function gen_admin_member_data($old_list,$no_need_sum_list=[],$monthtime_flag=1,$month=0,$show_type=0)
     {
         /**  @var  $t_manager_info \App\Models\t_manager_info  */
         $t_manager_info=new  \App\Models\t_manager_info ();
@@ -1136,6 +1141,17 @@ class Common {
 
         $admin_list=$admin_list["list"] ;
         $cur_key_index=1;
+        //@desn:构造层级数据
+        //@param:$item  需要构造的数组
+        //@param:$key 该层级需要构造的下级数组
+        //@param:$key_class  标记层级名称[包含序列]
+        //@param:$adminid  该层级里的管理员id
+        //@param:$groupid  该层级的分组id
+        //@param:$become_member_time 成为成员时间
+        //@param:$leave_member_time 离职时间
+        //@param:$create_time 创建时间
+        //@param:$del_flag 离职标识
+        //@param:$seller_level 销售等级
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0,$seller_level=0) {
             global $cur_key_index;
             if (!isset($item [$key])) {
@@ -1155,15 +1171,23 @@ class Common {
             }
         };
 
+        //@desn:执行层级相加
+        //@param:$item 
+        //@param:$add_item 相加数组
+        //@param:$self_flag  不想加 上级=下级  标识
+        //@param:$no_need_sum_list 不需要相加的数组
         $add_data=function (&$item, $add_item , $self_flag=false)  use (&$no_need_sum_list) {
             $arr=&$item["data"];
             if ($self_flag) {
                 //dd( $item);
             }
 
+            // $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" && $k!= "seller_level"
+            $init_arr = ['main_type','up_group_name','group_name','account','adminid','groupid','become_member_time','leave_member_time','create_time','del_flag','seller_level'];
+
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" && $k!= "seller_level"
-                    && ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
+                if (!is_int($k) && !in_array($k,$init_arr)&& ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
+
                     if ($self_flag) {
                         $arr[$k]=$v;
                     }else{
@@ -1193,10 +1217,13 @@ class Common {
                 $item['create_time']=$admin_item["create_time"];
                 $item['del_flag']=$admin_item["del_flag"];
                 $item['seller_level']=$admin_item["seller_level"];
+
+                //修改组织架构的第一层
+                if($show_type == 1)
+                    $item['main_type'] = $item['referral_type'];
             }else{
 
             }
-
 
             if (empty($item['main_type'])) {
                 $item['main_type']="未定义";

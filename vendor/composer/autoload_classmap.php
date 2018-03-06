@@ -75,6 +75,7 @@ return array(
     'CreateTRuleDetailInfo' => $baseDir . '/database/migrations/2017_11_17_102008_create_t_rule_detail_info.php',
     'CreateTRuleInfo' => $baseDir . '/database/migrations/2017_11_17_101959_create_t_rule_info.php',
     'CreateTSellerStudentDoTagLog' => $baseDir . '/database/migrations/2018_02_02_161323_create_t_seller_student_do_tag_log.php',
+    'CreateTStudentIntroduceCreate' => $baseDir . '/database/migrations/2018_03_01_174049_create_t_student_introduce_create.php',
     'CreateTSumActivityQuota' => $baseDir . '/database/migrations/2017_11_25_132434_create_t_sum_activity_quota.php',
     'CreateTTagLibrary' => $baseDir . '/database/migrations/2017_11_28_163729_create_t_tag_library.php',
     'CreateTTeacherChristmas' => $baseDir . '/database/migrations/2017_12_21_154815_create_t_teacher_christmas.php',

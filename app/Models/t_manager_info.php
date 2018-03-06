@@ -534,6 +534,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_update($sql);
     }
     //@param:$sales_assistant_flag 获取后台管理员中的销售助教
+    //@param:$main_type 用户身份
+    //@param:$adminid 管理员id
     public function get_admin_member_list(  $main_type = -1 ,$adminid=-1,$sales_assistant_flag=0){
         $where_arr=[
             [ "m.main_type =%u ", $main_type,-1] ,
