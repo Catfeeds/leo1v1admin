@@ -1788,7 +1788,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         "jack",
                         "合同付款通知",
                         "合同付款通知",
-                        "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
+                        "学生:".$user_info["nick"]." 渠道:".wx_pub_qr.",订单号:".$orderNo,
                         ""
                     );
                     return "success";
