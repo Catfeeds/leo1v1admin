@@ -43,19 +43,18 @@ $(function(){
             },
             success: function (result) {
                 if (result['ret'] == 0) {
-
-
                     var data = result.data;
                     var html_str = "";
                     $.each(data, function (i, item) {
                         var cls = "success";
-                        html_str += "<tr class=\"" + cls + "\" > <td>" + item.account_role_str + "<td>" + item.account + "<td><a class='do_audo fa-volume-up btn fa' href='"+item.record_url+"'></a></tr>";
+                        var record_url = "javascript:;";
+
+                        if(item.record_url){
+                            record_url = item.record_url;
+                        }
+                        html_str += "<tr class=\"" + cls + "\" > <td>" + item.account_role_str + "<td>" + item.account + "<td><a class='do_audo fa-volume-up btn fa' href="+record_url+" target='_blank'></a></tr>";
+
                     });
-                    // html_node.find(".data-body").html(html_str);
-
-                    $('.record_list').modal('toggle');
-
-
                 }
             }
         });
