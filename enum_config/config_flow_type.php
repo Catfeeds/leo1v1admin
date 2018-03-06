@@ -4,6 +4,7 @@ return array(
     array(1,"qingjia","请假"),
     array(1001,"student_refund","学生退费"),
     array(1002,"ass_order_refund","助教-学生退费"),
+    array(1003,"student_change_grade","学生更改年级"),
 
     array(2001,"seller_post_test_lesson_without_paper","销售提交试听无需试卷"),
     array(2002,"seller_order_require","特殊折扣申请"),

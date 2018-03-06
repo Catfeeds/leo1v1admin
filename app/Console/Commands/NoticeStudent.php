@@ -66,12 +66,13 @@ class NoticeStudent extends Command
             if ($type == 3) {
                 $data = [ // 可变
                     "name"        => $val["realname"],
-                    "lesson_time" => date("y年m月d日h:i:s", $val["lesson_start"]),
+                    "lesson_time" => date("Y年m月d日H:i:s", $val["lesson_start"]),
                     "subject"     => E\Esubject::get_desc($val["subject"]),
                 ];
                 //打电话方法
                 $type = "125735110"; // 固定
                 $phone = $val["phone"];
+                echo $val["userid"]." ".date("Y-m-d H:i:s", $val["lesson_start"])." ".$data["subject"]." ".$phone.PHP_EOL;
                 \App\Helper\Utils::tts_common($phone, $type, $data);
             } else {
                 if($val['assistantid']>0 && $type==1){

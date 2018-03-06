@@ -3536,9 +3536,9 @@ class user_manage extends Controller
             $item['tmk_mark'] = '';
 
             foreach($mark_list as $i => $v){
-                $item['cc_mark'] .= $this->cache_get_account_nick($v['cc_adminid'])."&nbsp&nbsp".E\Eseller_student_sub_status::get_desc($v['cc_confirm_type'])."\n";
+                $item['cc_mark'] .= $this->cache_get_account_nick($v['cc_adminid'])."  ".E\Eseller_student_sub_status::get_desc($v['cc_confirm_type'])."<br/>";
                 if($i == 0){
-                    $item['tmk_mark'] .= $this->cache_get_account_nick($v['tmk_adminid'])."&nbsp&nbsp".E\Eseller_student_sub_status::get_desc($v['tmk_confirm_type'])."\n";
+                    $item['tmk_mark'] .= $this->cache_get_account_nick($v['tmk_adminid'])."  ".E\Eseller_student_sub_status::get_desc($v['tmk_confirm_type'])."\n";
                 }
             }
         }

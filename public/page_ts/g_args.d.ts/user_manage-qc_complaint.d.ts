@@ -48,6 +48,7 @@ interface RowData {
 	deal_admin_nick	:any;
 	user_nick	:any;
 	phone	:any;
+	phone_hide	:any;
 	follow_state_str	:any;
 }
 

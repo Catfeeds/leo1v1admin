@@ -534,6 +534,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_update($sql);
     }
     //@param:$sales_assistant_flag 获取后台管理员中的销售助教
+    //@param:$main_type 用户身份
+    //@param:$adminid 管理员id
     public function get_admin_member_list(  $main_type = -1 ,$adminid=-1,$sales_assistant_flag=0){
         $where_arr=[
             [ "m.main_type =%u ", $main_type,-1] ,
@@ -2548,6 +2550,16 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." where m.uid = $adminid ",
                                 self::DB_TABLE_NAME,
                                 t_teacher_info::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+
+    public function getOpenidByAssId($assistantid){
+        $sql = $this->gen_sql_new("  select m.wx_openid from %s m "
+                                  ." left join %s a on a.phone=m.phone"
+                                  ." where a.assistantid=$assistantid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+        );
         return $this->main_get_value($sql);
     }
 }

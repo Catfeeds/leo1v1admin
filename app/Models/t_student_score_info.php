@@ -466,4 +466,18 @@ group by l.teacherid";
       return $this->main_get_list($sql);
     }
 
+    public function get_data_num1(){
+      $sql = "select o.userid ,s.assistantid ,s.type ,s.nick, count(*) as count , max(o.price) as max_price , sum(o.price) as total_price
+from t_order_info o
+left join t_student_info s on s.userid = o.userid
+where s.is_test_user = 0 and o.price > 0 and contract_status in (1,2,3) 
+group by o.userid";
+      return $this->main_get_list($sql);
+    }
+
+    public function  get_m($origin_userid){
+      $sql = "select count(*) from t_student_info where origin_userid = $origin_userid";
+     return $this->main_get_value($sql); 
+    }
+
 }
