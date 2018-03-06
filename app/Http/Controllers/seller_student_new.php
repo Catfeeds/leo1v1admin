@@ -1199,21 +1199,35 @@ class seller_student_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
             E\Eaccount_role::set_item_value_str($item,'create_role');
             E\Eaccount_role::set_item_value_str($item,'admin_revisiter_role');
+
+            $item['allocation_type'] = E\Ereferral_type::V_0;
             if($item['create_role']){
                 //项目上线之后存在创建人
                 if($item['create_role'] == E\Eaccount_role::V_2){
                     //销售自产
-                    $item['allocation_type'] = '销售自产';
+                    $item['allocation_type'] = E\Ereferral_type::V_1;
                 }elseif($item['create_role'] == E\Eaccount_role::V_1){
                     //助教创建
                     if($item['origin_assistantid'] == $item['admin_revisiterid'])
-                        $item['allocation_type'] = '助教自跟';
+                        $item['allocation_type'] = E\Ereferral_type::V_3;
                     else
-                        $item['allocation_type'] = '助转销';
+                        $item['allocation_type'] = E\Ereferral_type::V_2;
                 }
             }else{
-                $item['allocation_type'] = '未设置';
+                //项目上线之后存在创建人
+                if($item['origin_role'] == E\Eaccount_role::V_2){
+                    //销售自产
+                    $item['allocation_type'] = E\Ereferral_type::V_1;
+                }elseif($item['origin_role'] == E\Eaccount_role::V_1){
+                    //助教创建
+                    if($item['origin_assistantid'] == $item['admin_revisiterid'])
+                        $item['allocation_type'] = E\Ereferral_type::V_3;
+                    else
+                        $item['allocation_type'] = E\Ereferral_type::V_2;
+                }
+
             }
+            E\Ereferral_type::set_item_value_str($item,'allocation_type');
         }
         return $this->pageView(__METHOD__,$ret_info,[
             'main_group' => $main_group,

@@ -63,6 +63,7 @@ class NoticeStudent extends Command
         $now         = date("Y-m-d",time());
         $lesson_list = $task->t_lesson_info->get_lesson_stu_late($start_time,$end_time,$type);
         foreach($lesson_list as $val){
+            if (!$val["realname"]) $val["realname"] = $task->cache_get_student_nick($val["userid"]);
             if ($type == 3) {
                 $data = [ // 可变
                     "name"        => $val["realname"],

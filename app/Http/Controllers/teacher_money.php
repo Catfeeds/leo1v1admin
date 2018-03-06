@@ -620,8 +620,8 @@ class teacher_money extends Controller
             if($type==E\Ereward_type::V_2){ //签单奖
                 $need_check_lesson_flag = true;
                 $check_full_teacher = \App\Helper\Utils::check_teacher_is_full($teacher_money_type, $teacher_type, $teacherid);
-                if(in_array($teacher_money_type,[E\Eteacher_money_type::V_4,E\Eteacher_money_type::V_5,E\Eteacher_money_type::V_6])
-                   && !$check_full_teacher){
+                //在职老师(全职老师)，武汉全职老师，第四版
+                if(!in_array($teacher_money_type,[E\Eteacher_money_type::V_6]) && !$check_full_teacher){
                     return $this->output_err("老师工资分类错误！");
                 }
             }elseif($type==E\Ereward_type::V_3){ //90分钟课程补偿

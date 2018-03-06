@@ -2,8 +2,6 @@ interface GargsStatic {
 	subject:	number;
 	province:	number;
 	city:	number;
-	page_num:	number;
-	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -13,6 +11,18 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	subject	:any;
+	grade	:any;
+	province	:any;
+	province_name	:any;
+	city	:any;
+	city_name	:any;
+	book	:any;
+	book_name	:any;
+	is_del	:any;
+	subject_str	:any;
+	book_arr	:any;
 }
 
 /*
@@ -71,6 +81,4 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["city title", "city", "th_city" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

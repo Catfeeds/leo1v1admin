@@ -114,7 +114,7 @@
                         <td>{{$var["create_nick"]}} </td>
                         <td>{{$var["create_role_str"]}} </td>
                         <td>{{$var["reg_time"]}} </td>
-                        <td>{{$var["allocation_type"]}} </td>
+                        <td>{{$var["allocation_type_str"]}} </td>
                         <td>{{$var["admin_revisiter_nick"]}} </td>
                         <td>{{$var["admin_revisiter_role_str"]}} </td>
                         <td>{{$var["sd_nick"]}} </td>

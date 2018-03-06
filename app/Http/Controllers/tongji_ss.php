@@ -8392,6 +8392,7 @@ class tongji_ss extends Controller
             //节点型存档数据
             $ret_info = $this->t_channel_node_type_statistics->get_list($month_begin,$origin_ex);
         }elseif($is_history == 2 && $sta_data_type == 2){
+            $is_show_pie_flag = 1;
             //节点型实时数据
             //例子总量
             $ret_info = $this->t_test_lesson_subject->get_example_num_now($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
@@ -8480,78 +8481,6 @@ class tongji_ss extends Controller
                 //统计订单相关信息  ---end---
 
 
-                //饼图用数据 --begin--
-                //地区、年级科目、硬件、渠道等级等统计饼图数据
-                $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
-                $all_count        = count($data_list);
-
-                foreach ($data_list as $a_item) {
-                    $subject      = $a_item["subject"];
-                    $grade        = $a_item["grade"];
-                    $has_pad      = $a_item["has_pad"];
-                    $origin_level = $a_item["origin_level"];
-                    $area_name    = substr($a_item["phone_location"], 0, -6);
-                    @$subject_map[$subject] ++;
-                    @$grade_map[$grade] ++;
-                    @$has_pad_map[$has_pad] ++;
-                    @$origin_level_map[$origin_level] ++;
-                    if (strlen($area_name)>5) {
-                        @$area_map[$area_name] ++;
-                    } else {
-                        @$area_map[""] ++;
-                    }
-
-                }
-
-                $group_list = $this->t_admin_group_name->get_group_list(2);
-
-
-                //签单统计用饼图
-                //订单信息
-                $order_data = $this->t_order_info->tongji_seller_order_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
-                foreach ($order_data as $a_item) {
-                    $subject   = $a_item["subject"];
-                    $grade     = $a_item["grade"];
-                    $area_name = substr($a_item["phone_location"], 0, -6);
-                    $has_pad      = $a_item["has_pad"];
-                    $origin_level = $a_item["origin_level"];
-                    @$order_subject_map[$subject] ++;
-                    @$order_grade_map[$grade] ++;
-                    @$order_has_pad_map[$has_pad] ++;
-                    @$order_origin_level_map[$origin_level] ++;
-
-                    if (strlen($area_name)>5) {
-                        @$order_area_map[$area_name] ++;
-                    } else {
-                        @$order_area_map[""] ++;
-                    }
-
-                }
-
-                //试听统计用饼图
-                //试听信息
-                $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex,'','','',$opt_date_str);
-                foreach ($test_data as $a_item) {
-                    $subject   = $a_item["subject"];
-                    $grade     = $a_item["grade"];
-                    $area_name = substr($a_item["phone_location"], 0, -6);
-                    $has_pad      = $a_item["has_pad"];
-                    $origin_level = $a_item["origin_level"];
-                    @$test_subject_map[$subject] ++;
-                    @$test_grade_map[$grade] ++;
-                    @$test_has_pad_map[$has_pad] ++;
-                    @$test_origin_level_map[$origin_level] ++;
-
-                    if (strlen($area_name)>5) {
-                        @$test_area_map[$area_name] ++;
-                    } else {
-                        @$test_area_map[""] ++;
-                    }
-
-                }
-
-                //饼图用数据 --end--
-
 
             }elseif(in_array($opt_date_str,['tlsr.require_time','tlsr.accept_time'])){
                 //时间检索[试听申请时间][试听排课时间]用
@@ -8599,6 +8528,78 @@ class tongji_ss extends Controller
 
         //实时数据需要对数据进行处理
         if($is_history == 2){
+            //饼图用数据 --begin--
+            //地区、年级科目、硬件、渠道等级等统计饼图数据
+            $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
+            $all_count        = count($data_list);
+
+            foreach ($data_list as $a_item) {
+                $subject      = $a_item["subject"];
+                $grade        = $a_item["grade"];
+                $has_pad      = $a_item["has_pad"];
+                $origin_level = $a_item["origin_level"];
+                $area_name    = substr($a_item["phone_location"], 0, -6);
+                @$subject_map[$subject] ++;
+                @$grade_map[$grade] ++;
+                @$has_pad_map[$has_pad] ++;
+                @$origin_level_map[$origin_level] ++;
+                if (strlen($area_name)>5) {
+                    @$area_map[$area_name] ++;
+                } else {
+                    @$area_map[""] ++;
+                }
+
+            }
+
+            $group_list = $this->t_admin_group_name->get_group_list(2);
+
+
+            //签单统计用饼图
+            //订单信息
+            $order_data = $this->t_order_info->tongji_seller_order_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
+            foreach ($order_data as $a_item) {
+                $subject   = $a_item["subject"];
+                $grade     = $a_item["grade"];
+                $area_name = substr($a_item["phone_location"], 0, -6);
+                $has_pad      = $a_item["has_pad"];
+                $origin_level = $a_item["origin_level"];
+                @$order_subject_map[$subject] ++;
+                @$order_grade_map[$grade] ++;
+                @$order_has_pad_map[$has_pad] ++;
+                @$order_origin_level_map[$origin_level] ++;
+
+                if (strlen($area_name)>5) {
+                    @$order_area_map[$area_name] ++;
+                } else {
+                    @$order_area_map[""] ++;
+                }
+
+            }
+
+            //试听统计用饼图
+            //试听信息
+            $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex,'','','',$opt_date_str);
+            foreach ($test_data as $a_item) {
+                $subject   = $a_item["subject"];
+                $grade     = $a_item["grade"];
+                $area_name = substr($a_item["phone_location"], 0, -6);
+                $has_pad      = $a_item["has_pad"];
+                $origin_level = $a_item["origin_level"];
+                @$test_subject_map[$subject] ++;
+                @$test_grade_map[$grade] ++;
+                @$test_has_pad_map[$has_pad] ++;
+                @$test_origin_level_map[$origin_level] ++;
+
+                if (strlen($area_name)>5) {
+                    @$test_area_map[$area_name] ++;
+                } else {
+                    @$test_area_map[""] ++;
+                }
+
+            }
+
+            //饼图用数据 --end--
+
             foreach ($data_map as &$item ) {
                 if($field_class_name ) {
                     $item["title"]= $field_class_name::get_desc($item["check_value"]);

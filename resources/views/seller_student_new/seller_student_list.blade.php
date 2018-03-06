@@ -385,7 +385,7 @@
         <table class="common-table">
             <thead>
                 <tr>
-                    <td style="display:none;">剩余时间
+                    <td style="display:none;" title="电话联系用户并编辑用户信息可重新获取剩余时间">剩余时间
                         <input id="id_left_time_order_flag" type="hidden" value="{{$left_time_order}}"> 
                         <a class="fa fa-sort td-sort-item" href="javascript:;" id="id_left_time_order" value="0"></a>
                     </td>
