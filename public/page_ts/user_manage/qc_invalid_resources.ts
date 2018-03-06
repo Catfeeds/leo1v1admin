@@ -28,21 +28,40 @@ $(function(){
     $('#id_seller_student_status').val(g_args.seller_student_status);
     $(".opt-audio_all").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        var html_node    = $.obj_copy_node("#id_assign_log");
-        $.do_ajax('/ajax_deal3/qc_get_audio',{
-            "userid" : opt_data.userid
-        },function(ret){
-            var data = ret.data;
-
-            var html_str = "";
-            $.each(data, function (i, item) {
-                var cls = "success";
-                html_str += "<tr class=\"" + cls + "\" > <td>" + item.account_role_str + "<td>" + item.account + "<td><a class='do_audo' href=''>" + item.accept_str + "</a></tr>";
-            });
-
-            html_node.find(".data-body").html(html_str);
+        var html_node    = $.obj_copy_node(".show_list");
+        BootstrapDialog.show({
+            title: "录音列表",
+            message: html_node,
+            closable: true
         });
+        $.ajax({
+            type: "post",
+            url: "/ajax_deal3/qc_get_audio",
+            dataType: "json",
+            data: {
+                'userid': opt_data.userid,
+            },
+            success: function (result) {
+                if (result['ret'] == 0) {
+
+
+                    var data = result.data;
+                    var html_str = "";
+                    $.each(data, function (i, item) {
+                        var cls = "success";
+                        html_str += "<tr class=\"" + cls + "\" > <td>" + item.account_role_str + "<td>" + item.account + "<td><a class='do_audo fa-volume-up btn fa' href='"+item.record_url+"'></a></tr>";
+                    });
+                    // html_node.find(".data-body").html(html_str);
+
+                    $('.record_list').modal('toggle');
+
+
+                }
+            }
+        });
+
     });
+
 
     $('.do_audo').on('click',function(){
         var opt_data = $(this).get_opt_data();
