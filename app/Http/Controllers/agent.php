@@ -441,6 +441,29 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = $this->t_seller_student_new->get_item_list_new();
+        foreach ($ret as $item) {
+            if($item['seller_student_assign_type']==1 && $item['first_contact_time']>$item['admin_assign_time']){
+                if($item['last_revisit_time']>$item['first_contact_time'] && $item['last_edit_time']>$item['first_contact_time']){
+                    $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
+                }else{
+                    $first_time = $item['first_contact_time'];
+                }
+                $item['assign_type'] = '系统分配';
+            }else{
+                if($item['last_revisit_time']>$item['admin_assign_time'] && $item['last_edit_time']>$item['admin_assign_time']){
+                    $first_time = max($item['last_revisit_time'],$item['last_edit_time']);
+                }else{
+                    $first_time = $item['admin_assign_time'];
+                }
+                $item['assign_type'] = '抢单';
+            }
+            $item['left_end_time'] = strtotime(date('Y-m-d',$first_time))+8*24*3600;
+            if($item['left_end_time']){
+                
+            }
+        }
+
         return $this->pageView(__METHOD__,NULL);
     }
 
