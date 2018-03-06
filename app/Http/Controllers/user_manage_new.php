@@ -3743,7 +3743,6 @@ class user_manage_new extends Controller
             }
         }
 
-
         return $this->Pageview(__METHOD__,$list, [
             'teacherid' => $teacherid
         ]);
