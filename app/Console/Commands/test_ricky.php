@@ -69,7 +69,7 @@ class test_ricky extends Command
             foreach($info as $val) {
                 $teacherid = $val["teacherid"];
                 $count = $money->get_last_lesson_count_info($start_time,$end_time,$teacherid);
-                var_dump($count); // [0, 4, 7, 10, 15, 20, 30];
+                $count = $count["all_normal_count"]; // [0, 4, 7, 10, 15, 20, 30];
                 $outer_reward = 0;
                 $money = 0;
                 if ($count >=10 && $count < 30) $outer_reward = 4;
@@ -78,6 +78,7 @@ class test_ricky extends Command
                 if ($count >= 150 && $count < 240) $outer_reward = 15;
                 if ($count >= 240 && $count < 330) $outer_reward = 20;
                 if ($count >= 330) $outer_reward = 30;
+                echo $teacherid;
                 $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
                 foreach($data as $v) {
                     $coef = $part_rules[$v["level"]];
@@ -94,7 +95,6 @@ class test_ricky extends Command
                         $money += $lesson_count * ($coef[4] + $outer_reward);
                     }
                 }
-                $teacherid = $val["teacherid"];
                 echo $item."月,".$teacherid.",".$val["realname"].",";
                 $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
                 $level = array_column($level, "level");
