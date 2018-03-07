@@ -39,8 +39,7 @@ class ajax_deal3 extends Controller
         //获取用户身份[是否系统分配用户]
         $seller_student_assign_type = $this->t_manager_info->field_get_value($adminid, 'seller_student_assign_type');
 
-
-        if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
+        if ( count($userid_list) ==0 || @$userid_list[0] == -1){
 
         }else{
 
