@@ -82,7 +82,6 @@
                         </div>
                     </div>
                 </div>
-                
 
                 <!-- 此处为模态框-->
                 <div class="modal fade confirm-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
