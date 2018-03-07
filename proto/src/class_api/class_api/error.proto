@@ -64,11 +64,11 @@ enum  enum_error {
   //没有找到对应订单
   ORDER_NOFIND = 3019;
 
-  //无效的课程包id
+  //无效的售卖课程id
   ERR_INVALID_PACKAGE = 3020;
 
   //默认收货地址未查到数据
-  ERR_INVALID_PACKAGE = 3021;
+  ERR_INVALID_ADDRESS = 3021;
 
 
 };
