@@ -4049,7 +4049,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_level_for_teacherid($teacherid, $start_time, $end_time) {
-        $sql = $this->gen_sql_new("select level from t_lesson_info where teacherid=516655 and lesson_start >= $start_time and lesson_start < $end_time group by level", self::DB_TABLE_NAME);
+        $sql = $this->gen_sql_new("select level from t_lesson_info where teacherid=$teacherid and lesson_start >= $start_time and lesson_start < $end_time group by level", self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
 }
