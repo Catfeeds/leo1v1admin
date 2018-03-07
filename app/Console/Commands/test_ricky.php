@@ -68,7 +68,7 @@ class test_ricky extends Command
             echo "======================================================".PHP_EOL;
             foreach($info as $val) {
                 $teacherid = $val["teacherid"];
-                $count = $money->get_last_lesson_count_info($start_time,$end_time,$teacherid);
+                $count = $money->get_last_lesson_count_test_ricky($start_time,$end_time,$teacherid);
                 $count = $count["all_normal_count"]; // [0, 4, 7, 10, 15, 20, 30];
                 echo $teacherid." ---> ".$count;
                 $outer_reward = 0;
