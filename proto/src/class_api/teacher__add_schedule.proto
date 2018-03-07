@@ -8,10 +8,11 @@ import "class_api/common.proto";
 
 message in  {
   	int32 ids = 1; //老师id列表
-  	int32 datetime = 2; //2017-12-11 08:00:00~08:40:00,2017-12-15 20:00:00~21:45:00 开始一周的时间
-  	int32 peroid = 3;//datetime持续的周期,可选day/week
-  	int32 nums = 4; //一共上几节课
-  	int32 course_type = 5; //课程类型
+  	int32 begintime = 2; //2017-12-11 08:00:00
+  	int32 fromtime = 3; //2017-12-13 08:00:00
+  	int32 rule = 4;//排课规则
+  	int32 type = 5; //课程类型
+  	int32 minutes = 6; //课程持续时间(分)
 
 }
 

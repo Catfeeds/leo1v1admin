@@ -20,8 +20,8 @@ $(function(){
 
     // 待测试功能
     // 处理标记空号功能 [james]
-    var test_arr = ['99','684','1460','1077','1307','1207','834']; // 冒烟
-    // var test_arr = ['1408','1419','1407','1406']; // 测试
+    var test_arr = ['684','1460','1077','1307','1207','834']; // 冒烟
+    // var test_arr = ['1408','1419','1407','1406','684']; // 测试
 
 
     if($.inArray(g_adminid,test_arr)>=0){
@@ -75,7 +75,7 @@ $(function(){
             });
         }
 
-        if(g_args.hasCalledNum == 0){
+        if(g_args.ccNoCalledNum == 0){
             $('#id_edit').attr('disabled','disabled');
         }else{
             $('#id_edit').removeAttr('disabled');
