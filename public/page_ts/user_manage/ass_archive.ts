@@ -2823,27 +2823,53 @@ $(function(){
         var userid = $(this).parent().data("userid");
         var id_grade = $("<select />");
         var id_reason = $("<textarea />");
+        var $start_time = $("<input/>");
+
+
 
         Enum_map.append_option_list("grade",id_grade,true);
 
-        var arr = [
-            ["目标年级", id_grade],
-            ["说明", id_reason] ,
-        ];
-        $.show_key_value_table("申请更改学生年级", arr, {
-            label : "确定",
-            cssClass : "btn-warning",
-            action : function(dialog) {
-                $.do_ajax("/ajax_deal3/change_student_grade_apply", {
-                    "userid" : userid,
-                    "grade" : id_grade.val(),
-                    "reason" : id_reason.val(),
-                    
-                });
+        $.do_ajax("/ajax_deal3/check_has_change_student_grade_apply", {
+            "userid" : userid
+        },function(resp){
+            var num = resp.num;
+            if(num>0){
+                BootstrapDialog.alert("已有改年级申请!");
+                return;
             }
+            var arr = [
+                ["目标年级", id_grade],
+                ["说明", id_reason] ,
+                ["----","如果不设置课程重置开始时间，则不重置课程年级"],
+                ["课程重置开始时间",$start_time]
+
+            ];
+            $.show_key_value_table("申请更改学生年级", arr, {
+                label : "确定",
+                cssClass : "btn-warning",
+                action : function(dialog) {
+                    $.do_ajax("/ajax_deal3/change_student_grade_apply", {
+                        "userid" : userid,
+                        "grade" : id_grade.val(),
+                        "reason" : id_reason.val(),
+                        "start_time" : $start_time.val(),
+                    });
+                }
+
+            },function(){
+                $start_time.datetimepicker({
+                    datepicker : true,
+                    timepicker : true,
+                    format     : 'Y-m-d H:i',
+                    step       : 30,
+                });
+
+            });
+
 
         });
 
+       
 
     });
 

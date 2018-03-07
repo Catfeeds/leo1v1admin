@@ -1112,16 +1112,37 @@ class ajax_deal3 extends Controller
         $userid = $this->get_in_int_val('userid');
         $grade = $this->get_in_int_val('grade');
         $reason = $this->get_in_str_val('reason');
+        $start_time = strtotime($this->get_in_str_val('start_time'));
         $old_grade = $this->t_student_info->get_grade($userid);
-        $arr = ["old"=>$old_grade,"new"=>$grade];
+        $arr = ["userid"=>$userid,"new"=>$grade];
+        if($start_time>0){
+            $arr["time"]=$start_time;
+        }
         $str = json_encode( $arr);
         $nick = $this->t_student_info->get_nick($userid);
+        $from_key_int = $this->t_flow->get_max_from_key_int(E\Eflow_type::V_STUDENT_CHANGE_GRADE);
+        $from_key_int++;
         //  $msg = "学生:".$nick." 原年级:".E\Egrade::get_desc($old_grade)."目标年级:".E\Egrade::get_desc($grade)." 说明:".$reason;
         $ret=$this->t_flow->add_flow(
-            E\Eflow_type::V_STUDENT_CHANGE_GRADE,$this->get_account_id(),$reason,$userid,$str,0           
+            E\Eflow_type::V_STUDENT_CHANGE_GRADE,$this->get_account_id(),$reason,$from_key_int,$str,0           
         );
+        \App\Helper\Utils::logger(1111);
+
         return $this->output_succ();
 
 
+    }
+
+    public function check_has_change_student_grade_apply(){
+        $userid = $this->get_in_int_val('userid',60019);
+        $list = $this->t_flow->get_no_end_flow_list(E\Eflow_type::V_STUDENT_CHANGE_GRADE);
+        $n=0;
+        foreach($list as $val){
+            $arr= json_decode($val["from_key_str"],true);
+            if(@$arr["userid"]==$userid){
+                $n++;
+            }
+        }
+        return $this->output_succ(["num"=>$n]);
     }
 }
