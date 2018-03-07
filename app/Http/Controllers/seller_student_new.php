@@ -708,7 +708,7 @@ class seller_student_new extends Controller
             $status_list_str="";
         }
         $this->set_in_value("status_list_str",$status_list_str) ;
-        $this->set_in_value("cur_page","$id") ;
+        $this->set_in_value("cur_page","$id");
         return $this->seller_student_list();
     }
 
