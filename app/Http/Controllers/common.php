@@ -1312,36 +1312,36 @@ class common extends Controller
                 if(empty($all_order_pay)){
                     if($total_price==$parent_price){
                        
-                    $this->t_order_info->field_update_list($parent_orderid,[
-                        "order_status" =>1,
-                        "contract_status"=>1,
-                        "pay_time"       =>time()
-                    ]);
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "echo",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "/user_manage_new/money_contract_list?studentid=$userid");
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "zero",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "/user_manage_new/money_contract_list?studentid=$userid");
+                        $this->t_order_info->field_update_list($parent_orderid,[
+                            "order_status" =>1,
+                            "contract_status"=>1,
+                            "pay_time"       =>time()
+                        ]);
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "echo",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "/user_manage_new/money_contract_list?studentid=$userid");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "zero",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "/user_manage_new/money_contract_list?studentid=$userid");
 
-                    $this->t_manager_info->send_wx_todo_msg(
-                        $sys_operator,
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "");
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "jack",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            $sys_operator,
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "");
                     }else{
                         $this->t_manager_info->send_wx_todo_msg(
                             "jack",
