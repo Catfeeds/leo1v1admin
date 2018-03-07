@@ -17,6 +17,13 @@ export default class extends vtable {
     }
   }
 
+  do_created_ex(call_func) {
+    this.load_admin_js_list([
+      "/js/jquery.treetable.js",
+    ], call_func);
+  }
+  //
+
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
 

@@ -303,47 +303,47 @@ function del_subject_score(obj){
 function add0(m){return m<10?'0'+m:m }
 
 $(function(){
-    var starttime = new Date().getTime()/1000; 
+    var starttime = new Date().getTime()/1000;
     function actionDo(){
-    	  return setInterval(function(){ 
-	          $("#id_tbody .time").each(function(){
+        return setInterval(function(){
+            $("#id_tbody .time").each(function(){
                 var end_time = $(this).data('endtime')-starttime;
-	              if(end_time>0){
-	                  var day = parseInt(end_time/(24*3600)),
-	                  hour = parseInt((end_time-day*24*3600)/3600),
-	                  minue = parseInt((end_time-day*24*3600-hour*3600)/60),
-		                second = parseInt(end_time-day*24*3600-hour*3600-minue*60);
-		                $(this).html("");
-		                if(day>0){
-		                    $(this).append("<span>"+day+"天</span>");
+                if(end_time>0){
+                    var day = parseInt(end_time/(24*3600)),
+                    hour = parseInt((end_time-day*24*3600)/3600),
+                    minue = parseInt((end_time-day*24*3600-hour*3600)/60),
+                    second = parseInt(end_time-day*24*3600-hour*3600-minue*60);
+                    $(this).html("");
+                    if(day>0){
+                        $(this).append("<span>"+day+"天</span>");
                         if(hour>0){
-		                        $(this).append("<span>"+hour+"时</span>");
-		                    }
+                            $(this).append("<span>"+hour+"时</span>");
+                        }
                         if(minue>0){
-		                        $(this).append("<span>"+minue+"分</span>");
-	                      }
-		                    if(second>0){
-		                        $(this).append("<span>"+second+"秒</span>");
-		                    }
-		                }else{
+                            $(this).append("<span>"+minue+"分</span>");
+                        }
+                        if(second>0){
+                            $(this).append("<span>"+second+"秒</span>");
+                        }
+                    }else{
                         if(hour>0){
-		                        $(this).append("<span style='color:red'>"+hour+"时</span>");
-		                    }
+                            $(this).append("<span style='color:red'>"+hour+"时</span>");
+                        }
                         if(minue>0){
-		                        $(this).append("<span style='color:red'>"+minue+"分</span>");
-	                      }
-		                    if(second>0){
-		                        $(this).append("<span style='color:red'>"+second+"秒</span>");
-		                    }
-		                }
-	              }else{
-		                $(this).html("过期");
-	              }
-	          });
-	          starttime++;
+                            $(this).append("<span style='color:red'>"+minue+"分</span>");
+                        }
+                        if(second>0){
+                            $(this).append("<span style='color:red'>"+second+"秒</span>");
+                        }
+                    }
+                }else{
+                    $(this).html("过期");
+                }
+            });
+            starttime++;
         },1000);
     }
-    actionDo(); 
+    actionDo();
 
     show_name_key="stu_info_name_"+g_adminid;
     var status_opt_list=[];
@@ -1495,7 +1495,7 @@ function init_edit() {
         init_noit_btn("id_test_no_return", resp.test_no_return, "试听未回访","试听成功未回访例子个数" );
     });
 
-    
+
 
     $("#id_today_new_count").on("click",function(){
         $.do_ajax("/ajax_deal3/set_work_start_time",{});
@@ -2023,7 +2023,7 @@ function init_edit() {
                  var paper_url = "https://ks.wjx.top/jq/" + row_data.paper_id + ".aspx?sojumpparm="+row_data.paper_id+"-"+user_id+"-"+phone;
                  paper += "<div><span class='paper_font'>评测卷链接</span><span><a href='"+paper_url+"' target='_blank'>"+paper_url+"</a></span></div>";
                  paper += "<div><span class='paper_font'>友情提示</span><span>请微信扫一扫下面的二维码，转发给家长</span></div>";
-              
+
                  paper += "<div style='height:250px'><span class='paper_font'>二维码</span><div id='paper_erwei'></div></div>";
 
                  paper += "</div>";
@@ -2052,7 +2052,7 @@ function init_edit() {
                   Enum_map.append_option_list("grade",  $(dlg).find(".paper_grade select"),false,[101,102,103,104,105,106,201,202,203,301,302,303]);
                   $(dlg).find(".paper_grade select").val(default_grade);
                   Enum_map.append_option_list("paper_type",  $(dlg).find(".paper_type select"));
-                  $(dlg).find(".paper_type select").val(-1);                
+                  $(dlg).find(".paper_type select").val(-1);
             }
 
          });
@@ -2091,7 +2091,7 @@ function init_edit() {
                             tr_html += "<tr><td>" +item_arr[item][0]+ "</td><td>" + item_arr[item][1] + "</td><td>" + item_arr[item][2] + "</td><td>" + item_arr[item][3] + "</td><td>" + item_arr[item][4] + "</td></tr>";
                         }
                     }
-                   
+
                     student_answer.find("tbody").html(tr_html);
                     score.append(student_answer);
                 }
@@ -2115,7 +2115,7 @@ function init_edit() {
                 BootstrapDialog.alert("该学生未答完试卷！");
             }
         });
-        
+
     });
 
     $(".opt-edit-new_new").on("click",function(){
@@ -4627,7 +4627,7 @@ function init_edit() {
             }, 1000);
         });
     };
-  
+
     $('#id_left_time_order').click(function(){
         if($('#id_left_time_order_flag').val() == 1){
             $('#id_left_time_order_flag').val(2);

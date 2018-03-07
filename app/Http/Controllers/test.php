@@ -34,6 +34,18 @@ class test extends Controller
         phpinfo();
         */
     }
+    public function testbb() {
+        $page_info=$this->get_in_page_info();
+        $account_role= $this->get_in_el_account_role();
+        list($start_time, $end_time)=$this->get_in_date_range(-720, 0 );
+        $nick_phone= $this->get_in_str_val("nick_phone");
+        $ret_info= $this->t_manager_info->get_list_test($page_info, $nick_phone, $account_role, $start_time, $end_time);
+        foreach ( $ret_info["list"] as &$item) {
+            E\Eaccount_role::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
 
     public function test1() {
         global $_SESSION;
@@ -528,5 +540,15 @@ class test extends Controller
 
     }
 
+    public function testbb_post()  {
+        $uid= $this->get_in_int_val("uid");
+        $account_role = $this->get_in_e_account_role();
+
+        $this->t_manager_info->field_update_list($uid, [
+            "account_role" => $account_role,
+        ]);
+        \App\Helper\Utils::logger( " uid:$uid ");
+        return $this->output_succ( );
+    }
 
 }
