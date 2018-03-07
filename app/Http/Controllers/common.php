@@ -1544,6 +1544,29 @@ class common extends Controller
         return $this->output_succ($ret_arr);
     }
 
+    public function get_bucket_info_all() {
+        $is_public = $this->get_in_int_val( "is_public", 0 );
+        $qiniu_config = \App\Helper\Config::get_config("qiniu");;
+
+        $public_bucket = $qiniu_config["public"] ['bucket'];
+        $private_bucket = $qiniu_config["private_url"] ['bucket'];
+
+        
+        $ret_arr[0] = [
+            "domain" => $qiniu_config["public"] ["url"],
+            "bucket" => $public_bucket,
+            "token"  => $this->get_token($public_bucket),
+        ];
+
+        $ret_arr[1] = [
+            "domain" => $qiniu_config["private_url"] ["url"],
+            "bucket" => $private_bucket,
+            "token"  => $this->get_token($private_bucket),
+        ];
+        
+        return $this->output_succ($ret_arr);
+    }
+
 
     public function get_new_bucket_info() {
         $qiniu_config = \App\Helper\Config::get_config("qiniu");;
