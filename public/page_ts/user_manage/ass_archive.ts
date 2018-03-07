@@ -2119,6 +2119,8 @@ $(function(){
                 id_par_type.val(1);
             }
             id_grade.val(data.grade);
+            id_subject.find("option").remove();
+            id_subject_score.find("option").remove();
             if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
                 Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3]);
                 Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
