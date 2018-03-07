@@ -69,7 +69,7 @@ class test_ricky extends Command
             foreach($info as $val) {
                 $teacherid = $val["teacherid"];
                 $count = $money->get_last_lesson_count_info($start_time,$end_time,$teacherid);
-                var_dump($info); // [0, 4, 7, 10, 15, 20, 30];
+                var_dump($count); // [0, 4, 7, 10, 15, 20, 30];
                 $outer_reward = 0;
                 $money = 0;
                 if ($count >=10 && $count < 30) $outer_reward = 4;
