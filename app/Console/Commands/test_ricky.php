@@ -62,27 +62,24 @@ class test_ricky extends Command
             $info = $ret_info["list"];
             foreach($info as $val) {
                 $teacherid = $val["teacherid"];
-                echo $item."月,".$teacherid.",".$val["realname"].",";
+                echo $item."月 ".$teacherid." ".$val["realname"]." ";
                 $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
                 $level = array_column($level, "level");
                 foreach($level as $k => $v) {
                     $level[$k] = E\Elevel::get_desc($v);
                 }
-                echo implode(",", $level).",";
+                echo "(".implode(",", $level).") ";
                 echo ($val["money"] / 100).PHP_EOL;
             }
 
             echo "======================================================".PHP_EOL;
             foreach($info as $val) {
                 $teacherid = $val["teacherid"];
-                //$count_all = $money->get_last_lesson_count_test_ricky($start_time, $end_time, $teacherid);
                 $count_all = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
                 $count = 0;
                 foreach ($count_all as $v) {
                     $count = $v["lesson_count"] / 100;
                 }
-                //$count = $count_all["all_normal_count"]; // [0, 4, 7, 10, 15, 20, 30];
-                echo $teacherid." ---> ".$count;
                 $outer_reward = 0;
                 $money = 0;
                 if ($count >=10 && $count < 30) $outer_reward = 4;
@@ -107,13 +104,13 @@ class test_ricky extends Command
                         $money += $lesson_count * ($coef[4] + $outer_reward);
                     }
                 }
-                echo $item."月,".$teacherid.",".$val["realname"].",";
+                echo $item."月 ".$teacherid." ".$val["realname"]." ";
                 $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
                 $level = array_column($level, "level");
                 foreach($level as $k => $v) {
                     $level[$k] = E\Enew_level::get_desc($v);
                 }
-                echo implode(",", $level).",";
+                echo "(".implode(",", $level).") ";
                 echo $money.PHP_EOL;
             }
             echo "======================================================".PHP_EOL;
