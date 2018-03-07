@@ -2126,7 +2126,7 @@ $(function(){
                 Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9,10]);
                 Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
             }else if(id_grade.val()==301 || id_grade.val()==302 || id_grade.val()==303){
-                // Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
+                Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
                 Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
             }
             id_gender.val(data.gender);
