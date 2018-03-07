@@ -75,7 +75,7 @@ $(function(){
             });
         }
 
-        if(g_args.hasCalledNum == 0){
+        if(g_args.ccNoCalledNum == 0){
             $('#id_edit').attr('disabled','disabled');
         }else{
             $('#id_edit').removeAttr('disabled');
