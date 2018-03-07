@@ -1755,10 +1755,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_list_test( $page_info, $nick_phone, $account_role, $start_time, $end_time) {
+
         $where_arr = [
-            ["create_time>=%s",$start_time,0],
-            ["create_time<=%s",$end_time,0],
         ];
+        /*
+        ["create_time>=%s",$start_time,0],
+            ["create_time<=%s",$end_time,0],
+        */
+
+
         $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "phone like '%%%s%%'  ", $this->ensql($nick_phone));
