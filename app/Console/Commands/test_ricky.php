@@ -53,16 +53,20 @@ class test_ricky extends Command
                 $end_time = strtotime("2018-".($item + 1)."-1");
             }
             $ret_info = $task->t_teacher_salary_list->get_salary_list($start_time, $end_time, 1);
+            $teacher = array_column($ret_info["list"], "teacherid");
             // 月份、老师ID、老师姓名、等级、工资总额
-            $info = $ret_info["list"];
-            foreach($info as $val) {
-                $teacherid = $val["teacherid"];
-                echo $item."月,".$teacherid.",".$val["realname"].",";
-                $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
-                $level = array_column($level, "level");
-                echo implode(",", $level).",";
-                echo ($val["money"] / 100).PHP_EOL;
-            }
+            // $info = $ret_info["list"];
+            // foreach($info as $val) {
+            //     $teacherid = $val["teacherid"];
+            //     echo $item."月,".$teacherid.",".$val["realname"].",";
+            //     $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
+            //     $level = array_column($level, "level");
+            //     echo implode(",", $level).",";
+            //     echo ($val["money"] / 100).PHP_EOL;
+            // }
+
+            echo "======================================================".PHP_EOL;
+            var_dump($teacher);
         }
         exit;
 
