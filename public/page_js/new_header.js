@@ -244,7 +244,7 @@ function table_init() {
         }
 
 
-        row_query.append( query_select_list );
+        row_query.append(query_select_list);
         var path_list=window.location.pathname.split("/");
         var table_query_key=path_list[1]+"-"+path_list[2]+"-query" ;
 
@@ -273,7 +273,6 @@ function table_init() {
                     if(input.parent().parent().data("always_hide")  ) {
                         input.parent().parent().hide();
                     }
-
                     field_name=input.attr("id").substr(3);
                     if (g_args[field_name] == -1 ) {
                         if ( !input.parent().parent().data("always_show") ) {

@@ -1,5 +1,25 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+     header, nav, aside, menu, figure, article, footer { display:block; }
+     body, div, form, textarea, label, input, ul, ol, li, dl, dt, dd, p, span, a, img, h1, h2, h3, h4, h5, h6, tbody, tfoot, tr, th, td, pre, code, form, fieldset, legend, font { margin:0; padding:0; }
+     table { border-collapse:collapse; border-spacing:0; }
+     caption, th { text-align:left; }
+     sup { vertical-align:text-top; }
+     sub { vertical-align:text-bottom; }
+     li { list-style:none; }
+     fieldset, img { border:none; }
+     input, textarea, select { font-family:inherit; font-size:inherit; font-weight:inherit; *font-size:100%;
+         color:inherit; _color:#333; *color:#333;
+         outline:none; }
+     /*BASE CLASS*/
+     .cfix { *display:inline-block;*zoom:1}
+     .cfix:after { content:"."; display:block; height:0; clear:both; visibility:hidden; }
+     /*公告栏滚动CSS*/
+     #callboard { width:600px; margin:100px auto 0; height:24px; line-height:24px; overflow:hidden; font-size:12px; background-color:#f5f5f5;}
+     #callboard ul { padding:0; }
+     #callboard li { padding:0; } 
+    </style>
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
     <script type="text/javascript" src="/js/qiniu/ui.js"></script>
@@ -50,90 +70,50 @@
             </tbody>
         </table>
         @include("layouts.page")
-        <div class="shop_list" id="shop_list"> 
-            <ul> 
-                <li> 
-                    <img src="img/index/zixun1.jpg"/> 
-                    <div class="listItem"> 
-                        <h5>小米手机 Note 顶配版</h5> 
-                        <p>全网通 香槟金 移动联通<br/>双4G手机 双卡双待</p> 
-                        <em>￥2998<i>起</i></em> 
-                        <span class="time" data-starttime="1445982375" data-endtime="1446350400"></span> 
-                    </div> 
-                </li> 
-                <li> 
-                    <img src="img/index/zixun1.jpg"/> 
-                    <div class="listItem"> 
-                        <h5>小米手机 Note 顶配版</h5> 
-                        <p>全网通 香槟金 移动联通<br/>双4G手机 双卡双待</p> 
-                        <em>￥2998<i>起</i></em> 
-                        <span class="time" data-starttime='1445982375' data-endtime='1446350400'></span> 
-                    </div>
+
+        <div id="callboard">
+            <ul>
+                <li>
+                    <span style="color:red;">公告[2]：前端组上线一个月零八天，PR升为3，BD权重1</span>
+                </li>
+                <li>
+                    <span style="color:red;">公告[3]：撤下了BloggerAds，原因为收入太少，打开速度慢！</span>
+                </li>
+                <li style="margin-top: 0px;">
+                    <a href="http://www.jb51.net">公告[1]：前端组主题正在整理中..有需要用的朋友请留个言，以方便及时通知！</a>
                 </li>
             </ul>
-        </div>
+        </div> 
 
-        <script type="text/javascript"> 
-         $(function(){ 
-             //找到商品列表以及时间显示span 
-             var abj = $("#shop_list"), 
-                 timeObj = abj.find('.time'); 
-             //获取开始时间 
-             var starttime = timeObj.data('starttime'); 
-             // 定时器函数 
-             function actionDo(){ 
-                 return setInterval(function(){ 
-                     timeObj.each(function(index, el) { 
-                         //surplusTime为活动剩余开始时间 
-                         var t = $(this), 
-                             surplusTime = t.data('endtime') -starttime; 
-                         //若活动剩余开始时间小于0，则说明活动已开始 
-                         if (surplusTime <= 0) { 
-                             t.html("活动已经开始"); 
-                         } else{ 
-                             //否则，活动未开始，将剩余的时间转换成年，月，日，时，分，秒的形式 
-                             var year = surplusTime/(24*60*60*365), 
-                                 showYear = parseInt(year), 
-                                 month = (year-showYear)*12, 
-                                 showMonth = parseInt(month), 
-                                 day = (month-showMonth)*30, 
-                                 showDay = parseInt(day), 
-                                 hour = (day-showDay)*24, 
-                                 showHour = parseInt(hour), 
-                                 minute = (hour-showHour)*60, 
-                                 showMinute = parseInt(minute), 
-                                 seconds = (minute-showMinute)*60, 
-                                 showSeconds = parseInt(seconds); 
-                             t.html(""); 
-                             //设置输出到HTML的格式并输出到HTML 
-                             if (showYear>0) { 
-                                 t.append("<span>"+showYear+"年</span>") 
-                             }; 
-                             if (showMonth>0) { 
-                                 t.append("<span>"+showMonth+"月</span>") 
-                             }; 
-                             if (showDay>0) { 
-                                 t.append("<span>"+showDay+"天</span>") 
-                             }; 
-                             if (showHour>=0) { 
-                                 t.append("<span>"+showHour+"小时</span>") 
-                             }; 
-                             if (showMinute>=0) { 
-                                 t.append("<span>"+showMinute+"分钟</span>") 
-                             }; 
-                             if (showSeconds>=0) { 
-                                 t.append("<span>"+showSeconds+"秒</span>") 
-                             }; 
-                         }; 
-                     }); 
-                     starttime++; 
-                 },1000); // 设定执行或延时时间 
-             }; 
-             // 执行它 
-             actionDo(); 
-         }); 
+        <script type="text/javascript">
+         (function (win){
+             var callboarTimer;
+             var callboard = $('#callboard');
+             var callboardUl = callboard.find('ul');
+             var callboardLi = callboard.find('li');
+             var liLen = callboard.find('li').length;
+             var initHeight = callboardLi.first().outerHeight(true);
+             win.autoAnimation = function (){
+                 if (liLen <= 1) return;
+                 var self = arguments.callee;
+                 var callboardLiFirst = callboard.find('li').first();
+                 callboardLiFirst.animate({
+                     marginTop:-initHeight
+                 }, 500, function (){
+                     clearTimeout(callboarTimer);
+                     callboardLiFirst.appendTo(callboardUl).css({marginTop:0});
+                     callboarTimer = setTimeout(self, 5000);
+                 });
+             }
+             callboard.mouseenter(
+                 function (){
+                     clearTimeout(callboarTimer);
+                 }).mouseleave(function (){
+                     callboarTimer = setTimeout(win.autoAnimation, 5000);
+                 });
+         }(window));
+         setTimeout(window.autoAnimation, 5000);
         </script> 
-
     </section>
     
 @endsection
