@@ -21,7 +21,7 @@ class test_jack  extends Controller
         $parent_price = $this->t_order_info->get_price($parent_orderid);
         echo $parent_price."<br>";
         if(empty($all_order_pay)){
-            if($total_price==$total_price){
+            if($total_price==$parent_price){
                 $this->t_manager_info->send_wx_todo_msg(
                     "jack",
                     "合同付款通知",
