@@ -135,6 +135,7 @@ class NewRouteConfig {
         "/common/upload_qiniu"                    => true,
         "/common/notify"                          => true,
         "/common/get_bucket_info"                 => true,
+        "/common/get_bucket_info_all"             => true,
         "/common/get_new_bucket_info"                 => true,
         "/common/send_wx_todo_msg"                => true,
         "/common/send_offer_info_by_teacherid"    => true,
@@ -772,6 +773,7 @@ class NewRouteConfig {
         "/info_resource_power/save_resource_power"       =>true,
         "/info_resource_power/dele_resource"             =>true,
         "/info_resource_power/dele_type"                 =>true,
+        "/info_support/get_info"                         =>true,
     ];
 
     static $dev_url_map = [

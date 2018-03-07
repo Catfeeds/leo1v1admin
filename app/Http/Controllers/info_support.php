@@ -123,4 +123,53 @@ class info_support extends Controller
             }
         }
     }
+
+    public function get_info(){
+        $ret_info = [];
+
+        $res_type = $this->t_info_resource_power->get_list();
+        $resource = [];
+        $resource_type = [];
+        $i = 0;
+        $max_length = 1;
+        if($res_type){
+            $cur_length = 1;
+            foreach($res_type as $item){
+                if( $i != $item['resource_id']){
+                    $resource[$item['resource_id']] = $item['resource_name'];
+                    $i = $item['resource_id'];
+                    $resource_type[$item['resource_id']][$item['type_id']] = $item['type_name'];
+                    if( $cur_length > $max_length ){
+                        $max_length = $cur_length;
+                    }
+                    $cur_length = 1;
+                }else{
+                    $resource_type[$item['resource_id']][$item['type_id']] = $item['type_name'];
+                    $cur_length += 1;
+                }
+            }
+            if( $max_length < count($resource)){
+                $max_length = count($resource);
+            }
+        }
+
+        $subject = E\Esubject::$desc_map;
+        $grade = E\Egrade::$desc_map;
+        $volume = E\Eresource_volume::$desc_map;
+        $season = E\Eresource_season::$desc_map;
+
+
+        //dd($max_length);
+        return $this->pageView(__METHOD__,$ret_info,[
+            '_publish_version'    => 20180306151440,
+            'resource'  => $resource,
+            'resource_type' => $resource_type,
+            'max_length'  => $max_length,
+            'subject'   => $subject,
+            "grade"     => $grade,
+            "volume"    => $volume,
+            "season"    => $season,
+        ]);
+ 
+    }
 }

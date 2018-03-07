@@ -209,7 +209,8 @@ $(function(){
                 });
             }else{
                 try {
-                    $.custom_upload_file_process(
+                    //$.custom_upload_file_process(
+                    custom_upload_file_process_mp3(
                         btn_id, 0,
                         function(up, info, file, lesson_info) {
                             var res = $.parseJSON(info);
@@ -221,6 +222,8 @@ $(function(){
                             next_td_show(btn_id,file.name);
 
                         }, [], allow_arr, bucket_info, noti_origin_file_func);
+                        console.log(btn_id);
+                        console.log(allow_arr);
                 }catch(e){
                     $.self_upload_process(btn_id,
                                           "/common/upload_qiniu",[] ,
@@ -239,8 +242,145 @@ $(function(){
         }
         return id_item;
     };
+    var custom_upload_file_process_mp3 = function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ){
+        var html_node=$('        <div class="row">'+
+                        '            <div class="progress">'+
+                        '                <div class="progress-bar" role="progressbar" aria-valuenow="60" '+
+                        '                     aria-valuemin="0" aria-valuemax="100" style="width: 0%;">'+
+                        '                    <span class="sr-only">40% 完成</span>'+
+                        '                </div>'+
+                        '            </div>'+
+                        '        </div>');
+        var dlg=null;
 
+        custom_upload_file_mp3( btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list,
+                              function(percentage){
+                                  if (percentage==101) { //succ
+                                      alert("上传完成");
+                                      dlg.close();
+                                  }
+                                  html_node.find(".progress-bar") .css('width', percentage+'%');
+                              },function(){ //before_upload
+                                  dlg=BootstrapDialog.show({
+                                      title: "上传进度",
+                                      message: html_node
+                                  });
+                              }, bucket_info ,noti_origin_file_func  );
 
+    };
+
+    var custom_upload_file_mp3 = function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
+        do_ajax( "/common/get_bucket_info_all",{
+            is_public: 1
+        },function(ret){
+            var domain_name=ret[1].domain;
+            var token=ret[1].token;
+            console.log(token);
+            var uploader = Qiniu.uploader({
+                runtimes: 'html5, flash, html4',
+                browse_button: btn_id , //choose files id
+                uptoken: token,
+                domain: "http://"+domain_name,
+                max_file_size: '30mb',
+                dragdrop: true,
+                flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+                chunk_size: '4mb',
+                unique_names: false,
+                save_key: false,
+                auto_start: true,
+                multi_selection: false,
+                filters: {
+                    mime_types: [
+                        {title: "", extensions: ext_file_list.join(",") }
+                    ]
+                },
+                init: {
+                    'FilesAdded': function(up, files) {
+                        console.log(up);
+                        plupload.each(files, function(file) {
+                            console.log('waiting11...'+file.name );
+                        });
+                    },
+                    'BeforeUpload': function(up, file) {
+                        console.log('before uplaod the file 11111');
+                        var match = file.name.match(/.*\.(.*)?/);
+                        var file_ext=match[1];
+                        var check_flag=false;
+                        console.log(file_ext);
+
+                        $.each ( ext_file_list,  function(i,item) {
+                            if ( item.toLowerCase() ==file_ext.toLowerCase()) {
+                                check_flag=true;
+                            }
+                        });
+                        console.log(up.settings.uptoken);
+                        console.log(up.settings.domain);
+                        if(file_ext == 'mp3' || file_ext == 'mp4'){
+                            console.log('111111111111111111111');
+                            var new_domain_name=ret[0].domain;
+                            var new_token=ret[0].token;
+                            console.log(new_domain_name);
+                            console.log(new_token);
+                            var multipart_params=uploader.getOption("multipart_params");
+                            multipart_params.token=new_token; 
+                            uploader.setOption("multipart_params", multipart_params );
+                            uploader.setOption("uptoken", new_token );
+                            uploader.setOption("domain", new_domain_name );
+                        }
+                        console.log(up.settings);
+                        console.log(up.settings.uptoken);
+                        console.log(up.settings.domain);
+                        if (!check_flag  ) {
+                            BootstrapDialog.alert("文件后缀必须是: "+ ext_file_list.join(",") +"<br> 刷新页面，重新上传"  );
+                            return false;
+                        }
+                        console.log('before uplaod the file');
+                        return true;
+
+                    },
+                    'UploadProgress': function(up,file) {
+                        if(noti_process) {
+                            noti_process (file.percent);
+                        }
+                        console.log(file.percent);
+                        console.log('upload progress');
+                    },
+                    'UploadComplete': function() {
+                        console.log(' UploadComplete .. end ');
+                    },
+                    'FileUploaded' : function(up, file, info) {
+                        if(noti_process) {
+                            noti_process (0);
+                        }
+                        console.log('Things below are from FileUploaded');
+                        console.log(1111);
+                        console.log(up);
+                        if(info.response){
+                            complete_func(up, info.response, file, ctminfo);
+                        }else{
+                            complete_func(up, info, file, ctminfo);
+                        }
+
+                    },
+                    'Error': function(up, err, errTip) {
+                        console.log('Things below are from Error');
+                        BootstrapDialog.alert(errTip);
+                    },
+                    'Key': function(up, file) {
+                        var key = "";
+                        var time = (new Date()).valueOf();
+                        var match = file.name.match(/.*\.(.*)?/);
+                        var file_name=$.md5(file.name) +time +'.' + match[1];
+                        console.log('gen file_name:'+file_name);
+                        return file_name;
+
+                    }
+                }
+
+            });
+        });
+
+    };
     var upload_info = function( opt_data, back_flag){
         var use_res_id_list = [];
         var new_res_id_list = [];
@@ -280,6 +420,7 @@ $(function(){
         $.do_ajax("/common/get_bucket_info",{
             is_public : 0
         },function(ret){
+            console.log(ret);
             var id_student = gen_upload_item(
                 btn_student_upload_id,stu_status,
                 "l_stu_"+opt_data.lessonid,
@@ -305,9 +446,7 @@ $(function(){
 
                     var type_arr = [];
                     if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
-                        if(i>0) {
-                            type_arr = ['pdf','mp3','mp4'];
-                        }
+                        type_arr = ['pdf','mp3','mp4'];
                     }
                     //if(lesson_type <= 2000){
                     //    type_arr = ['mp3','mp4'];
@@ -603,6 +742,7 @@ $(function(){
             }
 
             if(is_tea_flag > 0){
+
                 $.do_ajax('/teacher_info/tea_look_resource', {'tea_res_id':res_id,'tea_flag':tea_flag}, ret_func);
             } else {
                 $.do_ajax('/teacher_info/get_pdf_download_url_new',{'file_url':file_url},ret_func);

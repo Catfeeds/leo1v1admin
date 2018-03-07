@@ -144,4 +144,17 @@ class t_flow extends \App\Models\Zgen\z_t_flow
             "flow_status_time"=> time(NULL),
         ]);
     }
+
+    public function get_max_from_key_int($flow_type){
+        $sql = $this->gen_sql_new("select max(from_key_int) from %s where flow_type=%u",self::DB_TABLE_NAME,$flow_type);
+        return $this->main_get_value($sql);
+    }
+
+    public function get_no_end_flow_list($flow_type){
+        $sql = $this->gen_sql_new("select * from %s where flow_type=%u and flow_status<2",
+                                  self::DB_TABLE_NAME,
+                                  $flow_type);
+        return $this->main_get_list($sql);
+
+    }
 }

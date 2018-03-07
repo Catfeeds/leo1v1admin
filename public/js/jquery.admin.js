@@ -1382,6 +1382,11 @@ jQuery.extend({
                                 check_flag=true;
                             }
                         });
+
+                        var multipart_params=uploader.getOption("multipart_params");
+                        multipart_params.token=token; 
+                        uploader.setOption("multipart_params", multipart_params );
+                        
                         if (!check_flag  ) {
                             BootstrapDialog.alert("文件后缀必须是: "+ ext_file_list.join(",") +"<br> 刷新页面，重新上传"  );
                             return false;

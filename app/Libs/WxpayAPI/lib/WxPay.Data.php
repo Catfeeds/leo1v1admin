@@ -114,6 +114,8 @@ class WxPayDataBase
 	{
 		//签名步骤一：按字典序排序参数
 		ksort($this->values);
+        \App\Helper\Utils::logger(json_encode($this->values));
+
 		$string = $this->ToUrlParams();
 		//签名步骤二：在string后加入KEY
 		$string = $string . "&key=".WxPayConfig::KEY;

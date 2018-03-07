@@ -241,7 +241,7 @@
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
-                        <td ><a class="btn show_stu_score_detail" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-effect="{{ @$var["teacher_effect"] }}" data-quality="{{ @$var["teacher_quality"] }}" data-interact="{{ @$var["teacher_interact"] }}" data-stability="{{ @$var["stu_stability"] }}">{{@$var["stu_score"]}}</a></td>
+                        <td ><a class="btn show_stu_score_detail" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-effect="{{ @$var["teacher_effect"] }}" data-quality="{{ @$var["teacher_quality"] }}" data-interact="{{ @$var["teacher_interact"] }}" data-stability="{{ @$var["stu_stability"] }}">{{@$var["stu_score_str"]}}</a></td>
                         <td >{{@$var["teacher_comment"]}}</td>
                         <td >{{@$var["stu_point_performance"]}}</td>
 
@@ -342,9 +342,8 @@
                     <td>年级人数</td>
                     <td>试卷</td>
                     <td>录入者</td>
-                    <td>上传时间</td>
+                    <td>录入时间</td>
                     <td>操作</td>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -356,7 +355,6 @@
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["score"]/10}} </td>
                         <td>{{@$var["total_score"]}} </td>
-                        
                         <td>{{@$var["rank"]}} </td>
                         <td>{{@$var["rank_num"]}} </td>
                         <td>{{@$var["grade_rank"]}} </td>
@@ -371,7 +369,7 @@
                             @endif
                         </td>
                         <td>{!!@$var["create_admin_nick"]!!} </td>
-                        <td>{{@$var["paper_upload_time_str"]}} </td>
+                        <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

@@ -60,7 +60,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
                                   ." from      %s s "
                                   ." left join %s u on s.userid         = u.userid "
                                   ." left join %s m on s.create_adminid = m.uid "
-                                  ." where %s order by s.create_time  ",
+                                  ." where %s order by s.create_time  desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME, //学生表userid
                                   t_manager_info::DB_TABLE_NAME, //管理员表uid

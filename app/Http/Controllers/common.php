@@ -1306,37 +1306,51 @@ class common extends Controller
                     "学生:".$nick." 合同付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
                     "");
                 $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
-                if(empty($all_order_pay)){
-                    $this->t_order_info->field_update_list($parent_orderid,[
-                        "order_status" =>1,
-                        "contract_status"=>1,
-                        "pay_time"       =>time()
-                    ]);
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "echo",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "/user_manage_new/money_contract_list?studentid=$userid");
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "zero",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "/user_manage_new/money_contract_list?studentid=$userid");
+                $total_price = $this->t_child_order_info->get_total_price_by_parent_orderid($parent_orderid);
+                $parent_price = $this->t_order_info->get_price($parent_orderid);
 
-                    $this->t_manager_info->send_wx_todo_msg(
-                        $sys_operator,
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "");
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "jack",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "");
+                if(empty($all_order_pay)){
+                    if($total_price==$parent_price){
+                       
+                        $this->t_order_info->field_update_list($parent_orderid,[
+                            "order_status" =>1,
+                            "contract_status"=>1,
+                            "pay_time"       =>time()
+                        ]);
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "echo",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "/user_manage_new/money_contract_list?studentid=$userid");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "zero",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "/user_manage_new/money_contract_list?studentid=$userid");
+
+                        $this->t_manager_info->send_wx_todo_msg(
+                            $sys_operator,
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "");
+                    }else{
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款异常通知",
+                            "合同全款金额不对",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+ 
+                    }
 
 
                 }
@@ -1527,6 +1541,29 @@ class common extends Controller
                 "token"  => $this->get_token($private_bucket),
             ];
         }
+        return $this->output_succ($ret_arr);
+    }
+
+    public function get_bucket_info_all() {
+        $is_public = $this->get_in_int_val( "is_public", 0 );
+        $qiniu_config = \App\Helper\Config::get_config("qiniu");;
+
+        $public_bucket = $qiniu_config["public"] ['bucket'];
+        $private_bucket = $qiniu_config["private_url"] ['bucket'];
+
+        
+        $ret_arr[0] = [
+            "domain" => $qiniu_config["public"] ["url"],
+            "bucket" => $public_bucket,
+            "token"  => $this->get_token($public_bucket),
+        ];
+
+        $ret_arr[1] = [
+            "domain" => $qiniu_config["private_url"] ["url"],
+            "bucket" => $private_bucket,
+            "token"  => $this->get_token($private_bucket),
+        ];
+        
         return $this->output_succ($ret_arr);
     }
 
@@ -2305,7 +2342,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $input->SetBody("理优1v1课程");
         $input->SetAttach("理优课程");
         $input->SetOut_trade_no($orderNo);
-        $input->SetTotal_fee("1");
+        $input->SetTotal_fee($payment);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetGoods_tag("test");
@@ -2319,15 +2356,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 		}
 
         $url2 = $result["code_url"];
-        $orderid = $this->t_orderid_orderno_list->get_orderid($orderNo);
-        if(!$orderid){            
-            $this->t_orderid_orderno_list->row_insert([
-                "order_no"  =>$orderNo,
-                "orderid"   =>$orderid,
-                "order_type"=>1,
-                "parent_orderid"=>$this->t_child_order_info->get_parent_orderid($orderid)
-            ]);
-        }
+                   
+        $this->t_orderid_orderno_list->row_insert([
+            "order_no"  =>$orderNo,
+            "orderid"   =>$orderid,
+            "order_type"=>1,
+            "parent_orderid"=>$this->t_child_order_info->get_parent_orderid($orderid)
+        ]);
 
         dd($url2);
 

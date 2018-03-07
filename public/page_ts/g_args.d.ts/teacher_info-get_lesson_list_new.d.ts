@@ -72,15 +72,6 @@ interface RowData {
 	habit_remodel_str	:any;
 	lesson_time	:any;
 	tea_comment_str	:any;
-<<<<<<< HEAD
-	cc_id	:any;
-	ass_nick	:any;
-	stu_nick	:any;
-	tea_comment	:any;
-=======
-	stu_nick	:any;
-	ass_nick	:any;
->>>>>>> 2efefa814b8d801a5fb3980d16c13fe96bb1eb9d
 	pdf_status_str	:any;
 }
 

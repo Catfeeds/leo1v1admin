@@ -533,15 +533,20 @@ class teacher_info extends Controller
 
     private function gen_download_url($file_url)
     {
-        // 构建鉴权对象
-        $auth = new \Qiniu\Auth(
-            \App\Helper\Config::get_qiniu_access_key(),
-            \App\Helper\Config::get_qiniu_secret_key()
-        );
+        if(strpos($file_url,'.mp3')!== false || strpos($file_url,'.mp4') !== false){
+            $base_url = \App\Helper\Config::get_qiniu_public_url()."/" .$file_url;
+        }else{
+           // 构建鉴权对象
+            $auth = new \Qiniu\Auth(
+                \App\Helper\Config::get_qiniu_access_key(),
+                \App\Helper\Config::get_qiniu_secret_key()
+            );
 
-        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+            $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
 
-        $base_url=$auth->privateDownloadUrl($file_url );
+            $base_url=$auth->privateDownloadUrl($file_url ); 
+        }
+        
         return $base_url;
     }
 

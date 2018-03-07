@@ -11,6 +11,7 @@ class teacher_money extends Controller
 {
     use CacheNick;
     use TeaPower;
+    use LessonPower;
 
     var $check_login_flag = false;
     var $teacher_money;
@@ -881,22 +882,32 @@ class teacher_money extends Controller
         $lesson_info  = $this->t_lesson_info->get_lesson_info($lessonid);
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
 
+        $check_flag = \App\Helper\Utils::check_teacher_salary_time($lesson_info['lesson_start']);
+        if(!$check_flag){
+            return $this->output_err("不是本月课程！无法更改！");
+        }
+
         if($lesson_info['teacher_money_type']==$teacher_info['teacher_money_type'] && $lesson_info['level']==$teacher_info['level']){
             return $this->output_err("该课程信息正确！不用修改！");
-        }
-        $lesson_month = date("Y-m",$lesson_info['lesson_start']);
-        $now_month = date("Y-m",time());
-        if($lesson_month!=$now_month && $account!="adrian"){
-            return $this->output_err("不是本月课程！无法更改！");
         }
 
         $ret = $this->t_lesson_info->field_update_list($lessonid,[
             "teacher_money_type" => $teacher_info['teacher_money_type'],
             "level"              => $teacher_info['level'],
         ]);
+
         if(!$ret){
             return $this->output_err("更新失败！请重试！");
         }
+        $operate_before = [
+            "teacher_money_type" => $lesson_info['teacher_money_type'],
+            "level"              => $lesson_info['level'],
+        ];
+        $operate_after = [
+            "teacher_money_type" => $teacher_info['teacher_money_type'],
+            "level"              => $teacher_info['level'],
+        ];
+        $this->add_lesson_operate_info($lessonid,"teacher_money_type,level",$operate_before,$operate_after);
         return $this->output_succ();
     }
 
@@ -1006,5 +1017,8 @@ class teacher_money extends Controller
         $this->set_teacher_all_lesson_money_list($teacherid, $start_time, $end_time);
     }
 
-
+    // 测试拉数据
+    public function get_last_lesson_count_test_ricky($start_time, $end_time, $teacherid) {
+        return $this->get_last_lesson_count_info($start_time, $end_time, $teacherid);
+    }
 }
