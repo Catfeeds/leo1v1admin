@@ -807,7 +807,7 @@ class seller_student_new extends Controller
         $adminid=$this->get_account_id();
         $t_flag=0;
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
-        $userid=@ $ret_info["list"][0]["userid"];
+        $userid=@$ret_info["list"][0]["userid"];
         if ($userid) {
             $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
@@ -1897,7 +1897,7 @@ class seller_student_new extends Controller
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
 
-        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+        // if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
             # 处理该学生的通话状态 [james]
             $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
             $hasCalledNum = $this->t_seller_student_new->get_cc_called_count($userid);
@@ -1908,7 +1908,7 @@ class seller_student_new extends Controller
 
 
             # 处理该学生的通话状态 [james-end]
-        }
+        // }
 
 
 
