@@ -463,7 +463,7 @@ $(function(){
             var title = "课程信息";
             var html_node= $("<div class=\"row\" >"
                              +"<div class=\"col-xs-6 col-md-12\"  >"
-                             +"<a class=\"btn btn-warning show_lesson_video\" href=\"javascript:;\" style=\"float:right\">课程回访</a>"
+                             +"<a class=\"btn btn-warning show_lesson_video\" href=\"javascript:;\" style=\"float:right\">课程回放</a>"
                              +"</div><div class=\"col-xs-12 col-md-12  \">"
                              +"<span><font size=\"3\" color=\"black\">基本信息</font></span> "
                              +"</div>"
@@ -812,19 +812,16 @@ $(function(){
                     BootstrapDialog.alert("请输入试卷总分");
                     return;
                 }
-               
+
                 var v1= parseInt(id_rank.val());
                 var v2= parseInt(id_rank_num.val());
                 var v3= parseInt(id_grade_rank.val());
                 var v4= parseInt(id_grade_rank_num.val());
                 if(v1 >0 && v2>0 && v3>0 && v4>0 && v1<=v2 && v3<=v4){
-                   
                 }else{
                     BootstrapDialog.alert("排名与人数必须为数字且排名不能大于人数");
                     return;
- 
                 }
-                               
                 var rank="";
                 if(id_rank_num.val()>0){
                     rank = id_rank.val()+"/"+id_rank_num.val();
@@ -837,9 +834,7 @@ $(function(){
                 }else{
                     grade_rank = id_grade_rank.val();
                 }
-                
 
-                
                 $.do_ajax("/ajax_deal2/score_add_new",{
                     "userid"        : g_sid,
                     "create_time"   : '0',

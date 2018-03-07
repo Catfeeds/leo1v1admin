@@ -953,7 +953,6 @@ $(function(){
 
 
     // james-start [暂时隐藏]
-    /*
     var set_user_free = function(opt_data){
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
             if(ret){
@@ -986,7 +985,6 @@ $(function(){
     $('.invalid_type_new').on("change",function(){
         do_submit();
     });
-    */
     // james-end
 
 
@@ -995,11 +993,9 @@ $(function(){
 
 
 
-    var test_arr = ['99','684','1173','1273','1408','1383','1384','1393','1394','1399','1404','1405','1406','1407','1408'];
-
-    /*
+    var test_arr = ['99','684','1460','1077','1307','1207','834'];//冒烟
+    // var test_arr = ['1408','1419','1407','1406']; // 测试
     if($.inArray(g_adminid,test_arr)>=0){// 测试功能 [james]
-        return ; // 临时终止
         $(".opt-set_user_free").on("click",function(){
             var opt_data=$(this).get_opt_data();
 
@@ -1048,7 +1044,6 @@ $(function(){
             });
         });
     }else{ // 原有功能
-    */
         $(".opt-set_user_free").on("click",function(){
             var opt_data = $(this).get_opt_data();
             $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
@@ -1068,8 +1063,7 @@ $(function(){
                     }
                 });
         });
-    // }
-
+    }
 
 
 

@@ -14,6 +14,33 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $parent_orderid = $this->get_in_int_val("orderid",34346);
+        $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
+        $total_price = $this->t_child_order_info->get_total_price_by_parent_orderid($parent_orderid);
+        echo $total_price."<br>";
+        $parent_price = $this->t_order_info->get_price($parent_orderid);
+        echo $parent_price."<br>";
+        if(empty($all_order_pay)){
+            if($total_price==$parent_price){
+                $this->t_manager_info->send_wx_todo_msg(
+                    "jack",
+                    "合同付款通知",
+                    "合同全款",
+                    "学生 合同已支付全款",
+                    "");
+
+            }else{
+                $this->t_manager_info->send_wx_todo_msg(
+                    "jack",
+                    "合同付款异常通知",
+                    "合同全款金额不对",
+                    "学生合同已支付全款",
+                    "");
+
+            }
+        }
+        dd(111);
+
         $str = ["old"=>303,"new"=>401];
         $str = json_encode( $str);
         $ret=$this->t_flow->add_flow(
@@ -2175,6 +2202,7 @@ class test_jack  extends Controller
                 if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                     if($assign_time < $month_half){
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
+                        
                         if($month_lesson_flag==1){
                             if($revisit_num <$revisit_max){
                                 $revisit_reword_per -=0.05*($revisit_max-$revisit_num);
@@ -2299,10 +2327,11 @@ class test_jack  extends Controller
             
 
         }
-        if($revisit_reword_per <0){
+        if($revisit_reword_per <0 || $revisit_reword_per>1){
             $revisit_reword_per=0;
         }
-        $tt = $revisit_reword_per;
+        $tt = $revisit_reword_per*1500;
+
         return $this->output_succ(["num"=>$tt]);
         // return $revisit_reword_per;
 
