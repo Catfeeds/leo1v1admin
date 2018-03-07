@@ -48,7 +48,11 @@ class test_ricky extends Command
             if ($item == 12) { // 处理12月
                 $start_time = strtotime("2017-12-1");
                 $end_time = strtotime("2018-1-1");
+                $prev_start_time = strtotime("2017-11-1");
+                $prev_end_time = strtotime("2017-12-1");
             } else {
+                $prev_start_time = strtotime("2017-12-1");
+                $prev_end_time = strtotime("2018-1-1");
                 $start_time = strtotime("2018-".$item."-1");
                 $end_time = strtotime("2018-".($item + 1)."-1");
             }
@@ -68,8 +72,13 @@ class test_ricky extends Command
             echo "======================================================".PHP_EOL;
             foreach($info as $val) {
                 $teacherid = $val["teacherid"];
-                $count_all = $money->get_last_lesson_count_test_ricky($start_time, $end_time, $teacherid);
-                $count = $count_all["all_normal_count"]; // [0, 4, 7, 10, 15, 20, 30];
+                //$count_all = $money->get_last_lesson_count_test_ricky($start_time, $end_time, $teacherid);
+                $count_all = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
+                $count = 0;
+                foreach ($count_all as $v) {
+                    $count = $v["lesson_count"] / 100;
+                }
+                //$count = $count_all["all_normal_count"]; // [0, 4, 7, 10, 15, 20, 30];
                 echo $teacherid." ---> ".$count;
                 $outer_reward = 0;
                 $money = 0;
