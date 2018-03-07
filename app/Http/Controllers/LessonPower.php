@@ -82,10 +82,9 @@ trait LessonPower{
     /**
      * 添加课程操作信息
      * @param int lessonid 课程id
-     * @param int operate_column 修改字段
-     * @param int operate_before 修改前课程信息
-     * @param int operate_after  修改后课程信息
-     * @param int system_flag    系统更新标示
+     * @param string operate_column 修改字段
+     * @param array|string operate_before 修改前课程信息
+     * @param array|string operate_after  修改后课程信息
      * @return boolean
      */
     public function add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after){

@@ -25,7 +25,7 @@ $(function(){
     if($.inArray(g_adminid,test_arr)>=0){
         $('#id_tip_no_call').show();
         var hasCalledNum = g_args.hasCalledNum;
-        if(g_args.cc_no_called_count_new>=3 && g_args.ccNoCalledNum>0){
+        if(g_args.cc_no_called_count_new>=3 && (g_args.ccNoCalledNum==g_args.cc_no_called_count_new)){
             $('#id_tip_no_call').addClass('btn-warning').css('color','white').removeAttr('disabled');
         }else{
             $('#id_tip_no_call').attr('disabled','disabled').removeClass('btn-warning');
@@ -622,7 +622,7 @@ $(function(){
     if($.inArray(g_adminid,test_arr)>=0){ // 测试环境
         $("#id_get_new").on("click",function(){
             var opt_data=$(this).get_opt_data();
-            if(g_args.cc_no_called_count_new < 3 && g_args.ccNoCalledNum>0){
+            if(g_args.cc_no_called_count_new < 3 && (g_args.ccNoCalledNum==g_args.cc_no_called_count_new)){
                 alert("请先提交未拨通电话标注后才能继续抢新");
                 return ;
             }
@@ -633,7 +633,7 @@ $(function(){
             },function(ret){
                 var is_sign = ret.is_sign;
 
-                if(!is_sign && g_args.cc_no_called_count_new>=3 && g_args.ccNoCalledNum>0){
+                if(!is_sign && g_args.cc_no_called_count_new>=3 && (g_args.ccNoCalledNum==g_args.cc_no_called_count_new)){
                     $('.bs-example-modal-sm').modal('toggle');
                     return;
                 }else{
