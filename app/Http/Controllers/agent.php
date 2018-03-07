@@ -444,6 +444,15 @@ class agent extends Controller
         return $this->pageView(__METHOD__,NULL);
     }
 
+    public function set_seller_free($phone,$userid){
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者:系统 状态: 过期回到公海",
+            "system"
+        );
+        $this->t_seller_student_new->set_user_free($userid);
+    }
+
     public function add_seller_new_count(){
         $adminid = $this->get_in_int_val('adminid');
         $start_time = strtotime(date('Y-m-d',time()));

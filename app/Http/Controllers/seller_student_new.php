@@ -708,7 +708,7 @@ class seller_student_new extends Controller
             $status_list_str="";
         }
         $this->set_in_value("status_list_str",$status_list_str) ;
-        $this->set_in_value("cur_page","$id") ;
+        $this->set_in_value("cur_page","$id");
         return $this->seller_student_list();
     }
 
@@ -807,7 +807,7 @@ class seller_student_new extends Controller
         $adminid=$this->get_account_id();
         $t_flag=0;
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
-        $userid=@ $ret_info["list"][0]["userid"];
+        $userid=@$ret_info["list"][0]["userid"];
         if ($userid) {
             $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
@@ -1199,21 +1199,35 @@ class seller_student_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
             E\Eaccount_role::set_item_value_str($item,'create_role');
             E\Eaccount_role::set_item_value_str($item,'admin_revisiter_role');
+
+            $item['allocation_type'] = E\Ereferral_type::V_0;
             if($item['create_role']){
                 //项目上线之后存在创建人
                 if($item['create_role'] == E\Eaccount_role::V_2){
                     //销售自产
-                    $item['allocation_type'] = '销售自产';
+                    $item['allocation_type'] = E\Ereferral_type::V_1;
                 }elseif($item['create_role'] == E\Eaccount_role::V_1){
                     //助教创建
                     if($item['origin_assistantid'] == $item['admin_revisiterid'])
-                        $item['allocation_type'] = '助教自跟';
+                        $item['allocation_type'] = E\Ereferral_type::V_3;
                     else
-                        $item['allocation_type'] = '助转销';
+                        $item['allocation_type'] = E\Ereferral_type::V_2;
                 }
             }else{
-                $item['allocation_type'] = '未设置';
+                //项目上线之后存在创建人
+                if($item['origin_role'] == E\Eaccount_role::V_2){
+                    //销售自产
+                    $item['allocation_type'] = E\Ereferral_type::V_1;
+                }elseif($item['origin_role'] == E\Eaccount_role::V_1){
+                    //助教创建
+                    if($item['origin_assistantid'] == $item['admin_revisiterid'])
+                        $item['allocation_type'] = E\Ereferral_type::V_3;
+                    else
+                        $item['allocation_type'] = E\Ereferral_type::V_2;
+                }
+
             }
+            E\Ereferral_type::set_item_value_str($item,'allocation_type');
         }
         return $this->pageView(__METHOD__,$ret_info,[
             'main_group' => $main_group,
@@ -1883,7 +1897,7 @@ class seller_student_new extends Controller
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
 
-        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
+        // if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local()){
             # 处理该学生的通话状态 [james]
             $ccNoCalledNum = $this->t_seller_student_new->get_cc_no_called_count($userid);
             $hasCalledNum = $this->t_seller_student_new->get_cc_called_count($userid);
@@ -1893,8 +1907,8 @@ class seller_student_new extends Controller
             $this->set_filed_for_js("cc_no_called_count_new", $cc_no_called_count_new);
 
 
-            # 处理该学生的通话状态 [james-end]
-        }
+                # 处理该学生的通话状态 [james-end]
+        // }
 
 
 

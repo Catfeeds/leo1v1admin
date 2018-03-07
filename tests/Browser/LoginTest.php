@@ -20,8 +20,7 @@ class LoginTest extends DuskTestCase
             //$browser->driver->manage()->window()->maximize();
             //$browser->driver->get("https://www.baidu.com");
             $browser->maximize(); // 浏览器窗口最大化 解决元素不可见问题(element not visible)
-
-            $browser->visit('/')
+                $browser->visit('/')
                     ->assertSee('后台登录')
                     ->value("#id_account", "jim")
                     ->value("#id_password", "142857")
@@ -32,7 +31,7 @@ class LoginTest extends DuskTestCase
                 // 模块 ["url" => "", "click" => ""],
                 $pages = [
                     // cc相关页面
-                    ["url" => "/main_page/seller", "click" => ".opt-no-order"], // 排行榜
+                    // ["url" => "/main_page/seller", "click" => ".opt-no-order"], // 排行榜
                     ["url" => "/seller_student_new/seller_student_list_all", "click" => ".opt-edit-new_new_two"], // 所有用户
                     ["url" => "/seller_student_new/assign_member_list", "click" => ".opt-return-back-list"], // 分配例子-主管
                     ["url" => "/seller_student_new/ass_master_seller_student_list", "click" => ".opt-edit-new_new_two"], // 转介绍例子
@@ -71,7 +70,7 @@ class LoginTest extends DuskTestCase
                 
                 foreach($pages as $item) {
                     echo PHP_EOL."当前页面:".$item["url"];
-                    $browser->visit($item["url"])->click($item["click"])->pause(200);
+                    $browser->visit($item["url"])->click($item["click"])->pause(500);
                     $text = $browser->text(".modal-header");
                     //$text = $browser->text(".bootstrap-dialog-title");
                 }

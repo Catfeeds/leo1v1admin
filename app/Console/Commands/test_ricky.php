@@ -42,6 +42,69 @@ class test_ricky extends Command
         $task = new \App\Console\Tasks\TaskController();
         $money = new \App\Http\Controllers\teacher_money();
 
+        $month = [12, 1];
+        $part_rules = [[29, 31, 38, 41, 48], [34, 36, 43, 46, 53], [39, 41, 48, 51, 58], [46, 48, 55, 58, 65], [53, 55, 62, 65, 72], [53, 55, 62, 65, 72], [60, 62, 69, 72, 79]];
+        foreach($month as $item) {
+            if ($item == 12) { // 处理12月
+                $start_time = strtotime("2017-12-1");
+                $end_time = strtotime("2018-1-1");
+            } else {
+                $start_time = strtotime("2018-".$item."-1");
+                $end_time = strtotime("2018-".($item + 1)."-1");
+            }
+            $ret_info = $task->t_teacher_salary_list->get_salary_list($start_time, $end_time, 1);
+            $teacher = array_column($ret_info["list"], "teacherid");
+            // 月份、老师ID、老师姓名、等级、工资总额
+            $info = $ret_info["list"];
+            // foreach($info as $val) {
+            //     $teacherid = $val["teacherid"];
+            //     echo $item."月,".$teacherid.",".$val["realname"].",";
+            //     $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
+            //     $level = array_column($level, "level");
+            //     echo implode(",", $level).",";
+            //     echo ($val["money"] / 100).PHP_EOL;
+            // }
+
+            echo "======================================================".PHP_EOL;
+            foreach($info as $val) {
+                $teacherid = $val["teacherid"];
+                $count = $money->get_last_lesson_count_info($start_time,$end_time,$teacherid);
+                var_dump($info); // [0, 4, 7, 10, 15, 20, 30];
+                $outer_reward = 0;
+                $money = 0;
+                if ($count >=10 && $count < 30) $outer_reward = 4;
+                if ($count >= 30 && $count < 90) $outer_reward = 7;
+                if ($count >= 90 && $count < 150) $outer_reward = 10;
+                if ($count >= 150 && $count < 240) $outer_reward = 15;
+                if ($count >= 240 && $count < 330) $outer_reward = 20;
+                if ($count >= 330) $outer_reward = 30;
+                $data = $task->t_lesson_info_b3->get_lesson_list_by_teacherid($teacherid, $start_time, $end_time);
+                foreach($data as $v) {
+                    $coef = $part_rules[$v["level"]];
+                    $lesson_count = $v["lesson_count"] / 100;
+                    if (intval($v["grade"]) >= 101 && intval($v["grade"]) <= 105) {
+                        $money += $lesson_count * ($coef[0] + $outer_reward);
+                    } elseif (intval($v["grade"]) >= 106 && intval($v["grade"]) <= 202) {
+                        $money += $lesson_count * ($coef[1] + $outer_reward);
+                    } elseif (intval($v["grade"]) == 203) {
+                        $money += $lesson_count * ($coef[2] + $outer_reward);
+                    } elseif ($v["grade"] >= 301 && $v["grade"] <= 302) {
+                        $money += $lesson_count * ($coef[3] + $outer_reward);
+                    } else {
+                        $money += $lesson_count * ($coef[4] + $outer_reward);
+                    }
+                }
+                $teacherid = $val["teacherid"];
+                echo $item."月,".$teacherid.",".$val["realname"].",";
+                $level = $task->t_lesson_info_b3->get_level_for_teacherid($teacherid, $start_time, $end_time);
+                $level = array_column($level, "level");
+                echo implode(",", $level).",";
+                echo $money.PHP_EOL;
+            }
+            echo "======================================================".PHP_EOL;
+        }
+        exit;
+
         // 老师ID、老师姓名、12月份授课课时数
         $rules1 = [[16, 17, 18, 20, 28], [26, 30, 36, 39, 46], [34, 38, 44, 49, 54], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];
         $rules2 = [[18, 22, 28, 32, 38], [26, 28, 36, 39, 46], [30, 33, 40, 43, 50], [36, 38, 46, 48, 55], [38, 40, 48, 50, 58], [41, 43, 51, 53, 61]];

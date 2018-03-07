@@ -1617,10 +1617,9 @@ class teacher_level extends Controller
             =$this->get_in_order_by_str($order_field_arr,"realname desc ");
 
         $season     = ceil((date('n'))/3)-1;//上季度是第几季度
-        $start_time = strtotime(date('Y-m-d H:i:s',mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
-        $end_time   = strtotime(date('Y-m-d H:i:s',mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
-        $this->set_in_value("quarter_start",$start_time);
-        $quarter_start = $this->get_in_int_val("quarter_start");
+        $start_time_last = strtotime(date('Y-m-d H:i:s',mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $end_time_last   = strtotime(date('Y-m-d H:i:s',mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $is_test_user = $this->get_in_int_val("is_test_user",0);
@@ -1631,7 +1630,8 @@ class teacher_level extends Controller
 
 
         $teacher_money_type=6;
-        $start_time = strtotime("2017-10-01");
+        //  $start_time = strtotime("2017-10-01");
+        $start_time = $this->get_in_int_val("start_time",$start_time_last);
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,$is_test_user,$advance_require_flag,$show_all,$withhold_require_flag);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
@@ -1682,7 +1682,12 @@ class teacher_level extends Controller
         }
 
         $this->set_filed_for_js("start_time",$start_time);
-        return $this->pageView(__METHOD__,$ret_info);
+        //季度时间列表
+        $season_list = $this->get_four_season_list();
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "season_list"=>$season_list
+        ]);
     }
 
     //晋升申请(2018年1月新版)

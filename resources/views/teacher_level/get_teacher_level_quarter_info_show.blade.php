@@ -8,6 +8,17 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span class="input-group-addon">季度</span>
+                        <select class="opt-change form-control " id="id_start_time" >
+                            @foreach($season_list as $k=>$v)
+                                <option value="{{$k}}">{{$v}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>               
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span >老师 </span>
                         <input type="text" value=""  class="opt-change"  id="id_teacherid"  placeholder="" />
                     </div>
@@ -32,7 +43,7 @@
                         </select>
                     </div>
                 </div>               
-                <div class="col-xs-6 col-md-6">
+                <div class="col-xs-6 col-md-4">
                     <button class="btn btn-primary" id="id_withhold_agree" style="float:right" > 一键同意扣款 </button>
                     <button class="btn btn-primary" id="id_advance_agree" style="float:right;margin-right:15px">一键同意晋升 </button>
                     <button class="btn btn-primary" id="id_edit_rule" style="float:right;margin-right:15px"> 修改晋升规则</button>

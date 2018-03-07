@@ -90,7 +90,7 @@ class get_ass_stu_info_update extends Command
         foreach($warning_list as $item){
             if(isset($ass_list[$item["uid"]])){
 
-                $ass_list[$item["uid"]]["warning_student"]++;
+                @$ass_list[$item["uid"]]["warning_student"]++;
 
             }
         }

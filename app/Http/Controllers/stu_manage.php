@@ -1451,32 +1451,32 @@ class stu_manage extends Controller
 
 
     public function student_lesson_learning_record(){
-        $userid       = $this->sid;
-        // $userid = $this->get_in_int_val("sid");
+        $userid    = $this->sid;
         #分页信息
-        $page_info= $this->get_in_page_info();
+        $page_info = $this->get_in_page_info();
         #排序信息
         list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str([],"adminid desc");
 
-        #输入参数
-        //  list($start_time,$end_time)=$this->get_in_date_range(-8,-1,1);
         $start_date = $this->get_in_str_val('start_date');
         $end_date   = $this->get_in_str_val('end_date');
         $start_time = $start_date?strtotime($start_date):0;
         $end_time   = $end_date?(strtotime($end_date)+86400):0;
 
-        $subject = $this->get_in_int_val("subject",-1);
-        $grade = $this->get_in_int_val("grade",-1);
-        $semester = $this->get_in_int_val("semester",-1);
-        $stu_score_type = $this->get_in_int_val("stu_score_type",-1);
-        $current_id = $this->get_in_int_val("current_id",1);
+        $subject          = $this->get_in_int_val("subject",-1);
+        $grade            = $this->get_in_int_val("grade",-1);
+        $semester         = $this->get_in_int_val("semester",-1);
+        $stu_score_type   = $this->get_in_int_val("stu_score_type",-1);
+        $current_id       = $this->get_in_int_val("current_id",1);
         $current_table_id = $this->get_in_int_val("current_table_id",2);
-        $cw_status = $this->get_in_int_val("cw_status",-1);
-        $preview_status = $this->get_in_int_val("preview_status",-1);
-        $subject_arr=[];
-        $grade_arr=[];
-        $domain = config('admin')['qiniu']['public']['url'];
+        $cw_status        = $this->get_in_int_val("cw_status",-1);
+        $preview_status   = $this->get_in_int_val("preview_status",-1);
+        $subject_arr      = [];
+        $grade_arr        = [];
+
+        // $domain = config('admin')['qiniu']['public']['url'];
+        $qiniu_public = \App\Helper\Config::get_config_2("qiniu", "public");
+        $domain = $qiniu_public["url"];
         //获取该学生所有的课(未删除)
         $all_lesson_list = $this->t_lesson_info_b3->get_student_all_lesson_info($userid,0,0);
         foreach($all_lesson_list as $val){
@@ -1486,13 +1486,14 @@ class stu_manage extends Controller
             if(!isset($grade_arr[$val["grade"]])){
                 $grade_arr[$val["grade"]]=$val["grade"];
             }
- 
         }
+
         $all_lesson=[];
         foreach($all_lesson_list as $k=>$val){
             $all_lesson[$val["lessonid"]] = $k+1;
         }
-        if($current_id==1){
+
+        if($current_id==1){ //课前预习
             $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status);
             $list = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,2);
             foreach($ret_info["list"] as &$item){
@@ -1527,18 +1528,17 @@ class stu_manage extends Controller
                         $pre_num++;
                     }
                 }
-
-
             }
+
             $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
             return $this->pageView(__METHOD__,$ret_info,[
                 "pre_rate"=>$pre_rate,
                 "subject_list"=>$subject_arr,
                 "grade_list"=>$grade_arr,
             ]);
-        }elseif($current_id==2){          
+        }elseif($current_id==2){ // 课堂情况
             $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
-            $list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            $list     = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
             foreach($ret_info["list"] as &$item){
                 E\Egrade::set_item_value_str($item);
                 E\Esubject::set_item_value_str($item);
@@ -1552,7 +1552,6 @@ class stu_manage extends Controller
                     $item["tea_attend_str"] = "—";
                     $item["stu_attend_str"] = "—";
                 }else{
-
                     if(in_array($item["lesson_cancel_reason_type"],[2,12,21]) && $item["confirm_flag"]>=2){
                         $item["tea_attend_str"] = E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
                         $item["stu_attend_str"] = "—";
@@ -1560,7 +1559,6 @@ class stu_manage extends Controller
                         $item["stu_login_num"] = "—";
                         $item["parent_login_num"] = "—";
                         $item["stu_praise"] = "—";
-
                     }elseif(in_array($item["lesson_cancel_reason_type"],[1,11,20]) && $item["confirm_flag"]>=2){
                         $item["stu_attend_str"] = E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
                         $item["tea_attend_str"] = "—";
@@ -1568,10 +1566,7 @@ class stu_manage extends Controller
                         $item["stu_login_num"] = "—";
                         $item["parent_login_num"] = "—";
                         $item["stu_praise"] = "—";
-
-
                     }else{
-                        // $item["stu_attend_str"] = $item["tea_attend_str"] =E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
                         $stu_login_time = @$list[$item["lessonid"]]["stu_login_time"]; 
                         $stu_logout_time = @$list[$item["lessonid"]]["stu_logout_time"]; 
                         $tea_login_time = @$list[$item["lessonid"]]["tea_login_time"]; 
@@ -1596,10 +1591,8 @@ class stu_manage extends Controller
                         }else{
                             $item["tea_attend_str"]="正常";
                         }
-
                     }
                 }
-
             }
 
             $normal_num=$normal_all=0;
@@ -1612,44 +1605,34 @@ class stu_manage extends Controller
                 // }
                 if($val["lesson_status"]>=2){
                     if(!($val["confirm_flag"]>=2 && in_array($val["lesson_cancel_reason_type"],[2,12,21]))){
-                        $stu_login_time = @$list[$val["lessonid"]]["stu_login_time"]; 
+                        $stu_login_time  = @$list[$val["lessonid"]]["stu_login_time"]; 
                         $stu_logout_time = @$list[$val["lessonid"]]["stu_logout_time"]; 
-                        $tea_login_time = @$list[$val["lessonid"]]["tea_login_time"]; 
+                        $tea_login_time  = @$list[$val["lessonid"]]["tea_login_time"]; 
                         $tea_logout_time = @$list[$val["lessonid"]]["tea_logout_time"];
-                        $lesson_start = ($val["lesson_start"]+59);
-                        $lesson_end = $val["lesson_end"];
+                        $lesson_start    = ($val["lesson_start"]+59);
+                        $lesson_end      = $val["lesson_end"];
                         if($stu_login_time<=$lesson_start && $stu_logout_time>=$lesson_end){
                             $normal_num++;
                         }
                         $normal_all++;
-
                     }
-
                 }
-
-
             }
             $attend_rate = $normal_num==0?0:round($normal_num/$normal_all*100,2);
 
-
-
             return $this->pageView(__METHOD__,$ret_info,[
-                "attend_rate"=>@$attend_rate,
-                "subject_list"=>$subject_arr,
-                "grade_list"=>$grade_arr,
+                "attend_rate"  => @$attend_rate,
+                "subject_list" => $subject_arr,
+                "grade_list"   => $grade_arr,
             ]);
-
-
         }elseif($current_id==3){
-            $ret_info = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            $ret_info=$this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
             $list = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
             foreach($ret_info["list"] as &$item){
                 E\Egrade::set_item_value_str($item);
                 E\Esubject::set_item_value_str($item);
-                \App\Helper\Utils::unixtime2date_range($item);             
+                \App\Helper\Utils::unixtime2date_range($item);
                 $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
-
-                         
                 $item['stu_intro']   = json_decode($item['stu_performance'],true);
                 $item['stu_point_performance']='';
                 if(isset($item['stu_intro']['point_note_list']) && is_array($item['stu_intro']['point_note_list'])){
@@ -1665,20 +1648,14 @@ class stu_manage extends Controller
                     }else{
                         $str = $item['stu_intro']['stu_comment'];
                     }
-                    //   $str = $this->get_test_lesson_comment_str($str);
-                    $item['stu_point_performance'].=PHP_EOL."总体评价:".$str;
+                    $item['stu_point_performance'] .= PHP_EOL."总体评价:".$str;
                 }
                 $item['stu_intro']="";
                 if(empty($item["teacher_comment"])){
                     $item["teacher_comment"]="—";
                 }
-                if(empty($item["stu_score"])){
-                    $item["stu_score"]="—";
-                }
-
-
-
-
+                $item['stu_score_str'] = $item['teacher_effect']."|".$item['teacher_quality']
+                                       ."|".$item['teacher_interact']."|".$item['stu_stability'];
             }
             $tea_comment=$all_num=0;
             foreach($list as $val){
@@ -1687,7 +1664,7 @@ class stu_manage extends Controller
                 // }
                 // if(!isset($grade_arr[$val["grade"]])){
                 //     $grade_arr[$val["grade"]]=$val["grade"];
-                // }               
+                // }
                 if($val["confirm_flag"]<2){
                     $all_num++;
                     $stu_intro   = json_decode($val['stu_performance'],true);
@@ -1711,22 +1688,15 @@ class stu_manage extends Controller
                     if(!empty($comment)){
                         $tea_comment++;
                     }
-
-
                 }
-
-
             }
+
             $record_rate = $all_num==0?0:round($tea_comment/$all_num*100,2);
             return $this->pageView(__METHOD__,$ret_info,[
                 "record_rate"=>$record_rate,
                 "subject_list"=>$subject_arr,
                 "grade_list"=>$grade_arr,
             ]);
-
-
-
-
         }elseif($current_id==4){
             $ret_info = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
             $list = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
@@ -1827,20 +1797,15 @@ class stu_manage extends Controller
                 "subject_list"=>$subject_arr,
                 "grade_list"=>$grade_arr,
             ]);
-
-
-
         }elseif($current_id==5){
             $subject_arr=[];
             $grade_arr=[];
             $ret_info=$this->t_student_score_info->get_all_list($page_info,"",$grade,$semester,$stu_score_type,-1,$userid,$subject);
             $list = $this->t_student_score_info->get_all_list_no_page("",$grade,$semester,$stu_score_type,-1,$userid,$subject);
-            foreach( $ret_info["list"] as $key => &$item ) {
-
+            foreach($ret_info["list"] as $key => &$item){
                 if(empty($item["paper_upload_time"])){
                     $item["paper_upload_time"] =$item["create_time"];
                 }
-
 
                 $ret_info['list'][$key]['num'] = $key + 1;
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y/m/d");
@@ -1852,7 +1817,6 @@ class stu_manage extends Controller
                 if($ret_info['list'][$key]['total_score']){
                     $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
                 }
-
 
                 if($item['admin_type'] == 1){
                     $item['create_admin_nick'] = "<font color=\blue\">家长/微信端</font>";
@@ -1969,7 +1933,6 @@ class stu_manage extends Controller
             \App\Helper\Utils::date_list_set_value($date_list,$subject_8,"month","subject_8","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_9,"month","subject_9","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_10,"month","subject_10","count");
-            //dd($date_list);
             $this->set_filed_for_js("max_month",$max_month);
             $this->set_filed_for_js("max_month_date",date("Y-m-d H:i",$max_month));
             $this->set_filed_for_js("min_month",$min_month);

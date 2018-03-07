@@ -393,15 +393,13 @@ class test_james extends Controller
 
     public function installNew(){ // 新建表单
         // Schema::dropIfExists('db_weiyi.t_activity_usually');
-        Schema::create('db_weiyi.t_leave_lesson_log', function(Blueprint $table) {
-            t_comment($table, "家长请假日志表");
-            t_field($table->increments("id"), "");
-            t_field($table->integer("lessonid"), "课程ID");
-            t_field($table->integer("parentid"), "请假人");
-            t_field($table->integer("leave_time"), "请假时间");
+        // 2018_03_06_164454_t_seller_student_new_add_tmk_sign_invalid
+        Schema::table('db_weiyi.t_seller_student_new', function(Blueprint $table) {
+            t_field($table->integer("tmk_sign_invalid_time"), "tmk标注无效资源时间");
+            t_field($table->integer("tmk_sign_invalid_adminid"), "tmk标注无效资源人");
 
-            $table->index('lessonid');
-            $table->index('parentid');
+            $table->index('tmk_sign_invalid_time');
+            $table->index('tmk_sign_invalid_adminid');
         });
         /**
            1、记录CC/CR获取转发链接的次数、名单、家长点击次数，家长ID、制作海报次数，最终获得常规课人数，通过此海报注册试听课人数；
@@ -2281,6 +2279,7 @@ class test_james extends Controller
 
         return $this->output_succ();
     }
+
 
 
 

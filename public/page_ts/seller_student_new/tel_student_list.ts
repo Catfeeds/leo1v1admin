@@ -21,18 +21,21 @@ $(function(){
     // 处理标记空号功能 [james]
 
 
-    var test_arr = ['99','684','1173','1273'];
+    var local_userid = 0; 
+    var test_arr = ['684','1460','1077','1307','1207','834']; // 冒烟
+    // var test_arr = ['1408','1419','1407','1406']; // 测试
 
     if($.inArray(g_adminid,test_arr)>=0){ // 测试
         $('.opt-sign').on('click',function(){
             $('.bs-example-modal-sm').modal('toggle');
+            var opt_data=$(this).get_opt_data();
+            local_userid = opt_data.userid;
             do_submit();
         });
 
 
         $('.submit_tag').on("click",function(){
-            var opt_data=$(this).get_opt_data();
-            sign_func(opt_data);
+            sign_func();
         });
 
         $('.invalid_type').on("change",function(){
@@ -48,7 +51,7 @@ $(function(){
             }
         }
 
-        var sign_func = function(opt_data){
+        var sign_func = function(){
             var invalid_type = $('.invalid_type').val();
             var checkText=$(".invalid_type").find("option:selected").text();
 
@@ -58,7 +61,7 @@ $(function(){
                 $.do_ajax("/ajax_deal3/sign_phone",{
                     "adminid" : g_adminid,
                     "confirm_type" : invalid_type,
-                    "userid"  : opt_data.userid,
+                    "userid"  : local_userid,
                     "type"    : 2
                 });
                 window.location.reload();

@@ -64,7 +64,7 @@
                         <td>{{$var["node_name"]}} </td>
                         <td>{{$var["post_admin_nick"]}} </td>
                         <td>{{$var["post_time"]}} </td>
-                        <td>{{$var["line_data"]}} </td>
+                        <td>{!! $var["line_data"] !!} </td>
                         <td>{{$var["post_msg"]}} </td>
                         <td> {!!  $var["flow_status_str"] !!} </td>
                         <td> {{$var["flow_check_flag_str"]}} </td>

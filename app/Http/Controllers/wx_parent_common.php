@@ -35,7 +35,7 @@ class wx_parent_common extends Controller
             if($goto_url=="zhishiku"){
                 $url="$web_html_url/binding?goto_url=$goto_url";
             }
-            $url="$web_html_url/binding?goto_url=";
+            $url="$web_html_url/binding?openid=$openid&goto_url=";
         }else{
             $parentid= $this->t_parent_info->get_parentid_by_wx_openid($openid);
             if ($parentid) {
@@ -95,6 +95,7 @@ class wx_parent_common extends Controller
         if(!$wx_openid){
             $wx_openid = $openid;
         }
+        \App\Helper\Utils::logger("03_06_code:$code, openid:$openid ");
 
         if (!$wx_openid){
             return $this->output_err("请重新绑定");
@@ -112,7 +113,7 @@ class wx_parent_common extends Controller
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
 
-        if($market_activity_type >= 1 ){
+        if($market_activity_type >= 1 || $parentid==0){
             $passwd      = 111111;
             $reg_channel = '';
             $ip          = 0;
@@ -127,7 +128,7 @@ class wx_parent_common extends Controller
             return $this->output_succ(["type"=>$market_activity_type,"parentid"=> $parentid]);
         }
 
-        $db_parentid = $this->t_parent_info->get_parentid_by_wx_openid($wx_openid );
+        $db_parentid = $this->t_parent_info->get_parentid_by_wx_openid($wx_openid);
         if ($db_parentid) {
             $this->t_parent_info->field_update_list($db_parentid,[
                 "wx_openid" => NULL,

@@ -21,9 +21,6 @@
      var g_grade_list= <?php  echo json_encode(@$grade_list); ?> ;
      var g_data_ex_list= <?php  echo json_encode(@$pic_data); ?> ;
     </script>
-    
-
-
     <section class="content ">
         <div >
             <img src="https://ybprodpub.leo1v1.com/a3062c52cafb042250b3dddd2f5317b11516177228556.png"  alt="汇总"  id="id_show_all"  style="float:right;margin-right:-10px" title="汇总"  />
@@ -47,12 +44,6 @@
                     <input type="text" id="id_end_date" class="opt-change"/>
                 </div>
             </div>
-
-            <!--             <div class="col-xs-12 col-md-4">
-                 <div  id="id_date_range" >
-                 </div>
-                 </div>
-            -->
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">年级</span>
@@ -95,10 +86,6 @@
                 <button class="btn " id="id_grade_show" ></button>
                 <button class="btn " id="id_subject_show" ></button>
             </div>
-
-
-
-
         </div>
         <hr/>
         <div class="row">
@@ -110,9 +97,6 @@
                 <button class="btn btn-warning btn-flat homework_table_flag" id="id_complete_rate" style="float:right;margin-right:15px" data-class_id="4">作业完成率:{{ @$complete_rate }}%</button>
                 <button class="btn btn-warning btn-flat score_table_flag score_table_flag_show" id="id_score_pic" style="float:right" data-class_id="5" data-table_id="1">图</button>
                 <button class="btn btn-warning btn-flat score_table_flag score_table_flag_show current_score" id="id_score_table" style="float:right" data-class_id="5" data-table_id="2">表</button>
-
-
-
             </div>
         </div>
         <table class="common-table preview_table_flag" data-class_id="1">
@@ -189,7 +173,6 @@
                     <td>学生发言</td>
                     <td>老师发言</td>
                     <td>获赞</td>
-
                     <td>老师</td>
                     <td>操作</td>
                 </tr>
@@ -218,7 +201,6 @@
                                 {{@$var["parent_login_num"] }}
                             </a>
                         </td>
-                        
                         <td>{{@$var["stu_draw"] }}</td>
                         <td>{{@$var["tea_draw"] }}</td>
                         <td>{{@$var["stu_voice"] }}</td>
@@ -259,7 +241,7 @@
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
-                        <td ><a class="btn show_stu_score_detail" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-effect="{{ @$var["teacher_effect"] }}" data-quality="{{ @$var["teacher_quality"] }}" data-interact="{{ @$var["teacher_interact"] }}" data-stability="{{ @$var["stu_stability"] }}">{{@$var["stu_score"]}}</a></td>
+                        <td ><a class="btn show_stu_score_detail" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-effect="{{ @$var["teacher_effect"] }}" data-quality="{{ @$var["teacher_quality"] }}" data-interact="{{ @$var["teacher_interact"] }}" data-stability="{{ @$var["stu_stability"] }}">{{@$var["stu_score_str"]}}</a></td>
                         <td >{{@$var["teacher_comment"]}}</td>
                         <td >{{@$var["stu_point_performance"]}}</td>
 
@@ -360,9 +342,8 @@
                     <td>年级人数</td>
                     <td>试卷</td>
                     <td>录入者</td>
-                    <td>上传时间</td>
+                    <td>录入时间</td>
                     <td>操作</td>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -374,7 +355,6 @@
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["score"]/10}} </td>
                         <td>{{@$var["total_score"]}} </td>
-                        
                         <td>{{@$var["rank"]}} </td>
                         <td>{{@$var["rank_num"]}} </td>
                         <td>{{@$var["grade_rank"]}} </td>
@@ -389,7 +369,7 @@
                             @endif
                         </td>
                         <td>{!!@$var["create_admin_nick"]!!} </td>
-                        <td>{{@$var["paper_upload_time_str"]}} </td>
+                        <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

@@ -39,8 +39,7 @@ class ajax_deal3 extends Controller
         //获取用户身份[是否系统分配用户]
         $seller_student_assign_type = $this->t_manager_info->field_get_value($adminid, 'seller_student_assign_type');
 
-
-        if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
+        if ( count($userid_list) ==0 || @$userid_list[0] == -1){
 
         }else{
 
@@ -995,62 +994,71 @@ class ajax_deal3 extends Controller
         $account_type = $this->get_in_int_val('type');
         $confirm_type = $this->get_in_int_val('cc_confirm_type');
         $qc_mark = $this->get_in_str_val('mark');
-        # account_type:1:CC 2:TMK 3:QC
+        $adminid = $this->get_account_id();
         $set_field_arr = [];
+        $arr = [];
+
+
+        $sign_adminid = $this->t_invalid_num_confirm->checkHadSignByAdminid($adminid);
+        if($sign_adminid == 1){
+            $key="DEAL_NEW_USER_$adminid";
+            $old_userid=\App\Helper\Common::redis_del($key);
+            return $this->output_err("此例子不可重复标注!");
+        }
+
+        # account_type:1:CC 2:TMK 3:QC
         if($account_type == 2){
             $set_field_arr=[
                 "tmk_confirm_time" => time(),
-                "tmk_adminid"      => $this->get_account_id(),
+                "tmk_adminid"      => $adminid,
                 "tmk_confirm_type" => $confirm_type
             ];
         }elseif($account_type == 3){
             $set_field_arr=[
                 "qc_confirm_time" => time(),
-                "qc_adminid"      => $this->get_account_id(),
+                "qc_adminid"      => $adminid,
                 "qc_confirm_type" => $confirm_type,
                 "qc_mark"         => $qc_mark
             ];
         }
+        $field_list = $this->t_seller_student_new->field_get_list($userid, "cc_not_exist_count,cc_invalid_count");
 
+        // 处理无效资源标记次数累加
         if($account_type == 1){
             $this->t_invalid_num_confirm->row_insert([
                 "userid"          => $userid,
-                "cc_adminid"      => $this->get_account_id(),
+                "cc_adminid"      => $adminid,
                 "cc_confirm_time" => time(),
                 "cc_confirm_type" => $confirm_type
             ]);
             // 更新例子表中的cc标记次数
+            if($confirm_type == 1001){ //空号
+                $arr['cc_not_exist_count'] = $field_list['cc_not_exist_count']+1;
+            }else{ // 其他无效资源
+                $arr['cc_invalid_count'] = $field_list['cc_invalid_count']+1;
+            }
         }else{
+            if($account_type == 2){
+                $arr['tmk_sign_invalid_adminid'] = $adminid;
+                $arr['tmk_sign_invalid_time'] = time();
+            }
             if(!empty($set_field_arr)){
                 $this->t_invalid_num_confirm->updateInfoByUserid($userid, $set_field_arr);
             }
         }
+
+        $key="DEAL_NEW_USER_$adminid";
+        $old_userid=\App\Helper\Common::redis_del($key);
+
         # 进入tmk库
         # 规则 1: 被标注3次无效后直接进入TMK库 2: 若标注了空号则直接进入TMK库
-        if($account_type == 1){
-            $hasSignNum = $this->t_invalid_num_confirm->getHasSignNum($userid);
-            if($confirm_type == 1001 || $hasSignNum == 3){
-                $this->t_seller_student_new->field_update_list($userid, [
-                    // 'tmk_student_status' => 2
-                ]);
-            }
-            $adminid = $this->get_account_id();
-            $arr = [];
-            $cc_confirm_type = $this->t_invalid_num_confirm->get_row_by_adminid($adminid,$confirm_type);
-            $field_list = $this->t_seller_student_new->field_get_list($userid, 'cc_not_exist_count,cc_invalid_count');
-            if($cc_confirm_type==0 && $confirm_type>0){
-                if($confirm_type == E\Eseller_student_sub_status::V_1001){
-                    $arr['cc_not_exist_count'] = $field_list['cc_not_exist_count']+1;
-                }elseif($confirm_type>1001){
-                    $arr['cc_invalid_count'] = $field_list['cc_invalid_count']+1;
-                }
-            }
-            if(count($arr)>0){
-                $this->t_seller_student_new->field_update_list($userid,$arr);
-            }
+        if(count($arr)>0){
+            $this->t_seller_student_new->field_update_list($userid,$arr);
         }
         return $this->output_succ();
     }
+
+
 
     # 检查是否提交
     public function checkHasSign(){
@@ -1080,7 +1088,6 @@ class ajax_deal3 extends Controller
             if (preg_match("/api.clink.cn/", $record_url ) ) {
                 $item["record_url"].=$clink_args;
             }
-
             E\Eaccount_role::set_item_value_str($item);
         }
 
@@ -1104,16 +1111,37 @@ class ajax_deal3 extends Controller
         $userid = $this->get_in_int_val('userid');
         $grade = $this->get_in_int_val('grade');
         $reason = $this->get_in_str_val('reason');
+        $start_time = strtotime($this->get_in_str_val('start_time'));
         $old_grade = $this->t_student_info->get_grade($userid);
-        $arr = ["old"=>$old_grade,"new"=>$grade];
+        $arr = ["userid"=>$userid,"new"=>$grade];
+        if($start_time>0){
+            $arr["time"]=$start_time;
+        }
         $str = json_encode( $arr);
         $nick = $this->t_student_info->get_nick($userid);
-        $msg = "学生:".$nick." 原年级:".E\Egrade::get_desc($old_grade)."目标年级:".E\Egrade::get_desc($grade)." 说明:".$reason;
+        $from_key_int = $this->t_flow->get_max_from_key_int(E\Eflow_type::V_STUDENT_CHANGE_GRADE);
+        $from_key_int++;
+        //  $msg = "学生:".$nick." 原年级:".E\Egrade::get_desc($old_grade)."目标年级:".E\Egrade::get_desc($grade)." 说明:".$reason;
         $ret=$this->t_flow->add_flow(
-            1,$this->get_account_id(),$msg,$userid,$str,0
+            E\Eflow_type::V_STUDENT_CHANGE_GRADE,$this->get_account_id(),$reason,$from_key_int,$str,0           
         );
+        \App\Helper\Utils::logger(1111);
+
         return $this->output_succ();
 
- 
+
+    }
+
+    public function check_has_change_student_grade_apply(){
+        $userid = $this->get_in_int_val('userid',60019);
+        $list = $this->t_flow->get_no_end_flow_list(E\Eflow_type::V_STUDENT_CHANGE_GRADE);
+        $n=0;
+        foreach($list as $val){
+            $arr= json_decode($val["from_key_str"],true);
+            if(@$arr["userid"]==$userid){
+                $n++;
+            }
+        }
+        return $this->output_succ(["num"=>$n]);
     }
 }

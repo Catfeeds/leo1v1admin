@@ -8,16 +8,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	textbook_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../agent; vi  ../agent/test_new.ts
+	 mkdir -p ../info_support; vi  ../info_support/get_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/agent-test_new.d.ts" />
+/// <reference path="../g_args.d.ts/info_support-get_info.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
