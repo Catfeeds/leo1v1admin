@@ -1019,6 +1019,6 @@ class teacher_money extends Controller
 
     // 测试拉数据
     public function get_last_lesson_count_test_ricky($start_time, $end_time, $teacherid) {
-        return $this->->get_last_lesson_count_info($start_time, $end_time, $teacherid);
+        return $this->get_last_lesson_count_info($start_time, $end_time, $teacherid);
     }
 }
