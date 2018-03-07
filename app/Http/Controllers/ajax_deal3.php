@@ -1088,7 +1088,6 @@ class ajax_deal3 extends Controller
             if (preg_match("/api.clink.cn/", $record_url ) ) {
                 $item["record_url"].=$clink_args;
             }
-
             E\Eaccount_role::set_item_value_str($item);
         }
 

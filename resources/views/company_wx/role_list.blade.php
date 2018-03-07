@@ -3,7 +3,7 @@
 @section('content')
     <!-- <script src='https://kefu.easemob.com/webim/easemob.js?configId=444c659a-3f92-4719-905e-a2280d9ecd53'></script> -->
     <!-- <script src='//kefu.easemob.com/webim/easemob.js?configId=444c659a-3f92-4719-905e-a2280d9ecd5'></script> -->
-    <script src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=c33d72580c13431397fe187ea97cb0a1" class="zhiCustomBtn" id="zhichiScript" data-args="moduleType=2"></script>
+    <script src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=c33d72580c13431397fe187ea97cb0a1" class="zhiCustomBtn" id="zhichiScript" data-args="moduleType=1"></script>
     <section class='content'>
 
     <div> <!-- search ... -->

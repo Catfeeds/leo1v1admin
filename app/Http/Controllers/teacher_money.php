@@ -1017,5 +1017,8 @@ class teacher_money extends Controller
         $this->set_teacher_all_lesson_money_list($teacherid, $start_time, $end_time);
     }
 
-
+    // 测试拉数据
+    public function get_last_lesson_count_test_ricky($start_time, $end_time, $teacherid) {
+        return $this->get_last_lesson_count_info($start_time, $end_time, $teacherid);
+    }
 }

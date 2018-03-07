@@ -363,7 +363,7 @@ class menu{
                     ["power_id"=>31, "name"=>"筛选例子",   "url"=>"/seller_student_new/tel_student_list"],
                     ["power_id"=>6, "name"=>"无设备例子",   "url"=>"/seller_student_new/tmk_assign_sub_adminid_list"],
                     ["power_id"=>5, "name"=>"有效例子",   "url"=>"/seller_student_new2/tmk_student_list2"],
-                    // ["power_id"=>7, "name"=>"TMK-无效资源",   "url"=>"/seller_student_new/tmk_invalid_resources"],// 未测试
+                    ["power_id"=>7, "name"=>"TMK-无效资源",   "url"=>"/seller_student_new/tmk_invalid_resources"],// 未测试
 
                 ]],
                 ["power_id"=>5, "name"=>"质检-退费处理", "list"=>[
@@ -404,9 +404,9 @@ class menu{
                     ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
                 ]],
-                // ["power_id"=>20, "name"=>"质检", "list"=> [
-                    // ["power_id"=>20, "name"=>"QC-无效资源",   "url"=>"/user_manage/qc_invalid_resources"], //未测试
-                // ]],
+                 ["power_id"=>20, "name"=>"质检", "list"=> [
+                     ["power_id"=>20, "name"=>"QC-无效资源",   "url"=>"/user_manage/qc_invalid_resources"], //未测试
+                ]],
 
 
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
