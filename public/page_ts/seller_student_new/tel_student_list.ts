@@ -22,8 +22,8 @@ $(function(){
 
 
     var local_userid = 0; 
-    // var test_arr = ['99','684','1460','1077','1307','1207','834']; // 冒烟
-    var test_arr = ['1408','1419','1407','1406']; // 测试
+    var test_arr = ['99','684','1460','1077','1307','1207','834']; // 冒烟
+    // var test_arr = ['1408','1419','1407','1406']; // 测试
 
     if($.inArray(g_adminid,test_arr)>=0){ // 测试
         $('.opt-sign').on('click',function(){
