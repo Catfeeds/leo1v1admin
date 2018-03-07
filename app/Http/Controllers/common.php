@@ -1306,37 +1306,51 @@ class common extends Controller
                     "学生:".$nick." 合同付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
                     "");
                 $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
-                if(empty($all_order_pay)){
-                    $this->t_order_info->field_update_list($parent_orderid,[
-                        "order_status" =>1,
-                        "contract_status"=>1,
-                        "pay_time"       =>time()
-                    ]);
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "echo",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "/user_manage_new/money_contract_list?studentid=$userid");
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "zero",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "/user_manage_new/money_contract_list?studentid=$userid");
+                $total_price = $this->t_child_order_info->get_total_price_by_parent_orderid($parent_orderid);
+                $parent_price = $this->t_order_info->get_price($parent_orderid);
 
-                    $this->t_manager_info->send_wx_todo_msg(
-                        $sys_operator,
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "");
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "jack",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$nick." 合同已支付全款",
-                        "");
+                if(empty($all_order_pay)){
+                    if($total_price==$parent_price){
+                       
+                        $this->t_order_info->field_update_list($parent_orderid,[
+                            "order_status" =>1,
+                            "contract_status"=>1,
+                            "pay_time"       =>time()
+                        ]);
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "echo",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "/user_manage_new/money_contract_list?studentid=$userid");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "zero",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "/user_manage_new/money_contract_list?studentid=$userid");
+
+                        $this->t_manager_info->send_wx_todo_msg(
+                            $sys_operator,
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$nick." 合同已支付全款",
+                            "");
+                    }else{
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款异常通知",
+                            "合同全款金额不对",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+ 
+                    }
 
 
                 }
@@ -2297,21 +2311,21 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $payment = $this->t_child_order_info->get_price($orderid);
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-
+        //  $orderNo=\WxpayAPI\WxPayConfig::MCHID.date("YmdHis");
         ini_set('date.timezone','Asia/Shanghai');
         require_once  app_path("Libs/WxpayAPI/lib/init.php");
         // $input = new WxPayUnifiedOrder();
         $input= new \WxpayAPI\WxPayUnifiedOrder();
         $input->SetBody("理优1v1课程");
         $input->SetAttach("理优课程");
-        $input->SetOut_trade_no(\WxpayAPI\WxPayConfig::MCHID.date("YmdHis"));
-        $input->SetTotal_fee("1");
+        $input->SetOut_trade_no($orderNo);
+        $input->SetTotal_fee($payment);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetGoods_tag("test");
         $input->SetNotify_url("http://p.admin.leo1v1.com/common_new/set_xingye_notify_callbanck");
         $input->SetTrade_type("NATIVE");
-        $input->SetProduct_id($orderNo);
+        $input->SetProduct_id($orderid);
 
         if($input->GetTrade_type() == "NATIVE")
 		{
@@ -2319,6 +2333,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 		}
 
         $url2 = $result["code_url"];
+                   
         $this->t_orderid_orderno_list->row_insert([
             "order_no"  =>$orderNo,
             "orderid"   =>$orderid,

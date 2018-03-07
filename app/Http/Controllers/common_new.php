@@ -1403,37 +1403,51 @@ class common_new extends Controller
 
 
                     $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
-                    if(empty($all_order_pay)){
-                        $this->t_order_info->field_update_list($parent_orderid,[
-                            "order_status" =>1,
-                            "contract_status"=>1,
-                            "pay_time"       =>time()
-                        ]);
-                        $this->t_manager_info->send_wx_todo_msg(
-                            "echo",
-                            "合同付款通知",
-                            "合同已支付全款",
-                            "学生:".$user_info["nick"]." 合同已支付全款",
-                            "/user_manage_new/money_contract_list?studentid=$userid");
-                        $this->t_manager_info->send_wx_todo_msg(
-                            "zero",
-                            "合同付款通知",
-                            "合同已支付全款",
-                            "学生:".$user_info["nick"]." 合同已支付全款",
-                            "/user_manage_new/money_contract_list?studentid=$userid");
+                    $total_price = $this->t_child_order_info->get_total_price_by_parent_orderid($parent_orderid);
+                    $parent_price = $this->t_order_info->get_price($parent_orderid);
 
-                        $this->t_manager_info->send_wx_todo_msg(
-                            $sys_operator,
-                            "合同付款通知",
-                            "合同已支付全款",
-                            "学生:".$user_info["nick"]." 合同已支付全款",
-                            "");
-                        $this->t_manager_info->send_wx_todo_msg(
-                            "jack",
-                            "合同付款通知",
-                            "合同已支付全款",
-                            "学生:".$user_info["nick"]." 合同已支付全款",
-                            "");
+                    if(empty($all_order_pay)){
+                        if($total_price==$parent_price){
+                          
+                            $this->t_order_info->field_update_list($parent_orderid,[
+                                "order_status" =>1,
+                                "contract_status"=>1,
+                                "pay_time"       =>time()
+                            ]);
+                            $this->t_manager_info->send_wx_todo_msg(
+                                "echo",
+                                "合同付款通知",
+                                "合同已支付全款",
+                                "学生:".$user_info["nick"]." 合同已支付全款",
+                                "/user_manage_new/money_contract_list?studentid=$userid");
+                            $this->t_manager_info->send_wx_todo_msg(
+                                "zero",
+                                "合同付款通知",
+                                "合同已支付全款",
+                                "学生:".$user_info["nick"]." 合同已支付全款",
+                                "/user_manage_new/money_contract_list?studentid=$userid");
+
+                            $this->t_manager_info->send_wx_todo_msg(
+                                $sys_operator,
+                                "合同付款通知",
+                                "合同已支付全款",
+                                "学生:".$user_info["nick"]." 合同已支付全款",
+                                "");
+                            $this->t_manager_info->send_wx_todo_msg(
+                                "jack",
+                                "合同付款通知",
+                                "合同已支付全款",
+                                "学生:".$user_info["nick"]." 合同已支付全款",
+                                "");
+                        }else{
+                            $this->t_manager_info->send_wx_todo_msg(
+                                "jack",
+                                "合同付款异常通知",
+                                "合同全款金额不对",
+                                "学生:".$user_info["nick"]." 合同已支付全款",
+                                "");
+
+                        }
 
 
                     }
@@ -1697,36 +1711,49 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     "");*/
 
                 $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
+                $total_price = $this->t_child_order_info->get_total_price_by_parent_orderid($parent_orderid);
+                $parent_price = $this->t_order_info->get_price($parent_orderid);
                 if(empty($all_order_pay)){
-                    $this->t_order_info->field_update_list($parent_orderid,[
-                        "order_status" =>1,
-                        "contract_status"=>1,
-                        "pay_time"       =>time()
-                    ]);
-                    /* $this->t_manager_info->send_wx_todo_msg(
-                        "echo",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$user_info["nick"]." 合同已支付全款",
-                        "/user_manage_new/money_contract_list?studentid=$userid");*/
-                    $this->t_manager_info->send_wx_todo_msg(
-                        $sys_operator,
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$user_info["nick"]." 合同已支付全款",
-                        "");
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "jack",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$user_info["nick"]." 合同已支付全款",
-                        "");
-                    $this->t_manager_info->send_wx_todo_msg(
-                        "zero",
-                        "合同付款通知",
-                        "合同已支付全款",
-                        "学生:".$user_info["nick"]." 合同已支付全款",
-                        "");
+                    if($total_price==$parent_price){
+
+                        $this->t_order_info->field_update_list($parent_orderid,[
+                            "order_status" =>1,
+                            "contract_status"=>1,
+                            "pay_time"       =>time()
+                        ]);
+                        /* $this->t_manager_info->send_wx_todo_msg(
+                           "echo",
+                           "合同付款通知",
+                           "合同已支付全款",
+                           "学生:".$user_info["nick"]." 合同已支付全款",
+                           "/user_manage_new/money_contract_list?studentid=$userid");*/
+                        $this->t_manager_info->send_wx_todo_msg(
+                            $sys_operator,
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "zero",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+                    }else{
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款异常通知",
+                            "合同全款金额不对",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+
+                    }
 
 
 
@@ -1763,6 +1790,42 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         \App\Helper\Utils::logger("set_xingye_notify_callbanck_test2");
         \App\Helper\Utils::logger(json_encode($data));
+        if(!empty($data) && @$data["result_code"]=="SUCCESS" && @$data["return_code"]=="SUCCESS"){
+            $orderNo = $data["out_trade_no"];
+            $orderid = $this->t_orderid_orderno_list->get_orderid($orderNo);
+            $price = $this->t_child_order_info->get_price($orderid);
+            if($price == $data["total_fee"]){
+                $status = $this->t_child_order_info->get_pay_status($orderid);
+                if($status==0){
+                    $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
+                    //  $dealmoney = $this->t_order_info->get_price($parent_orderid);
+
+                    $userid = $this->t_order_info->get_userid($parent_orderid);
+                    $sys_operator = $this->t_order_info->get_sys_operator($parent_orderid);
+                    $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
+
+                    $this->t_child_order_info->field_update_list($orderid,[
+                        "pay_status"  =>1,
+                        "pay_time"    =>time(),
+                        "channel"     =>"wx_pub_qr",
+                        "from_orderno"=>$orderNo,
+                        // "period_num"  =>$period_new
+                    ]);
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "jack",
+                        "合同付款通知",
+                        "合同付款通知",
+                        "学生:".$user_info["nick"]." 渠道:微信扫码 支付,订单号:".$orderNo,
+                        ""
+                    );
+                    return "success";
+                }else{
+                    return "success";
+                }
+ 
+            }
+        }
+        return "fail"; 
 
     }
 

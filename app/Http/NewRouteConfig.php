@@ -772,6 +772,7 @@ class NewRouteConfig {
         "/info_resource_power/save_resource_power"       =>true,
         "/info_resource_power/dele_resource"             =>true,
         "/info_resource_power/dele_type"                 =>true,
+        "/info_support/get_info"                         =>true,
     ];
 
     static $dev_url_map = [

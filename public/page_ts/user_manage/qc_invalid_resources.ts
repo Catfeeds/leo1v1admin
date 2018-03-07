@@ -28,7 +28,7 @@ $(function(){
     $('#id_seller_student_status').val(g_args.seller_student_status);
     $(".opt-audio_all").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        var html_node    = $.obj_copy_node(".show_list");
+        var html_node    = $.obj_copy_node("#id_assign_log");
         BootstrapDialog.show({
             title: "录音列表",
             message: html_node,
@@ -56,6 +56,9 @@ $(function(){
 
                     });
                 }
+
+                html_node.find(".data-body").html(html_str);
+
             }
         });
 
