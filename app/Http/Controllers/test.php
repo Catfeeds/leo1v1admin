@@ -60,6 +60,18 @@ class test extends Controller
         return $this->pageOutJson(__METHOD__);
     }
 
+    public function work(){
+        $page_info=$this->get_in_page_info();
+        $account_role= $this->get_in_el_account_role();
+        list($start_time, $end_time)=$this->get_in_date_range(-720, 0 );
+        $nick_phone= $this->get_in_str_val("nick_phone");
+        $ret_info= $this->t_manager_info->get_list_test($page_info, $nick_phone, $account_role, $start_time, $end_time);
+        foreach ( $ret_info["list"] as &$item) {
+            E\Eaccount_role::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
     public function get_user_list(){
         #分页信息
         $page_info= $this->get_in_page_info();
